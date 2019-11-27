@@ -36,8 +36,8 @@
   "typescript": {
     "definition": "dist/graphql-codegen-hasura-gqlnpm /src/index.d.ts"
   },
-  "buildOptions": {
-    "input": "./src/index.ts"
-  },
+  "files": [
+    "dist"
+  ],
   "gitHead": "41b2d8aab654a4f5722781e71d266200c273710e"
 }
