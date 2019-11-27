@@ -39,5 +39,6 @@
   },
   "buildOptions": {
     "input": "./src/index.ts"
-  }
+  },
+  "gitHead": "6bc1bb8ba0986ecd4ebb5801d3185bf9721b01a5"
 }
