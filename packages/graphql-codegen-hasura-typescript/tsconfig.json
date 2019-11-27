@@ -3,7 +3,7 @@
     "esModuleInterop": true,
     "importHelpers": true,
     "experimentalDecorators": true,
-    "module": "esnext",
+    "module": "commonjs",
     "target": "es2018",
     "lib": ["es6", "esnext", "es2015", "dom"],
     "suppressImplicitAnyIndexErrors": true,
