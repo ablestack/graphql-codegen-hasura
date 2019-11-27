@@ -1,6 +1,6 @@
 {
   "name": "graphql-codegen-hasura-gql",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "description": "GraphQL Code Generator plugin for generting a CRUD Gql for Hasura",
   "author": "ahrnee <ahrndee@gmail.com>",
   "license": "MIT",
