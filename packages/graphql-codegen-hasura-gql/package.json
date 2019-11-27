@@ -1,7 +1,7 @@
 {
   "name": "graphql-codegen-hasura-gql",
   "version": "0.5.4",
-  "description": "GraphQL Code Generator plugin for generting a CRUD Gql for Hasura",
+  "description": "GraphQL Code Generator plugin for generating a CRUD Gql for Hasura",
   "author": "ahrnee <ahrndee@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/ahrnee/graphql-codegen-hasura",
@@ -10,7 +10,7 @@
     "url": "git+https://github.com/ahrnee/graphql-codegen-hasura"
   },
   "scripts": {
-    "build": "bob",
+    "build": "tsc --build --verbose",
     "rebuild": "tsc --build --force --verbose"
   },
   "publishConfig": {
@@ -20,7 +20,6 @@
     "graphql-tag": "^2.0.0"
   },
   "devDependencies": {
-    "@ardatan/bob": "0.1.4",
     "@graphql-codegen/core": "^1.8.3",
     "@graphql-codegen/plugin-helpers": "1.8.3",
     "@graphql-codegen/typescript": "^1.8.3",
@@ -32,11 +31,10 @@
     "typescript": "3.7.2"
   },
   "sideEffects": false,
-  "main": "dist/index.cjs.js",
-  "module": "dist/index.esm.js",
-  "typings": "dist/index.d.ts",
+  "main": "dist/graphql-codegen-hasura-gql/src/index.js",
+  "typings": "dist/graphql-codegen-hasura-gql/src/index.d.ts",
   "typescript": {
-    "definition": "dist/index.d.ts"
+    "definition": "dist/graphql-codegen-hasura-gqlnpm /src/index.d.ts"
   },
   "buildOptions": {
     "input": "./src/index.ts"
