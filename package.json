@@ -18,8 +18,8 @@
   "scripts": {
     "link": "lerna bootstrap",
     "publish": "yarn run packages:build && lerna publish --stream",
-    "build": "learna build --stream",
-    "rebuild": "tsc --build --force tsconfig-pkg-ref.json --verbose"
+    "build": "lerna run build --stream",
+    "rebuild": "lerna run rebuild --stream"
   },
   "devDependencies": {
     "lerna": "^3.14.1",

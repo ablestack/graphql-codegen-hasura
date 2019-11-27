@@ -10,8 +10,8 @@
     "url": "git+https://github.com/ahrnee/graphql-codegen-hasura"
   },
   "scripts": {
-    "build": "node ./node_modules/typescript/lib/tsc --build --verbose",
-    "rebuild": "node ./node_modules/typescript/lib/tsc --build --force --verbose"
+    "build": "tsc --build --verbose",
+    "rebuild": "tsc --build --force --verbose"
   },
   "publishConfig": {
     "access": "public"
