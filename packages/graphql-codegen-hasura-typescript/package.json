@@ -1,0 +1,44 @@
+{
+  "name": "graphql-codegen-hasura-typescript",
+  "version": "0.1.0",
+  "description": "GraphQL Code Generator plugin for generting a CRUD TypeScript for Hasura",
+  "author": "ahrnee <ahrndee@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/ahrnee/graphql-codegen-hasura",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahrnee/graphql-codegen-hasura"
+  },
+  "scripts": {
+    "build": "node ./node_modules/typescript/lib/tsc --build --verbose",
+    "rebuild": "node ./node_modules/typescript/lib/tsc --build --force --verbose"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "graphql-tag": "^2.0.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/core": "^1.8.3",
+    "@graphql-codegen/plugin-helpers": "1.8.3",
+    "@graphql-codegen/typescript": "^1.8.3",
+    "@graphql-codegen/visitor-plugin-common": "1.8.3",
+    "graphql": "^14.5.8",
+    "path": "^0.12.7",
+    "react": "^16.12.0",
+    "tslib": "1.10.0",
+    "typescript": "3.7.2"
+  },
+  "dependencies": {},
+  "sideEffects": false,
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.esm.js",
+  "typings": "dist/index.d.ts",
+  "typescript": {
+    "definition": "dist/index.d.ts"
+  },
+  "buildOptions": {
+    "input": "./src/index.ts"
+  }
+}
