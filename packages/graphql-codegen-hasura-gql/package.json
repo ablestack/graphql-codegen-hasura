@@ -40,5 +40,5 @@
   "buildOptions": {
     "input": "./src/index.ts"
   },
-  "gitHead": "6bc1bb8ba0986ecd4ebb5801d3185bf9721b01a5"
+  "gitHead": "41b2d8aab654a4f5722781e71d266200c273710e"
 }
