@@ -10,7 +10,7 @@
     "url": "git+https://github.com/ahrnee/graphql-codegen-hasura"
   },
   "scripts": {
-    "build": "tsc --build --verbose",
+    "build": "bob",
     "rebuild": "tsc --build --force --verbose"
   },
   "publishConfig": {
@@ -20,6 +20,7 @@
     "graphql-tag": "^2.0.0"
   },
   "devDependencies": {
+    "@ardatan/bob": "0.1.4",
     "@graphql-codegen/core": "^1.8.3",
     "@graphql-codegen/plugin-helpers": "1.8.3",
     "@graphql-codegen/typescript": "^1.8.3",
