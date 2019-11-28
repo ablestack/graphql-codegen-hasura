@@ -5,7 +5,7 @@ graphql-codegen-hasura is a collection of code generator plugins for [graphql-co
 These plugins require and augment the existing fantastic GraphQL code generator plugins available from [graphql-code-generator](https://graphql-code-generator.com/)
 
 - The **graphql-codegen-hasura-gql** plugin will generate gql fragments, mutations and queries for every _Table_ defined in the Hasura database
-- The **graphql-codegen-hasura-typescript** plugin will generate [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Table_ defined in the Hasura database
+- The **graphql-codegen-hasura-typescript** plugin will generate [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Table_ defined in the Hasura database. The existing [@graphql-codegen/typescript-react-apollo](https://graphql-code-generator.com/docs/plugins/typescript-react-apollo) plugin already provides this capability for hooks. This plugin extends that to direct client.query & client.mutate calls, in addition to adding some convenience features. See [generated code in demo](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for specifics
 
 ## Structure
 
