@@ -1,0 +1,59 @@
+schema:
+  - ./schema/graphql.schema.json
+documents:
+  - ./src/**/*.tsx
+  - ./src/**/*.ts
+overwrite: true
+config:
+  scalars:
+    DateTime: Date
+    JSON: "{ [key: string]: any }"
+generates:
+  ./src/autogen/index.tsx:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      withHooks: true
+      withHOC: false
+      withComponent: false
+      skipTypename: false
+      includeDirectives: true
+      typeNames: keep
+  ./src/autogen/hasura/typescript/helpers.queries.ts:
+    plugins:
+      - graphql-codegen-hasura-typescript
+    config:
+      primaryCodegenTypeScriptImportPath: "./src/autogen"
+      withQueries: true
+      withInserts: false
+      withUpdates: false
+      withDeletes: false
+  ./src/autogen/hasura/typescript/helpers.inserts.ts:
+    plugins:
+      - graphql-codegen-hasura-typescript
+    config:
+      primaryCodegenTypeScriptImportPath: "./src/autogen"
+      withQueries: false
+      withInserts: true
+      withUpdates: false
+      withDeletes: false
+  ./src/autogen/hasura/typescript/helpers.updates.ts:
+    plugins:
+      - graphql-codegen-hasura-typescript
+    config:
+      primaryCodegenTypeScriptImportPath: "./src/autogen"
+      withQueries: false
+      withInserts: false
+      withUpdates: true
+      withDeletes: false
+  ./src/autogen/hasura/typescript/helpers.deletes.ts:
+    plugins:
+      - graphql-codegen-hasura-typescript
+    config:
+      primaryCodegenTypeScriptImportPath: "./src/autogen"
+      withQueries: false
+      withInserts: false
+      withUpdates: false
+      withDeletes: true

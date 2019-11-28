@@ -1,8 +1,10 @@
 {
+  "private": true,
   "name": "demo",
   "version": "0.1.0",
-  "private": true,
   "dependencies": {
+    "@apollo/client": "^3.0.0-beta.10",
+    "@apollo/react-hooks": "^3.2.0-beta.0",
     "@types/jest": "24.0.23",
     "@types/node": "12.12.14",
     "@types/react": "16.9.13",
@@ -12,11 +14,22 @@
     "react-scripts": "3.2.0",
     "typescript": "3.7.2"
   },
+  "devDependencies": {
+    "@graphql-codegen/cli": "1.8.3",
+    "@graphql-codegen/introspection": "1.8.3",
+    "@graphql-codegen/typescript": "1.8.3",
+    "@graphql-codegen/typescript-operations": "1.8.3",
+    "@graphql-codegen/typescript-react-apollo": "1.8.3",
+    "@graphql-codegen/typescript-resolvers": "1.8.3",
+    "graphql-codegen-hasura-gql": "^0.5.10",
+    "graphql-codegen-hasura-typescript": "^0.5.10"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "generate": "graphql-codegen --config=graphql-codegen-gql.yaml; graphql-codegen --config=graphql-codegen-typescript.yaml"
   },
   "eslintConfig": {
     "extends": "react-app"

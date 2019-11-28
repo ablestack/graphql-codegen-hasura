@@ -153,14 +153,14 @@ function makeEntityDeleteMutationGql(namedType: GraphQLNamedType, importArray: s
   const entityFragmentName = makeFragmentName(entityName);
 
   contentArray.push(`
-    export async function delete${entityModelName}(
+    export async function remove${entityModelName}(
       apolloClient: ApolloClient<object>,
-      mutationOptions: Omit<MutationOptions<Delete${entityModelName}ByIdMutation, Delete${entityModelName}ByIdMutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<Delete${entityModelName}ByIdMutation>; returning: (${entityFragmentName}Fragment | null | undefined)[] | null | undefined }> {
+      mutationOptions: Omit<MutationOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, 'mutation'>,
+    ): Promise<{ result: FetchResult<Remove${entityModelName}ByIdMutation>; returning: (${entityFragmentName}Fragment | null | undefined)[] | null | undefined }> {
       
-      const result = await apolloClient.mutate<Delete${entityModelName}ByIdMutation, Delete${entityModelName}ByIdMutationVariables>({ mutation: Delete${entityModelName}ByIdDocument, ...mutationOptions,});
+      const result = await apolloClient.mutate<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>({ mutation: Remove${entityModelName}ByIdDocument, ...mutationOptions,});
     
-      const returning = result && result.data && result.data.delete_${entityName} && result.data.delete_${entityName}!.returning;
+      const returning = result && result.data && result.data.remove_${entityName} && result.data.remove_${entityName}!.returning;
     
       return { result, returning };
     }

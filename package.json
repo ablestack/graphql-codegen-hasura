@@ -16,7 +16,10 @@
     "url": "git+https://github.com/ahrnee/graphql-codegen-hasura"
   },
   "scripts": {
-    "link": "lerna bootstrap"
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna run build",
+    "rebuild": "lerna run rebuild",
+    "publish": "lerna publish"
   },
   "devDependencies": {
     "lerna": "^3.14.1",

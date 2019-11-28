@@ -1,0 +1,61 @@
+schema:
+  - https://realtime-location-tracking.demo.hasura.app/v1/graphql
+documents:
+overwrite: true
+config:
+  scalars:
+    DateTime: Date
+    JSON: "{ [key: string]: any }"
+generates:
+  ./src/autogen/hasura/gql/gql.fragments.ts:
+    plugins:
+      - graphql-codegen-hasura-gql
+    config:
+      withFragments: true
+      withQueries: false
+      withInserts: false
+      withUpdates: false
+      withDeletes: false
+  ./src/autogen/hasura/gql/gql.queries.ts:
+    plugins:
+      - graphql-codegen-hasura-gql
+    config:
+      fragmentImportFrom: "./gql.fragments"
+      withFragments: false
+      withQueries: true
+      withInserts: false
+      withUpdates: false
+      withDeletes: false
+  ./src/autogen/hasura/gql/gql.inserts.ts:
+    plugins:
+      - graphql-codegen-hasura-gql
+    config:
+      fragmentImportFrom: "./gql.fragments"
+      withFragments: false
+      withQueries: false
+      withInserts: true
+      withUpdates: false
+      withDeletes: false
+  ./src/autogen/hasura/gql/gql.updates.ts:
+    plugins:
+      - graphql-codegen-hasura-gql
+    config:
+      fragmentImportFrom: "./gql.fragments"
+      withFragments: false
+      withQueries: false
+      withInserts: false
+      withUpdates: true
+      withDeletes: false
+  ./src/autogen/hasura/gql/gql.deletes.ts:
+    plugins:
+      - graphql-codegen-hasura-gql
+    config:
+      fragmentImportFrom: "./gql.fragments"
+      withFragments: false
+      withQueries: false
+      withInserts: false
+      withUpdates: false
+      withDeletes: true
+  ./schema/graphql.schema.json:
+    plugins:
+      - introspection
