@@ -77,7 +77,7 @@ graphql-codegen --config=graphql-codegen-typescript.yaml
 
 Generates gql fragments, mutations and queries for every _Table_ defined in the Hasura database
 
-#### Example Output
+#### Example Output for `User` Entity
 
 ```typescript
 // Scalar Fields Fragment
@@ -149,7 +149,7 @@ Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) 
 
 The existing [@graphql-codegen/typescript-react-apollo](https://graphql-code-generator.com/docs/plugins/typescript-react-apollo) plugin already provides this capability for hooks. This plugin extends that to direct client.query & client.mutate calls, in addition to adding some convenience features. See [generated code in demo](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for specifics
 
-#### Example Output
+#### Example Output for `User` Entity
 
 ```typescript
 // Fetch Helper
