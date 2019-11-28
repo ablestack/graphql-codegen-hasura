@@ -3,7 +3,8 @@
   "workspaces": {
     "packages": [
       "packages/graphql-codegen-hasura-gql",
-      "packages/graphql-codegen-hasura-typescript"
+      "packages/graphql-codegen-hasura-typescript",
+      "demo"
     ]
   },
   "name": "graphql-codegen-hasura",
