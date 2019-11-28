@@ -17,7 +17,7 @@ The easiest way to quickly get going is to view the following files in the demo 
 
 - **Gql Generation Config**: `demo/graphql-codegen-gql.yaml`
 - **TypesScript Generation Config**: `demo/graphql-codegen-typescript.yaml`
-- **Output**: [demo/src/autogen/hasura](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura)
+- **Output**: [See plugin details section below](#plugin-details)
 
 It is **important to note**: The TypeScript Generation leverages the files created in the GQL generation step. As such, **it is important to run the GQL generation step prior to the TypeScript generation step**.
 
@@ -77,7 +77,9 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 
 #### Overview
 
-Generates gql fragments, mutations and queries for every _Table_ defined in the Hasura database
+Generates gql fragments, mutations and queries for every _Table_ defined in the Hasura database.
+
+See [demo/src/autogen/hasura/gql.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
 
 #### Example Output for `User` Entity
 
@@ -150,6 +152,8 @@ const REMOVE_USERS_MODEL = gql`
 Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Table_ defined in the Hasura database
 
 The existing [@graphql-codegen/typescript-react-apollo](https://graphql-code-generator.com/docs/plugins/typescript-react-apollo) plugin already provides this capability for hooks. This plugin extends that to direct client.query & client.mutate calls, in addition to adding some convenience features. See [generated code in demo](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for specifics
+
+See [demo/src/autogen/hasura/typescript.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
 
 #### Example Output for `User` Entity
 
