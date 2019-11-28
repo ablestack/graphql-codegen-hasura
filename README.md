@@ -52,6 +52,8 @@ graphql-codegen --config=graphql-codegen-typescript.yaml
 
 ## Configuration
 
+See [graphql-code-generator documentation](https://graphql-code-generator.com/docs/getting-started/codegen-config) for configuration instructions. See below for the specific configuration flags that are available on these plugins
+
 ### graphql-codegen-hasura-gql plugin
 
 - fragmentImportFrom: import path to the gql fragment generated code. Only required if withFragments:false
