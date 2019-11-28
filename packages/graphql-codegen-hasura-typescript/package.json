@@ -37,6 +37,7 @@
     "definition": "dist/graphql-codegen-hasura-typescript/src/index.d.ts"
   },
   "files": [
+    "README.md",
     "dist/**/*"
   ],
   "gitHead": "41b2d8aab654a4f5722781e71d266200c273710e"
