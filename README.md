@@ -11,13 +11,15 @@ These plugins require and augment the existing fantastic GraphQL code generator 
 
 This is a mono-repo project that contains multiple npm packages (under the packages folder), in addition to a demo project (under the demo folder).
 
-## Configuration and Usage
+## Usage
 
 The easiest way to quickly get going is to view the following files in the demo project as a starting point:
 
 - **Gql Generation Config**: `demo/graphql-codegen-gql.yaml`
 - **TypesScript Generation Config**: `demo/graphql-codegen-typescript.yaml`
 - **Output**: [demo/src/autogen/hasura](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura)
+
+It is **important to note**: The TypeScript Generation leverages the files created in the GQL generation step. As such, **it is important to run the GQL generation step prior to the TypeScript generation step**.
 
 ## Installation
 
@@ -47,6 +49,25 @@ The easiest way to quickly get going is to view the following files in the demo 
 graphql-codegen --config=graphql-codegen-gql.yaml;
 graphql-codegen --config=graphql-codegen-typescript.yaml
 ```
+
+## Configuration
+
+### graphql-codegen-hasura-gql plugin
+
+- fragmentImportFrom: import path to the gql fragment generated code
+- withFragments: boolean flag for fragment gql code generation
+- withQueries: boolean flag for query gql code generation
+- withInserts: boolean flag for insert gql code generation
+- withUpdates: boolean flag for update gql code generation
+- withDeletes: boolean flag for delete gql code generation
+
+### graphql-codegen-hasura-typescript plugin
+
+- primaryCodegenTypeScriptImportPath: import path to the code generated with dependent @graphql-codegen/typescript generated code
+- withQueries: boolean flag for query TypeScript code generation
+- withInserts: boolean flag for insert TypeScript code generation
+- withUpdates: boolean flag for update TypeScript code generation
+- withDeletes: boolean flag for delete TypeScript code generation
 
 ## Demo
 
