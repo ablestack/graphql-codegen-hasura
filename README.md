@@ -4,8 +4,8 @@ graphql-codegen-hasura is a collection of code generator plugins for [graphql-co
 
 These plugins require and augment the existing fantastic GraphQL code generator plugins available from [graphql-code-generator](https://graphql-code-generator.com/)
 
-- The **graphql-codegen-hasura-gql** plugin will generate gql fragments, mutations and queries for every _Table_ defined in the Hasura database
-- The **graphql-codegen-hasura-typescript** plugin will generate [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Table_ defined in the Hasura database. The existing [@graphql-codegen/typescript-react-apollo](https://graphql-code-generator.com/docs/plugins/typescript-react-apollo) plugin already provides this capability for hooks. This plugin extends that to direct client.query & client.mutate calls, in addition to adding some convenience features. See [generated code in demo](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for specifics
+- The **graphql-codegen-hasura-gql** plugin generates gql fragments, mutations and queries for every _Table_ defined in the Hasura database
+- The **graphql-codegen-hasura-typescript** plugin generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Table_ defined in the Hasura database.
 
 ## Structure
 
@@ -68,6 +68,143 @@ graphql-codegen --config=graphql-codegen-typescript.yaml
 - withInserts: boolean flag for insert TypeScript code generation
 - withUpdates: boolean flag for update TypeScript code generation
 - withDeletes: boolean flag for delete TypeScript code generation
+
+## Plugin Details
+
+### graphql-codegen-hasura-gql plugin
+
+#### Overview
+
+Generates gql fragments, mutations and queries for every _Table_ defined in the Hasura database
+
+#### Example Output
+
+```typescript
+// Scalar Fields Fragment
+//
+export const usersModelFields = gql`
+  fragment usersModelFields on users {
+    created_at
+    id
+    name
+  }
+`;
+
+// Fetch Query
+//
+const FETCH_USERS_MODEL = gql`
+  query fetchusersModel($usersId: Int!) {
+    users_by_pk(id: $usersId) {
+      ...usersModelFields
+    }
+  }
+  ${usersModelFields}
+`;
+
+// Insert Mutation
+//
+const INSERT_USERS_MODEL = gql`
+  mutation insertusersModel($objects: [users_insert_input!]!, $onConflict: users_on_conflict) {
+    insert_users(objects: $objects, on_conflict: $onConflict) {
+      affected_rows
+      returning {
+        ...usersModelFields
+      }
+    }
+  }
+  ${usersModelFields}
+`;
+
+// Update Mutation
+//
+const UPDATE_USERS_MODEL = gql`
+  mutation updateusersModelById($id: Int, $changes: users_set_input) {
+    update_users(where: { id: { _eq: $id } }, _set: $changes) {
+      affected_rows
+      returning {
+        ...usersModelFields
+      }
+    }
+  }
+  ${usersModelFields}
+`;
+
+// Remove Mutation
+//
+const REMOVE_USERS_MODEL = gql`
+  mutation removeusersModelById($id: Int) {
+    delete_users(where: { id: { _eq: $id } }) {
+      affected_rows
+    }
+  }
+  ${usersModelFields}
+`;
+```
+
+### graphql-codegen-hasura-typescript plugin
+
+#### Overview
+
+Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Table_ defined in the Hasura database
+
+The existing [@graphql-codegen/typescript-react-apollo](https://graphql-code-generator.com/docs/plugins/typescript-react-apollo) plugin already provides this capability for hooks. This plugin extends that to direct client.query & client.mutate calls, in addition to adding some convenience features. See [generated code in demo](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for specifics
+
+#### Example Output
+
+```typescript
+// Fetch Helper
+//
+export async function fetchusersModel(apolloClient: ApolloClient<object>, usersId: string): Promise<usersModelFieldsFragment | null | undefined> {
+  const usersResult = await apolloClient.query<FetchusersModelQuery>({ query: FetchusersModelDocument, variables: { usersId } });
+  return usersResult.data.users_by_pk;
+}
+
+// Insert Helper
+//
+export async function insertusersModel(
+  apolloClient: ApolloClient<object>,
+  mutationOptions: Omit<MutationOptions<InsertusersModelMutation, InsertusersModelMutationVariables>, "mutation">
+): Promise<{ result: FetchResult<InsertusersModelMutation>; returning: (usersModelFieldsFragment | null | undefined)[] | null | undefined }> {
+  const result = await apolloClient.mutate<InsertusersModelMutation, InsertusersModelMutationVariables>({ mutation: InsertusersModelDocument, ...mutationOptions });
+
+  const returning = result && result.data && result.data.insert_users && result.data.insert_users!.returning;
+
+  return { result, returning };
+}
+
+// Update Helper
+//
+export async function updateusersModel(
+  apolloClient: ApolloClient<object>,
+  mutationOptions: Omit<MutationOptions<UpdateusersModelByIdMutation, UpdateusersModelByIdMutationVariables>, "mutation">
+): Promise<{ result: FetchResult<UpdateusersModelByIdMutation>; returning: (usersModelFieldsFragment | null | undefined)[] | null | undefined }> {
+  const result = await apolloClient.mutate<UpdateusersModelByIdMutation, UpdateusersModelByIdMutationVariables>({ mutation: UpdateusersModelByIdDocument, ...mutationOptions });
+
+  const returning = result && result.data && result.data.update_users && result.data.update_users!.returning;
+
+  return { result, returning };
+}
+
+// Delete Helper
+//
+export async function removeusersModel(
+  apolloClient: ApolloClient<object>,
+  mutationOptions: Omit<MutationOptions<RemoveusersModelByIdMutation, RemoveusersModelByIdMutationVariables>, "mutation">
+): Promise<{ result: FetchResult<RemoveusersModelByIdMutation>; returning: (usersModelFieldsFragment | null | undefined)[] | null | undefined }> {
+  const result = await apolloClient.mutate<RemoveusersModelByIdMutation, RemoveusersModelByIdMutationVariables>({ mutation: RemoveusersModelByIdDocument, ...mutationOptions });
+
+  const returning = result && result.data && result.data.remove_users && result.data.remove_users!.returning;
+
+  return { result, returning };
+}
+```
+
+## Naming Conventions
+
+A basic naming convention being followed:
+
+- `*Model` is used for any entity or fieldset that contains only scalars, and not child entities are referenced or included
+- `*Graph` is used fro any entity or fieldset that contains or references child entities
 
 ## Demo
 
