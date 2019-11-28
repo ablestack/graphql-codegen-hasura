@@ -1,11 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import gql from 'graphql-tag';
-import { observationModelFields } from 'undefined';
-import { pModelFields } from 'undefined';
-import { patientModelFields } from 'undefined';
-import { usersModelFields } from 'undefined';
-import { vehicleModelFields } from 'undefined';
-import { vehicle_locationModelFields } from 'undefined';
 
     export const observationModelFields = gql`
       fragment observationModelFields on observation {

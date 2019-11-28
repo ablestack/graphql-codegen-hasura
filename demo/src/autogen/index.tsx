@@ -5730,112 +5730,9 @@ export enum WorkItemStatusArgument {
   Ready = 'READY'
 }
 
-export type RemoveobservationModelByIdMutationVariables = {
-  id?: Maybe<Scalars['uuid']>
-};
-
-
-export type RemoveobservationModelByIdMutation = (
-  { __typename?: 'mutation_root' }
-  & { delete_observation: Maybe<(
-    { __typename?: 'observation_mutation_response' }
-    & Pick<Observation_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
-export type RemovepModelByIdMutationVariables = {
-  id?: Maybe<Scalars['Int']>
-};
-
-
-export type RemovepModelByIdMutation = (
-  { __typename?: 'mutation_root' }
-  & { delete_p: Maybe<(
-    { __typename?: 'p_mutation_response' }
-    & Pick<P_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
-export type RemovepatientModelByIdMutationVariables = {
-  id?: Maybe<Scalars['uuid']>
-};
-
-
-export type RemovepatientModelByIdMutation = (
-  { __typename?: 'mutation_root' }
-  & { delete_patient: Maybe<(
-    { __typename?: 'patient_mutation_response' }
-    & Pick<Patient_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
-export type RemoveusersModelByIdMutationVariables = {
-  id?: Maybe<Scalars['Int']>
-};
-
-
-export type RemoveusersModelByIdMutation = (
-  { __typename?: 'mutation_root' }
-  & { delete_users: Maybe<(
-    { __typename?: 'users_mutation_response' }
-    & Pick<Users_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
-export type RemovevehicleModelByIdMutationVariables = {
-  id?: Maybe<Scalars['String']>
-};
-
-
-export type RemovevehicleModelByIdMutation = (
-  { __typename?: 'mutation_root' }
-  & { delete_vehicle: Maybe<(
-    { __typename?: 'vehicle_mutation_response' }
-    & Pick<Vehicle_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
-export type Removevehicle_LocationModelByIdMutationVariables = {
-  id?: Maybe<Scalars['Int']>
-};
-
-
-export type Removevehicle_LocationModelByIdMutation = (
-  { __typename?: 'mutation_root' }
-  & { delete_vehicle_location: Maybe<(
-    { __typename?: 'vehicle_location_mutation_response' }
-    & Pick<Vehicle_Location_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
 export type ObservationModelFieldsFragment = (
   { __typename?: 'observation' }
   & Pick<Observation, 'id' | 'resource'>
-);
-
-export type PModelFieldsFragment = (
-  { __typename?: 'p' }
-  & Pick<P, 'circle' | 'id' | 'poly'>
-);
-
-export type PatientModelFieldsFragment = (
-  { __typename?: 'patient' }
-  & Pick<Patient, 'id' | 'resource'>
-);
-
-export type UsersModelFieldsFragment = (
-  { __typename?: 'users' }
-  & Pick<Users, 'created_at' | 'id' | 'name'>
-);
-
-export type VehicleModelFieldsFragment = (
-  { __typename?: 'vehicle' }
-  & Pick<Vehicle, 'id' | 'name'>
-);
-
-export type Vehicle_LocationModelFieldsFragment = (
-  { __typename?: 'vehicle_location' }
-  & Pick<Vehicle_Location, 'id' | 'location' | 'timestamp' | 'vehicle_id'>
 );
 
 export type InsertobservationModelMutationVariables = {
@@ -5856,96 +5753,6 @@ export type InsertobservationModelMutation = (
   )> }
 );
 
-export type InsertpModelMutationVariables = {
-  objects: Array<P_Insert_Input>,
-  onConflict?: Maybe<P_On_Conflict>
-};
-
-
-export type InsertpModelMutation = (
-  { __typename?: 'mutation_root' }
-  & { insert_p: Maybe<(
-    { __typename?: 'p_mutation_response' }
-    & Pick<P_Mutation_Response, 'affected_rows'>
-    & { returning: Array<(
-      { __typename?: 'p' }
-      & PModelFieldsFragment
-    )> }
-  )> }
-);
-
-export type InsertpatientModelMutationVariables = {
-  objects: Array<Patient_Insert_Input>,
-  onConflict?: Maybe<Patient_On_Conflict>
-};
-
-
-export type InsertpatientModelMutation = (
-  { __typename?: 'mutation_root' }
-  & { insert_patient: Maybe<(
-    { __typename?: 'patient_mutation_response' }
-    & Pick<Patient_Mutation_Response, 'affected_rows'>
-    & { returning: Array<(
-      { __typename?: 'patient' }
-      & PatientModelFieldsFragment
-    )> }
-  )> }
-);
-
-export type InsertusersModelMutationVariables = {
-  objects: Array<Users_Insert_Input>,
-  onConflict?: Maybe<Users_On_Conflict>
-};
-
-
-export type InsertusersModelMutation = (
-  { __typename?: 'mutation_root' }
-  & { insert_users: Maybe<(
-    { __typename?: 'users_mutation_response' }
-    & Pick<Users_Mutation_Response, 'affected_rows'>
-    & { returning: Array<(
-      { __typename?: 'users' }
-      & UsersModelFieldsFragment
-    )> }
-  )> }
-);
-
-export type InsertvehicleModelMutationVariables = {
-  objects: Array<Vehicle_Insert_Input>,
-  onConflict?: Maybe<Vehicle_On_Conflict>
-};
-
-
-export type InsertvehicleModelMutation = (
-  { __typename?: 'mutation_root' }
-  & { insert_vehicle: Maybe<(
-    { __typename?: 'vehicle_mutation_response' }
-    & Pick<Vehicle_Mutation_Response, 'affected_rows'>
-    & { returning: Array<(
-      { __typename?: 'vehicle' }
-      & VehicleModelFieldsFragment
-    )> }
-  )> }
-);
-
-export type Insertvehicle_LocationModelMutationVariables = {
-  objects: Array<Vehicle_Location_Insert_Input>,
-  onConflict?: Maybe<Vehicle_Location_On_Conflict>
-};
-
-
-export type Insertvehicle_LocationModelMutation = (
-  { __typename?: 'mutation_root' }
-  & { insert_vehicle_location: Maybe<(
-    { __typename?: 'vehicle_location_mutation_response' }
-    & Pick<Vehicle_Location_Mutation_Response, 'affected_rows'>
-    & { returning: Array<(
-      { __typename?: 'vehicle_location' }
-      & Vehicle_LocationModelFieldsFragment
-    )> }
-  )> }
-);
-
 export type FetchobservationModelQueryVariables = {
   observationId: Scalars['uuid']
 };
@@ -5956,71 +5763,6 @@ export type FetchobservationModelQuery = (
   & { observation_by_pk: Maybe<(
     { __typename?: 'observation' }
     & ObservationModelFieldsFragment
-  )> }
-);
-
-export type FetchpModelQueryVariables = {
-  pId: Scalars['Int']
-};
-
-
-export type FetchpModelQuery = (
-  { __typename?: 'query_root' }
-  & { p_by_pk: Maybe<(
-    { __typename?: 'p' }
-    & PModelFieldsFragment
-  )> }
-);
-
-export type FetchpatientModelQueryVariables = {
-  patientId: Scalars['uuid']
-};
-
-
-export type FetchpatientModelQuery = (
-  { __typename?: 'query_root' }
-  & { patient_by_pk: Maybe<(
-    { __typename?: 'patient' }
-    & PatientModelFieldsFragment
-  )> }
-);
-
-export type FetchusersModelQueryVariables = {
-  usersId: Scalars['Int']
-};
-
-
-export type FetchusersModelQuery = (
-  { __typename?: 'query_root' }
-  & { users_by_pk: Maybe<(
-    { __typename?: 'users' }
-    & UsersModelFieldsFragment
-  )> }
-);
-
-export type FetchvehicleModelQueryVariables = {
-  vehicleId: Scalars['String']
-};
-
-
-export type FetchvehicleModelQuery = (
-  { __typename?: 'query_root' }
-  & { vehicle_by_pk: Maybe<(
-    { __typename?: 'vehicle' }
-    & VehicleModelFieldsFragment
-  )> }
-);
-
-export type Fetchvehicle_LocationModelQueryVariables = {
-  vehicle_locationId: Scalars['Int']
-};
-
-
-export type Fetchvehicle_LocationModelQuery = (
-  { __typename?: 'query_root' }
-  & { vehicle_location_by_pk: Maybe<(
-    { __typename?: 'vehicle_location' }
-    & Vehicle_LocationModelFieldsFragment
   )> }
 );
 
@@ -6042,6 +5784,55 @@ export type UpdateobservationModelByIdMutation = (
   )> }
 );
 
+export type RemoveobservationModelByIdMutationVariables = {
+  id?: Maybe<Scalars['uuid']>
+};
+
+
+export type RemoveobservationModelByIdMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_observation: Maybe<(
+    { __typename?: 'observation_mutation_response' }
+    & Pick<Observation_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
+export type PModelFieldsFragment = (
+  { __typename?: 'p' }
+  & Pick<P, 'circle' | 'id' | 'poly'>
+);
+
+export type InsertpModelMutationVariables = {
+  objects: Array<P_Insert_Input>,
+  onConflict?: Maybe<P_On_Conflict>
+};
+
+
+export type InsertpModelMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_p: Maybe<(
+    { __typename?: 'p_mutation_response' }
+    & Pick<P_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'p' }
+      & PModelFieldsFragment
+    )> }
+  )> }
+);
+
+export type FetchpModelQueryVariables = {
+  pId: Scalars['Int']
+};
+
+
+export type FetchpModelQuery = (
+  { __typename?: 'query_root' }
+  & { p_by_pk: Maybe<(
+    { __typename?: 'p' }
+    & PModelFieldsFragment
+  )> }
+);
+
 export type UpdatepModelByIdMutationVariables = {
   id?: Maybe<Scalars['Int']>,
   changes?: Maybe<P_Set_Input>
@@ -6057,6 +5848,55 @@ export type UpdatepModelByIdMutation = (
       { __typename?: 'p' }
       & PModelFieldsFragment
     )> }
+  )> }
+);
+
+export type RemovepModelByIdMutationVariables = {
+  id?: Maybe<Scalars['Int']>
+};
+
+
+export type RemovepModelByIdMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_p: Maybe<(
+    { __typename?: 'p_mutation_response' }
+    & Pick<P_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
+export type PatientModelFieldsFragment = (
+  { __typename?: 'patient' }
+  & Pick<Patient, 'id' | 'resource'>
+);
+
+export type InsertpatientModelMutationVariables = {
+  objects: Array<Patient_Insert_Input>,
+  onConflict?: Maybe<Patient_On_Conflict>
+};
+
+
+export type InsertpatientModelMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_patient: Maybe<(
+    { __typename?: 'patient_mutation_response' }
+    & Pick<Patient_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'patient' }
+      & PatientModelFieldsFragment
+    )> }
+  )> }
+);
+
+export type FetchpatientModelQueryVariables = {
+  patientId: Scalars['uuid']
+};
+
+
+export type FetchpatientModelQuery = (
+  { __typename?: 'query_root' }
+  & { patient_by_pk: Maybe<(
+    { __typename?: 'patient' }
+    & PatientModelFieldsFragment
   )> }
 );
 
@@ -6078,6 +5918,55 @@ export type UpdatepatientModelByIdMutation = (
   )> }
 );
 
+export type RemovepatientModelByIdMutationVariables = {
+  id?: Maybe<Scalars['uuid']>
+};
+
+
+export type RemovepatientModelByIdMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_patient: Maybe<(
+    { __typename?: 'patient_mutation_response' }
+    & Pick<Patient_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
+export type UsersModelFieldsFragment = (
+  { __typename?: 'users' }
+  & Pick<Users, 'created_at' | 'id' | 'name'>
+);
+
+export type InsertusersModelMutationVariables = {
+  objects: Array<Users_Insert_Input>,
+  onConflict?: Maybe<Users_On_Conflict>
+};
+
+
+export type InsertusersModelMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_users: Maybe<(
+    { __typename?: 'users_mutation_response' }
+    & Pick<Users_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'users' }
+      & UsersModelFieldsFragment
+    )> }
+  )> }
+);
+
+export type FetchusersModelQueryVariables = {
+  usersId: Scalars['Int']
+};
+
+
+export type FetchusersModelQuery = (
+  { __typename?: 'query_root' }
+  & { users_by_pk: Maybe<(
+    { __typename?: 'users' }
+    & UsersModelFieldsFragment
+  )> }
+);
+
 export type UpdateusersModelByIdMutationVariables = {
   id?: Maybe<Scalars['Int']>,
   changes?: Maybe<Users_Set_Input>
@@ -6093,6 +5982,55 @@ export type UpdateusersModelByIdMutation = (
       { __typename?: 'users' }
       & UsersModelFieldsFragment
     )> }
+  )> }
+);
+
+export type RemoveusersModelByIdMutationVariables = {
+  id?: Maybe<Scalars['Int']>
+};
+
+
+export type RemoveusersModelByIdMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_users: Maybe<(
+    { __typename?: 'users_mutation_response' }
+    & Pick<Users_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
+export type VehicleModelFieldsFragment = (
+  { __typename?: 'vehicle' }
+  & Pick<Vehicle, 'id' | 'name'>
+);
+
+export type InsertvehicleModelMutationVariables = {
+  objects: Array<Vehicle_Insert_Input>,
+  onConflict?: Maybe<Vehicle_On_Conflict>
+};
+
+
+export type InsertvehicleModelMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_vehicle: Maybe<(
+    { __typename?: 'vehicle_mutation_response' }
+    & Pick<Vehicle_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'vehicle' }
+      & VehicleModelFieldsFragment
+    )> }
+  )> }
+);
+
+export type FetchvehicleModelQueryVariables = {
+  vehicleId: Scalars['String']
+};
+
+
+export type FetchvehicleModelQuery = (
+  { __typename?: 'query_root' }
+  & { vehicle_by_pk: Maybe<(
+    { __typename?: 'vehicle' }
+    & VehicleModelFieldsFragment
   )> }
 );
 
@@ -6114,6 +6052,55 @@ export type UpdatevehicleModelByIdMutation = (
   )> }
 );
 
+export type RemovevehicleModelByIdMutationVariables = {
+  id?: Maybe<Scalars['String']>
+};
+
+
+export type RemovevehicleModelByIdMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_vehicle: Maybe<(
+    { __typename?: 'vehicle_mutation_response' }
+    & Pick<Vehicle_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
+export type Vehicle_LocationModelFieldsFragment = (
+  { __typename?: 'vehicle_location' }
+  & Pick<Vehicle_Location, 'id' | 'location' | 'timestamp' | 'vehicle_id'>
+);
+
+export type Insertvehicle_LocationModelMutationVariables = {
+  objects: Array<Vehicle_Location_Insert_Input>,
+  onConflict?: Maybe<Vehicle_Location_On_Conflict>
+};
+
+
+export type Insertvehicle_LocationModelMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_vehicle_location: Maybe<(
+    { __typename?: 'vehicle_location_mutation_response' }
+    & Pick<Vehicle_Location_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'vehicle_location' }
+      & Vehicle_LocationModelFieldsFragment
+    )> }
+  )> }
+);
+
+export type Fetchvehicle_LocationModelQueryVariables = {
+  vehicle_locationId: Scalars['Int']
+};
+
+
+export type Fetchvehicle_LocationModelQuery = (
+  { __typename?: 'query_root' }
+  & { vehicle_location_by_pk: Maybe<(
+    { __typename?: 'vehicle_location' }
+    & Vehicle_LocationModelFieldsFragment
+  )> }
+);
+
 export type Updatevehicle_LocationModelByIdMutationVariables = {
   id?: Maybe<Scalars['Int']>,
   changes?: Maybe<Vehicle_Location_Set_Input>
@@ -6129,6 +6116,19 @@ export type Updatevehicle_LocationModelByIdMutation = (
       { __typename?: 'vehicle_location' }
       & Vehicle_LocationModelFieldsFragment
     )> }
+  )> }
+);
+
+export type Removevehicle_LocationModelByIdMutationVariables = {
+  id?: Maybe<Scalars['Int']>
+};
+
+
+export type Removevehicle_LocationModelByIdMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_vehicle_location: Maybe<(
+    { __typename?: 'vehicle_location_mutation_response' }
+    & Pick<Vehicle_Location_Mutation_Response, 'affected_rows'>
   )> }
 );
 
@@ -6172,198 +6172,6 @@ export const Vehicle_LocationModelFieldsFragmentDoc = gql`
   vehicle_id
 }
     `;
-export const RemoveobservationModelByIdDocument = gql`
-    mutation removeobservationModelById($id: uuid) {
-  delete_observation(where: {id: {_eq: $id}}) {
-    affected_rows
-  }
-}
-    `;
-export type RemoveobservationModelByIdMutationFn = ApolloReactCommon.MutationFunction<RemoveobservationModelByIdMutation, RemoveobservationModelByIdMutationVariables>;
-
-/**
- * __useRemoveobservationModelByIdMutation__
- *
- * To run a mutation, you first call `useRemoveobservationModelByIdMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRemoveobservationModelByIdMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [removeobservationModelByIdMutation, { data, loading, error }] = useRemoveobservationModelByIdMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useRemoveobservationModelByIdMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<RemoveobservationModelByIdMutation, RemoveobservationModelByIdMutationVariables>) {
-        return ApolloReactHooks.useMutation<RemoveobservationModelByIdMutation, RemoveobservationModelByIdMutationVariables>(RemoveobservationModelByIdDocument, baseOptions);
-      }
-export type RemoveobservationModelByIdMutationHookResult = ReturnType<typeof useRemoveobservationModelByIdMutation>;
-export type RemoveobservationModelByIdMutationResult = ApolloReactCommon.MutationResult<RemoveobservationModelByIdMutation>;
-export type RemoveobservationModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveobservationModelByIdMutation, RemoveobservationModelByIdMutationVariables>;
-export const RemovepModelByIdDocument = gql`
-    mutation removepModelById($id: Int) {
-  delete_p(where: {id: {_eq: $id}}) {
-    affected_rows
-  }
-}
-    `;
-export type RemovepModelByIdMutationFn = ApolloReactCommon.MutationFunction<RemovepModelByIdMutation, RemovepModelByIdMutationVariables>;
-
-/**
- * __useRemovepModelByIdMutation__
- *
- * To run a mutation, you first call `useRemovepModelByIdMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRemovepModelByIdMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [removepModelByIdMutation, { data, loading, error }] = useRemovepModelByIdMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useRemovepModelByIdMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<RemovepModelByIdMutation, RemovepModelByIdMutationVariables>) {
-        return ApolloReactHooks.useMutation<RemovepModelByIdMutation, RemovepModelByIdMutationVariables>(RemovepModelByIdDocument, baseOptions);
-      }
-export type RemovepModelByIdMutationHookResult = ReturnType<typeof useRemovepModelByIdMutation>;
-export type RemovepModelByIdMutationResult = ApolloReactCommon.MutationResult<RemovepModelByIdMutation>;
-export type RemovepModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<RemovepModelByIdMutation, RemovepModelByIdMutationVariables>;
-export const RemovepatientModelByIdDocument = gql`
-    mutation removepatientModelById($id: uuid) {
-  delete_patient(where: {id: {_eq: $id}}) {
-    affected_rows
-  }
-}
-    `;
-export type RemovepatientModelByIdMutationFn = ApolloReactCommon.MutationFunction<RemovepatientModelByIdMutation, RemovepatientModelByIdMutationVariables>;
-
-/**
- * __useRemovepatientModelByIdMutation__
- *
- * To run a mutation, you first call `useRemovepatientModelByIdMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRemovepatientModelByIdMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [removepatientModelByIdMutation, { data, loading, error }] = useRemovepatientModelByIdMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useRemovepatientModelByIdMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<RemovepatientModelByIdMutation, RemovepatientModelByIdMutationVariables>) {
-        return ApolloReactHooks.useMutation<RemovepatientModelByIdMutation, RemovepatientModelByIdMutationVariables>(RemovepatientModelByIdDocument, baseOptions);
-      }
-export type RemovepatientModelByIdMutationHookResult = ReturnType<typeof useRemovepatientModelByIdMutation>;
-export type RemovepatientModelByIdMutationResult = ApolloReactCommon.MutationResult<RemovepatientModelByIdMutation>;
-export type RemovepatientModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<RemovepatientModelByIdMutation, RemovepatientModelByIdMutationVariables>;
-export const RemoveusersModelByIdDocument = gql`
-    mutation removeusersModelById($id: Int) {
-  delete_users(where: {id: {_eq: $id}}) {
-    affected_rows
-  }
-}
-    `;
-export type RemoveusersModelByIdMutationFn = ApolloReactCommon.MutationFunction<RemoveusersModelByIdMutation, RemoveusersModelByIdMutationVariables>;
-
-/**
- * __useRemoveusersModelByIdMutation__
- *
- * To run a mutation, you first call `useRemoveusersModelByIdMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRemoveusersModelByIdMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [removeusersModelByIdMutation, { data, loading, error }] = useRemoveusersModelByIdMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useRemoveusersModelByIdMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<RemoveusersModelByIdMutation, RemoveusersModelByIdMutationVariables>) {
-        return ApolloReactHooks.useMutation<RemoveusersModelByIdMutation, RemoveusersModelByIdMutationVariables>(RemoveusersModelByIdDocument, baseOptions);
-      }
-export type RemoveusersModelByIdMutationHookResult = ReturnType<typeof useRemoveusersModelByIdMutation>;
-export type RemoveusersModelByIdMutationResult = ApolloReactCommon.MutationResult<RemoveusersModelByIdMutation>;
-export type RemoveusersModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveusersModelByIdMutation, RemoveusersModelByIdMutationVariables>;
-export const RemovevehicleModelByIdDocument = gql`
-    mutation removevehicleModelById($id: String) {
-  delete_vehicle(where: {id: {_eq: $id}}) {
-    affected_rows
-  }
-}
-    `;
-export type RemovevehicleModelByIdMutationFn = ApolloReactCommon.MutationFunction<RemovevehicleModelByIdMutation, RemovevehicleModelByIdMutationVariables>;
-
-/**
- * __useRemovevehicleModelByIdMutation__
- *
- * To run a mutation, you first call `useRemovevehicleModelByIdMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRemovevehicleModelByIdMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [removevehicleModelByIdMutation, { data, loading, error }] = useRemovevehicleModelByIdMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useRemovevehicleModelByIdMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<RemovevehicleModelByIdMutation, RemovevehicleModelByIdMutationVariables>) {
-        return ApolloReactHooks.useMutation<RemovevehicleModelByIdMutation, RemovevehicleModelByIdMutationVariables>(RemovevehicleModelByIdDocument, baseOptions);
-      }
-export type RemovevehicleModelByIdMutationHookResult = ReturnType<typeof useRemovevehicleModelByIdMutation>;
-export type RemovevehicleModelByIdMutationResult = ApolloReactCommon.MutationResult<RemovevehicleModelByIdMutation>;
-export type RemovevehicleModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<RemovevehicleModelByIdMutation, RemovevehicleModelByIdMutationVariables>;
-export const Removevehicle_LocationModelByIdDocument = gql`
-    mutation removevehicle_locationModelById($id: Int) {
-  delete_vehicle_location(where: {id: {_eq: $id}}) {
-    affected_rows
-  }
-}
-    `;
-export type Removevehicle_LocationModelByIdMutationFn = ApolloReactCommon.MutationFunction<Removevehicle_LocationModelByIdMutation, Removevehicle_LocationModelByIdMutationVariables>;
-
-/**
- * __useRemovevehicle_LocationModelByIdMutation__
- *
- * To run a mutation, you first call `useRemovevehicle_LocationModelByIdMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useRemovevehicle_LocationModelByIdMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [removevehicleLocationModelByIdMutation, { data, loading, error }] = useRemovevehicle_LocationModelByIdMutation({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useRemovevehicle_LocationModelByIdMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<Removevehicle_LocationModelByIdMutation, Removevehicle_LocationModelByIdMutationVariables>) {
-        return ApolloReactHooks.useMutation<Removevehicle_LocationModelByIdMutation, Removevehicle_LocationModelByIdMutationVariables>(Removevehicle_LocationModelByIdDocument, baseOptions);
-      }
-export type Removevehicle_LocationModelByIdMutationHookResult = ReturnType<typeof useRemovevehicle_LocationModelByIdMutation>;
-export type Removevehicle_LocationModelByIdMutationResult = ApolloReactCommon.MutationResult<Removevehicle_LocationModelByIdMutation>;
-export type Removevehicle_LocationModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<Removevehicle_LocationModelByIdMutation, Removevehicle_LocationModelByIdMutationVariables>;
 export const InsertobservationModelDocument = gql`
     mutation insertobservationModel($objects: [observation_insert_input!]!, $onConflict: observation_on_conflict) {
   insert_observation(objects: $objects, on_conflict: $onConflict) {
@@ -6400,186 +6208,6 @@ export function useInsertobservationModelMutation(baseOptions?: ApolloReactHooks
 export type InsertobservationModelMutationHookResult = ReturnType<typeof useInsertobservationModelMutation>;
 export type InsertobservationModelMutationResult = ApolloReactCommon.MutationResult<InsertobservationModelMutation>;
 export type InsertobservationModelMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertobservationModelMutation, InsertobservationModelMutationVariables>;
-export const InsertpModelDocument = gql`
-    mutation insertpModel($objects: [p_insert_input!]!, $onConflict: p_on_conflict) {
-  insert_p(objects: $objects, on_conflict: $onConflict) {
-    affected_rows
-    returning {
-      ...pModelFields
-    }
-  }
-}
-    ${PModelFieldsFragmentDoc}`;
-export type InsertpModelMutationFn = ApolloReactCommon.MutationFunction<InsertpModelMutation, InsertpModelMutationVariables>;
-
-/**
- * __useInsertpModelMutation__
- *
- * To run a mutation, you first call `useInsertpModelMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInsertpModelMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [insertpModelMutation, { data, loading, error }] = useInsertpModelMutation({
- *   variables: {
- *      objects: // value for 'objects'
- *      onConflict: // value for 'onConflict'
- *   },
- * });
- */
-export function useInsertpModelMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<InsertpModelMutation, InsertpModelMutationVariables>) {
-        return ApolloReactHooks.useMutation<InsertpModelMutation, InsertpModelMutationVariables>(InsertpModelDocument, baseOptions);
-      }
-export type InsertpModelMutationHookResult = ReturnType<typeof useInsertpModelMutation>;
-export type InsertpModelMutationResult = ApolloReactCommon.MutationResult<InsertpModelMutation>;
-export type InsertpModelMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertpModelMutation, InsertpModelMutationVariables>;
-export const InsertpatientModelDocument = gql`
-    mutation insertpatientModel($objects: [patient_insert_input!]!, $onConflict: patient_on_conflict) {
-  insert_patient(objects: $objects, on_conflict: $onConflict) {
-    affected_rows
-    returning {
-      ...patientModelFields
-    }
-  }
-}
-    ${PatientModelFieldsFragmentDoc}`;
-export type InsertpatientModelMutationFn = ApolloReactCommon.MutationFunction<InsertpatientModelMutation, InsertpatientModelMutationVariables>;
-
-/**
- * __useInsertpatientModelMutation__
- *
- * To run a mutation, you first call `useInsertpatientModelMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInsertpatientModelMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [insertpatientModelMutation, { data, loading, error }] = useInsertpatientModelMutation({
- *   variables: {
- *      objects: // value for 'objects'
- *      onConflict: // value for 'onConflict'
- *   },
- * });
- */
-export function useInsertpatientModelMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<InsertpatientModelMutation, InsertpatientModelMutationVariables>) {
-        return ApolloReactHooks.useMutation<InsertpatientModelMutation, InsertpatientModelMutationVariables>(InsertpatientModelDocument, baseOptions);
-      }
-export type InsertpatientModelMutationHookResult = ReturnType<typeof useInsertpatientModelMutation>;
-export type InsertpatientModelMutationResult = ApolloReactCommon.MutationResult<InsertpatientModelMutation>;
-export type InsertpatientModelMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertpatientModelMutation, InsertpatientModelMutationVariables>;
-export const InsertusersModelDocument = gql`
-    mutation insertusersModel($objects: [users_insert_input!]!, $onConflict: users_on_conflict) {
-  insert_users(objects: $objects, on_conflict: $onConflict) {
-    affected_rows
-    returning {
-      ...usersModelFields
-    }
-  }
-}
-    ${UsersModelFieldsFragmentDoc}`;
-export type InsertusersModelMutationFn = ApolloReactCommon.MutationFunction<InsertusersModelMutation, InsertusersModelMutationVariables>;
-
-/**
- * __useInsertusersModelMutation__
- *
- * To run a mutation, you first call `useInsertusersModelMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInsertusersModelMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [insertusersModelMutation, { data, loading, error }] = useInsertusersModelMutation({
- *   variables: {
- *      objects: // value for 'objects'
- *      onConflict: // value for 'onConflict'
- *   },
- * });
- */
-export function useInsertusersModelMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<InsertusersModelMutation, InsertusersModelMutationVariables>) {
-        return ApolloReactHooks.useMutation<InsertusersModelMutation, InsertusersModelMutationVariables>(InsertusersModelDocument, baseOptions);
-      }
-export type InsertusersModelMutationHookResult = ReturnType<typeof useInsertusersModelMutation>;
-export type InsertusersModelMutationResult = ApolloReactCommon.MutationResult<InsertusersModelMutation>;
-export type InsertusersModelMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertusersModelMutation, InsertusersModelMutationVariables>;
-export const InsertvehicleModelDocument = gql`
-    mutation insertvehicleModel($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
-  insert_vehicle(objects: $objects, on_conflict: $onConflict) {
-    affected_rows
-    returning {
-      ...vehicleModelFields
-    }
-  }
-}
-    ${VehicleModelFieldsFragmentDoc}`;
-export type InsertvehicleModelMutationFn = ApolloReactCommon.MutationFunction<InsertvehicleModelMutation, InsertvehicleModelMutationVariables>;
-
-/**
- * __useInsertvehicleModelMutation__
- *
- * To run a mutation, you first call `useInsertvehicleModelMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInsertvehicleModelMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [insertvehicleModelMutation, { data, loading, error }] = useInsertvehicleModelMutation({
- *   variables: {
- *      objects: // value for 'objects'
- *      onConflict: // value for 'onConflict'
- *   },
- * });
- */
-export function useInsertvehicleModelMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<InsertvehicleModelMutation, InsertvehicleModelMutationVariables>) {
-        return ApolloReactHooks.useMutation<InsertvehicleModelMutation, InsertvehicleModelMutationVariables>(InsertvehicleModelDocument, baseOptions);
-      }
-export type InsertvehicleModelMutationHookResult = ReturnType<typeof useInsertvehicleModelMutation>;
-export type InsertvehicleModelMutationResult = ApolloReactCommon.MutationResult<InsertvehicleModelMutation>;
-export type InsertvehicleModelMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertvehicleModelMutation, InsertvehicleModelMutationVariables>;
-export const Insertvehicle_LocationModelDocument = gql`
-    mutation insertvehicle_locationModel($objects: [vehicle_location_insert_input!]!, $onConflict: vehicle_location_on_conflict) {
-  insert_vehicle_location(objects: $objects, on_conflict: $onConflict) {
-    affected_rows
-    returning {
-      ...vehicle_locationModelFields
-    }
-  }
-}
-    ${Vehicle_LocationModelFieldsFragmentDoc}`;
-export type Insertvehicle_LocationModelMutationFn = ApolloReactCommon.MutationFunction<Insertvehicle_LocationModelMutation, Insertvehicle_LocationModelMutationVariables>;
-
-/**
- * __useInsertvehicle_LocationModelMutation__
- *
- * To run a mutation, you first call `useInsertvehicle_LocationModelMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useInsertvehicle_LocationModelMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [insertvehicleLocationModelMutation, { data, loading, error }] = useInsertvehicle_LocationModelMutation({
- *   variables: {
- *      objects: // value for 'objects'
- *      onConflict: // value for 'onConflict'
- *   },
- * });
- */
-export function useInsertvehicle_LocationModelMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<Insertvehicle_LocationModelMutation, Insertvehicle_LocationModelMutationVariables>) {
-        return ApolloReactHooks.useMutation<Insertvehicle_LocationModelMutation, Insertvehicle_LocationModelMutationVariables>(Insertvehicle_LocationModelDocument, baseOptions);
-      }
-export type Insertvehicle_LocationModelMutationHookResult = ReturnType<typeof useInsertvehicle_LocationModelMutation>;
-export type Insertvehicle_LocationModelMutationResult = ApolloReactCommon.MutationResult<Insertvehicle_LocationModelMutation>;
-export type Insertvehicle_LocationModelMutationOptions = ApolloReactCommon.BaseMutationOptions<Insertvehicle_LocationModelMutation, Insertvehicle_LocationModelMutationVariables>;
 export const FetchobservationModelDocument = gql`
     query fetchobservationModel($observationId: uuid!) {
   observation_by_pk(id: $observationId) {
@@ -6613,171 +6241,6 @@ export function useFetchobservationModelLazyQuery(baseOptions?: ApolloReactHooks
 export type FetchobservationModelQueryHookResult = ReturnType<typeof useFetchobservationModelQuery>;
 export type FetchobservationModelLazyQueryHookResult = ReturnType<typeof useFetchobservationModelLazyQuery>;
 export type FetchobservationModelQueryResult = ApolloReactCommon.QueryResult<FetchobservationModelQuery, FetchobservationModelQueryVariables>;
-export const FetchpModelDocument = gql`
-    query fetchpModel($pId: Int!) {
-  p_by_pk(id: $pId) {
-    ...pModelFields
-  }
-}
-    ${PModelFieldsFragmentDoc}`;
-
-/**
- * __useFetchpModelQuery__
- *
- * To run a query within a React component, call `useFetchpModelQuery` and pass it any options that fit your needs.
- * When your component renders, `useFetchpModelQuery` returns an object from Apollo Client that contains loading, error, and data properties 
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFetchpModelQuery({
- *   variables: {
- *      pId: // value for 'pId'
- *   },
- * });
- */
-export function useFetchpModelQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<FetchpModelQuery, FetchpModelQueryVariables>) {
-        return ApolloReactHooks.useQuery<FetchpModelQuery, FetchpModelQueryVariables>(FetchpModelDocument, baseOptions);
-      }
-export function useFetchpModelLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<FetchpModelQuery, FetchpModelQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<FetchpModelQuery, FetchpModelQueryVariables>(FetchpModelDocument, baseOptions);
-        }
-export type FetchpModelQueryHookResult = ReturnType<typeof useFetchpModelQuery>;
-export type FetchpModelLazyQueryHookResult = ReturnType<typeof useFetchpModelLazyQuery>;
-export type FetchpModelQueryResult = ApolloReactCommon.QueryResult<FetchpModelQuery, FetchpModelQueryVariables>;
-export const FetchpatientModelDocument = gql`
-    query fetchpatientModel($patientId: uuid!) {
-  patient_by_pk(id: $patientId) {
-    ...patientModelFields
-  }
-}
-    ${PatientModelFieldsFragmentDoc}`;
-
-/**
- * __useFetchpatientModelQuery__
- *
- * To run a query within a React component, call `useFetchpatientModelQuery` and pass it any options that fit your needs.
- * When your component renders, `useFetchpatientModelQuery` returns an object from Apollo Client that contains loading, error, and data properties 
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFetchpatientModelQuery({
- *   variables: {
- *      patientId: // value for 'patientId'
- *   },
- * });
- */
-export function useFetchpatientModelQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<FetchpatientModelQuery, FetchpatientModelQueryVariables>) {
-        return ApolloReactHooks.useQuery<FetchpatientModelQuery, FetchpatientModelQueryVariables>(FetchpatientModelDocument, baseOptions);
-      }
-export function useFetchpatientModelLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<FetchpatientModelQuery, FetchpatientModelQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<FetchpatientModelQuery, FetchpatientModelQueryVariables>(FetchpatientModelDocument, baseOptions);
-        }
-export type FetchpatientModelQueryHookResult = ReturnType<typeof useFetchpatientModelQuery>;
-export type FetchpatientModelLazyQueryHookResult = ReturnType<typeof useFetchpatientModelLazyQuery>;
-export type FetchpatientModelQueryResult = ApolloReactCommon.QueryResult<FetchpatientModelQuery, FetchpatientModelQueryVariables>;
-export const FetchusersModelDocument = gql`
-    query fetchusersModel($usersId: Int!) {
-  users_by_pk(id: $usersId) {
-    ...usersModelFields
-  }
-}
-    ${UsersModelFieldsFragmentDoc}`;
-
-/**
- * __useFetchusersModelQuery__
- *
- * To run a query within a React component, call `useFetchusersModelQuery` and pass it any options that fit your needs.
- * When your component renders, `useFetchusersModelQuery` returns an object from Apollo Client that contains loading, error, and data properties 
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFetchusersModelQuery({
- *   variables: {
- *      usersId: // value for 'usersId'
- *   },
- * });
- */
-export function useFetchusersModelQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<FetchusersModelQuery, FetchusersModelQueryVariables>) {
-        return ApolloReactHooks.useQuery<FetchusersModelQuery, FetchusersModelQueryVariables>(FetchusersModelDocument, baseOptions);
-      }
-export function useFetchusersModelLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<FetchusersModelQuery, FetchusersModelQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<FetchusersModelQuery, FetchusersModelQueryVariables>(FetchusersModelDocument, baseOptions);
-        }
-export type FetchusersModelQueryHookResult = ReturnType<typeof useFetchusersModelQuery>;
-export type FetchusersModelLazyQueryHookResult = ReturnType<typeof useFetchusersModelLazyQuery>;
-export type FetchusersModelQueryResult = ApolloReactCommon.QueryResult<FetchusersModelQuery, FetchusersModelQueryVariables>;
-export const FetchvehicleModelDocument = gql`
-    query fetchvehicleModel($vehicleId: String!) {
-  vehicle_by_pk(id: $vehicleId) {
-    ...vehicleModelFields
-  }
-}
-    ${VehicleModelFieldsFragmentDoc}`;
-
-/**
- * __useFetchvehicleModelQuery__
- *
- * To run a query within a React component, call `useFetchvehicleModelQuery` and pass it any options that fit your needs.
- * When your component renders, `useFetchvehicleModelQuery` returns an object from Apollo Client that contains loading, error, and data properties 
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFetchvehicleModelQuery({
- *   variables: {
- *      vehicleId: // value for 'vehicleId'
- *   },
- * });
- */
-export function useFetchvehicleModelQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<FetchvehicleModelQuery, FetchvehicleModelQueryVariables>) {
-        return ApolloReactHooks.useQuery<FetchvehicleModelQuery, FetchvehicleModelQueryVariables>(FetchvehicleModelDocument, baseOptions);
-      }
-export function useFetchvehicleModelLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<FetchvehicleModelQuery, FetchvehicleModelQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<FetchvehicleModelQuery, FetchvehicleModelQueryVariables>(FetchvehicleModelDocument, baseOptions);
-        }
-export type FetchvehicleModelQueryHookResult = ReturnType<typeof useFetchvehicleModelQuery>;
-export type FetchvehicleModelLazyQueryHookResult = ReturnType<typeof useFetchvehicleModelLazyQuery>;
-export type FetchvehicleModelQueryResult = ApolloReactCommon.QueryResult<FetchvehicleModelQuery, FetchvehicleModelQueryVariables>;
-export const Fetchvehicle_LocationModelDocument = gql`
-    query fetchvehicle_locationModel($vehicle_locationId: Int!) {
-  vehicle_location_by_pk(id: $vehicle_locationId) {
-    ...vehicle_locationModelFields
-  }
-}
-    ${Vehicle_LocationModelFieldsFragmentDoc}`;
-
-/**
- * __useFetchvehicle_LocationModelQuery__
- *
- * To run a query within a React component, call `useFetchvehicle_LocationModelQuery` and pass it any options that fit your needs.
- * When your component renders, `useFetchvehicle_LocationModelQuery` returns an object from Apollo Client that contains loading, error, and data properties 
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useFetchvehicle_LocationModelQuery({
- *   variables: {
- *      vehicle_locationId: // value for 'vehicle_locationId'
- *   },
- * });
- */
-export function useFetchvehicle_LocationModelQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<Fetchvehicle_LocationModelQuery, Fetchvehicle_LocationModelQueryVariables>) {
-        return ApolloReactHooks.useQuery<Fetchvehicle_LocationModelQuery, Fetchvehicle_LocationModelQueryVariables>(Fetchvehicle_LocationModelDocument, baseOptions);
-      }
-export function useFetchvehicle_LocationModelLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<Fetchvehicle_LocationModelQuery, Fetchvehicle_LocationModelQueryVariables>) {
-          return ApolloReactHooks.useLazyQuery<Fetchvehicle_LocationModelQuery, Fetchvehicle_LocationModelQueryVariables>(Fetchvehicle_LocationModelDocument, baseOptions);
-        }
-export type Fetchvehicle_LocationModelQueryHookResult = ReturnType<typeof useFetchvehicle_LocationModelQuery>;
-export type Fetchvehicle_LocationModelLazyQueryHookResult = ReturnType<typeof useFetchvehicle_LocationModelLazyQuery>;
-export type Fetchvehicle_LocationModelQueryResult = ApolloReactCommon.QueryResult<Fetchvehicle_LocationModelQuery, Fetchvehicle_LocationModelQueryVariables>;
 export const UpdateobservationModelByIdDocument = gql`
     mutation updateobservationModelById($id: uuid, $changes: observation_set_input) {
   update_observation(where: {id: {_eq: $id}}, _set: $changes) {
@@ -6814,6 +6277,107 @@ export function useUpdateobservationModelByIdMutation(baseOptions?: ApolloReactH
 export type UpdateobservationModelByIdMutationHookResult = ReturnType<typeof useUpdateobservationModelByIdMutation>;
 export type UpdateobservationModelByIdMutationResult = ApolloReactCommon.MutationResult<UpdateobservationModelByIdMutation>;
 export type UpdateobservationModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateobservationModelByIdMutation, UpdateobservationModelByIdMutationVariables>;
+export const RemoveobservationModelByIdDocument = gql`
+    mutation removeobservationModelById($id: uuid) {
+  delete_observation(where: {id: {_eq: $id}}) {
+    affected_rows
+  }
+}
+    `;
+export type RemoveobservationModelByIdMutationFn = ApolloReactCommon.MutationFunction<RemoveobservationModelByIdMutation, RemoveobservationModelByIdMutationVariables>;
+
+/**
+ * __useRemoveobservationModelByIdMutation__
+ *
+ * To run a mutation, you first call `useRemoveobservationModelByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveobservationModelByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeobservationModelByIdMutation, { data, loading, error }] = useRemoveobservationModelByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRemoveobservationModelByIdMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<RemoveobservationModelByIdMutation, RemoveobservationModelByIdMutationVariables>) {
+        return ApolloReactHooks.useMutation<RemoveobservationModelByIdMutation, RemoveobservationModelByIdMutationVariables>(RemoveobservationModelByIdDocument, baseOptions);
+      }
+export type RemoveobservationModelByIdMutationHookResult = ReturnType<typeof useRemoveobservationModelByIdMutation>;
+export type RemoveobservationModelByIdMutationResult = ApolloReactCommon.MutationResult<RemoveobservationModelByIdMutation>;
+export type RemoveobservationModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveobservationModelByIdMutation, RemoveobservationModelByIdMutationVariables>;
+export const InsertpModelDocument = gql`
+    mutation insertpModel($objects: [p_insert_input!]!, $onConflict: p_on_conflict) {
+  insert_p(objects: $objects, on_conflict: $onConflict) {
+    affected_rows
+    returning {
+      ...pModelFields
+    }
+  }
+}
+    ${PModelFieldsFragmentDoc}`;
+export type InsertpModelMutationFn = ApolloReactCommon.MutationFunction<InsertpModelMutation, InsertpModelMutationVariables>;
+
+/**
+ * __useInsertpModelMutation__
+ *
+ * To run a mutation, you first call `useInsertpModelMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertpModelMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [insertpModelMutation, { data, loading, error }] = useInsertpModelMutation({
+ *   variables: {
+ *      objects: // value for 'objects'
+ *      onConflict: // value for 'onConflict'
+ *   },
+ * });
+ */
+export function useInsertpModelMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<InsertpModelMutation, InsertpModelMutationVariables>) {
+        return ApolloReactHooks.useMutation<InsertpModelMutation, InsertpModelMutationVariables>(InsertpModelDocument, baseOptions);
+      }
+export type InsertpModelMutationHookResult = ReturnType<typeof useInsertpModelMutation>;
+export type InsertpModelMutationResult = ApolloReactCommon.MutationResult<InsertpModelMutation>;
+export type InsertpModelMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertpModelMutation, InsertpModelMutationVariables>;
+export const FetchpModelDocument = gql`
+    query fetchpModel($pId: Int!) {
+  p_by_pk(id: $pId) {
+    ...pModelFields
+  }
+}
+    ${PModelFieldsFragmentDoc}`;
+
+/**
+ * __useFetchpModelQuery__
+ *
+ * To run a query within a React component, call `useFetchpModelQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchpModelQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchpModelQuery({
+ *   variables: {
+ *      pId: // value for 'pId'
+ *   },
+ * });
+ */
+export function useFetchpModelQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<FetchpModelQuery, FetchpModelQueryVariables>) {
+        return ApolloReactHooks.useQuery<FetchpModelQuery, FetchpModelQueryVariables>(FetchpModelDocument, baseOptions);
+      }
+export function useFetchpModelLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<FetchpModelQuery, FetchpModelQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<FetchpModelQuery, FetchpModelQueryVariables>(FetchpModelDocument, baseOptions);
+        }
+export type FetchpModelQueryHookResult = ReturnType<typeof useFetchpModelQuery>;
+export type FetchpModelLazyQueryHookResult = ReturnType<typeof useFetchpModelLazyQuery>;
+export type FetchpModelQueryResult = ApolloReactCommon.QueryResult<FetchpModelQuery, FetchpModelQueryVariables>;
 export const UpdatepModelByIdDocument = gql`
     mutation updatepModelById($id: Int, $changes: p_set_input) {
   update_p(where: {id: {_eq: $id}}, _set: $changes) {
@@ -6850,6 +6414,107 @@ export function useUpdatepModelByIdMutation(baseOptions?: ApolloReactHooks.Mutat
 export type UpdatepModelByIdMutationHookResult = ReturnType<typeof useUpdatepModelByIdMutation>;
 export type UpdatepModelByIdMutationResult = ApolloReactCommon.MutationResult<UpdatepModelByIdMutation>;
 export type UpdatepModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdatepModelByIdMutation, UpdatepModelByIdMutationVariables>;
+export const RemovepModelByIdDocument = gql`
+    mutation removepModelById($id: Int) {
+  delete_p(where: {id: {_eq: $id}}) {
+    affected_rows
+  }
+}
+    `;
+export type RemovepModelByIdMutationFn = ApolloReactCommon.MutationFunction<RemovepModelByIdMutation, RemovepModelByIdMutationVariables>;
+
+/**
+ * __useRemovepModelByIdMutation__
+ *
+ * To run a mutation, you first call `useRemovepModelByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemovepModelByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removepModelByIdMutation, { data, loading, error }] = useRemovepModelByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRemovepModelByIdMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<RemovepModelByIdMutation, RemovepModelByIdMutationVariables>) {
+        return ApolloReactHooks.useMutation<RemovepModelByIdMutation, RemovepModelByIdMutationVariables>(RemovepModelByIdDocument, baseOptions);
+      }
+export type RemovepModelByIdMutationHookResult = ReturnType<typeof useRemovepModelByIdMutation>;
+export type RemovepModelByIdMutationResult = ApolloReactCommon.MutationResult<RemovepModelByIdMutation>;
+export type RemovepModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<RemovepModelByIdMutation, RemovepModelByIdMutationVariables>;
+export const InsertpatientModelDocument = gql`
+    mutation insertpatientModel($objects: [patient_insert_input!]!, $onConflict: patient_on_conflict) {
+  insert_patient(objects: $objects, on_conflict: $onConflict) {
+    affected_rows
+    returning {
+      ...patientModelFields
+    }
+  }
+}
+    ${PatientModelFieldsFragmentDoc}`;
+export type InsertpatientModelMutationFn = ApolloReactCommon.MutationFunction<InsertpatientModelMutation, InsertpatientModelMutationVariables>;
+
+/**
+ * __useInsertpatientModelMutation__
+ *
+ * To run a mutation, you first call `useInsertpatientModelMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertpatientModelMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [insertpatientModelMutation, { data, loading, error }] = useInsertpatientModelMutation({
+ *   variables: {
+ *      objects: // value for 'objects'
+ *      onConflict: // value for 'onConflict'
+ *   },
+ * });
+ */
+export function useInsertpatientModelMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<InsertpatientModelMutation, InsertpatientModelMutationVariables>) {
+        return ApolloReactHooks.useMutation<InsertpatientModelMutation, InsertpatientModelMutationVariables>(InsertpatientModelDocument, baseOptions);
+      }
+export type InsertpatientModelMutationHookResult = ReturnType<typeof useInsertpatientModelMutation>;
+export type InsertpatientModelMutationResult = ApolloReactCommon.MutationResult<InsertpatientModelMutation>;
+export type InsertpatientModelMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertpatientModelMutation, InsertpatientModelMutationVariables>;
+export const FetchpatientModelDocument = gql`
+    query fetchpatientModel($patientId: uuid!) {
+  patient_by_pk(id: $patientId) {
+    ...patientModelFields
+  }
+}
+    ${PatientModelFieldsFragmentDoc}`;
+
+/**
+ * __useFetchpatientModelQuery__
+ *
+ * To run a query within a React component, call `useFetchpatientModelQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchpatientModelQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchpatientModelQuery({
+ *   variables: {
+ *      patientId: // value for 'patientId'
+ *   },
+ * });
+ */
+export function useFetchpatientModelQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<FetchpatientModelQuery, FetchpatientModelQueryVariables>) {
+        return ApolloReactHooks.useQuery<FetchpatientModelQuery, FetchpatientModelQueryVariables>(FetchpatientModelDocument, baseOptions);
+      }
+export function useFetchpatientModelLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<FetchpatientModelQuery, FetchpatientModelQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<FetchpatientModelQuery, FetchpatientModelQueryVariables>(FetchpatientModelDocument, baseOptions);
+        }
+export type FetchpatientModelQueryHookResult = ReturnType<typeof useFetchpatientModelQuery>;
+export type FetchpatientModelLazyQueryHookResult = ReturnType<typeof useFetchpatientModelLazyQuery>;
+export type FetchpatientModelQueryResult = ApolloReactCommon.QueryResult<FetchpatientModelQuery, FetchpatientModelQueryVariables>;
 export const UpdatepatientModelByIdDocument = gql`
     mutation updatepatientModelById($id: uuid, $changes: patient_set_input) {
   update_patient(where: {id: {_eq: $id}}, _set: $changes) {
@@ -6886,6 +6551,107 @@ export function useUpdatepatientModelByIdMutation(baseOptions?: ApolloReactHooks
 export type UpdatepatientModelByIdMutationHookResult = ReturnType<typeof useUpdatepatientModelByIdMutation>;
 export type UpdatepatientModelByIdMutationResult = ApolloReactCommon.MutationResult<UpdatepatientModelByIdMutation>;
 export type UpdatepatientModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdatepatientModelByIdMutation, UpdatepatientModelByIdMutationVariables>;
+export const RemovepatientModelByIdDocument = gql`
+    mutation removepatientModelById($id: uuid) {
+  delete_patient(where: {id: {_eq: $id}}) {
+    affected_rows
+  }
+}
+    `;
+export type RemovepatientModelByIdMutationFn = ApolloReactCommon.MutationFunction<RemovepatientModelByIdMutation, RemovepatientModelByIdMutationVariables>;
+
+/**
+ * __useRemovepatientModelByIdMutation__
+ *
+ * To run a mutation, you first call `useRemovepatientModelByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemovepatientModelByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removepatientModelByIdMutation, { data, loading, error }] = useRemovepatientModelByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRemovepatientModelByIdMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<RemovepatientModelByIdMutation, RemovepatientModelByIdMutationVariables>) {
+        return ApolloReactHooks.useMutation<RemovepatientModelByIdMutation, RemovepatientModelByIdMutationVariables>(RemovepatientModelByIdDocument, baseOptions);
+      }
+export type RemovepatientModelByIdMutationHookResult = ReturnType<typeof useRemovepatientModelByIdMutation>;
+export type RemovepatientModelByIdMutationResult = ApolloReactCommon.MutationResult<RemovepatientModelByIdMutation>;
+export type RemovepatientModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<RemovepatientModelByIdMutation, RemovepatientModelByIdMutationVariables>;
+export const InsertusersModelDocument = gql`
+    mutation insertusersModel($objects: [users_insert_input!]!, $onConflict: users_on_conflict) {
+  insert_users(objects: $objects, on_conflict: $onConflict) {
+    affected_rows
+    returning {
+      ...usersModelFields
+    }
+  }
+}
+    ${UsersModelFieldsFragmentDoc}`;
+export type InsertusersModelMutationFn = ApolloReactCommon.MutationFunction<InsertusersModelMutation, InsertusersModelMutationVariables>;
+
+/**
+ * __useInsertusersModelMutation__
+ *
+ * To run a mutation, you first call `useInsertusersModelMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertusersModelMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [insertusersModelMutation, { data, loading, error }] = useInsertusersModelMutation({
+ *   variables: {
+ *      objects: // value for 'objects'
+ *      onConflict: // value for 'onConflict'
+ *   },
+ * });
+ */
+export function useInsertusersModelMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<InsertusersModelMutation, InsertusersModelMutationVariables>) {
+        return ApolloReactHooks.useMutation<InsertusersModelMutation, InsertusersModelMutationVariables>(InsertusersModelDocument, baseOptions);
+      }
+export type InsertusersModelMutationHookResult = ReturnType<typeof useInsertusersModelMutation>;
+export type InsertusersModelMutationResult = ApolloReactCommon.MutationResult<InsertusersModelMutation>;
+export type InsertusersModelMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertusersModelMutation, InsertusersModelMutationVariables>;
+export const FetchusersModelDocument = gql`
+    query fetchusersModel($usersId: Int!) {
+  users_by_pk(id: $usersId) {
+    ...usersModelFields
+  }
+}
+    ${UsersModelFieldsFragmentDoc}`;
+
+/**
+ * __useFetchusersModelQuery__
+ *
+ * To run a query within a React component, call `useFetchusersModelQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchusersModelQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchusersModelQuery({
+ *   variables: {
+ *      usersId: // value for 'usersId'
+ *   },
+ * });
+ */
+export function useFetchusersModelQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<FetchusersModelQuery, FetchusersModelQueryVariables>) {
+        return ApolloReactHooks.useQuery<FetchusersModelQuery, FetchusersModelQueryVariables>(FetchusersModelDocument, baseOptions);
+      }
+export function useFetchusersModelLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<FetchusersModelQuery, FetchusersModelQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<FetchusersModelQuery, FetchusersModelQueryVariables>(FetchusersModelDocument, baseOptions);
+        }
+export type FetchusersModelQueryHookResult = ReturnType<typeof useFetchusersModelQuery>;
+export type FetchusersModelLazyQueryHookResult = ReturnType<typeof useFetchusersModelLazyQuery>;
+export type FetchusersModelQueryResult = ApolloReactCommon.QueryResult<FetchusersModelQuery, FetchusersModelQueryVariables>;
 export const UpdateusersModelByIdDocument = gql`
     mutation updateusersModelById($id: Int, $changes: users_set_input) {
   update_users(where: {id: {_eq: $id}}, _set: $changes) {
@@ -6922,6 +6688,107 @@ export function useUpdateusersModelByIdMutation(baseOptions?: ApolloReactHooks.M
 export type UpdateusersModelByIdMutationHookResult = ReturnType<typeof useUpdateusersModelByIdMutation>;
 export type UpdateusersModelByIdMutationResult = ApolloReactCommon.MutationResult<UpdateusersModelByIdMutation>;
 export type UpdateusersModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateusersModelByIdMutation, UpdateusersModelByIdMutationVariables>;
+export const RemoveusersModelByIdDocument = gql`
+    mutation removeusersModelById($id: Int) {
+  delete_users(where: {id: {_eq: $id}}) {
+    affected_rows
+  }
+}
+    `;
+export type RemoveusersModelByIdMutationFn = ApolloReactCommon.MutationFunction<RemoveusersModelByIdMutation, RemoveusersModelByIdMutationVariables>;
+
+/**
+ * __useRemoveusersModelByIdMutation__
+ *
+ * To run a mutation, you first call `useRemoveusersModelByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveusersModelByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeusersModelByIdMutation, { data, loading, error }] = useRemoveusersModelByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRemoveusersModelByIdMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<RemoveusersModelByIdMutation, RemoveusersModelByIdMutationVariables>) {
+        return ApolloReactHooks.useMutation<RemoveusersModelByIdMutation, RemoveusersModelByIdMutationVariables>(RemoveusersModelByIdDocument, baseOptions);
+      }
+export type RemoveusersModelByIdMutationHookResult = ReturnType<typeof useRemoveusersModelByIdMutation>;
+export type RemoveusersModelByIdMutationResult = ApolloReactCommon.MutationResult<RemoveusersModelByIdMutation>;
+export type RemoveusersModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveusersModelByIdMutation, RemoveusersModelByIdMutationVariables>;
+export const InsertvehicleModelDocument = gql`
+    mutation insertvehicleModel($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
+  insert_vehicle(objects: $objects, on_conflict: $onConflict) {
+    affected_rows
+    returning {
+      ...vehicleModelFields
+    }
+  }
+}
+    ${VehicleModelFieldsFragmentDoc}`;
+export type InsertvehicleModelMutationFn = ApolloReactCommon.MutationFunction<InsertvehicleModelMutation, InsertvehicleModelMutationVariables>;
+
+/**
+ * __useInsertvehicleModelMutation__
+ *
+ * To run a mutation, you first call `useInsertvehicleModelMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertvehicleModelMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [insertvehicleModelMutation, { data, loading, error }] = useInsertvehicleModelMutation({
+ *   variables: {
+ *      objects: // value for 'objects'
+ *      onConflict: // value for 'onConflict'
+ *   },
+ * });
+ */
+export function useInsertvehicleModelMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<InsertvehicleModelMutation, InsertvehicleModelMutationVariables>) {
+        return ApolloReactHooks.useMutation<InsertvehicleModelMutation, InsertvehicleModelMutationVariables>(InsertvehicleModelDocument, baseOptions);
+      }
+export type InsertvehicleModelMutationHookResult = ReturnType<typeof useInsertvehicleModelMutation>;
+export type InsertvehicleModelMutationResult = ApolloReactCommon.MutationResult<InsertvehicleModelMutation>;
+export type InsertvehicleModelMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertvehicleModelMutation, InsertvehicleModelMutationVariables>;
+export const FetchvehicleModelDocument = gql`
+    query fetchvehicleModel($vehicleId: String!) {
+  vehicle_by_pk(id: $vehicleId) {
+    ...vehicleModelFields
+  }
+}
+    ${VehicleModelFieldsFragmentDoc}`;
+
+/**
+ * __useFetchvehicleModelQuery__
+ *
+ * To run a query within a React component, call `useFetchvehicleModelQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchvehicleModelQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchvehicleModelQuery({
+ *   variables: {
+ *      vehicleId: // value for 'vehicleId'
+ *   },
+ * });
+ */
+export function useFetchvehicleModelQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<FetchvehicleModelQuery, FetchvehicleModelQueryVariables>) {
+        return ApolloReactHooks.useQuery<FetchvehicleModelQuery, FetchvehicleModelQueryVariables>(FetchvehicleModelDocument, baseOptions);
+      }
+export function useFetchvehicleModelLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<FetchvehicleModelQuery, FetchvehicleModelQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<FetchvehicleModelQuery, FetchvehicleModelQueryVariables>(FetchvehicleModelDocument, baseOptions);
+        }
+export type FetchvehicleModelQueryHookResult = ReturnType<typeof useFetchvehicleModelQuery>;
+export type FetchvehicleModelLazyQueryHookResult = ReturnType<typeof useFetchvehicleModelLazyQuery>;
+export type FetchvehicleModelQueryResult = ApolloReactCommon.QueryResult<FetchvehicleModelQuery, FetchvehicleModelQueryVariables>;
 export const UpdatevehicleModelByIdDocument = gql`
     mutation updatevehicleModelById($id: String, $changes: vehicle_set_input) {
   update_vehicle(where: {id: {_eq: $id}}, _set: $changes) {
@@ -6958,6 +6825,107 @@ export function useUpdatevehicleModelByIdMutation(baseOptions?: ApolloReactHooks
 export type UpdatevehicleModelByIdMutationHookResult = ReturnType<typeof useUpdatevehicleModelByIdMutation>;
 export type UpdatevehicleModelByIdMutationResult = ApolloReactCommon.MutationResult<UpdatevehicleModelByIdMutation>;
 export type UpdatevehicleModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdatevehicleModelByIdMutation, UpdatevehicleModelByIdMutationVariables>;
+export const RemovevehicleModelByIdDocument = gql`
+    mutation removevehicleModelById($id: String) {
+  delete_vehicle(where: {id: {_eq: $id}}) {
+    affected_rows
+  }
+}
+    `;
+export type RemovevehicleModelByIdMutationFn = ApolloReactCommon.MutationFunction<RemovevehicleModelByIdMutation, RemovevehicleModelByIdMutationVariables>;
+
+/**
+ * __useRemovevehicleModelByIdMutation__
+ *
+ * To run a mutation, you first call `useRemovevehicleModelByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemovevehicleModelByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removevehicleModelByIdMutation, { data, loading, error }] = useRemovevehicleModelByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRemovevehicleModelByIdMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<RemovevehicleModelByIdMutation, RemovevehicleModelByIdMutationVariables>) {
+        return ApolloReactHooks.useMutation<RemovevehicleModelByIdMutation, RemovevehicleModelByIdMutationVariables>(RemovevehicleModelByIdDocument, baseOptions);
+      }
+export type RemovevehicleModelByIdMutationHookResult = ReturnType<typeof useRemovevehicleModelByIdMutation>;
+export type RemovevehicleModelByIdMutationResult = ApolloReactCommon.MutationResult<RemovevehicleModelByIdMutation>;
+export type RemovevehicleModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<RemovevehicleModelByIdMutation, RemovevehicleModelByIdMutationVariables>;
+export const Insertvehicle_LocationModelDocument = gql`
+    mutation insertvehicle_locationModel($objects: [vehicle_location_insert_input!]!, $onConflict: vehicle_location_on_conflict) {
+  insert_vehicle_location(objects: $objects, on_conflict: $onConflict) {
+    affected_rows
+    returning {
+      ...vehicle_locationModelFields
+    }
+  }
+}
+    ${Vehicle_LocationModelFieldsFragmentDoc}`;
+export type Insertvehicle_LocationModelMutationFn = ApolloReactCommon.MutationFunction<Insertvehicle_LocationModelMutation, Insertvehicle_LocationModelMutationVariables>;
+
+/**
+ * __useInsertvehicle_LocationModelMutation__
+ *
+ * To run a mutation, you first call `useInsertvehicle_LocationModelMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertvehicle_LocationModelMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [insertvehicleLocationModelMutation, { data, loading, error }] = useInsertvehicle_LocationModelMutation({
+ *   variables: {
+ *      objects: // value for 'objects'
+ *      onConflict: // value for 'onConflict'
+ *   },
+ * });
+ */
+export function useInsertvehicle_LocationModelMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<Insertvehicle_LocationModelMutation, Insertvehicle_LocationModelMutationVariables>) {
+        return ApolloReactHooks.useMutation<Insertvehicle_LocationModelMutation, Insertvehicle_LocationModelMutationVariables>(Insertvehicle_LocationModelDocument, baseOptions);
+      }
+export type Insertvehicle_LocationModelMutationHookResult = ReturnType<typeof useInsertvehicle_LocationModelMutation>;
+export type Insertvehicle_LocationModelMutationResult = ApolloReactCommon.MutationResult<Insertvehicle_LocationModelMutation>;
+export type Insertvehicle_LocationModelMutationOptions = ApolloReactCommon.BaseMutationOptions<Insertvehicle_LocationModelMutation, Insertvehicle_LocationModelMutationVariables>;
+export const Fetchvehicle_LocationModelDocument = gql`
+    query fetchvehicle_locationModel($vehicle_locationId: Int!) {
+  vehicle_location_by_pk(id: $vehicle_locationId) {
+    ...vehicle_locationModelFields
+  }
+}
+    ${Vehicle_LocationModelFieldsFragmentDoc}`;
+
+/**
+ * __useFetchvehicle_LocationModelQuery__
+ *
+ * To run a query within a React component, call `useFetchvehicle_LocationModelQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFetchvehicle_LocationModelQuery` returns an object from Apollo Client that contains loading, error, and data properties 
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFetchvehicle_LocationModelQuery({
+ *   variables: {
+ *      vehicle_locationId: // value for 'vehicle_locationId'
+ *   },
+ * });
+ */
+export function useFetchvehicle_LocationModelQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<Fetchvehicle_LocationModelQuery, Fetchvehicle_LocationModelQueryVariables>) {
+        return ApolloReactHooks.useQuery<Fetchvehicle_LocationModelQuery, Fetchvehicle_LocationModelQueryVariables>(Fetchvehicle_LocationModelDocument, baseOptions);
+      }
+export function useFetchvehicle_LocationModelLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<Fetchvehicle_LocationModelQuery, Fetchvehicle_LocationModelQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<Fetchvehicle_LocationModelQuery, Fetchvehicle_LocationModelQueryVariables>(Fetchvehicle_LocationModelDocument, baseOptions);
+        }
+export type Fetchvehicle_LocationModelQueryHookResult = ReturnType<typeof useFetchvehicle_LocationModelQuery>;
+export type Fetchvehicle_LocationModelLazyQueryHookResult = ReturnType<typeof useFetchvehicle_LocationModelLazyQuery>;
+export type Fetchvehicle_LocationModelQueryResult = ApolloReactCommon.QueryResult<Fetchvehicle_LocationModelQuery, Fetchvehicle_LocationModelQueryVariables>;
 export const Updatevehicle_LocationModelByIdDocument = gql`
     mutation updatevehicle_locationModelById($id: Int, $changes: vehicle_location_set_input) {
   update_vehicle_location(where: {id: {_eq: $id}}, _set: $changes) {
@@ -6994,3 +6962,35 @@ export function useUpdatevehicle_LocationModelByIdMutation(baseOptions?: ApolloR
 export type Updatevehicle_LocationModelByIdMutationHookResult = ReturnType<typeof useUpdatevehicle_LocationModelByIdMutation>;
 export type Updatevehicle_LocationModelByIdMutationResult = ApolloReactCommon.MutationResult<Updatevehicle_LocationModelByIdMutation>;
 export type Updatevehicle_LocationModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<Updatevehicle_LocationModelByIdMutation, Updatevehicle_LocationModelByIdMutationVariables>;
+export const Removevehicle_LocationModelByIdDocument = gql`
+    mutation removevehicle_locationModelById($id: Int) {
+  delete_vehicle_location(where: {id: {_eq: $id}}) {
+    affected_rows
+  }
+}
+    `;
+export type Removevehicle_LocationModelByIdMutationFn = ApolloReactCommon.MutationFunction<Removevehicle_LocationModelByIdMutation, Removevehicle_LocationModelByIdMutationVariables>;
+
+/**
+ * __useRemovevehicle_LocationModelByIdMutation__
+ *
+ * To run a mutation, you first call `useRemovevehicle_LocationModelByIdMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemovevehicle_LocationModelByIdMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removevehicleLocationModelByIdMutation, { data, loading, error }] = useRemovevehicle_LocationModelByIdMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useRemovevehicle_LocationModelByIdMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<Removevehicle_LocationModelByIdMutation, Removevehicle_LocationModelByIdMutationVariables>) {
+        return ApolloReactHooks.useMutation<Removevehicle_LocationModelByIdMutation, Removevehicle_LocationModelByIdMutationVariables>(Removevehicle_LocationModelByIdDocument, baseOptions);
+      }
+export type Removevehicle_LocationModelByIdMutationHookResult = ReturnType<typeof useRemovevehicle_LocationModelByIdMutation>;
+export type Removevehicle_LocationModelByIdMutationResult = ApolloReactCommon.MutationResult<Removevehicle_LocationModelByIdMutation>;
+export type Removevehicle_LocationModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<Removevehicle_LocationModelByIdMutation, Removevehicle_LocationModelByIdMutationVariables>;
