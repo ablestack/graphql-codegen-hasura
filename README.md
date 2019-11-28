@@ -11,6 +11,14 @@ These plugins require and augment the existing fantastic GraphQL code generator 
 
 This is a mono-repo project that contains multiple npm packages (under the packages folder), in addition to a demo project (under the demo folder).
 
+## Configuration and Usage
+
+The easiest way to quickly get going is to view the following files in the demo project as a starting point:
+
+- **Gql Generation Config**: `demo/graphql-codegen-gql.yaml`
+- **TypesScript Generation Config**: `demo/graphql-codegen-typescript.yaml`
+- **Output**: [demo/src/autogen/hasura](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura)
+
 ## Installation
 
 1. Start with an existing TypeScript React app, or create one using:
@@ -39,14 +47,6 @@ This is a mono-repo project that contains multiple npm packages (under the packa
 graphql-codegen --config=graphql-codegen-gql.yaml;
 graphql-codegen --config=graphql-codegen-typescript.yaml
 ```
-
-## Configuration and Usage
-
-The easiest way to quickly get going is to use the following files in the demo project as a starting point:
-
-- **Gql Generation Config**: `demo/graphql-codegen-gql.yaml`
-- **TypesScript Generation Config**: `demo/graphql-codegen-typescript.yaml`
-- **Output**: [demo/src/autogen/hasura](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura)
 
 ## Demo
 
