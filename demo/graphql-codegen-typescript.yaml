@@ -21,39 +21,12 @@ generates:
       skipTypename: false
       includeDirectives: true
       typeNames: keep
-  ./src/autogen/hasura/typescript/helpers.queries.ts:
+  ./src/autogen/hasura/typescript.ts:
     plugins:
       - graphql-codegen-hasura-typescript
     config:
       primaryCodegenTypeScriptImportPath: "./src/autogen"
       withQueries: true
-      withInserts: false
-      withUpdates: false
-      withDeletes: false
-  ./src/autogen/hasura/typescript/helpers.inserts.ts:
-    plugins:
-      - graphql-codegen-hasura-typescript
-    config:
-      primaryCodegenTypeScriptImportPath: "./src/autogen"
-      withQueries: false
       withInserts: true
-      withUpdates: false
-      withDeletes: false
-  ./src/autogen/hasura/typescript/helpers.updates.ts:
-    plugins:
-      - graphql-codegen-hasura-typescript
-    config:
-      primaryCodegenTypeScriptImportPath: "./src/autogen"
-      withQueries: false
-      withInserts: false
       withUpdates: true
-      withDeletes: false
-  ./src/autogen/hasura/typescript/helpers.deletes.ts:
-    plugins:
-      - graphql-codegen-hasura-typescript
-    config:
-      primaryCodegenTypeScriptImportPath: "./src/autogen"
-      withQueries: false
-      withInserts: false
-      withUpdates: false
       withDeletes: true

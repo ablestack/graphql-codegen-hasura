@@ -17,7 +17,7 @@ import {
 // -----------------------------------------------------
 
 export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
-  fragmentImportFrom: string;
+  fragmentImportFrom?: string;
   withFragments?: boolean;
   withQueries?: boolean;
   withInserts?: boolean;
@@ -96,7 +96,7 @@ function makeEntityQueryMutationGql(namedType: GraphQLNamedType, importArray: st
       \${${entityFragmentName}}
     \`;`);
 
-  importArray.push(makeFragmentsImport(entityName, config.fragmentImportFrom));
+  if (!config.withFragments) importArray.push(makeFragmentsImport(entityName, config.fragmentImportFrom));
 }
 
 // --------------------------------------
@@ -122,7 +122,7 @@ function makeEntityInsertMutationGql(namedType: GraphQLNamedType, importArray: s
       \${${entityFragmentName}}
     \`;`);
 
-  importArray.push(makeFragmentsImport(entityName, config.fragmentImportFrom));
+  if (!config.withFragments) importArray.push(makeFragmentsImport(entityName, config.fragmentImportFrom));
 }
 
 // --------------------------------------
@@ -150,7 +150,7 @@ function makeEntityUpdateMutationGql(namedType: GraphQLNamedType, importArray: s
       \${${entityFragmentName}}
     \`;`);
 
-  importArray.push(makeFragmentsImport(entityName, config.fragmentImportFrom));
+  if (!config.withFragments) importArray.push(makeFragmentsImport(entityName, config.fragmentImportFrom));
 }
 
 // --------------------------------------
@@ -175,7 +175,7 @@ function makeEntityDeleteMutationGql(namedType: GraphQLNamedType, importArray: s
       \${${entityFragmentName}}
     \`;`);
 
-  importArray.push(makeFragmentsImport(entityName, config.fragmentImportFrom));
+  if (!config.withFragments) importArray.push(makeFragmentsImport(entityName, config.fragmentImportFrom));
 }
 
 // --------------------------------------
