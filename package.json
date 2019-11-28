@@ -9,7 +9,7 @@
   },
   "name": "graphql-codegen-hasura",
   "version": "0.1.0",
-  "description": "A collection of graphql codgen plugins to support hasura development",
+  "description": "A collection of codgen plugins to support Hasura/Apollo GraphQL development",
   "author": "ahrnee",
   "license": "MIT",
   "repository": {
