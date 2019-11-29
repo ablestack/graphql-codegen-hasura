@@ -75,13 +75,27 @@ function makeEntityQueryMutationGql(namedType: GraphQLNamedType, importArray: st
   if (!primaryKeyIdField) return;
 
   const entityName = namedType.name;
-  const entityShortCamelCaseName = makeShortCamelCaseEntityName(namedType.name);
+  const entityShortCamelCaseName = makeShortCamelCaseEntityName(entityName);
   const entityModelName = makeModelEntityName(entityName);
-  const fragmentName = makeFragmentName(namedType.name);
+  const fragmentName = makeFragmentName(entityName);
 
   contentArray.push(`
-    export async function fetch${entityModelName}(apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string): Promise<${fragmentName}Fragment | null | undefined> {
-      const ${entityShortCamelCaseName}Result = await apolloClient.query<Fetch${entityModelName}Query>({ query: Fetch${entityModelName}Document, variables: { ${entityShortCamelCaseName}Id } });
+    export async function fetch${entityModelName}(
+      apolloClient: ApolloClient<object>, 
+      ${entityShortCamelCaseName}Id: string
+      ): Promise<${fragmentName}Fragment | null | undefined> {
+      const ${entityShortCamelCaseName}Result = await apolloClient.query<Fetch${entityModelName}Query>({ query: Fetch${entityModelName}ByIdDocument, variables: { ${entityShortCamelCaseName}Id } });
+      return ${entityShortCamelCaseName}Result.data.${entityName}_by_pk;
+    }
+  `);
+
+  contentArray.push(`
+    export async function fetch${entityModelName}(
+      apolloClient: ApolloClient<object>,
+      ${entityShortCamelCaseName}Id: string,
+      queryOptions: Omit<QueryOptions<Fetch${entityModelName}QueryVariables>, 'query'>,
+    ): Promise<${entityModelName}FieldsFragment | null | undefined> {
+      const ${entityShortCamelCaseName}Result = await apolloClient.query<Fetch${entityModelName}Query>({ query: Fetch${entityModelName}Document, ...queryOptions });
       return ${entityShortCamelCaseName}Result.data.${entityName}_by_pk;
     }
   `);
@@ -97,12 +111,14 @@ function makeEntityInsertMutationGql(namedType: GraphQLNamedType, importArray: s
   if (!getPrimaryKeyIdField(namedType)) return;
 
   const entityName = namedType.name;
+  const entityShortCamelCaseName = makeShortCamelCaseEntityName(entityName);
   const entityModelName = makeModelEntityName(entityName);
   const entityFragmentName = makeFragmentName(entityName);
 
   contentArray.push(`
     export async function insert${entityModelName}(
       apolloClient: ApolloClient<object>,
+      ${entityShortCamelCaseName}Id: string,
       mutationOptions: Omit<MutationOptions<Insert${entityModelName}Mutation, Insert${entityModelName}MutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<Insert${entityModelName}Mutation>; returning: (${entityFragmentName}Fragment | null | undefined)[] | null | undefined }> {
       
@@ -127,16 +143,32 @@ function makeEntityUpdateMutationGql(namedType: GraphQLNamedType, importArray: s
   if (!primaryKeyIdField) return;
 
   const entityName = namedType.name;
+  const entityShortCamelCaseName = makeShortCamelCaseEntityName(entityName);
   const entityModelName = makeModelEntityName(entityName);
   const entityFragmentName = makeFragmentName(entityName);
 
   contentArray.push(`
-    export async function update${entityModelName}(
+    export async function update${entityModelName}ById(
       apolloClient: ApolloClient<object>,
+      ${entityShortCamelCaseName}Id: string,
       mutationOptions: Omit<MutationOptions<Update${entityModelName}ByIdMutation, Update${entityModelName}ByIdMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<Update${entityModelName}ByIdMutation>; returning: (${entityFragmentName}Fragment | null | undefined)[] | null | undefined }> {
       
-      const result = await apolloClient.mutate<Update${entityModelName}ByIdMutation, Update${entityModelName}ByIdMutationVariables>({ mutation: Update${entityModelName}ByIdDocument, ...mutationOptions,});
+      const result = await apolloClient.mutate<Update${entityModelName}ByIdMutation, Update${entityModelName}ByIdMutationVariables>({ mutation: Update${entityModelName}ByIdDocument, variables: { ${entityShortCamelCaseName}Id }, ...mutationOptions,});
+    
+      const returning = result && result.data && result.data.update_${entityName} && result.data.update_${entityName}!.returning;
+    
+      return { result, returning };
+    }
+  `);
+
+  contentArray.push(`
+    export async function update${entityModelName}(
+      apolloClient: ApolloClient<object>,
+      mutationOptions: Omit<MutationOptions<Update${entityModelName}Mutation, Update${entityModelName}MutationVariables>, 'mutation'>,
+    ): Promise<{ result: FetchResult<Update${entityModelName}Mutation>; returning: (${entityFragmentName}Fragment | null | undefined)[] | null | undefined }> {
+      
+      const result = await apolloClient.mutate<Update${entityModelName}Mutation, Update${entityModelName}MutationVariables>({ mutation: Update${entityModelName}Document, ...mutationOptions,});
     
       const returning = result && result.data && result.data.update_${entityName} && result.data.update_${entityName}!.returning;
     
@@ -157,16 +189,32 @@ function makeEntityDeleteMutationGql(namedType: GraphQLNamedType, importArray: s
   if (!primaryKeyIdField) return;
 
   const entityName = namedType.name;
+  const entityShortCamelCaseName = makeShortCamelCaseEntityName(entityName);
   const entityModelName = makeModelEntityName(entityName);
   const entityFragmentName = makeFragmentName(entityName);
 
   contentArray.push(`
-    export async function remove${entityModelName}(
+    export async function removeById${entityModelName}(
       apolloClient: ApolloClient<object>,
+      ${entityShortCamelCaseName}Id: string,
       mutationOptions: Omit<MutationOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<Remove${entityModelName}ByIdMutation>; returning: (${entityFragmentName}Fragment | null | undefined)[] | null | undefined }> {
       
-      const result = await apolloClient.mutate<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>({ mutation: Remove${entityModelName}ByIdDocument, ...mutationOptions,});
+      const result = await apolloClient.mutate<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>({ mutation: Remove${entityModelName}ByIdDocument, variables: { ${entityShortCamelCaseName}Id }, ...mutationOptions,});
+    
+      const returning = result && result.data && result.data.remove_${entityName} && result.data.remove_${entityName}!.returning;
+    
+      return { result, returning };
+    }
+  `);
+
+  contentArray.push(`
+    export async function remove${entityModelName}(
+      apolloClient: ApolloClient<object>,
+      mutationOptions: Omit<MutationOptions<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>, 'mutation'>,
+    ): Promise<{ result: FetchResult<Remove${entityModelName}Mutation>; returning: (${entityFragmentName}Fragment | null | undefined)[] | null | undefined }> {
+      
+      const result = await apolloClient.mutate<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>({ mutation: Remove${entityModelName}Document, ...mutationOptions,});
     
       const returning = result && result.data && result.data.remove_${entityName} && result.data.remove_${entityName}!.returning;
     

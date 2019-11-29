@@ -1,10 +1,10 @@
 /* eslint-disable no-undef */
 module.exports = {
   client: {
-    excludes: ['src/@global/**/*'],
+    excludes: [],
     service: {
-      name: 'csee',
-      localSchemaFile: './schema/graphql.schema.json',
-    },
-  },
+      name: "graphql",
+      localSchemaFile: "./schema/graphql.schema.json"
+    }
+  }
 };

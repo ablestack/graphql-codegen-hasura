@@ -95,9 +95,25 @@ function makeEntityQueryMutationGql(namedType: GraphQLNamedType, importArray: st
   const primaryKeyIdFieldType = getIdFieldType(primaryKeyIdField);
 
   contentArray.push(`
-    const FETCH_${entityName.toUpperCase()}_MODEL = gql\`
-      query fetch${entityModelName}($${entityShortCamelName}Id: ${primaryKeyIdFieldType}!) {
+    const FETCH_${entityName.toUpperCase()}_MODEL_BYID = gql\`
+      query fetch${entityModelName}ById($${entityShortCamelName}Id: ${primaryKeyIdFieldType}!) {
         ${entityName}_by_pk(id: $${entityShortCamelName}Id) {
+          ...${entityFragmentName}
+        }
+      }
+      \${${entityFragmentName}}
+    \`;`);
+
+  contentArray.push(`
+    const FETCH_${entityName.toUpperCase()}_MODELS = gql\`
+      query fetch${entityModelName}(
+        $distinct_on: [${entityName}_select_column!]
+        $where: ${entityName}_bool_exp
+        $limit: Int
+        $offset: Int
+        $order_by: [${entityName}_order_by!]
+      ) {
+        ${entityName}(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
           ...${entityFragmentName}
         }
       }
@@ -146,9 +162,22 @@ function makeEntityUpdateMutationGql(namedType: GraphQLNamedType, importArray: s
   const entityFragmentName = makeFragmentName(entityName);
 
   contentArray.push(`
-    const UPDATE_${entityName.toUpperCase()}_MODEL = gql\`
-      mutation update${entityModelName}ById($id: ${primaryKeyIdFieldType}, $changes: ${entityName}_set_input) {
-        update_${entityName}(where: { id: { _eq: $id } }, _set: $changes) {
+    const UPDATE_${entityName.toUpperCase()}_MODEL_BYID = gql\`
+      mutation update${entityModelName}ById($id: ${primaryKeyIdFieldType}, $set: ${entityName}_set_input) {
+        update_${entityName}(_set: $set, where: { id: { _eq: $id } }) {
+          affected_rows
+          returning {
+            ...${entityFragmentName}
+          }
+        }
+      }
+      \${${entityFragmentName}}
+    \`;`);
+
+  contentArray.push(`
+    const UPDATE_${entityName.toUpperCase()}_MODELS = gql\`
+      mutation update${entityModelName}($inc: ${entityName}_inc_input, $set: ${entityName}_set_input, $where:${entityName}_bool_exp) {
+        update_${entityName}(_inc: $inc, _set: $set, where: $where) {
           affected_rows
           returning {
             ...${entityFragmentName}
@@ -174,9 +203,19 @@ function makeEntityDeleteMutationGql(namedType: GraphQLNamedType, importArray: s
   const entityFragmentName = makeFragmentName(entityName);
 
   contentArray.push(`
-    const REMOVE_${entityName.toUpperCase()}_MODEL = gql\`
+    const REMOVE_${entityName.toUpperCase()}_MODEL_BYID = gql\`
       mutation remove${entityModelName}ById($id: ${primaryKeyIdFieldType}) {
         delete_${entityName}(where: { id: { _eq: $id } }) {
+          affected_rows
+        }
+      }
+      \${${entityFragmentName}}
+    \`;`);
+
+  contentArray.push(`
+    const REMOVE_${entityName.toUpperCase()}_MODELS = gql\`
+      mutation remove${entityModelName}($where:${entityName}_bool_exp) {
+        delete_${entityName}(where: $where) {
           affected_rows
         }
       }
