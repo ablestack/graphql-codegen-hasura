@@ -11,6 +11,7 @@ generates:
     plugins:
       - graphql-codegen-hasura-gql
     config:
+      reactApolloVersion: 3
       withFragments: true
       withQueries: true
       withInserts: true

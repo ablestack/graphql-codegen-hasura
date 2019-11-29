@@ -15,6 +15,7 @@ generates:
       - typescript-operations
       - typescript-react-apollo
     config:
+      reactApolloVersion: 3
       withHooks: true
       withHOC: false
       withComponent: false
@@ -25,6 +26,7 @@ generates:
     plugins:
       - graphql-codegen-hasura-typescript
     config:
+      reactApolloVersion: 3
       primaryCodegenTypeScriptImportPath: "./src/autogen"
       withQueries: true
       withInserts: true

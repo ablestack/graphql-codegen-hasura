@@ -56,6 +56,7 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 
 ### graphql-codegen-hasura-gql plugin
 
+- reactApolloVersion (2 | 3, default value: 3): sets the version of react-apollo
 - fragmentImportFrom: import path to the gql fragment generated code. Only required if withFragments:false
 - withFragments: boolean flag for fragment gql code generation
 - withQueries: boolean flag for query gql code generation
@@ -65,6 +66,7 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 
 ### graphql-codegen-hasura-typescript plugin
 
+- reactApolloVersion (2 | 3, default value: 3): sets the version of react-apollo
 - primaryCodegenTypeScriptImportPath: import path to the code generated with dependent @graphql-codegen/typescript generated code
 - withQueries: boolean flag for query TypeScript code generation
 - withInserts: boolean flag for insert TypeScript code generation

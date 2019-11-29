@@ -17,6 +17,7 @@ import {
 // -----------------------------------------------------
 
 export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
+  reactApolloVersion?: number;
   fragmentImportFrom?: string;
   withFragments?: boolean;
   withQueries?: boolean;
@@ -26,7 +27,13 @@ export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
 }
 
 export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: GraphQLSchema, documents: Types.DocumentFile[], config: CstmHasuraCrudPluginConfig) => {
-  const importArray: string[] = ["/* eslint-disable @typescript-eslint/no-unused-vars */", "import gql from 'graphql-tag';"];
+  // Set config defaults
+  if (!config.reactApolloVersion) config.reactApolloVersion = 3;
+
+  const importArray: string[] = [
+    "/* eslint-disable @typescript-eslint/no-unused-vars */",
+    `import gql from '${config.reactApolloVersion === 3 ? "@apollo/client" : "graphql-tag"}';`
+  ];
   const contentArray: string[] = [];
 
   Object.values(schema.getTypeMap())

@@ -17,6 +17,7 @@ import {
 // -----------------------------------------------------
 
 export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
+  reactApolloVersion?: number;
   primaryCodegenTypeScriptImportPath: string;
   withQueries?: boolean;
   withInserts?: boolean;
@@ -25,7 +26,14 @@ export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
 }
 
 export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: GraphQLSchema, documents: Types.DocumentFile[], config: CstmHasuraCrudPluginConfig) => {
-  const importArray: string[] = [`import { ApolloClient, FetchResult, MutationOptions } from '@apollo/client'`];
+  // Set config defaults
+  if (!config.reactApolloVersion) config.reactApolloVersion = 3;
+
+  const importArray: string[] = [
+    `import { ApolloClient } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-client"}'`,
+    `import { FetchResult } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-link"}'`,
+    `import { MutationOptions } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "react-apollo"}'`
+  ];
   const contentArray: string[] = [];
 
   Object.values(schema.getTypeMap())
