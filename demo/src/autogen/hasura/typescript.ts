@@ -1,4 +1,6 @@
-import { ApolloClient, FetchResult, MutationOptions } from '@apollo/client'
+import { ApolloClient } from '@apollo/client'
+import { FetchResult } from '@apollo/client'
+import { MutationOptions } from '@apollo/client'
 import { observationModelFieldsFragment } from './src/autogen';
 import { InsertobservationModelMutation } from './src/autogen';
 import { InsertobservationModelMutationVariables } from './src/autogen';

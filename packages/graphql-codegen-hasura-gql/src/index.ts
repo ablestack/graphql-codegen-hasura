@@ -32,7 +32,8 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
 
   const importArray: string[] = [
     "/* eslint-disable @typescript-eslint/no-unused-vars */",
-    `import gql from '${config.reactApolloVersion === 3 ? "@apollo/client" : "graphql-tag"}';`
+    //`import gql from '${config.reactApolloVersion === 3 ? "@apollo/client" : "graphql-tag"}';` //graphql-code-generator still only picking up gql from 'graphql-tag' import. Will switch to "@apollo/client" import when this issue is addressed
+    `import gql from 'graphql-tag';`
   ];
   const contentArray: string[] = [];
 
