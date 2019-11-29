@@ -4,7 +4,7 @@ graphql-codegen-hasura is a collection of code generator plugins for [graphql-co
 
 These plugins require and augment the existing fantastic GraphQL code generator plugins available from [graphql-code-generator](https://graphql-code-generator.com/)
 
-- The **graphql-codegen-hasura-gql** plugin generates gql fragments, mutations and queries for every _Table_ defined in the Hasura database
+- The **graphql-codegen-hasura-gql** plugin generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) gql fragments, mutations and queries for every _Table_ defined in the Hasura database
 - The **graphql-codegen-hasura-typescript** plugin generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Table_ defined in the Hasura database.
 
 ## Structure
@@ -17,7 +17,7 @@ The easiest way to quickly get going is to view the following files in the demo 
 
 - **Gql Generation Config**: `demo/graphql-codegen-gql.yaml`
 - **TypesScript Generation Config**: `demo/graphql-codegen-typescript.yaml`
-- **Output**: [See plugin details section below](#plugin-details)
+- **Output**: See [generated code in demo](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) and [See plugin details section below](#plugin-details).
 
 It is **important to note**: The TypeScript Generation leverages the files created in the GQL generation step. As such, **it is important to run the GQL generation step prior to the TypeScript generation step**.
 
@@ -151,7 +151,7 @@ const REMOVE_USERS_MODEL = gql`
 
 Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Table_ defined in the Hasura database
 
-The existing [@graphql-codegen/typescript-react-apollo](https://graphql-code-generator.com/docs/plugins/typescript-react-apollo) plugin already provides this capability for hooks. This plugin extends that to direct client.query & client.mutate calls, in addition to adding some convenience features. See [generated code in demo](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for specifics
+The existing [@graphql-codegen/typescript-react-apollo](https://graphql-code-generator.com/docs/plugins/typescript-react-apollo) plugin already provides this capability for hooks. This plugin extends that to direct client.query & client.mutate calls, in addition to adding some convenience features.
 
 See [demo/src/autogen/hasura/typescript.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
 
@@ -210,7 +210,7 @@ export async function removeusersModel(
 A basic naming convention being followed:
 
 - `*Model` is used for any entity or fieldset that contains only scalars, and not child entities are referenced or included
-- `*Graph` is used fro any entity or fieldset that contains or references child entities
+- `*Graph` is used for any entity or fieldset that contains or references child entities
 
 ## Demo
 
@@ -223,9 +223,9 @@ The demo project is simply:
 
 ## Motivation
 
-[Hasura](https://hasura.io/) is a fantastic tool for the rapid development of a GraphQL backend. [Apollo GraphQL](https://www.apollographql.com/) is a suite of GraphQL tooling, including a great Client. [graphql-code-generator](https://graphql-code-generator.com/) is a fantastic code generation tool and library, to automate the generation of much of the boilerplate code required to use GraphQL. However, there still remained quite a bit of boiler plate code to be written.
+[Hasura](https://hasura.io/) is a fantastic tool for the rapid development of a GraphQL backend. [Apollo GraphQL](https://www.apollographql.com/) is a suite of GraphQL tooling, including a great Client. [graphql-code-generator](https://graphql-code-generator.com/) is a very helpful code generation tool and library, to automate the generation of much of the boilerplate code required to use GraphQL. However, there still remained quite a bit of boiler plate code to be written.
 
-The consistency and predictability of the Hasura](https://hasura.io/) GQL backend implementation, provided an opportunity to automate much of the remaining code for standard single-table mutations and queries, and multi-table helper code. This plugin is an attempt to do some of that.
+The consistency and predictability of the [Hasura](https://hasura.io/) GQL backend implementation, provided an opportunity to automate much of the remaining code for standard single-table mutations and queries, and multi-table helper code. This plugin is an attempt to help do this.
 
 ## Disclaimers & Known Issues
 
@@ -241,6 +241,7 @@ There are many refinements and enhancements that would be beneficial, and contri
 
 - Fix known issues
 - Add validation (especially for checking for package prerequisites). See [these docs](https://graphql-code-generator.com/docs/custom-codegen/validate-configuration)
+- Extend capabilities to facilitate codegen for multi-table queries and mutations. One implementation strategy is to perhaps generate gql and helper code from user-defined gql fragments. Will require some design work.
 - Rewrite the plugins to use the graphql-code-generator [recommended Visitor pattern](https://graphql-code-generator.com/docs/custom-codegen/using-visitor)
 
 ## Notes
