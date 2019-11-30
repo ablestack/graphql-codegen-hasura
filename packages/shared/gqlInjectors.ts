@@ -1,55 +1,14 @@
-import { GraphQLNamedType, GraphQLSchema, ObjectTypeDefinitionNode, FieldDefinitionNode } from "graphql";
-import { PluginFunction, Types } from "@graphql-codegen/plugin-helpers";
-import { RawTypesConfig } from "@graphql-codegen/visitor-plugin-common";
-import { getIdPostGresFieldType, getPrimaryKeyIdField, makeFragmentName, makeFragmentsImport, makeModelName, makeShortCamelCaseName, SCALAR_TYPE_TEST, TABLE_TYPE_FILTER } from ".";
-
-export function injectFragmentGql({
-  contentArray,
-  importArray,
-  entityName,
-  fragmentName,
-  trimString,
-  fields
-}: {
-  contentArray: string[];
-  importArray: string[];
-  entityName: string;
-  fragmentName: string;
-  trimString?: string;
-  fields: readonly FieldDefinitionNode[];
-}) {
-  const entityModelName = makeModelName(entityName, trimString);
-
-  const scalarFieldNamesArray: string[] = [];
-
-  fields.forEach(f => {
-    if (SCALAR_TYPE_TEST(f)) {
-      scalarFieldNamesArray.push(f.name.value);
-    }
-  });
-
-  contentArray.push(`
-  
-      // Scalar Fields Fragment
-      //
-  
-      export const ${fragmentName} = gql\`
-        fragment ${entityModelName}Fields on ${entityName} {
-        ${scalarFieldNamesArray.join("\n      ")}
-        }
-      \`;`);
-}
+import { FieldDefinitionNode } from "graphql";
+import { getIdPostGresFieldType, makeModelName, makeShortCamelCaseName } from ".";
 
 // ---------------------------------
 //
-export function injectFetchHelpers({
+export function injectFetchGql({
   contentArray,
   importArray,
   entityName,
   fragmentName,
   trimString,
-  withFragments,
-  fragmentImportFrom,
   primaryKeyIdField
 }: {
   contentArray: string[];
@@ -57,8 +16,6 @@ export function injectFetchHelpers({
   entityName: string;
   fragmentName: string;
   trimString?: string;
-  withFragments: boolean;
-  fragmentImportFrom: string;
   primaryKeyIdField: FieldDefinitionNode;
 }) {
   const entityShortCamelName = makeShortCamelCaseName(entityName, trimString);
@@ -98,20 +55,16 @@ export function injectFetchHelpers({
       }
       \${${fragmentName}}
     \`;`);
-
-  if (!withFragments) importArray.push(makeFragmentsImport(entityName, fragmentImportFrom));
 }
 
 // ---------------------------------
 //
-export function injectInsertHelpers({
+export function injectInsertGql({
   contentArray,
   importArray,
   entityName,
   fragmentName,
   trimString,
-  withFragments,
-  fragmentImportFrom,
   primaryKeyIdField
 }: {
   contentArray: string[];
@@ -119,8 +72,6 @@ export function injectInsertHelpers({
   entityName: string;
   fragmentName: string;
   trimString?: string;
-  withFragments: boolean;
-  fragmentImportFrom: string;
   primaryKeyIdField: FieldDefinitionNode;
 }) {
   const entityModelName = makeModelName(entityName, trimString);
@@ -141,20 +92,16 @@ export function injectInsertHelpers({
       }
       \${${fragmentName}}
     \`;`);
-
-  if (!withFragments) importArray.push(makeFragmentsImport(entityName, fragmentImportFrom));
 }
 
 // ---------------------------------
 //
-export function injectUpdateHelpers({
+export function injectUpdateGql({
   contentArray,
   importArray,
   entityName,
   fragmentName,
   trimString,
-  withFragments,
-  fragmentImportFrom,
   primaryKeyIdField
 }: {
   contentArray: string[];
@@ -162,8 +109,6 @@ export function injectUpdateHelpers({
   entityName: string;
   fragmentName: string;
   trimString?: string;
-  withFragments: boolean;
-  fragmentImportFrom: string;
   primaryKeyIdField: FieldDefinitionNode;
 }) {
   const entityModelName = makeModelName(entityName, trimString);
@@ -202,20 +147,16 @@ export function injectUpdateHelpers({
       }
       \${${fragmentName}}
     \`;`);
-
-  if (!withFragments) importArray.push(makeFragmentsImport(entityName, fragmentImportFrom));
 }
 
 // ---------------------------------
 //
-export function injectDeleteHelpers({
+export function injectDeleteGql({
   contentArray,
   importArray,
   entityName,
   fragmentName,
   trimString,
-  withFragments,
-  fragmentImportFrom,
   primaryKeyIdField
 }: {
   contentArray: string[];
@@ -223,8 +164,6 @@ export function injectDeleteHelpers({
   entityName: string;
   fragmentName: string;
   trimString?: string;
-  withFragments: boolean;
-  fragmentImportFrom: string;
   primaryKeyIdField: FieldDefinitionNode;
 }) {
   const entityModelName = makeModelName(entityName, trimString);
@@ -257,6 +196,4 @@ export function injectDeleteHelpers({
       }
       \${${fragmentName}}
     \`;`);
-
-  if (!withFragments) importArray.push(makeFragmentsImport(entityName, fragmentImportFrom));
 }

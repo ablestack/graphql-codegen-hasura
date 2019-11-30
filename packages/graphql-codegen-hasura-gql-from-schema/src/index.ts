@@ -1,4 +1,4 @@
-import { GraphQLNamedType, GraphQLSchema, ObjectTypeDefinitionNode } from "graphql";
+import { GraphQLNamedType, GraphQLSchema, ObjectTypeDefinitionNode, FieldDefinitionNode } from "graphql";
 import { PluginFunction, Types } from "@graphql-codegen/plugin-helpers";
 import { RawTypesConfig } from "@graphql-codegen/visitor-plugin-common";
 import {
@@ -270,3 +270,43 @@ function makeEntityDeleteMutationGql(namedType: GraphQLNamedType, importArray: s
 
 // --------------------------------------
 //
+
+// ---------------------------------
+//
+
+export function injectFragmentGql({
+  contentArray,
+  importArray,
+  entityName,
+  fragmentName,
+  trimString,
+  fields
+}: {
+  contentArray: string[];
+  importArray: string[];
+  entityName: string;
+  fragmentName: string;
+  trimString?: string;
+  fields: readonly FieldDefinitionNode[];
+}) {
+  const entityModelName = makeModelName(entityName, trimString);
+
+  const scalarFieldNamesArray: string[] = [];
+
+  fields.forEach(f => {
+    if (SCALAR_TYPE_TEST(f)) {
+      scalarFieldNamesArray.push(f.name.value);
+    }
+  });
+
+  contentArray.push(`
+  
+      // Scalar Fields Fragment
+      //
+  
+      export const ${fragmentName} = gql\`
+        fragment ${entityModelName}Fields on ${entityName} {
+        ${scalarFieldNamesArray.join("\n      ")}
+        }
+      \`;`);
+}

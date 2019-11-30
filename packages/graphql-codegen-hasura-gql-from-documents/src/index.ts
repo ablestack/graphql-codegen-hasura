@@ -1,22 +1,17 @@
-import { GraphQLNamedType, GraphQLSchema, ObjectTypeDefinitionNode, FragmentDefinitionNode } from "graphql";
 import { PluginFunction, Types } from "@graphql-codegen/plugin-helpers";
 import { RawTypesConfig } from "@graphql-codegen/visitor-plugin-common";
-import {
-  getIdPostGresFieldType,
-  getPrimaryKeyIdField,
-  makeFragmentName,
-  makeFragmentsImport,
-  makeModelName,
-  makeShortCamelCaseName,
-  SCALAR_TYPE_TEST,
-  TABLE_TYPE_FILTER,
-  injectFragmentGql,
-  injectFetchHelpers,
-  injectInsertHelpers,
-  injectUpdateHelpers,
-  injectDeleteHelpers
-} from "../../shared";
+import { FieldDefinitionNode, FragmentDefinitionNode, GraphQLSchema } from "graphql";
 import { TypeMap } from "graphql/type/schema";
+import {
+  getIdTypeScriptFieldType,
+  getPrimaryKeyIdField,
+  injectDeleteGql,
+  injectFetchGql,
+  injectInsertGql,
+  injectUpdateGql,
+  makeFragmentsImport,
+  makePrimaryCodegenTypescriptImport
+} from "../../shared";
 
 // -----------------------------------------------------
 //
@@ -26,7 +21,6 @@ export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
   reactApolloVersion?: number;
   fragmentImportFrom?: string;
   trimString?: string;
-  withFragments?: boolean;
   withQueries?: boolean;
   withInserts?: boolean;
   withUpdates?: boolean;
@@ -44,17 +38,26 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   ];
   const contentArray: string[] = [];
 
-  Object.values(schema.getTypeMap())
-    .filter(t => TABLE_TYPE_FILTER(t))
-    .map(t => {
-      return `
-      ${makeEntityModelSharedGql(t, importArray, contentArray, config)}
-      ${config.withQueries && makeEntityQueryMutationGql(t, importArray, contentArray, config)}
-      ${config.withInserts && makeEntityInsertMutationGql(t, importArray, contentArray, config)}
-      ${config.withUpdates && makeEntityUpdateMutationGql(t, importArray, contentArray, config)}
-      ${config.withDeletes && makeEntityDeleteMutationGql(t, importArray, contentArray, config)}
+  // get typemap from schema
+  const typeMap = schema.getTypeMap();
+
+  // iterate and generate
+  documents
+    .map(document => {
+      document.content.definitions
+        .filter(definition => definition.kind === "FragmentDefinition")
+        .map(definition => {
+          const fd = definition as FragmentDefinitionNode;
+          return `
+      ${makeEntityModelSharedGql(fd, typeMap, importArray, contentArray, config)}
+      ${config.withQueries && makeEntityQueryMutationGql(fd, typeMap, importArray, contentArray, config)}
+      ${config.withInserts && makeEntityInsertMutationGql(fd, typeMap, importArray, contentArray, config)}
+      ${config.withUpdates && makeEntityUpdateMutationGql(fd, typeMap, importArray, contentArray, config)}
+      ${config.withDeletes && makeEntityDeleteMutationGql(fd, typeMap, importArray, contentArray, config)}
       `;
-    });
+        });
+    })
+    .flat();
 
   return {
     prepend: importArray,
@@ -65,13 +68,25 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
 // --------------------------------------
 //
 
-function makeEntityModelSharedGql(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
-  const entityName = namedType.name;
+function makeEntityModelSharedGql(
+  fragmentDefinitionNode: FragmentDefinitionNode,
+  schemaTypeMap: TypeMap,
+  importArray: string[],
+  contentArray: string[],
+  config: CstmHasuraCrudPluginConfig
+) {
+  const fragmentName = fragmentDefinitionNode.name.value;
+  const fragmentImport = makeFragmentsImport(fragmentName, config.fragmentImportFrom);
 
   contentArray.push(`
-    // ${entityName} GQL
+    // ${fragmentName} GQL
     //------------------------------------------------
   `);
+
+  // import fragment if not already
+  if (!importArray.includes(fragmentImport)) {
+    importArray.push();
+  }
 }
 
 // --------------------------------------
@@ -91,14 +106,12 @@ function makeEntityQueryMutationGql(
   const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
   if (!relatedTablePrimaryKeyIdField) return;
 
-  injectFetchHelpers({
+  injectFetchGql({
     contentArray,
     importArray,
     entityName: relatedTableNamedType.name,
     fragmentName,
     trimString: config.trimString,
-    withFragments: config.withFragments,
-    fragmentImportFrom: config.fragmentImportFrom,
     primaryKeyIdField: relatedTablePrimaryKeyIdField
   });
 }
@@ -120,14 +133,12 @@ function makeEntityInsertMutationGql(
   const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
   if (!relatedTablePrimaryKeyIdField) return;
 
-  injectInsertHelpers({
+  injectInsertGql({
     contentArray,
     importArray,
     entityName: relatedTableNamedType.name,
     fragmentName,
     trimString: config.trimString,
-    withFragments: config.withFragments,
-    fragmentImportFrom: config.fragmentImportFrom,
     primaryKeyIdField: relatedTablePrimaryKeyIdField
   });
 }
@@ -149,14 +160,12 @@ function makeEntityUpdateMutationGql(
   const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
   if (!relatedTablePrimaryKeyIdField) return;
 
-  injectUpdateHelpers({
+  injectUpdateGql({
     contentArray,
     importArray,
     entityName: relatedTableNamedType.name,
     fragmentName,
     trimString: config.trimString,
-    withFragments: config.withFragments,
-    fragmentImportFrom: config.fragmentImportFrom,
     primaryKeyIdField: relatedTablePrimaryKeyIdField
   });
 }
@@ -178,17 +187,52 @@ function makeEntityDeleteMutationGql(
   const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
   if (!relatedTablePrimaryKeyIdField) return;
 
-  injectDeleteHelpers({
+  injectDeleteGql({
     contentArray,
     importArray,
     entityName: relatedTableNamedType.name,
     fragmentName,
     trimString: config.trimString,
-    withFragments: config.withFragments,
-    fragmentImportFrom: config.fragmentImportFrom,
     primaryKeyIdField: relatedTablePrimaryKeyIdField
   });
 }
 
 // --------------------------------------
 //
+
+// ---------------------------------
+//
+
+export function injectFragmentGql({
+  contentArray,
+  importArray,
+  entityName,
+  fragmentName,
+  trimString,
+  primaryKeyIdField,
+  primaryCodegenTypeScriptImportPath
+}: {
+  contentArray: string[];
+  importArray: string[];
+  entityName: string;
+  fragmentName: string;
+  trimString?: string;
+  primaryKeyIdField: FieldDefinitionNode;
+  primaryCodegenTypeScriptImportPath: string;
+}) {
+  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
+
+  contentArray.push(`
+    // ${entityName} Helpers
+    //------------------------------------------------
+  `);
+
+  if (!primaryKeyIdTypeScriptFieldType.isNative) {
+    const typeImport = makePrimaryCodegenTypescriptImport(`${primaryKeyIdTypeScriptFieldType.typeName}`, primaryCodegenTypeScriptImportPath);
+    if (!importArray.includes(typeImport)) {
+      importArray.push(typeImport);
+    }
+  }
+
+  importArray.push(makePrimaryCodegenTypescriptImport(`${fragmentName}Fragment`, primaryCodegenTypeScriptImportPath));
+}
