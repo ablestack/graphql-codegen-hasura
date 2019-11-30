@@ -1,0 +1,44 @@
+{
+  "name": "graphql-codegen-hasura-gql-from-documents",
+  "version": "1.2.1",
+  "description": "GraphQL Code Generator plugin for generating a CRUD Gql for Hasura",
+  "author": "ahrnee <ahrndee@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/ahrnee/graphql-codegen-hasura",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ahrnee/graphql-codegen-hasura"
+  },
+  "scripts": {
+    "build": "tsc --build --verbose",
+    "rebuild": "tsc --build --force --verbose"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "graphql-tag": "^2.0.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/core": "^1.8.3",
+    "@graphql-codegen/plugin-helpers": "1.8.3",
+    "@graphql-codegen/typescript": "^1.8.3",
+    "@graphql-codegen/visitor-plugin-common": "1.8.3",
+    "graphql": "^14.5.8",
+    "path": "^0.12.7",
+    "react": "^16.12.0",
+    "tslib": "1.10.0",
+    "typescript": "3.7.2"
+  },
+  "sideEffects": false,
+  "main": "dist/graphql-codegen-hasura-gql-from-documents/src/index.js",
+  "typings": "dist/graphql-codegen-hasura-gql-from-documents/src/index.d.ts",
+  "typescript": {
+    "definition": "dist/graphql-codegen-hasura-gql-from-documents/src/index.d.ts"
+  },
+  "files": [
+    "README.md",
+    "dist/**/*"
+  ],
+  "gitHead": "41b2d8aab654a4f5722781e71d266200c273710e"
+}

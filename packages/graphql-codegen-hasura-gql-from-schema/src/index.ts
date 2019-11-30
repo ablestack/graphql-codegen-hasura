@@ -44,8 +44,8 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
       return `
       ${makeEntityModelSharedGql(t, importArray, contentArray, config)}
       ${config.withFragments && makeEntityModelFragmentsGql(t, importArray, contentArray, config)}
-      ${config.withInserts && makeEntityInsertMutationGql(t, importArray, contentArray, config)}
       ${config.withQueries && makeEntityQueryMutationGql(t, importArray, contentArray, config)}
+      ${config.withInserts && makeEntityInsertMutationGql(t, importArray, contentArray, config)}
       ${config.withUpdates && makeEntityUpdateMutationGql(t, importArray, contentArray, config)}
       ${config.withDeletes && makeEntityDeleteMutationGql(t, importArray, contentArray, config)}
       `;

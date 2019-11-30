@@ -12,10 +12,10 @@ generates:
     config:
       reactApolloVersion: 3
       withFragments: true
-      withQueries: false
-      withInserts: false
-      withUpdates: false
-      withDeletes: false
+      withQueries: true
+      withInserts: true
+      withUpdates: true
+      withDeletes: true
   ./schema/graphql.schema.json:
     plugins:
       - introspection

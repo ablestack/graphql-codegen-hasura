@@ -31,16 +31,16 @@ generates:
       withInserts: true
       withUpdates: true
       withDeletes: true
-  ./src/autogen/hasura/ts-from-fragments.ts:
-    documents:
-      - ./src/customFragments.ts
-    plugins:
-      - graphql-codegen-hasura-typescript-from-documents
-    config:
-      reactApolloVersion: 3
-      primaryCodegenTypeScriptImportPath: "../"
-      trimstring:
-      withQueries: true
-      withInserts: true
-      withUpdates: true
-      withDeletes: true
+  # ./src/autogen/hasura/ts-from-fragments.ts:
+  #   documents:
+  #     - ./src/customFragments.ts
+  #   plugins:
+  #     - graphql-codegen-hasura-typescript-from-documents
+  #   config:
+  #     reactApolloVersion: 3
+  #     primaryCodegenTypeScriptImportPath: "../"
+  #     trimstring:
+  #     withQueries: true
+  #     withInserts: true
+  #     withUpdates: true
+  #     withDeletes: true

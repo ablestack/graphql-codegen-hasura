@@ -43,8 +43,8 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
     .map(t => {
       return `
       ${makeEntitySharedTypeScript(t, importArray, contentArray, config)}
-      ${config.withInserts && makeEntityInsertMutationTypeScript(t, importArray, contentArray, config)}
       ${config.withQueries && makeEntityQueryMutationTypeScript(t, importArray, contentArray, config)}
+      ${config.withInserts && makeEntityInsertMutationTypeScript(t, importArray, contentArray, config)}
       ${config.withUpdates && makeEntityUpdateMutationTypeScript(t, importArray, contentArray, config)}
       ${config.withDeletes && makeEntityDeleteMutationTypeScript(t, importArray, contentArray, config)}
       `;

@@ -1,7 +1,21 @@
+import { GraphQLNamedType, GraphQLSchema, ObjectTypeDefinitionNode, FragmentDefinitionNode } from "graphql";
 import { PluginFunction, Types } from "@graphql-codegen/plugin-helpers";
 import { RawTypesConfig } from "@graphql-codegen/visitor-plugin-common";
-import { FragmentDefinitionNode, GraphQLNamedType, GraphQLSchema } from "graphql";
-import { getPrimaryKeyIdField, injectDeleteHelpers, injectFetchHelpers, injectInsertHelpers, injectSharedHelpers, injectUpdateHelpers } from "../../shared";
+import {
+  getIdPostGresFieldType,
+  getPrimaryKeyIdField,
+  makeFragmentName,
+  makeFragmentsImport,
+  makeModelName,
+  makeShortCamelCaseName,
+  SCALAR_TYPE_TEST,
+  TABLE_TYPE_FILTER,
+  injectFragmentGql,
+  injectFetchHelpers,
+  injectInsertHelpers,
+  injectUpdateHelpers,
+  injectDeleteHelpers
+} from "../../shared";
 import { TypeMap } from "graphql/type/schema";
 
 // -----------------------------------------------------
@@ -10,8 +24,9 @@ import { TypeMap } from "graphql/type/schema";
 
 export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
   reactApolloVersion?: number;
-  primaryCodegenTypeScriptImportPath: string;
+  fragmentImportFrom?: string;
   trimString?: string;
+  withFragments?: boolean;
   withQueries?: boolean;
   withInserts?: boolean;
   withUpdates?: boolean;
@@ -23,32 +38,23 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   if (!config.reactApolloVersion) config.reactApolloVersion = 3;
 
   const importArray: string[] = [
-    `import { ApolloClient } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-client"}'`,
-    `import { FetchResult } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-link"}'`,
-    `import { QueryOptions, MutationOptions } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "react-apollo"}'`
+    "/* eslint-disable @typescript-eslint/no-unused-vars */",
+    //`import gql from '${config.reactApolloVersion === 3 ? "@apollo/client" : "graphql-tag"}';` //graphql-code-generator still only picking up gql from 'graphql-tag' import. Will switch to "@apollo/client" import when this issue is addressed
+    `import gql from 'graphql-tag';`
   ];
   const contentArray: string[] = [];
 
-  // get typemap from schema
-  const typeMap = schema.getTypeMap();
-
-  // iterate and generate
-  documents
-    .map(document => {
-      document.content.definitions
-        .filter(definition => definition.kind === "FragmentDefinition")
-        .map(definition => {
-          const fd = definition as FragmentDefinitionNode;
-          return `
-      ${makeEntitySharedTypeScript(fd, typeMap, importArray, contentArray, config)}
-      ${config.withQueries && makeEntityQueryMutationTypeScript(fd, typeMap, importArray, contentArray, config)}
-      ${config.withInserts && makeEntityInsertMutationTypeScript(fd, typeMap, importArray, contentArray, config)}
-      ${config.withUpdates && makeEntityUpdateMutationTypeScript(fd, typeMap, importArray, contentArray, config)}
-      ${config.withDeletes && makeEntityDeleteMutationTypeScript(fd, typeMap, importArray, contentArray, config)}
+  Object.values(schema.getTypeMap())
+    .filter(t => TABLE_TYPE_FILTER(t))
+    .map(t => {
+      return `
+      ${makeEntityModelSharedGql(t, importArray, contentArray, config)}
+      ${config.withQueries && makeEntityQueryMutationGql(t, importArray, contentArray, config)}
+      ${config.withInserts && makeEntityInsertMutationGql(t, importArray, contentArray, config)}
+      ${config.withUpdates && makeEntityUpdateMutationGql(t, importArray, contentArray, config)}
+      ${config.withDeletes && makeEntityDeleteMutationGql(t, importArray, contentArray, config)}
       `;
-        });
-    })
-    .flat();
+    });
 
   return {
     prepend: importArray,
@@ -59,34 +65,19 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
 // --------------------------------------
 //
 
-function makeEntitySharedTypeScript(
-  fragmentDefinitionNode: FragmentDefinitionNode,
-  schemaTypeMap: TypeMap,
-  importArray: string[],
-  contentArray: string[],
-  config: CstmHasuraCrudPluginConfig
-) {
-  const fragmentName = fragmentDefinitionNode.name.value;
-  const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
-  const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+function makeEntityModelSharedGql(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
+  const entityName = namedType.name;
 
-  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
-  if (!relatedTablePrimaryKeyIdField) return;
-
-  injectSharedHelpers({
-    contentArray,
-    importArray,
-    entityName: relatedTableNamedType.name,
-    fragmentName,
-    trimString: config.trimString,
-    primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    primaryCodegenTypeScriptImportPath: config.primaryCodegenTypeScriptImportPath
-  });
+  contentArray.push(`
+    // ${entityName} GQL
+    //------------------------------------------------
+  `);
 }
+
 // --------------------------------------
 //
 
-function makeEntityQueryMutationTypeScript(
+function makeEntityQueryMutationGql(
   fragmentDefinitionNode: FragmentDefinitionNode,
   schemaTypeMap: TypeMap,
   importArray: string[],
@@ -106,15 +97,16 @@ function makeEntityQueryMutationTypeScript(
     entityName: relatedTableNamedType.name,
     fragmentName,
     trimString: config.trimString,
-    primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    primaryCodegenTypeScriptImportPath: config.primaryCodegenTypeScriptImportPath
+    withFragments: config.withFragments,
+    fragmentImportFrom: config.fragmentImportFrom,
+    primaryKeyIdField: relatedTablePrimaryKeyIdField
   });
 }
 
 // --------------------------------------
 //
 
-function makeEntityInsertMutationTypeScript(
+function makeEntityInsertMutationGql(
   fragmentDefinitionNode: FragmentDefinitionNode,
   schemaTypeMap: TypeMap,
   importArray: string[],
@@ -134,14 +126,16 @@ function makeEntityInsertMutationTypeScript(
     entityName: relatedTableNamedType.name,
     fragmentName,
     trimString: config.trimString,
-    primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    primaryCodegenTypeScriptImportPath: config.primaryCodegenTypeScriptImportPath
+    withFragments: config.withFragments,
+    fragmentImportFrom: config.fragmentImportFrom,
+    primaryKeyIdField: relatedTablePrimaryKeyIdField
   });
 }
+
 // --------------------------------------
 //
 
-function makeEntityUpdateMutationTypeScript(
+function makeEntityUpdateMutationGql(
   fragmentDefinitionNode: FragmentDefinitionNode,
   schemaTypeMap: TypeMap,
   importArray: string[],
@@ -161,15 +155,16 @@ function makeEntityUpdateMutationTypeScript(
     entityName: relatedTableNamedType.name,
     fragmentName,
     trimString: config.trimString,
-    primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    primaryCodegenTypeScriptImportPath: config.primaryCodegenTypeScriptImportPath
+    withFragments: config.withFragments,
+    fragmentImportFrom: config.fragmentImportFrom,
+    primaryKeyIdField: relatedTablePrimaryKeyIdField
   });
 }
 
 // --------------------------------------
 //
 
-function makeEntityDeleteMutationTypeScript(
+function makeEntityDeleteMutationGql(
   fragmentDefinitionNode: FragmentDefinitionNode,
   schemaTypeMap: TypeMap,
   importArray: string[],
@@ -189,8 +184,9 @@ function makeEntityDeleteMutationTypeScript(
     entityName: relatedTableNamedType.name,
     fragmentName,
     trimString: config.trimString,
-    primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    primaryCodegenTypeScriptImportPath: config.primaryCodegenTypeScriptImportPath
+    withFragments: config.withFragments,
+    fragmentImportFrom: config.fragmentImportFrom,
+    primaryKeyIdField: relatedTablePrimaryKeyIdField
   });
 }
 
