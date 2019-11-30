@@ -134,6 +134,13 @@ import { RemoveVehicle_LocationModelByIdMutation } from '../';
 import { RemoveVehicle_LocationModelByIdMutationVariables } from '../';
 import { RemoveVehicle_LocationModelByIdDocument } from '../';
 
+    // observation Helpers
+    //------------------------------------------------
+  
+
+    // Insert Helper
+    //
+
     export async function insertObservationModel(
       apolloClient: ApolloClient<object>,
       observationId: string,
@@ -147,6 +154,9 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       return { result, returning };
     }
   
+
+    // Fetch Helper
+    //
 
     export async function fetchObservationModelById(
       apolloClient: ApolloClient<object>, 
@@ -166,6 +176,9 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       return observationResult.data.observation;
     }
   
+
+    // Update Helper
+    //
 
     export async function updateObservationModelById(
       apolloClient: ApolloClient<object>,
@@ -195,6 +208,9 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
+    // Delete Helper
+    //
+
     export async function removeObservationModelById(
       apolloClient: ApolloClient<object>,
       observationId: string,
@@ -222,6 +238,13 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
+    // p Helpers
+    //------------------------------------------------
+  
+
+    // Insert Helper
+    //
+
     export async function insertPModel(
       apolloClient: ApolloClient<object>,
       pId: string,
@@ -235,6 +258,9 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       return { result, returning };
     }
   
+
+    // Fetch Helper
+    //
 
     export async function fetchPModelById(
       apolloClient: ApolloClient<object>, 
@@ -254,6 +280,9 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       return pResult.data.p;
     }
   
+
+    // Update Helper
+    //
 
     export async function updatePModelById(
       apolloClient: ApolloClient<object>,
@@ -283,6 +312,9 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
+    // Delete Helper
+    //
+
     export async function removePModelById(
       apolloClient: ApolloClient<object>,
       pId: number,
@@ -310,6 +342,13 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
+    // patient Helpers
+    //------------------------------------------------
+  
+
+    // Insert Helper
+    //
+
     export async function insertPatientModel(
       apolloClient: ApolloClient<object>,
       patientId: string,
@@ -323,6 +362,9 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       return { result, returning };
     }
   
+
+    // Fetch Helper
+    //
 
     export async function fetchPatientModelById(
       apolloClient: ApolloClient<object>, 
@@ -342,6 +384,9 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       return patientResult.data.patient;
     }
   
+
+    // Update Helper
+    //
 
     export async function updatePatientModelById(
       apolloClient: ApolloClient<object>,
@@ -371,6 +416,9 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
+    // Delete Helper
+    //
+
     export async function removePatientModelById(
       apolloClient: ApolloClient<object>,
       patientId: string,
@@ -398,6 +446,13 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
+    // users Helpers
+    //------------------------------------------------
+  
+
+    // Insert Helper
+    //
+
     export async function insertUsersModel(
       apolloClient: ApolloClient<object>,
       usersId: string,
@@ -411,6 +466,9 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       return { result, returning };
     }
   
+
+    // Fetch Helper
+    //
 
     export async function fetchUsersModelById(
       apolloClient: ApolloClient<object>, 
@@ -430,6 +488,9 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       return usersResult.data.users;
     }
   
+
+    // Update Helper
+    //
 
     export async function updateUsersModelById(
       apolloClient: ApolloClient<object>,
@@ -459,6 +520,9 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
+    // Delete Helper
+    //
+
     export async function removeUsersModelById(
       apolloClient: ApolloClient<object>,
       usersId: number,
@@ -486,6 +550,13 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
+    // vehicle Helpers
+    //------------------------------------------------
+  
+
+    // Insert Helper
+    //
+
     export async function insertVehicleModel(
       apolloClient: ApolloClient<object>,
       vehicleId: string,
@@ -499,6 +570,9 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       return { result, returning };
     }
   
+
+    // Fetch Helper
+    //
 
     export async function fetchVehicleModelById(
       apolloClient: ApolloClient<object>, 
@@ -518,6 +592,9 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       return vehicleResult.data.vehicle;
     }
   
+
+    // Update Helper
+    //
 
     export async function updateVehicleModelById(
       apolloClient: ApolloClient<object>,
@@ -547,6 +624,9 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
+    // Delete Helper
+    //
+
     export async function removeVehicleModelById(
       apolloClient: ApolloClient<object>,
       vehicleId: string,
@@ -574,6 +654,13 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
+    // vehicle_location Helpers
+    //------------------------------------------------
+  
+
+    // Insert Helper
+    //
+
     export async function insertVehicle_LocationModel(
       apolloClient: ApolloClient<object>,
       vehicle_LocationId: string,
@@ -587,6 +674,9 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       return { result, returning };
     }
   
+
+    // Fetch Helper
+    //
 
     export async function fetchVehicle_LocationModelById(
       apolloClient: ApolloClient<object>, 
@@ -606,6 +696,9 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       return vehicle_LocationResult.data.vehicle_location;
     }
   
+
+    // Update Helper
+    //
 
     export async function updateVehicle_LocationModelById(
       apolloClient: ApolloClient<object>,
@@ -634,6 +727,9 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       return { result, returning };
     }
   
+
+    // Delete Helper
+    //
 
     export async function removeVehicle_LocationModelById(
       apolloClient: ApolloClient<object>,

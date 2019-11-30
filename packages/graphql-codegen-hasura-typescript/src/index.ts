@@ -66,7 +66,10 @@ function makeEntitySharedGql(namedType: GraphQLNamedType, importArray: string[],
   const entityName = namedType.name;
   const fragmentName = makeFragmentName(entityName, config.trimString);
 
-  console.log(fragmentName);
+  contentArray.push(`
+    // ${entityName} Helpers
+    //------------------------------------------------
+  `);
 
   importArray.push(makePrimaryCodegenTypescriptImport(`${fragmentName}Fragment`, config.primaryCodegenTypeScriptImportPath));
 }
@@ -83,6 +86,9 @@ function makeEntityQueryMutationGql(namedType: GraphQLNamedType, importArray: st
   const fragmentName = makeFragmentName(entityName, config.trimString);
 
   contentArray.push(`
+    // Fetch Helper
+    //
+
     export async function fetch${entityModelName}ById(
       apolloClient: ApolloClient<object>, 
       ${entityShortCamelCaseName}Id: string
@@ -122,6 +128,9 @@ function makeEntityInsertMutationGql(namedType: GraphQLNamedType, importArray: s
   const entityFragmentName = makeFragmentName(entityName, config.trimString);
 
   contentArray.push(`
+    // Insert Helper
+    //
+
     export async function insert${entityModelName}(
       apolloClient: ApolloClient<object>,
       ${entityShortCamelCaseName}Id: string,
@@ -156,6 +165,9 @@ function makeEntityUpdateMutationGql(namedType: GraphQLNamedType, importArray: s
   const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
 
   contentArray.push(`
+    // Update Helper
+    //
+
     export async function update${entityModelName}ById(
       apolloClient: ApolloClient<object>,
       ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType},
@@ -207,6 +219,9 @@ function makeEntityDeleteMutationGql(namedType: GraphQLNamedType, importArray: s
   const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
 
   contentArray.push(`
+    // Delete Helper
+    //
+
     export async function remove${entityModelName}ById(
       apolloClient: ApolloClient<object>,
       ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType},

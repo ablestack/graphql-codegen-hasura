@@ -42,6 +42,7 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
     .filter(t => TABLE_TYPE_FILTER(t))
     .map(t => {
       return `
+      ${makeEntityModelSharedGql(t, importArray, contentArray, config)}
       ${config.withFragments && makeEntityModelFragmentsGql(t, importArray, contentArray, config)}
       ${config.withInserts && makeEntityInsertMutationGql(t, importArray, contentArray, config)}
       ${config.withQueries && makeEntityQueryMutationGql(t, importArray, contentArray, config)}
@@ -59,6 +60,15 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
 // --------------------------------------
 //
 
+function makeEntityModelSharedGql(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
+  const entityName = namedType.name;
+
+  contentArray.push(`
+    // ${entityName} GQL
+    //------------------------------------------------
+  `);
+}
+
 function makeEntityModelFragmentsGql(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
   const entityName = namedType.name;
   const entityModelName = makeModelName(entityName, config.trimString);
@@ -75,6 +85,10 @@ function makeEntityModelFragmentsGql(namedType: GraphQLNamedType, importArray: s
   });
 
   contentArray.push(`
+
+    // Scalar Fields Fragment
+    //
+
     export const ${entityFragmentName} = gql\`
       fragment ${entityModelName}Fields on ${entityName} {
       ${scalarFieldNamesArray.join("\n      ")}
@@ -96,6 +110,10 @@ function makeEntityQueryMutationGql(namedType: GraphQLNamedType, importArray: st
   const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
 
   contentArray.push(`
+
+    // Query: FetchById
+    //
+
     const FETCH_${entityName.toUpperCase()}_MODEL_BYID = gql\`
       query fetch${entityModelName}ById($${entityShortCamelName}Id: ${primaryKeyIdPostGresFieldType}!) {
         ${entityName}_by_pk(id: $${entityShortCamelName}Id) {
@@ -106,6 +124,10 @@ function makeEntityQueryMutationGql(namedType: GraphQLNamedType, importArray: st
     \`;`);
 
   contentArray.push(`
+
+    // Query: Fetch
+    //
+
     const FETCH_${entityName.toUpperCase()}_MODELS = gql\`
       query fetch${entityModelName}(
         $distinct_on: [${entityName}_select_column!]
@@ -135,6 +157,10 @@ function makeEntityInsertMutationGql(namedType: GraphQLNamedType, importArray: s
   const entityFragmentName = makeFragmentName(entityName, config.trimString);
 
   contentArray.push(`
+
+    // Mutation: Insert
+    //
+
     const INSERT_${entityName.toUpperCase()}_MODEL = gql\`
       mutation insert${entityModelName}($objects: [${entityName}_insert_input!]!, $onConflict: ${entityName}_on_conflict) {
         insert_${entityName}(objects: $objects, on_conflict: $onConflict) {
@@ -163,6 +189,10 @@ function makeEntityUpdateMutationGql(namedType: GraphQLNamedType, importArray: s
   const entityFragmentName = makeFragmentName(entityName, config.trimString);
 
   contentArray.push(`
+
+    // Mutation: Update by Id
+    //
+
     const UPDATE_${entityName.toUpperCase()}_MODEL_BYID = gql\`
       mutation update${entityModelName}ById($id: ${primaryKeyIdPostGresFieldType}, $set: ${entityName}_set_input) {
         update_${entityName}(_set: $set, where: { id: { _eq: $id } }) {
@@ -176,6 +206,10 @@ function makeEntityUpdateMutationGql(namedType: GraphQLNamedType, importArray: s
     \`;`);
 
   contentArray.push(`
+
+    // Mutation: Update
+    //
+
     const UPDATE_${entityName.toUpperCase()}_MODELS = gql\`
       mutation update${entityModelName}($set: ${entityName}_set_input, $where:${entityName}_bool_exp!) {
         update_${entityName}(_set: $set, where: $where) {
@@ -204,6 +238,10 @@ function makeEntityDeleteMutationGql(namedType: GraphQLNamedType, importArray: s
   const entityFragmentName = makeFragmentName(entityName, config.trimString);
 
   contentArray.push(`
+
+    // Mutation: Remove by Id
+    //
+
     const REMOVE_${entityName.toUpperCase()}_MODEL_BYID = gql\`
       mutation remove${entityModelName}ById($id: ${primaryKeyIdPostGresFieldType}) {
         delete_${entityName}(where: { id: { _eq: $id } }) {
@@ -214,6 +252,10 @@ function makeEntityDeleteMutationGql(namedType: GraphQLNamedType, importArray: s
     \`;`);
 
   contentArray.push(`
+
+    // Mutation: Remove
+    //
+
     const REMOVE_${entityName.toUpperCase()}_MODELS = gql\`
       mutation remove${entityModelName}($where:${entityName}_bool_exp!) {
         delete_${entityName}(where: $where) {

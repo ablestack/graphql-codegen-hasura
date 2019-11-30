@@ -58,6 +58,7 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 
 - reactApolloVersion (2 | 3, default value: 3): sets the version of react-apollo
 - fragmentImportFrom: import path to the gql fragment generated code. Only required if withFragments:false
+- trimString: optional string to trim from each type name. Useful for trimming Hasura prepended schema name
 - withFragments: boolean flag for fragment gql code generation
 - withQueries: boolean flag for query gql code generation
 - withInserts: boolean flag for insert gql code generation
@@ -68,6 +69,7 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 
 - reactApolloVersion (2 | 3, default value: 3): sets the version of react-apollo
 - primaryCodegenTypeScriptImportPath: import path to the code generated with dependent @graphql-codegen/typescript generated code
+- trimString: optional string to trim from each type name. Useful for trimming Hasura prepended schema name
 - withQueries: boolean flag for query TypeScript code generation
 - withInserts: boolean flag for insert TypeScript code generation
 - withUpdates: boolean flag for update TypeScript code generation
@@ -86,64 +88,111 @@ See [demo/src/autogen/hasura/gql.ts](https://github.com/ahrnee/graphql-codegen-h
 #### Example Output for `User` Entity
 
 ```typescript
+// users GQL
+//------------------------------------------------
+
 // Scalar Fields Fragment
 //
-export const usersModelFields = gql`
-  fragment usersModelFields on users {
+
+export const UsersModelFields = gql`
+  fragment UsersModelFields on users {
     created_at
     id
     name
   }
 `;
 
-// Fetch Query
+// Mutation: Insert
 //
-const FETCH_USERS_MODEL = gql`
-  query fetchusersModel($usersId: Int!) {
-    users_by_pk(id: $usersId) {
-      ...usersModelFields
-    }
-  }
-  ${usersModelFields}
-`;
 
-// Insert Mutation
-//
 const INSERT_USERS_MODEL = gql`
-  mutation insertusersModel($objects: [users_insert_input!]!, $onConflict: users_on_conflict) {
+  mutation insertUsersModel($objects: [users_insert_input!]!, $onConflict: users_on_conflict) {
     insert_users(objects: $objects, on_conflict: $onConflict) {
       affected_rows
       returning {
-        ...usersModelFields
+        ...UsersModelFields
       }
     }
   }
-  ${usersModelFields}
+  ${UsersModelFields}
 `;
 
-// Update Mutation
+// Query: FetchById
 //
-const UPDATE_USERS_MODEL = gql`
-  mutation updateusersModelById($id: Int, $changes: users_set_input) {
-    update_users(where: { id: { _eq: $id } }, _set: $changes) {
+
+const FETCH_USERS_MODEL_BYID = gql`
+  query fetchUsersModelById($usersId: Int!) {
+    users_by_pk(id: $usersId) {
+      ...UsersModelFields
+    }
+  }
+  ${UsersModelFields}
+`;
+
+// Query: Fetch
+//
+
+const FETCH_USERS_MODELS = gql`
+  query fetchUsersModel($distinct_on: [users_select_column!], $where: users_bool_exp, $limit: Int, $offset: Int, $order_by: [users_order_by!]) {
+    users(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+      ...UsersModelFields
+    }
+  }
+  ${UsersModelFields}
+`;
+
+// Mutation: Update by Id
+//
+
+const UPDATE_USERS_MODEL_BYID = gql`
+  mutation updateUsersModelById($id: Int, $set: users_set_input) {
+    update_users(_set: $set, where: { id: { _eq: $id } }) {
       affected_rows
       returning {
-        ...usersModelFields
+        ...UsersModelFields
       }
     }
   }
-  ${usersModelFields}
+  ${UsersModelFields}
 `;
 
-// Remove Mutation
+// Mutation: Update
 //
-const REMOVE_USERS_MODEL = gql`
-  mutation removeusersModelById($id: Int) {
+
+const UPDATE_USERS_MODELS = gql`
+  mutation updateUsersModel($set: users_set_input, $where: users_bool_exp!) {
+    update_users(_set: $set, where: $where) {
+      affected_rows
+      returning {
+        ...UsersModelFields
+      }
+    }
+  }
+  ${UsersModelFields}
+`;
+
+// Mutation: Remove by Id
+//
+
+const REMOVE_USERS_MODEL_BYID = gql`
+  mutation removeUsersModelById($id: Int) {
     delete_users(where: { id: { _eq: $id } }) {
       affected_rows
     }
   }
-  ${usersModelFields}
+  ${UsersModelFields}
+`;
+
+// Mutation: Remove
+//
+
+const REMOVE_USERS_MODELS = gql`
+  mutation removeUsersModel($where: users_bool_exp!) {
+    delete_users(where: $where) {
+      affected_rows
+    }
+  }
+  ${UsersModelFields}
 `;
 ```
 
@@ -160,33 +209,66 @@ See [demo/src/autogen/hasura/typescript.ts](https://github.com/ahrnee/graphql-co
 #### Example Output for `User` Entity
 
 ```typescript
-// Fetch Helper
-//
-export async function fetchusersModel(apolloClient: ApolloClient<object>, usersId: string): Promise<usersModelFieldsFragment | null | undefined> {
-  const usersResult = await apolloClient.query<FetchusersModelQuery>({ query: FetchusersModelDocument, variables: { usersId } });
-  return usersResult.data.users_by_pk;
-}
+// users Helpers
+//------------------------------------------------
 
 // Insert Helper
 //
-export async function insertusersModel(
+
+export async function insertUsersModel(
   apolloClient: ApolloClient<object>,
-  mutationOptions: Omit<MutationOptions<InsertusersModelMutation, InsertusersModelMutationVariables>, "mutation">
-): Promise<{ result: FetchResult<InsertusersModelMutation>; returning: (usersModelFieldsFragment | null | undefined)[] | null | undefined }> {
-  const result = await apolloClient.mutate<InsertusersModelMutation, InsertusersModelMutationVariables>({ mutation: InsertusersModelDocument, ...mutationOptions });
+  usersId: string,
+  mutationOptions: Omit<MutationOptions<InsertUsersModelMutation, InsertUsersModelMutationVariables>, "mutation">
+): Promise<{ result: FetchResult<InsertUsersModelMutation>; returning: (UsersModelFieldsFragment | null | undefined)[] | null | undefined }> {
+  const result = await apolloClient.mutate<InsertUsersModelMutation, InsertUsersModelMutationVariables>({ mutation: InsertUsersModelDocument, ...mutationOptions });
 
   const returning = result && result.data && result.data.insert_users && result.data.insert_users!.returning;
 
   return { result, returning };
 }
 
+// Fetch Helper
+//
+
+export async function fetchUsersModelById(apolloClient: ApolloClient<object>, usersId: string): Promise<UsersModelFieldsFragment | null | undefined> {
+  const usersResult = await apolloClient.query<FetchUsersModelByIdQuery>({ query: FetchUsersModelByIdDocument, variables: { id: usersId } });
+  return usersResult.data.users_by_pk;
+}
+
+export async function fetchUsersModel(
+  apolloClient: ApolloClient<object>,
+  usersId: string,
+  queryOptions: Omit<QueryOptions<FetchUsersModelQueryVariables>, "query">
+): Promise<UsersModelFieldsFragment[] | null | undefined> {
+  const usersResult = await apolloClient.query<FetchUsersModelQuery>({ query: FetchUsersModelDocument, ...queryOptions });
+  return usersResult.data.users;
+}
+
 // Update Helper
 //
-export async function updateusersModel(
+
+export async function updateUsersModelById(
   apolloClient: ApolloClient<object>,
-  mutationOptions: Omit<MutationOptions<UpdateusersModelByIdMutation, UpdateusersModelByIdMutationVariables>, "mutation">
-): Promise<{ result: FetchResult<UpdateusersModelByIdMutation>; returning: (usersModelFieldsFragment | null | undefined)[] | null | undefined }> {
-  const result = await apolloClient.mutate<UpdateusersModelByIdMutation, UpdateusersModelByIdMutationVariables>({ mutation: UpdateusersModelByIdDocument, ...mutationOptions });
+  usersId: number,
+  set: Users_Set_Input,
+  mutationOptions: Omit<MutationOptions<UpdateUsersModelByIdMutation, UpdateUsersModelByIdMutationVariables>, "mutation">
+): Promise<{ result: FetchResult<UpdateUsersModelByIdMutation>; returning: (UsersModelFieldsFragment | null | undefined)[] | null | undefined }> {
+  const result = await apolloClient.mutate<UpdateUsersModelByIdMutation, UpdateUsersModelByIdMutationVariables>({
+    mutation: UpdateUsersModelByIdDocument,
+    variables: { id: usersId, set },
+    ...mutationOptions
+  });
+
+  const returning = result && result.data && result.data.update_users && result.data.update_users!.returning;
+
+  return { result, returning };
+}
+
+export async function updateUsersModel(
+  apolloClient: ApolloClient<object>,
+  mutationOptions: Omit<MutationOptions<UpdateUsersModelMutation, UpdateUsersModelMutationVariables>, "mutation">
+): Promise<{ result: FetchResult<UpdateUsersModelMutation>; returning: (UsersModelFieldsFragment | null | undefined)[] | null | undefined }> {
+  const result = await apolloClient.mutate<UpdateUsersModelMutation, UpdateUsersModelMutationVariables>({ mutation: UpdateUsersModelDocument, ...mutationOptions });
 
   const returning = result && result.data && result.data.update_users && result.data.update_users!.returning;
 
@@ -195,13 +277,30 @@ export async function updateusersModel(
 
 // Delete Helper
 //
-export async function removeusersModel(
-  apolloClient: ApolloClient<object>,
-  mutationOptions: Omit<MutationOptions<RemoveusersModelByIdMutation, RemoveusersModelByIdMutationVariables>, "mutation">
-): Promise<{ result: FetchResult<RemoveusersModelByIdMutation>; returning: (usersModelFieldsFragment | null | undefined)[] | null | undefined }> {
-  const result = await apolloClient.mutate<RemoveusersModelByIdMutation, RemoveusersModelByIdMutationVariables>({ mutation: RemoveusersModelByIdDocument, ...mutationOptions });
 
-  const returning = result && result.data && result.data.remove_users && result.data.remove_users!.returning;
+export async function removeUsersModelById(
+  apolloClient: ApolloClient<object>,
+  usersId: number,
+  mutationOptions: Omit<MutationOptions<RemoveUsersModelByIdMutation, RemoveUsersModelByIdMutationVariables>, "mutation">
+): Promise<{ result: FetchResult<RemoveUsersModelByIdMutation>; returning: number | null | undefined }> {
+  const result = await apolloClient.mutate<RemoveUsersModelByIdMutation, RemoveUsersModelByIdMutationVariables>({
+    mutation: RemoveUsersModelByIdDocument,
+    variables: { id: usersId },
+    ...mutationOptions
+  });
+
+  const returning = result && result.data && result.data.delete_users && result.data.delete_users!.affected_rows;
+
+  return { result, returning };
+}
+
+export async function removeUsersModel(
+  apolloClient: ApolloClient<object>,
+  mutationOptions: Omit<MutationOptions<RemoveUsersModelMutation, RemoveUsersModelMutationVariables>, "mutation">
+): Promise<{ result: FetchResult<RemoveUsersModelMutation>; returning: number | null | undefined }> {
+  const result = await apolloClient.mutate<RemoveUsersModelMutation, RemoveUsersModelMutationVariables>({ mutation: RemoveUsersModelDocument, ...mutationOptions });
+
+  const returning = result && result.data && result.data.delete_users && result.data.delete_users!.affected_rows;
 
   return { result, returning };
 }
