@@ -176,8 +176,8 @@ function makeEntityUpdateMutationGql(namedType: GraphQLNamedType, importArray: s
 
   contentArray.push(`
     const UPDATE_${entityName.toUpperCase()}_MODELS = gql\`
-      mutation update${entityModelName}($inc: ${entityName}_inc_input, $set: ${entityName}_set_input, $where:${entityName}_bool_exp) {
-        update_${entityName}(_inc: $inc, _set: $set, where: $where) {
+      mutation update${entityModelName}($set: ${entityName}_set_input, $where:${entityName}_bool_exp!) {
+        update_${entityName}(_set: $set, where: $where) {
           affected_rows
           returning {
             ...${entityFragmentName}
@@ -214,7 +214,7 @@ function makeEntityDeleteMutationGql(namedType: GraphQLNamedType, importArray: s
 
   contentArray.push(`
     const REMOVE_${entityName.toUpperCase()}_MODELS = gql\`
-      mutation remove${entityModelName}($where:${entityName}_bool_exp) {
+      mutation remove${entityModelName}($where:${entityName}_bool_exp!) {
         delete_${entityName}(where: $where) {
           affected_rows
         }

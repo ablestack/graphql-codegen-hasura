@@ -20,8 +20,8 @@ import gql from 'graphql-tag';
       ${observationModelFields}
     `;
 
-    const FETCH_OBSERVATION_MODEL = gql`
-      query fetchobservationModel($observationId: uuid!) {
+    const FETCH_OBSERVATION_MODEL_BYID = gql`
+      query fetchobservationModelById($observationId: uuid!) {
         observation_by_pk(id: $observationId) {
           ...observationModelFields
         }
@@ -29,9 +29,24 @@ import gql from 'graphql-tag';
       ${observationModelFields}
     `;
 
-    const UPDATE_OBSERVATION_MODEL = gql`
-      mutation updateobservationModelById($id: uuid, $changes: observation_set_input) {
-        update_observation(where: { id: { _eq: $id } }, _set: $changes) {
+    const FETCH_OBSERVATION_MODELS = gql`
+      query fetchobservationModel(
+        $distinct_on: [observation_select_column!]
+        $where: observation_bool_exp
+        $limit: Int
+        $offset: Int
+        $order_by: [observation_order_by!]
+      ) {
+        observation(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+          ...observationModelFields
+        }
+      }
+      ${observationModelFields}
+    `;
+
+    const UPDATE_OBSERVATION_MODEL_BYID = gql`
+      mutation updateobservationModelById($id: uuid, $set: observation_set_input) {
+        update_observation(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
           returning {
             ...observationModelFields
@@ -41,9 +56,30 @@ import gql from 'graphql-tag';
       ${observationModelFields}
     `;
 
-    const REMOVE_OBSERVATION_MODEL = gql`
+    const UPDATE_OBSERVATION_MODELS = gql`
+      mutation updateobservationModel($set: observation_set_input, $where:observation_bool_exp!) {
+        update_observation(_set: $set, where: $where) {
+          affected_rows
+          returning {
+            ...observationModelFields
+          }
+        }
+      }
+      ${observationModelFields}
+    `;
+
+    const REMOVE_OBSERVATION_MODEL_BYID = gql`
       mutation removeobservationModelById($id: uuid) {
         delete_observation(where: { id: { _eq: $id } }) {
+          affected_rows
+        }
+      }
+      ${observationModelFields}
+    `;
+
+    const REMOVE_OBSERVATION_MODELS = gql`
+      mutation removeobservationModel($where:observation_bool_exp!) {
+        delete_observation(where: $where) {
           affected_rows
         }
       }
@@ -70,8 +106,8 @@ import gql from 'graphql-tag';
       ${pModelFields}
     `;
 
-    const FETCH_P_MODEL = gql`
-      query fetchpModel($pId: Int!) {
+    const FETCH_P_MODEL_BYID = gql`
+      query fetchpModelById($pId: Int!) {
         p_by_pk(id: $pId) {
           ...pModelFields
         }
@@ -79,9 +115,24 @@ import gql from 'graphql-tag';
       ${pModelFields}
     `;
 
-    const UPDATE_P_MODEL = gql`
-      mutation updatepModelById($id: Int, $changes: p_set_input) {
-        update_p(where: { id: { _eq: $id } }, _set: $changes) {
+    const FETCH_P_MODELS = gql`
+      query fetchpModel(
+        $distinct_on: [p_select_column!]
+        $where: p_bool_exp
+        $limit: Int
+        $offset: Int
+        $order_by: [p_order_by!]
+      ) {
+        p(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+          ...pModelFields
+        }
+      }
+      ${pModelFields}
+    `;
+
+    const UPDATE_P_MODEL_BYID = gql`
+      mutation updatepModelById($id: Int, $set: p_set_input) {
+        update_p(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
           returning {
             ...pModelFields
@@ -91,9 +142,30 @@ import gql from 'graphql-tag';
       ${pModelFields}
     `;
 
-    const REMOVE_P_MODEL = gql`
+    const UPDATE_P_MODELS = gql`
+      mutation updatepModel($set: p_set_input, $where:p_bool_exp!) {
+        update_p(_set: $set, where: $where) {
+          affected_rows
+          returning {
+            ...pModelFields
+          }
+        }
+      }
+      ${pModelFields}
+    `;
+
+    const REMOVE_P_MODEL_BYID = gql`
       mutation removepModelById($id: Int) {
         delete_p(where: { id: { _eq: $id } }) {
+          affected_rows
+        }
+      }
+      ${pModelFields}
+    `;
+
+    const REMOVE_P_MODELS = gql`
+      mutation removepModel($where:p_bool_exp!) {
+        delete_p(where: $where) {
           affected_rows
         }
       }
@@ -119,8 +191,8 @@ import gql from 'graphql-tag';
       ${patientModelFields}
     `;
 
-    const FETCH_PATIENT_MODEL = gql`
-      query fetchpatientModel($patientId: uuid!) {
+    const FETCH_PATIENT_MODEL_BYID = gql`
+      query fetchpatientModelById($patientId: uuid!) {
         patient_by_pk(id: $patientId) {
           ...patientModelFields
         }
@@ -128,9 +200,24 @@ import gql from 'graphql-tag';
       ${patientModelFields}
     `;
 
-    const UPDATE_PATIENT_MODEL = gql`
-      mutation updatepatientModelById($id: uuid, $changes: patient_set_input) {
-        update_patient(where: { id: { _eq: $id } }, _set: $changes) {
+    const FETCH_PATIENT_MODELS = gql`
+      query fetchpatientModel(
+        $distinct_on: [patient_select_column!]
+        $where: patient_bool_exp
+        $limit: Int
+        $offset: Int
+        $order_by: [patient_order_by!]
+      ) {
+        patient(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+          ...patientModelFields
+        }
+      }
+      ${patientModelFields}
+    `;
+
+    const UPDATE_PATIENT_MODEL_BYID = gql`
+      mutation updatepatientModelById($id: uuid, $set: patient_set_input) {
+        update_patient(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
           returning {
             ...patientModelFields
@@ -140,9 +227,30 @@ import gql from 'graphql-tag';
       ${patientModelFields}
     `;
 
-    const REMOVE_PATIENT_MODEL = gql`
+    const UPDATE_PATIENT_MODELS = gql`
+      mutation updatepatientModel($set: patient_set_input, $where:patient_bool_exp!) {
+        update_patient(_set: $set, where: $where) {
+          affected_rows
+          returning {
+            ...patientModelFields
+          }
+        }
+      }
+      ${patientModelFields}
+    `;
+
+    const REMOVE_PATIENT_MODEL_BYID = gql`
       mutation removepatientModelById($id: uuid) {
         delete_patient(where: { id: { _eq: $id } }) {
+          affected_rows
+        }
+      }
+      ${patientModelFields}
+    `;
+
+    const REMOVE_PATIENT_MODELS = gql`
+      mutation removepatientModel($where:patient_bool_exp!) {
+        delete_patient(where: $where) {
           affected_rows
         }
       }
@@ -169,8 +277,8 @@ import gql from 'graphql-tag';
       ${usersModelFields}
     `;
 
-    const FETCH_USERS_MODEL = gql`
-      query fetchusersModel($usersId: Int!) {
+    const FETCH_USERS_MODEL_BYID = gql`
+      query fetchusersModelById($usersId: Int!) {
         users_by_pk(id: $usersId) {
           ...usersModelFields
         }
@@ -178,9 +286,24 @@ import gql from 'graphql-tag';
       ${usersModelFields}
     `;
 
-    const UPDATE_USERS_MODEL = gql`
-      mutation updateusersModelById($id: Int, $changes: users_set_input) {
-        update_users(where: { id: { _eq: $id } }, _set: $changes) {
+    const FETCH_USERS_MODELS = gql`
+      query fetchusersModel(
+        $distinct_on: [users_select_column!]
+        $where: users_bool_exp
+        $limit: Int
+        $offset: Int
+        $order_by: [users_order_by!]
+      ) {
+        users(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+          ...usersModelFields
+        }
+      }
+      ${usersModelFields}
+    `;
+
+    const UPDATE_USERS_MODEL_BYID = gql`
+      mutation updateusersModelById($id: Int, $set: users_set_input) {
+        update_users(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
           returning {
             ...usersModelFields
@@ -190,9 +313,30 @@ import gql from 'graphql-tag';
       ${usersModelFields}
     `;
 
-    const REMOVE_USERS_MODEL = gql`
+    const UPDATE_USERS_MODELS = gql`
+      mutation updateusersModel($set: users_set_input, $where:users_bool_exp!) {
+        update_users(_set: $set, where: $where) {
+          affected_rows
+          returning {
+            ...usersModelFields
+          }
+        }
+      }
+      ${usersModelFields}
+    `;
+
+    const REMOVE_USERS_MODEL_BYID = gql`
       mutation removeusersModelById($id: Int) {
         delete_users(where: { id: { _eq: $id } }) {
+          affected_rows
+        }
+      }
+      ${usersModelFields}
+    `;
+
+    const REMOVE_USERS_MODELS = gql`
+      mutation removeusersModel($where:users_bool_exp!) {
+        delete_users(where: $where) {
           affected_rows
         }
       }
@@ -218,8 +362,8 @@ import gql from 'graphql-tag';
       ${vehicleModelFields}
     `;
 
-    const FETCH_VEHICLE_MODEL = gql`
-      query fetchvehicleModel($vehicleId: String!) {
+    const FETCH_VEHICLE_MODEL_BYID = gql`
+      query fetchvehicleModelById($vehicleId: String!) {
         vehicle_by_pk(id: $vehicleId) {
           ...vehicleModelFields
         }
@@ -227,9 +371,24 @@ import gql from 'graphql-tag';
       ${vehicleModelFields}
     `;
 
-    const UPDATE_VEHICLE_MODEL = gql`
-      mutation updatevehicleModelById($id: String, $changes: vehicle_set_input) {
-        update_vehicle(where: { id: { _eq: $id } }, _set: $changes) {
+    const FETCH_VEHICLE_MODELS = gql`
+      query fetchvehicleModel(
+        $distinct_on: [vehicle_select_column!]
+        $where: vehicle_bool_exp
+        $limit: Int
+        $offset: Int
+        $order_by: [vehicle_order_by!]
+      ) {
+        vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+          ...vehicleModelFields
+        }
+      }
+      ${vehicleModelFields}
+    `;
+
+    const UPDATE_VEHICLE_MODEL_BYID = gql`
+      mutation updatevehicleModelById($id: String, $set: vehicle_set_input) {
+        update_vehicle(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
           returning {
             ...vehicleModelFields
@@ -239,9 +398,30 @@ import gql from 'graphql-tag';
       ${vehicleModelFields}
     `;
 
-    const REMOVE_VEHICLE_MODEL = gql`
+    const UPDATE_VEHICLE_MODELS = gql`
+      mutation updatevehicleModel($set: vehicle_set_input, $where:vehicle_bool_exp!) {
+        update_vehicle(_set: $set, where: $where) {
+          affected_rows
+          returning {
+            ...vehicleModelFields
+          }
+        }
+      }
+      ${vehicleModelFields}
+    `;
+
+    const REMOVE_VEHICLE_MODEL_BYID = gql`
       mutation removevehicleModelById($id: String) {
         delete_vehicle(where: { id: { _eq: $id } }) {
+          affected_rows
+        }
+      }
+      ${vehicleModelFields}
+    `;
+
+    const REMOVE_VEHICLE_MODELS = gql`
+      mutation removevehicleModel($where:vehicle_bool_exp!) {
+        delete_vehicle(where: $where) {
           affected_rows
         }
       }
@@ -269,8 +449,8 @@ import gql from 'graphql-tag';
       ${vehicle_locationModelFields}
     `;
 
-    const FETCH_VEHICLE_LOCATION_MODEL = gql`
-      query fetchvehicle_locationModel($vehicle_locationId: Int!) {
+    const FETCH_VEHICLE_LOCATION_MODEL_BYID = gql`
+      query fetchvehicle_locationModelById($vehicle_locationId: Int!) {
         vehicle_location_by_pk(id: $vehicle_locationId) {
           ...vehicle_locationModelFields
         }
@@ -278,9 +458,24 @@ import gql from 'graphql-tag';
       ${vehicle_locationModelFields}
     `;
 
-    const UPDATE_VEHICLE_LOCATION_MODEL = gql`
-      mutation updatevehicle_locationModelById($id: Int, $changes: vehicle_location_set_input) {
-        update_vehicle_location(where: { id: { _eq: $id } }, _set: $changes) {
+    const FETCH_VEHICLE_LOCATION_MODELS = gql`
+      query fetchvehicle_locationModel(
+        $distinct_on: [vehicle_location_select_column!]
+        $where: vehicle_location_bool_exp
+        $limit: Int
+        $offset: Int
+        $order_by: [vehicle_location_order_by!]
+      ) {
+        vehicle_location(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+          ...vehicle_locationModelFields
+        }
+      }
+      ${vehicle_locationModelFields}
+    `;
+
+    const UPDATE_VEHICLE_LOCATION_MODEL_BYID = gql`
+      mutation updatevehicle_locationModelById($id: Int, $set: vehicle_location_set_input) {
+        update_vehicle_location(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
           returning {
             ...vehicle_locationModelFields
@@ -290,9 +485,30 @@ import gql from 'graphql-tag';
       ${vehicle_locationModelFields}
     `;
 
-    const REMOVE_VEHICLE_LOCATION_MODEL = gql`
+    const UPDATE_VEHICLE_LOCATION_MODELS = gql`
+      mutation updatevehicle_locationModel($set: vehicle_location_set_input, $where:vehicle_location_bool_exp!) {
+        update_vehicle_location(_set: $set, where: $where) {
+          affected_rows
+          returning {
+            ...vehicle_locationModelFields
+          }
+        }
+      }
+      ${vehicle_locationModelFields}
+    `;
+
+    const REMOVE_VEHICLE_LOCATION_MODEL_BYID = gql`
       mutation removevehicle_locationModelById($id: Int) {
         delete_vehicle_location(where: { id: { _eq: $id } }) {
+          affected_rows
+        }
+      }
+      ${vehicle_locationModelFields}
+    `;
+
+    const REMOVE_VEHICLE_LOCATION_MODELS = gql`
+      mutation removevehicle_locationModel($where:vehicle_location_bool_exp!) {
+        delete_vehicle_location(where: $where) {
           affected_rows
         }
       }

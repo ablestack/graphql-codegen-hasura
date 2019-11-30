@@ -27,7 +27,7 @@ generates:
       - graphql-codegen-hasura-typescript
     config:
       reactApolloVersion: 3
-      primaryCodegenTypeScriptImportPath: "./src/autogen"
+      primaryCodegenTypeScriptImportPath: "../"
       withQueries: true
       withInserts: true
       withUpdates: true
