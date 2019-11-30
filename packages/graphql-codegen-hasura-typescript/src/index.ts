@@ -65,11 +65,19 @@ function makeEntitySharedGql(namedType: GraphQLNamedType, importArray: string[],
 
   const entityName = namedType.name;
   const fragmentName = makeFragmentName(entityName, config.trimString);
+  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
 
   contentArray.push(`
     // ${entityName} Helpers
     //------------------------------------------------
   `);
+
+  if (!primaryKeyIdTypeScriptFieldType.isNative) {
+    const typeImport = makePrimaryCodegenTypescriptImport(`${primaryKeyIdTypeScriptFieldType.typeName}`, config.primaryCodegenTypeScriptImportPath);
+    if (!importArray.includes(typeImport)) {
+      importArray.push(typeImport);
+    }
+  }
 
   importArray.push(makePrimaryCodegenTypescriptImport(`${fragmentName}Fragment`, config.primaryCodegenTypeScriptImportPath));
 }
@@ -170,7 +178,7 @@ function makeEntityUpdateMutationGql(namedType: GraphQLNamedType, importArray: s
 
     export async function update${entityModelName}ById(
       apolloClient: ApolloClient<object>,
-      ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType},
+      ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName},
       set: ${entityShortName}_Set_Input,
       mutationOptions: Omit<MutationOptions<Update${entityModelName}ByIdMutation, Update${entityModelName}ByIdMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<Update${entityModelName}ByIdMutation>; returning: (${entityFragmentName}Fragment | null | undefined)[] | null | undefined }> {
@@ -224,7 +232,7 @@ function makeEntityDeleteMutationGql(namedType: GraphQLNamedType, importArray: s
 
     export async function remove${entityModelName}ById(
       apolloClient: ApolloClient<object>,
-      ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType},
+      ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName},
       mutationOptions: Omit<MutationOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<Remove${entityModelName}ByIdMutation>; returning: number | null | undefined }> {
       

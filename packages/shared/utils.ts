@@ -44,9 +44,15 @@ export function getIdPostGresFieldType(field: FieldDefinitionNode) {
   return ID_FIELD_TEST(fAny) && SCALAR_TYPE_TEST(fAny) && fAny && fAny.type && fAny.type.type && fAny.type.type.name && fAny.type.type.name.value;
 }
 
-export function getIdTypeScriptFieldType(field: FieldDefinitionNode) {
+export function getIdTypeScriptFieldType(field: FieldDefinitionNode): { typeName: string; isNative: boolean } {
   const postGresIdFieldType = getIdPostGresFieldType(field);
-  return postGresIdFieldType.toLowerCase() === "int" ? "number" : "string";
+  if (postGresIdFieldType.endsWith("_enum")) {
+    return { typeName: toPascalCase(postGresIdFieldType), isNative: false };
+  } else if (postGresIdFieldType.toLowerCase() === "int") {
+    return { typeName: "number", isNative: true };
+  } else {
+    return { typeName: "string", isNative: true };
+  }
 }
 
 export const getPrimaryKeyIdField = (t: GraphQLNamedType) => {
