@@ -1,8 +1,5 @@
 schema:
   - ./schema/graphql.schema.json
-documents:
-  - ./src/**/*.tsx
-  - ./src/**/*.ts
 overwrite: true
 config:
   scalars:
@@ -10,6 +7,9 @@ config:
     JSON: "{ [key: string]: any }"
 generates:
   ./src/autogen/index.tsx:
+    documents:
+      - ./src/**/*.tsx
+      - ./src/**/*.ts
     plugins:
       - typescript
       - typescript-operations
@@ -32,11 +32,14 @@ generates:
       withUpdates: true
       withDeletes: true
   ./src/autogen/hasura/ts-from-fragments.ts:
+    documents:
+      - ./src/customFragments.ts
     plugins:
       - graphql-codegen-hasura-typescript-from-documents
     config:
       reactApolloVersion: 3
       primaryCodegenTypeScriptImportPath: "../"
+      trimstring:
       withQueries: true
       withInserts: true
       withUpdates: true

@@ -1,17 +1,8 @@
 import { PluginFunction, Types } from "@graphql-codegen/plugin-helpers";
 import { RawTypesConfig } from "@graphql-codegen/visitor-plugin-common";
-import { GraphQLNamedType, GraphQLSchema, DocumentNode } from "graphql";
-import {
-  getPrimaryKeyIdField,
-  makeFragmentName,
-  makeModelName,
-  makePrimaryCodegenTypescriptImport,
-  makeShortCamelCaseName,
-  TABLE_TYPE_FILTER,
-  makeShortName,
-  getIdPostGresFieldType,
-  getIdTypeScriptFieldType
-} from "../../shared";
+import { FragmentDefinitionNode, GraphQLNamedType, GraphQLSchema } from "graphql";
+import { getPrimaryKeyIdField, injectDeleteHelpers, injectFetchHelpers, injectInsertHelpers, injectSharedHelpers, injectUpdateHelpers } from "../../shared";
+import { TypeMap } from "graphql/type/schema";
 
 // -----------------------------------------------------
 //
@@ -38,18 +29,26 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   ];
   const contentArray: string[] = [];
 
+  // get typemap from schema
+  const typeMap = schema.getTypeMap();
+
+  // iterate and generate
   documents
-    //.filter(t => TABLE_TYPE_FILTER(t))
-    .map(d => {
-      return `
-      ${makeFragmentTestTypeScript(d.content, importArray, contentArray, config)}
-      ${/* makeFragmentSharedTypeScript(t, importArray, contentArray, config) */ ""}
-      ${/* config.withInserts && makeFragmentInsertMutationTypeScript(t, importArray, contentArray, config) */ ""}
-      ${/* config.withQueries && makeFragmentQueryMutationTypeScript(t, importArray, contentArray, config) */ ""}
-      ${/* config.withUpdates && makeFragmentUpdateMutationTypeScript(t, importArray, contentArray, config) */ ""}
-      ${/* config.withDeletes && makeFragmentDeleteMutationTypeScript(t, importArray, contentArray, config) */ ""}
+    .map(document => {
+      document.content.definitions
+        .filter(definition => definition.kind === "FragmentDefinition")
+        .map(definition => {
+          const fd = definition as FragmentDefinitionNode;
+          return `
+      ${makeEntitySharedTypeScript(fd, typeMap, importArray, contentArray, config)}
+      ${config.withInserts && makeEntityInsertMutationTypeScript(fd, typeMap, importArray, contentArray, config)}
+      ${config.withQueries && makeEntityQueryMutationTypeScript(fd, typeMap, importArray, contentArray, config)}
+      ${config.withUpdates && makeEntityUpdateMutationTypeScript(fd, typeMap, importArray, contentArray, config)}
+      ${config.withDeletes && makeEntityDeleteMutationTypeScript(fd, typeMap, importArray, contentArray, config)}
       `;
-    });
+        });
+    })
+    .flat();
 
   return {
     prepend: importArray,
@@ -60,220 +59,139 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
 // --------------------------------------
 //
 
-function makeFragmentTestTypeScript(documentNode: DocumentNode, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
-  contentArray.push(`
-    ${JSON.stringify(documentNode, null, 2)}
-  `);
+function makeEntitySharedTypeScript(
+  fragmentDefinitionNode: FragmentDefinitionNode,
+  schemaTypeMap: TypeMap,
+  importArray: string[],
+  contentArray: string[],
+  config: CstmHasuraCrudPluginConfig
+) {
+  const fragmentName = fragmentDefinitionNode.name.value;
+  const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
+  const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+
+  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+  if (!relatedTablePrimaryKeyIdField) return;
+
+  injectSharedHelpers({
+    contentArray,
+    importArray,
+    entityName: relatedTableNamedType.name,
+    fragmentName,
+    trimString: config.trimString,
+    primaryKeyIdField: relatedTablePrimaryKeyIdField,
+    primaryCodegenTypeScriptImportPath: config.primaryCodegenTypeScriptImportPath
+  });
+}
+// --------------------------------------
+//
+
+function makeEntityQueryMutationTypeScript(
+  fragmentDefinitionNode: FragmentDefinitionNode,
+  schemaTypeMap: TypeMap,
+  importArray: string[],
+  contentArray: string[],
+  config: CstmHasuraCrudPluginConfig
+) {
+  const fragmentName = fragmentDefinitionNode.name.value;
+  const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
+  const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+
+  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+  if (!relatedTablePrimaryKeyIdField) return;
+
+  injectFetchHelpers({
+    contentArray,
+    importArray,
+    entityName: relatedTableNamedType.name,
+    fragmentName,
+    trimString: config.trimString,
+    primaryKeyIdField: relatedTablePrimaryKeyIdField,
+    primaryCodegenTypeScriptImportPath: config.primaryCodegenTypeScriptImportPath
+  });
 }
 
 // --------------------------------------
 //
 
-function makeFragmentSharedTypeScript(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
-  const primaryKeyIdField = getPrimaryKeyIdField(namedType);
-  if (!primaryKeyIdField) return;
+function makeEntityInsertMutationTypeScript(
+  fragmentDefinitionNode: FragmentDefinitionNode,
+  schemaTypeMap: TypeMap,
+  importArray: string[],
+  contentArray: string[],
+  config: CstmHasuraCrudPluginConfig
+) {
+  const fragmentName = fragmentDefinitionNode.name.value;
+  const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
+  const relatedTableNamedType = schemaTypeMap[fragmentTableName];
 
-  const entityName = namedType.name;
-  const fragmentName = makeFragmentName(entityName, config.trimString);
-  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
+  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+  if (!relatedTablePrimaryKeyIdField) return;
 
-  contentArray.push(`
-    // ${entityName} Helpers
-    //------------------------------------------------
-  `);
-
-  if (!primaryKeyIdTypeScriptFieldType.isNative) {
-    const typeImport = makePrimaryCodegenTypescriptImport(`${primaryKeyIdTypeScriptFieldType.typeName}`, config.primaryCodegenTypeScriptImportPath);
-    if (!importArray.includes(typeImport)) {
-      importArray.push(typeImport);
-    }
-  }
-
-  importArray.push(makePrimaryCodegenTypescriptImport(`${fragmentName}Fragment`, config.primaryCodegenTypeScriptImportPath));
+  injectInsertHelpers({
+    contentArray,
+    importArray,
+    entityName: relatedTableNamedType.name,
+    fragmentName,
+    trimString: config.trimString,
+    primaryKeyIdField: relatedTablePrimaryKeyIdField,
+    primaryCodegenTypeScriptImportPath: config.primaryCodegenTypeScriptImportPath
+  });
 }
 // --------------------------------------
 //
 
-function makeFragmentQueryMutationTypeScript(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
-  const primaryKeyIdField = getPrimaryKeyIdField(namedType);
-  if (!primaryKeyIdField) return;
+function makeEntityUpdateMutationTypeScript(
+  fragmentDefinitionNode: FragmentDefinitionNode,
+  schemaTypeMap: TypeMap,
+  importArray: string[],
+  contentArray: string[],
+  config: CstmHasuraCrudPluginConfig
+) {
+  const fragmentName = fragmentDefinitionNode.name.value;
+  const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
+  const relatedTableNamedType = schemaTypeMap[fragmentTableName];
 
-  const entityName = namedType.name;
-  const entityShortCamelCaseName = makeShortCamelCaseName(entityName, config.trimString);
-  const entityModelName = makeModelName(entityName, config.trimString);
-  const fragmentName = makeFragmentName(entityName, config.trimString);
+  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+  if (!relatedTablePrimaryKeyIdField) return;
 
-  contentArray.push(`
-    // Fetch Helper
-    //
-
-    export async function fetch${entityModelName}ById(
-      apolloClient: ApolloClient<object>, 
-      ${entityShortCamelCaseName}Id: string
-      ): Promise<${fragmentName}Fragment | null | undefined> {
-      const ${entityShortCamelCaseName}Result = await apolloClient.query<Fetch${entityModelName}ByIdQuery>({ query: Fetch${entityModelName}ByIdDocument, variables: { id:${entityShortCamelCaseName}Id } });
-      return ${entityShortCamelCaseName}Result.data.${entityName}_by_pk;
-    }
-  `);
-
-  contentArray.push(`
-    export async function fetch${entityModelName}(
-      apolloClient: ApolloClient<object>,
-      ${entityShortCamelCaseName}Id: string,
-      queryOptions: Omit<QueryOptions<Fetch${entityModelName}QueryVariables>, 'query'>,
-    ): Promise<${fragmentName}Fragment[] | null | undefined> {
-      const ${entityShortCamelCaseName}Result = await apolloClient.query<Fetch${entityModelName}Query>({ query: Fetch${entityModelName}Document, ...queryOptions });
-      return ${entityShortCamelCaseName}Result.data.${entityName};
-    }
-  `);
-
-  importArray.push(makePrimaryCodegenTypescriptImport(`Fetch${entityModelName}ByIdQuery`, config.primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Fetch${entityModelName}ByIdDocument`, config.primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Fetch${entityModelName}Query`, config.primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Fetch${entityModelName}Document`, config.primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Fetch${entityModelName}QueryVariables`, config.primaryCodegenTypeScriptImportPath));
+  injectUpdateHelpers({
+    contentArray,
+    importArray,
+    entityName: relatedTableNamedType.name,
+    fragmentName,
+    trimString: config.trimString,
+    primaryKeyIdField: relatedTablePrimaryKeyIdField,
+    primaryCodegenTypeScriptImportPath: config.primaryCodegenTypeScriptImportPath
+  });
 }
 
 // --------------------------------------
 //
 
-function makeFragmentInsertMutationTypeScript(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
-  if (!getPrimaryKeyIdField(namedType)) return;
+function makeEntityDeleteMutationTypeScript(
+  fragmentDefinitionNode: FragmentDefinitionNode,
+  schemaTypeMap: TypeMap,
+  importArray: string[],
+  contentArray: string[],
+  config: CstmHasuraCrudPluginConfig
+) {
+  const fragmentName = fragmentDefinitionNode.name.value;
+  const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
+  const relatedTableNamedType = schemaTypeMap[fragmentTableName];
 
-  const entityName = namedType.name;
-  const entityShortCamelCaseName = makeShortCamelCaseName(entityName, config.trimString);
-  const entityModelName = makeModelName(entityName, config.trimString);
-  const entityFragmentName = makeFragmentName(entityName, config.trimString);
+  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+  if (!relatedTablePrimaryKeyIdField) return;
 
-  contentArray.push(`
-    // Insert Helper
-    //
-
-    export async function insert${entityModelName}(
-      apolloClient: ApolloClient<object>,
-      ${entityShortCamelCaseName}Id: string,
-      mutationOptions: Omit<MutationOptions<Insert${entityModelName}Mutation, Insert${entityModelName}MutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<Insert${entityModelName}Mutation>; returning: (${entityFragmentName}Fragment | null | undefined)[] | null | undefined }> {
-      
-      const result = await apolloClient.mutate<Insert${entityModelName}Mutation, Insert${entityModelName}MutationVariables>({ mutation: Insert${entityModelName}Document, ...mutationOptions,});
-    
-      const returning = result && result.data && result.data.insert_${entityName} && result.data.insert_${entityName}!.returning;
-    
-      return { result, returning };
-    }
-  `);
-
-  importArray.push(makePrimaryCodegenTypescriptImport(`Insert${entityModelName}Mutation`, config.primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Insert${entityModelName}MutationVariables`, config.primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Insert${entityModelName}Document`, config.primaryCodegenTypeScriptImportPath));
-}
-
-// --------------------------------------
-//
-
-function makeFragmentUpdateMutationTypeScript(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
-  const primaryKeyIdField = getPrimaryKeyIdField(namedType);
-  if (!primaryKeyIdField) return;
-
-  const entityName = namedType.name;
-  const entityShortName = makeShortName(entityName);
-  const entityShortCamelCaseName = makeShortCamelCaseName(entityName, config.trimString);
-  const entityModelName = makeModelName(entityName, config.trimString);
-  const entityFragmentName = makeFragmentName(entityName, config.trimString);
-  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
-
-  contentArray.push(`
-    // Update Helper
-    //
-
-    export async function update${entityModelName}ById(
-      apolloClient: ApolloClient<object>,
-      ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName},
-      set: ${entityShortName}_Set_Input,
-      mutationOptions: Omit<MutationOptions<Update${entityModelName}ByIdMutation, Update${entityModelName}ByIdMutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<Update${entityModelName}ByIdMutation>; returning: (${entityFragmentName}Fragment | null | undefined)[] | null | undefined }> {
-      
-      const result = await apolloClient.mutate<Update${entityModelName}ByIdMutation, Update${entityModelName}ByIdMutationVariables>({ mutation: Update${entityModelName}ByIdDocument, variables: { id:${entityShortCamelCaseName}Id, set }, ...mutationOptions,});
-    
-      const returning = result && result.data && result.data.update_${entityName} && result.data.update_${entityName}!.returning;
-    
-      return { result, returning };
-    }
-  `);
-
-  contentArray.push(`
-    export async function update${entityModelName}(
-      apolloClient: ApolloClient<object>,
-      mutationOptions: Omit<MutationOptions<Update${entityModelName}Mutation, Update${entityModelName}MutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<Update${entityModelName}Mutation>; returning: (${entityFragmentName}Fragment | null | undefined)[] | null | undefined }> {
-      
-      const result = await apolloClient.mutate<Update${entityModelName}Mutation, Update${entityModelName}MutationVariables>({ mutation: Update${entityModelName}Document, ...mutationOptions,});
-    
-      const returning = result && result.data && result.data.update_${entityName} && result.data.update_${entityName}!.returning;
-    
-      return { result, returning };
-    }
-  `);
-
-  importArray.push(makePrimaryCodegenTypescriptImport(`${entityShortName}_Set_Input`, config.primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Update${entityModelName}ByIdMutation`, config.primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Update${entityModelName}ByIdMutationVariables`, config.primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Update${entityModelName}ByIdDocument`, config.primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Update${entityModelName}Mutation`, config.primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Update${entityModelName}MutationVariables`, config.primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Update${entityModelName}Document`, config.primaryCodegenTypeScriptImportPath));
-}
-
-// --------------------------------------
-//
-
-function makeFragmentDeleteMutationTypeScript(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
-  const primaryKeyIdField = getPrimaryKeyIdField(namedType);
-  if (!primaryKeyIdField) return;
-
-  const entityName = namedType.name;
-  const entityShortCamelCaseName = makeShortCamelCaseName(entityName, config.trimString);
-  const entityModelName = makeModelName(entityName, config.trimString);
-  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
-
-  contentArray.push(`
-    // Delete Helper
-    //
-
-    export async function remove${entityModelName}ById(
-      apolloClient: ApolloClient<object>,
-      ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName},
-      mutationOptions: Omit<MutationOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<Remove${entityModelName}ByIdMutation>; returning: number | null | undefined }> {
-      
-      const result = await apolloClient.mutate<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>({ mutation: Remove${entityModelName}ByIdDocument, variables: { id:${entityShortCamelCaseName}Id, }, ...mutationOptions,});
-    
-      const returning = result && result.data && result.data.delete_${entityName} && result.data.delete_${entityName}!.affected_rows;
-    
-      return { result, returning };
-    }
-  `);
-
-  contentArray.push(`
-    export async function remove${entityModelName}(
-      apolloClient: ApolloClient<object>,
-      mutationOptions: Omit<MutationOptions<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<Remove${entityModelName}Mutation>; returning: number | null | undefined }> {
-      
-      const result = await apolloClient.mutate<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>({ mutation: Remove${entityModelName}Document, ...mutationOptions,});
-    
-      const returning = result && result.data && result.data.delete_${entityName} && result.data.delete_${entityName}!.affected_rows;
-    
-      return { result, returning };
-    }
-  `);
-
-  importArray.push(makePrimaryCodegenTypescriptImport(`Remove${entityModelName}Mutation`, config.primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Remove${entityModelName}MutationVariables`, config.primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Remove${entityModelName}Document`, config.primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Remove${entityModelName}ByIdMutation`, config.primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Remove${entityModelName}ByIdMutationVariables`, config.primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Remove${entityModelName}ByIdDocument`, config.primaryCodegenTypeScriptImportPath));
+  injectDeleteHelpers({
+    contentArray,
+    importArray,
+    entityName: relatedTableNamedType.name,
+    fragmentName,
+    trimString: config.trimString,
+    primaryKeyIdField: relatedTablePrimaryKeyIdField,
+    primaryCodegenTypeScriptImportPath: config.primaryCodegenTypeScriptImportPath
+  });
 }
 
 // --------------------------------------

@@ -72,7 +72,7 @@ function makeEntityModelSharedGql(namedType: GraphQLNamedType, importArray: stri
 function makeEntityModelFragmentsGql(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
   const entityName = namedType.name;
   const entityModelName = makeModelName(entityName, config.trimString);
-  const entityFragmentName = makeFragmentName(entityName, config.trimString);
+  const fragmentName = makeFragmentName(entityName, config.trimString);
   const fields = (namedType.astNode as ObjectTypeDefinitionNode).fields;
   const scalarFieldNamesArray: string[] = [];
 
@@ -89,7 +89,7 @@ function makeEntityModelFragmentsGql(namedType: GraphQLNamedType, importArray: s
     // Scalar Fields Fragment
     //
 
-    export const ${entityFragmentName} = gql\`
+    export const ${fragmentName} = gql\`
       fragment ${entityModelName}Fields on ${entityName} {
       ${scalarFieldNamesArray.join("\n      ")}
       }
@@ -106,7 +106,7 @@ function makeEntityQueryMutationGql(namedType: GraphQLNamedType, importArray: st
   const entityName = namedType.name;
   const entityShortCamelName = makeShortCamelCaseName(namedType.name, config.trimString);
   const entityModelName = makeModelName(entityName, config.trimString);
-  const entityFragmentName = makeFragmentName(entityName, config.trimString);
+  const fragmentName = makeFragmentName(entityName, config.trimString);
   const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
 
   contentArray.push(`
@@ -117,10 +117,10 @@ function makeEntityQueryMutationGql(namedType: GraphQLNamedType, importArray: st
     const FETCH_${entityName.toUpperCase()}_MODEL_BYID = gql\`
       query fetch${entityModelName}ById($${entityShortCamelName}Id: ${primaryKeyIdPostGresFieldType}!) {
         ${entityName}_by_pk(id: $${entityShortCamelName}Id) {
-          ...${entityFragmentName}
+          ...${fragmentName}
         }
       }
-      \${${entityFragmentName}}
+      \${${fragmentName}}
     \`;`);
 
   contentArray.push(`
@@ -137,10 +137,10 @@ function makeEntityQueryMutationGql(namedType: GraphQLNamedType, importArray: st
         $order_by: [${entityName}_order_by!]
       ) {
         ${entityName}(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-          ...${entityFragmentName}
+          ...${fragmentName}
         }
       }
-      \${${entityFragmentName}}
+      \${${fragmentName}}
     \`;`);
 
   if (!config.withFragments) importArray.push(makeFragmentsImport(entityName, config.fragmentImportFrom));
@@ -154,7 +154,7 @@ function makeEntityInsertMutationGql(namedType: GraphQLNamedType, importArray: s
 
   const entityName = namedType.name;
   const entityModelName = makeModelName(entityName, config.trimString);
-  const entityFragmentName = makeFragmentName(entityName, config.trimString);
+  const fragmentName = makeFragmentName(entityName, config.trimString);
 
   contentArray.push(`
 
@@ -166,11 +166,11 @@ function makeEntityInsertMutationGql(namedType: GraphQLNamedType, importArray: s
         insert_${entityName}(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {
-            ...${entityFragmentName}
+            ...${fragmentName}
           }
         }
       }
-      \${${entityFragmentName}}
+      \${${fragmentName}}
     \`;`);
 
   if (!config.withFragments) importArray.push(makeFragmentsImport(entityName, config.fragmentImportFrom));
@@ -186,7 +186,7 @@ function makeEntityUpdateMutationGql(namedType: GraphQLNamedType, importArray: s
   const entityName = namedType.name;
   const entityModelName = makeModelName(entityName, config.trimString);
   const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
-  const entityFragmentName = makeFragmentName(entityName, config.trimString);
+  const fragmentName = makeFragmentName(entityName, config.trimString);
 
   contentArray.push(`
 
@@ -198,11 +198,11 @@ function makeEntityUpdateMutationGql(namedType: GraphQLNamedType, importArray: s
         update_${entityName}(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
           returning {
-            ...${entityFragmentName}
+            ...${fragmentName}
           }
         }
       }
-      \${${entityFragmentName}}
+      \${${fragmentName}}
     \`;`);
 
   contentArray.push(`
@@ -215,11 +215,11 @@ function makeEntityUpdateMutationGql(namedType: GraphQLNamedType, importArray: s
         update_${entityName}(_set: $set, where: $where) {
           affected_rows
           returning {
-            ...${entityFragmentName}
+            ...${fragmentName}
           }
         }
       }
-      \${${entityFragmentName}}
+      \${${fragmentName}}
     \`;`);
 
   if (!config.withFragments) importArray.push(makeFragmentsImport(entityName, config.fragmentImportFrom));
@@ -235,7 +235,7 @@ function makeEntityDeleteMutationGql(namedType: GraphQLNamedType, importArray: s
   const entityName = namedType.name;
   const entityModelName = makeModelName(entityName, config.trimString);
   const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
-  const entityFragmentName = makeFragmentName(entityName, config.trimString);
+  const fragmentName = makeFragmentName(entityName, config.trimString);
 
   contentArray.push(`
 
@@ -248,7 +248,7 @@ function makeEntityDeleteMutationGql(namedType: GraphQLNamedType, importArray: s
           affected_rows
         }
       }
-      \${${entityFragmentName}}
+      \${${fragmentName}}
     \`;`);
 
   contentArray.push(`
@@ -262,7 +262,7 @@ function makeEntityDeleteMutationGql(namedType: GraphQLNamedType, importArray: s
           affected_rows
         }
       }
-      \${${entityFragmentName}}
+      \${${fragmentName}}
     \`;`);
 
   if (!config.withFragments) importArray.push(makeFragmentsImport(entityName, config.fragmentImportFrom));
