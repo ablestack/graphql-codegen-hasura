@@ -1,7 +1,17 @@
 import { PluginFunction, Types } from "@graphql-codegen/plugin-helpers";
 import { RawTypesConfig } from "@graphql-codegen/visitor-plugin-common";
 import { GraphQLNamedType, GraphQLSchema } from "graphql";
-import { getPrimaryKeyIdField, makeFragmentName, makeModelEntityName, makePrimaryCodegenTypescriptImport, makeShortCamelCaseEntityName, TABLE_TYPE_FILTER } from "../../shared";
+import {
+  getPrimaryKeyIdField,
+  makeFragmentName,
+  makeModelName,
+  makePrimaryCodegenTypescriptImport,
+  makeShortCamelCaseName,
+  TABLE_TYPE_FILTER,
+  makeShortName,
+  getIdPostGresFieldType,
+  getIdTypeScriptFieldType
+} from "../../shared";
 
 // -----------------------------------------------------
 //
@@ -10,6 +20,7 @@ import { getPrimaryKeyIdField, makeFragmentName, makeModelEntityName, makePrimar
 export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
   reactApolloVersion?: number;
   primaryCodegenTypeScriptImportPath: string;
+  trimString?: string;
   withQueries?: boolean;
   withInserts?: boolean;
   withUpdates?: boolean;
@@ -53,8 +64,7 @@ function makeEntitySharedGql(namedType: GraphQLNamedType, importArray: string[],
   if (!primaryKeyIdField) return;
 
   const entityName = namedType.name;
-  const entityModelName = makeModelEntityName(entityName);
-  const fragmentName = makeFragmentName(entityName);
+  const fragmentName = makeFragmentName(entityName, config.trimString);
 
   console.log(fragmentName);
 
@@ -68,9 +78,9 @@ function makeEntityQueryMutationGql(namedType: GraphQLNamedType, importArray: st
   if (!primaryKeyIdField) return;
 
   const entityName = namedType.name;
-  const entityShortCamelCaseName = makeShortCamelCaseEntityName(entityName);
-  const entityModelName = makeModelEntityName(entityName);
-  const fragmentName = makeFragmentName(entityName);
+  const entityShortCamelCaseName = makeShortCamelCaseName(entityName, config.trimString);
+  const entityModelName = makeModelName(entityName, config.trimString);
+  const fragmentName = makeFragmentName(entityName, config.trimString);
 
   contentArray.push(`
     export async function fetch${entityModelName}ById(
@@ -87,7 +97,7 @@ function makeEntityQueryMutationGql(namedType: GraphQLNamedType, importArray: st
       apolloClient: ApolloClient<object>,
       ${entityShortCamelCaseName}Id: string,
       queryOptions: Omit<QueryOptions<Fetch${entityModelName}QueryVariables>, 'query'>,
-    ): Promise<${fragmentName}Fragment | null | undefined> {
+    ): Promise<${fragmentName}Fragment[] | null | undefined> {
       const ${entityShortCamelCaseName}Result = await apolloClient.query<Fetch${entityModelName}Query>({ query: Fetch${entityModelName}Document, ...queryOptions });
       return ${entityShortCamelCaseName}Result.data.${entityName};
     }
@@ -107,9 +117,9 @@ function makeEntityInsertMutationGql(namedType: GraphQLNamedType, importArray: s
   if (!getPrimaryKeyIdField(namedType)) return;
 
   const entityName = namedType.name;
-  const entityShortCamelCaseName = makeShortCamelCaseEntityName(entityName);
-  const entityModelName = makeModelEntityName(entityName);
-  const entityFragmentName = makeFragmentName(entityName);
+  const entityShortCamelCaseName = makeShortCamelCaseName(entityName, config.trimString);
+  const entityModelName = makeModelName(entityName, config.trimString);
+  const entityFragmentName = makeFragmentName(entityName, config.trimString);
 
   contentArray.push(`
     export async function insert${entityModelName}(
@@ -139,15 +149,17 @@ function makeEntityUpdateMutationGql(namedType: GraphQLNamedType, importArray: s
   if (!primaryKeyIdField) return;
 
   const entityName = namedType.name;
-  const entityShortCamelCaseName = makeShortCamelCaseEntityName(entityName);
-  const entityModelName = makeModelEntityName(entityName);
-  const entityFragmentName = makeFragmentName(entityName);
+  const entityShortName = makeShortName(entityName);
+  const entityShortCamelCaseName = makeShortCamelCaseName(entityName, config.trimString);
+  const entityModelName = makeModelName(entityName, config.trimString);
+  const entityFragmentName = makeFragmentName(entityName, config.trimString);
+  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
 
   contentArray.push(`
     export async function update${entityModelName}ById(
       apolloClient: ApolloClient<object>,
-      ${entityShortCamelCaseName}Id: string,
-      set: ${entityName}_Set_Input,
+      ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType},
+      set: ${entityShortName}_Set_Input,
       mutationOptions: Omit<MutationOptions<Update${entityModelName}ByIdMutation, Update${entityModelName}ByIdMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<Update${entityModelName}ByIdMutation>; returning: (${entityFragmentName}Fragment | null | undefined)[] | null | undefined }> {
       
@@ -173,7 +185,7 @@ function makeEntityUpdateMutationGql(namedType: GraphQLNamedType, importArray: s
     }
   `);
 
-  importArray.push(makePrimaryCodegenTypescriptImport(`${entityName}_Set_Input`, config.primaryCodegenTypeScriptImportPath));
+  importArray.push(makePrimaryCodegenTypescriptImport(`${entityShortName}_Set_Input`, config.primaryCodegenTypeScriptImportPath));
   importArray.push(makePrimaryCodegenTypescriptImport(`Update${entityModelName}ByIdMutation`, config.primaryCodegenTypeScriptImportPath));
   importArray.push(makePrimaryCodegenTypescriptImport(`Update${entityModelName}ByIdMutationVariables`, config.primaryCodegenTypeScriptImportPath));
   importArray.push(makePrimaryCodegenTypescriptImport(`Update${entityModelName}ByIdDocument`, config.primaryCodegenTypeScriptImportPath));
@@ -190,14 +202,14 @@ function makeEntityDeleteMutationGql(namedType: GraphQLNamedType, importArray: s
   if (!primaryKeyIdField) return;
 
   const entityName = namedType.name;
-  const entityShortCamelCaseName = makeShortCamelCaseEntityName(entityName);
-  const entityModelName = makeModelEntityName(entityName);
-  const entityFragmentName = makeFragmentName(entityName);
+  const entityShortCamelCaseName = makeShortCamelCaseName(entityName, config.trimString);
+  const entityModelName = makeModelName(entityName, config.trimString);
+  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
 
   contentArray.push(`
     export async function remove${entityModelName}ById(
       apolloClient: ApolloClient<object>,
-      ${entityShortCamelCaseName}Id: string,
+      ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType},
       mutationOptions: Omit<MutationOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<Remove${entityModelName}ByIdMutation>; returning: number | null | undefined }> {
       

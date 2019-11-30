@@ -1,36 +1,36 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import gql from 'graphql-tag';
 
-    export const observationModelFields = gql`
-      fragment observationModelFields on observation {
+    export const ObservationModelFields = gql`
+      fragment ObservationModelFields on observation {
       id
       resource
       }
     `;
 
     const INSERT_OBSERVATION_MODEL = gql`
-      mutation insertobservationModel($objects: [observation_insert_input!]!, $onConflict: observation_on_conflict) {
+      mutation insertObservationModel($objects: [observation_insert_input!]!, $onConflict: observation_on_conflict) {
         insert_observation(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {
-            ...observationModelFields
+            ...ObservationModelFields
           }
         }
       }
-      ${observationModelFields}
+      ${ObservationModelFields}
     `;
 
     const FETCH_OBSERVATION_MODEL_BYID = gql`
-      query fetchobservationModelById($observationId: uuid!) {
+      query fetchObservationModelById($observationId: uuid!) {
         observation_by_pk(id: $observationId) {
-          ...observationModelFields
+          ...ObservationModelFields
         }
       }
-      ${observationModelFields}
+      ${ObservationModelFields}
     `;
 
     const FETCH_OBSERVATION_MODELS = gql`
-      query fetchobservationModel(
+      query fetchObservationModel(
         $distinct_on: [observation_select_column!]
         $where: observation_bool_exp
         $limit: Int
@@ -38,56 +38,56 @@ import gql from 'graphql-tag';
         $order_by: [observation_order_by!]
       ) {
         observation(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-          ...observationModelFields
+          ...ObservationModelFields
         }
       }
-      ${observationModelFields}
+      ${ObservationModelFields}
     `;
 
     const UPDATE_OBSERVATION_MODEL_BYID = gql`
-      mutation updateobservationModelById($id: uuid, $set: observation_set_input) {
+      mutation updateObservationModelById($id: uuid, $set: observation_set_input) {
         update_observation(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
           returning {
-            ...observationModelFields
+            ...ObservationModelFields
           }
         }
       }
-      ${observationModelFields}
+      ${ObservationModelFields}
     `;
 
     const UPDATE_OBSERVATION_MODELS = gql`
-      mutation updateobservationModel($set: observation_set_input, $where:observation_bool_exp!) {
+      mutation updateObservationModel($set: observation_set_input, $where:observation_bool_exp!) {
         update_observation(_set: $set, where: $where) {
           affected_rows
           returning {
-            ...observationModelFields
+            ...ObservationModelFields
           }
         }
       }
-      ${observationModelFields}
+      ${ObservationModelFields}
     `;
 
     const REMOVE_OBSERVATION_MODEL_BYID = gql`
-      mutation removeobservationModelById($id: uuid) {
+      mutation removeObservationModelById($id: uuid) {
         delete_observation(where: { id: { _eq: $id } }) {
           affected_rows
         }
       }
-      ${observationModelFields}
+      ${ObservationModelFields}
     `;
 
     const REMOVE_OBSERVATION_MODELS = gql`
-      mutation removeobservationModel($where:observation_bool_exp!) {
+      mutation removeObservationModel($where:observation_bool_exp!) {
         delete_observation(where: $where) {
           affected_rows
         }
       }
-      ${observationModelFields}
+      ${ObservationModelFields}
     `;
 
-    export const pModelFields = gql`
-      fragment pModelFields on p {
+    export const PModelFields = gql`
+      fragment PModelFields on p {
       circle
       id
       poly
@@ -95,28 +95,28 @@ import gql from 'graphql-tag';
     `;
 
     const INSERT_P_MODEL = gql`
-      mutation insertpModel($objects: [p_insert_input!]!, $onConflict: p_on_conflict) {
+      mutation insertPModel($objects: [p_insert_input!]!, $onConflict: p_on_conflict) {
         insert_p(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {
-            ...pModelFields
+            ...PModelFields
           }
         }
       }
-      ${pModelFields}
+      ${PModelFields}
     `;
 
     const FETCH_P_MODEL_BYID = gql`
-      query fetchpModelById($pId: Int!) {
+      query fetchPModelById($pId: Int!) {
         p_by_pk(id: $pId) {
-          ...pModelFields
+          ...PModelFields
         }
       }
-      ${pModelFields}
+      ${PModelFields}
     `;
 
     const FETCH_P_MODELS = gql`
-      query fetchpModel(
+      query fetchPModel(
         $distinct_on: [p_select_column!]
         $where: p_bool_exp
         $limit: Int
@@ -124,84 +124,84 @@ import gql from 'graphql-tag';
         $order_by: [p_order_by!]
       ) {
         p(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-          ...pModelFields
+          ...PModelFields
         }
       }
-      ${pModelFields}
+      ${PModelFields}
     `;
 
     const UPDATE_P_MODEL_BYID = gql`
-      mutation updatepModelById($id: Int, $set: p_set_input) {
+      mutation updatePModelById($id: Int, $set: p_set_input) {
         update_p(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
           returning {
-            ...pModelFields
+            ...PModelFields
           }
         }
       }
-      ${pModelFields}
+      ${PModelFields}
     `;
 
     const UPDATE_P_MODELS = gql`
-      mutation updatepModel($set: p_set_input, $where:p_bool_exp!) {
+      mutation updatePModel($set: p_set_input, $where:p_bool_exp!) {
         update_p(_set: $set, where: $where) {
           affected_rows
           returning {
-            ...pModelFields
+            ...PModelFields
           }
         }
       }
-      ${pModelFields}
+      ${PModelFields}
     `;
 
     const REMOVE_P_MODEL_BYID = gql`
-      mutation removepModelById($id: Int) {
+      mutation removePModelById($id: Int) {
         delete_p(where: { id: { _eq: $id } }) {
           affected_rows
         }
       }
-      ${pModelFields}
+      ${PModelFields}
     `;
 
     const REMOVE_P_MODELS = gql`
-      mutation removepModel($where:p_bool_exp!) {
+      mutation removePModel($where:p_bool_exp!) {
         delete_p(where: $where) {
           affected_rows
         }
       }
-      ${pModelFields}
+      ${PModelFields}
     `;
 
-    export const patientModelFields = gql`
-      fragment patientModelFields on patient {
+    export const PatientModelFields = gql`
+      fragment PatientModelFields on patient {
       id
       resource
       }
     `;
 
     const INSERT_PATIENT_MODEL = gql`
-      mutation insertpatientModel($objects: [patient_insert_input!]!, $onConflict: patient_on_conflict) {
+      mutation insertPatientModel($objects: [patient_insert_input!]!, $onConflict: patient_on_conflict) {
         insert_patient(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {
-            ...patientModelFields
+            ...PatientModelFields
           }
         }
       }
-      ${patientModelFields}
+      ${PatientModelFields}
     `;
 
     const FETCH_PATIENT_MODEL_BYID = gql`
-      query fetchpatientModelById($patientId: uuid!) {
+      query fetchPatientModelById($patientId: uuid!) {
         patient_by_pk(id: $patientId) {
-          ...patientModelFields
+          ...PatientModelFields
         }
       }
-      ${patientModelFields}
+      ${PatientModelFields}
     `;
 
     const FETCH_PATIENT_MODELS = gql`
-      query fetchpatientModel(
+      query fetchPatientModel(
         $distinct_on: [patient_select_column!]
         $where: patient_bool_exp
         $limit: Int
@@ -209,56 +209,56 @@ import gql from 'graphql-tag';
         $order_by: [patient_order_by!]
       ) {
         patient(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-          ...patientModelFields
+          ...PatientModelFields
         }
       }
-      ${patientModelFields}
+      ${PatientModelFields}
     `;
 
     const UPDATE_PATIENT_MODEL_BYID = gql`
-      mutation updatepatientModelById($id: uuid, $set: patient_set_input) {
+      mutation updatePatientModelById($id: uuid, $set: patient_set_input) {
         update_patient(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
           returning {
-            ...patientModelFields
+            ...PatientModelFields
           }
         }
       }
-      ${patientModelFields}
+      ${PatientModelFields}
     `;
 
     const UPDATE_PATIENT_MODELS = gql`
-      mutation updatepatientModel($set: patient_set_input, $where:patient_bool_exp!) {
+      mutation updatePatientModel($set: patient_set_input, $where:patient_bool_exp!) {
         update_patient(_set: $set, where: $where) {
           affected_rows
           returning {
-            ...patientModelFields
+            ...PatientModelFields
           }
         }
       }
-      ${patientModelFields}
+      ${PatientModelFields}
     `;
 
     const REMOVE_PATIENT_MODEL_BYID = gql`
-      mutation removepatientModelById($id: uuid) {
+      mutation removePatientModelById($id: uuid) {
         delete_patient(where: { id: { _eq: $id } }) {
           affected_rows
         }
       }
-      ${patientModelFields}
+      ${PatientModelFields}
     `;
 
     const REMOVE_PATIENT_MODELS = gql`
-      mutation removepatientModel($where:patient_bool_exp!) {
+      mutation removePatientModel($where:patient_bool_exp!) {
         delete_patient(where: $where) {
           affected_rows
         }
       }
-      ${patientModelFields}
+      ${PatientModelFields}
     `;
 
-    export const usersModelFields = gql`
-      fragment usersModelFields on users {
+    export const UsersModelFields = gql`
+      fragment UsersModelFields on users {
       created_at
       id
       name
@@ -266,28 +266,28 @@ import gql from 'graphql-tag';
     `;
 
     const INSERT_USERS_MODEL = gql`
-      mutation insertusersModel($objects: [users_insert_input!]!, $onConflict: users_on_conflict) {
+      mutation insertUsersModel($objects: [users_insert_input!]!, $onConflict: users_on_conflict) {
         insert_users(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {
-            ...usersModelFields
+            ...UsersModelFields
           }
         }
       }
-      ${usersModelFields}
+      ${UsersModelFields}
     `;
 
     const FETCH_USERS_MODEL_BYID = gql`
-      query fetchusersModelById($usersId: Int!) {
+      query fetchUsersModelById($usersId: Int!) {
         users_by_pk(id: $usersId) {
-          ...usersModelFields
+          ...UsersModelFields
         }
       }
-      ${usersModelFields}
+      ${UsersModelFields}
     `;
 
     const FETCH_USERS_MODELS = gql`
-      query fetchusersModel(
+      query fetchUsersModel(
         $distinct_on: [users_select_column!]
         $where: users_bool_exp
         $limit: Int
@@ -295,84 +295,84 @@ import gql from 'graphql-tag';
         $order_by: [users_order_by!]
       ) {
         users(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-          ...usersModelFields
+          ...UsersModelFields
         }
       }
-      ${usersModelFields}
+      ${UsersModelFields}
     `;
 
     const UPDATE_USERS_MODEL_BYID = gql`
-      mutation updateusersModelById($id: Int, $set: users_set_input) {
+      mutation updateUsersModelById($id: Int, $set: users_set_input) {
         update_users(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
           returning {
-            ...usersModelFields
+            ...UsersModelFields
           }
         }
       }
-      ${usersModelFields}
+      ${UsersModelFields}
     `;
 
     const UPDATE_USERS_MODELS = gql`
-      mutation updateusersModel($set: users_set_input, $where:users_bool_exp!) {
+      mutation updateUsersModel($set: users_set_input, $where:users_bool_exp!) {
         update_users(_set: $set, where: $where) {
           affected_rows
           returning {
-            ...usersModelFields
+            ...UsersModelFields
           }
         }
       }
-      ${usersModelFields}
+      ${UsersModelFields}
     `;
 
     const REMOVE_USERS_MODEL_BYID = gql`
-      mutation removeusersModelById($id: Int) {
+      mutation removeUsersModelById($id: Int) {
         delete_users(where: { id: { _eq: $id } }) {
           affected_rows
         }
       }
-      ${usersModelFields}
+      ${UsersModelFields}
     `;
 
     const REMOVE_USERS_MODELS = gql`
-      mutation removeusersModel($where:users_bool_exp!) {
+      mutation removeUsersModel($where:users_bool_exp!) {
         delete_users(where: $where) {
           affected_rows
         }
       }
-      ${usersModelFields}
+      ${UsersModelFields}
     `;
 
-    export const vehicleModelFields = gql`
-      fragment vehicleModelFields on vehicle {
+    export const VehicleModelFields = gql`
+      fragment VehicleModelFields on vehicle {
       id
       name
       }
     `;
 
     const INSERT_VEHICLE_MODEL = gql`
-      mutation insertvehicleModel($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
+      mutation insertVehicleModel($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
         insert_vehicle(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {
-            ...vehicleModelFields
+            ...VehicleModelFields
           }
         }
       }
-      ${vehicleModelFields}
+      ${VehicleModelFields}
     `;
 
     const FETCH_VEHICLE_MODEL_BYID = gql`
-      query fetchvehicleModelById($vehicleId: String!) {
+      query fetchVehicleModelById($vehicleId: String!) {
         vehicle_by_pk(id: $vehicleId) {
-          ...vehicleModelFields
+          ...VehicleModelFields
         }
       }
-      ${vehicleModelFields}
+      ${VehicleModelFields}
     `;
 
     const FETCH_VEHICLE_MODELS = gql`
-      query fetchvehicleModel(
+      query fetchVehicleModel(
         $distinct_on: [vehicle_select_column!]
         $where: vehicle_bool_exp
         $limit: Int
@@ -380,56 +380,56 @@ import gql from 'graphql-tag';
         $order_by: [vehicle_order_by!]
       ) {
         vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-          ...vehicleModelFields
+          ...VehicleModelFields
         }
       }
-      ${vehicleModelFields}
+      ${VehicleModelFields}
     `;
 
     const UPDATE_VEHICLE_MODEL_BYID = gql`
-      mutation updatevehicleModelById($id: String, $set: vehicle_set_input) {
+      mutation updateVehicleModelById($id: String, $set: vehicle_set_input) {
         update_vehicle(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
           returning {
-            ...vehicleModelFields
+            ...VehicleModelFields
           }
         }
       }
-      ${vehicleModelFields}
+      ${VehicleModelFields}
     `;
 
     const UPDATE_VEHICLE_MODELS = gql`
-      mutation updatevehicleModel($set: vehicle_set_input, $where:vehicle_bool_exp!) {
+      mutation updateVehicleModel($set: vehicle_set_input, $where:vehicle_bool_exp!) {
         update_vehicle(_set: $set, where: $where) {
           affected_rows
           returning {
-            ...vehicleModelFields
+            ...VehicleModelFields
           }
         }
       }
-      ${vehicleModelFields}
+      ${VehicleModelFields}
     `;
 
     const REMOVE_VEHICLE_MODEL_BYID = gql`
-      mutation removevehicleModelById($id: String) {
+      mutation removeVehicleModelById($id: String) {
         delete_vehicle(where: { id: { _eq: $id } }) {
           affected_rows
         }
       }
-      ${vehicleModelFields}
+      ${VehicleModelFields}
     `;
 
     const REMOVE_VEHICLE_MODELS = gql`
-      mutation removevehicleModel($where:vehicle_bool_exp!) {
+      mutation removeVehicleModel($where:vehicle_bool_exp!) {
         delete_vehicle(where: $where) {
           affected_rows
         }
       }
-      ${vehicleModelFields}
+      ${VehicleModelFields}
     `;
 
-    export const vehicle_locationModelFields = gql`
-      fragment vehicle_locationModelFields on vehicle_location {
+    export const Vehicle_LocationModelFields = gql`
+      fragment Vehicle_LocationModelFields on vehicle_location {
       id
       location
       timestamp
@@ -438,28 +438,28 @@ import gql from 'graphql-tag';
     `;
 
     const INSERT_VEHICLE_LOCATION_MODEL = gql`
-      mutation insertvehicle_locationModel($objects: [vehicle_location_insert_input!]!, $onConflict: vehicle_location_on_conflict) {
+      mutation insertVehicle_LocationModel($objects: [vehicle_location_insert_input!]!, $onConflict: vehicle_location_on_conflict) {
         insert_vehicle_location(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {
-            ...vehicle_locationModelFields
+            ...Vehicle_LocationModelFields
           }
         }
       }
-      ${vehicle_locationModelFields}
+      ${Vehicle_LocationModelFields}
     `;
 
     const FETCH_VEHICLE_LOCATION_MODEL_BYID = gql`
-      query fetchvehicle_locationModelById($vehicle_locationId: Int!) {
-        vehicle_location_by_pk(id: $vehicle_locationId) {
-          ...vehicle_locationModelFields
+      query fetchVehicle_LocationModelById($vehicle_LocationId: Int!) {
+        vehicle_location_by_pk(id: $vehicle_LocationId) {
+          ...Vehicle_LocationModelFields
         }
       }
-      ${vehicle_locationModelFields}
+      ${Vehicle_LocationModelFields}
     `;
 
     const FETCH_VEHICLE_LOCATION_MODELS = gql`
-      query fetchvehicle_locationModel(
+      query fetchVehicle_LocationModel(
         $distinct_on: [vehicle_location_select_column!]
         $where: vehicle_location_bool_exp
         $limit: Int
@@ -467,50 +467,50 @@ import gql from 'graphql-tag';
         $order_by: [vehicle_location_order_by!]
       ) {
         vehicle_location(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-          ...vehicle_locationModelFields
+          ...Vehicle_LocationModelFields
         }
       }
-      ${vehicle_locationModelFields}
+      ${Vehicle_LocationModelFields}
     `;
 
     const UPDATE_VEHICLE_LOCATION_MODEL_BYID = gql`
-      mutation updatevehicle_locationModelById($id: Int, $set: vehicle_location_set_input) {
+      mutation updateVehicle_LocationModelById($id: Int, $set: vehicle_location_set_input) {
         update_vehicle_location(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
           returning {
-            ...vehicle_locationModelFields
+            ...Vehicle_LocationModelFields
           }
         }
       }
-      ${vehicle_locationModelFields}
+      ${Vehicle_LocationModelFields}
     `;
 
     const UPDATE_VEHICLE_LOCATION_MODELS = gql`
-      mutation updatevehicle_locationModel($set: vehicle_location_set_input, $where:vehicle_location_bool_exp!) {
+      mutation updateVehicle_LocationModel($set: vehicle_location_set_input, $where:vehicle_location_bool_exp!) {
         update_vehicle_location(_set: $set, where: $where) {
           affected_rows
           returning {
-            ...vehicle_locationModelFields
+            ...Vehicle_LocationModelFields
           }
         }
       }
-      ${vehicle_locationModelFields}
+      ${Vehicle_LocationModelFields}
     `;
 
     const REMOVE_VEHICLE_LOCATION_MODEL_BYID = gql`
-      mutation removevehicle_locationModelById($id: Int) {
+      mutation removeVehicle_LocationModelById($id: Int) {
         delete_vehicle_location(where: { id: { _eq: $id } }) {
           affected_rows
         }
       }
-      ${vehicle_locationModelFields}
+      ${Vehicle_LocationModelFields}
     `;
 
     const REMOVE_VEHICLE_LOCATION_MODELS = gql`
-      mutation removevehicle_locationModel($where:vehicle_location_bool_exp!) {
+      mutation removeVehicle_LocationModel($where:vehicle_location_bool_exp!) {
         delete_vehicle_location(where: $where) {
           affected_rows
         }
       }
-      ${vehicle_locationModelFields}
+      ${Vehicle_LocationModelFields}
     `;

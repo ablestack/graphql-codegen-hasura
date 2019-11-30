@@ -21,7 +21,6 @@ generates:
       withComponent: false
       skipTypename: false
       includeDirectives: true
-      typeNames: keep
   ./src/autogen/hasura/typescript.ts:
     plugins:
       - graphql-codegen-hasura-typescript

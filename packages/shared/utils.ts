@@ -1,4 +1,7 @@
 import { GraphQLNamedType, FieldDefinitionNode, ObjectTypeDefinitionNode } from "graphql";
+import _ from "lodash";
+import { type } from "os";
+import { toPascalCase } from "@graphql-codegen/visitor-plugin-common";
 
 export const TABLE_TYPE_FILTER = (t: GraphQLNamedType) => {
   return t.description.includes("columns and relationships of");
@@ -12,33 +15,38 @@ export function SCALAR_TYPE_TEST(f: FieldDefinitionNode) {
   return !f.description || !f.description.block;
 }
 
-export function makeShortCamelCaseEntityName(typename: string) {
-  return customCamelize(makeShortEntityName(typename));
+export function makeShortCamelCaseName(typename: string, trimString: string = undefined) {
+  return customCamelize(makeShortName(typename, trimString));
 }
 
-export function makeShortEntityName(typename: string) {
-  return `${typename.replace("CSee_", "")}`;
+export function makeShortName(typename: string, trimString: string = undefined) {
+  return `${toPascalCase(trimString ? typename.replace(trimString, "") : typename)}`;
 }
 
-export function makeModelEntityName(typename: string) {
-  return `${typename.replace("CSee_", "")}Model`;
+export function makeModelName(typename: string, trimString: string = undefined) {
+  return `${makeShortName(typename, trimString)}Model`;
 }
 
-export function makeFragmentsImport(typename: string, fragmentsImportPath: string) {
-  return `import { ${makeFragmentName(typename)} } from '${fragmentsImportPath}';`;
+export function makeFragmentsImport(typename: string, fragmentsImportPath: string, trimString: string = undefined) {
+  return `import { ${makeFragmentName(typename, trimString)} } from '${fragmentsImportPath}';`;
 }
 
 export function makePrimaryCodegenTypescriptImport(type: string, primaryCodegenTypeScriptImportPath: string) {
   return `import { ${type} } from '${primaryCodegenTypeScriptImportPath}';`;
 }
 
-export function makeFragmentName(typename: string) {
-  return `${makeModelEntityName(typename)}Fields`;
+export function makeFragmentName(typename: string, trimString: string = undefined) {
+  return `${makeModelName(typename, trimString)}Fields`;
 }
 
-export function getIdFieldType(field: FieldDefinitionNode) {
+export function getIdPostGresFieldType(field: FieldDefinitionNode) {
   const fAny = field as any;
   return ID_FIELD_TEST(fAny) && SCALAR_TYPE_TEST(fAny) && fAny && fAny.type && fAny.type.type && fAny.type.type.name && fAny.type.type.name.value;
+}
+
+export function getIdTypeScriptFieldType(field: FieldDefinitionNode) {
+  const postGresIdFieldType = getIdPostGresFieldType(field);
+  return postGresIdFieldType.toLowerCase() === "int" ? "number" : "string";
 }
 
 export const getPrimaryKeyIdField = (t: GraphQLNamedType) => {

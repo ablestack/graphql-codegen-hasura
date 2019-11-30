@@ -2,12 +2,12 @@ import { GraphQLNamedType, GraphQLSchema, ObjectTypeDefinitionNode } from "graph
 import { PluginFunction, Types } from "@graphql-codegen/plugin-helpers";
 import { RawTypesConfig } from "@graphql-codegen/visitor-plugin-common";
 import {
-  getIdFieldType,
+  getIdPostGresFieldType,
   getPrimaryKeyIdField,
   makeFragmentName,
   makeFragmentsImport,
-  makeModelEntityName,
-  makeShortCamelCaseEntityName,
+  makeModelName,
+  makeShortCamelCaseName,
   SCALAR_TYPE_TEST,
   TABLE_TYPE_FILTER
 } from "../../shared";
@@ -19,6 +19,7 @@ import {
 export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
   reactApolloVersion?: number;
   fragmentImportFrom?: string;
+  trimString?: string;
   withFragments?: boolean;
   withQueries?: boolean;
   withInserts?: boolean;
@@ -60,8 +61,8 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
 
 function makeEntityModelFragmentsGql(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
   const entityName = namedType.name;
-  const entityModelName = makeModelEntityName(entityName);
-  const entityFragmentName = makeFragmentName(entityName);
+  const entityModelName = makeModelName(entityName, config.trimString);
+  const entityFragmentName = makeFragmentName(entityName, config.trimString);
   const fields = (namedType.astNode as ObjectTypeDefinitionNode).fields;
   const scalarFieldNamesArray: string[] = [];
 
@@ -89,14 +90,14 @@ function makeEntityQueryMutationGql(namedType: GraphQLNamedType, importArray: st
   if (!primaryKeyIdField) return;
 
   const entityName = namedType.name;
-  const entityShortCamelName = makeShortCamelCaseEntityName(namedType.name);
-  const entityModelName = makeModelEntityName(entityName);
-  const entityFragmentName = makeFragmentName(entityName);
-  const primaryKeyIdFieldType = getIdFieldType(primaryKeyIdField);
+  const entityShortCamelName = makeShortCamelCaseName(namedType.name, config.trimString);
+  const entityModelName = makeModelName(entityName, config.trimString);
+  const entityFragmentName = makeFragmentName(entityName, config.trimString);
+  const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
 
   contentArray.push(`
     const FETCH_${entityName.toUpperCase()}_MODEL_BYID = gql\`
-      query fetch${entityModelName}ById($${entityShortCamelName}Id: ${primaryKeyIdFieldType}!) {
+      query fetch${entityModelName}ById($${entityShortCamelName}Id: ${primaryKeyIdPostGresFieldType}!) {
         ${entityName}_by_pk(id: $${entityShortCamelName}Id) {
           ...${entityFragmentName}
         }
@@ -130,8 +131,8 @@ function makeEntityInsertMutationGql(namedType: GraphQLNamedType, importArray: s
   if (!getPrimaryKeyIdField(namedType)) return;
 
   const entityName = namedType.name;
-  const entityModelName = makeModelEntityName(entityName);
-  const entityFragmentName = makeFragmentName(entityName);
+  const entityModelName = makeModelName(entityName, config.trimString);
+  const entityFragmentName = makeFragmentName(entityName, config.trimString);
 
   contentArray.push(`
     const INSERT_${entityName.toUpperCase()}_MODEL = gql\`
@@ -157,13 +158,13 @@ function makeEntityUpdateMutationGql(namedType: GraphQLNamedType, importArray: s
   if (!primaryKeyIdField) return;
 
   const entityName = namedType.name;
-  const entityModelName = makeModelEntityName(entityName);
-  const primaryKeyIdFieldType = getIdFieldType(primaryKeyIdField);
-  const entityFragmentName = makeFragmentName(entityName);
+  const entityModelName = makeModelName(entityName, config.trimString);
+  const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
+  const entityFragmentName = makeFragmentName(entityName, config.trimString);
 
   contentArray.push(`
     const UPDATE_${entityName.toUpperCase()}_MODEL_BYID = gql\`
-      mutation update${entityModelName}ById($id: ${primaryKeyIdFieldType}, $set: ${entityName}_set_input) {
+      mutation update${entityModelName}ById($id: ${primaryKeyIdPostGresFieldType}, $set: ${entityName}_set_input) {
         update_${entityName}(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
           returning {
@@ -198,13 +199,13 @@ function makeEntityDeleteMutationGql(namedType: GraphQLNamedType, importArray: s
   if (!primaryKeyIdField) return;
 
   const entityName = namedType.name;
-  const entityModelName = makeModelEntityName(entityName);
-  const primaryKeyIdFieldType = getIdFieldType(primaryKeyIdField);
-  const entityFragmentName = makeFragmentName(entityName);
+  const entityModelName = makeModelName(entityName, config.trimString);
+  const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
+  const entityFragmentName = makeFragmentName(entityName, config.trimString);
 
   contentArray.push(`
     const REMOVE_${entityName.toUpperCase()}_MODEL_BYID = gql\`
-      mutation remove${entityModelName}ById($id: ${primaryKeyIdFieldType}) {
+      mutation remove${entityModelName}ById($id: ${primaryKeyIdPostGresFieldType}) {
         delete_${entityName}(where: { id: { _eq: $id } }) {
           affected_rows
         }
