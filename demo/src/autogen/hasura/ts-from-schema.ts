@@ -155,27 +155,27 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
-    // Fetch Helper
-    //
-
-    export async function fetchObservationModelById(
-      apolloClient: ApolloClient<object>, 
-      observationId: string
-      ): Promise<ObservationModelFieldsFragment | null | undefined> {
-      const observationResult = await apolloClient.query<FetchObservationModelByIdQuery>({ query: FetchObservationModelByIdDocument, variables: { id:observationId } });
-      return observationResult.data.observation_by_pk;
-    }
+      // Fetch Helper
+      //
   
+      export async function fetchObservationModelById(
+        apolloClient: ApolloClient<object>, 
+        observationId: string
+        ): Promise<ObservationModelFieldsFragment | null | undefined> {
+        const observationResult = await apolloClient.query<FetchObservationModelByIdQuery>({ query: FetchObservationModelByIdDocument, variables: { id:observationId } });
+        return observationResult.data.observation_by_pk;
+      }
+    
 
-    export async function fetchObservationModel(
-      apolloClient: ApolloClient<object>,
-      observationId: string,
-      queryOptions: Omit<QueryOptions<FetchObservationModelQueryVariables>, 'query'>,
-    ): Promise<ObservationModelFieldsFragment[] | null | undefined> {
-      const observationResult = await apolloClient.query<FetchObservationModelQuery>({ query: FetchObservationModelDocument, ...queryOptions });
-      return observationResult.data.observation;
-    }
-  
+      export async function fetchObservationModel(
+        apolloClient: ApolloClient<object>,
+        observationId: string,
+        queryOptions: Omit<QueryOptions<FetchObservationModelQueryVariables>, 'query'>,
+      ): Promise<ObservationModelFieldsFragment[] | null | undefined> {
+        const observationResult = await apolloClient.query<FetchObservationModelQuery>({ query: FetchObservationModelDocument, ...queryOptions });
+        return observationResult.data.observation;
+      }
+    
 
     // Update Helper
     //
@@ -259,27 +259,27 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
-    // Fetch Helper
-    //
-
-    export async function fetchPModelById(
-      apolloClient: ApolloClient<object>, 
-      pId: string
-      ): Promise<PModelFieldsFragment | null | undefined> {
-      const pResult = await apolloClient.query<FetchPModelByIdQuery>({ query: FetchPModelByIdDocument, variables: { id:pId } });
-      return pResult.data.p_by_pk;
-    }
+      // Fetch Helper
+      //
   
+      export async function fetchPModelById(
+        apolloClient: ApolloClient<object>, 
+        pId: string
+        ): Promise<PModelFieldsFragment | null | undefined> {
+        const pResult = await apolloClient.query<FetchPModelByIdQuery>({ query: FetchPModelByIdDocument, variables: { id:pId } });
+        return pResult.data.p_by_pk;
+      }
+    
 
-    export async function fetchPModel(
-      apolloClient: ApolloClient<object>,
-      pId: string,
-      queryOptions: Omit<QueryOptions<FetchPModelQueryVariables>, 'query'>,
-    ): Promise<PModelFieldsFragment[] | null | undefined> {
-      const pResult = await apolloClient.query<FetchPModelQuery>({ query: FetchPModelDocument, ...queryOptions });
-      return pResult.data.p;
-    }
-  
+      export async function fetchPModel(
+        apolloClient: ApolloClient<object>,
+        pId: string,
+        queryOptions: Omit<QueryOptions<FetchPModelQueryVariables>, 'query'>,
+      ): Promise<PModelFieldsFragment[] | null | undefined> {
+        const pResult = await apolloClient.query<FetchPModelQuery>({ query: FetchPModelDocument, ...queryOptions });
+        return pResult.data.p;
+      }
+    
 
     // Update Helper
     //
@@ -363,27 +363,27 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
-    // Fetch Helper
-    //
-
-    export async function fetchPatientModelById(
-      apolloClient: ApolloClient<object>, 
-      patientId: string
-      ): Promise<PatientModelFieldsFragment | null | undefined> {
-      const patientResult = await apolloClient.query<FetchPatientModelByIdQuery>({ query: FetchPatientModelByIdDocument, variables: { id:patientId } });
-      return patientResult.data.patient_by_pk;
-    }
+      // Fetch Helper
+      //
   
+      export async function fetchPatientModelById(
+        apolloClient: ApolloClient<object>, 
+        patientId: string
+        ): Promise<PatientModelFieldsFragment | null | undefined> {
+        const patientResult = await apolloClient.query<FetchPatientModelByIdQuery>({ query: FetchPatientModelByIdDocument, variables: { id:patientId } });
+        return patientResult.data.patient_by_pk;
+      }
+    
 
-    export async function fetchPatientModel(
-      apolloClient: ApolloClient<object>,
-      patientId: string,
-      queryOptions: Omit<QueryOptions<FetchPatientModelQueryVariables>, 'query'>,
-    ): Promise<PatientModelFieldsFragment[] | null | undefined> {
-      const patientResult = await apolloClient.query<FetchPatientModelQuery>({ query: FetchPatientModelDocument, ...queryOptions });
-      return patientResult.data.patient;
-    }
-  
+      export async function fetchPatientModel(
+        apolloClient: ApolloClient<object>,
+        patientId: string,
+        queryOptions: Omit<QueryOptions<FetchPatientModelQueryVariables>, 'query'>,
+      ): Promise<PatientModelFieldsFragment[] | null | undefined> {
+        const patientResult = await apolloClient.query<FetchPatientModelQuery>({ query: FetchPatientModelDocument, ...queryOptions });
+        return patientResult.data.patient;
+      }
+    
 
     // Update Helper
     //
@@ -467,27 +467,27 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
-    // Fetch Helper
-    //
-
-    export async function fetchUsersModelById(
-      apolloClient: ApolloClient<object>, 
-      usersId: string
-      ): Promise<UsersModelFieldsFragment | null | undefined> {
-      const usersResult = await apolloClient.query<FetchUsersModelByIdQuery>({ query: FetchUsersModelByIdDocument, variables: { id:usersId } });
-      return usersResult.data.users_by_pk;
-    }
+      // Fetch Helper
+      //
   
+      export async function fetchUsersModelById(
+        apolloClient: ApolloClient<object>, 
+        usersId: string
+        ): Promise<UsersModelFieldsFragment | null | undefined> {
+        const usersResult = await apolloClient.query<FetchUsersModelByIdQuery>({ query: FetchUsersModelByIdDocument, variables: { id:usersId } });
+        return usersResult.data.users_by_pk;
+      }
+    
 
-    export async function fetchUsersModel(
-      apolloClient: ApolloClient<object>,
-      usersId: string,
-      queryOptions: Omit<QueryOptions<FetchUsersModelQueryVariables>, 'query'>,
-    ): Promise<UsersModelFieldsFragment[] | null | undefined> {
-      const usersResult = await apolloClient.query<FetchUsersModelQuery>({ query: FetchUsersModelDocument, ...queryOptions });
-      return usersResult.data.users;
-    }
-  
+      export async function fetchUsersModel(
+        apolloClient: ApolloClient<object>,
+        usersId: string,
+        queryOptions: Omit<QueryOptions<FetchUsersModelQueryVariables>, 'query'>,
+      ): Promise<UsersModelFieldsFragment[] | null | undefined> {
+        const usersResult = await apolloClient.query<FetchUsersModelQuery>({ query: FetchUsersModelDocument, ...queryOptions });
+        return usersResult.data.users;
+      }
+    
 
     // Update Helper
     //
@@ -571,27 +571,27 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
-    // Fetch Helper
-    //
-
-    export async function fetchVehicleModelById(
-      apolloClient: ApolloClient<object>, 
-      vehicleId: string
-      ): Promise<VehicleModelFieldsFragment | null | undefined> {
-      const vehicleResult = await apolloClient.query<FetchVehicleModelByIdQuery>({ query: FetchVehicleModelByIdDocument, variables: { id:vehicleId } });
-      return vehicleResult.data.vehicle_by_pk;
-    }
+      // Fetch Helper
+      //
   
+      export async function fetchVehicleModelById(
+        apolloClient: ApolloClient<object>, 
+        vehicleId: string
+        ): Promise<VehicleModelFieldsFragment | null | undefined> {
+        const vehicleResult = await apolloClient.query<FetchVehicleModelByIdQuery>({ query: FetchVehicleModelByIdDocument, variables: { id:vehicleId } });
+        return vehicleResult.data.vehicle_by_pk;
+      }
+    
 
-    export async function fetchVehicleModel(
-      apolloClient: ApolloClient<object>,
-      vehicleId: string,
-      queryOptions: Omit<QueryOptions<FetchVehicleModelQueryVariables>, 'query'>,
-    ): Promise<VehicleModelFieldsFragment[] | null | undefined> {
-      const vehicleResult = await apolloClient.query<FetchVehicleModelQuery>({ query: FetchVehicleModelDocument, ...queryOptions });
-      return vehicleResult.data.vehicle;
-    }
-  
+      export async function fetchVehicleModel(
+        apolloClient: ApolloClient<object>,
+        vehicleId: string,
+        queryOptions: Omit<QueryOptions<FetchVehicleModelQueryVariables>, 'query'>,
+      ): Promise<VehicleModelFieldsFragment[] | null | undefined> {
+        const vehicleResult = await apolloClient.query<FetchVehicleModelQuery>({ query: FetchVehicleModelDocument, ...queryOptions });
+        return vehicleResult.data.vehicle;
+      }
+    
 
     // Update Helper
     //
@@ -675,27 +675,27 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
-    // Fetch Helper
-    //
-
-    export async function fetchVehicle_LocationModelById(
-      apolloClient: ApolloClient<object>, 
-      vehicle_LocationId: string
-      ): Promise<Vehicle_LocationModelFieldsFragment | null | undefined> {
-      const vehicle_LocationResult = await apolloClient.query<FetchVehicle_LocationModelByIdQuery>({ query: FetchVehicle_LocationModelByIdDocument, variables: { id:vehicle_LocationId } });
-      return vehicle_LocationResult.data.vehicle_location_by_pk;
-    }
+      // Fetch Helper
+      //
   
+      export async function fetchVehicle_LocationModelById(
+        apolloClient: ApolloClient<object>, 
+        vehicle_LocationId: string
+        ): Promise<Vehicle_LocationModelFieldsFragment | null | undefined> {
+        const vehicle_LocationResult = await apolloClient.query<FetchVehicle_LocationModelByIdQuery>({ query: FetchVehicle_LocationModelByIdDocument, variables: { id:vehicle_LocationId } });
+        return vehicle_LocationResult.data.vehicle_location_by_pk;
+      }
+    
 
-    export async function fetchVehicle_LocationModel(
-      apolloClient: ApolloClient<object>,
-      vehicle_LocationId: string,
-      queryOptions: Omit<QueryOptions<FetchVehicle_LocationModelQueryVariables>, 'query'>,
-    ): Promise<Vehicle_LocationModelFieldsFragment[] | null | undefined> {
-      const vehicle_LocationResult = await apolloClient.query<FetchVehicle_LocationModelQuery>({ query: FetchVehicle_LocationModelDocument, ...queryOptions });
-      return vehicle_LocationResult.data.vehicle_location;
-    }
-  
+      export async function fetchVehicle_LocationModel(
+        apolloClient: ApolloClient<object>,
+        vehicle_LocationId: string,
+        queryOptions: Omit<QueryOptions<FetchVehicle_LocationModelQueryVariables>, 'query'>,
+      ): Promise<Vehicle_LocationModelFieldsFragment[] | null | undefined> {
+        const vehicle_LocationResult = await apolloClient.query<FetchVehicle_LocationModelQuery>({ query: FetchVehicle_LocationModelDocument, ...queryOptions });
+        return vehicle_LocationResult.data.vehicle_location;
+      }
+    
 
     // Update Helper
     //

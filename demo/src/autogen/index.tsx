@@ -5758,6 +5758,15 @@ export type Vehicle_LocationModelFieldsFragment = (
   & Pick<Vehicle_Location, 'id' | 'location' | 'timestamp' | 'vehicle_id'>
 );
 
+export type VehicleGraphFieldsFragment = (
+  { __typename?: 'vehicle' }
+  & Pick<Vehicle, 'id' | 'name'>
+  & { locations: Array<(
+    { __typename?: 'vehicle_location' }
+    & Pick<Vehicle_Location, 'location'>
+  )> }
+);
+
 export const ObservationModelFieldsFragmentDoc = gql`
     fragment ObservationModelFields on observation {
   id
@@ -5796,5 +5805,14 @@ export const Vehicle_LocationModelFieldsFragmentDoc = gql`
   location
   timestamp
   vehicle_id
+}
+    `;
+export const VehicleGraphFieldsFragmentDoc = gql`
+    fragment VehicleGraphFields on vehicle {
+  id
+  name
+  locations {
+    location
+  }
 }
     `;
