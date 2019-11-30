@@ -1,6 +1,5 @@
 schema:
   - https://realtime-location-tracking.demo.hasura.app/v1/graphql
-documents:
 overwrite: true
 config:
   scalars:
@@ -9,7 +8,7 @@ config:
 generates:
   ./src/autogen/hasura/gql.ts:
     plugins:
-      - graphql-codegen-hasura-gql
+      - graphql-codegen-hasura-gql-from-schema
     config:
       reactApolloVersion: 3
       withFragments: true

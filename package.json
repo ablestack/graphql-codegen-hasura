@@ -2,8 +2,9 @@
   "private": true,
   "workspaces": {
     "packages": [
-      "packages/graphql-codegen-hasura-gql",
-      "packages/graphql-codegen-hasura-typescript",
+      "packages/graphql-codegen-hasura-gql-from-schema",
+      "packages/graphql-codegen-hasura-typescript-from-schema",
+      "packages/graphql-codegen-hasura-typescript-from-documents",
       "demo"
     ]
   },

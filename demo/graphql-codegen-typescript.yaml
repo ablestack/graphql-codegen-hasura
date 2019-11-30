@@ -21,9 +21,19 @@ generates:
       withComponent: false
       skipTypename: false
       includeDirectives: true
-  ./src/autogen/hasura/typescript.ts:
+  ./src/autogen/hasura/ts-from-schema.ts:
     plugins:
-      - graphql-codegen-hasura-typescript
+      - graphql-codegen-hasura-typescript-from-schema
+    config:
+      reactApolloVersion: 3
+      primaryCodegenTypeScriptImportPath: "../"
+      withQueries: true
+      withInserts: true
+      withUpdates: true
+      withDeletes: true
+  ./src/autogen/hasura/ts-from-fragments.ts:
+    plugins:
+      - graphql-codegen-hasura-typescript-from-documents
     config:
       reactApolloVersion: 3
       primaryCodegenTypeScriptImportPath: "../"

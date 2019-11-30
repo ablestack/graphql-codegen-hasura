@@ -1,17 +1,16 @@
 {
   "version": "1.2.2",
   "packages": [
-    "packages/graphql-codegen-hasura-gql",
-    "packages/graphql-codegen-hasura-typescript",
+    "packages/graphql-codegen-hasura-gql-from-schema",
+    "packages/graphql-codegen-hasura-typescript-from-schema",
+    "packages/graphql-codegen-hasura-typescript-from-documents",
     "demo"
   ],
   "useWorkspaces": true,
   "npmClient": "yarn",
   "command": {
     "publish": {
-      "ignoreChanges": [
-        "*.md"
-      ]
+      "ignoreChanges": ["*.md"]
     }
   }
 }

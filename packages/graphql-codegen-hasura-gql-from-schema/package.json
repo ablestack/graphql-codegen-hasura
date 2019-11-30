@@ -1,5 +1,5 @@
 {
-  "name": "graphql-codegen-hasura-gql",
+  "name": "graphql-codegen-hasura-gql-from-schema",
   "version": "1.2.1",
   "description": "GraphQL Code Generator plugin for generating a CRUD Gql for Hasura",
   "author": "ahrnee <ahrndee@gmail.com>",
@@ -31,10 +31,10 @@
     "typescript": "3.7.2"
   },
   "sideEffects": false,
-  "main": "dist/graphql-codegen-hasura-gql/src/index.js",
-  "typings": "dist/graphql-codegen-hasura-gql/src/index.d.ts",
+  "main": "dist/graphql-codegen-hasura-gql-from-schema/src/index.js",
+  "typings": "dist/graphql-codegen-hasura-gql-from-schema/src/index.d.ts",
   "typescript": {
-    "definition": "dist/graphql-codegen-hasura-gqlnpm /src/index.d.ts"
+    "definition": "dist/graphql-codegen-hasura-gql-from-schema/src/index.d.ts"
   },
   "files": [
     "README.md",
