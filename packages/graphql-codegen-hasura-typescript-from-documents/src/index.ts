@@ -10,7 +10,7 @@ import { getPrimaryKeyIdField, injectDeleteHelpers, injectFetchHelpers, injectIn
 
 export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
   reactApolloVersion?: number;
-  typescriptCodegenOutputRelativePath: string;
+  typescriptCodegenOutputPath: string;
   trimString?: string;
   withQueries?: boolean;
   withInserts?: boolean;
@@ -80,7 +80,7 @@ function makeEntitySharedTypeScript(
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    typescriptCodegenOutputRelativePath: config.typescriptCodegenOutputRelativePath
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath
   });
 }
 // --------------------------------------
@@ -107,7 +107,7 @@ function makeEntityQueryMutationTypeScript(
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    typescriptCodegenOutputRelativePath: config.typescriptCodegenOutputRelativePath
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath
   });
 }
 
@@ -135,7 +135,7 @@ function makeEntityInsertMutationTypeScript(
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    typescriptCodegenOutputRelativePath: config.typescriptCodegenOutputRelativePath
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath
   });
 }
 // --------------------------------------
@@ -162,7 +162,7 @@ function makeEntityUpdateMutationTypeScript(
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    typescriptCodegenOutputRelativePath: config.typescriptCodegenOutputRelativePath
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath
   });
 }
 
@@ -190,7 +190,7 @@ function makeEntityDeleteMutationTypeScript(
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    typescriptCodegenOutputRelativePath: config.typescriptCodegenOutputRelativePath
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath
   });
 }
 

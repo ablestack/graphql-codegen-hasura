@@ -24,7 +24,7 @@ generates:
       - ./src/customFragments.ts
     config:
       reactApolloVersion: 3
-      typescriptCodegenOutputRelativePath: ../
+      typescriptCodegenOutputPath: ../
       withQueries: true
       withInserts: true
       withUpdates: true

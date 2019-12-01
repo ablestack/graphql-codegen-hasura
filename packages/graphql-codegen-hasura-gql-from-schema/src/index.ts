@@ -21,7 +21,7 @@ import {
 
 export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
   reactApolloVersion?: number;
-  typescriptCodegenOutputRelativePath?: string;
+  typescriptCodegenOutputPath?: string;
   trimString?: string;
   withFragments?: boolean;
   withQueries?: boolean;
@@ -72,7 +72,7 @@ function makeEntityModelSharedGql(namedType: GraphQLNamedType, importArray: stri
   `);
 
   const fragmentName = makeFragmentName(entityName, config.trimString);
-  if (config.typescriptCodegenOutputRelativePath) injectFragmentImport({ importArray, fragmentName, fragmentRelativeImportPath: config.typescriptCodegenOutputRelativePath });
+  if (config.typescriptCodegenOutputPath) injectFragmentImport({ importArray, fragmentName, fragmentRelativeImportPath: config.typescriptCodegenOutputPath });
 }
 
 function makeEntityModelFragmentsGql(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {

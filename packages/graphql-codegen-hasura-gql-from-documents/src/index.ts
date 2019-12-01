@@ -10,7 +10,7 @@ import { getPrimaryKeyIdField, injectDeleteGql, injectFetchGql, injectFragmentIm
 
 export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
   reactApolloVersion?: number;
-  typescriptCodegenOutputRelativePath?: string;
+  typescriptCodegenOutputPath?: string;
   trimString?: string;
   withQueries?: boolean;
   withInserts?: boolean;
@@ -73,7 +73,7 @@ function makeEntityModelSharedGql(
     //------------------------------------------------ 
   `);
 
-  if (config.typescriptCodegenOutputRelativePath) injectFragmentImport({ importArray, fragmentName, fragmentRelativeImportPath: config.typescriptCodegenOutputRelativePath });
+  if (config.typescriptCodegenOutputPath) injectFragmentImport({ importArray, fragmentName, fragmentRelativeImportPath: config.typescriptCodegenOutputPath });
 }
 
 // --------------------------------------
