@@ -2,9 +2,20 @@
 
 graphql-codegen-hasura is a collection of code generator plugins for [graphql-code-generator](https://graphql-code-generator.com/). These plugins are designed to automate some coding tasks around the development of a strongly typed [Hasura](https://hasura.io/) backend with an [Apollo GraphQL](https://www.apollographql.com/) React client.
 
+## Approaches
+
+These plugins allow for the following approaches to Hasura client code generation (or a combination of both):
+
+1.  **Table First**: Generate Hasura client code (gql & TypeScript) for every table defined in Hasura. This approach allows you to get up and running the fastest. However, it may result in a lot of unused (and so unnecessary) code being generated.
+
+2.  **Fragment First**: Generate Hasura client code (gql & TypeScript) for every fragment defined in the target source code. This approach approach will generally provide greater long-term flexibility as it allows you to define and work with nested entity graphs. It also will only generate the code you need. However, it is slightly less automated, as it requires you to define graph fragments manually
+
+## The Plugins
+
 These plugins require and augment the existing fantastic GraphQL code generator plugins available from [graphql-code-generator](https://graphql-code-generator.com/)
 
 - The **graphql-codegen-hasura-gql-from-schema** plugin generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) gql fragments, mutations and queries for every _Table_ defined in the Hasura database
+- The **graphql-codegen-hasura-gql-from-documents** plugin generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) gql mutations and queries for every _Fragment_ defined in the targeted (code) documents.
 - The **graphql-codegen-hasura-typescript-from-schema** plugin generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Table_ defined in the Hasura database.
 - The **graphql-codegen-hasura-typescript-from-documents** plugin generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Fragment_ defined in the targeted (code) documents.
 
@@ -39,7 +50,7 @@ It is **important to note**: The TypeScript Generation leverages the files creat
 3. Add the graphql-codegen-hasura packages:
 
 ```
-    yarn add graphql-codegen-hasura-gql-from-schema graphql-codegen-hasura-typescript-from-schema graphql-codegen-hasura-typescript-from-documents
+    yarn add graphql-codegen-hasura-gql-from-schema graphql-codegen-hasura-gql-from-documents graphql-codegen-hasura-typescript-from-schema graphql-codegen-hasura-typescript-from-documents
 ```
 
 4. Create configuration YAML files (see below)
@@ -65,6 +76,15 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 - withInserts: boolean flag for insert gql code generation
 - withUpdates: boolean flag for update gql code generation
 - withDeletes: boolean flag for delete gql code generation
+
+### graphql-codegen-hasura-gql-documents plugin
+
+- reactApolloVersion (2 | 3, default value: 3): sets the version of react-apollo
+- typescriptCodegenOutputRelativePath: import path to the code generated with dependent @graphql-codegen/typescript generated code
+- withQueries: boolean flag for query TypeScript code generation
+- withInserts: boolean flag for insert TypeScript code generation
+- withUpdates: boolean flag for update TypeScript code generation
+- withDeletes: boolean flag for delete TypeScript code generation
 
 ### graphql-codegen-hasura-typescript-schema plugin
 
@@ -94,7 +114,7 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 
 Generates gql fragments, mutations and queries for every _Table_ defined in the Hasura database.
 
-See [demo/src/autogen/hasura/gql.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
+See [demo/src/autogen/hasura/gql-from-schema.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
 
 #### Example Output for `User` Entity
 
@@ -207,6 +227,18 @@ const REMOVE_USERS_MODELS = gql`
 `;
 ```
 
+### graphql-codegen-hasura-gql-from-documents plugin
+
+#### Overview
+
+Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) gql mutations and queries for every _Fragment_ defined in the targeted (code) documents.
+
+See [demo/src/autogen/hasura/gql-from-documents.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
+
+#### Example Output
+
+This has the same output as the [graphql-codegen-hasura-typescript-from-schema](#graphql-codegen-hasura-typescript-from-schema-plugin) plugin, except that the generated code is fragment-driven, as opposed to table-driven
+
 ### graphql-codegen-hasura-typescript-from-schema plugin
 
 #### Overview
@@ -215,7 +247,7 @@ Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) 
 
 The existing [@graphql-codegen/typescript-react-apollo](https://graphql-code-generator.com/docs/plugins/typescript-react-apollo) plugin already provides this capability for hooks. This plugin extends that to direct client.query & client.mutate calls, in addition to adding some convenience features.
 
-See [demo/src/autogen/hasura/typescript.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
+See [demo/src/autogen/hasura/typescript-from-schema.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
 
 #### Example Output for `User` Entity
 
@@ -325,11 +357,11 @@ Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) 
 
 The existing [@graphql-codegen/typescript-react-apollo](https://graphql-code-generator.com/docs/plugins/typescript-react-apollo) plugin already provides this capability for hooks. This plugin extends that to direct client.query & client.mutate calls, in addition to adding some convenience features.
 
-See [demo/src/autogen/hasura/typescript.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
+See [demo/src/autogen/hasura/typescript-from-documents.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
 
-#### Example Output for `User` Entity
+#### Example Output
 
-This has the same output as the [graphql-codegen-hasura-typescript-from-documents](#graphql-codegen-hasura-typescript-from-schema-plugin) plugin
+This has the same output as the [graphql-codegen-hasura-typescript-from-schema](#graphql-codegen-hasura-typescript-from-schema-plugin) plugin, except that the generated code is fragment-driven, as opposed to table-driven
 
 ## Naming Conventions
 
