@@ -1,5 +1,17 @@
 import { FieldDefinitionNode } from "graphql";
-import { getIdPostGresFieldType, makeModelName, makeShortCamelCaseName } from ".";
+import { getIdPostGresFieldType, makeModelName, makeShortCamelCaseName, makeFragmentName, makeFragmentDocName } from ".";
+import { makeImportStatement } from "./utils";
+
+// ---------------------------------
+//
+export function injectFragmentImport({ importArray, fragmentName, fragmentImportFrom }: { importArray: string[]; fragmentName: string; fragmentImportFrom: string }) {
+  const fragmentDocName = makeFragmentDocName(fragmentName);
+  const fragmentImport = makeImportStatement(fragmentDocName, fragmentImportFrom);
+  // import fragment if not already
+  if (!importArray.includes(fragmentImport)) {
+    importArray.push(fragmentImport);
+  }
+}
 
 // ---------------------------------
 //
@@ -21,19 +33,20 @@ export function injectFetchGql({
   const entityShortCamelName = makeShortCamelCaseName(entityName, trimString);
   const entityModelName = makeModelName(entityName, trimString);
   const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
+  const fragmentDocName = makeFragmentName(fragmentName, trimString);
 
   contentArray.push(`
 
     // Query: FetchById
     //
 
-    const FETCH_${entityName.toUpperCase()}_MODEL_BYID = gql\`
-      query fetch${entityModelName}ById($${entityShortCamelName}Id: ${primaryKeyIdPostGresFieldType}!) {
+    const FETCH_${fragmentName.toUpperCase()}_MODEL_BYID = gql\`
+      query fetch${fragmentName}ById($${entityShortCamelName}Id: ${primaryKeyIdPostGresFieldType}!) {
         ${entityName}_by_pk(id: $${entityShortCamelName}Id) {
           ...${fragmentName}
         }
       }
-      \${${fragmentName}}
+      \${${fragmentDocName}}
     \`;`);
 
   contentArray.push(`
@@ -41,8 +54,8 @@ export function injectFetchGql({
     // Query: Fetch
     //
 
-    const FETCH_${entityName.toUpperCase()}_MODELS = gql\`
-      query fetch${entityModelName}(
+    const FETCH_${fragmentName.toUpperCase()}_MODELS = gql\`
+      query fetch${fragmentName}(
         $distinct_on: [${entityName}_select_column!]
         $where: ${entityName}_bool_exp
         $limit: Int
@@ -53,7 +66,7 @@ export function injectFetchGql({
           ...${fragmentName}
         }
       }
-      \${${fragmentName}}
+      \${${fragmentDocName}}
     \`;`);
 }
 
@@ -75,14 +88,15 @@ export function injectInsertGql({
   primaryKeyIdField: FieldDefinitionNode;
 }) {
   const entityModelName = makeModelName(entityName, trimString);
+  const fragmentDocName = makeFragmentName(fragmentName, trimString);
 
   contentArray.push(`
 
     // Mutation: Insert
     //
 
-    const INSERT_${entityName.toUpperCase()}_MODEL = gql\`
-      mutation insert${entityModelName}($objects: [${entityName}_insert_input!]!, $onConflict: ${entityName}_on_conflict) {
+    const INSERT_${fragmentName.toUpperCase()}_MODEL = gql\`
+      mutation insert${fragmentName}($objects: [${entityName}_insert_input!]!, $onConflict: ${entityName}_on_conflict) {
         insert_${entityName}(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {
@@ -90,7 +104,7 @@ export function injectInsertGql({
           }
         }
       }
-      \${${fragmentName}}
+      \${${fragmentDocName}}
     \`;`);
 }
 
@@ -113,14 +127,15 @@ export function injectUpdateGql({
 }) {
   const entityModelName = makeModelName(entityName, trimString);
   const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
+  const fragmentDocName = makeFragmentName(fragmentName, trimString);
 
   contentArray.push(`
 
     // Mutation: Update by Id
     //
 
-    const UPDATE_${entityName.toUpperCase()}_MODEL_BYID = gql\`
-      mutation update${entityModelName}ById($id: ${primaryKeyIdPostGresFieldType}, $set: ${entityName}_set_input) {
+    const UPDATE_${fragmentName.toUpperCase()}_MODEL_BYID = gql\`
+      mutation update${fragmentName}ById($id: ${primaryKeyIdPostGresFieldType}, $set: ${entityName}_set_input) {
         update_${entityName}(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
           returning {
@@ -128,7 +143,7 @@ export function injectUpdateGql({
           }
         }
       }
-      \${${fragmentName}}
+      \${${fragmentDocName}}
     \`;`);
 
   contentArray.push(`
@@ -136,8 +151,8 @@ export function injectUpdateGql({
     // Mutation: Update
     //
 
-    const UPDATE_${entityName.toUpperCase()}_MODELS = gql\`
-      mutation update${entityModelName}($set: ${entityName}_set_input, $where:${entityName}_bool_exp!) {
+    const UPDATE_${fragmentName.toUpperCase()}_MODELS = gql\`
+      mutation update${fragmentName}($set: ${entityName}_set_input, $where:${entityName}_bool_exp!) {
         update_${entityName}(_set: $set, where: $where) {
           affected_rows
           returning {
@@ -145,7 +160,7 @@ export function injectUpdateGql({
           }
         }
       }
-      \${${fragmentName}}
+      \${${fragmentDocName}}
     \`;`);
 }
 
@@ -168,19 +183,20 @@ export function injectDeleteGql({
 }) {
   const entityModelName = makeModelName(entityName, trimString);
   const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
+  const fragmentDocName = makeFragmentName(fragmentName, trimString);
 
   contentArray.push(`
 
     // Mutation: Remove by Id
     //
 
-    const REMOVE_${entityName.toUpperCase()}_MODEL_BYID = gql\`
+    const REMOVE_${entityModelName.toUpperCase()}_MODEL_BYID = gql\`
       mutation remove${entityModelName}ById($id: ${primaryKeyIdPostGresFieldType}) {
         delete_${entityName}(where: { id: { _eq: $id } }) {
           affected_rows
         }
       }
-      \${${fragmentName}}
+      \${${fragmentDocName}}
     \`;`);
 
   contentArray.push(`
@@ -188,12 +204,12 @@ export function injectDeleteGql({
     // Mutation: Remove
     //
 
-    const REMOVE_${entityName.toUpperCase()}_MODELS = gql\`
+    const REMOVE_${entityModelName.toUpperCase()}_MODELS = gql\`
       mutation remove${entityModelName}($where:${entityName}_bool_exp!) {
         delete_${entityName}(where: $where) {
           affected_rows
         }
       }
-      \${${fragmentName}}
+      \${${fragmentDocName}}
     \`;`);
 }

@@ -1,6 +1,6 @@
 import gql from "graphql-tag";
 
-const CUSTOM_VEHICLE_FIELDS_FRAGMENT = gql`
+export const VehicleGraphFieldsFragmentDoc = gql`
   fragment VehicleGraphFields on vehicle {
     id
     name

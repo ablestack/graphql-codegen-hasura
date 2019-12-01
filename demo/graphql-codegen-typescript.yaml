@@ -31,7 +31,7 @@ generates:
       withInserts: true
       withUpdates: true
       withDeletes: true
-  ./src/autogen/hasura/ts-from-fragments.ts:
+  ./src/autogen/hasura/ts-from-documents.ts:
     documents:
       - ./src/customFragments.ts
     plugins:

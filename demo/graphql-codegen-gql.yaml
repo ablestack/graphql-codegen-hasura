@@ -17,18 +17,18 @@ generates:
       withInserts: true
       withUpdates: true
       withDeletes: true
-  ./src/autogen/hasura/gql-from-schema.ts:
+  ./src/autogen/hasura/gql-from-documents.ts:
     plugins:
       - graphql-codegen-hasura-gql-from-documents
-    documents: 
+    documents:
       - ./src/customFragments.ts
     config:
       reactApolloVersion: 3
-      withFragments: true
+      fragmentImportFrom: ./src/customFragments.ts
       withQueries: true
       withInserts: true
       withUpdates: true
-      withDeletes: true
+      withDeletes: false
   ./schema/graphql.schema.json:
     plugins:
       - introspection

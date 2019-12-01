@@ -1,17 +1,8 @@
 import { PluginFunction, Types } from "@graphql-codegen/plugin-helpers";
 import { RawTypesConfig } from "@graphql-codegen/visitor-plugin-common";
-import { FieldDefinitionNode, FragmentDefinitionNode, GraphQLSchema } from "graphql";
+import { FragmentDefinitionNode, GraphQLSchema } from "graphql";
 import { TypeMap } from "graphql/type/schema";
-import {
-  getIdTypeScriptFieldType,
-  getPrimaryKeyIdField,
-  injectDeleteGql,
-  injectFetchGql,
-  injectInsertGql,
-  injectUpdateGql,
-  makeFragmentsImport,
-  makePrimaryCodegenTypescriptImport
-} from "../../shared";
+import { getPrimaryKeyIdField, injectDeleteGql, injectFetchGql, injectFragmentImport, injectInsertGql, injectUpdateGql } from "../../shared";
 
 // -----------------------------------------------------
 //
@@ -76,17 +67,13 @@ function makeEntityModelSharedGql(
   config: CstmHasuraCrudPluginConfig
 ) {
   const fragmentName = fragmentDefinitionNode.name.value;
-  const fragmentImport = makeFragmentsImport(fragmentName, config.fragmentImportFrom);
 
   contentArray.push(`
     // ${fragmentName} GQL
-    //------------------------------------------------
+    //------------------------------------------------ 
   `);
 
-  // import fragment if not already
-  if (!importArray.includes(fragmentImport)) {
-    importArray.push();
-  }
+  if (config.fragmentImportFrom) injectFragmentImport({ importArray, fragmentName, fragmentImportFrom: config.fragmentImportFrom });
 }
 
 // --------------------------------------
@@ -199,40 +186,3 @@ function makeEntityDeleteMutationGql(
 
 // --------------------------------------
 //
-
-// ---------------------------------
-//
-
-export function injectFragmentGql({
-  contentArray,
-  importArray,
-  entityName,
-  fragmentName,
-  trimString,
-  primaryKeyIdField,
-  primaryCodegenTypeScriptImportPath
-}: {
-  contentArray: string[];
-  importArray: string[];
-  entityName: string;
-  fragmentName: string;
-  trimString?: string;
-  primaryKeyIdField: FieldDefinitionNode;
-  primaryCodegenTypeScriptImportPath: string;
-}) {
-  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
-
-  contentArray.push(`
-    // ${entityName} Helpers
-    //------------------------------------------------
-  `);
-
-  if (!primaryKeyIdTypeScriptFieldType.isNative) {
-    const typeImport = makePrimaryCodegenTypescriptImport(`${primaryKeyIdTypeScriptFieldType.typeName}`, primaryCodegenTypeScriptImportPath);
-    if (!importArray.includes(typeImport)) {
-      importArray.push(typeImport);
-    }
-  }
-
-  importArray.push(makePrimaryCodegenTypescriptImport(`${fragmentName}Fragment`, primaryCodegenTypeScriptImportPath));
-}

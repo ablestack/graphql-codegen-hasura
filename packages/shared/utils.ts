@@ -27,16 +27,16 @@ export function makeModelName(typename: string, trimString: string = undefined) 
   return `${makeShortName(typename, trimString)}Model`;
 }
 
-export function makeFragmentsImport(typename: string, fragmentsImportPath: string, trimString: string = undefined) {
-  return `import { ${makeFragmentName(typename, trimString)} } from '${fragmentsImportPath}';`;
-}
-
-export function makePrimaryCodegenTypescriptImport(type: string, primaryCodegenTypeScriptImportPath: string) {
-  return `import { ${type} } from '${primaryCodegenTypeScriptImportPath}';`;
+export function makeImportStatement(importName: string, importPath: string) {
+  return `import { ${importName} } from '${importPath}';`;
 }
 
 export function makeFragmentName(typename: string, trimString: string = undefined) {
   return `${makeModelName(typename, trimString)}Fields`;
+}
+
+export function makeFragmentDocName(fragmentName: string) {
+  return `${fragmentName}FragmentDoc`;
 }
 
 export function getIdPostGresFieldType(field: FieldDefinitionNode) {

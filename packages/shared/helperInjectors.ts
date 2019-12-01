@@ -1,5 +1,6 @@
 import { FieldDefinitionNode } from "graphql";
-import { getIdTypeScriptFieldType, makeFragmentName, makeModelName, makePrimaryCodegenTypescriptImport, makeShortCamelCaseName, makeShortName } from ".";
+import { getIdTypeScriptFieldType, makeFragmentName, makeModelName, makeShortCamelCaseName, makeShortName, makeImportStatement } from ".";
+import { makeFragmentDocName } from "./utils";
 
 // ---------------------------------
 //
@@ -21,6 +22,7 @@ export function injectSharedHelpers({
   primaryCodegenTypeScriptImportPath: string;
 }) {
   const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
+  const fragmentDoc = makeFragmentDocName(fragmentName);
 
   contentArray.push(`
     // ${entityName} Helpers
@@ -28,13 +30,13 @@ export function injectSharedHelpers({
   `);
 
   if (!primaryKeyIdTypeScriptFieldType.isNative) {
-    const typeImport = makePrimaryCodegenTypescriptImport(`${primaryKeyIdTypeScriptFieldType.typeName}`, primaryCodegenTypeScriptImportPath);
+    const typeImport = makeImportStatement(`${primaryKeyIdTypeScriptFieldType.typeName}`, primaryCodegenTypeScriptImportPath);
     if (!importArray.includes(typeImport)) {
       importArray.push(typeImport);
     }
   }
 
-  importArray.push(makePrimaryCodegenTypescriptImport(`${fragmentName}Fragment`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(fragmentDoc, primaryCodegenTypeScriptImportPath));
 }
 
 // ---------------------------------
@@ -63,29 +65,29 @@ export function injectFetchHelpers({
       // Fetch Helper
       //
   
-      export async function fetch${entityModelName}ById(
+      export async function fetch${fragmentName}ById(
         apolloClient: ApolloClient<object>, 
         ${entityShortCamelCaseName}Id: string
         ): Promise<${fragmentName}Fragment | null | undefined> {
-        const ${entityShortCamelCaseName}Result = await apolloClient.query<Fetch${entityModelName}ByIdQuery>({ query: Fetch${entityModelName}ByIdDocument, variables: { id:${entityShortCamelCaseName}Id } });
+        const ${entityShortCamelCaseName}Result = await apolloClient.query<Fetch${fragmentName}ByIdQuery>({ query: Fetch${fragmentName}ByIdDocument, variables: { id:${entityShortCamelCaseName}Id } });
         return ${entityShortCamelCaseName}Result.data.${entityName}_by_pk;
       }
     `);
   contentArray.push(`
-      export async function fetch${entityModelName}(
+      export async function fetch${fragmentName}(
         apolloClient: ApolloClient<object>,
         ${entityShortCamelCaseName}Id: string,
-        queryOptions: Omit<QueryOptions<Fetch${entityModelName}QueryVariables>, 'query'>,
+        queryOptions: Omit<QueryOptions<Fetch${fragmentName}QueryVariables>, 'query'>,
       ): Promise<${fragmentName}Fragment[] | null | undefined> {
-        const ${entityShortCamelCaseName}Result = await apolloClient.query<Fetch${entityModelName}Query>({ query: Fetch${entityModelName}Document, ...queryOptions });
+        const ${entityShortCamelCaseName}Result = await apolloClient.query<Fetch${fragmentName}Query>({ query: Fetch${fragmentName}Document, ...queryOptions });
         return ${entityShortCamelCaseName}Result.data.${entityName};
       }
     `);
-  importArray.push(makePrimaryCodegenTypescriptImport(`Fetch${entityModelName}ByIdQuery`, primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Fetch${entityModelName}ByIdDocument`, primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Fetch${entityModelName}Query`, primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Fetch${entityModelName}Document`, primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Fetch${entityModelName}QueryVariables`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`Fetch${fragmentName}ByIdQuery`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`Fetch${fragmentName}ByIdDocument`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`Fetch${fragmentName}Query`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`Fetch${fragmentName}Document`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`Fetch${fragmentName}QueryVariables`, primaryCodegenTypeScriptImportPath));
 }
 
 // ---------------------------------
@@ -114,13 +116,13 @@ export function injectInsertHelpers({
     // Insert Helper
     //
 
-    export async function insert${entityModelName}(
+    export async function insert${fragmentName}(
       apolloClient: ApolloClient<object>,
       ${entityShortCamelCaseName}Id: string,
-      mutationOptions: Omit<MutationOptions<Insert${entityModelName}Mutation, Insert${entityModelName}MutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<Insert${entityModelName}Mutation>; returning: (${fragmentName}Fragment | null | undefined)[] | null | undefined }> {
+      mutationOptions: Omit<MutationOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation'>,
+    ): Promise<{ result: FetchResult<Insert${fragmentName}Mutation>; returning: (${fragmentName}Fragment | null | undefined)[] | null | undefined }> {
       
-      const result = await apolloClient.mutate<Insert${entityModelName}Mutation, Insert${entityModelName}MutationVariables>({ mutation: Insert${entityModelName}Document, ...mutationOptions,});
+      const result = await apolloClient.mutate<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>({ mutation: Insert${fragmentName}Document, ...mutationOptions,});
     
       const returning = result && result.data && result.data.insert_${entityName} && result.data.insert_${entityName}!.returning;
     
@@ -128,9 +130,9 @@ export function injectInsertHelpers({
     }
   `);
 
-  importArray.push(makePrimaryCodegenTypescriptImport(`Insert${entityModelName}Mutation`, primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Insert${entityModelName}MutationVariables`, primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Insert${entityModelName}Document`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`Insert${fragmentName}Mutation`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`Insert${fragmentName}MutationVariables`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`Insert${fragmentName}Document`, primaryCodegenTypeScriptImportPath));
 }
 
 // ---------------------------------
@@ -161,14 +163,14 @@ export function injectUpdateHelpers({
     // Update Helper
     //
 
-    export async function update${entityModelName}ById(
+    export async function update${fragmentName}ById(
       apolloClient: ApolloClient<object>,
       ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName},
-      set: ${entityShortName}_Set_Input,
-      mutationOptions: Omit<MutationOptions<Update${entityModelName}ByIdMutation, Update${entityModelName}ByIdMutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<Update${entityModelName}ByIdMutation>; returning: (${fragmentName}Fragment | null | undefined)[] | null | undefined }> {
+      set: ${fragmentName}_Set_Input,
+      mutationOptions: Omit<MutationOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>, 'mutation'>,
+    ): Promise<{ result: FetchResult<Update${fragmentName}ByIdMutation>; returning: (${fragmentName}Fragment | null | undefined)[] | null | undefined }> {
       
-      const result = await apolloClient.mutate<Update${entityModelName}ByIdMutation, Update${entityModelName}ByIdMutationVariables>({ mutation: Update${entityModelName}ByIdDocument, variables: { id:${entityShortCamelCaseName}Id, set }, ...mutationOptions,});
+      const result = await apolloClient.mutate<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>({ mutation: Update${fragmentName}ByIdDocument, variables: { id:${entityShortCamelCaseName}Id, set }, ...mutationOptions,});
     
       const returning = result && result.data && result.data.update_${entityName} && result.data.update_${entityName}!.returning;
     
@@ -177,12 +179,12 @@ export function injectUpdateHelpers({
   `);
 
   contentArray.push(`
-    export async function update${entityModelName}(
+    export async function update${fragmentName}(
       apolloClient: ApolloClient<object>,
-      mutationOptions: Omit<MutationOptions<Update${entityModelName}Mutation, Update${entityModelName}MutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<Update${entityModelName}Mutation>; returning: (${fragmentName}Fragment | null | undefined)[] | null | undefined }> {
+      mutationOptions: Omit<MutationOptions<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>, 'mutation'>,
+    ): Promise<{ result: FetchResult<Update${fragmentName}Mutation>; returning: (${fragmentName}Fragment | null | undefined)[] | null | undefined }> {
       
-      const result = await apolloClient.mutate<Update${entityModelName}Mutation, Update${entityModelName}MutationVariables>({ mutation: Update${entityModelName}Document, ...mutationOptions,});
+      const result = await apolloClient.mutate<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>({ mutation: Update${fragmentName}Document, ...mutationOptions,});
     
       const returning = result && result.data && result.data.update_${entityName} && result.data.update_${entityName}!.returning;
     
@@ -190,13 +192,13 @@ export function injectUpdateHelpers({
     }
   `);
 
-  importArray.push(makePrimaryCodegenTypescriptImport(`${entityShortName}_Set_Input`, primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Update${entityModelName}ByIdMutation`, primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Update${entityModelName}ByIdMutationVariables`, primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Update${entityModelName}ByIdDocument`, primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Update${entityModelName}Mutation`, primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Update${entityModelName}MutationVariables`, primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Update${entityModelName}Document`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`${fragmentName}_Set_Input`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`Update${fragmentName}ByIdMutation`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`Update${fragmentName}ByIdMutationVariables`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`Update${fragmentName}ByIdDocument`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`Update${fragmentName}Mutation`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`Update${fragmentName}MutationVariables`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`Update${fragmentName}Document`, primaryCodegenTypeScriptImportPath));
 }
 
 // ---------------------------------
@@ -254,10 +256,10 @@ export function injectDeleteHelpers({
     }
   `);
 
-  importArray.push(makePrimaryCodegenTypescriptImport(`Remove${entityModelName}Mutation`, primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Remove${entityModelName}MutationVariables`, primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Remove${entityModelName}Document`, primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Remove${entityModelName}ByIdMutation`, primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Remove${entityModelName}ByIdMutationVariables`, primaryCodegenTypeScriptImportPath));
-  importArray.push(makePrimaryCodegenTypescriptImport(`Remove${entityModelName}ByIdDocument`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`Remove${entityModelName}Mutation`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`Remove${entityModelName}MutationVariables`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`Remove${entityModelName}Document`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`Remove${entityModelName}ByIdMutation`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`Remove${entityModelName}ByIdMutationVariables`, primaryCodegenTypeScriptImportPath));
+  importArray.push(makeImportStatement(`Remove${entityModelName}ByIdDocument`, primaryCodegenTypeScriptImportPath));
 }
