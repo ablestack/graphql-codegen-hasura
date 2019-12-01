@@ -1,7 +1,7 @@
 import { ApolloClient } from '@apollo/client'
 import { FetchResult } from '@apollo/client'
 import { QueryOptions, MutationOptions } from '@apollo/client'
-import { ObservationModelFieldsFragmentDoc } from '../';
+import { ObservationModelFieldsFragment } from '../';
 import { FetchObservationModelFieldsByIdQuery } from '../';
 import { FetchObservationModelFieldsByIdDocument } from '../';
 import { FetchObservationModelFieldsQuery } from '../';
@@ -10,7 +10,7 @@ import { FetchObservationModelFieldsQueryVariables } from '../';
 import { InsertObservationModelFieldsMutation } from '../';
 import { InsertObservationModelFieldsMutationVariables } from '../';
 import { InsertObservationModelFieldsDocument } from '../';
-import { ObservationModelFields_Set_Input } from '../';
+import { Observation_Set_Input } from '../';
 import { UpdateObservationModelFieldsByIdMutation } from '../';
 import { UpdateObservationModelFieldsByIdMutationVariables } from '../';
 import { UpdateObservationModelFieldsByIdDocument } from '../';
@@ -23,7 +23,7 @@ import { RemoveObservationModelDocument } from '../';
 import { RemoveObservationModelByIdMutation } from '../';
 import { RemoveObservationModelByIdMutationVariables } from '../';
 import { RemoveObservationModelByIdDocument } from '../';
-import { PModelFieldsFragmentDoc } from '../';
+import { PModelFieldsFragment } from '../';
 import { FetchPModelFieldsByIdQuery } from '../';
 import { FetchPModelFieldsByIdDocument } from '../';
 import { FetchPModelFieldsQuery } from '../';
@@ -32,7 +32,7 @@ import { FetchPModelFieldsQueryVariables } from '../';
 import { InsertPModelFieldsMutation } from '../';
 import { InsertPModelFieldsMutationVariables } from '../';
 import { InsertPModelFieldsDocument } from '../';
-import { PModelFields_Set_Input } from '../';
+import { P_Set_Input } from '../';
 import { UpdatePModelFieldsByIdMutation } from '../';
 import { UpdatePModelFieldsByIdMutationVariables } from '../';
 import { UpdatePModelFieldsByIdDocument } from '../';
@@ -45,7 +45,7 @@ import { RemovePModelDocument } from '../';
 import { RemovePModelByIdMutation } from '../';
 import { RemovePModelByIdMutationVariables } from '../';
 import { RemovePModelByIdDocument } from '../';
-import { PatientModelFieldsFragmentDoc } from '../';
+import { PatientModelFieldsFragment } from '../';
 import { FetchPatientModelFieldsByIdQuery } from '../';
 import { FetchPatientModelFieldsByIdDocument } from '../';
 import { FetchPatientModelFieldsQuery } from '../';
@@ -54,7 +54,7 @@ import { FetchPatientModelFieldsQueryVariables } from '../';
 import { InsertPatientModelFieldsMutation } from '../';
 import { InsertPatientModelFieldsMutationVariables } from '../';
 import { InsertPatientModelFieldsDocument } from '../';
-import { PatientModelFields_Set_Input } from '../';
+import { Patient_Set_Input } from '../';
 import { UpdatePatientModelFieldsByIdMutation } from '../';
 import { UpdatePatientModelFieldsByIdMutationVariables } from '../';
 import { UpdatePatientModelFieldsByIdDocument } from '../';
@@ -67,7 +67,7 @@ import { RemovePatientModelDocument } from '../';
 import { RemovePatientModelByIdMutation } from '../';
 import { RemovePatientModelByIdMutationVariables } from '../';
 import { RemovePatientModelByIdDocument } from '../';
-import { UsersModelFieldsFragmentDoc } from '../';
+import { UsersModelFieldsFragment } from '../';
 import { FetchUsersModelFieldsByIdQuery } from '../';
 import { FetchUsersModelFieldsByIdDocument } from '../';
 import { FetchUsersModelFieldsQuery } from '../';
@@ -76,7 +76,7 @@ import { FetchUsersModelFieldsQueryVariables } from '../';
 import { InsertUsersModelFieldsMutation } from '../';
 import { InsertUsersModelFieldsMutationVariables } from '../';
 import { InsertUsersModelFieldsDocument } from '../';
-import { UsersModelFields_Set_Input } from '../';
+import { Users_Set_Input } from '../';
 import { UpdateUsersModelFieldsByIdMutation } from '../';
 import { UpdateUsersModelFieldsByIdMutationVariables } from '../';
 import { UpdateUsersModelFieldsByIdDocument } from '../';
@@ -89,7 +89,7 @@ import { RemoveUsersModelDocument } from '../';
 import { RemoveUsersModelByIdMutation } from '../';
 import { RemoveUsersModelByIdMutationVariables } from '../';
 import { RemoveUsersModelByIdDocument } from '../';
-import { VehicleModelFieldsFragmentDoc } from '../';
+import { VehicleModelFieldsFragment } from '../';
 import { FetchVehicleModelFieldsByIdQuery } from '../';
 import { FetchVehicleModelFieldsByIdDocument } from '../';
 import { FetchVehicleModelFieldsQuery } from '../';
@@ -98,7 +98,7 @@ import { FetchVehicleModelFieldsQueryVariables } from '../';
 import { InsertVehicleModelFieldsMutation } from '../';
 import { InsertVehicleModelFieldsMutationVariables } from '../';
 import { InsertVehicleModelFieldsDocument } from '../';
-import { VehicleModelFields_Set_Input } from '../';
+import { Vehicle_Set_Input } from '../';
 import { UpdateVehicleModelFieldsByIdMutation } from '../';
 import { UpdateVehicleModelFieldsByIdMutationVariables } from '../';
 import { UpdateVehicleModelFieldsByIdDocument } from '../';
@@ -111,7 +111,7 @@ import { RemoveVehicleModelDocument } from '../';
 import { RemoveVehicleModelByIdMutation } from '../';
 import { RemoveVehicleModelByIdMutationVariables } from '../';
 import { RemoveVehicleModelByIdDocument } from '../';
-import { Vehicle_LocationModelFieldsFragmentDoc } from '../';
+import { Vehicle_LocationModelFieldsFragment } from '../';
 import { FetchVehicle_LocationModelFieldsByIdQuery } from '../';
 import { FetchVehicle_LocationModelFieldsByIdDocument } from '../';
 import { FetchVehicle_LocationModelFieldsQuery } from '../';
@@ -120,7 +120,7 @@ import { FetchVehicle_LocationModelFieldsQueryVariables } from '../';
 import { InsertVehicle_LocationModelFieldsMutation } from '../';
 import { InsertVehicle_LocationModelFieldsMutationVariables } from '../';
 import { InsertVehicle_LocationModelFieldsDocument } from '../';
-import { Vehicle_LocationModelFields_Set_Input } from '../';
+import { Vehicle_Location_Set_Input } from '../';
 import { UpdateVehicle_LocationModelFieldsByIdMutation } from '../';
 import { UpdateVehicle_LocationModelFieldsByIdMutationVariables } from '../';
 import { UpdateVehicle_LocationModelFieldsByIdDocument } from '../';
@@ -183,7 +183,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     export async function updateObservationModelFieldsById(
       apolloClient: ApolloClient<object>,
       observationId: string,
-      set: ObservationModelFields_Set_Input,
+      set: Observation_Set_Input,
       mutationOptions: Omit<MutationOptions<UpdateObservationModelFieldsByIdMutation, UpdateObservationModelFieldsByIdMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<UpdateObservationModelFieldsByIdMutation>; returning: (ObservationModelFieldsFragment | null | undefined)[] | null | undefined }> {
       
@@ -287,7 +287,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     export async function updatePModelFieldsById(
       apolloClient: ApolloClient<object>,
       pId: number,
-      set: PModelFields_Set_Input,
+      set: P_Set_Input,
       mutationOptions: Omit<MutationOptions<UpdatePModelFieldsByIdMutation, UpdatePModelFieldsByIdMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<UpdatePModelFieldsByIdMutation>; returning: (PModelFieldsFragment | null | undefined)[] | null | undefined }> {
       
@@ -391,7 +391,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     export async function updatePatientModelFieldsById(
       apolloClient: ApolloClient<object>,
       patientId: string,
-      set: PatientModelFields_Set_Input,
+      set: Patient_Set_Input,
       mutationOptions: Omit<MutationOptions<UpdatePatientModelFieldsByIdMutation, UpdatePatientModelFieldsByIdMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<UpdatePatientModelFieldsByIdMutation>; returning: (PatientModelFieldsFragment | null | undefined)[] | null | undefined }> {
       
@@ -495,7 +495,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     export async function updateUsersModelFieldsById(
       apolloClient: ApolloClient<object>,
       usersId: number,
-      set: UsersModelFields_Set_Input,
+      set: Users_Set_Input,
       mutationOptions: Omit<MutationOptions<UpdateUsersModelFieldsByIdMutation, UpdateUsersModelFieldsByIdMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<UpdateUsersModelFieldsByIdMutation>; returning: (UsersModelFieldsFragment | null | undefined)[] | null | undefined }> {
       
@@ -599,7 +599,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     export async function updateVehicleModelFieldsById(
       apolloClient: ApolloClient<object>,
       vehicleId: string,
-      set: VehicleModelFields_Set_Input,
+      set: Vehicle_Set_Input,
       mutationOptions: Omit<MutationOptions<UpdateVehicleModelFieldsByIdMutation, UpdateVehicleModelFieldsByIdMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<UpdateVehicleModelFieldsByIdMutation>; returning: (VehicleModelFieldsFragment | null | undefined)[] | null | undefined }> {
       
@@ -703,7 +703,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     export async function updateVehicle_LocationModelFieldsById(
       apolloClient: ApolloClient<object>,
       vehicle_LocationId: number,
-      set: Vehicle_LocationModelFields_Set_Input,
+      set: Vehicle_Location_Set_Input,
       mutationOptions: Omit<MutationOptions<UpdateVehicle_LocationModelFieldsByIdMutation, UpdateVehicle_LocationModelFieldsByIdMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<UpdateVehicle_LocationModelFieldsByIdMutation>; returning: (Vehicle_LocationModelFieldsFragment | null | undefined)[] | null | undefined }> {
       

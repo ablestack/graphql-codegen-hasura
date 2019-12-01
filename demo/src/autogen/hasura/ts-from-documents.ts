@@ -1,7 +1,7 @@
 import { ApolloClient } from '@apollo/client'
 import { FetchResult } from '@apollo/client'
 import { QueryOptions, MutationOptions } from '@apollo/client'
-import { VehicleGraphFieldsFragmentDoc } from '../';
+import { VehicleGraphFieldsFragment } from '../';
 import { FetchVehicleGraphFieldsByIdQuery } from '../';
 import { FetchVehicleGraphFieldsByIdDocument } from '../';
 import { FetchVehicleGraphFieldsQuery } from '../';
@@ -10,7 +10,7 @@ import { FetchVehicleGraphFieldsQueryVariables } from '../';
 import { InsertVehicleGraphFieldsMutation } from '../';
 import { InsertVehicleGraphFieldsMutationVariables } from '../';
 import { InsertVehicleGraphFieldsDocument } from '../';
-import { VehicleGraphFields_Set_Input } from '../';
+import { Vehicle_Set_Input } from '../';
 import { UpdateVehicleGraphFieldsByIdMutation } from '../';
 import { UpdateVehicleGraphFieldsByIdMutationVariables } from '../';
 import { UpdateVehicleGraphFieldsByIdDocument } from '../';
@@ -73,7 +73,7 @@ import { RemoveVehicleModelByIdDocument } from '../';
     export async function updateVehicleGraphFieldsById(
       apolloClient: ApolloClient<object>,
       vehicleId: string,
-      set: VehicleGraphFields_Set_Input,
+      set: Vehicle_Set_Input,
       mutationOptions: Omit<MutationOptions<UpdateVehicleGraphFieldsByIdMutation, UpdateVehicleGraphFieldsByIdMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<UpdateVehicleGraphFieldsByIdMutation>; returning: (VehicleGraphFieldsFragment | null | undefined)[] | null | undefined }> {
       

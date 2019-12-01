@@ -58,7 +58,7 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 ### graphql-codegen-hasura-gql-from-schema plugin
 
 - reactApolloVersion (2 | 3, default value: 3): sets the version of react-apollo
-- fragmentImportFrom: import path to the gql fragment generated code. Only required if withFragments:false
+- fragmentRelativeImportPath: import path to the gql fragment generated code. Only required if withFragments:false
 - trimString: optional string to trim from each type name. Useful for trimming Hasura prepended schema name
 - withFragments: boolean flag for fragment gql code generation
 - withQueries: boolean flag for query gql code generation
@@ -69,7 +69,7 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 ### graphql-codegen-hasura-typescript-schema plugin
 
 - reactApolloVersion (2 | 3, default value: 3): sets the version of react-apollo
-- primaryCodegenTypeScriptImportPath: import path to the code generated with dependent @graphql-codegen/typescript generated code
+- typescriptCodegenOutputRelativePath: import path to the code generated with dependent @graphql-codegen/typescript generated code
 - trimString: optional string to trim from each type name. Useful for trimming Hasura prepended schema name
 - withQueries: boolean flag for query TypeScript code generation
 - withInserts: boolean flag for insert TypeScript code generation
@@ -79,7 +79,7 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 ### graphql-codegen-hasura-typescript-documents plugin
 
 - reactApolloVersion (2 | 3, default value: 3): sets the version of react-apollo
-- primaryCodegenTypeScriptImportPath: import path to the code generated with dependent @graphql-codegen/typescript generated code
+- typescriptCodegenOutputRelativePath: import path to the code generated with dependent @graphql-codegen/typescript generated code
 - trimString: optional string to trim from each type name. Useful for trimming Hasura prepended schema name
 - withQueries: boolean flag for query TypeScript code generation
 - withInserts: boolean flag for insert TypeScript code generation

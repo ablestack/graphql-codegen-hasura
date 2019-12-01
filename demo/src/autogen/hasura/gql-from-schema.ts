@@ -9,7 +9,7 @@ import gql from 'graphql-tag';
     // Scalar Fields Fragment
     //
 
-    export const ObservationModelFields = gql`
+    export const ObservationModelFieldsFragmentDoc = gql`
       fragment ObservationModelFields on observation {
       id
       resource
@@ -20,20 +20,20 @@ import gql from 'graphql-tag';
     // Query: FetchById
     //
 
-    const FETCH_OBSERVATIONMODELFIELDS_MODEL_BYID = gql`
+    const FETCH_OBSERVATIONMODELFIELDS_BYID = gql`
       query fetchObservationModelFieldsById($observationId: uuid!) {
         observation_by_pk(id: $observationId) {
           ...ObservationModelFields
         }
       }
-      ${ObservationModelFieldsModelFields}
+      ${ObservationModelFieldsFragmentDoc}
     `;
 
 
     // Query: Fetch
     //
 
-    const FETCH_OBSERVATIONMODELFIELDS_MODELS = gql`
+    const FETCH_OBSERVATIONMODELFIELDSS = gql`
       query fetchObservationModelFields(
         $distinct_on: [observation_select_column!]
         $where: observation_bool_exp
@@ -45,14 +45,14 @@ import gql from 'graphql-tag';
           ...ObservationModelFields
         }
       }
-      ${ObservationModelFieldsModelFields}
+      ${ObservationModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Insert
     //
 
-    const INSERT_OBSERVATIONMODELFIELDS_MODEL = gql`
+    const INSERT_OBSERVATIONMODELFIELDS = gql`
       mutation insertObservationModelFields($objects: [observation_insert_input!]!, $onConflict: observation_on_conflict) {
         insert_observation(objects: $objects, on_conflict: $onConflict) {
           affected_rows
@@ -61,14 +61,14 @@ import gql from 'graphql-tag';
           }
         }
       }
-      ${ObservationModelFieldsModelFields}
+      ${ObservationModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Update by Id
     //
 
-    const UPDATE_OBSERVATIONMODELFIELDS_MODEL_BYID = gql`
+    const UPDATE_OBSERVATIONMODELFIELDS_BYID = gql`
       mutation updateObservationModelFieldsById($id: uuid, $set: observation_set_input) {
         update_observation(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
@@ -77,14 +77,14 @@ import gql from 'graphql-tag';
           }
         }
       }
-      ${ObservationModelFieldsModelFields}
+      ${ObservationModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Update
     //
 
-    const UPDATE_OBSERVATIONMODELFIELDS_MODELS = gql`
+    const UPDATE_OBSERVATIONMODELFIELDSS = gql`
       mutation updateObservationModelFields($set: observation_set_input, $where:observation_bool_exp!) {
         update_observation(_set: $set, where: $where) {
           affected_rows
@@ -93,33 +93,33 @@ import gql from 'graphql-tag';
           }
         }
       }
-      ${ObservationModelFieldsModelFields}
+      ${ObservationModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Remove by Id
     //
 
-    const REMOVE_OBSERVATIONMODEL_MODEL_BYID = gql`
+    const REMOVE_OBSERVATIONMODEL_BYID = gql`
       mutation removeObservationModelById($id: uuid) {
         delete_observation(where: { id: { _eq: $id } }) {
           affected_rows
         }
       }
-      ${ObservationModelFieldsModelFields}
+      ${ObservationModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Remove
     //
 
-    const REMOVE_OBSERVATIONMODEL_MODELS = gql`
+    const REMOVE_OBSERVATIONMODELS = gql`
       mutation removeObservationModel($where:observation_bool_exp!) {
         delete_observation(where: $where) {
           affected_rows
         }
       }
-      ${ObservationModelFieldsModelFields}
+      ${ObservationModelFieldsFragmentDoc}
     `;
 
   // p GQL
@@ -130,7 +130,7 @@ import gql from 'graphql-tag';
     // Scalar Fields Fragment
     //
 
-    export const PModelFields = gql`
+    export const PModelFieldsFragmentDoc = gql`
       fragment PModelFields on p {
       circle
       id
@@ -142,20 +142,20 @@ import gql from 'graphql-tag';
     // Query: FetchById
     //
 
-    const FETCH_PMODELFIELDS_MODEL_BYID = gql`
+    const FETCH_PMODELFIELDS_BYID = gql`
       query fetchPModelFieldsById($pId: Int!) {
         p_by_pk(id: $pId) {
           ...PModelFields
         }
       }
-      ${PModelFieldsModelFields}
+      ${PModelFieldsFragmentDoc}
     `;
 
 
     // Query: Fetch
     //
 
-    const FETCH_PMODELFIELDS_MODELS = gql`
+    const FETCH_PMODELFIELDSS = gql`
       query fetchPModelFields(
         $distinct_on: [p_select_column!]
         $where: p_bool_exp
@@ -167,14 +167,14 @@ import gql from 'graphql-tag';
           ...PModelFields
         }
       }
-      ${PModelFieldsModelFields}
+      ${PModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Insert
     //
 
-    const INSERT_PMODELFIELDS_MODEL = gql`
+    const INSERT_PMODELFIELDS = gql`
       mutation insertPModelFields($objects: [p_insert_input!]!, $onConflict: p_on_conflict) {
         insert_p(objects: $objects, on_conflict: $onConflict) {
           affected_rows
@@ -183,14 +183,14 @@ import gql from 'graphql-tag';
           }
         }
       }
-      ${PModelFieldsModelFields}
+      ${PModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Update by Id
     //
 
-    const UPDATE_PMODELFIELDS_MODEL_BYID = gql`
+    const UPDATE_PMODELFIELDS_BYID = gql`
       mutation updatePModelFieldsById($id: Int, $set: p_set_input) {
         update_p(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
@@ -199,14 +199,14 @@ import gql from 'graphql-tag';
           }
         }
       }
-      ${PModelFieldsModelFields}
+      ${PModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Update
     //
 
-    const UPDATE_PMODELFIELDS_MODELS = gql`
+    const UPDATE_PMODELFIELDSS = gql`
       mutation updatePModelFields($set: p_set_input, $where:p_bool_exp!) {
         update_p(_set: $set, where: $where) {
           affected_rows
@@ -215,33 +215,33 @@ import gql from 'graphql-tag';
           }
         }
       }
-      ${PModelFieldsModelFields}
+      ${PModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Remove by Id
     //
 
-    const REMOVE_PMODEL_MODEL_BYID = gql`
+    const REMOVE_PMODEL_BYID = gql`
       mutation removePModelById($id: Int) {
         delete_p(where: { id: { _eq: $id } }) {
           affected_rows
         }
       }
-      ${PModelFieldsModelFields}
+      ${PModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Remove
     //
 
-    const REMOVE_PMODEL_MODELS = gql`
+    const REMOVE_PMODELS = gql`
       mutation removePModel($where:p_bool_exp!) {
         delete_p(where: $where) {
           affected_rows
         }
       }
-      ${PModelFieldsModelFields}
+      ${PModelFieldsFragmentDoc}
     `;
 
   // patient GQL
@@ -252,7 +252,7 @@ import gql from 'graphql-tag';
     // Scalar Fields Fragment
     //
 
-    export const PatientModelFields = gql`
+    export const PatientModelFieldsFragmentDoc = gql`
       fragment PatientModelFields on patient {
       id
       resource
@@ -263,20 +263,20 @@ import gql from 'graphql-tag';
     // Query: FetchById
     //
 
-    const FETCH_PATIENTMODELFIELDS_MODEL_BYID = gql`
+    const FETCH_PATIENTMODELFIELDS_BYID = gql`
       query fetchPatientModelFieldsById($patientId: uuid!) {
         patient_by_pk(id: $patientId) {
           ...PatientModelFields
         }
       }
-      ${PatientModelFieldsModelFields}
+      ${PatientModelFieldsFragmentDoc}
     `;
 
 
     // Query: Fetch
     //
 
-    const FETCH_PATIENTMODELFIELDS_MODELS = gql`
+    const FETCH_PATIENTMODELFIELDSS = gql`
       query fetchPatientModelFields(
         $distinct_on: [patient_select_column!]
         $where: patient_bool_exp
@@ -288,14 +288,14 @@ import gql from 'graphql-tag';
           ...PatientModelFields
         }
       }
-      ${PatientModelFieldsModelFields}
+      ${PatientModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Insert
     //
 
-    const INSERT_PATIENTMODELFIELDS_MODEL = gql`
+    const INSERT_PATIENTMODELFIELDS = gql`
       mutation insertPatientModelFields($objects: [patient_insert_input!]!, $onConflict: patient_on_conflict) {
         insert_patient(objects: $objects, on_conflict: $onConflict) {
           affected_rows
@@ -304,14 +304,14 @@ import gql from 'graphql-tag';
           }
         }
       }
-      ${PatientModelFieldsModelFields}
+      ${PatientModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Update by Id
     //
 
-    const UPDATE_PATIENTMODELFIELDS_MODEL_BYID = gql`
+    const UPDATE_PATIENTMODELFIELDS_BYID = gql`
       mutation updatePatientModelFieldsById($id: uuid, $set: patient_set_input) {
         update_patient(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
@@ -320,14 +320,14 @@ import gql from 'graphql-tag';
           }
         }
       }
-      ${PatientModelFieldsModelFields}
+      ${PatientModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Update
     //
 
-    const UPDATE_PATIENTMODELFIELDS_MODELS = gql`
+    const UPDATE_PATIENTMODELFIELDSS = gql`
       mutation updatePatientModelFields($set: patient_set_input, $where:patient_bool_exp!) {
         update_patient(_set: $set, where: $where) {
           affected_rows
@@ -336,33 +336,33 @@ import gql from 'graphql-tag';
           }
         }
       }
-      ${PatientModelFieldsModelFields}
+      ${PatientModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Remove by Id
     //
 
-    const REMOVE_PATIENTMODEL_MODEL_BYID = gql`
+    const REMOVE_PATIENTMODEL_BYID = gql`
       mutation removePatientModelById($id: uuid) {
         delete_patient(where: { id: { _eq: $id } }) {
           affected_rows
         }
       }
-      ${PatientModelFieldsModelFields}
+      ${PatientModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Remove
     //
 
-    const REMOVE_PATIENTMODEL_MODELS = gql`
+    const REMOVE_PATIENTMODELS = gql`
       mutation removePatientModel($where:patient_bool_exp!) {
         delete_patient(where: $where) {
           affected_rows
         }
       }
-      ${PatientModelFieldsModelFields}
+      ${PatientModelFieldsFragmentDoc}
     `;
 
   // users GQL
@@ -373,7 +373,7 @@ import gql from 'graphql-tag';
     // Scalar Fields Fragment
     //
 
-    export const UsersModelFields = gql`
+    export const UsersModelFieldsFragmentDoc = gql`
       fragment UsersModelFields on users {
       created_at
       id
@@ -385,20 +385,20 @@ import gql from 'graphql-tag';
     // Query: FetchById
     //
 
-    const FETCH_USERSMODELFIELDS_MODEL_BYID = gql`
+    const FETCH_USERSMODELFIELDS_BYID = gql`
       query fetchUsersModelFieldsById($usersId: Int!) {
         users_by_pk(id: $usersId) {
           ...UsersModelFields
         }
       }
-      ${UsersModelFieldsModelFields}
+      ${UsersModelFieldsFragmentDoc}
     `;
 
 
     // Query: Fetch
     //
 
-    const FETCH_USERSMODELFIELDS_MODELS = gql`
+    const FETCH_USERSMODELFIELDSS = gql`
       query fetchUsersModelFields(
         $distinct_on: [users_select_column!]
         $where: users_bool_exp
@@ -410,14 +410,14 @@ import gql from 'graphql-tag';
           ...UsersModelFields
         }
       }
-      ${UsersModelFieldsModelFields}
+      ${UsersModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Insert
     //
 
-    const INSERT_USERSMODELFIELDS_MODEL = gql`
+    const INSERT_USERSMODELFIELDS = gql`
       mutation insertUsersModelFields($objects: [users_insert_input!]!, $onConflict: users_on_conflict) {
         insert_users(objects: $objects, on_conflict: $onConflict) {
           affected_rows
@@ -426,14 +426,14 @@ import gql from 'graphql-tag';
           }
         }
       }
-      ${UsersModelFieldsModelFields}
+      ${UsersModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Update by Id
     //
 
-    const UPDATE_USERSMODELFIELDS_MODEL_BYID = gql`
+    const UPDATE_USERSMODELFIELDS_BYID = gql`
       mutation updateUsersModelFieldsById($id: Int, $set: users_set_input) {
         update_users(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
@@ -442,14 +442,14 @@ import gql from 'graphql-tag';
           }
         }
       }
-      ${UsersModelFieldsModelFields}
+      ${UsersModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Update
     //
 
-    const UPDATE_USERSMODELFIELDS_MODELS = gql`
+    const UPDATE_USERSMODELFIELDSS = gql`
       mutation updateUsersModelFields($set: users_set_input, $where:users_bool_exp!) {
         update_users(_set: $set, where: $where) {
           affected_rows
@@ -458,33 +458,33 @@ import gql from 'graphql-tag';
           }
         }
       }
-      ${UsersModelFieldsModelFields}
+      ${UsersModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Remove by Id
     //
 
-    const REMOVE_USERSMODEL_MODEL_BYID = gql`
+    const REMOVE_USERSMODEL_BYID = gql`
       mutation removeUsersModelById($id: Int) {
         delete_users(where: { id: { _eq: $id } }) {
           affected_rows
         }
       }
-      ${UsersModelFieldsModelFields}
+      ${UsersModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Remove
     //
 
-    const REMOVE_USERSMODEL_MODELS = gql`
+    const REMOVE_USERSMODELS = gql`
       mutation removeUsersModel($where:users_bool_exp!) {
         delete_users(where: $where) {
           affected_rows
         }
       }
-      ${UsersModelFieldsModelFields}
+      ${UsersModelFieldsFragmentDoc}
     `;
 
   // vehicle GQL
@@ -495,7 +495,7 @@ import gql from 'graphql-tag';
     // Scalar Fields Fragment
     //
 
-    export const VehicleModelFields = gql`
+    export const VehicleModelFieldsFragmentDoc = gql`
       fragment VehicleModelFields on vehicle {
       id
       name
@@ -506,20 +506,20 @@ import gql from 'graphql-tag';
     // Query: FetchById
     //
 
-    const FETCH_VEHICLEMODELFIELDS_MODEL_BYID = gql`
+    const FETCH_VEHICLEMODELFIELDS_BYID = gql`
       query fetchVehicleModelFieldsById($vehicleId: String!) {
         vehicle_by_pk(id: $vehicleId) {
           ...VehicleModelFields
         }
       }
-      ${VehicleModelFieldsModelFields}
+      ${VehicleModelFieldsFragmentDoc}
     `;
 
 
     // Query: Fetch
     //
 
-    const FETCH_VEHICLEMODELFIELDS_MODELS = gql`
+    const FETCH_VEHICLEMODELFIELDSS = gql`
       query fetchVehicleModelFields(
         $distinct_on: [vehicle_select_column!]
         $where: vehicle_bool_exp
@@ -531,14 +531,14 @@ import gql from 'graphql-tag';
           ...VehicleModelFields
         }
       }
-      ${VehicleModelFieldsModelFields}
+      ${VehicleModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Insert
     //
 
-    const INSERT_VEHICLEMODELFIELDS_MODEL = gql`
+    const INSERT_VEHICLEMODELFIELDS = gql`
       mutation insertVehicleModelFields($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
         insert_vehicle(objects: $objects, on_conflict: $onConflict) {
           affected_rows
@@ -547,14 +547,14 @@ import gql from 'graphql-tag';
           }
         }
       }
-      ${VehicleModelFieldsModelFields}
+      ${VehicleModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Update by Id
     //
 
-    const UPDATE_VEHICLEMODELFIELDS_MODEL_BYID = gql`
+    const UPDATE_VEHICLEMODELFIELDS_BYID = gql`
       mutation updateVehicleModelFieldsById($id: String, $set: vehicle_set_input) {
         update_vehicle(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
@@ -563,14 +563,14 @@ import gql from 'graphql-tag';
           }
         }
       }
-      ${VehicleModelFieldsModelFields}
+      ${VehicleModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Update
     //
 
-    const UPDATE_VEHICLEMODELFIELDS_MODELS = gql`
+    const UPDATE_VEHICLEMODELFIELDSS = gql`
       mutation updateVehicleModelFields($set: vehicle_set_input, $where:vehicle_bool_exp!) {
         update_vehicle(_set: $set, where: $where) {
           affected_rows
@@ -579,33 +579,33 @@ import gql from 'graphql-tag';
           }
         }
       }
-      ${VehicleModelFieldsModelFields}
+      ${VehicleModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Remove by Id
     //
 
-    const REMOVE_VEHICLEMODEL_MODEL_BYID = gql`
+    const REMOVE_VEHICLEMODEL_BYID = gql`
       mutation removeVehicleModelById($id: String) {
         delete_vehicle(where: { id: { _eq: $id } }) {
           affected_rows
         }
       }
-      ${VehicleModelFieldsModelFields}
+      ${VehicleModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Remove
     //
 
-    const REMOVE_VEHICLEMODEL_MODELS = gql`
+    const REMOVE_VEHICLEMODELS = gql`
       mutation removeVehicleModel($where:vehicle_bool_exp!) {
         delete_vehicle(where: $where) {
           affected_rows
         }
       }
-      ${VehicleModelFieldsModelFields}
+      ${VehicleModelFieldsFragmentDoc}
     `;
 
   // vehicle_location GQL
@@ -616,7 +616,7 @@ import gql from 'graphql-tag';
     // Scalar Fields Fragment
     //
 
-    export const Vehicle_LocationModelFields = gql`
+    export const Vehicle_LocationModelFieldsFragmentDoc = gql`
       fragment Vehicle_LocationModelFields on vehicle_location {
       id
       location
@@ -629,20 +629,20 @@ import gql from 'graphql-tag';
     // Query: FetchById
     //
 
-    const FETCH_VEHICLE_LOCATIONMODELFIELDS_MODEL_BYID = gql`
+    const FETCH_VEHICLE_LOCATIONMODELFIELDS_BYID = gql`
       query fetchVehicle_LocationModelFieldsById($vehicle_LocationId: Int!) {
         vehicle_location_by_pk(id: $vehicle_LocationId) {
           ...Vehicle_LocationModelFields
         }
       }
-      ${Vehicle_LocationModelFieldsModelFields}
+      ${Vehicle_LocationModelFieldsFragmentDoc}
     `;
 
 
     // Query: Fetch
     //
 
-    const FETCH_VEHICLE_LOCATIONMODELFIELDS_MODELS = gql`
+    const FETCH_VEHICLE_LOCATIONMODELFIELDSS = gql`
       query fetchVehicle_LocationModelFields(
         $distinct_on: [vehicle_location_select_column!]
         $where: vehicle_location_bool_exp
@@ -654,14 +654,14 @@ import gql from 'graphql-tag';
           ...Vehicle_LocationModelFields
         }
       }
-      ${Vehicle_LocationModelFieldsModelFields}
+      ${Vehicle_LocationModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Insert
     //
 
-    const INSERT_VEHICLE_LOCATIONMODELFIELDS_MODEL = gql`
+    const INSERT_VEHICLE_LOCATIONMODELFIELDS = gql`
       mutation insertVehicle_LocationModelFields($objects: [vehicle_location_insert_input!]!, $onConflict: vehicle_location_on_conflict) {
         insert_vehicle_location(objects: $objects, on_conflict: $onConflict) {
           affected_rows
@@ -670,14 +670,14 @@ import gql from 'graphql-tag';
           }
         }
       }
-      ${Vehicle_LocationModelFieldsModelFields}
+      ${Vehicle_LocationModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Update by Id
     //
 
-    const UPDATE_VEHICLE_LOCATIONMODELFIELDS_MODEL_BYID = gql`
+    const UPDATE_VEHICLE_LOCATIONMODELFIELDS_BYID = gql`
       mutation updateVehicle_LocationModelFieldsById($id: Int, $set: vehicle_location_set_input) {
         update_vehicle_location(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
@@ -686,14 +686,14 @@ import gql from 'graphql-tag';
           }
         }
       }
-      ${Vehicle_LocationModelFieldsModelFields}
+      ${Vehicle_LocationModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Update
     //
 
-    const UPDATE_VEHICLE_LOCATIONMODELFIELDS_MODELS = gql`
+    const UPDATE_VEHICLE_LOCATIONMODELFIELDSS = gql`
       mutation updateVehicle_LocationModelFields($set: vehicle_location_set_input, $where:vehicle_location_bool_exp!) {
         update_vehicle_location(_set: $set, where: $where) {
           affected_rows
@@ -702,31 +702,31 @@ import gql from 'graphql-tag';
           }
         }
       }
-      ${Vehicle_LocationModelFieldsModelFields}
+      ${Vehicle_LocationModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Remove by Id
     //
 
-    const REMOVE_VEHICLE_LOCATIONMODEL_MODEL_BYID = gql`
+    const REMOVE_VEHICLE_LOCATIONMODEL_BYID = gql`
       mutation removeVehicle_LocationModelById($id: Int) {
         delete_vehicle_location(where: { id: { _eq: $id } }) {
           affected_rows
         }
       }
-      ${Vehicle_LocationModelFieldsModelFields}
+      ${Vehicle_LocationModelFieldsFragmentDoc}
     `;
 
 
     // Mutation: Remove
     //
 
-    const REMOVE_VEHICLE_LOCATIONMODEL_MODELS = gql`
+    const REMOVE_VEHICLE_LOCATIONMODELS = gql`
       mutation removeVehicle_LocationModel($where:vehicle_location_bool_exp!) {
         delete_vehicle_location(where: $where) {
           affected_rows
         }
       }
-      ${Vehicle_LocationModelFieldsModelFields}
+      ${Vehicle_LocationModelFieldsFragmentDoc}
     `;

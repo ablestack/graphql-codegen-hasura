@@ -4,9 +4,17 @@ import { makeImportStatement } from "./utils";
 
 // ---------------------------------
 //
-export function injectFragmentImport({ importArray, fragmentName, fragmentImportFrom }: { importArray: string[]; fragmentName: string; fragmentImportFrom: string }) {
+export function injectFragmentImport({
+  importArray,
+  fragmentName,
+  fragmentRelativeImportPath
+}: {
+  importArray: string[];
+  fragmentName: string;
+  fragmentRelativeImportPath: string;
+}) {
   const fragmentDocName = makeFragmentDocName(fragmentName);
-  const fragmentImport = makeImportStatement(fragmentDocName, fragmentImportFrom);
+  const fragmentImport = makeImportStatement(fragmentDocName, fragmentRelativeImportPath);
   // import fragment if not already
   if (!importArray.includes(fragmentImport)) {
     importArray.push(fragmentImport);
@@ -33,14 +41,14 @@ export function injectFetchGql({
   const entityShortCamelName = makeShortCamelCaseName(entityName, trimString);
   const entityModelName = makeModelName(entityName, trimString);
   const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
-  const fragmentDocName = makeFragmentName(fragmentName, trimString);
+  const fragmentDocName = makeFragmentDocName(fragmentName);
 
   contentArray.push(`
 
     // Query: FetchById
     //
 
-    const FETCH_${fragmentName.toUpperCase()}_MODEL_BYID = gql\`
+    const FETCH_${fragmentName.toUpperCase()}_BYID = gql\`
       query fetch${fragmentName}ById($${entityShortCamelName}Id: ${primaryKeyIdPostGresFieldType}!) {
         ${entityName}_by_pk(id: $${entityShortCamelName}Id) {
           ...${fragmentName}
@@ -54,7 +62,7 @@ export function injectFetchGql({
     // Query: Fetch
     //
 
-    const FETCH_${fragmentName.toUpperCase()}_MODELS = gql\`
+    const FETCH_${fragmentName.toUpperCase()}S = gql\`
       query fetch${fragmentName}(
         $distinct_on: [${entityName}_select_column!]
         $where: ${entityName}_bool_exp
@@ -88,14 +96,14 @@ export function injectInsertGql({
   primaryKeyIdField: FieldDefinitionNode;
 }) {
   const entityModelName = makeModelName(entityName, trimString);
-  const fragmentDocName = makeFragmentName(fragmentName, trimString);
+  const fragmentDocName = makeFragmentDocName(fragmentName);
 
   contentArray.push(`
 
     // Mutation: Insert
     //
 
-    const INSERT_${fragmentName.toUpperCase()}_MODEL = gql\`
+    const INSERT_${fragmentName.toUpperCase()} = gql\`
       mutation insert${fragmentName}($objects: [${entityName}_insert_input!]!, $onConflict: ${entityName}_on_conflict) {
         insert_${entityName}(objects: $objects, on_conflict: $onConflict) {
           affected_rows
@@ -127,14 +135,14 @@ export function injectUpdateGql({
 }) {
   const entityModelName = makeModelName(entityName, trimString);
   const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
-  const fragmentDocName = makeFragmentName(fragmentName, trimString);
+  const fragmentDocName = makeFragmentDocName(fragmentName);
 
   contentArray.push(`
 
     // Mutation: Update by Id
     //
 
-    const UPDATE_${fragmentName.toUpperCase()}_MODEL_BYID = gql\`
+    const UPDATE_${fragmentName.toUpperCase()}_BYID = gql\`
       mutation update${fragmentName}ById($id: ${primaryKeyIdPostGresFieldType}, $set: ${entityName}_set_input) {
         update_${entityName}(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
@@ -151,7 +159,7 @@ export function injectUpdateGql({
     // Mutation: Update
     //
 
-    const UPDATE_${fragmentName.toUpperCase()}_MODELS = gql\`
+    const UPDATE_${fragmentName.toUpperCase()}S = gql\`
       mutation update${fragmentName}($set: ${entityName}_set_input, $where:${entityName}_bool_exp!) {
         update_${entityName}(_set: $set, where: $where) {
           affected_rows
@@ -183,14 +191,14 @@ export function injectDeleteGql({
 }) {
   const entityModelName = makeModelName(entityName, trimString);
   const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
-  const fragmentDocName = makeFragmentName(fragmentName, trimString);
+  const fragmentDocName = makeFragmentDocName(fragmentName);
 
   contentArray.push(`
 
     // Mutation: Remove by Id
     //
 
-    const REMOVE_${entityModelName.toUpperCase()}_MODEL_BYID = gql\`
+    const REMOVE_${entityModelName.toUpperCase()}_BYID = gql\`
       mutation remove${entityModelName}ById($id: ${primaryKeyIdPostGresFieldType}) {
         delete_${entityName}(where: { id: { _eq: $id } }) {
           affected_rows
@@ -204,7 +212,7 @@ export function injectDeleteGql({
     // Mutation: Remove
     //
 
-    const REMOVE_${entityModelName.toUpperCase()}_MODELS = gql\`
+    const REMOVE_${entityModelName.toUpperCase()}S = gql\`
       mutation remove${entityModelName}($where:${entityName}_bool_exp!) {
         delete_${entityName}(where: $where) {
           affected_rows

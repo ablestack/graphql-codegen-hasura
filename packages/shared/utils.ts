@@ -35,6 +35,10 @@ export function makeFragmentName(typename: string, trimString: string = undefine
   return `${makeModelName(typename, trimString)}Fields`;
 }
 
+export function makeFragmentTypeScriptTypeName(fragmentName: string) {
+  return `${fragmentName}Fragment`;
+}
+
 export function makeFragmentDocName(fragmentName: string) {
   return `${fragmentName}FragmentDoc`;
 }

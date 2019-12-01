@@ -1,8 +1,8 @@
 import { PluginFunction, Types } from "@graphql-codegen/plugin-helpers";
 import { RawTypesConfig } from "@graphql-codegen/visitor-plugin-common";
-import { FragmentDefinitionNode, GraphQLNamedType, GraphQLSchema } from "graphql";
-import { getPrimaryKeyIdField, injectDeleteHelpers, injectFetchHelpers, injectInsertHelpers, injectSharedHelpers, injectUpdateHelpers } from "../../shared";
+import { FragmentDefinitionNode, GraphQLSchema } from "graphql";
 import { TypeMap } from "graphql/type/schema";
+import { getPrimaryKeyIdField, injectDeleteHelpers, injectFetchHelpers, injectInsertHelpers, injectSharedHelpers, injectUpdateHelpers } from "../../shared";
 
 // -----------------------------------------------------
 //
@@ -10,7 +10,7 @@ import { TypeMap } from "graphql/type/schema";
 
 export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
   reactApolloVersion?: number;
-  primaryCodegenTypeScriptImportPath: string;
+  typescriptCodegenOutputRelativePath: string;
   trimString?: string;
   withQueries?: boolean;
   withInserts?: boolean;
@@ -80,7 +80,7 @@ function makeEntitySharedTypeScript(
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    primaryCodegenTypeScriptImportPath: config.primaryCodegenTypeScriptImportPath
+    typescriptCodegenOutputRelativePath: config.typescriptCodegenOutputRelativePath
   });
 }
 // --------------------------------------
@@ -107,7 +107,7 @@ function makeEntityQueryMutationTypeScript(
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    primaryCodegenTypeScriptImportPath: config.primaryCodegenTypeScriptImportPath
+    typescriptCodegenOutputRelativePath: config.typescriptCodegenOutputRelativePath
   });
 }
 
@@ -135,7 +135,7 @@ function makeEntityInsertMutationTypeScript(
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    primaryCodegenTypeScriptImportPath: config.primaryCodegenTypeScriptImportPath
+    typescriptCodegenOutputRelativePath: config.typescriptCodegenOutputRelativePath
   });
 }
 // --------------------------------------
@@ -162,7 +162,7 @@ function makeEntityUpdateMutationTypeScript(
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    primaryCodegenTypeScriptImportPath: config.primaryCodegenTypeScriptImportPath
+    typescriptCodegenOutputRelativePath: config.typescriptCodegenOutputRelativePath
   });
 }
 
@@ -190,7 +190,7 @@ function makeEntityDeleteMutationTypeScript(
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    primaryCodegenTypeScriptImportPath: config.primaryCodegenTypeScriptImportPath
+    typescriptCodegenOutputRelativePath: config.typescriptCodegenOutputRelativePath
   });
 }
 

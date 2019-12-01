@@ -11,7 +11,8 @@ import {
   makeFragmentName,
   makeModelName,
   SCALAR_TYPE_TEST,
-  TABLE_TYPE_FILTER
+  TABLE_TYPE_FILTER,
+  makeFragmentDocName
 } from "../../shared";
 
 // -----------------------------------------------------
@@ -20,7 +21,7 @@ import {
 
 export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
   reactApolloVersion?: number;
-  fragmentImportFrom?: string;
+  typescriptCodegenOutputRelativePath?: string;
   trimString?: string;
   withFragments?: boolean;
   withQueries?: boolean;
@@ -71,13 +72,13 @@ function makeEntityModelSharedGql(namedType: GraphQLNamedType, importArray: stri
   `);
 
   const fragmentName = makeFragmentName(entityName, config.trimString);
-  if (config.fragmentImportFrom) injectFragmentImport({ importArray, fragmentName, fragmentImportFrom: config.fragmentImportFrom });
+  if (config.typescriptCodegenOutputRelativePath) injectFragmentImport({ importArray, fragmentName, fragmentRelativeImportPath: config.typescriptCodegenOutputRelativePath });
 }
 
 function makeEntityModelFragmentsGql(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
   const entityName = namedType.name;
-  const entityModelName = makeModelName(entityName, config.trimString);
   const fragmentName = makeFragmentName(entityName, config.trimString);
+  const fragmentDocName = makeFragmentDocName(fragmentName);
   const fields = (namedType.astNode as ObjectTypeDefinitionNode).fields;
   const scalarFieldNamesArray: string[] = [];
 
@@ -94,8 +95,8 @@ function makeEntityModelFragmentsGql(namedType: GraphQLNamedType, importArray: s
     // Scalar Fields Fragment
     //
 
-    export const ${fragmentName} = gql\`
-      fragment ${entityModelName}Fields on ${entityName} {
+    export const ${fragmentDocName} = gql\`
+      fragment ${fragmentName} on ${entityName} {
       ${scalarFieldNamesArray.join("\n      ")}
       }
     \`;`);

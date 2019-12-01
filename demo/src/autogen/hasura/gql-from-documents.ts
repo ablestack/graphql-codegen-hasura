@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import gql from 'graphql-tag';
-import { VehicleGraphFieldsFragmentDoc } from './src/customFragments.ts';
+import { VehicleGraphFieldsFragmentDoc } from '../';
 
     // VehicleGraphFields GQL
     //------------------------------------------------ 
@@ -10,20 +10,20 @@ import { VehicleGraphFieldsFragmentDoc } from './src/customFragments.ts';
     // Query: FetchById
     //
 
-    const FETCH_VEHICLEGRAPHFIELDS_MODEL_BYID = gql`
+    const FETCH_VEHICLEGRAPHFIELDS_BYID = gql`
       query fetchVehicleGraphFieldsById($vehicleId: String!) {
         vehicle_by_pk(id: $vehicleId) {
           ...VehicleGraphFields
         }
       }
-      ${VehicleGraphFieldsModelFields}
+      ${VehicleGraphFieldsFragmentDoc}
     `;
 
 
     // Query: Fetch
     //
 
-    const FETCH_VEHICLEGRAPHFIELDS_MODELS = gql`
+    const FETCH_VEHICLEGRAPHFIELDSS = gql`
       query fetchVehicleGraphFields(
         $distinct_on: [vehicle_select_column!]
         $where: vehicle_bool_exp
@@ -35,14 +35,14 @@ import { VehicleGraphFieldsFragmentDoc } from './src/customFragments.ts';
           ...VehicleGraphFields
         }
       }
-      ${VehicleGraphFieldsModelFields}
+      ${VehicleGraphFieldsFragmentDoc}
     `;
 
 
     // Mutation: Insert
     //
 
-    const INSERT_VEHICLEGRAPHFIELDS_MODEL = gql`
+    const INSERT_VEHICLEGRAPHFIELDS = gql`
       mutation insertVehicleGraphFields($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
         insert_vehicle(objects: $objects, on_conflict: $onConflict) {
           affected_rows
@@ -51,14 +51,14 @@ import { VehicleGraphFieldsFragmentDoc } from './src/customFragments.ts';
           }
         }
       }
-      ${VehicleGraphFieldsModelFields}
+      ${VehicleGraphFieldsFragmentDoc}
     `;
 
 
     // Mutation: Update by Id
     //
 
-    const UPDATE_VEHICLEGRAPHFIELDS_MODEL_BYID = gql`
+    const UPDATE_VEHICLEGRAPHFIELDS_BYID = gql`
       mutation updateVehicleGraphFieldsById($id: String, $set: vehicle_set_input) {
         update_vehicle(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
@@ -67,14 +67,14 @@ import { VehicleGraphFieldsFragmentDoc } from './src/customFragments.ts';
           }
         }
       }
-      ${VehicleGraphFieldsModelFields}
+      ${VehicleGraphFieldsFragmentDoc}
     `;
 
 
     // Mutation: Update
     //
 
-    const UPDATE_VEHICLEGRAPHFIELDS_MODELS = gql`
+    const UPDATE_VEHICLEGRAPHFIELDSS = gql`
       mutation updateVehicleGraphFields($set: vehicle_set_input, $where:vehicle_bool_exp!) {
         update_vehicle(_set: $set, where: $where) {
           affected_rows
@@ -83,5 +83,5 @@ import { VehicleGraphFieldsFragmentDoc } from './src/customFragments.ts';
           }
         }
       }
-      ${VehicleGraphFieldsModelFields}
+      ${VehicleGraphFieldsFragmentDoc}
     `;

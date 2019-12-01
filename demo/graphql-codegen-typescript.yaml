@@ -26,7 +26,7 @@ generates:
       - graphql-codegen-hasura-typescript-from-schema
     config:
       reactApolloVersion: 3
-      primaryCodegenTypeScriptImportPath: "../"
+      typescriptCodegenOutputRelativePath: "../"
       withQueries: true
       withInserts: true
       withUpdates: true
@@ -38,7 +38,7 @@ generates:
       - graphql-codegen-hasura-typescript-from-documents
     config:
       reactApolloVersion: 3
-      primaryCodegenTypeScriptImportPath: "../"
+      typescriptCodegenOutputRelativePath: "../"
       trimstring:
       withQueries: true
       withInserts: true
