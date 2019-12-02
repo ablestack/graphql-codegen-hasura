@@ -68,11 +68,13 @@ export function injectFetchHelpers({
       export async function fetch${fragmentName}ObjectById({
         apolloClient,
         ${entityShortCamelCaseName}Id,
+        queryOptions,
       }: {
         apolloClient: ApolloClient<object>, 
-        ${entityShortCamelCaseName}Id: string
+        ${entityShortCamelCaseName}Id: string,
+        queryOptions?: Omit<QueryOptions<Fetch${fragmentName}QueryVariables>, 'query' | 'variables'>,
       }): Promise<${fragmentName}Fragment | null | undefined> {
-        const ${entityShortCamelCaseName}Result = await apolloClient.query<Fetch${fragmentName}ByIdQuery>({ query: Fetch${fragmentName}ByIdDocument, variables: { id:${entityShortCamelCaseName}Id } });
+        const ${entityShortCamelCaseName}Result = await apolloClient.query<Fetch${fragmentName}ByIdQuery>({ query: Fetch${fragmentName}ByIdDocument, variables: { id:${entityShortCamelCaseName}Id }, ...queryOptions });
         return ${entityShortCamelCaseName}Result.data.${entityName}_by_pk;
       }
     `);
@@ -279,7 +281,7 @@ export function injectDeleteHelpers({
     }:{
       apolloClient: ApolloClient<object>,
       ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName},
-      mutationOptions: Omit<MutationOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, 'mutation'>,
+      mutationOptions?: Omit<MutationOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, 'mutation'>,
     }): Promise<{ result: FetchResult<Remove${entityModelName}ByIdMutation>; returning: number | null | undefined }> {
       
       const result = await apolloClient.mutate<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>({ mutation: Remove${entityModelName}ByIdDocument, variables: { id:${entityShortCamelCaseName}Id, }, ...mutationOptions,});

@@ -156,11 +156,13 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       export async function fetchObservationModelFieldsObjectById({
         apolloClient,
         observationId,
+        queryOptions,
       }: {
         apolloClient: ApolloClient<object>, 
-        observationId: string
+        observationId: string,
+        queryOptions?: Omit<QueryOptions<FetchObservationModelFieldsQueryVariables>, 'query' | 'variables'>,
       }): Promise<ObservationModelFieldsFragment | null | undefined> {
-        const observationResult = await apolloClient.query<FetchObservationModelFieldsByIdQuery>({ query: FetchObservationModelFieldsByIdDocument, variables: { id:observationId } });
+        const observationResult = await apolloClient.query<FetchObservationModelFieldsByIdQuery>({ query: FetchObservationModelFieldsByIdDocument, variables: { id:observationId }, ...queryOptions });
         return observationResult.data.observation_by_pk;
       }
     
@@ -269,7 +271,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }:{
       apolloClient: ApolloClient<object>,
       observationId: string,
-      mutationOptions: Omit<MutationOptions<RemoveObservationModelByIdMutation, RemoveObservationModelByIdMutationVariables>, 'mutation'>,
+      mutationOptions?: Omit<MutationOptions<RemoveObservationModelByIdMutation, RemoveObservationModelByIdMutationVariables>, 'mutation'>,
     }): Promise<{ result: FetchResult<RemoveObservationModelByIdMutation>; returning: number | null | undefined }> {
       
       const result = await apolloClient.mutate<RemoveObservationModelByIdMutation, RemoveObservationModelByIdMutationVariables>({ mutation: RemoveObservationModelByIdDocument, variables: { id:observationId, }, ...mutationOptions,});
@@ -306,11 +308,13 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       export async function fetchPModelFieldsObjectById({
         apolloClient,
         pId,
+        queryOptions,
       }: {
         apolloClient: ApolloClient<object>, 
-        pId: string
+        pId: string,
+        queryOptions?: Omit<QueryOptions<FetchPModelFieldsQueryVariables>, 'query' | 'variables'>,
       }): Promise<PModelFieldsFragment | null | undefined> {
-        const pResult = await apolloClient.query<FetchPModelFieldsByIdQuery>({ query: FetchPModelFieldsByIdDocument, variables: { id:pId } });
+        const pResult = await apolloClient.query<FetchPModelFieldsByIdQuery>({ query: FetchPModelFieldsByIdDocument, variables: { id:pId }, ...queryOptions });
         return pResult.data.p_by_pk;
       }
     
@@ -419,7 +423,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }:{
       apolloClient: ApolloClient<object>,
       pId: number,
-      mutationOptions: Omit<MutationOptions<RemovePModelByIdMutation, RemovePModelByIdMutationVariables>, 'mutation'>,
+      mutationOptions?: Omit<MutationOptions<RemovePModelByIdMutation, RemovePModelByIdMutationVariables>, 'mutation'>,
     }): Promise<{ result: FetchResult<RemovePModelByIdMutation>; returning: number | null | undefined }> {
       
       const result = await apolloClient.mutate<RemovePModelByIdMutation, RemovePModelByIdMutationVariables>({ mutation: RemovePModelByIdDocument, variables: { id:pId, }, ...mutationOptions,});
@@ -456,11 +460,13 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       export async function fetchPatientModelFieldsObjectById({
         apolloClient,
         patientId,
+        queryOptions,
       }: {
         apolloClient: ApolloClient<object>, 
-        patientId: string
+        patientId: string,
+        queryOptions?: Omit<QueryOptions<FetchPatientModelFieldsQueryVariables>, 'query' | 'variables'>,
       }): Promise<PatientModelFieldsFragment | null | undefined> {
-        const patientResult = await apolloClient.query<FetchPatientModelFieldsByIdQuery>({ query: FetchPatientModelFieldsByIdDocument, variables: { id:patientId } });
+        const patientResult = await apolloClient.query<FetchPatientModelFieldsByIdQuery>({ query: FetchPatientModelFieldsByIdDocument, variables: { id:patientId }, ...queryOptions });
         return patientResult.data.patient_by_pk;
       }
     
@@ -569,7 +575,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }:{
       apolloClient: ApolloClient<object>,
       patientId: string,
-      mutationOptions: Omit<MutationOptions<RemovePatientModelByIdMutation, RemovePatientModelByIdMutationVariables>, 'mutation'>,
+      mutationOptions?: Omit<MutationOptions<RemovePatientModelByIdMutation, RemovePatientModelByIdMutationVariables>, 'mutation'>,
     }): Promise<{ result: FetchResult<RemovePatientModelByIdMutation>; returning: number | null | undefined }> {
       
       const result = await apolloClient.mutate<RemovePatientModelByIdMutation, RemovePatientModelByIdMutationVariables>({ mutation: RemovePatientModelByIdDocument, variables: { id:patientId, }, ...mutationOptions,});
@@ -606,11 +612,13 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       export async function fetchUsersModelFieldsObjectById({
         apolloClient,
         usersId,
+        queryOptions,
       }: {
         apolloClient: ApolloClient<object>, 
-        usersId: string
+        usersId: string,
+        queryOptions?: Omit<QueryOptions<FetchUsersModelFieldsQueryVariables>, 'query' | 'variables'>,
       }): Promise<UsersModelFieldsFragment | null | undefined> {
-        const usersResult = await apolloClient.query<FetchUsersModelFieldsByIdQuery>({ query: FetchUsersModelFieldsByIdDocument, variables: { id:usersId } });
+        const usersResult = await apolloClient.query<FetchUsersModelFieldsByIdQuery>({ query: FetchUsersModelFieldsByIdDocument, variables: { id:usersId }, ...queryOptions });
         return usersResult.data.users_by_pk;
       }
     
@@ -719,7 +727,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }:{
       apolloClient: ApolloClient<object>,
       usersId: number,
-      mutationOptions: Omit<MutationOptions<RemoveUsersModelByIdMutation, RemoveUsersModelByIdMutationVariables>, 'mutation'>,
+      mutationOptions?: Omit<MutationOptions<RemoveUsersModelByIdMutation, RemoveUsersModelByIdMutationVariables>, 'mutation'>,
     }): Promise<{ result: FetchResult<RemoveUsersModelByIdMutation>; returning: number | null | undefined }> {
       
       const result = await apolloClient.mutate<RemoveUsersModelByIdMutation, RemoveUsersModelByIdMutationVariables>({ mutation: RemoveUsersModelByIdDocument, variables: { id:usersId, }, ...mutationOptions,});
@@ -756,11 +764,13 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       export async function fetchVehicleModelFieldsObjectById({
         apolloClient,
         vehicleId,
+        queryOptions,
       }: {
         apolloClient: ApolloClient<object>, 
-        vehicleId: string
+        vehicleId: string,
+        queryOptions?: Omit<QueryOptions<FetchVehicleModelFieldsQueryVariables>, 'query' | 'variables'>,
       }): Promise<VehicleModelFieldsFragment | null | undefined> {
-        const vehicleResult = await apolloClient.query<FetchVehicleModelFieldsByIdQuery>({ query: FetchVehicleModelFieldsByIdDocument, variables: { id:vehicleId } });
+        const vehicleResult = await apolloClient.query<FetchVehicleModelFieldsByIdQuery>({ query: FetchVehicleModelFieldsByIdDocument, variables: { id:vehicleId }, ...queryOptions });
         return vehicleResult.data.vehicle_by_pk;
       }
     
@@ -869,7 +879,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }:{
       apolloClient: ApolloClient<object>,
       vehicleId: string,
-      mutationOptions: Omit<MutationOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, 'mutation'>,
+      mutationOptions?: Omit<MutationOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, 'mutation'>,
     }): Promise<{ result: FetchResult<RemoveVehicleModelByIdMutation>; returning: number | null | undefined }> {
       
       const result = await apolloClient.mutate<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>({ mutation: RemoveVehicleModelByIdDocument, variables: { id:vehicleId, }, ...mutationOptions,});
@@ -906,11 +916,13 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       export async function fetchVehicle_LocationModelFieldsObjectById({
         apolloClient,
         vehicle_LocationId,
+        queryOptions,
       }: {
         apolloClient: ApolloClient<object>, 
-        vehicle_LocationId: string
+        vehicle_LocationId: string,
+        queryOptions?: Omit<QueryOptions<FetchVehicle_LocationModelFieldsQueryVariables>, 'query' | 'variables'>,
       }): Promise<Vehicle_LocationModelFieldsFragment | null | undefined> {
-        const vehicle_LocationResult = await apolloClient.query<FetchVehicle_LocationModelFieldsByIdQuery>({ query: FetchVehicle_LocationModelFieldsByIdDocument, variables: { id:vehicle_LocationId } });
+        const vehicle_LocationResult = await apolloClient.query<FetchVehicle_LocationModelFieldsByIdQuery>({ query: FetchVehicle_LocationModelFieldsByIdDocument, variables: { id:vehicle_LocationId }, ...queryOptions });
         return vehicle_LocationResult.data.vehicle_location_by_pk;
       }
     
@@ -1019,7 +1031,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }:{
       apolloClient: ApolloClient<object>,
       vehicle_LocationId: number,
-      mutationOptions: Omit<MutationOptions<RemoveVehicle_LocationModelByIdMutation, RemoveVehicle_LocationModelByIdMutationVariables>, 'mutation'>,
+      mutationOptions?: Omit<MutationOptions<RemoveVehicle_LocationModelByIdMutation, RemoveVehicle_LocationModelByIdMutationVariables>, 'mutation'>,
     }): Promise<{ result: FetchResult<RemoveVehicle_LocationModelByIdMutation>; returning: number | null | undefined }> {
       
       const result = await apolloClient.mutate<RemoveVehicle_LocationModelByIdMutation, RemoveVehicle_LocationModelByIdMutationVariables>({ mutation: RemoveVehicle_LocationModelByIdDocument, variables: { id:vehicle_LocationId, }, ...mutationOptions,});
