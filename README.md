@@ -77,7 +77,7 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 - withUpdates: boolean flag for update gql code generation
 - withDeletes: boolean flag for delete gql code generation
 
-### graphql-codegen-hasura-gql-documents plugin
+### graphql-codegen-hasura-typescript-from-documents plugin
 
 - reactApolloVersion (2 | 3, default value: 3): sets the version of react-apollo
 - typescriptCodegenOutputPath: import path to the code generated with dependent @graphql-codegen/typescript generated code
