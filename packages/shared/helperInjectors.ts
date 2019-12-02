@@ -1,6 +1,6 @@
 import { FieldDefinitionNode } from "graphql";
-import { getIdTypeScriptFieldType, makeFragmentName, makeModelName, makeShortCamelCaseName, makeShortName, makeImportStatement } from ".";
-import { makeFragmentTypeScriptTypeName } from "./utils";
+import { getIdTypeScriptFieldType, makeFragmentName, makeModelName, makeShortName, makeImportStatement } from ".";
+import { makeFragmentTypeScriptTypeName, makePascalCase, makeCamelCase } from "./utils";
 
 // ---------------------------------
 //
@@ -58,7 +58,8 @@ export function injectFetchHelpers({
   primaryKeyIdField: FieldDefinitionNode;
   typescriptCodegenOutputPath: string;
 }) {
-  const entityShortCamelCaseName = makeShortCamelCaseName(entityName, trimString);
+  const entityShortName = makeShortName(entityName, trimString);
+  const entityShortCamelCaseName = makeCamelCase(entityShortName);
 
   contentArray.push(`
       // Fetch Helper
@@ -107,8 +108,9 @@ export function injectInsertHelpers({
   primaryKeyIdField: FieldDefinitionNode;
   typescriptCodegenOutputPath: string;
 }) {
+  const entityPascalName = makePascalCase(entityName);
   const entityShortName = makeShortName(entityName, trimString);
-  const entityShortCamelCaseName = makeShortCamelCaseName(entityName, trimString);
+  const entityShortCamelCaseName = makeCamelCase(entityShortName);
 
   contentArray.push(`
     // Insert Helper
@@ -116,8 +118,8 @@ export function injectInsertHelpers({
 
     export async function insert${fragmentName}(
       apolloClient: ApolloClient<object>,
-      ${entityShortCamelCaseName}: ${entityShortName}_Insert_Input,
-      onConflict?: ${entityShortName}_On_Conflict,
+      ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input,
+      onConflict?: ${entityPascalName}_On_Conflict,
       mutationOptions?: Omit<MutationOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation' | 'variables'>,
     ): Promise<{ result: FetchResult<Insert${fragmentName}Mutation>; returning: ${fragmentName}Fragment | null | undefined }> {
       
@@ -147,8 +149,8 @@ export function injectInsertHelpers({
     }
   `);
 
-  importArray.push(makeImportStatement(`${entityShortName}_Insert_Input`, typescriptCodegenOutputPath));
-  importArray.push(makeImportStatement(`${entityShortName}_On_Conflict`, typescriptCodegenOutputPath));
+  importArray.push(makeImportStatement(`${entityPascalName}_Insert_Input`, typescriptCodegenOutputPath));
+  importArray.push(makeImportStatement(`${entityPascalName}_On_Conflict`, typescriptCodegenOutputPath));
   importArray.push(makeImportStatement(`Insert${fragmentName}Mutation`, typescriptCodegenOutputPath));
   importArray.push(makeImportStatement(`Insert${fragmentName}MutationVariables`, typescriptCodegenOutputPath));
   importArray.push(makeImportStatement(`Insert${fragmentName}Document`, typescriptCodegenOutputPath));
@@ -174,7 +176,7 @@ export function injectUpdateHelpers({
   typescriptCodegenOutputPath: string;
 }) {
   const entityShortName = makeShortName(entityName, trimString);
-  const entityShortCamelCaseName = makeShortCamelCaseName(entityName, trimString);
+  const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
 
   contentArray.push(`
@@ -238,7 +240,8 @@ export function injectDeleteHelpers({
   primaryKeyIdField: FieldDefinitionNode;
   typescriptCodegenOutputPath: string;
 }) {
-  const entityShortCamelCaseName = makeShortCamelCaseName(entityName, trimString);
+  const entityShortName = makeShortName(entityName, trimString);
+  const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const entityModelName = makeModelName(entityName, trimString);
   const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
 

@@ -15,8 +15,12 @@ export function SCALAR_TYPE_TEST(f: FieldDefinitionNode) {
   return !f.description || !f.description.block;
 }
 
-export function makeShortCamelCaseName(typename: string, trimString: string = undefined) {
-  return customCamelize(makeShortName(typename, trimString));
+export function makeCamelCase(typename: string) {
+  return customCamelize(typename);
+}
+
+export function makePascalCase(typename: string) {
+  return toPascalCase(typename);
 }
 
 export function makeShortName(typename: string, trimString: string = undefined) {

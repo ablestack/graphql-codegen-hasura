@@ -1,6 +1,6 @@
 import { FieldDefinitionNode } from "graphql";
-import { getIdPostGresFieldType, makeModelName, makeShortCamelCaseName, makeFragmentName, makeFragmentDocName } from ".";
-import { makeImportStatement } from "./utils";
+import { getIdPostGresFieldType, makeModelName, makeFragmentDocName } from ".";
+import { makeImportStatement, makeShortName, makeCamelCase } from "./utils";
 
 // ---------------------------------
 //
@@ -38,8 +38,8 @@ export function injectFetchGql({
   trimString?: string;
   primaryKeyIdField: FieldDefinitionNode;
 }) {
-  const entityShortCamelName = makeShortCamelCaseName(entityName, trimString);
-  const entityModelName = makeModelName(entityName, trimString);
+  const shortName = makeShortName(entityName, trimString);
+  const entityShortCamelName = makeCamelCase(shortName);
   const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
   const fragmentDocName = makeFragmentDocName(fragmentName);
 
@@ -95,7 +95,6 @@ export function injectInsertGql({
   trimString?: string;
   primaryKeyIdField: FieldDefinitionNode;
 }) {
-  const entityModelName = makeModelName(entityName, trimString);
   const fragmentDocName = makeFragmentDocName(fragmentName);
 
   contentArray.push(`
@@ -133,7 +132,6 @@ export function injectUpdateGql({
   trimString?: string;
   primaryKeyIdField: FieldDefinitionNode;
 }) {
-  const entityModelName = makeModelName(entityName, trimString);
   const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
   const fragmentDocName = makeFragmentDocName(fragmentName);
 
