@@ -3,7 +3,7 @@
   "name": "demo",
   "version": "2.2.1",
   "dependencies": {
-    "@apollo/client": "^3.0.0-beta.10",
+    "@apollo/client": "^3.0.0-beta.14",
     "@apollo/react-hooks": "^3.2.0-beta.0",
     "@types/jest": "24.0.23",
     "@types/node": "12.12.14",

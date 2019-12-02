@@ -55,6 +55,6 @@ generates:
       typescriptCodegenOutputPath: "../"
       trimString:
       withQueries: true
-      withInserts: false
-      withUpdates: false
-      withDeletes: false
+      withInserts: true
+      withUpdates: true
+      withDeletes: true
