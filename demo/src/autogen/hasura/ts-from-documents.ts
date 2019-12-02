@@ -93,7 +93,7 @@ import { RemoveVehicleModelByIdDocument } from '../';
       apolloClient: ApolloClient<object>,
       vehicleId: string,
       set: Vehicle_Set_Input,
-      mutationOptions: Omit<MutationOptions<UpdateVehicleGraphFieldsByIdMutation, UpdateVehicleGraphFieldsByIdMutationVariables>, 'mutation'>,
+      mutationOptions?: Omit<MutationOptions<UpdateVehicleGraphFieldsByIdMutation, UpdateVehicleGraphFieldsByIdMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<UpdateVehicleGraphFieldsByIdMutation>; returning: VehicleGraphFieldsFragment | null | undefined }> {
       
       const result = await apolloClient.mutate<UpdateVehicleGraphFieldsByIdMutation, UpdateVehicleGraphFieldsByIdMutationVariables>({ mutation: UpdateVehicleGraphFieldsByIdDocument, variables: { id:vehicleId, set }, ...mutationOptions,});
