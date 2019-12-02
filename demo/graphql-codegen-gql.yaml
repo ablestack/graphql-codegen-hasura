@@ -12,6 +12,7 @@ generates:
       - graphql-codegen-hasura-gql-from-schema
     config:
       reactApolloVersion: 3
+      trimString:
       withFragments: true
       withQueries: true
       withInserts: true
@@ -25,6 +26,7 @@ generates:
     config:
       reactApolloVersion: 3
       typescriptCodegenOutputPath: ../
+      trimString:
       withQueries: true
       withInserts: true
       withUpdates: true

@@ -107,7 +107,7 @@ export function injectInsertHelpers({
   primaryKeyIdField: FieldDefinitionNode;
   typescriptCodegenOutputPath: string;
 }) {
-  const entityShortName = makeShortName(entityName);
+  const entityShortName = makeShortName(entityName, trimString);
   const entityShortCamelCaseName = makeShortCamelCaseName(entityName, trimString);
 
   contentArray.push(`
@@ -173,7 +173,7 @@ export function injectUpdateHelpers({
   primaryKeyIdField: FieldDefinitionNode;
   typescriptCodegenOutputPath: string;
 }) {
-  const entityShortName = makeShortName(entityName);
+  const entityShortName = makeShortName(entityName, trimString);
   const entityShortCamelCaseName = makeShortCamelCaseName(entityName, trimString);
   const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
 

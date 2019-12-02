@@ -27,6 +27,7 @@ generates:
     config:
       reactApolloVersion: 3
       typescriptCodegenOutputPath: "../"
+      trimString:
       withQueries: true
       withInserts: true
       withUpdates: true
@@ -39,7 +40,7 @@ generates:
     config:
       reactApolloVersion: 3
       typescriptCodegenOutputPath: "../"
-      trimstring:
+      trimString:
       withQueries: true
       withInserts: true
       withUpdates: true
