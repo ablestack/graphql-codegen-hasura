@@ -1,5 +1,5 @@
 {
-  "version": "2.1.1",
+  "version": "2.1.2",
   "packages": [
     "packages/graphql-codegen-hasura-gql-from-schema",
     "packages/graphql-codegen-hasura-gql-from-documents",
@@ -11,7 +11,9 @@
   "npmClient": "yarn",
   "command": {
     "publish": {
-      "ignoreChanges": ["*.md"]
+      "ignoreChanges": [
+        "*.md"
+      ]
     }
   }
 }
