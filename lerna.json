@@ -5,15 +5,14 @@
     "packages/graphql-codegen-hasura-gql-from-documents",
     "packages/graphql-codegen-hasura-typescript-from-schema",
     "packages/graphql-codegen-hasura-typescript-from-documents",
+    "packages/graphql-codegen-hasura-typescript-react-from-documents",
     "demo"
   ],
   "useWorkspaces": true,
   "npmClient": "yarn",
   "command": {
     "publish": {
-      "ignoreChanges": [
-        "*.md"
-      ]
+      "ignoreChanges": ["*.md"]
     }
   }
 }
