@@ -65,19 +65,25 @@ export function injectFetchHelpers({
       // Fetch Helper
       //
   
-      export async function fetch${fragmentName}ById(
+      export async function fetch${fragmentName}ObjectById({
+        apolloClient,
+        ${entityShortCamelCaseName}Id,
+      }: {
         apolloClient: ApolloClient<object>, 
         ${entityShortCamelCaseName}Id: string
-        ): Promise<${fragmentName}Fragment | null | undefined> {
+      }): Promise<${fragmentName}Fragment | null | undefined> {
         const ${entityShortCamelCaseName}Result = await apolloClient.query<Fetch${fragmentName}ByIdQuery>({ query: Fetch${fragmentName}ByIdDocument, variables: { id:${entityShortCamelCaseName}Id } });
         return ${entityShortCamelCaseName}Result.data.${entityName}_by_pk;
       }
     `);
   contentArray.push(`
-      export async function fetch${fragmentName}s(
+      export async function fetch${fragmentName}Objects({
+        apolloClient,
+        queryOptions,
+      }:{
         apolloClient: ApolloClient<object>,
         queryOptions: Omit<QueryOptions<Fetch${fragmentName}QueryVariables>, 'query'>,
-      ): Promise<${fragmentName}Fragment[] | null | undefined> {
+      }): Promise<${fragmentName}Fragment[] | null | undefined> {
         const ${entityShortCamelCaseName}Result = await apolloClient.query<Fetch${fragmentName}Query>({ query: Fetch${fragmentName}Document, ...queryOptions });
         return ${entityShortCamelCaseName}Result.data.${entityName};
       }
@@ -116,12 +122,17 @@ export function injectInsertHelpers({
     // Insert Helper
     //
 
-    export async function insert${fragmentName}(
+    export async function insert${fragmentName}Object({
+      apolloClient,
+      ${entityShortCamelCaseName},
+      onConflict,
+      mutationOptions,
+    } :{
       apolloClient: ApolloClient<object>,
       ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input,
       onConflict?: ${entityPascalName}_On_Conflict,
       mutationOptions?: Omit<MutationOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation' | 'variables'>,
-    ): Promise<{ result: FetchResult<Insert${fragmentName}Mutation>; returning: ${fragmentName}Fragment | null | undefined }> {
+    }): Promise<{ result: FetchResult<Insert${fragmentName}Mutation>; returning: ${fragmentName}Fragment | null | undefined }> {
       
       const result = await apolloClient.mutate<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>({ 
         mutation: Insert${fragmentName}Document, 
@@ -136,10 +147,13 @@ export function injectInsertHelpers({
   `);
 
   contentArray.push(`
-    export async function insert${fragmentName}s(
+    export async function insert${fragmentName}Objects({
+      apolloClient,
+      mutationOptions,
+    }:{
       apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<Insert${fragmentName}Mutation>; returning: (${fragmentName}Fragment | null | undefined)[] | null | undefined }> {
+    }): Promise<{ result: FetchResult<Insert${fragmentName}Mutation>; returning: (${fragmentName}Fragment | null | undefined)[] | null | undefined }> {
       
       const result = await apolloClient.mutate<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>({ mutation: Insert${fragmentName}Document, ...mutationOptions,});
     
@@ -184,12 +198,17 @@ export function injectUpdateHelpers({
     // Update Helper
     //
 
-    export async function update${fragmentName}ById(
+    export async function update${fragmentName}ObjectById({
+      apolloClient,
+      ${entityShortCamelCaseName}Id,
+      set,
+      mutationOptions,
+    }: { 
       apolloClient: ApolloClient<object>,
       ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName},
       set: ${entityPascalName}_Set_Input,
       mutationOptions?: Omit<MutationOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<Update${fragmentName}ByIdMutation>; returning: ${fragmentName}Fragment | null | undefined }> {
+    }): Promise<{ result: FetchResult<Update${fragmentName}ByIdMutation>; returning: ${fragmentName}Fragment | null | undefined }> {
       
       const result = await apolloClient.mutate<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>({ mutation: Update${fragmentName}ByIdDocument, variables: { id:${entityShortCamelCaseName}Id, set }, ...mutationOptions,});
     
@@ -200,10 +219,13 @@ export function injectUpdateHelpers({
   `);
 
   contentArray.push(`
-    export async function update${fragmentName}s(
+    export async function update${fragmentName}Objects({
+      apolloClient,
+      mutationOptions,
+    }: {
       apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<Update${fragmentName}Mutation>; returning: (${fragmentName}Fragment | null | undefined)[] | null | undefined }> {
+    }): Promise<{ result: FetchResult<Update${fragmentName}Mutation>; returning: (${fragmentName}Fragment | null | undefined)[] | null | undefined }> {
       
       const result = await apolloClient.mutate<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>({ mutation: Update${fragmentName}Document, ...mutationOptions,});
     
@@ -250,11 +272,15 @@ export function injectDeleteHelpers({
     // Delete Helper
     //
 
-    export async function remove${entityModelName}ById(
+    export async function remove${entityModelName}ObjectById({
+      apolloClient,
+      ${entityShortCamelCaseName}Id,
+      mutationOptions,
+    }:{
       apolloClient: ApolloClient<object>,
       ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName},
       mutationOptions: Omit<MutationOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<Remove${entityModelName}ByIdMutation>; returning: number | null | undefined }> {
+    }): Promise<{ result: FetchResult<Remove${entityModelName}ByIdMutation>; returning: number | null | undefined }> {
       
       const result = await apolloClient.mutate<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>({ mutation: Remove${entityModelName}ByIdDocument, variables: { id:${entityShortCamelCaseName}Id, }, ...mutationOptions,});
     
@@ -265,10 +291,13 @@ export function injectDeleteHelpers({
   `);
 
   contentArray.push(`
-    export async function remove${entityModelName}s(
+    export async function remove${entityModelName}Objects({
+      apolloClient,
+      mutationOptions,
+    }:{
       apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<Remove${entityModelName}Mutation>; returning: number | null | undefined }> {
+    }): Promise<{ result: FetchResult<Remove${entityModelName}Mutation>; returning: number | null | undefined }> {
       
       const result = await apolloClient.mutate<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>({ mutation: Remove${entityModelName}Document, ...mutationOptions,});
     
