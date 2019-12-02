@@ -11,7 +11,8 @@
   },
   "scripts": {
     "build": "tsc --build --verbose",
-    "rebuild": "tsc --build --force --verbose"
+    "rebuild": "tsc --build --force --verbose",
+    "link": "yarn link"
   },
   "publishConfig": {
     "access": "public"

@@ -175,6 +175,7 @@ export function injectUpdateHelpers({
   primaryKeyIdField: FieldDefinitionNode;
   typescriptCodegenOutputPath: string;
 }) {
+  const entityPascalName = makePascalCase(entityName);
   const entityShortName = makeShortName(entityName, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
@@ -186,7 +187,7 @@ export function injectUpdateHelpers({
     export async function update${fragmentName}ById(
       apolloClient: ApolloClient<object>,
       ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName},
-      set: ${entityShortName}_Set_Input,
+      set: ${entityPascalName}_Set_Input,
       mutationOptions: Omit<MutationOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<Update${fragmentName}ByIdMutation>; returning: ${fragmentName}Fragment | null | undefined }> {
       
@@ -212,7 +213,7 @@ export function injectUpdateHelpers({
     }
   `);
 
-  importArray.push(makeImportStatement(`${entityShortName}_Set_Input`, typescriptCodegenOutputPath));
+  importArray.push(makeImportStatement(`${entityPascalName}_Set_Input`, typescriptCodegenOutputPath));
   importArray.push(makeImportStatement(`Update${fragmentName}ByIdMutation`, typescriptCodegenOutputPath));
   importArray.push(makeImportStatement(`Update${fragmentName}ByIdMutationVariables`, typescriptCodegenOutputPath));
   importArray.push(makeImportStatement(`Update${fragmentName}ByIdDocument`, typescriptCodegenOutputPath));

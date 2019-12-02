@@ -11,9 +11,7 @@
   "npmClient": "yarn",
   "command": {
     "publish": {
-      "ignoreChanges": [
-        "*.md"
-      ]
+      "ignoreChanges": ["*.md"]
     }
   }
 }
