@@ -7,6 +7,8 @@ import { FetchVehicleGraphFieldsByIdDocument } from '../';
 import { FetchVehicleGraphFieldsQuery } from '../';
 import { FetchVehicleGraphFieldsDocument } from '../';
 import { FetchVehicleGraphFieldsQueryVariables } from '../';
+import { Vehicle_Insert_Input } from '../';
+import { Vehicle_On_Conflict } from '../';
 import { InsertVehicleGraphFieldsMutation } from '../';
 import { InsertVehicleGraphFieldsMutationVariables } from '../';
 import { InsertVehicleGraphFieldsDocument } from '../';
@@ -40,9 +42,8 @@ import { RemoveVehicleModelByIdDocument } from '../';
       }
     
 
-      export async function fetchVehicleGraphFields(
+      export async function fetchVehicleGraphFieldss(
         apolloClient: ApolloClient<object>,
-        vehicleId: string,
         queryOptions: Omit<QueryOptions<FetchVehicleGraphFieldsQueryVariables>, 'query'>,
       ): Promise<VehicleGraphFieldsFragment[] | null | undefined> {
         const vehicleResult = await apolloClient.query<FetchVehicleGraphFieldsQuery>({ query: FetchVehicleGraphFieldsDocument, ...queryOptions });
@@ -55,7 +56,25 @@ import { RemoveVehicleModelByIdDocument } from '../';
 
     export async function insertVehicleGraphFields(
       apolloClient: ApolloClient<object>,
-      vehicleId: string,
+      vehicle: Vehicle_Insert_Input,
+      onConflict?: Vehicle_On_Conflict,
+      mutationOptions?: Omit<MutationOptions<InsertVehicleGraphFieldsMutation, InsertVehicleGraphFieldsMutationVariables>, 'mutation' | 'variables'>,
+    ): Promise<{ result: FetchResult<InsertVehicleGraphFieldsMutation>; returning: VehicleGraphFieldsFragment | null | undefined }> {
+      
+      const result = await apolloClient.mutate<InsertVehicleGraphFieldsMutation, InsertVehicleGraphFieldsMutationVariables>({ 
+        mutation: InsertVehicleGraphFieldsDocument, 
+        variables: { objects: [vehicle], onConflict },
+        ...mutationOptions,
+      });
+    
+      const returning = result && result.data && result.data.insert_vehicle && result.data.insert_vehicle!.returning && result.data.insert_vehicle!.returning[0];
+    
+      return { result, returning };
+    }
+  
+
+    export async function insertVehicleGraphFieldss(
+      apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<InsertVehicleGraphFieldsMutation, InsertVehicleGraphFieldsMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<InsertVehicleGraphFieldsMutation>; returning: (VehicleGraphFieldsFragment | null | undefined)[] | null | undefined }> {
       
@@ -75,17 +94,17 @@ import { RemoveVehicleModelByIdDocument } from '../';
       vehicleId: string,
       set: Vehicle_Set_Input,
       mutationOptions: Omit<MutationOptions<UpdateVehicleGraphFieldsByIdMutation, UpdateVehicleGraphFieldsByIdMutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<UpdateVehicleGraphFieldsByIdMutation>; returning: (VehicleGraphFieldsFragment | null | undefined)[] | null | undefined }> {
+    ): Promise<{ result: FetchResult<UpdateVehicleGraphFieldsByIdMutation>; returning: VehicleGraphFieldsFragment | null | undefined }> {
       
       const result = await apolloClient.mutate<UpdateVehicleGraphFieldsByIdMutation, UpdateVehicleGraphFieldsByIdMutationVariables>({ mutation: UpdateVehicleGraphFieldsByIdDocument, variables: { id:vehicleId, set }, ...mutationOptions,});
     
-      const returning = result && result.data && result.data.update_vehicle && result.data.update_vehicle!.returning;
+      const returning = result && result.data && result.data.update_vehicle && result.data.update_vehicle!.returning && result.data.update_vehicle!.returning[0];
     
       return { result, returning };
     }
   
 
-    export async function updateVehicleGraphFields(
+    export async function updateVehicleGraphFieldss(
       apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<UpdateVehicleGraphFieldsMutation, UpdateVehicleGraphFieldsMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<UpdateVehicleGraphFieldsMutation>; returning: (VehicleGraphFieldsFragment | null | undefined)[] | null | undefined }> {
@@ -115,7 +134,7 @@ import { RemoveVehicleModelByIdDocument } from '../';
     }
   
 
-    export async function removeVehicleModel(
+    export async function removeVehicleModels(
       apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<RemoveVehicleModelMutation>; returning: number | null | undefined }> {

@@ -7,6 +7,8 @@ import { FetchObservationModelFieldsByIdDocument } from '../';
 import { FetchObservationModelFieldsQuery } from '../';
 import { FetchObservationModelFieldsDocument } from '../';
 import { FetchObservationModelFieldsQueryVariables } from '../';
+import { Observation_Insert_Input } from '../';
+import { Observation_On_Conflict } from '../';
 import { InsertObservationModelFieldsMutation } from '../';
 import { InsertObservationModelFieldsMutationVariables } from '../';
 import { InsertObservationModelFieldsDocument } from '../';
@@ -29,6 +31,8 @@ import { FetchPModelFieldsByIdDocument } from '../';
 import { FetchPModelFieldsQuery } from '../';
 import { FetchPModelFieldsDocument } from '../';
 import { FetchPModelFieldsQueryVariables } from '../';
+import { P_Insert_Input } from '../';
+import { P_On_Conflict } from '../';
 import { InsertPModelFieldsMutation } from '../';
 import { InsertPModelFieldsMutationVariables } from '../';
 import { InsertPModelFieldsDocument } from '../';
@@ -51,6 +55,8 @@ import { FetchPatientModelFieldsByIdDocument } from '../';
 import { FetchPatientModelFieldsQuery } from '../';
 import { FetchPatientModelFieldsDocument } from '../';
 import { FetchPatientModelFieldsQueryVariables } from '../';
+import { Patient_Insert_Input } from '../';
+import { Patient_On_Conflict } from '../';
 import { InsertPatientModelFieldsMutation } from '../';
 import { InsertPatientModelFieldsMutationVariables } from '../';
 import { InsertPatientModelFieldsDocument } from '../';
@@ -73,6 +79,8 @@ import { FetchUsersModelFieldsByIdDocument } from '../';
 import { FetchUsersModelFieldsQuery } from '../';
 import { FetchUsersModelFieldsDocument } from '../';
 import { FetchUsersModelFieldsQueryVariables } from '../';
+import { Users_Insert_Input } from '../';
+import { Users_On_Conflict } from '../';
 import { InsertUsersModelFieldsMutation } from '../';
 import { InsertUsersModelFieldsMutationVariables } from '../';
 import { InsertUsersModelFieldsDocument } from '../';
@@ -95,6 +103,8 @@ import { FetchVehicleModelFieldsByIdDocument } from '../';
 import { FetchVehicleModelFieldsQuery } from '../';
 import { FetchVehicleModelFieldsDocument } from '../';
 import { FetchVehicleModelFieldsQueryVariables } from '../';
+import { Vehicle_Insert_Input } from '../';
+import { Vehicle_On_Conflict } from '../';
 import { InsertVehicleModelFieldsMutation } from '../';
 import { InsertVehicleModelFieldsMutationVariables } from '../';
 import { InsertVehicleModelFieldsDocument } from '../';
@@ -117,6 +127,8 @@ import { FetchVehicle_LocationModelFieldsByIdDocument } from '../';
 import { FetchVehicle_LocationModelFieldsQuery } from '../';
 import { FetchVehicle_LocationModelFieldsDocument } from '../';
 import { FetchVehicle_LocationModelFieldsQueryVariables } from '../';
+import { Vehicle_Location_Insert_Input } from '../';
+import { Vehicle_Location_On_Conflict } from '../';
 import { InsertVehicle_LocationModelFieldsMutation } from '../';
 import { InsertVehicle_LocationModelFieldsMutationVariables } from '../';
 import { InsertVehicle_LocationModelFieldsDocument } from '../';
@@ -150,9 +162,8 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       }
     
 
-      export async function fetchObservationModelFields(
+      export async function fetchObservationModelFieldss(
         apolloClient: ApolloClient<object>,
-        observationId: string,
         queryOptions: Omit<QueryOptions<FetchObservationModelFieldsQueryVariables>, 'query'>,
       ): Promise<ObservationModelFieldsFragment[] | null | undefined> {
         const observationResult = await apolloClient.query<FetchObservationModelFieldsQuery>({ query: FetchObservationModelFieldsDocument, ...queryOptions });
@@ -165,7 +176,25 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
 
     export async function insertObservationModelFields(
       apolloClient: ApolloClient<object>,
-      observationId: string,
+      observation: Observation_Insert_Input,
+      onConflict?: Observation_On_Conflict,
+      mutationOptions?: Omit<MutationOptions<InsertObservationModelFieldsMutation, InsertObservationModelFieldsMutationVariables>, 'mutation' | 'variables'>,
+    ): Promise<{ result: FetchResult<InsertObservationModelFieldsMutation>; returning: ObservationModelFieldsFragment | null | undefined }> {
+      
+      const result = await apolloClient.mutate<InsertObservationModelFieldsMutation, InsertObservationModelFieldsMutationVariables>({ 
+        mutation: InsertObservationModelFieldsDocument, 
+        variables: { objects: [observation], onConflict },
+        ...mutationOptions,
+      });
+    
+      const returning = result && result.data && result.data.insert_observation && result.data.insert_observation!.returning && result.data.insert_observation!.returning[0];
+    
+      return { result, returning };
+    }
+  
+
+    export async function insertObservationModelFieldss(
+      apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<InsertObservationModelFieldsMutation, InsertObservationModelFieldsMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<InsertObservationModelFieldsMutation>; returning: (ObservationModelFieldsFragment | null | undefined)[] | null | undefined }> {
       
@@ -185,17 +214,17 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       observationId: string,
       set: Observation_Set_Input,
       mutationOptions: Omit<MutationOptions<UpdateObservationModelFieldsByIdMutation, UpdateObservationModelFieldsByIdMutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<UpdateObservationModelFieldsByIdMutation>; returning: (ObservationModelFieldsFragment | null | undefined)[] | null | undefined }> {
+    ): Promise<{ result: FetchResult<UpdateObservationModelFieldsByIdMutation>; returning: ObservationModelFieldsFragment | null | undefined }> {
       
       const result = await apolloClient.mutate<UpdateObservationModelFieldsByIdMutation, UpdateObservationModelFieldsByIdMutationVariables>({ mutation: UpdateObservationModelFieldsByIdDocument, variables: { id:observationId, set }, ...mutationOptions,});
     
-      const returning = result && result.data && result.data.update_observation && result.data.update_observation!.returning;
+      const returning = result && result.data && result.data.update_observation && result.data.update_observation!.returning && result.data.update_observation!.returning[0];
     
       return { result, returning };
     }
   
 
-    export async function updateObservationModelFields(
+    export async function updateObservationModelFieldss(
       apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<UpdateObservationModelFieldsMutation, UpdateObservationModelFieldsMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<UpdateObservationModelFieldsMutation>; returning: (ObservationModelFieldsFragment | null | undefined)[] | null | undefined }> {
@@ -225,7 +254,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
-    export async function removeObservationModel(
+    export async function removeObservationModels(
       apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<RemoveObservationModelMutation, RemoveObservationModelMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<RemoveObservationModelMutation>; returning: number | null | undefined }> {
@@ -254,9 +283,8 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       }
     
 
-      export async function fetchPModelFields(
+      export async function fetchPModelFieldss(
         apolloClient: ApolloClient<object>,
-        pId: string,
         queryOptions: Omit<QueryOptions<FetchPModelFieldsQueryVariables>, 'query'>,
       ): Promise<PModelFieldsFragment[] | null | undefined> {
         const pResult = await apolloClient.query<FetchPModelFieldsQuery>({ query: FetchPModelFieldsDocument, ...queryOptions });
@@ -269,7 +297,25 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
 
     export async function insertPModelFields(
       apolloClient: ApolloClient<object>,
-      pId: string,
+      p: P_Insert_Input,
+      onConflict?: P_On_Conflict,
+      mutationOptions?: Omit<MutationOptions<InsertPModelFieldsMutation, InsertPModelFieldsMutationVariables>, 'mutation' | 'variables'>,
+    ): Promise<{ result: FetchResult<InsertPModelFieldsMutation>; returning: PModelFieldsFragment | null | undefined }> {
+      
+      const result = await apolloClient.mutate<InsertPModelFieldsMutation, InsertPModelFieldsMutationVariables>({ 
+        mutation: InsertPModelFieldsDocument, 
+        variables: { objects: [p], onConflict },
+        ...mutationOptions,
+      });
+    
+      const returning = result && result.data && result.data.insert_p && result.data.insert_p!.returning && result.data.insert_p!.returning[0];
+    
+      return { result, returning };
+    }
+  
+
+    export async function insertPModelFieldss(
+      apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<InsertPModelFieldsMutation, InsertPModelFieldsMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<InsertPModelFieldsMutation>; returning: (PModelFieldsFragment | null | undefined)[] | null | undefined }> {
       
@@ -289,17 +335,17 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       pId: number,
       set: P_Set_Input,
       mutationOptions: Omit<MutationOptions<UpdatePModelFieldsByIdMutation, UpdatePModelFieldsByIdMutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<UpdatePModelFieldsByIdMutation>; returning: (PModelFieldsFragment | null | undefined)[] | null | undefined }> {
+    ): Promise<{ result: FetchResult<UpdatePModelFieldsByIdMutation>; returning: PModelFieldsFragment | null | undefined }> {
       
       const result = await apolloClient.mutate<UpdatePModelFieldsByIdMutation, UpdatePModelFieldsByIdMutationVariables>({ mutation: UpdatePModelFieldsByIdDocument, variables: { id:pId, set }, ...mutationOptions,});
     
-      const returning = result && result.data && result.data.update_p && result.data.update_p!.returning;
+      const returning = result && result.data && result.data.update_p && result.data.update_p!.returning && result.data.update_p!.returning[0];
     
       return { result, returning };
     }
   
 
-    export async function updatePModelFields(
+    export async function updatePModelFieldss(
       apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<UpdatePModelFieldsMutation, UpdatePModelFieldsMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<UpdatePModelFieldsMutation>; returning: (PModelFieldsFragment | null | undefined)[] | null | undefined }> {
@@ -329,7 +375,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
-    export async function removePModel(
+    export async function removePModels(
       apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<RemovePModelMutation, RemovePModelMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<RemovePModelMutation>; returning: number | null | undefined }> {
@@ -358,9 +404,8 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       }
     
 
-      export async function fetchPatientModelFields(
+      export async function fetchPatientModelFieldss(
         apolloClient: ApolloClient<object>,
-        patientId: string,
         queryOptions: Omit<QueryOptions<FetchPatientModelFieldsQueryVariables>, 'query'>,
       ): Promise<PatientModelFieldsFragment[] | null | undefined> {
         const patientResult = await apolloClient.query<FetchPatientModelFieldsQuery>({ query: FetchPatientModelFieldsDocument, ...queryOptions });
@@ -373,7 +418,25 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
 
     export async function insertPatientModelFields(
       apolloClient: ApolloClient<object>,
-      patientId: string,
+      patient: Patient_Insert_Input,
+      onConflict?: Patient_On_Conflict,
+      mutationOptions?: Omit<MutationOptions<InsertPatientModelFieldsMutation, InsertPatientModelFieldsMutationVariables>, 'mutation' | 'variables'>,
+    ): Promise<{ result: FetchResult<InsertPatientModelFieldsMutation>; returning: PatientModelFieldsFragment | null | undefined }> {
+      
+      const result = await apolloClient.mutate<InsertPatientModelFieldsMutation, InsertPatientModelFieldsMutationVariables>({ 
+        mutation: InsertPatientModelFieldsDocument, 
+        variables: { objects: [patient], onConflict },
+        ...mutationOptions,
+      });
+    
+      const returning = result && result.data && result.data.insert_patient && result.data.insert_patient!.returning && result.data.insert_patient!.returning[0];
+    
+      return { result, returning };
+    }
+  
+
+    export async function insertPatientModelFieldss(
+      apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<InsertPatientModelFieldsMutation, InsertPatientModelFieldsMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<InsertPatientModelFieldsMutation>; returning: (PatientModelFieldsFragment | null | undefined)[] | null | undefined }> {
       
@@ -393,17 +456,17 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       patientId: string,
       set: Patient_Set_Input,
       mutationOptions: Omit<MutationOptions<UpdatePatientModelFieldsByIdMutation, UpdatePatientModelFieldsByIdMutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<UpdatePatientModelFieldsByIdMutation>; returning: (PatientModelFieldsFragment | null | undefined)[] | null | undefined }> {
+    ): Promise<{ result: FetchResult<UpdatePatientModelFieldsByIdMutation>; returning: PatientModelFieldsFragment | null | undefined }> {
       
       const result = await apolloClient.mutate<UpdatePatientModelFieldsByIdMutation, UpdatePatientModelFieldsByIdMutationVariables>({ mutation: UpdatePatientModelFieldsByIdDocument, variables: { id:patientId, set }, ...mutationOptions,});
     
-      const returning = result && result.data && result.data.update_patient && result.data.update_patient!.returning;
+      const returning = result && result.data && result.data.update_patient && result.data.update_patient!.returning && result.data.update_patient!.returning[0];
     
       return { result, returning };
     }
   
 
-    export async function updatePatientModelFields(
+    export async function updatePatientModelFieldss(
       apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<UpdatePatientModelFieldsMutation, UpdatePatientModelFieldsMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<UpdatePatientModelFieldsMutation>; returning: (PatientModelFieldsFragment | null | undefined)[] | null | undefined }> {
@@ -433,7 +496,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
-    export async function removePatientModel(
+    export async function removePatientModels(
       apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<RemovePatientModelMutation, RemovePatientModelMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<RemovePatientModelMutation>; returning: number | null | undefined }> {
@@ -462,9 +525,8 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       }
     
 
-      export async function fetchUsersModelFields(
+      export async function fetchUsersModelFieldss(
         apolloClient: ApolloClient<object>,
-        usersId: string,
         queryOptions: Omit<QueryOptions<FetchUsersModelFieldsQueryVariables>, 'query'>,
       ): Promise<UsersModelFieldsFragment[] | null | undefined> {
         const usersResult = await apolloClient.query<FetchUsersModelFieldsQuery>({ query: FetchUsersModelFieldsDocument, ...queryOptions });
@@ -477,7 +539,25 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
 
     export async function insertUsersModelFields(
       apolloClient: ApolloClient<object>,
-      usersId: string,
+      users: Users_Insert_Input,
+      onConflict?: Users_On_Conflict,
+      mutationOptions?: Omit<MutationOptions<InsertUsersModelFieldsMutation, InsertUsersModelFieldsMutationVariables>, 'mutation' | 'variables'>,
+    ): Promise<{ result: FetchResult<InsertUsersModelFieldsMutation>; returning: UsersModelFieldsFragment | null | undefined }> {
+      
+      const result = await apolloClient.mutate<InsertUsersModelFieldsMutation, InsertUsersModelFieldsMutationVariables>({ 
+        mutation: InsertUsersModelFieldsDocument, 
+        variables: { objects: [users], onConflict },
+        ...mutationOptions,
+      });
+    
+      const returning = result && result.data && result.data.insert_users && result.data.insert_users!.returning && result.data.insert_users!.returning[0];
+    
+      return { result, returning };
+    }
+  
+
+    export async function insertUsersModelFieldss(
+      apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<InsertUsersModelFieldsMutation, InsertUsersModelFieldsMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<InsertUsersModelFieldsMutation>; returning: (UsersModelFieldsFragment | null | undefined)[] | null | undefined }> {
       
@@ -497,17 +577,17 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       usersId: number,
       set: Users_Set_Input,
       mutationOptions: Omit<MutationOptions<UpdateUsersModelFieldsByIdMutation, UpdateUsersModelFieldsByIdMutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<UpdateUsersModelFieldsByIdMutation>; returning: (UsersModelFieldsFragment | null | undefined)[] | null | undefined }> {
+    ): Promise<{ result: FetchResult<UpdateUsersModelFieldsByIdMutation>; returning: UsersModelFieldsFragment | null | undefined }> {
       
       const result = await apolloClient.mutate<UpdateUsersModelFieldsByIdMutation, UpdateUsersModelFieldsByIdMutationVariables>({ mutation: UpdateUsersModelFieldsByIdDocument, variables: { id:usersId, set }, ...mutationOptions,});
     
-      const returning = result && result.data && result.data.update_users && result.data.update_users!.returning;
+      const returning = result && result.data && result.data.update_users && result.data.update_users!.returning && result.data.update_users!.returning[0];
     
       return { result, returning };
     }
   
 
-    export async function updateUsersModelFields(
+    export async function updateUsersModelFieldss(
       apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<UpdateUsersModelFieldsMutation, UpdateUsersModelFieldsMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<UpdateUsersModelFieldsMutation>; returning: (UsersModelFieldsFragment | null | undefined)[] | null | undefined }> {
@@ -537,7 +617,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
-    export async function removeUsersModel(
+    export async function removeUsersModels(
       apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<RemoveUsersModelMutation, RemoveUsersModelMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<RemoveUsersModelMutation>; returning: number | null | undefined }> {
@@ -566,9 +646,8 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       }
     
 
-      export async function fetchVehicleModelFields(
+      export async function fetchVehicleModelFieldss(
         apolloClient: ApolloClient<object>,
-        vehicleId: string,
         queryOptions: Omit<QueryOptions<FetchVehicleModelFieldsQueryVariables>, 'query'>,
       ): Promise<VehicleModelFieldsFragment[] | null | undefined> {
         const vehicleResult = await apolloClient.query<FetchVehicleModelFieldsQuery>({ query: FetchVehicleModelFieldsDocument, ...queryOptions });
@@ -581,7 +660,25 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
 
     export async function insertVehicleModelFields(
       apolloClient: ApolloClient<object>,
-      vehicleId: string,
+      vehicle: Vehicle_Insert_Input,
+      onConflict?: Vehicle_On_Conflict,
+      mutationOptions?: Omit<MutationOptions<InsertVehicleModelFieldsMutation, InsertVehicleModelFieldsMutationVariables>, 'mutation' | 'variables'>,
+    ): Promise<{ result: FetchResult<InsertVehicleModelFieldsMutation>; returning: VehicleModelFieldsFragment | null | undefined }> {
+      
+      const result = await apolloClient.mutate<InsertVehicleModelFieldsMutation, InsertVehicleModelFieldsMutationVariables>({ 
+        mutation: InsertVehicleModelFieldsDocument, 
+        variables: { objects: [vehicle], onConflict },
+        ...mutationOptions,
+      });
+    
+      const returning = result && result.data && result.data.insert_vehicle && result.data.insert_vehicle!.returning && result.data.insert_vehicle!.returning[0];
+    
+      return { result, returning };
+    }
+  
+
+    export async function insertVehicleModelFieldss(
+      apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<InsertVehicleModelFieldsMutation, InsertVehicleModelFieldsMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<InsertVehicleModelFieldsMutation>; returning: (VehicleModelFieldsFragment | null | undefined)[] | null | undefined }> {
       
@@ -601,17 +698,17 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       vehicleId: string,
       set: Vehicle_Set_Input,
       mutationOptions: Omit<MutationOptions<UpdateVehicleModelFieldsByIdMutation, UpdateVehicleModelFieldsByIdMutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<UpdateVehicleModelFieldsByIdMutation>; returning: (VehicleModelFieldsFragment | null | undefined)[] | null | undefined }> {
+    ): Promise<{ result: FetchResult<UpdateVehicleModelFieldsByIdMutation>; returning: VehicleModelFieldsFragment | null | undefined }> {
       
       const result = await apolloClient.mutate<UpdateVehicleModelFieldsByIdMutation, UpdateVehicleModelFieldsByIdMutationVariables>({ mutation: UpdateVehicleModelFieldsByIdDocument, variables: { id:vehicleId, set }, ...mutationOptions,});
     
-      const returning = result && result.data && result.data.update_vehicle && result.data.update_vehicle!.returning;
+      const returning = result && result.data && result.data.update_vehicle && result.data.update_vehicle!.returning && result.data.update_vehicle!.returning[0];
     
       return { result, returning };
     }
   
 
-    export async function updateVehicleModelFields(
+    export async function updateVehicleModelFieldss(
       apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<UpdateVehicleModelFieldsMutation, UpdateVehicleModelFieldsMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<UpdateVehicleModelFieldsMutation>; returning: (VehicleModelFieldsFragment | null | undefined)[] | null | undefined }> {
@@ -641,7 +738,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
-    export async function removeVehicleModel(
+    export async function removeVehicleModels(
       apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<RemoveVehicleModelMutation>; returning: number | null | undefined }> {
@@ -670,9 +767,8 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       }
     
 
-      export async function fetchVehicle_LocationModelFields(
+      export async function fetchVehicle_LocationModelFieldss(
         apolloClient: ApolloClient<object>,
-        vehicle_LocationId: string,
         queryOptions: Omit<QueryOptions<FetchVehicle_LocationModelFieldsQueryVariables>, 'query'>,
       ): Promise<Vehicle_LocationModelFieldsFragment[] | null | undefined> {
         const vehicle_LocationResult = await apolloClient.query<FetchVehicle_LocationModelFieldsQuery>({ query: FetchVehicle_LocationModelFieldsDocument, ...queryOptions });
@@ -685,7 +781,25 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
 
     export async function insertVehicle_LocationModelFields(
       apolloClient: ApolloClient<object>,
-      vehicle_LocationId: string,
+      vehicle_Location: Vehicle_Location_Insert_Input,
+      onConflict?: Vehicle_Location_On_Conflict,
+      mutationOptions?: Omit<MutationOptions<InsertVehicle_LocationModelFieldsMutation, InsertVehicle_LocationModelFieldsMutationVariables>, 'mutation' | 'variables'>,
+    ): Promise<{ result: FetchResult<InsertVehicle_LocationModelFieldsMutation>; returning: Vehicle_LocationModelFieldsFragment | null | undefined }> {
+      
+      const result = await apolloClient.mutate<InsertVehicle_LocationModelFieldsMutation, InsertVehicle_LocationModelFieldsMutationVariables>({ 
+        mutation: InsertVehicle_LocationModelFieldsDocument, 
+        variables: { objects: [vehicle_Location], onConflict },
+        ...mutationOptions,
+      });
+    
+      const returning = result && result.data && result.data.insert_vehicle_location && result.data.insert_vehicle_location!.returning && result.data.insert_vehicle_location!.returning[0];
+    
+      return { result, returning };
+    }
+  
+
+    export async function insertVehicle_LocationModelFieldss(
+      apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<InsertVehicle_LocationModelFieldsMutation, InsertVehicle_LocationModelFieldsMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<InsertVehicle_LocationModelFieldsMutation>; returning: (Vehicle_LocationModelFieldsFragment | null | undefined)[] | null | undefined }> {
       
@@ -705,17 +819,17 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       vehicle_LocationId: number,
       set: Vehicle_Location_Set_Input,
       mutationOptions: Omit<MutationOptions<UpdateVehicle_LocationModelFieldsByIdMutation, UpdateVehicle_LocationModelFieldsByIdMutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<UpdateVehicle_LocationModelFieldsByIdMutation>; returning: (Vehicle_LocationModelFieldsFragment | null | undefined)[] | null | undefined }> {
+    ): Promise<{ result: FetchResult<UpdateVehicle_LocationModelFieldsByIdMutation>; returning: Vehicle_LocationModelFieldsFragment | null | undefined }> {
       
       const result = await apolloClient.mutate<UpdateVehicle_LocationModelFieldsByIdMutation, UpdateVehicle_LocationModelFieldsByIdMutationVariables>({ mutation: UpdateVehicle_LocationModelFieldsByIdDocument, variables: { id:vehicle_LocationId, set }, ...mutationOptions,});
     
-      const returning = result && result.data && result.data.update_vehicle_location && result.data.update_vehicle_location!.returning;
+      const returning = result && result.data && result.data.update_vehicle_location && result.data.update_vehicle_location!.returning && result.data.update_vehicle_location!.returning[0];
     
       return { result, returning };
     }
   
 
-    export async function updateVehicle_LocationModelFields(
+    export async function updateVehicle_LocationModelFieldss(
       apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<UpdateVehicle_LocationModelFieldsMutation, UpdateVehicle_LocationModelFieldsMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<UpdateVehicle_LocationModelFieldsMutation>; returning: (Vehicle_LocationModelFieldsFragment | null | undefined)[] | null | undefined }> {
@@ -745,7 +859,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
-    export async function removeVehicle_LocationModel(
+    export async function removeVehicle_LocationModels(
       apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<RemoveVehicle_LocationModelMutation, RemoveVehicle_LocationModelMutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<RemoveVehicle_LocationModelMutation>; returning: number | null | undefined }> {

@@ -1,6 +1,6 @@
 import { FieldDefinitionNode } from "graphql";
 import { getIdTypeScriptFieldType, makeFragmentName, makeModelName, makeShortCamelCaseName, makeShortName, makeImportStatement } from ".";
-import { makeFragmentDocName, makeFragmentTypeScriptTypeName } from "./utils";
+import { makeFragmentTypeScriptTypeName } from "./utils";
 
 // ---------------------------------
 //
@@ -59,7 +59,6 @@ export function injectFetchHelpers({
   typescriptCodegenOutputPath: string;
 }) {
   const entityShortCamelCaseName = makeShortCamelCaseName(entityName, trimString);
-  const entityModelName = makeModelName(entityName, trimString);
 
   contentArray.push(`
       // Fetch Helper
@@ -74,9 +73,8 @@ export function injectFetchHelpers({
       }
     `);
   contentArray.push(`
-      export async function fetch${fragmentName}(
+      export async function fetch${fragmentName}s(
         apolloClient: ApolloClient<object>,
-        ${entityShortCamelCaseName}Id: string,
         queryOptions: Omit<QueryOptions<Fetch${fragmentName}QueryVariables>, 'query'>,
       ): Promise<${fragmentName}Fragment[] | null | undefined> {
         const ${entityShortCamelCaseName}Result = await apolloClient.query<Fetch${fragmentName}Query>({ query: Fetch${fragmentName}Document, ...queryOptions });
@@ -109,8 +107,8 @@ export function injectInsertHelpers({
   primaryKeyIdField: FieldDefinitionNode;
   typescriptCodegenOutputPath: string;
 }) {
+  const entityShortName = makeShortName(entityName);
   const entityShortCamelCaseName = makeShortCamelCaseName(entityName, trimString);
-  const entityModelName = makeModelName(entityName, trimString);
 
   contentArray.push(`
     // Insert Helper
@@ -118,7 +116,26 @@ export function injectInsertHelpers({
 
     export async function insert${fragmentName}(
       apolloClient: ApolloClient<object>,
-      ${entityShortCamelCaseName}Id: string,
+      ${entityShortCamelCaseName}: ${entityShortName}_Insert_Input,
+      onConflict?: ${entityShortName}_On_Conflict,
+      mutationOptions?: Omit<MutationOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation' | 'variables'>,
+    ): Promise<{ result: FetchResult<Insert${fragmentName}Mutation>; returning: ${fragmentName}Fragment | null | undefined }> {
+      
+      const result = await apolloClient.mutate<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>({ 
+        mutation: Insert${fragmentName}Document, 
+        variables: { objects: [${entityShortCamelCaseName}], onConflict },
+        ...mutationOptions,
+      });
+    
+      const returning = result && result.data && result.data.insert_${entityName} && result.data.insert_${entityName}!.returning && result.data.insert_${entityName}!.returning[0];
+    
+      return { result, returning };
+    }
+  `);
+
+  contentArray.push(`
+    export async function insert${fragmentName}s(
+      apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<Insert${fragmentName}Mutation>; returning: (${fragmentName}Fragment | null | undefined)[] | null | undefined }> {
       
@@ -130,6 +147,8 @@ export function injectInsertHelpers({
     }
   `);
 
+  importArray.push(makeImportStatement(`${entityShortName}_Insert_Input`, typescriptCodegenOutputPath));
+  importArray.push(makeImportStatement(`${entityShortName}_On_Conflict`, typescriptCodegenOutputPath));
   importArray.push(makeImportStatement(`Insert${fragmentName}Mutation`, typescriptCodegenOutputPath));
   importArray.push(makeImportStatement(`Insert${fragmentName}MutationVariables`, typescriptCodegenOutputPath));
   importArray.push(makeImportStatement(`Insert${fragmentName}Document`, typescriptCodegenOutputPath));
@@ -156,7 +175,6 @@ export function injectUpdateHelpers({
 }) {
   const entityShortName = makeShortName(entityName);
   const entityShortCamelCaseName = makeShortCamelCaseName(entityName, trimString);
-  const entityModelName = makeModelName(entityName, trimString);
   const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
 
   contentArray.push(`
@@ -168,18 +186,18 @@ export function injectUpdateHelpers({
       ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName},
       set: ${entityShortName}_Set_Input,
       mutationOptions: Omit<MutationOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>, 'mutation'>,
-    ): Promise<{ result: FetchResult<Update${fragmentName}ByIdMutation>; returning: (${fragmentName}Fragment | null | undefined)[] | null | undefined }> {
+    ): Promise<{ result: FetchResult<Update${fragmentName}ByIdMutation>; returning: ${fragmentName}Fragment | null | undefined }> {
       
       const result = await apolloClient.mutate<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>({ mutation: Update${fragmentName}ByIdDocument, variables: { id:${entityShortCamelCaseName}Id, set }, ...mutationOptions,});
     
-      const returning = result && result.data && result.data.update_${entityName} && result.data.update_${entityName}!.returning;
+      const returning = result && result.data && result.data.update_${entityName} && result.data.update_${entityName}!.returning && result.data.update_${entityName}!.returning[0];
     
       return { result, returning };
     }
   `);
 
   contentArray.push(`
-    export async function update${fragmentName}(
+    export async function update${fragmentName}s(
       apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<Update${fragmentName}Mutation>; returning: (${fragmentName}Fragment | null | undefined)[] | null | undefined }> {
@@ -243,7 +261,7 @@ export function injectDeleteHelpers({
   `);
 
   contentArray.push(`
-    export async function remove${entityModelName}(
+    export async function remove${entityModelName}s(
       apolloClient: ApolloClient<object>,
       mutationOptions: Omit<MutationOptions<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>, 'mutation'>,
     ): Promise<{ result: FetchResult<Remove${entityModelName}Mutation>; returning: number | null | undefined }> {
