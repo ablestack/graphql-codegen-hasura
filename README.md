@@ -285,9 +285,9 @@ See [demo/src/autogen/hasura/typescript-from-schema.ts](https://github.com/ahrne
 export async function insertUsersModel(
   apolloClient: ApolloClient<object>,
   usersId: string,
-  mutationOptions: Omit<MutationOptions<InsertUsersModelMutation, InsertUsersModelMutationVariables>, "mutation">
+  options: Omit<MutationOptions<InsertUsersModelMutation, InsertUsersModelMutationVariables>, "mutation">
 ): Promise<{ result: FetchResult<InsertUsersModelMutation>; returning: (UsersModelFieldsFragment | null | undefined)[] | null | undefined }> {
-  const result = await apolloClient.mutate<InsertUsersModelMutation, InsertUsersModelMutationVariables>({ mutation: InsertUsersModelDocument, ...mutationOptions });
+  const result = await apolloClient.mutate<InsertUsersModelMutation, InsertUsersModelMutationVariables>({ mutation: InsertUsersModelDocument, ...options });
 
   const returning = result && result.data && result.data.insert_users && result.data.insert_users!.returning;
 
@@ -305,9 +305,9 @@ export async function fetchUsersModelById(apolloClient: ApolloClient<object>, us
 export async function fetchUsersModel(
   apolloClient: ApolloClient<object>,
   usersId: string,
-  queryOptions: Omit<QueryOptions<FetchUsersModelQueryVariables>, "query">
+  options: Omit<QueryOptions<FetchUsersModelQueryVariables>, "query">
 ): Promise<UsersModelFieldsFragment[] | null | undefined> {
-  const usersResult = await apolloClient.query<FetchUsersModelQuery>({ query: FetchUsersModelDocument, ...queryOptions });
+  const usersResult = await apolloClient.query<FetchUsersModelQuery>({ query: FetchUsersModelDocument, ...options });
   return usersResult.data.users;
 }
 
@@ -318,12 +318,12 @@ export async function updateUsersModelById(
   apolloClient: ApolloClient<object>,
   usersId: number,
   set: Users_Set_Input,
-  mutationOptions: Omit<MutationOptions<UpdateUsersModelByIdMutation, UpdateUsersModelByIdMutationVariables>, "mutation">
+  options: Omit<MutationOptions<UpdateUsersModelByIdMutation, UpdateUsersModelByIdMutationVariables>, "mutation">
 ): Promise<{ result: FetchResult<UpdateUsersModelByIdMutation>; returning: (UsersModelFieldsFragment | null | undefined)[] | null | undefined }> {
   const result = await apolloClient.mutate<UpdateUsersModelByIdMutation, UpdateUsersModelByIdMutationVariables>({
     mutation: UpdateUsersModelByIdDocument,
     variables: { id: usersId, set },
-    ...mutationOptions
+    ...options
   });
 
   const returning = result && result.data && result.data.update_users && result.data.update_users!.returning;
@@ -333,9 +333,9 @@ export async function updateUsersModelById(
 
 export async function updateUsersModel(
   apolloClient: ApolloClient<object>,
-  mutationOptions: Omit<MutationOptions<UpdateUsersModelMutation, UpdateUsersModelMutationVariables>, "mutation">
+  options: Omit<MutationOptions<UpdateUsersModelMutation, UpdateUsersModelMutationVariables>, "mutation">
 ): Promise<{ result: FetchResult<UpdateUsersModelMutation>; returning: (UsersModelFieldsFragment | null | undefined)[] | null | undefined }> {
-  const result = await apolloClient.mutate<UpdateUsersModelMutation, UpdateUsersModelMutationVariables>({ mutation: UpdateUsersModelDocument, ...mutationOptions });
+  const result = await apolloClient.mutate<UpdateUsersModelMutation, UpdateUsersModelMutationVariables>({ mutation: UpdateUsersModelDocument, ...options });
 
   const returning = result && result.data && result.data.update_users && result.data.update_users!.returning;
 
@@ -348,12 +348,12 @@ export async function updateUsersModel(
 export async function removeUsersModelById(
   apolloClient: ApolloClient<object>,
   usersId: number,
-  mutationOptions: Omit<MutationOptions<RemoveUsersModelByIdMutation, RemoveUsersModelByIdMutationVariables>, "mutation">
+  options: Omit<MutationOptions<RemoveUsersModelByIdMutation, RemoveUsersModelByIdMutationVariables>, "mutation">
 ): Promise<{ result: FetchResult<RemoveUsersModelByIdMutation>; returning: number | null | undefined }> {
   const result = await apolloClient.mutate<RemoveUsersModelByIdMutation, RemoveUsersModelByIdMutationVariables>({
     mutation: RemoveUsersModelByIdDocument,
     variables: { id: usersId },
-    ...mutationOptions
+    ...options
   });
 
   const returning = result && result.data && result.data.delete_users && result.data.delete_users!.affected_rows;
@@ -363,9 +363,9 @@ export async function removeUsersModelById(
 
 export async function removeUsersModel(
   apolloClient: ApolloClient<object>,
-  mutationOptions: Omit<MutationOptions<RemoveUsersModelMutation, RemoveUsersModelMutationVariables>, "mutation">
+  options: Omit<MutationOptions<RemoveUsersModelMutation, RemoveUsersModelMutationVariables>, "mutation">
 ): Promise<{ result: FetchResult<RemoveUsersModelMutation>; returning: number | null | undefined }> {
-  const result = await apolloClient.mutate<RemoveUsersModelMutation, RemoveUsersModelMutationVariables>({ mutation: RemoveUsersModelDocument, ...mutationOptions });
+  const result = await apolloClient.mutate<RemoveUsersModelMutation, RemoveUsersModelMutationVariables>({ mutation: RemoveUsersModelDocument, ...options });
 
   const returning = result && result.data && result.data.delete_users && result.data.delete_users!.affected_rows;
 
