@@ -139,7 +139,7 @@ import { RemoveVehicleModelByIdDocument } from '../';
       set: Vehicle_Set_Input,
       options?: Omit<MutationHookOptions<UpdateVehicleGraphFieldsByIdMutation, UpdateVehicleGraphFieldsByIdMutationVariables>, 'mutation' | 'variables'>,
     }) {
-      const lazyMutation = useMutation<UpdateVehicleGraphFieldsByIdMutation, UpdateVehicleGraphFieldsByIdMutationVariables>(UpdateVehicleGraphFieldsByIdDocument, { variables: { id:vehicleId, set }, ...options,});
+      const lazyMutation = useMutation<UpdateVehicleGraphFieldsByIdMutation, UpdateVehicleGraphFieldsByIdMutationVariables>(UpdateVehicleGraphFieldsByIdDocument, { variables: { vehicleId, set }, ...options,});
     
       return [lazyMutation[0], { ...lazyMutation[1], vehicleGraphFields: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.update_vehicle && lazyMutation[1].data.update_vehicle!.returning && lazyMutation[1].data.update_vehicle!.returning[0] }]
     }
@@ -168,7 +168,7 @@ import { RemoveVehicleModelByIdDocument } from '../';
       vehicleId: string,
       options?: Omit<MutationHookOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, 'mutation' | 'variables'>,
     }) {
-      const lazyMutation = useMutation<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>(RemoveVehicleModelByIdDocument, { variables: { id:vehicleId }, ...options,});
+      const lazyMutation = useMutation<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>(RemoveVehicleModelByIdDocument, { variables: { vehicleId }, ...options,});
         
       return [lazyMutation[0], { ...lazyMutation[1], vehicleGraphFields: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_vehicle && lazyMutation[1].data.delete_vehicle!.affected_rows }]
     }
