@@ -236,7 +236,7 @@ export function injectUpdateReact({
       set: ${entityPascalName}_Set_Input,
       options?: Omit<MutationHookOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>, 'mutation' | 'variables'>,
     }) {
-      const lazyMutation = useMutation<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>(Update${fragmentName}ByIdDocument, { variables: { ${entityShortCamelCaseName}Id, set }, ...options,});
+      const lazyMutation = useMutation<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>(Update${fragmentName}ByIdDocument, { variables: { id:${entityShortCamelCaseName}Id, set }, ...options,});
     
       return [lazyMutation[0], { ...lazyMutation[1], ${fragmentNameCamelCase}: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.update_${entityName} && lazyMutation[1].data.update_${entityName}!.returning && lazyMutation[1].data.update_${entityName}!.returning[0] }]
     }
@@ -301,7 +301,7 @@ export function injectDeleteReact({
       ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName},
       options?: Omit<MutationHookOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, 'mutation' | 'variables'>,
     }) {
-      const lazyMutation = useMutation<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>(Remove${entityModelName}ByIdDocument, { variables: { ${entityShortCamelCaseName}Id }, ...options,});
+      const lazyMutation = useMutation<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>(Remove${entityModelName}ByIdDocument, { variables: { id:${entityShortCamelCaseName}Id }, ...options,});
         
       return [lazyMutation[0], { ...lazyMutation[1], ${fragmentNameCamelCase}: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_${entityName} && lazyMutation[1].data.delete_${entityName}!.affected_rows }]
     }
