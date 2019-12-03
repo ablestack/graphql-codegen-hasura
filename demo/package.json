@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "demo",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "dependencies": {
     "@apollo/client": "^3.0.0-beta.14",
     "@apollo/react-hooks": "^3.2.0-beta.0",
@@ -21,10 +21,10 @@
     "@graphql-codegen/typescript-operations": "1.8.3",
     "@graphql-codegen/typescript-react-apollo": "1.8.3",
     "@graphql-codegen/typescript-resolvers": "1.8.3",
-    "graphql-codegen-hasura-gql-from-documents": "^2.2.1",
-    "graphql-codegen-hasura-gql-from-schema": "^2.2.1",
-    "graphql-codegen-hasura-typescript-from-documents": "^2.2.1",
-    "graphql-codegen-hasura-typescript-from-schema": "^2.2.1"
+    "graphql-codegen-hasura-gql-from-documents": "^2.3.0",
+    "graphql-codegen-hasura-gql-from-schema": "^2.3.0",
+    "graphql-codegen-hasura-typescript-from-documents": "^2.3.0",
+    "graphql-codegen-hasura-typescript-from-schema": "^2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
