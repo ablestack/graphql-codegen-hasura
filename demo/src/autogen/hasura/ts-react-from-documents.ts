@@ -34,20 +34,20 @@ import { RemoveVehicleModelByIdDocument } from '../';
       //
   
       /**
-       * __useFetchVehicleGraphFieldsObjectByIdQuery__
+       * __useFetchVehicleGraphFieldsByIdQuery__
        *
-       * To run a query within a React component, call `useVehicleGraphFieldsObjectByIdQuery`
-       * When your component renders, `useVehicleGraphFieldsObjectByIdQuery` returns an object from Apollo Client that contains loading, error, data properties, and a shortcut result property 
+       * To run a query within a React component, call `useVehicleGraphFieldsByIdQuery`
+       * When your component renders, `useVehicleGraphFieldsByIdQuery` returns an object from Apollo Client that contains loading, error, data properties, and a shortcut result property 
        *
        * @param options options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
        *
        * @example
-       * const { result, loading, error } = useFetchVehicleGraphFieldsObjectByIdQuery({ vehicleId:<value> });
+       * const { result, loading, error } = useFetchVehicleGraphFieldsByIdQuery({ vehicleId:<value> });
        */
 
         // Fetch Hook
         //
-        export function useFetchVehicleGraphFieldsObjectByIdQuery({ 
+        export function useFetchVehicleGraphFieldsByIdQuery({ 
           vehicleId, 
           options, 
         }: {
@@ -55,12 +55,12 @@ import { RemoveVehicleModelByIdDocument } from '../';
           options?: Omit<QueryHookOptions<FetchVehicleGraphFieldsByIdQuery, FetchVehicleGraphFieldsByIdQueryVariables>, 'query' | 'variables'>
         }) {
             const query = useQuery<FetchVehicleGraphFieldsByIdQuery, FetchVehicleGraphFieldsByIdQueryVariables>(FetchVehicleGraphFieldsByIdDocument, { variables: { vehicleId }, ...options });
-            return { ...query, returning: query && query.data && query.data.vehicle_by_pk }
+            return { ...query, VehicleGraphFields: query && query.data && query.data.vehicle_by_pk }
         }
 
         // Lazy Fetch Hook
         //
-        export function useFetchVehicleObjectByIdLazyQuery({ 
+        export function useFetchVehicleByIdLazyQuery({ 
           vehicleId, 
           options ,
         }: {
@@ -68,8 +68,7 @@ import { RemoveVehicleModelByIdDocument } from '../';
           options?: Omit<LazyQueryHookOptions<FetchVehicleGraphFieldsByIdQuery, FetchVehicleGraphFieldsByIdQueryVariables>, 'query' | 'variables'>
         }) {
           const lazyQuery = useLazyQuery<FetchVehicleGraphFieldsByIdQuery, FetchVehicleGraphFieldsByIdQueryVariables>(FetchVehicleGraphFieldsByIdDocument, { variables: { vehicleId }, ...options });
-
-          return [lazyQuery[0], { ...lazyQuery[1], returning: lazyQuery[1] && lazyQuery[1].data && lazyQuery[1].data.vehicle_by_pk }]
+          return [lazyQuery[0], { ...lazyQuery[1], VehicleGraphFields: lazyQuery[1] && lazyQuery[1].data && lazyQuery[1].data.vehicle_by_pk }]
         }
     
 
@@ -79,7 +78,7 @@ import { RemoveVehicleModelByIdDocument } from '../';
         options: Omit<QueryHookOptions<FetchVehicleGraphFieldsQuery, FetchVehicleGraphFieldsQueryVariables>, 'query'>
       }) {
           const query = useQuery<FetchVehicleGraphFieldsQuery, FetchVehicleGraphFieldsQueryVariables>(FetchVehicleGraphFieldsDocument, options);
-          return { ...query, returning: query && query.data && query.data.vehicle }
+          return { ...query, objects: query && query.data && query.data.vehicle }
       }
       
       // Lazy Fetch Collection Hook
@@ -89,14 +88,14 @@ import { RemoveVehicleModelByIdDocument } from '../';
       }) {
         const lazyQuery = useLazyQuery<FetchVehicleGraphFieldsQuery, FetchVehicleGraphFieldsQueryVariables>(FetchVehicleGraphFieldsDocument, options);
       
-        return [lazyQuery[0], { ...lazyQuery[1], returning: lazyQuery[1] && lazyQuery[1].data && lazyQuery[1].data.vehicle }]
+        return [lazyQuery[0], { ...lazyQuery[1], objects: lazyQuery[1] && lazyQuery[1].data && lazyQuery[1].data.vehicle }]
       }
     
 
     // Insert Hooks
     //
 
-    export async function useInsertVehicleGraphFieldsObject({
+    export async function useInsertVehicleGraphFields({
       vehicle,
       onConflict,
       options,
@@ -113,7 +112,7 @@ import { RemoveVehicleModelByIdDocument } from '../';
         }
       );
     
-      return [lazyMutation[0], { ...lazyMutation[1], returning: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.insert_vehicle && lazyMutation[1].data.insert_vehicle!.returning && lazyMutation[1].data.insert_vehicle!.returning[0] }]
+      return [lazyMutation[0], { ...lazyMutation[1], VehicleGraphFields: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.insert_vehicle && lazyMutation[1].data.insert_vehicle!.returning && lazyMutation[1].data.insert_vehicle!.returning[0] }]
     }
   
 
@@ -124,14 +123,14 @@ import { RemoveVehicleModelByIdDocument } from '../';
     }) {
       const lazyMutation = useMutation<InsertVehicleGraphFieldsMutation, InsertVehicleGraphFieldsMutationVariables>(InsertVehicleGraphFieldsDocument, { ...options });
         
-      return [lazyMutation[0], { ...lazyMutation[1], returning: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.insert_vehicle && lazyMutation[1].data.insert_vehicle!.returning }]
+      return [lazyMutation[0], { ...lazyMutation[1], objects: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.insert_vehicle && lazyMutation[1].data.insert_vehicle!.returning }]
     }
   
 
     // Update Hooks
     //
 
-    export async function updateVehicleGraphFieldsObjectById({
+    export async function updateVehicleGraphFieldsById({
       vehicleId,
       set,
       options,
@@ -142,7 +141,7 @@ import { RemoveVehicleModelByIdDocument } from '../';
     }) {
       const lazyMutation = useMutation<UpdateVehicleGraphFieldsByIdMutation, UpdateVehicleGraphFieldsByIdMutationVariables>(UpdateVehicleGraphFieldsByIdDocument, { variables: { id:vehicleId, set }, ...options,});
     
-      return [lazyMutation[0], { ...lazyMutation[1], returning: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.update_vehicle && lazyMutation[1].data.update_vehicle!.returning && lazyMutation[1].data.update_vehicle!.returning[0] }]
+      return [lazyMutation[0], { ...lazyMutation[1], VehicleGraphFields: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.update_vehicle && lazyMutation[1].data.update_vehicle!.returning && lazyMutation[1].data.update_vehicle!.returning[0] }]
     }
   
 
@@ -155,14 +154,14 @@ import { RemoveVehicleModelByIdDocument } from '../';
     }) {
       const lazyMutation = useMutation<UpdateVehicleGraphFieldsMutation, UpdateVehicleGraphFieldsMutationVariables>(UpdateVehicleGraphFieldsDocument, { ...options });
     
-      return [lazyMutation[0], { ...lazyMutation[1], returning: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.update_vehicle && lazyMutation[1].data.update_vehicle!.returning }]
+      return [lazyMutation[0], { ...lazyMutation[1], objects: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.update_vehicle && lazyMutation[1].data.update_vehicle!.returning }]
     }
   
 
     // Delete Hooks
     //
 
-    export async function removeVehicleModelObjectById({
+    export async function removeVehicleModelById({
       vehicleId,
       options,
     }:{
@@ -171,7 +170,7 @@ import { RemoveVehicleModelByIdDocument } from '../';
     }) {
       const lazyMutation = useMutation<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>(RemoveVehicleModelByIdDocument, { variables: { id:vehicleId }, ...options,});
         
-      return [lazyMutation[0], { ...lazyMutation[1], returning: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_vehicle && lazyMutation[1].data.delete_vehicle!.affected_rows }]
+      return [lazyMutation[0], { ...lazyMutation[1], VehicleGraphFields: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_vehicle && lazyMutation[1].data.delete_vehicle!.affected_rows }]
     }
   
 
@@ -182,6 +181,6 @@ import { RemoveVehicleModelByIdDocument } from '../';
     }) {
       const lazyMutation = useMutation<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>(RemoveVehicleModelDocument, { ...options });
         
-      return [lazyMutation[0], { ...lazyMutation[1], returning: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_vehicle && lazyMutation[1].data.delete_vehicle!.affected_rows }]
+      return [lazyMutation[0], { ...lazyMutation[1], objects: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_vehicle && lazyMutation[1].data.delete_vehicle!.affected_rows }]
     }
   
