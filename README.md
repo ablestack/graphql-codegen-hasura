@@ -10,6 +10,18 @@ These plugins allow for the following approaches to Hasura client code generatio
 
 2.  **Fragment First**: Generate Hasura client code (gql & TypeScript) for every fragment defined in the target source code. This approach approach will generally provide greater long-term flexibility as it allows you to define and work with nested entity graphs. It also will only generate the code you need. However, it is slightly less automated, as it requires you to define graph fragments manually
 
+## Quick Start
+
+To quickly try out the code-generation:
+
+1. Checkout the project to your local computer
+2. Navigate to the demo directory
+3. Run the following command
+
+```
+  yarn; yarn generate;
+```
+
 ## The Plugins
 
 These plugins require and augment the existing fantastic GraphQL code generator plugins available from [graphql-code-generator](https://graphql-code-generator.com/)

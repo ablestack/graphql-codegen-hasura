@@ -16,7 +16,7 @@ generates:
       - typescript-react-apollo
     config:
       reactApolloVersion: 3
-      withHooks: true
+      withHooks: false
       withHOC: false
       withComponent: false
       skipTypename: false
