@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "demo",
-  "version": "2.5.2",
+  "version": "2.5.3",
   "dependencies": {
     "@apollo/client": "^3.0.0-beta.14",
     "@apollo/react-hooks": "^3.2.0-beta.0",
