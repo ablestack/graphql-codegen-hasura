@@ -57,6 +57,7 @@ export function injectFetchReact({
 }) {
   const entityShortName = makeShortName(entityName, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
+  const fragmentNameCamelCase = makeCamelCase(fragmentName);
 
   contentArray.push(`
       // Fetch Hooks
@@ -71,7 +72,7 @@ export function injectFetchReact({
        * @param options options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
        *
        * @example
-       * const { result, loading, error } = useFetch${fragmentName}ByIdQuery({ ${entityShortCamelCaseName}Id:<value> });
+       * const { loading, error, ${fragmentNameCamelCase} } = useFetch${fragmentName}ByIdQuery({ ${entityShortCamelCaseName}Id:<value> });
        */
 
         // Fetch Hook
@@ -84,7 +85,7 @@ export function injectFetchReact({
           options?: Omit<QueryHookOptions<Fetch${fragmentName}ByIdQuery, Fetch${fragmentName}ByIdQueryVariables>, 'query' | 'variables'>
         }) {
             const query = useQuery<Fetch${fragmentName}ByIdQuery, Fetch${fragmentName}ByIdQueryVariables>(Fetch${fragmentName}ByIdDocument, { variables: { ${entityShortCamelCaseName}Id }, ...options });
-            return { ...query, ${fragmentName}: query && query.data && query.data.${entityName}_by_pk }
+            return { ...query, ${fragmentNameCamelCase}: query && query.data && query.data.${entityName}_by_pk }
         }
 
         // Lazy Fetch Hook
@@ -97,7 +98,7 @@ export function injectFetchReact({
           options?: Omit<LazyQueryHookOptions<Fetch${fragmentName}ByIdQuery, Fetch${fragmentName}ByIdQueryVariables>, 'query' | 'variables'>
         }) {
           const lazyQuery = useLazyQuery<Fetch${fragmentName}ByIdQuery, Fetch${fragmentName}ByIdQueryVariables>(Fetch${fragmentName}ByIdDocument, { variables: { ${entityShortCamelCaseName}Id }, ...options });
-          return [lazyQuery[0], { ...lazyQuery[1], ${fragmentName}: lazyQuery[1] && lazyQuery[1].data && lazyQuery[1].data.${entityName}_by_pk }]
+          return [lazyQuery[0], { ...lazyQuery[1], ${fragmentNameCamelCase}: lazyQuery[1] && lazyQuery[1].data && lazyQuery[1].data.${entityName}_by_pk }]
         }
     `);
 
@@ -151,6 +152,7 @@ export function injectInsertReact({
   const entityPascalName = makePascalCase(entityName);
   const entityShortName = makeShortName(entityName, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
+  const fragmentNameCamelCase = makeCamelCase(fragmentName);
 
   contentArray.push(`
     // Insert Hooks
@@ -173,7 +175,7 @@ export function injectInsertReact({
         }
       );
     
-      return [lazyMutation[0], { ...lazyMutation[1], ${fragmentName}: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.insert_${entityName} && lazyMutation[1].data.insert_${entityName}!.returning && lazyMutation[1].data.insert_${entityName}!.returning[0] }]
+      return [lazyMutation[0], { ...lazyMutation[1], ${fragmentNameCamelCase}: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.insert_${entityName} && lazyMutation[1].data.insert_${entityName}!.returning && lazyMutation[1].data.insert_${entityName}!.returning[0] }]
     }
   `);
 
@@ -219,6 +221,7 @@ export function injectUpdateReact({
   const entityShortName = makeShortName(entityName, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
+  const fragmentNameCamelCase = makeCamelCase(fragmentName);
 
   contentArray.push(`
     // Update Hooks
@@ -235,7 +238,7 @@ export function injectUpdateReact({
     }) {
       const lazyMutation = useMutation<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>(Update${fragmentName}ByIdDocument, { variables: { id:${entityShortCamelCaseName}Id, set }, ...options,});
     
-      return [lazyMutation[0], { ...lazyMutation[1], ${fragmentName}: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.update_${entityName} && lazyMutation[1].data.update_${entityName}!.returning && lazyMutation[1].data.update_${entityName}!.returning[0] }]
+      return [lazyMutation[0], { ...lazyMutation[1], ${fragmentNameCamelCase}: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.update_${entityName} && lazyMutation[1].data.update_${entityName}!.returning && lazyMutation[1].data.update_${entityName}!.returning[0] }]
     }
   `);
 
@@ -285,6 +288,7 @@ export function injectDeleteReact({
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const entityModelName = makeModelName(entityName, trimString);
   const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
+  const fragmentNameCamelCase = makeCamelCase(fragmentName);
 
   contentArray.push(`
     // Delete Hooks
@@ -299,7 +303,7 @@ export function injectDeleteReact({
     }) {
       const lazyMutation = useMutation<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>(Remove${entityModelName}ByIdDocument, { variables: { id:${entityShortCamelCaseName}Id }, ...options,});
         
-      return [lazyMutation[0], { ...lazyMutation[1], ${fragmentName}: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_${entityName} && lazyMutation[1].data.delete_${entityName}!.affected_rows }]
+      return [lazyMutation[0], { ...lazyMutation[1], ${fragmentNameCamelCase}: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_${entityName} && lazyMutation[1].data.delete_${entityName}!.affected_rows }]
     }
   `);
 

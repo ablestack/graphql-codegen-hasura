@@ -42,7 +42,7 @@ import { RemoveVehicleModelByIdDocument } from '../';
        * @param options options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
        *
        * @example
-       * const { result, loading, error } = useFetchVehicleGraphFieldsByIdQuery({ vehicleId:<value> });
+       * const { loading, error, vehicleGraphFields } = useFetchVehicleGraphFieldsByIdQuery({ vehicleId:<value> });
        */
 
         // Fetch Hook
@@ -55,7 +55,7 @@ import { RemoveVehicleModelByIdDocument } from '../';
           options?: Omit<QueryHookOptions<FetchVehicleGraphFieldsByIdQuery, FetchVehicleGraphFieldsByIdQueryVariables>, 'query' | 'variables'>
         }) {
             const query = useQuery<FetchVehicleGraphFieldsByIdQuery, FetchVehicleGraphFieldsByIdQueryVariables>(FetchVehicleGraphFieldsByIdDocument, { variables: { vehicleId }, ...options });
-            return { ...query, VehicleGraphFields: query && query.data && query.data.vehicle_by_pk }
+            return { ...query, vehicleGraphFields: query && query.data && query.data.vehicle_by_pk }
         }
 
         // Lazy Fetch Hook
@@ -68,7 +68,7 @@ import { RemoveVehicleModelByIdDocument } from '../';
           options?: Omit<LazyQueryHookOptions<FetchVehicleGraphFieldsByIdQuery, FetchVehicleGraphFieldsByIdQueryVariables>, 'query' | 'variables'>
         }) {
           const lazyQuery = useLazyQuery<FetchVehicleGraphFieldsByIdQuery, FetchVehicleGraphFieldsByIdQueryVariables>(FetchVehicleGraphFieldsByIdDocument, { variables: { vehicleId }, ...options });
-          return [lazyQuery[0], { ...lazyQuery[1], VehicleGraphFields: lazyQuery[1] && lazyQuery[1].data && lazyQuery[1].data.vehicle_by_pk }]
+          return [lazyQuery[0], { ...lazyQuery[1], vehicleGraphFields: lazyQuery[1] && lazyQuery[1].data && lazyQuery[1].data.vehicle_by_pk }]
         }
     
 
@@ -112,7 +112,7 @@ import { RemoveVehicleModelByIdDocument } from '../';
         }
       );
     
-      return [lazyMutation[0], { ...lazyMutation[1], VehicleGraphFields: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.insert_vehicle && lazyMutation[1].data.insert_vehicle!.returning && lazyMutation[1].data.insert_vehicle!.returning[0] }]
+      return [lazyMutation[0], { ...lazyMutation[1], vehicleGraphFields: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.insert_vehicle && lazyMutation[1].data.insert_vehicle!.returning && lazyMutation[1].data.insert_vehicle!.returning[0] }]
     }
   
 
@@ -141,7 +141,7 @@ import { RemoveVehicleModelByIdDocument } from '../';
     }) {
       const lazyMutation = useMutation<UpdateVehicleGraphFieldsByIdMutation, UpdateVehicleGraphFieldsByIdMutationVariables>(UpdateVehicleGraphFieldsByIdDocument, { variables: { id:vehicleId, set }, ...options,});
     
-      return [lazyMutation[0], { ...lazyMutation[1], VehicleGraphFields: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.update_vehicle && lazyMutation[1].data.update_vehicle!.returning && lazyMutation[1].data.update_vehicle!.returning[0] }]
+      return [lazyMutation[0], { ...lazyMutation[1], vehicleGraphFields: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.update_vehicle && lazyMutation[1].data.update_vehicle!.returning && lazyMutation[1].data.update_vehicle!.returning[0] }]
     }
   
 
@@ -170,7 +170,7 @@ import { RemoveVehicleModelByIdDocument } from '../';
     }) {
       const lazyMutation = useMutation<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>(RemoveVehicleModelByIdDocument, { variables: { id:vehicleId }, ...options,});
         
-      return [lazyMutation[0], { ...lazyMutation[1], VehicleGraphFields: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_vehicle && lazyMutation[1].data.delete_vehicle!.affected_rows }]
+      return [lazyMutation[0], { ...lazyMutation[1], vehicleGraphFields: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_vehicle && lazyMutation[1].data.delete_vehicle!.affected_rows }]
     }
   
 
