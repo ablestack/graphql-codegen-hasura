@@ -5,16 +5,16 @@ export class ContentManager {
   private content: string[] = [];
   private contentMap: { [key: string]: string } = {};
 
-  public addImport(importString: string) {
-    const hash = this.makeHash(importString);
+  public addImport(importString: string, customKey?: string) {
+    const hash = customKey || this.makeHash(importString);
     if (!this.importsMap[hash]) {
       this.importsMap[hash] = null;
       this.imports.push(importString);
     }
   }
 
-  public addContent(contentString: string) {
-    const hash = this.makeHash(contentString);
+  public addContent(contentString: string, customKey?: string) {
+    const hash = customKey || this.makeHash(contentString);
     if (!this.contentMap[hash]) {
       this.contentMap[hash] = null;
       this.content.push(contentString);

@@ -106,7 +106,6 @@ import gql from 'graphql-tag';
           affected_rows
         }
       }
-      ${ObservationModelFieldsFragmentDoc}
     `;
 
 
@@ -119,7 +118,6 @@ import gql from 'graphql-tag';
           affected_rows
         }
       }
-      ${ObservationModelFieldsFragmentDoc}
     `;
 
   // p GQL
@@ -228,7 +226,6 @@ import gql from 'graphql-tag';
           affected_rows
         }
       }
-      ${PModelFieldsFragmentDoc}
     `;
 
 
@@ -241,7 +238,6 @@ import gql from 'graphql-tag';
           affected_rows
         }
       }
-      ${PModelFieldsFragmentDoc}
     `;
 
   // patient GQL
@@ -349,7 +345,6 @@ import gql from 'graphql-tag';
           affected_rows
         }
       }
-      ${PatientModelFieldsFragmentDoc}
     `;
 
 
@@ -362,7 +357,6 @@ import gql from 'graphql-tag';
           affected_rows
         }
       }
-      ${PatientModelFieldsFragmentDoc}
     `;
 
   // users GQL
@@ -471,7 +465,6 @@ import gql from 'graphql-tag';
           affected_rows
         }
       }
-      ${UsersModelFieldsFragmentDoc}
     `;
 
 
@@ -484,7 +477,6 @@ import gql from 'graphql-tag';
           affected_rows
         }
       }
-      ${UsersModelFieldsFragmentDoc}
     `;
 
   // vehicle GQL
@@ -592,7 +584,6 @@ import gql from 'graphql-tag';
           affected_rows
         }
       }
-      ${VehicleModelFieldsFragmentDoc}
     `;
 
 
@@ -605,7 +596,6 @@ import gql from 'graphql-tag';
           affected_rows
         }
       }
-      ${VehicleModelFieldsFragmentDoc}
     `;
 
   // vehicle_location GQL
@@ -715,7 +705,6 @@ import gql from 'graphql-tag';
           affected_rows
         }
       }
-      ${Vehicle_LocationModelFieldsFragmentDoc}
     `;
 
 
@@ -728,5 +717,4 @@ import gql from 'graphql-tag';
           affected_rows
         }
       }
-      ${Vehicle_LocationModelFieldsFragmentDoc}
     `;

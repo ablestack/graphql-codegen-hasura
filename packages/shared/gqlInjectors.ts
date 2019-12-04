@@ -191,7 +191,6 @@ export function injectDeleteGql({
           affected_rows
         }
       }
-      \${${fragmentDocName}}
     \`;`);
 
   contentManager.addContent(`
@@ -205,6 +204,5 @@ export function injectDeleteGql({
           affected_rows
         }
       }
-      \${${fragmentDocName}}
     \`;`);
 }
