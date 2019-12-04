@@ -84,7 +84,7 @@ export function injectFetchReact({
 
         // Lazy Fetch Hook
         //
-        export function useFetch${entityShortName}ByIdLazyQuery({ 
+        export function useFetch${fragmentName}ByIdLazyQuery({ 
           ${entityShortCamelCaseName}Id, 
           options ,
         }: {
@@ -99,7 +99,7 @@ export function injectFetchReact({
   contentManager.addContent(`
       // Fetch Collection Hook
       //
-      export function useFetch${entityShortName}ObjectsQuery({ options } : {
+      export function useFetch${fragmentName}ObjectsQuery({ options } : {
         options: Omit<QueryHookOptions<Fetch${fragmentName}Query, Fetch${fragmentName}QueryVariables>, 'query'>
       }) {
           const query = useQuery<Fetch${fragmentName}Query, Fetch${fragmentName}QueryVariables>(Fetch${fragmentName}Document, options);
@@ -108,7 +108,7 @@ export function injectFetchReact({
       
       // Lazy Fetch Collection Hook
       //
-      export function useFetch${entityShortName}ObjectsLazyQuery({ options } : {
+      export function useFetch${fragmentName}ObjectsLazyQuery({ options } : {
         options?: Omit<LazyQueryHookOptions<Fetch${fragmentName}Query, Fetch${fragmentName}QueryVariables>, 'query'>
       }) {
         const lazyQuery = useLazyQuery<Fetch${fragmentName}Query, Fetch${fragmentName}QueryVariables>(Fetch${fragmentName}Document, options);
