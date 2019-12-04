@@ -17,7 +17,7 @@ generates:
       withQueries: true
       withInserts: true
       withUpdates: true
-      withDeletes: true
+      withDeletes: false
   ./src/autogen/hasura/gql-from-documents.ts:
     plugins:
       - graphql-codegen-hasura-gql-from-documents
@@ -30,7 +30,7 @@ generates:
       withQueries: true
       withInserts: true
       withUpdates: true
-      withDeletes: false
+      withDeletes: true
   ./schema/graphql.schema.json:
     plugins:
       - introspection

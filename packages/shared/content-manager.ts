@@ -1,14 +1,14 @@
 export class ContentManager {
   private imports: string[] = [];
-  private importsMap: { [key: string]: string } = {};
+  private importsMap: { [key: string]: boolean } = {};
 
   private content: string[] = [];
-  private contentMap: { [key: string]: string } = {};
+  private contentMap: { [key: string]: boolean } = {};
 
   public addImport(importString: string, customKey?: string) {
     const hash = customKey || this.makeHash(importString);
     if (!this.importsMap[hash]) {
-      this.importsMap[hash] = null;
+      this.importsMap[hash] = true;
       this.imports.push(importString);
     }
   }
@@ -16,7 +16,7 @@ export class ContentManager {
   public addContent(contentString: string, customKey?: string) {
     const hash = customKey || this.makeHash(contentString);
     if (!this.contentMap[hash]) {
-      this.contentMap[hash] = null;
+      this.contentMap[hash] = true;
       this.content.push(contentString);
     }
   }

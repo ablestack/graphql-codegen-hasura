@@ -5729,20 +5729,20 @@ export enum WorkItemStatusArgument {
   Ready = 'READY'
 }
 
-export type FetchVehicleGraphFieldsByIdQueryVariables = {
+export type FetchVehicleGraphByIdQueryVariables = {
   vehicleId: Scalars['String']
 };
 
 
-export type FetchVehicleGraphFieldsByIdQuery = (
+export type FetchVehicleGraphByIdQuery = (
   { __typename?: 'query_root' }
   & { vehicle_by_pk: Maybe<(
     { __typename?: 'vehicle' }
-    & VehicleGraphFieldsFragment
+    & VehicleGraphFragment
   )> }
 );
 
-export type FetchVehicleGraphFieldsQueryVariables = {
+export type FetchVehicleGraphQueryVariables = {
   distinct_on?: Maybe<Array<Vehicle_Select_Column>>,
   where?: Maybe<Vehicle_Bool_Exp>,
   limit?: Maybe<Scalars['Int']>,
@@ -5751,64 +5751,174 @@ export type FetchVehicleGraphFieldsQueryVariables = {
 };
 
 
-export type FetchVehicleGraphFieldsQuery = (
+export type FetchVehicleGraphQuery = (
   { __typename?: 'query_root' }
   & { vehicle: Array<(
     { __typename?: 'vehicle' }
-    & VehicleGraphFieldsFragment
+    & VehicleGraphFragment
   )> }
 );
 
-export type InsertVehicleGraphFieldsMutationVariables = {
+export type InsertVehicleGraphMutationVariables = {
   objects: Array<Vehicle_Insert_Input>,
   onConflict?: Maybe<Vehicle_On_Conflict>
 };
 
 
-export type InsertVehicleGraphFieldsMutation = (
+export type InsertVehicleGraphMutation = (
   { __typename?: 'mutation_root' }
   & { insert_vehicle: Maybe<(
     { __typename?: 'vehicle_mutation_response' }
     & Pick<Vehicle_Mutation_Response, 'affected_rows'>
     & { returning: Array<(
       { __typename?: 'vehicle' }
-      & VehicleGraphFieldsFragment
+      & VehicleGraphFragment
     )> }
   )> }
 );
 
-export type UpdateVehicleGraphFieldsByIdMutationVariables = {
+export type UpdateVehicleGraphByIdMutationVariables = {
   id?: Maybe<Scalars['String']>,
   set?: Maybe<Vehicle_Set_Input>
 };
 
 
-export type UpdateVehicleGraphFieldsByIdMutation = (
+export type UpdateVehicleGraphByIdMutation = (
   { __typename?: 'mutation_root' }
   & { update_vehicle: Maybe<(
     { __typename?: 'vehicle_mutation_response' }
     & Pick<Vehicle_Mutation_Response, 'affected_rows'>
     & { returning: Array<(
       { __typename?: 'vehicle' }
-      & VehicleGraphFieldsFragment
+      & VehicleGraphFragment
     )> }
   )> }
 );
 
-export type UpdateVehicleGraphFieldsMutationVariables = {
+export type UpdateVehicleGraphMutationVariables = {
   set?: Maybe<Vehicle_Set_Input>,
   where: Vehicle_Bool_Exp
 };
 
 
-export type UpdateVehicleGraphFieldsMutation = (
+export type UpdateVehicleGraphMutation = (
   { __typename?: 'mutation_root' }
   & { update_vehicle: Maybe<(
     { __typename?: 'vehicle_mutation_response' }
     & Pick<Vehicle_Mutation_Response, 'affected_rows'>
     & { returning: Array<(
       { __typename?: 'vehicle' }
-      & VehicleGraphFieldsFragment
+      & VehicleGraphFragment
+    )> }
+  )> }
+);
+
+export type RemoveVehicleModelByIdMutationVariables = {
+  id?: Maybe<Scalars['String']>
+};
+
+
+export type RemoveVehicleModelByIdMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_vehicle: Maybe<(
+    { __typename?: 'vehicle_mutation_response' }
+    & Pick<Vehicle_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
+export type RemoveVehicleModelMutationVariables = {
+  where: Vehicle_Bool_Exp
+};
+
+
+export type RemoveVehicleModelMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_vehicle: Maybe<(
+    { __typename?: 'vehicle_mutation_response' }
+    & Pick<Vehicle_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
+export type FetchVehicleGraphLocationOnlyByIdQueryVariables = {
+  vehicleId: Scalars['String']
+};
+
+
+export type FetchVehicleGraphLocationOnlyByIdQuery = (
+  { __typename?: 'query_root' }
+  & { vehicle_by_pk: Maybe<(
+    { __typename?: 'vehicle' }
+    & VehicleGraphLocationOnlyFragment
+  )> }
+);
+
+export type FetchVehicleGraphLocationOnlyQueryVariables = {
+  distinct_on?: Maybe<Array<Vehicle_Select_Column>>,
+  where?: Maybe<Vehicle_Bool_Exp>,
+  limit?: Maybe<Scalars['Int']>,
+  offset?: Maybe<Scalars['Int']>,
+  order_by?: Maybe<Array<Vehicle_Order_By>>
+};
+
+
+export type FetchVehicleGraphLocationOnlyQuery = (
+  { __typename?: 'query_root' }
+  & { vehicle: Array<(
+    { __typename?: 'vehicle' }
+    & VehicleGraphLocationOnlyFragment
+  )> }
+);
+
+export type InsertVehicleGraphLocationOnlyMutationVariables = {
+  objects: Array<Vehicle_Insert_Input>,
+  onConflict?: Maybe<Vehicle_On_Conflict>
+};
+
+
+export type InsertVehicleGraphLocationOnlyMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_vehicle: Maybe<(
+    { __typename?: 'vehicle_mutation_response' }
+    & Pick<Vehicle_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'vehicle' }
+      & VehicleGraphLocationOnlyFragment
+    )> }
+  )> }
+);
+
+export type UpdateVehicleGraphLocationOnlyByIdMutationVariables = {
+  id?: Maybe<Scalars['String']>,
+  set?: Maybe<Vehicle_Set_Input>
+};
+
+
+export type UpdateVehicleGraphLocationOnlyByIdMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_vehicle: Maybe<(
+    { __typename?: 'vehicle_mutation_response' }
+    & Pick<Vehicle_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'vehicle' }
+      & VehicleGraphLocationOnlyFragment
+    )> }
+  )> }
+);
+
+export type UpdateVehicleGraphLocationOnlyMutationVariables = {
+  set?: Maybe<Vehicle_Set_Input>,
+  where: Vehicle_Bool_Exp
+};
+
+
+export type UpdateVehicleGraphLocationOnlyMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_vehicle: Maybe<(
+    { __typename?: 'vehicle_mutation_response' }
+    & Pick<Vehicle_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'vehicle' }
+      & VehicleGraphLocationOnlyFragment
     )> }
   )> }
 );
@@ -5902,32 +6012,6 @@ export type UpdateObservationModelFieldsMutation = (
   )> }
 );
 
-export type RemoveObservationModelByIdMutationVariables = {
-  id?: Maybe<Scalars['uuid']>
-};
-
-
-export type RemoveObservationModelByIdMutation = (
-  { __typename?: 'mutation_root' }
-  & { delete_observation: Maybe<(
-    { __typename?: 'observation_mutation_response' }
-    & Pick<Observation_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
-export type RemoveObservationModelMutationVariables = {
-  where: Observation_Bool_Exp
-};
-
-
-export type RemoveObservationModelMutation = (
-  { __typename?: 'mutation_root' }
-  & { delete_observation: Maybe<(
-    { __typename?: 'observation_mutation_response' }
-    & Pick<Observation_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
 export type PModelFieldsFragment = (
   { __typename?: 'p' }
   & Pick<P, 'circle' | 'id' | 'poly'>
@@ -6014,32 +6098,6 @@ export type UpdatePModelFieldsMutation = (
       { __typename?: 'p' }
       & PModelFieldsFragment
     )> }
-  )> }
-);
-
-export type RemovePModelByIdMutationVariables = {
-  id?: Maybe<Scalars['Int']>
-};
-
-
-export type RemovePModelByIdMutation = (
-  { __typename?: 'mutation_root' }
-  & { delete_p: Maybe<(
-    { __typename?: 'p_mutation_response' }
-    & Pick<P_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
-export type RemovePModelMutationVariables = {
-  where: P_Bool_Exp
-};
-
-
-export type RemovePModelMutation = (
-  { __typename?: 'mutation_root' }
-  & { delete_p: Maybe<(
-    { __typename?: 'p_mutation_response' }
-    & Pick<P_Mutation_Response, 'affected_rows'>
   )> }
 );
 
@@ -6132,32 +6190,6 @@ export type UpdatePatientModelFieldsMutation = (
   )> }
 );
 
-export type RemovePatientModelByIdMutationVariables = {
-  id?: Maybe<Scalars['uuid']>
-};
-
-
-export type RemovePatientModelByIdMutation = (
-  { __typename?: 'mutation_root' }
-  & { delete_patient: Maybe<(
-    { __typename?: 'patient_mutation_response' }
-    & Pick<Patient_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
-export type RemovePatientModelMutationVariables = {
-  where: Patient_Bool_Exp
-};
-
-
-export type RemovePatientModelMutation = (
-  { __typename?: 'mutation_root' }
-  & { delete_patient: Maybe<(
-    { __typename?: 'patient_mutation_response' }
-    & Pick<Patient_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
 export type UsersModelFieldsFragment = (
   { __typename?: 'users' }
   & Pick<Users, 'created_at' | 'id' | 'name'>
@@ -6244,32 +6276,6 @@ export type UpdateUsersModelFieldsMutation = (
       { __typename?: 'users' }
       & UsersModelFieldsFragment
     )> }
-  )> }
-);
-
-export type RemoveUsersModelByIdMutationVariables = {
-  id?: Maybe<Scalars['Int']>
-};
-
-
-export type RemoveUsersModelByIdMutation = (
-  { __typename?: 'mutation_root' }
-  & { delete_users: Maybe<(
-    { __typename?: 'users_mutation_response' }
-    & Pick<Users_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
-export type RemoveUsersModelMutationVariables = {
-  where: Users_Bool_Exp
-};
-
-
-export type RemoveUsersModelMutation = (
-  { __typename?: 'mutation_root' }
-  & { delete_users: Maybe<(
-    { __typename?: 'users_mutation_response' }
-    & Pick<Users_Mutation_Response, 'affected_rows'>
   )> }
 );
 
@@ -6362,32 +6368,6 @@ export type UpdateVehicleModelFieldsMutation = (
   )> }
 );
 
-export type RemoveVehicleModelByIdMutationVariables = {
-  id?: Maybe<Scalars['String']>
-};
-
-
-export type RemoveVehicleModelByIdMutation = (
-  { __typename?: 'mutation_root' }
-  & { delete_vehicle: Maybe<(
-    { __typename?: 'vehicle_mutation_response' }
-    & Pick<Vehicle_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
-export type RemoveVehicleModelMutationVariables = {
-  where: Vehicle_Bool_Exp
-};
-
-
-export type RemoveVehicleModelMutation = (
-  { __typename?: 'mutation_root' }
-  & { delete_vehicle: Maybe<(
-    { __typename?: 'vehicle_mutation_response' }
-    & Pick<Vehicle_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
 export type Vehicle_LocationModelFieldsFragment = (
   { __typename?: 'vehicle_location' }
   & Pick<Vehicle_Location, 'id' | 'location' | 'timestamp' | 'vehicle_id'>
@@ -6477,35 +6457,18 @@ export type UpdateVehicle_LocationModelFieldsMutation = (
   )> }
 );
 
-export type RemoveVehicle_LocationModelByIdMutationVariables = {
-  id?: Maybe<Scalars['Int']>
-};
-
-
-export type RemoveVehicle_LocationModelByIdMutation = (
-  { __typename?: 'mutation_root' }
-  & { delete_vehicle_location: Maybe<(
-    { __typename?: 'vehicle_location_mutation_response' }
-    & Pick<Vehicle_Location_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
-export type RemoveVehicle_LocationModelMutationVariables = {
-  where: Vehicle_Location_Bool_Exp
-};
-
-
-export type RemoveVehicle_LocationModelMutation = (
-  { __typename?: 'mutation_root' }
-  & { delete_vehicle_location: Maybe<(
-    { __typename?: 'vehicle_location_mutation_response' }
-    & Pick<Vehicle_Location_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
-export type VehicleGraphFieldsFragment = (
+export type VehicleGraphFragment = (
   { __typename?: 'vehicle' }
   & Pick<Vehicle, 'id' | 'name'>
+  & { locations: Array<(
+    { __typename?: 'vehicle_location' }
+    & Pick<Vehicle_Location, 'location'>
+  )> }
+);
+
+export type VehicleGraphLocationOnlyFragment = (
+  { __typename?: 'vehicle' }
+  & Pick<Vehicle, 'id'>
   & { locations: Array<(
     { __typename?: 'vehicle_location' }
     & Pick<Vehicle_Location, 'location'>
@@ -6552,8 +6515,8 @@ export const Vehicle_LocationModelFieldsFragmentDoc = gql`
   vehicle_id
 }
     `;
-export const VehicleGraphFieldsFragmentDoc = gql`
-    fragment VehicleGraphFields on vehicle {
+export const VehicleGraphFragmentDoc = gql`
+    fragment VehicleGraph on vehicle {
   id
   name
   locations {
@@ -6561,61 +6524,144 @@ export const VehicleGraphFieldsFragmentDoc = gql`
   }
 }
     `;
-export const FetchVehicleGraphFieldsByIdDocument = gql`
-    query fetchVehicleGraphFieldsById($vehicleId: String!) {
+export const VehicleGraphLocationOnlyFragmentDoc = gql`
+    fragment VehicleGraphLocationOnly on vehicle {
+  id
+  locations {
+    location
+  }
+}
+    `;
+export const FetchVehicleGraphByIdDocument = gql`
+    query fetchVehicleGraphById($vehicleId: String!) {
   vehicle_by_pk(id: $vehicleId) {
-    ...VehicleGraphFields
+    ...VehicleGraph
   }
 }
-    ${VehicleGraphFieldsFragmentDoc}`;
-export type FetchVehicleGraphFieldsByIdQueryResult = ApolloReactCommon.QueryResult<FetchVehicleGraphFieldsByIdQuery, FetchVehicleGraphFieldsByIdQueryVariables>;
-export const FetchVehicleGraphFieldsDocument = gql`
-    query fetchVehicleGraphFields($distinct_on: [vehicle_select_column!], $where: vehicle_bool_exp, $limit: Int, $offset: Int, $order_by: [vehicle_order_by!]) {
+    ${VehicleGraphFragmentDoc}`;
+export type FetchVehicleGraphByIdQueryResult = ApolloReactCommon.QueryResult<FetchVehicleGraphByIdQuery, FetchVehicleGraphByIdQueryVariables>;
+export const FetchVehicleGraphDocument = gql`
+    query fetchVehicleGraph($distinct_on: [vehicle_select_column!], $where: vehicle_bool_exp, $limit: Int, $offset: Int, $order_by: [vehicle_order_by!]) {
   vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-    ...VehicleGraphFields
+    ...VehicleGraph
   }
 }
-    ${VehicleGraphFieldsFragmentDoc}`;
-export type FetchVehicleGraphFieldsQueryResult = ApolloReactCommon.QueryResult<FetchVehicleGraphFieldsQuery, FetchVehicleGraphFieldsQueryVariables>;
-export const InsertVehicleGraphFieldsDocument = gql`
-    mutation insertVehicleGraphFields($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
+    ${VehicleGraphFragmentDoc}`;
+export type FetchVehicleGraphQueryResult = ApolloReactCommon.QueryResult<FetchVehicleGraphQuery, FetchVehicleGraphQueryVariables>;
+export const InsertVehicleGraphDocument = gql`
+    mutation insertVehicleGraph($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
   insert_vehicle(objects: $objects, on_conflict: $onConflict) {
     affected_rows
     returning {
-      ...VehicleGraphFields
+      ...VehicleGraph
     }
   }
 }
-    ${VehicleGraphFieldsFragmentDoc}`;
-export type InsertVehicleGraphFieldsMutationFn = ApolloReactCommon.MutationFunction<InsertVehicleGraphFieldsMutation, InsertVehicleGraphFieldsMutationVariables>;
-export type InsertVehicleGraphFieldsMutationResult = ApolloReactCommon.MutationResult<InsertVehicleGraphFieldsMutation>;
-export type InsertVehicleGraphFieldsMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertVehicleGraphFieldsMutation, InsertVehicleGraphFieldsMutationVariables>;
-export const UpdateVehicleGraphFieldsByIdDocument = gql`
-    mutation updateVehicleGraphFieldsById($id: String, $set: vehicle_set_input) {
+    ${VehicleGraphFragmentDoc}`;
+export type InsertVehicleGraphMutationFn = ApolloReactCommon.MutationFunction<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>;
+export type InsertVehicleGraphMutationResult = ApolloReactCommon.MutationResult<InsertVehicleGraphMutation>;
+export type InsertVehicleGraphMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>;
+export const UpdateVehicleGraphByIdDocument = gql`
+    mutation updateVehicleGraphById($id: String, $set: vehicle_set_input) {
   update_vehicle(_set: $set, where: {id: {_eq: $id}}) {
     affected_rows
     returning {
-      ...VehicleGraphFields
+      ...VehicleGraph
     }
   }
 }
-    ${VehicleGraphFieldsFragmentDoc}`;
-export type UpdateVehicleGraphFieldsByIdMutationFn = ApolloReactCommon.MutationFunction<UpdateVehicleGraphFieldsByIdMutation, UpdateVehicleGraphFieldsByIdMutationVariables>;
-export type UpdateVehicleGraphFieldsByIdMutationResult = ApolloReactCommon.MutationResult<UpdateVehicleGraphFieldsByIdMutation>;
-export type UpdateVehicleGraphFieldsByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateVehicleGraphFieldsByIdMutation, UpdateVehicleGraphFieldsByIdMutationVariables>;
-export const UpdateVehicleGraphFieldsDocument = gql`
-    mutation updateVehicleGraphFields($set: vehicle_set_input, $where: vehicle_bool_exp!) {
+    ${VehicleGraphFragmentDoc}`;
+export type UpdateVehicleGraphByIdMutationFn = ApolloReactCommon.MutationFunction<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>;
+export type UpdateVehicleGraphByIdMutationResult = ApolloReactCommon.MutationResult<UpdateVehicleGraphByIdMutation>;
+export type UpdateVehicleGraphByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>;
+export const UpdateVehicleGraphDocument = gql`
+    mutation updateVehicleGraph($set: vehicle_set_input, $where: vehicle_bool_exp!) {
   update_vehicle(_set: $set, where: $where) {
     affected_rows
     returning {
-      ...VehicleGraphFields
+      ...VehicleGraph
     }
   }
 }
-    ${VehicleGraphFieldsFragmentDoc}`;
-export type UpdateVehicleGraphFieldsMutationFn = ApolloReactCommon.MutationFunction<UpdateVehicleGraphFieldsMutation, UpdateVehicleGraphFieldsMutationVariables>;
-export type UpdateVehicleGraphFieldsMutationResult = ApolloReactCommon.MutationResult<UpdateVehicleGraphFieldsMutation>;
-export type UpdateVehicleGraphFieldsMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateVehicleGraphFieldsMutation, UpdateVehicleGraphFieldsMutationVariables>;
+    ${VehicleGraphFragmentDoc}`;
+export type UpdateVehicleGraphMutationFn = ApolloReactCommon.MutationFunction<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables>;
+export type UpdateVehicleGraphMutationResult = ApolloReactCommon.MutationResult<UpdateVehicleGraphMutation>;
+export type UpdateVehicleGraphMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables>;
+export const RemoveVehicleModelByIdDocument = gql`
+    mutation removeVehicleModelById($id: String) {
+  delete_vehicle(where: {id: {_eq: $id}}) {
+    affected_rows
+  }
+}
+    `;
+export type RemoveVehicleModelByIdMutationFn = ApolloReactCommon.MutationFunction<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>;
+export type RemoveVehicleModelByIdMutationResult = ApolloReactCommon.MutationResult<RemoveVehicleModelByIdMutation>;
+export type RemoveVehicleModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>;
+export const RemoveVehicleModelDocument = gql`
+    mutation removeVehicleModel($where: vehicle_bool_exp!) {
+  delete_vehicle(where: $where) {
+    affected_rows
+  }
+}
+    `;
+export type RemoveVehicleModelMutationFn = ApolloReactCommon.MutationFunction<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>;
+export type RemoveVehicleModelMutationResult = ApolloReactCommon.MutationResult<RemoveVehicleModelMutation>;
+export type RemoveVehicleModelMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>;
+export const FetchVehicleGraphLocationOnlyByIdDocument = gql`
+    query fetchVehicleGraphLocationOnlyById($vehicleId: String!) {
+  vehicle_by_pk(id: $vehicleId) {
+    ...VehicleGraphLocationOnly
+  }
+}
+    ${VehicleGraphLocationOnlyFragmentDoc}`;
+export type FetchVehicleGraphLocationOnlyByIdQueryResult = ApolloReactCommon.QueryResult<FetchVehicleGraphLocationOnlyByIdQuery, FetchVehicleGraphLocationOnlyByIdQueryVariables>;
+export const FetchVehicleGraphLocationOnlyDocument = gql`
+    query fetchVehicleGraphLocationOnly($distinct_on: [vehicle_select_column!], $where: vehicle_bool_exp, $limit: Int, $offset: Int, $order_by: [vehicle_order_by!]) {
+  vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+    ...VehicleGraphLocationOnly
+  }
+}
+    ${VehicleGraphLocationOnlyFragmentDoc}`;
+export type FetchVehicleGraphLocationOnlyQueryResult = ApolloReactCommon.QueryResult<FetchVehicleGraphLocationOnlyQuery, FetchVehicleGraphLocationOnlyQueryVariables>;
+export const InsertVehicleGraphLocationOnlyDocument = gql`
+    mutation insertVehicleGraphLocationOnly($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
+  insert_vehicle(objects: $objects, on_conflict: $onConflict) {
+    affected_rows
+    returning {
+      ...VehicleGraphLocationOnly
+    }
+  }
+}
+    ${VehicleGraphLocationOnlyFragmentDoc}`;
+export type InsertVehicleGraphLocationOnlyMutationFn = ApolloReactCommon.MutationFunction<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>;
+export type InsertVehicleGraphLocationOnlyMutationResult = ApolloReactCommon.MutationResult<InsertVehicleGraphLocationOnlyMutation>;
+export type InsertVehicleGraphLocationOnlyMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>;
+export const UpdateVehicleGraphLocationOnlyByIdDocument = gql`
+    mutation updateVehicleGraphLocationOnlyById($id: String, $set: vehicle_set_input) {
+  update_vehicle(_set: $set, where: {id: {_eq: $id}}) {
+    affected_rows
+    returning {
+      ...VehicleGraphLocationOnly
+    }
+  }
+}
+    ${VehicleGraphLocationOnlyFragmentDoc}`;
+export type UpdateVehicleGraphLocationOnlyByIdMutationFn = ApolloReactCommon.MutationFunction<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>;
+export type UpdateVehicleGraphLocationOnlyByIdMutationResult = ApolloReactCommon.MutationResult<UpdateVehicleGraphLocationOnlyByIdMutation>;
+export type UpdateVehicleGraphLocationOnlyByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>;
+export const UpdateVehicleGraphLocationOnlyDocument = gql`
+    mutation updateVehicleGraphLocationOnly($set: vehicle_set_input, $where: vehicle_bool_exp!) {
+  update_vehicle(_set: $set, where: $where) {
+    affected_rows
+    returning {
+      ...VehicleGraphLocationOnly
+    }
+  }
+}
+    ${VehicleGraphLocationOnlyFragmentDoc}`;
+export type UpdateVehicleGraphLocationOnlyMutationFn = ApolloReactCommon.MutationFunction<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>;
+export type UpdateVehicleGraphLocationOnlyMutationResult = ApolloReactCommon.MutationResult<UpdateVehicleGraphLocationOnlyMutation>;
+export type UpdateVehicleGraphLocationOnlyMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>;
 export const FetchObservationModelFieldsByIdDocument = gql`
     query fetchObservationModelFieldsById($observationId: uuid!) {
   observation_by_pk(id: $observationId) {
@@ -6671,26 +6717,6 @@ export const UpdateObservationModelFieldsDocument = gql`
 export type UpdateObservationModelFieldsMutationFn = ApolloReactCommon.MutationFunction<UpdateObservationModelFieldsMutation, UpdateObservationModelFieldsMutationVariables>;
 export type UpdateObservationModelFieldsMutationResult = ApolloReactCommon.MutationResult<UpdateObservationModelFieldsMutation>;
 export type UpdateObservationModelFieldsMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateObservationModelFieldsMutation, UpdateObservationModelFieldsMutationVariables>;
-export const RemoveObservationModelByIdDocument = gql`
-    mutation removeObservationModelById($id: uuid) {
-  delete_observation(where: {id: {_eq: $id}}) {
-    affected_rows
-  }
-}
-    `;
-export type RemoveObservationModelByIdMutationFn = ApolloReactCommon.MutationFunction<RemoveObservationModelByIdMutation, RemoveObservationModelByIdMutationVariables>;
-export type RemoveObservationModelByIdMutationResult = ApolloReactCommon.MutationResult<RemoveObservationModelByIdMutation>;
-export type RemoveObservationModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveObservationModelByIdMutation, RemoveObservationModelByIdMutationVariables>;
-export const RemoveObservationModelDocument = gql`
-    mutation removeObservationModel($where: observation_bool_exp!) {
-  delete_observation(where: $where) {
-    affected_rows
-  }
-}
-    `;
-export type RemoveObservationModelMutationFn = ApolloReactCommon.MutationFunction<RemoveObservationModelMutation, RemoveObservationModelMutationVariables>;
-export type RemoveObservationModelMutationResult = ApolloReactCommon.MutationResult<RemoveObservationModelMutation>;
-export type RemoveObservationModelMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveObservationModelMutation, RemoveObservationModelMutationVariables>;
 export const FetchPModelFieldsByIdDocument = gql`
     query fetchPModelFieldsById($pId: Int!) {
   p_by_pk(id: $pId) {
@@ -6746,26 +6772,6 @@ export const UpdatePModelFieldsDocument = gql`
 export type UpdatePModelFieldsMutationFn = ApolloReactCommon.MutationFunction<UpdatePModelFieldsMutation, UpdatePModelFieldsMutationVariables>;
 export type UpdatePModelFieldsMutationResult = ApolloReactCommon.MutationResult<UpdatePModelFieldsMutation>;
 export type UpdatePModelFieldsMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdatePModelFieldsMutation, UpdatePModelFieldsMutationVariables>;
-export const RemovePModelByIdDocument = gql`
-    mutation removePModelById($id: Int) {
-  delete_p(where: {id: {_eq: $id}}) {
-    affected_rows
-  }
-}
-    `;
-export type RemovePModelByIdMutationFn = ApolloReactCommon.MutationFunction<RemovePModelByIdMutation, RemovePModelByIdMutationVariables>;
-export type RemovePModelByIdMutationResult = ApolloReactCommon.MutationResult<RemovePModelByIdMutation>;
-export type RemovePModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<RemovePModelByIdMutation, RemovePModelByIdMutationVariables>;
-export const RemovePModelDocument = gql`
-    mutation removePModel($where: p_bool_exp!) {
-  delete_p(where: $where) {
-    affected_rows
-  }
-}
-    `;
-export type RemovePModelMutationFn = ApolloReactCommon.MutationFunction<RemovePModelMutation, RemovePModelMutationVariables>;
-export type RemovePModelMutationResult = ApolloReactCommon.MutationResult<RemovePModelMutation>;
-export type RemovePModelMutationOptions = ApolloReactCommon.BaseMutationOptions<RemovePModelMutation, RemovePModelMutationVariables>;
 export const FetchPatientModelFieldsByIdDocument = gql`
     query fetchPatientModelFieldsById($patientId: uuid!) {
   patient_by_pk(id: $patientId) {
@@ -6821,26 +6827,6 @@ export const UpdatePatientModelFieldsDocument = gql`
 export type UpdatePatientModelFieldsMutationFn = ApolloReactCommon.MutationFunction<UpdatePatientModelFieldsMutation, UpdatePatientModelFieldsMutationVariables>;
 export type UpdatePatientModelFieldsMutationResult = ApolloReactCommon.MutationResult<UpdatePatientModelFieldsMutation>;
 export type UpdatePatientModelFieldsMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdatePatientModelFieldsMutation, UpdatePatientModelFieldsMutationVariables>;
-export const RemovePatientModelByIdDocument = gql`
-    mutation removePatientModelById($id: uuid) {
-  delete_patient(where: {id: {_eq: $id}}) {
-    affected_rows
-  }
-}
-    `;
-export type RemovePatientModelByIdMutationFn = ApolloReactCommon.MutationFunction<RemovePatientModelByIdMutation, RemovePatientModelByIdMutationVariables>;
-export type RemovePatientModelByIdMutationResult = ApolloReactCommon.MutationResult<RemovePatientModelByIdMutation>;
-export type RemovePatientModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<RemovePatientModelByIdMutation, RemovePatientModelByIdMutationVariables>;
-export const RemovePatientModelDocument = gql`
-    mutation removePatientModel($where: patient_bool_exp!) {
-  delete_patient(where: $where) {
-    affected_rows
-  }
-}
-    `;
-export type RemovePatientModelMutationFn = ApolloReactCommon.MutationFunction<RemovePatientModelMutation, RemovePatientModelMutationVariables>;
-export type RemovePatientModelMutationResult = ApolloReactCommon.MutationResult<RemovePatientModelMutation>;
-export type RemovePatientModelMutationOptions = ApolloReactCommon.BaseMutationOptions<RemovePatientModelMutation, RemovePatientModelMutationVariables>;
 export const FetchUsersModelFieldsByIdDocument = gql`
     query fetchUsersModelFieldsById($usersId: Int!) {
   users_by_pk(id: $usersId) {
@@ -6896,26 +6882,6 @@ export const UpdateUsersModelFieldsDocument = gql`
 export type UpdateUsersModelFieldsMutationFn = ApolloReactCommon.MutationFunction<UpdateUsersModelFieldsMutation, UpdateUsersModelFieldsMutationVariables>;
 export type UpdateUsersModelFieldsMutationResult = ApolloReactCommon.MutationResult<UpdateUsersModelFieldsMutation>;
 export type UpdateUsersModelFieldsMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateUsersModelFieldsMutation, UpdateUsersModelFieldsMutationVariables>;
-export const RemoveUsersModelByIdDocument = gql`
-    mutation removeUsersModelById($id: Int) {
-  delete_users(where: {id: {_eq: $id}}) {
-    affected_rows
-  }
-}
-    `;
-export type RemoveUsersModelByIdMutationFn = ApolloReactCommon.MutationFunction<RemoveUsersModelByIdMutation, RemoveUsersModelByIdMutationVariables>;
-export type RemoveUsersModelByIdMutationResult = ApolloReactCommon.MutationResult<RemoveUsersModelByIdMutation>;
-export type RemoveUsersModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveUsersModelByIdMutation, RemoveUsersModelByIdMutationVariables>;
-export const RemoveUsersModelDocument = gql`
-    mutation removeUsersModel($where: users_bool_exp!) {
-  delete_users(where: $where) {
-    affected_rows
-  }
-}
-    `;
-export type RemoveUsersModelMutationFn = ApolloReactCommon.MutationFunction<RemoveUsersModelMutation, RemoveUsersModelMutationVariables>;
-export type RemoveUsersModelMutationResult = ApolloReactCommon.MutationResult<RemoveUsersModelMutation>;
-export type RemoveUsersModelMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveUsersModelMutation, RemoveUsersModelMutationVariables>;
 export const FetchVehicleModelFieldsByIdDocument = gql`
     query fetchVehicleModelFieldsById($vehicleId: String!) {
   vehicle_by_pk(id: $vehicleId) {
@@ -6971,26 +6937,6 @@ export const UpdateVehicleModelFieldsDocument = gql`
 export type UpdateVehicleModelFieldsMutationFn = ApolloReactCommon.MutationFunction<UpdateVehicleModelFieldsMutation, UpdateVehicleModelFieldsMutationVariables>;
 export type UpdateVehicleModelFieldsMutationResult = ApolloReactCommon.MutationResult<UpdateVehicleModelFieldsMutation>;
 export type UpdateVehicleModelFieldsMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateVehicleModelFieldsMutation, UpdateVehicleModelFieldsMutationVariables>;
-export const RemoveVehicleModelByIdDocument = gql`
-    mutation removeVehicleModelById($id: String) {
-  delete_vehicle(where: {id: {_eq: $id}}) {
-    affected_rows
-  }
-}
-    `;
-export type RemoveVehicleModelByIdMutationFn = ApolloReactCommon.MutationFunction<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>;
-export type RemoveVehicleModelByIdMutationResult = ApolloReactCommon.MutationResult<RemoveVehicleModelByIdMutation>;
-export type RemoveVehicleModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>;
-export const RemoveVehicleModelDocument = gql`
-    mutation removeVehicleModel($where: vehicle_bool_exp!) {
-  delete_vehicle(where: $where) {
-    affected_rows
-  }
-}
-    `;
-export type RemoveVehicleModelMutationFn = ApolloReactCommon.MutationFunction<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>;
-export type RemoveVehicleModelMutationResult = ApolloReactCommon.MutationResult<RemoveVehicleModelMutation>;
-export type RemoveVehicleModelMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>;
 export const FetchVehicle_LocationModelFieldsByIdDocument = gql`
     query fetchVehicle_LocationModelFieldsById($vehicle_LocationId: Int!) {
   vehicle_location_by_pk(id: $vehicle_LocationId) {
@@ -7046,23 +6992,3 @@ export const UpdateVehicle_LocationModelFieldsDocument = gql`
 export type UpdateVehicle_LocationModelFieldsMutationFn = ApolloReactCommon.MutationFunction<UpdateVehicle_LocationModelFieldsMutation, UpdateVehicle_LocationModelFieldsMutationVariables>;
 export type UpdateVehicle_LocationModelFieldsMutationResult = ApolloReactCommon.MutationResult<UpdateVehicle_LocationModelFieldsMutation>;
 export type UpdateVehicle_LocationModelFieldsMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateVehicle_LocationModelFieldsMutation, UpdateVehicle_LocationModelFieldsMutationVariables>;
-export const RemoveVehicle_LocationModelByIdDocument = gql`
-    mutation removeVehicle_LocationModelById($id: Int) {
-  delete_vehicle_location(where: {id: {_eq: $id}}) {
-    affected_rows
-  }
-}
-    `;
-export type RemoveVehicle_LocationModelByIdMutationFn = ApolloReactCommon.MutationFunction<RemoveVehicle_LocationModelByIdMutation, RemoveVehicle_LocationModelByIdMutationVariables>;
-export type RemoveVehicle_LocationModelByIdMutationResult = ApolloReactCommon.MutationResult<RemoveVehicle_LocationModelByIdMutation>;
-export type RemoveVehicle_LocationModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveVehicle_LocationModelByIdMutation, RemoveVehicle_LocationModelByIdMutationVariables>;
-export const RemoveVehicle_LocationModelDocument = gql`
-    mutation removeVehicle_LocationModel($where: vehicle_location_bool_exp!) {
-  delete_vehicle_location(where: $where) {
-    affected_rows
-  }
-}
-    `;
-export type RemoveVehicle_LocationModelMutationFn = ApolloReactCommon.MutationFunction<RemoveVehicle_LocationModelMutation, RemoveVehicle_LocationModelMutationVariables>;
-export type RemoveVehicle_LocationModelMutationResult = ApolloReactCommon.MutationResult<RemoveVehicle_LocationModelMutation>;
-export type RemoveVehicle_LocationModelMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveVehicle_LocationModelMutation, RemoveVehicle_LocationModelMutationVariables>;

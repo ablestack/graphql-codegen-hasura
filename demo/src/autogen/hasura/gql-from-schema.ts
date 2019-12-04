@@ -96,30 +96,6 @@ import gql from 'graphql-tag';
       ${ObservationModelFieldsFragmentDoc}
     `;
 
-
-    // Mutation: Remove by Id
-    //
-
-    const REMOVE_OBSERVATIONMODEL_BYID = gql`
-      mutation removeObservationModelById($id: uuid) {
-        delete_observation(where: { id: { _eq: $id } }) {
-          affected_rows
-        }
-      }
-    `;
-
-
-    // Mutation: Remove
-    //
-
-    const REMOVE_OBSERVATIONMODELS = gql`
-      mutation removeObservationModel($where:observation_bool_exp!) {
-        delete_observation(where: $where) {
-          affected_rows
-        }
-      }
-    `;
-
   // p GQL
   //------------------------------------------------
   
@@ -216,30 +192,6 @@ import gql from 'graphql-tag';
       ${PModelFieldsFragmentDoc}
     `;
 
-
-    // Mutation: Remove by Id
-    //
-
-    const REMOVE_PMODEL_BYID = gql`
-      mutation removePModelById($id: Int) {
-        delete_p(where: { id: { _eq: $id } }) {
-          affected_rows
-        }
-      }
-    `;
-
-
-    // Mutation: Remove
-    //
-
-    const REMOVE_PMODELS = gql`
-      mutation removePModel($where:p_bool_exp!) {
-        delete_p(where: $where) {
-          affected_rows
-        }
-      }
-    `;
-
   // patient GQL
   //------------------------------------------------
   
@@ -333,30 +285,6 @@ import gql from 'graphql-tag';
         }
       }
       ${PatientModelFieldsFragmentDoc}
-    `;
-
-
-    // Mutation: Remove by Id
-    //
-
-    const REMOVE_PATIENTMODEL_BYID = gql`
-      mutation removePatientModelById($id: uuid) {
-        delete_patient(where: { id: { _eq: $id } }) {
-          affected_rows
-        }
-      }
-    `;
-
-
-    // Mutation: Remove
-    //
-
-    const REMOVE_PATIENTMODELS = gql`
-      mutation removePatientModel($where:patient_bool_exp!) {
-        delete_patient(where: $where) {
-          affected_rows
-        }
-      }
     `;
 
   // users GQL
@@ -455,30 +383,6 @@ import gql from 'graphql-tag';
       ${UsersModelFieldsFragmentDoc}
     `;
 
-
-    // Mutation: Remove by Id
-    //
-
-    const REMOVE_USERSMODEL_BYID = gql`
-      mutation removeUsersModelById($id: Int) {
-        delete_users(where: { id: { _eq: $id } }) {
-          affected_rows
-        }
-      }
-    `;
-
-
-    // Mutation: Remove
-    //
-
-    const REMOVE_USERSMODELS = gql`
-      mutation removeUsersModel($where:users_bool_exp!) {
-        delete_users(where: $where) {
-          affected_rows
-        }
-      }
-    `;
-
   // vehicle GQL
   //------------------------------------------------
   
@@ -572,30 +476,6 @@ import gql from 'graphql-tag';
         }
       }
       ${VehicleModelFieldsFragmentDoc}
-    `;
-
-
-    // Mutation: Remove by Id
-    //
-
-    const REMOVE_VEHICLEMODEL_BYID = gql`
-      mutation removeVehicleModelById($id: String) {
-        delete_vehicle(where: { id: { _eq: $id } }) {
-          affected_rows
-        }
-      }
-    `;
-
-
-    // Mutation: Remove
-    //
-
-    const REMOVE_VEHICLEMODELS = gql`
-      mutation removeVehicleModel($where:vehicle_bool_exp!) {
-        delete_vehicle(where: $where) {
-          affected_rows
-        }
-      }
     `;
 
   // vehicle_location GQL
@@ -693,28 +573,4 @@ import gql from 'graphql-tag';
         }
       }
       ${Vehicle_LocationModelFieldsFragmentDoc}
-    `;
-
-
-    // Mutation: Remove by Id
-    //
-
-    const REMOVE_VEHICLE_LOCATIONMODEL_BYID = gql`
-      mutation removeVehicle_LocationModelById($id: Int) {
-        delete_vehicle_location(where: { id: { _eq: $id } }) {
-          affected_rows
-        }
-      }
-    `;
-
-
-    // Mutation: Remove
-    //
-
-    const REMOVE_VEHICLE_LOCATIONMODELS = gql`
-      mutation removeVehicle_LocationModel($where:vehicle_location_bool_exp!) {
-        delete_vehicle_location(where: $where) {
-          affected_rows
-        }
-      }
     `;
