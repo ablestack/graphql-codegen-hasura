@@ -291,7 +291,7 @@ export function injectDeleteReact({
     }) {
       const lazyMutation = useMutation<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>(Remove${entityModelName}ByIdDocument, { variables: { id:${entityShortCamelCaseName}Id }, ...options,});
         
-      return [lazyMutation[0], { ...lazyMutation[1], ${fragmentNameCamelCase}: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_${entityName} && lazyMutation[1].data.delete_${entityName}!.affected_rows }]
+      return [lazyMutation[0], { ...lazyMutation[1], affected_rows: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_${entityName} && lazyMutation[1].data.delete_${entityName}!.affected_rows }]
     }
   `);
 
@@ -303,7 +303,7 @@ export function injectDeleteReact({
     }) {
       const lazyMutation = useMutation<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>(Remove${entityModelName}Document, { ...options });
         
-      return [lazyMutation[0], { ...lazyMutation[1], objects: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_${entityName} && lazyMutation[1].data.delete_${entityName}!.affected_rows }]
+      return [lazyMutation[0], { ...lazyMutation[1], affected_rows: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_${entityName} && lazyMutation[1].data.delete_${entityName}!.affected_rows }]
     }
   `);
 

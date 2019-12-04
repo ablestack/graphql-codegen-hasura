@@ -76,7 +76,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
 
         // Lazy Fetch Hook
         //
-        export function useFetchVehicleByIdLazyQuery({ 
+        export function useFetchVehicleGraphByIdLazyQuery({ 
           vehicleId, 
           options ,
         }: {
@@ -90,7 +90,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
 
       // Fetch Collection Hook
       //
-      export function useFetchVehicleObjectsQuery({ options } : {
+      export function useFetchVehicleGraphObjectsQuery({ options } : {
         options: Omit<QueryHookOptions<FetchVehicleGraphQuery, FetchVehicleGraphQueryVariables>, 'query'>
       }) {
           const query = useQuery<FetchVehicleGraphQuery, FetchVehicleGraphQueryVariables>(FetchVehicleGraphDocument, options);
@@ -99,7 +99,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
       
       // Lazy Fetch Collection Hook
       //
-      export function useFetchVehicleObjectsLazyQuery({ options } : {
+      export function useFetchVehicleGraphObjectsLazyQuery({ options } : {
         options?: Omit<LazyQueryHookOptions<FetchVehicleGraphQuery, FetchVehicleGraphQueryVariables>, 'query'>
       }) {
         const lazyQuery = useLazyQuery<FetchVehicleGraphQuery, FetchVehicleGraphQueryVariables>(FetchVehicleGraphDocument, options);
@@ -231,7 +231,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
 
         // Lazy Fetch Hook
         //
-        export function useFetchVehicleByIdLazyQuery({ 
+        export function useFetchVehicleGraphLocationOnlyByIdLazyQuery({ 
           vehicleId, 
           options ,
         }: {
@@ -245,7 +245,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
 
       // Fetch Collection Hook
       //
-      export function useFetchVehicleObjectsQuery({ options } : {
+      export function useFetchVehicleGraphLocationOnlyObjectsQuery({ options } : {
         options: Omit<QueryHookOptions<FetchVehicleGraphLocationOnlyQuery, FetchVehicleGraphLocationOnlyQueryVariables>, 'query'>
       }) {
           const query = useQuery<FetchVehicleGraphLocationOnlyQuery, FetchVehicleGraphLocationOnlyQueryVariables>(FetchVehicleGraphLocationOnlyDocument, options);
@@ -254,7 +254,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
       
       // Lazy Fetch Collection Hook
       //
-      export function useFetchVehicleObjectsLazyQuery({ options } : {
+      export function useFetchVehicleGraphLocationOnlyObjectsLazyQuery({ options } : {
         options?: Omit<LazyQueryHookOptions<FetchVehicleGraphLocationOnlyQuery, FetchVehicleGraphLocationOnlyQueryVariables>, 'query'>
       }) {
         const lazyQuery = useLazyQuery<FetchVehicleGraphLocationOnlyQuery, FetchVehicleGraphLocationOnlyQueryVariables>(FetchVehicleGraphLocationOnlyDocument, options);

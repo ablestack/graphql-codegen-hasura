@@ -267,7 +267,7 @@ export function injectDeleteHelpers({
     }) {
       const mutation = await apolloClient.mutate<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>({ mutation: Remove${entityModelName}ByIdDocument, variables: { id:${entityShortCamelCaseName}Id, }, ...options,});
     
-      return { ...mutation, ${fragmentNameCamelCase}:mutation && mutation.data && mutation.data.delete_${entityName} && mutation.data.delete_${entityName}!.affected_rows };
+      return { ...mutation, affected_rows:mutation && mutation.data && mutation.data.delete_${entityName} && mutation.data.delete_${entityName}!.affected_rows };
     }
   `);
 
@@ -281,7 +281,7 @@ export function injectDeleteHelpers({
     }) {  
       const mutation = await apolloClient.mutate<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>({ mutation: Remove${entityModelName}Document, ...options,});
         
-      return { ...mutation, objects:mutation && mutation.data && mutation.data.delete_${entityName} && mutation.data.delete_${entityName}!.affected_rows };
+      return { ...mutation, affected_rows:mutation && mutation.data && mutation.data.delete_${entityName} && mutation.data.delete_${entityName}!.affected_rows };
     }
   `);
 
