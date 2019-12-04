@@ -186,7 +186,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     }) {
       const lazyMutation = useMutation<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>(RemoveVehicleModelByIdDocument, { variables: { id:vehicleId }, ...options,});
         
-      return [lazyMutation[0], { ...lazyMutation[1], vehicleGraph: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_vehicle && lazyMutation[1].data.delete_vehicle!.affected_rows }]
+      return [lazyMutation[0], { ...lazyMutation[1], affected_rows: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_vehicle && lazyMutation[1].data.delete_vehicle!.affected_rows }]
     }
   
 
@@ -197,7 +197,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     }) {
       const lazyMutation = useMutation<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>(RemoveVehicleModelDocument, { ...options });
         
-      return [lazyMutation[0], { ...lazyMutation[1], objects: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_vehicle && lazyMutation[1].data.delete_vehicle!.affected_rows }]
+      return [lazyMutation[0], { ...lazyMutation[1], affected_rows: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_vehicle && lazyMutation[1].data.delete_vehicle!.affected_rows }]
     }
   
 
@@ -326,21 +326,5 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
       const lazyMutation = useMutation<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>(UpdateVehicleGraphLocationOnlyDocument, { ...options });
     
       return [lazyMutation[0], { ...lazyMutation[1], objects: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.update_vehicle && lazyMutation[1].data.update_vehicle!.returning }]
-    }
-  
-
-    // Delete Hooks
-    //
-
-    export async function removeVehicleModelById({
-      vehicleId,
-      options,
-    }:{
-      vehicleId: string,
-      options?: Omit<MutationHookOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, 'mutation' | 'variables'>,
-    }) {
-      const lazyMutation = useMutation<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>(RemoveVehicleModelByIdDocument, { variables: { id:vehicleId }, ...options,});
-        
-      return [lazyMutation[0], { ...lazyMutation[1], vehicleGraphLocationOnly: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_vehicle && lazyMutation[1].data.delete_vehicle!.affected_rows }]
     }
   

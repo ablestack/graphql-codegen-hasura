@@ -19,12 +19,6 @@ import { UpdateObservationModelFieldsByIdDocument } from '../';
 import { UpdateObservationModelFieldsMutation } from '../';
 import { UpdateObservationModelFieldsMutationVariables } from '../';
 import { UpdateObservationModelFieldsDocument } from '../';
-import { RemoveObservationModelMutation } from '../';
-import { RemoveObservationModelMutationVariables } from '../';
-import { RemoveObservationModelDocument } from '../';
-import { RemoveObservationModelByIdMutation } from '../';
-import { RemoveObservationModelByIdMutationVariables } from '../';
-import { RemoveObservationModelByIdDocument } from '../';
 import { PModelFieldsFragment } from '../';
 import { FetchPModelFieldsByIdQuery } from '../';
 import { FetchPModelFieldsByIdDocument } from '../';
@@ -43,12 +37,6 @@ import { UpdatePModelFieldsByIdDocument } from '../';
 import { UpdatePModelFieldsMutation } from '../';
 import { UpdatePModelFieldsMutationVariables } from '../';
 import { UpdatePModelFieldsDocument } from '../';
-import { RemovePModelMutation } from '../';
-import { RemovePModelMutationVariables } from '../';
-import { RemovePModelDocument } from '../';
-import { RemovePModelByIdMutation } from '../';
-import { RemovePModelByIdMutationVariables } from '../';
-import { RemovePModelByIdDocument } from '../';
 import { PatientModelFieldsFragment } from '../';
 import { FetchPatientModelFieldsByIdQuery } from '../';
 import { FetchPatientModelFieldsByIdDocument } from '../';
@@ -67,12 +55,6 @@ import { UpdatePatientModelFieldsByIdDocument } from '../';
 import { UpdatePatientModelFieldsMutation } from '../';
 import { UpdatePatientModelFieldsMutationVariables } from '../';
 import { UpdatePatientModelFieldsDocument } from '../';
-import { RemovePatientModelMutation } from '../';
-import { RemovePatientModelMutationVariables } from '../';
-import { RemovePatientModelDocument } from '../';
-import { RemovePatientModelByIdMutation } from '../';
-import { RemovePatientModelByIdMutationVariables } from '../';
-import { RemovePatientModelByIdDocument } from '../';
 import { UsersModelFieldsFragment } from '../';
 import { FetchUsersModelFieldsByIdQuery } from '../';
 import { FetchUsersModelFieldsByIdDocument } from '../';
@@ -91,12 +73,6 @@ import { UpdateUsersModelFieldsByIdDocument } from '../';
 import { UpdateUsersModelFieldsMutation } from '../';
 import { UpdateUsersModelFieldsMutationVariables } from '../';
 import { UpdateUsersModelFieldsDocument } from '../';
-import { RemoveUsersModelMutation } from '../';
-import { RemoveUsersModelMutationVariables } from '../';
-import { RemoveUsersModelDocument } from '../';
-import { RemoveUsersModelByIdMutation } from '../';
-import { RemoveUsersModelByIdMutationVariables } from '../';
-import { RemoveUsersModelByIdDocument } from '../';
 import { VehicleModelFieldsFragment } from '../';
 import { FetchVehicleModelFieldsByIdQuery } from '../';
 import { FetchVehicleModelFieldsByIdDocument } from '../';
@@ -115,12 +91,6 @@ import { UpdateVehicleModelFieldsByIdDocument } from '../';
 import { UpdateVehicleModelFieldsMutation } from '../';
 import { UpdateVehicleModelFieldsMutationVariables } from '../';
 import { UpdateVehicleModelFieldsDocument } from '../';
-import { RemoveVehicleModelMutation } from '../';
-import { RemoveVehicleModelMutationVariables } from '../';
-import { RemoveVehicleModelDocument } from '../';
-import { RemoveVehicleModelByIdMutation } from '../';
-import { RemoveVehicleModelByIdMutationVariables } from '../';
-import { RemoveVehicleModelByIdDocument } from '../';
 import { Vehicle_LocationModelFieldsFragment } from '../';
 import { FetchVehicle_LocationModelFieldsByIdQuery } from '../';
 import { FetchVehicle_LocationModelFieldsByIdDocument } from '../';
@@ -139,12 +109,6 @@ import { UpdateVehicle_LocationModelFieldsByIdDocument } from '../';
 import { UpdateVehicle_LocationModelFieldsMutation } from '../';
 import { UpdateVehicle_LocationModelFieldsMutationVariables } from '../';
 import { UpdateVehicle_LocationModelFieldsDocument } from '../';
-import { RemoveVehicle_LocationModelMutation } from '../';
-import { RemoveVehicle_LocationModelMutationVariables } from '../';
-import { RemoveVehicle_LocationModelDocument } from '../';
-import { RemoveVehicle_LocationModelByIdMutation } from '../';
-import { RemoveVehicle_LocationModelByIdMutationVariables } from '../';
-import { RemoveVehicle_LocationModelByIdDocument } from '../';
 
     // observation Helpers
     //------------------------------------------------
@@ -248,37 +212,6 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       const mutation = await apolloClient.mutate<UpdateObservationModelFieldsMutation, UpdateObservationModelFieldsMutationVariables>({ mutation: UpdateObservationModelFieldsDocument, ...options,});
         
       return { ...mutation, objects:mutation && mutation.data && mutation.data.update_observation && mutation.data.update_observation!.returning };
-    }
-  
-
-    // Delete Helper
-    //
-
-    export async function removeObservationModelById({
-      apolloClient,
-      observationId,
-      options,
-    }:{
-      apolloClient: ApolloClient<object>,
-      observationId: string,
-      options?: Omit<MutationOptions<RemoveObservationModelByIdMutation, RemoveObservationModelByIdMutationVariables>, 'mutation'>,
-    }) {
-      const mutation = await apolloClient.mutate<RemoveObservationModelByIdMutation, RemoveObservationModelByIdMutationVariables>({ mutation: RemoveObservationModelByIdDocument, variables: { id:observationId, }, ...options,});
-    
-      return { ...mutation, observationModelFields:mutation && mutation.data && mutation.data.delete_observation && mutation.data.delete_observation!.affected_rows };
-    }
-  
-
-    export async function removeObservationModelObjects({
-      apolloClient,
-      options,
-    }:{
-      apolloClient: ApolloClient<object>,
-      options: Omit<MutationOptions<RemoveObservationModelMutation, RemoveObservationModelMutationVariables>, 'mutation'>,
-    }) {  
-      const mutation = await apolloClient.mutate<RemoveObservationModelMutation, RemoveObservationModelMutationVariables>({ mutation: RemoveObservationModelDocument, ...options,});
-        
-      return { ...mutation, objects:mutation && mutation.data && mutation.data.delete_observation && mutation.data.delete_observation!.affected_rows };
     }
   
 
@@ -387,37 +320,6 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
-    // Delete Helper
-    //
-
-    export async function removePModelById({
-      apolloClient,
-      pId,
-      options,
-    }:{
-      apolloClient: ApolloClient<object>,
-      pId: number,
-      options?: Omit<MutationOptions<RemovePModelByIdMutation, RemovePModelByIdMutationVariables>, 'mutation'>,
-    }) {
-      const mutation = await apolloClient.mutate<RemovePModelByIdMutation, RemovePModelByIdMutationVariables>({ mutation: RemovePModelByIdDocument, variables: { id:pId, }, ...options,});
-    
-      return { ...mutation, pmodelFields:mutation && mutation.data && mutation.data.delete_p && mutation.data.delete_p!.affected_rows };
-    }
-  
-
-    export async function removePModelObjects({
-      apolloClient,
-      options,
-    }:{
-      apolloClient: ApolloClient<object>,
-      options: Omit<MutationOptions<RemovePModelMutation, RemovePModelMutationVariables>, 'mutation'>,
-    }) {  
-      const mutation = await apolloClient.mutate<RemovePModelMutation, RemovePModelMutationVariables>({ mutation: RemovePModelDocument, ...options,});
-        
-      return { ...mutation, objects:mutation && mutation.data && mutation.data.delete_p && mutation.data.delete_p!.affected_rows };
-    }
-  
-
     // patient Helpers
     //------------------------------------------------
   
@@ -520,37 +422,6 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       const mutation = await apolloClient.mutate<UpdatePatientModelFieldsMutation, UpdatePatientModelFieldsMutationVariables>({ mutation: UpdatePatientModelFieldsDocument, ...options,});
         
       return { ...mutation, objects:mutation && mutation.data && mutation.data.update_patient && mutation.data.update_patient!.returning };
-    }
-  
-
-    // Delete Helper
-    //
-
-    export async function removePatientModelById({
-      apolloClient,
-      patientId,
-      options,
-    }:{
-      apolloClient: ApolloClient<object>,
-      patientId: string,
-      options?: Omit<MutationOptions<RemovePatientModelByIdMutation, RemovePatientModelByIdMutationVariables>, 'mutation'>,
-    }) {
-      const mutation = await apolloClient.mutate<RemovePatientModelByIdMutation, RemovePatientModelByIdMutationVariables>({ mutation: RemovePatientModelByIdDocument, variables: { id:patientId, }, ...options,});
-    
-      return { ...mutation, patientModelFields:mutation && mutation.data && mutation.data.delete_patient && mutation.data.delete_patient!.affected_rows };
-    }
-  
-
-    export async function removePatientModelObjects({
-      apolloClient,
-      options,
-    }:{
-      apolloClient: ApolloClient<object>,
-      options: Omit<MutationOptions<RemovePatientModelMutation, RemovePatientModelMutationVariables>, 'mutation'>,
-    }) {  
-      const mutation = await apolloClient.mutate<RemovePatientModelMutation, RemovePatientModelMutationVariables>({ mutation: RemovePatientModelDocument, ...options,});
-        
-      return { ...mutation, objects:mutation && mutation.data && mutation.data.delete_patient && mutation.data.delete_patient!.affected_rows };
     }
   
 
@@ -659,37 +530,6 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
-    // Delete Helper
-    //
-
-    export async function removeUsersModelById({
-      apolloClient,
-      usersId,
-      options,
-    }:{
-      apolloClient: ApolloClient<object>,
-      usersId: number,
-      options?: Omit<MutationOptions<RemoveUsersModelByIdMutation, RemoveUsersModelByIdMutationVariables>, 'mutation'>,
-    }) {
-      const mutation = await apolloClient.mutate<RemoveUsersModelByIdMutation, RemoveUsersModelByIdMutationVariables>({ mutation: RemoveUsersModelByIdDocument, variables: { id:usersId, }, ...options,});
-    
-      return { ...mutation, usersModelFields:mutation && mutation.data && mutation.data.delete_users && mutation.data.delete_users!.affected_rows };
-    }
-  
-
-    export async function removeUsersModelObjects({
-      apolloClient,
-      options,
-    }:{
-      apolloClient: ApolloClient<object>,
-      options: Omit<MutationOptions<RemoveUsersModelMutation, RemoveUsersModelMutationVariables>, 'mutation'>,
-    }) {  
-      const mutation = await apolloClient.mutate<RemoveUsersModelMutation, RemoveUsersModelMutationVariables>({ mutation: RemoveUsersModelDocument, ...options,});
-        
-      return { ...mutation, objects:mutation && mutation.data && mutation.data.delete_users && mutation.data.delete_users!.affected_rows };
-    }
-  
-
     // vehicle Helpers
     //------------------------------------------------
   
@@ -795,37 +635,6 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
     }
   
 
-    // Delete Helper
-    //
-
-    export async function removeVehicleModelById({
-      apolloClient,
-      vehicleId,
-      options,
-    }:{
-      apolloClient: ApolloClient<object>,
-      vehicleId: string,
-      options?: Omit<MutationOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, 'mutation'>,
-    }) {
-      const mutation = await apolloClient.mutate<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>({ mutation: RemoveVehicleModelByIdDocument, variables: { id:vehicleId, }, ...options,});
-    
-      return { ...mutation, vehicleModelFields:mutation && mutation.data && mutation.data.delete_vehicle && mutation.data.delete_vehicle!.affected_rows };
-    }
-  
-
-    export async function removeVehicleModelObjects({
-      apolloClient,
-      options,
-    }:{
-      apolloClient: ApolloClient<object>,
-      options: Omit<MutationOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>, 'mutation'>,
-    }) {  
-      const mutation = await apolloClient.mutate<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>({ mutation: RemoveVehicleModelDocument, ...options,});
-        
-      return { ...mutation, objects:mutation && mutation.data && mutation.data.delete_vehicle && mutation.data.delete_vehicle!.affected_rows };
-    }
-  
-
     // vehicle_location Helpers
     //------------------------------------------------
   
@@ -928,36 +737,5 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       const mutation = await apolloClient.mutate<UpdateVehicle_LocationModelFieldsMutation, UpdateVehicle_LocationModelFieldsMutationVariables>({ mutation: UpdateVehicle_LocationModelFieldsDocument, ...options,});
         
       return { ...mutation, objects:mutation && mutation.data && mutation.data.update_vehicle_location && mutation.data.update_vehicle_location!.returning };
-    }
-  
-
-    // Delete Helper
-    //
-
-    export async function removeVehicle_LocationModelById({
-      apolloClient,
-      vehicle_LocationId,
-      options,
-    }:{
-      apolloClient: ApolloClient<object>,
-      vehicle_LocationId: number,
-      options?: Omit<MutationOptions<RemoveVehicle_LocationModelByIdMutation, RemoveVehicle_LocationModelByIdMutationVariables>, 'mutation'>,
-    }) {
-      const mutation = await apolloClient.mutate<RemoveVehicle_LocationModelByIdMutation, RemoveVehicle_LocationModelByIdMutationVariables>({ mutation: RemoveVehicle_LocationModelByIdDocument, variables: { id:vehicle_LocationId, }, ...options,});
-    
-      return { ...mutation, vehicle_LocationModelFields:mutation && mutation.data && mutation.data.delete_vehicle_location && mutation.data.delete_vehicle_location!.affected_rows };
-    }
-  
-
-    export async function removeVehicle_LocationModelObjects({
-      apolloClient,
-      options,
-    }:{
-      apolloClient: ApolloClient<object>,
-      options: Omit<MutationOptions<RemoveVehicle_LocationModelMutation, RemoveVehicle_LocationModelMutationVariables>, 'mutation'>,
-    }) {  
-      const mutation = await apolloClient.mutate<RemoveVehicle_LocationModelMutation, RemoveVehicle_LocationModelMutationVariables>({ mutation: RemoveVehicle_LocationModelDocument, ...options,});
-        
-      return { ...mutation, objects:mutation && mutation.data && mutation.data.delete_vehicle_location && mutation.data.delete_vehicle_location!.affected_rows };
     }
   

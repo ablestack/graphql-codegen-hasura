@@ -160,7 +160,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     }) {
       const mutation = await apolloClient.mutate<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>({ mutation: RemoveVehicleModelByIdDocument, variables: { id:vehicleId, }, ...options,});
     
-      return { ...mutation, vehicleGraph:mutation && mutation.data && mutation.data.delete_vehicle && mutation.data.delete_vehicle!.affected_rows };
+      return { ...mutation, affected_rows:mutation && mutation.data && mutation.data.delete_vehicle && mutation.data.delete_vehicle!.affected_rows };
     }
   
 
@@ -173,7 +173,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     }) {  
       const mutation = await apolloClient.mutate<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>({ mutation: RemoveVehicleModelDocument, ...options,});
         
-      return { ...mutation, objects:mutation && mutation.data && mutation.data.delete_vehicle && mutation.data.delete_vehicle!.affected_rows };
+      return { ...mutation, affected_rows:mutation && mutation.data && mutation.data.delete_vehicle && mutation.data.delete_vehicle!.affected_rows };
     }
   
 
@@ -275,23 +275,5 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
       const mutation = await apolloClient.mutate<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>({ mutation: UpdateVehicleGraphLocationOnlyDocument, ...options,});
         
       return { ...mutation, objects:mutation && mutation.data && mutation.data.update_vehicle && mutation.data.update_vehicle!.returning };
-    }
-  
-
-    // Delete Helper
-    //
-
-    export async function removeVehicleModelById({
-      apolloClient,
-      vehicleId,
-      options,
-    }:{
-      apolloClient: ApolloClient<object>,
-      vehicleId: string,
-      options?: Omit<MutationOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, 'mutation'>,
-    }) {
-      const mutation = await apolloClient.mutate<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>({ mutation: RemoveVehicleModelByIdDocument, variables: { id:vehicleId, }, ...options,});
-    
-      return { ...mutation, vehicleGraphLocationOnly:mutation && mutation.data && mutation.data.delete_vehicle && mutation.data.delete_vehicle!.affected_rows };
     }
   
