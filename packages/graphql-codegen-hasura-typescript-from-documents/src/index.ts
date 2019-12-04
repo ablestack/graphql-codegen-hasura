@@ -2,7 +2,7 @@ import { PluginFunction, Types } from "@graphql-codegen/plugin-helpers";
 import { RawTypesConfig } from "@graphql-codegen/visitor-plugin-common";
 import { FragmentDefinitionNode, GraphQLSchema } from "graphql";
 import { TypeMap } from "graphql/type/schema";
-import { getPrimaryKeyIdField, injectDeleteHelpers, injectFetchHelpers, injectInsertHelpers, injectSharedHelpers, injectUpdateHelpers } from "../../shared";
+import { getPrimaryKeyIdField, injectDeleteHelpers, injectFetchHelpers, injectInsertHelpers, injectSharedHelpers, injectUpdateHelpers, ContentManager } from "../../shared";
 
 // -----------------------------------------------------
 //
@@ -22,12 +22,11 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   // Set config defaults
   if (!config.reactApolloVersion) config.reactApolloVersion = 3;
 
-  const importArray: string[] = [
-    `import { ApolloClient } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-client"}'`,
-    `import { FetchResult } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-link"}'`,
-    `import { QueryOptions, MutationOptions } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "react-apollo"}'`
-  ];
-  const contentArray: string[] = [];
+  const contentManager = new ContentManager();
+
+  contentManager.addImport(`import { ApolloClient } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-client"}'`);
+  contentManager.addImport(`import { FetchResult } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-link"}'`);
+  contentManager.addImport(`import { QueryOptions, MutationOptions } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "react-apollo"}'`);
 
   // get typemap from schema
   const typeMap = schema.getTypeMap();
@@ -40,32 +39,26 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
         .map(definition => {
           const fd = definition as FragmentDefinitionNode;
           return `
-      ${makeEntitySharedTypeScript(fd, typeMap, importArray, contentArray, config)}
-      ${config.withQueries && makeEntityQueryMutationTypeScript(fd, typeMap, importArray, contentArray, config)}
-      ${config.withInserts && makeEntityInsertMutationTypeScript(fd, typeMap, importArray, contentArray, config)}
-      ${config.withUpdates && makeEntityUpdateMutationTypeScript(fd, typeMap, importArray, contentArray, config)}
-      ${config.withDeletes && makeEntityDeleteMutationTypeScript(fd, typeMap, importArray, contentArray, config)}
+      ${makeEntitySharedTypeScript(fd, typeMap, contentManager, config)}
+      ${config.withQueries && makeEntityQueryMutationTypeScript(fd, typeMap, contentManager, config)}
+      ${config.withInserts && makeEntityInsertMutationTypeScript(fd, typeMap, contentManager, config)}
+      ${config.withUpdates && makeEntityUpdateMutationTypeScript(fd, typeMap, contentManager, config)}
+      ${config.withDeletes && makeEntityDeleteMutationTypeScript(fd, typeMap, contentManager, config)}
       `;
         });
     })
     .flat();
 
   return {
-    prepend: importArray,
-    content: contentArray.join("\n")
+    prepend: contentManager.generateImportArray(),
+    content: contentManager.createContentString()
   };
 };
 
 // --------------------------------------
 //
 
-function makeEntitySharedTypeScript(
-  fragmentDefinitionNode: FragmentDefinitionNode,
-  schemaTypeMap: TypeMap,
-  importArray: string[],
-  contentArray: string[],
-  config: CstmHasuraCrudPluginConfig
-) {
+function makeEntitySharedTypeScript(fragmentDefinitionNode: FragmentDefinitionNode, schemaTypeMap: TypeMap, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const fragmentName = fragmentDefinitionNode.name.value;
   const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
   const relatedTableNamedType = schemaTypeMap[fragmentTableName];
@@ -74,8 +67,7 @@ function makeEntitySharedTypeScript(
   if (!relatedTablePrimaryKeyIdField) return;
 
   injectSharedHelpers({
-    contentArray,
-    importArray,
+    contentManager,
     entityName: relatedTableNamedType.name,
     fragmentName,
     trimString: config.trimString,
@@ -89,8 +81,7 @@ function makeEntitySharedTypeScript(
 function makeEntityQueryMutationTypeScript(
   fragmentDefinitionNode: FragmentDefinitionNode,
   schemaTypeMap: TypeMap,
-  importArray: string[],
-  contentArray: string[],
+  contentManager: ContentManager,
   config: CstmHasuraCrudPluginConfig
 ) {
   const fragmentName = fragmentDefinitionNode.name.value;
@@ -101,8 +92,7 @@ function makeEntityQueryMutationTypeScript(
   if (!relatedTablePrimaryKeyIdField) return;
 
   injectFetchHelpers({
-    contentArray,
-    importArray,
+    contentManager,
     entityName: relatedTableNamedType.name,
     fragmentName,
     trimString: config.trimString,
@@ -117,8 +107,7 @@ function makeEntityQueryMutationTypeScript(
 function makeEntityInsertMutationTypeScript(
   fragmentDefinitionNode: FragmentDefinitionNode,
   schemaTypeMap: TypeMap,
-  importArray: string[],
-  contentArray: string[],
+  contentManager: ContentManager,
   config: CstmHasuraCrudPluginConfig
 ) {
   const fragmentName = fragmentDefinitionNode.name.value;
@@ -129,8 +118,7 @@ function makeEntityInsertMutationTypeScript(
   if (!relatedTablePrimaryKeyIdField) return;
 
   injectInsertHelpers({
-    contentArray,
-    importArray,
+    contentManager,
     entityName: relatedTableNamedType.name,
     fragmentName,
     trimString: config.trimString,
@@ -144,8 +132,7 @@ function makeEntityInsertMutationTypeScript(
 function makeEntityUpdateMutationTypeScript(
   fragmentDefinitionNode: FragmentDefinitionNode,
   schemaTypeMap: TypeMap,
-  importArray: string[],
-  contentArray: string[],
+  contentManager: ContentManager,
   config: CstmHasuraCrudPluginConfig
 ) {
   const fragmentName = fragmentDefinitionNode.name.value;
@@ -156,8 +143,7 @@ function makeEntityUpdateMutationTypeScript(
   if (!relatedTablePrimaryKeyIdField) return;
 
   injectUpdateHelpers({
-    contentArray,
-    importArray,
+    contentManager,
     entityName: relatedTableNamedType.name,
     fragmentName,
     trimString: config.trimString,
@@ -172,8 +158,7 @@ function makeEntityUpdateMutationTypeScript(
 function makeEntityDeleteMutationTypeScript(
   fragmentDefinitionNode: FragmentDefinitionNode,
   schemaTypeMap: TypeMap,
-  importArray: string[],
-  contentArray: string[],
+  contentManager: ContentManager,
   config: CstmHasuraCrudPluginConfig
 ) {
   const fragmentName = fragmentDefinitionNode.name.value;
@@ -184,8 +169,7 @@ function makeEntityDeleteMutationTypeScript(
   if (!relatedTablePrimaryKeyIdField) return;
 
   injectDeleteHelpers({
-    contentArray,
-    importArray,
+    contentManager,
     entityName: relatedTableNamedType.name,
     fragmentName,
     trimString: config.trimString,

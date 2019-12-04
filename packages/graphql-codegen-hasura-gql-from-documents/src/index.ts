@@ -2,7 +2,7 @@ import { PluginFunction, Types } from "@graphql-codegen/plugin-helpers";
 import { RawTypesConfig } from "@graphql-codegen/visitor-plugin-common";
 import { FragmentDefinitionNode, GraphQLSchema } from "graphql";
 import { TypeMap } from "graphql/type/schema";
-import { getPrimaryKeyIdField, injectDeleteGql, injectFetchGql, injectFragmentImport, injectInsertGql, injectUpdateGql } from "../../shared";
+import { getPrimaryKeyIdField, injectDeleteGql, injectFetchGql, injectFragmentImport, injectInsertGql, injectUpdateGql, ContentManager } from "../../shared";
 
 // -----------------------------------------------------
 //
@@ -22,12 +22,11 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   // Set config defaults
   if (!config.reactApolloVersion) config.reactApolloVersion = 3;
 
-  const importArray: string[] = [
-    "/* eslint-disable @typescript-eslint/no-unused-vars */",
-    //`import gql from '${config.reactApolloVersion === 3 ? "@apollo/client" : "graphql-tag"}';` //graphql-code-generator still only picking up gql from 'graphql-tag' import. Will switch to "@apollo/client" import when this issue is addressed
-    `import gql from 'graphql-tag';`
-  ];
-  const contentArray: string[] = [];
+  const contentManager = new ContentManager();
+
+  contentManager.addImport("/* eslint-disable @typescript-eslint/no-unused-vars */");
+  //contentManager.addImport(`import gql from '${config.reactApolloVersion === 3 ? "@apollo/client" : "graphql-tag"}';`);  //graphql-code-generator still only picking up gql from 'graphql-tag' import. Will switch to "@apollo/client" import when this issue is addressed
+  contentManager.addImport(`import gql from 'graphql-tag';`);
 
   // get typemap from schema
   const typeMap = schema.getTypeMap();
@@ -40,52 +39,40 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
         .map(definition => {
           const fd = definition as FragmentDefinitionNode;
           return `
-      ${makeEntityModelSharedGql(fd, typeMap, importArray, contentArray, config)}
-      ${config.withQueries && makeEntityQueryMutationGql(fd, typeMap, importArray, contentArray, config)}
-      ${config.withInserts && makeEntityInsertMutationGql(fd, typeMap, importArray, contentArray, config)}
-      ${config.withUpdates && makeEntityUpdateMutationGql(fd, typeMap, importArray, contentArray, config)}
-      ${config.withDeletes && makeEntityDeleteMutationGql(fd, typeMap, importArray, contentArray, config)}
+      ${makeEntityModelSharedGql(fd, typeMap, contentManager, config)}
+      ${config.withQueries && makeEntityQueryMutationGql(fd, typeMap, contentManager, config)}
+      ${config.withInserts && makeEntityInsertMutationGql(fd, typeMap, contentManager, config)}
+      ${config.withUpdates && makeEntityUpdateMutationGql(fd, typeMap, contentManager, config)}
+      ${config.withDeletes && makeEntityDeleteMutationGql(fd, typeMap, contentManager, config)}
       `;
         });
     })
     .flat();
 
   return {
-    prepend: importArray,
-    content: contentArray.join("\n")
+    prepend: contentManager.generateImportArray(),
+    content: contentManager.createContentString()
   };
 };
 
 // --------------------------------------
 //
 
-function makeEntityModelSharedGql(
-  fragmentDefinitionNode: FragmentDefinitionNode,
-  schemaTypeMap: TypeMap,
-  importArray: string[],
-  contentArray: string[],
-  config: CstmHasuraCrudPluginConfig
-) {
+function makeEntityModelSharedGql(fragmentDefinitionNode: FragmentDefinitionNode, schemaTypeMap: TypeMap, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const fragmentName = fragmentDefinitionNode.name.value;
 
-  contentArray.push(`
+  contentManager.addContent(`
     // ${fragmentName} GQL
     //------------------------------------------------ 
   `);
 
-  if (config.typescriptCodegenOutputPath) injectFragmentImport({ importArray, fragmentName, fragmentRelativeImportPath: config.typescriptCodegenOutputPath });
+  if (config.typescriptCodegenOutputPath) injectFragmentImport({ contentManager, fragmentName, fragmentRelativeImportPath: config.typescriptCodegenOutputPath });
 }
 
 // --------------------------------------
 //
 
-function makeEntityQueryMutationGql(
-  fragmentDefinitionNode: FragmentDefinitionNode,
-  schemaTypeMap: TypeMap,
-  importArray: string[],
-  contentArray: string[],
-  config: CstmHasuraCrudPluginConfig
-) {
+function makeEntityQueryMutationGql(fragmentDefinitionNode: FragmentDefinitionNode, schemaTypeMap: TypeMap, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const fragmentName = fragmentDefinitionNode.name.value;
   const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
   const relatedTableNamedType = schemaTypeMap[fragmentTableName];
@@ -94,8 +81,7 @@ function makeEntityQueryMutationGql(
   if (!relatedTablePrimaryKeyIdField) return;
 
   injectFetchGql({
-    contentArray,
-    importArray,
+    contentManager,
     entityName: relatedTableNamedType.name,
     fragmentName,
     trimString: config.trimString,
@@ -106,13 +92,7 @@ function makeEntityQueryMutationGql(
 // --------------------------------------
 //
 
-function makeEntityInsertMutationGql(
-  fragmentDefinitionNode: FragmentDefinitionNode,
-  schemaTypeMap: TypeMap,
-  importArray: string[],
-  contentArray: string[],
-  config: CstmHasuraCrudPluginConfig
-) {
+function makeEntityInsertMutationGql(fragmentDefinitionNode: FragmentDefinitionNode, schemaTypeMap: TypeMap, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const fragmentName = fragmentDefinitionNode.name.value;
   const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
   const relatedTableNamedType = schemaTypeMap[fragmentTableName];
@@ -121,8 +101,7 @@ function makeEntityInsertMutationGql(
   if (!relatedTablePrimaryKeyIdField) return;
 
   injectInsertGql({
-    contentArray,
-    importArray,
+    contentManager,
     entityName: relatedTableNamedType.name,
     fragmentName,
     trimString: config.trimString,
@@ -133,13 +112,7 @@ function makeEntityInsertMutationGql(
 // --------------------------------------
 //
 
-function makeEntityUpdateMutationGql(
-  fragmentDefinitionNode: FragmentDefinitionNode,
-  schemaTypeMap: TypeMap,
-  importArray: string[],
-  contentArray: string[],
-  config: CstmHasuraCrudPluginConfig
-) {
+function makeEntityUpdateMutationGql(fragmentDefinitionNode: FragmentDefinitionNode, schemaTypeMap: TypeMap, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const fragmentName = fragmentDefinitionNode.name.value;
   const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
   const relatedTableNamedType = schemaTypeMap[fragmentTableName];
@@ -148,8 +121,7 @@ function makeEntityUpdateMutationGql(
   if (!relatedTablePrimaryKeyIdField) return;
 
   injectUpdateGql({
-    contentArray,
-    importArray,
+    contentManager,
     entityName: relatedTableNamedType.name,
     fragmentName,
     trimString: config.trimString,
@@ -160,13 +132,7 @@ function makeEntityUpdateMutationGql(
 // --------------------------------------
 //
 
-function makeEntityDeleteMutationGql(
-  fragmentDefinitionNode: FragmentDefinitionNode,
-  schemaTypeMap: TypeMap,
-  importArray: string[],
-  contentArray: string[],
-  config: CstmHasuraCrudPluginConfig
-) {
+function makeEntityDeleteMutationGql(fragmentDefinitionNode: FragmentDefinitionNode, schemaTypeMap: TypeMap, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const fragmentName = fragmentDefinitionNode.name.value;
   const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
   const relatedTableNamedType = schemaTypeMap[fragmentTableName];
@@ -175,8 +141,7 @@ function makeEntityDeleteMutationGql(
   if (!relatedTablePrimaryKeyIdField) return;
 
   injectDeleteGql({
-    contentArray,
-    importArray,
+    contentManager,
     entityName: relatedTableNamedType.name,
     fragmentName,
     trimString: config.trimString,

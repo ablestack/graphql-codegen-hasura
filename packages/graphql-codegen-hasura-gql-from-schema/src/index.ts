@@ -12,7 +12,8 @@ import {
   makeModelName,
   SCALAR_TYPE_TEST,
   TABLE_TYPE_FILTER,
-  makeFragmentDocName
+  makeFragmentDocName,
+  ContentManager
 } from "../../shared";
 
 // -----------------------------------------------------
@@ -34,48 +35,47 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   // Set config defaults
   if (!config.reactApolloVersion) config.reactApolloVersion = 3;
 
-  const importArray: string[] = [
-    "/* eslint-disable @typescript-eslint/no-unused-vars */",
-    //`import gql from '${config.reactApolloVersion === 3 ? "@apollo/client" : "graphql-tag"}';` //graphql-code-generator still only picking up gql from 'graphql-tag' import. Will switch to "@apollo/client" import when this issue is addressed
-    `import gql from 'graphql-tag';`
-  ];
-  const contentArray: string[] = [];
+  const contentManager = new ContentManager();
+
+  contentManager.addImport("/* eslint-disable @typescript-eslint/no-unused-vars */");
+  //contentManager.addImport(`import gql from '${config.reactApolloVersion === 3 ? "@apollo/client" : "graphql-tag"}';`);  //graphql-code-generator still only picking up gql from 'graphql-tag' import. Will switch to "@apollo/client" import when this issue is addressed
+  contentManager.addImport(`import gql from 'graphql-tag';`);
 
   Object.values(schema.getTypeMap())
     .filter(t => TABLE_TYPE_FILTER(t))
     .map(t => {
       return `
-      ${makeEntityModelSharedGql(t, importArray, contentArray, config)}
-      ${config.withFragments && makeEntityModelFragmentsGql(t, importArray, contentArray, config)}
-      ${config.withQueries && makeEntityQueryMutationGql(t, importArray, contentArray, config)}
-      ${config.withInserts && makeEntityInsertMutationGql(t, importArray, contentArray, config)}
-      ${config.withUpdates && makeEntityUpdateMutationGql(t, importArray, contentArray, config)}
-      ${config.withDeletes && makeEntityDeleteMutationGql(t, importArray, contentArray, config)}
+      ${makeEntityModelSharedGql(t, contentManager, config)}
+      ${config.withFragments && makeEntityModelFragmentsGql(t, contentManager, config)}
+      ${config.withQueries && makeEntityQueryMutationGql(t, contentManager, config)}
+      ${config.withInserts && makeEntityInsertMutationGql(t, contentManager, config)}
+      ${config.withUpdates && makeEntityUpdateMutationGql(t, contentManager, config)}
+      ${config.withDeletes && makeEntityDeleteMutationGql(t, contentManager, config)}
       `;
     });
 
   return {
-    prepend: importArray,
-    content: contentArray.join("\n")
+    prepend: contentManager.generateImportArray(),
+    content: contentManager.createContentString()
   };
 };
 
 // --------------------------------------
 //
 
-function makeEntityModelSharedGql(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
+function makeEntityModelSharedGql(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const entityName = namedType.name;
 
-  contentArray.push(`
+  contentManager.addContent(`
   // ${entityName} GQL
   //------------------------------------------------
   `);
 
   const fragmentName = makeFragmentName(entityName, config.trimString);
-  if (config.typescriptCodegenOutputPath) injectFragmentImport({ importArray, fragmentName, fragmentRelativeImportPath: config.typescriptCodegenOutputPath });
+  if (config.typescriptCodegenOutputPath) injectFragmentImport({ contentManager, fragmentName, fragmentRelativeImportPath: config.typescriptCodegenOutputPath });
 }
 
-function makeEntityModelFragmentsGql(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
+function makeEntityModelFragmentsGql(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const entityName = namedType.name;
   const fragmentName = makeFragmentName(entityName, config.trimString);
   const fragmentDocName = makeFragmentDocName(fragmentName);
@@ -90,7 +90,7 @@ function makeEntityModelFragmentsGql(namedType: GraphQLNamedType, importArray: s
     }
   });
 
-  contentArray.push(`
+  contentManager.addContent(`
 
     // Scalar Fields Fragment
     //
@@ -105,7 +105,7 @@ function makeEntityModelFragmentsGql(namedType: GraphQLNamedType, importArray: s
 // --------------------------------------
 //
 
-function makeEntityQueryMutationGql(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
+function makeEntityQueryMutationGql(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const primaryKeyIdField = getPrimaryKeyIdField(namedType);
   if (!primaryKeyIdField) return;
 
@@ -113,8 +113,7 @@ function makeEntityQueryMutationGql(namedType: GraphQLNamedType, importArray: st
   const fragmentName = makeFragmentName(entityName, config.trimString);
 
   injectFetchGql({
-    contentArray,
-    importArray,
+    contentManager,
     entityName,
     fragmentName,
     trimString: config.trimString,
@@ -125,7 +124,7 @@ function makeEntityQueryMutationGql(namedType: GraphQLNamedType, importArray: st
 // --------------------------------------
 //
 
-function makeEntityInsertMutationGql(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
+function makeEntityInsertMutationGql(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const primaryKeyIdField = getPrimaryKeyIdField(namedType);
   if (!primaryKeyIdField) return;
 
@@ -133,8 +132,7 @@ function makeEntityInsertMutationGql(namedType: GraphQLNamedType, importArray: s
   const fragmentName = makeFragmentName(entityName, config.trimString);
 
   injectInsertGql({
-    contentArray,
-    importArray,
+    contentManager,
     entityName,
     fragmentName,
     trimString: config.trimString,
@@ -145,7 +143,7 @@ function makeEntityInsertMutationGql(namedType: GraphQLNamedType, importArray: s
 // --------------------------------------
 //
 
-function makeEntityUpdateMutationGql(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
+function makeEntityUpdateMutationGql(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const primaryKeyIdField = getPrimaryKeyIdField(namedType);
   if (!primaryKeyIdField) return;
 
@@ -153,8 +151,7 @@ function makeEntityUpdateMutationGql(namedType: GraphQLNamedType, importArray: s
   const fragmentName = makeFragmentName(entityName, config.trimString);
 
   injectUpdateGql({
-    contentArray,
-    importArray,
+    contentManager,
     entityName,
     fragmentName,
     trimString: config.trimString,
@@ -165,7 +162,7 @@ function makeEntityUpdateMutationGql(namedType: GraphQLNamedType, importArray: s
 // --------------------------------------
 //
 
-function makeEntityDeleteMutationGql(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
+function makeEntityDeleteMutationGql(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const primaryKeyIdField = getPrimaryKeyIdField(namedType);
   if (!primaryKeyIdField) return;
 
@@ -173,8 +170,7 @@ function makeEntityDeleteMutationGql(namedType: GraphQLNamedType, importArray: s
   const fragmentName = makeFragmentName(entityName, config.trimString);
 
   injectDeleteGql({
-    contentArray,
-    importArray,
+    contentManager,
     entityName,
     fragmentName,
     trimString: config.trimString,

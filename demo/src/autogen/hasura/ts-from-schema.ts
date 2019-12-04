@@ -232,7 +232,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       set: Observation_Set_Input,
       options?: Omit<MutationOptions<UpdateObservationModelFieldsByIdMutation, UpdateObservationModelFieldsByIdMutationVariables>, 'mutation'>,
     }) {
-      const mutation = await apolloClient.mutate<UpdateObservationModelFieldsByIdMutation, UpdateObservationModelFieldsByIdMutationVariables>({ mutation: UpdateObservationModelFieldsByIdDocument, variables: { observationId, set }, ...options,});
+      const mutation = await apolloClient.mutate<UpdateObservationModelFieldsByIdMutation, UpdateObservationModelFieldsByIdMutationVariables>({ mutation: UpdateObservationModelFieldsByIdDocument, variables: { id:observationId, set }, ...options,});
         
       return { ...mutation, observationModelFields:mutation && mutation.data && mutation.data.update_observation && mutation.data.update_observation!.returning && mutation.data.update_observation!.returning[0] };
     }
@@ -263,7 +263,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       observationId: string,
       options?: Omit<MutationOptions<RemoveObservationModelByIdMutation, RemoveObservationModelByIdMutationVariables>, 'mutation'>,
     }) {
-      const mutation = await apolloClient.mutate<RemoveObservationModelByIdMutation, RemoveObservationModelByIdMutationVariables>({ mutation: RemoveObservationModelByIdDocument, variables: { observationId, }, ...options,});
+      const mutation = await apolloClient.mutate<RemoveObservationModelByIdMutation, RemoveObservationModelByIdMutationVariables>({ mutation: RemoveObservationModelByIdDocument, variables: { id:observationId, }, ...options,});
     
       return { ...mutation, observationModelFields:mutation && mutation.data && mutation.data.delete_observation && mutation.data.delete_observation!.affected_rows };
     }
@@ -368,7 +368,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       set: P_Set_Input,
       options?: Omit<MutationOptions<UpdatePModelFieldsByIdMutation, UpdatePModelFieldsByIdMutationVariables>, 'mutation'>,
     }) {
-      const mutation = await apolloClient.mutate<UpdatePModelFieldsByIdMutation, UpdatePModelFieldsByIdMutationVariables>({ mutation: UpdatePModelFieldsByIdDocument, variables: { pId, set }, ...options,});
+      const mutation = await apolloClient.mutate<UpdatePModelFieldsByIdMutation, UpdatePModelFieldsByIdMutationVariables>({ mutation: UpdatePModelFieldsByIdDocument, variables: { id:pId, set }, ...options,});
         
       return { ...mutation, pmodelFields:mutation && mutation.data && mutation.data.update_p && mutation.data.update_p!.returning && mutation.data.update_p!.returning[0] };
     }
@@ -399,7 +399,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       pId: number,
       options?: Omit<MutationOptions<RemovePModelByIdMutation, RemovePModelByIdMutationVariables>, 'mutation'>,
     }) {
-      const mutation = await apolloClient.mutate<RemovePModelByIdMutation, RemovePModelByIdMutationVariables>({ mutation: RemovePModelByIdDocument, variables: { pId, }, ...options,});
+      const mutation = await apolloClient.mutate<RemovePModelByIdMutation, RemovePModelByIdMutationVariables>({ mutation: RemovePModelByIdDocument, variables: { id:pId, }, ...options,});
     
       return { ...mutation, pmodelFields:mutation && mutation.data && mutation.data.delete_p && mutation.data.delete_p!.affected_rows };
     }
@@ -504,7 +504,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       set: Patient_Set_Input,
       options?: Omit<MutationOptions<UpdatePatientModelFieldsByIdMutation, UpdatePatientModelFieldsByIdMutationVariables>, 'mutation'>,
     }) {
-      const mutation = await apolloClient.mutate<UpdatePatientModelFieldsByIdMutation, UpdatePatientModelFieldsByIdMutationVariables>({ mutation: UpdatePatientModelFieldsByIdDocument, variables: { patientId, set }, ...options,});
+      const mutation = await apolloClient.mutate<UpdatePatientModelFieldsByIdMutation, UpdatePatientModelFieldsByIdMutationVariables>({ mutation: UpdatePatientModelFieldsByIdDocument, variables: { id:patientId, set }, ...options,});
         
       return { ...mutation, patientModelFields:mutation && mutation.data && mutation.data.update_patient && mutation.data.update_patient!.returning && mutation.data.update_patient!.returning[0] };
     }
@@ -535,7 +535,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       patientId: string,
       options?: Omit<MutationOptions<RemovePatientModelByIdMutation, RemovePatientModelByIdMutationVariables>, 'mutation'>,
     }) {
-      const mutation = await apolloClient.mutate<RemovePatientModelByIdMutation, RemovePatientModelByIdMutationVariables>({ mutation: RemovePatientModelByIdDocument, variables: { patientId, }, ...options,});
+      const mutation = await apolloClient.mutate<RemovePatientModelByIdMutation, RemovePatientModelByIdMutationVariables>({ mutation: RemovePatientModelByIdDocument, variables: { id:patientId, }, ...options,});
     
       return { ...mutation, patientModelFields:mutation && mutation.data && mutation.data.delete_patient && mutation.data.delete_patient!.affected_rows };
     }
@@ -640,7 +640,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       set: Users_Set_Input,
       options?: Omit<MutationOptions<UpdateUsersModelFieldsByIdMutation, UpdateUsersModelFieldsByIdMutationVariables>, 'mutation'>,
     }) {
-      const mutation = await apolloClient.mutate<UpdateUsersModelFieldsByIdMutation, UpdateUsersModelFieldsByIdMutationVariables>({ mutation: UpdateUsersModelFieldsByIdDocument, variables: { usersId, set }, ...options,});
+      const mutation = await apolloClient.mutate<UpdateUsersModelFieldsByIdMutation, UpdateUsersModelFieldsByIdMutationVariables>({ mutation: UpdateUsersModelFieldsByIdDocument, variables: { id:usersId, set }, ...options,});
         
       return { ...mutation, usersModelFields:mutation && mutation.data && mutation.data.update_users && mutation.data.update_users!.returning && mutation.data.update_users!.returning[0] };
     }
@@ -671,7 +671,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       usersId: number,
       options?: Omit<MutationOptions<RemoveUsersModelByIdMutation, RemoveUsersModelByIdMutationVariables>, 'mutation'>,
     }) {
-      const mutation = await apolloClient.mutate<RemoveUsersModelByIdMutation, RemoveUsersModelByIdMutationVariables>({ mutation: RemoveUsersModelByIdDocument, variables: { usersId, }, ...options,});
+      const mutation = await apolloClient.mutate<RemoveUsersModelByIdMutation, RemoveUsersModelByIdMutationVariables>({ mutation: RemoveUsersModelByIdDocument, variables: { id:usersId, }, ...options,});
     
       return { ...mutation, usersModelFields:mutation && mutation.data && mutation.data.delete_users && mutation.data.delete_users!.affected_rows };
     }
@@ -776,7 +776,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       set: Vehicle_Set_Input,
       options?: Omit<MutationOptions<UpdateVehicleModelFieldsByIdMutation, UpdateVehicleModelFieldsByIdMutationVariables>, 'mutation'>,
     }) {
-      const mutation = await apolloClient.mutate<UpdateVehicleModelFieldsByIdMutation, UpdateVehicleModelFieldsByIdMutationVariables>({ mutation: UpdateVehicleModelFieldsByIdDocument, variables: { vehicleId, set }, ...options,});
+      const mutation = await apolloClient.mutate<UpdateVehicleModelFieldsByIdMutation, UpdateVehicleModelFieldsByIdMutationVariables>({ mutation: UpdateVehicleModelFieldsByIdDocument, variables: { id:vehicleId, set }, ...options,});
         
       return { ...mutation, vehicleModelFields:mutation && mutation.data && mutation.data.update_vehicle && mutation.data.update_vehicle!.returning && mutation.data.update_vehicle!.returning[0] };
     }
@@ -807,7 +807,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       vehicleId: string,
       options?: Omit<MutationOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, 'mutation'>,
     }) {
-      const mutation = await apolloClient.mutate<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>({ mutation: RemoveVehicleModelByIdDocument, variables: { vehicleId, }, ...options,});
+      const mutation = await apolloClient.mutate<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>({ mutation: RemoveVehicleModelByIdDocument, variables: { id:vehicleId, }, ...options,});
     
       return { ...mutation, vehicleModelFields:mutation && mutation.data && mutation.data.delete_vehicle && mutation.data.delete_vehicle!.affected_rows };
     }
@@ -912,7 +912,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       set: Vehicle_Location_Set_Input,
       options?: Omit<MutationOptions<UpdateVehicle_LocationModelFieldsByIdMutation, UpdateVehicle_LocationModelFieldsByIdMutationVariables>, 'mutation'>,
     }) {
-      const mutation = await apolloClient.mutate<UpdateVehicle_LocationModelFieldsByIdMutation, UpdateVehicle_LocationModelFieldsByIdMutationVariables>({ mutation: UpdateVehicle_LocationModelFieldsByIdDocument, variables: { vehicle_LocationId, set }, ...options,});
+      const mutation = await apolloClient.mutate<UpdateVehicle_LocationModelFieldsByIdMutation, UpdateVehicle_LocationModelFieldsByIdMutationVariables>({ mutation: UpdateVehicle_LocationModelFieldsByIdDocument, variables: { id:vehicle_LocationId, set }, ...options,});
         
       return { ...mutation, vehicle_LocationModelFields:mutation && mutation.data && mutation.data.update_vehicle_location && mutation.data.update_vehicle_location!.returning && mutation.data.update_vehicle_location!.returning[0] };
     }
@@ -943,7 +943,7 @@ import { RemoveVehicle_LocationModelByIdDocument } from '../';
       vehicle_LocationId: number,
       options?: Omit<MutationOptions<RemoveVehicle_LocationModelByIdMutation, RemoveVehicle_LocationModelByIdMutationVariables>, 'mutation'>,
     }) {
-      const mutation = await apolloClient.mutate<RemoveVehicle_LocationModelByIdMutation, RemoveVehicle_LocationModelByIdMutationVariables>({ mutation: RemoveVehicle_LocationModelByIdDocument, variables: { vehicle_LocationId, }, ...options,});
+      const mutation = await apolloClient.mutate<RemoveVehicle_LocationModelByIdMutation, RemoveVehicle_LocationModelByIdMutationVariables>({ mutation: RemoveVehicle_LocationModelByIdDocument, variables: { id:vehicle_LocationId, }, ...options,});
     
       return { ...mutation, vehicle_LocationModelFields:mutation && mutation.data && mutation.data.delete_vehicle_location && mutation.data.delete_vehicle_location!.affected_rows };
     }

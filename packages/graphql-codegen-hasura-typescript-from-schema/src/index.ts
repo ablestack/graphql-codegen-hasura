@@ -9,7 +9,8 @@ import {
   injectSharedHelpers,
   injectUpdateHelpers,
   TABLE_TYPE_FILTER,
-  makeFragmentName
+  makeFragmentName,
+  ContentManager
 } from "../../shared";
 
 // -----------------------------------------------------
@@ -30,44 +31,42 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   // Set config defaults
   if (!config.reactApolloVersion) config.reactApolloVersion = 3;
 
-  const importArray: string[] = [
-    `import { ApolloClient } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-client"}'`,
-    `import { FetchResult } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-link"}'`,
-    `import { QueryOptions, MutationOptions } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "react-apollo"}'`
-  ];
-  const contentArray: string[] = [];
+  const contentManager = new ContentManager();
+
+  contentManager.addImport(`import { ApolloClient } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-client"}'`);
+  contentManager.addImport(`import { FetchResult } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-link"}'`);
+  contentManager.addImport(`import { QueryOptions, MutationOptions } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "react-apollo"}'`);
 
   // iterate and generate
   Object.values(schema.getTypeMap())
     .filter(t => TABLE_TYPE_FILTER(t))
     .map(t => {
       return `
-      ${makeEntitySharedTypeScript(t, importArray, contentArray, config)}
-      ${config.withQueries && makeEntityQueryMutationTypeScript(t, importArray, contentArray, config)}
-      ${config.withInserts && makeEntityInsertMutationTypeScript(t, importArray, contentArray, config)}
-      ${config.withUpdates && makeEntityUpdateMutationTypeScript(t, importArray, contentArray, config)}
-      ${config.withDeletes && makeEntityDeleteMutationTypeScript(t, importArray, contentArray, config)}
+      ${makeEntitySharedTypeScript(t, contentManager, config)}
+      ${config.withQueries && makeEntityQueryMutationTypeScript(t, contentManager, config)}
+      ${config.withInserts && makeEntityInsertMutationTypeScript(t, contentManager, config)}
+      ${config.withUpdates && makeEntityUpdateMutationTypeScript(t, contentManager, config)}
+      ${config.withDeletes && makeEntityDeleteMutationTypeScript(t, contentManager, config)}
       `;
     });
 
   return {
-    prepend: importArray,
-    content: contentArray.join("\n")
+    prepend: contentManager.generateImportArray(),
+    content: contentManager.createContentString()
   };
 };
 
 /// --------------------------------------
 //
 
-function makeEntitySharedTypeScript(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
+function makeEntitySharedTypeScript(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const primaryKeyIdField = getPrimaryKeyIdField(namedType);
   if (!primaryKeyIdField) return;
 
   const fragmentName = makeFragmentName(namedType.name, config.trimString);
 
   injectSharedHelpers({
-    contentArray,
-    importArray,
+    contentManager,
     entityName: namedType.name,
     fragmentName,
     trimString: config.trimString,
@@ -78,15 +77,14 @@ function makeEntitySharedTypeScript(namedType: GraphQLNamedType, importArray: st
 // --------------------------------------
 //
 
-function makeEntityQueryMutationTypeScript(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
+function makeEntityQueryMutationTypeScript(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const primaryKeyIdField = getPrimaryKeyIdField(namedType);
   if (!primaryKeyIdField) return;
 
   const fragmentName = makeFragmentName(namedType.name, config.trimString);
 
   injectFetchHelpers({
-    contentArray,
-    importArray,
+    contentManager,
     entityName: namedType.name,
     fragmentName,
     trimString: config.trimString,
@@ -98,15 +96,14 @@ function makeEntityQueryMutationTypeScript(namedType: GraphQLNamedType, importAr
 // --------------------------------------
 //
 
-function makeEntityInsertMutationTypeScript(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
+function makeEntityInsertMutationTypeScript(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const primaryKeyIdField = getPrimaryKeyIdField(namedType);
   if (!primaryKeyIdField) return;
 
   const fragmentName = makeFragmentName(namedType.name, config.trimString);
 
   injectInsertHelpers({
-    contentArray,
-    importArray,
+    contentManager,
     entityName: namedType.name,
     fragmentName,
     trimString: config.trimString,
@@ -117,15 +114,14 @@ function makeEntityInsertMutationTypeScript(namedType: GraphQLNamedType, importA
 // --------------------------------------
 //
 
-function makeEntityUpdateMutationTypeScript(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
+function makeEntityUpdateMutationTypeScript(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const primaryKeyIdField = getPrimaryKeyIdField(namedType);
   if (!primaryKeyIdField) return;
 
   const fragmentName = makeFragmentName(namedType.name, config.trimString);
 
   injectUpdateHelpers({
-    contentArray,
-    importArray,
+    contentManager,
     entityName: namedType.name,
     fragmentName,
     trimString: config.trimString,
@@ -137,15 +133,14 @@ function makeEntityUpdateMutationTypeScript(namedType: GraphQLNamedType, importA
 // --------------------------------------
 //
 
-function makeEntityDeleteMutationTypeScript(namedType: GraphQLNamedType, importArray: string[], contentArray: string[], config: CstmHasuraCrudPluginConfig) {
+function makeEntityDeleteMutationTypeScript(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const primaryKeyIdField = getPrimaryKeyIdField(namedType);
   if (!primaryKeyIdField) return;
 
   const fragmentName = makeFragmentName(namedType.name, config.trimString);
 
   injectDeleteHelpers({
-    contentArray,
-    importArray,
+    contentManager,
     entityName: namedType.name,
     fragmentName,
     trimString: config.trimString,

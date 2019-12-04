@@ -1,38 +1,33 @@
 import { FieldDefinitionNode } from "graphql";
-import { getIdPostGresFieldType, makeModelName, makeFragmentDocName } from ".";
+import { getIdPostGresFieldType, makeModelName, makeFragmentDocName, ContentManager } from ".";
 import { makeImportStatement, makeShortName, makeCamelCase } from "./utils";
 
 // ---------------------------------
 //
 export function injectFragmentImport({
-  importArray,
+  contentManager,
   fragmentName,
   fragmentRelativeImportPath
 }: {
-  importArray: string[];
+  contentManager: ContentManager;
   fragmentName: string;
   fragmentRelativeImportPath: string;
 }) {
   const fragmentDocName = makeFragmentDocName(fragmentName);
   const fragmentImport = makeImportStatement(fragmentDocName, fragmentRelativeImportPath);
-  // import fragment if not already
-  if (!importArray.includes(fragmentImport)) {
-    importArray.push(fragmentImport);
-  }
+  contentManager.addImport(fragmentImport);
 }
 
 // ---------------------------------
 //
 export function injectFetchGql({
-  contentArray,
-  importArray,
+  contentManager,
   entityName,
   fragmentName,
   trimString,
   primaryKeyIdField
 }: {
-  contentArray: string[];
-  importArray: string[];
+  contentManager: ContentManager;
   entityName: string;
   fragmentName: string;
   trimString?: string;
@@ -43,7 +38,7 @@ export function injectFetchGql({
   const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
   const fragmentDocName = makeFragmentDocName(fragmentName);
 
-  contentArray.push(`
+  contentManager.addContent(`
 
     // Query: FetchById
     //
@@ -57,7 +52,7 @@ export function injectFetchGql({
       \${${fragmentDocName}}
     \`;`);
 
-  contentArray.push(`
+  contentManager.addContent(`
 
     // Query: Fetch
     //
@@ -81,15 +76,13 @@ export function injectFetchGql({
 // ---------------------------------
 //
 export function injectInsertGql({
-  contentArray,
-  importArray,
+  contentManager,
   entityName,
   fragmentName,
   trimString,
   primaryKeyIdField
 }: {
-  contentArray: string[];
-  importArray: string[];
+  contentManager: ContentManager;
   entityName: string;
   fragmentName: string;
   trimString?: string;
@@ -97,7 +90,7 @@ export function injectInsertGql({
 }) {
   const fragmentDocName = makeFragmentDocName(fragmentName);
 
-  contentArray.push(`
+  contentManager.addContent(`
 
     // Mutation: Insert
     //
@@ -118,15 +111,13 @@ export function injectInsertGql({
 // ---------------------------------
 //
 export function injectUpdateGql({
-  contentArray,
-  importArray,
+  contentManager,
   entityName,
   fragmentName,
   trimString,
   primaryKeyIdField
 }: {
-  contentArray: string[];
-  importArray: string[];
+  contentManager: ContentManager;
   entityName: string;
   fragmentName: string;
   trimString?: string;
@@ -135,7 +126,7 @@ export function injectUpdateGql({
   const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
   const fragmentDocName = makeFragmentDocName(fragmentName);
 
-  contentArray.push(`
+  contentManager.addContent(`
 
     // Mutation: Update by Id
     //
@@ -152,7 +143,7 @@ export function injectUpdateGql({
       \${${fragmentDocName}}
     \`;`);
 
-  contentArray.push(`
+  contentManager.addContent(`
 
     // Mutation: Update
     //
@@ -173,15 +164,13 @@ export function injectUpdateGql({
 // ---------------------------------
 //
 export function injectDeleteGql({
-  contentArray,
-  importArray,
+  contentManager,
   entityName,
   fragmentName,
   trimString,
   primaryKeyIdField
 }: {
-  contentArray: string[];
-  importArray: string[];
+  contentManager: ContentManager;
   entityName: string;
   fragmentName: string;
   trimString?: string;
@@ -191,7 +180,7 @@ export function injectDeleteGql({
   const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
   const fragmentDocName = makeFragmentDocName(fragmentName);
 
-  contentArray.push(`
+  contentManager.addContent(`
 
     // Mutation: Remove by Id
     //
@@ -205,7 +194,7 @@ export function injectDeleteGql({
       \${${fragmentDocName}}
     \`;`);
 
-  contentArray.push(`
+  contentManager.addContent(`
 
     // Mutation: Remove
     //
