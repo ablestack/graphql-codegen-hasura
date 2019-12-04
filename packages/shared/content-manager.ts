@@ -1,23 +1,32 @@
 export class ContentManager {
-  private imports: { [key: string]: string } = {};
-  private content: { [key: string]: string } = {};
+  private imports: string[] = [];
+  private importsMap: { [key: string]: string } = {};
+
+  private content: string[] = [];
+  private contentMap: { [key: string]: string } = {};
 
   public addImport(importString: string) {
     const hash = this.makeHash(importString);
-    if (!this.imports[hash]) this.imports[hash] = importString;
+    if (!this.importsMap[hash]) {
+      this.importsMap[hash] = null;
+      this.imports.push(importString);
+    }
   }
 
   public addContent(contentString: string) {
     const hash = this.makeHash(contentString);
-    if (!this.content[hash]) this.content[hash] = contentString;
+    if (!this.contentMap[hash]) {
+      this.contentMap[hash] = null;
+      this.content.push(contentString);
+    }
   }
 
   public generateImportArray() {
-    return Object.values(this.imports);
+    return this.imports;
   }
 
   public createContentString() {
-    return Object.values(this.imports).join("\n");
+    return this.content.join("\n");
   }
 
   private makeHash(input: string) {
