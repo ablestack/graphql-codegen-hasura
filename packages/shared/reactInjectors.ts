@@ -172,7 +172,7 @@ export function injectInsertReact({
   `);
 
   contentManager.addContent(`
-    export async function insert${fragmentName}Objects({
+    export async function useInsert${fragmentName}Objects({
       options,
     }:{
       options: Omit<MutationHookOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation'>,
@@ -217,7 +217,7 @@ export function injectUpdateReact({
     // Update Hooks
     //
 
-    export async function update${fragmentName}ById({
+    export async function useUpdate${fragmentName}ById({
       ${entityShortCamelCaseName}Id,
       set,
       options,
@@ -233,7 +233,7 @@ export function injectUpdateReact({
   `);
 
   contentManager.addContent(`
-    export async function update${fragmentName}Objects({
+    export async function useUpdate${fragmentName}Objects({
       apolloClient,
       options,
     }: {
@@ -282,7 +282,7 @@ export function injectDeleteReact({
     // Delete Hooks
     //
 
-    export async function remove${entityModelName}ById({
+    export async function useRemove${entityModelName}ById({
       ${entityShortCamelCaseName}Id,
       options,
     }:{
@@ -296,7 +296,7 @@ export function injectDeleteReact({
   `);
 
   contentManager.addContent(`
-    export async function remove${entityModelName}Objects({
+    export async function useRemove${entityModelName}Objects({
       options,
     }:{
       options: Omit<MutationHookOptions<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>, 'mutation'>,

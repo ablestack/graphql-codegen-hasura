@@ -118,7 +118,7 @@ export function injectInsertHelpers({
     // Insert Helper
     //
 
-    export async function insert${fragmentName}Object({
+    export async function insert${fragmentName}({
       apolloClient,
       ${entityShortCamelCaseName},
       onConflict,
