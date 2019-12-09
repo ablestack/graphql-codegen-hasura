@@ -130,11 +130,17 @@ export function injectInsertHelpers({
       options?: Omit<MutationOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation' | 'variables'>,
     }) {
       
-      const mutation = await apolloClient.mutate<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>({ 
-        mutation: Insert${fragmentName}Document, 
-        variables: { objects: [${entityShortCamelCaseName}], onConflict },
-        ...options,
-      });
+      const mutation = onConflict
+        ? await apolloClient.mutate<Insert${fragmentName}Mutation, Insert${fragmentName}WithOnConflictMutationVariables>({ 
+          mutation: Insert${fragmentName}WithOnConflictDocument, 
+          variables: { objects: [${entityShortCamelCaseName}], onConflict },
+            ...options,
+          })
+        : await apolloClient.mutate<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>({ 
+          mutation: Insert${fragmentName}Document, 
+          variables: { objects: [${entityShortCamelCaseName}] },
+            ...options,
+          });
         
       return { ...mutation, ${fragmentNameCamelCase}:mutation && mutation.data && mutation.data.insert_${entityName} && mutation.data.insert_${entityName}!.returning && mutation.data.insert_${entityName}!.returning[0] };
     }
@@ -159,7 +165,9 @@ export function injectInsertHelpers({
   contentManager.addImport(makeImportStatement(`${entityPascalName}_On_Conflict`, typescriptCodegenOutputPath));
   contentManager.addImport(makeImportStatement(`Insert${fragmentName}Mutation`, typescriptCodegenOutputPath));
   contentManager.addImport(makeImportStatement(`Insert${fragmentName}MutationVariables`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`Insert${fragmentName}WithOnConflictMutationVariables`, typescriptCodegenOutputPath));
   contentManager.addImport(makeImportStatement(`Insert${fragmentName}Document`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`Insert${fragmentName}WithOnConflictDocument`, typescriptCodegenOutputPath));
 }
 
 // ---------------------------------

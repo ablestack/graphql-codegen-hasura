@@ -44,7 +44,23 @@ import { VehicleGraphLocationOnlyFragmentDoc } from '../';
     //
 
     const INSERT_VEHICLEGRAPH = gql`
-      mutation insertVehicleGraph($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
+      mutation insertVehicleGraph($objects: [vehicle_insert_input!]!) {
+        insert_vehicle(objects: $objects) {
+          affected_rows
+          returning {
+            ...VehicleGraph
+          }
+        }
+      }
+      ${VehicleGraphFragmentDoc}
+    `;
+
+
+    // Mutation: Insert
+    //
+
+    const INSERT_VEHICLEGRAPH_WITH_ONCONFLICT = gql`
+      mutation insertVehicleGraphWithOnConflict($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
         insert_vehicle(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {
@@ -152,7 +168,23 @@ import { VehicleGraphLocationOnlyFragmentDoc } from '../';
     //
 
     const INSERT_VEHICLEGRAPHLOCATIONONLY = gql`
-      mutation insertVehicleGraphLocationOnly($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
+      mutation insertVehicleGraphLocationOnly($objects: [vehicle_insert_input!]!) {
+        insert_vehicle(objects: $objects) {
+          affected_rows
+          returning {
+            ...VehicleGraphLocationOnly
+          }
+        }
+      }
+      ${VehicleGraphLocationOnlyFragmentDoc}
+    `;
+
+
+    // Mutation: Insert
+    //
+
+    const INSERT_VEHICLEGRAPHLOCATIONONLY_WITH_ONCONFLICT = gql`
+      mutation insertVehicleGraphLocationOnlyWithOnConflict($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
         insert_vehicle(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {

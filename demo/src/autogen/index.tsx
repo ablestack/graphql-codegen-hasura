@@ -5760,12 +5760,29 @@ export type FetchVehicleGraphQuery = (
 );
 
 export type InsertVehicleGraphMutationVariables = {
+  objects: Array<Vehicle_Insert_Input>
+};
+
+
+export type InsertVehicleGraphMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_vehicle: Maybe<(
+    { __typename?: 'vehicle_mutation_response' }
+    & Pick<Vehicle_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'vehicle' }
+      & VehicleGraphFragment
+    )> }
+  )> }
+);
+
+export type InsertVehicleGraphWithOnConflictMutationVariables = {
   objects: Array<Vehicle_Insert_Input>,
   onConflict?: Maybe<Vehicle_On_Conflict>
 };
 
 
-export type InsertVehicleGraphMutation = (
+export type InsertVehicleGraphWithOnConflictMutation = (
   { __typename?: 'mutation_root' }
   & { insert_vehicle: Maybe<(
     { __typename?: 'vehicle_mutation_response' }
@@ -5870,12 +5887,29 @@ export type FetchVehicleGraphLocationOnlyQuery = (
 );
 
 export type InsertVehicleGraphLocationOnlyMutationVariables = {
+  objects: Array<Vehicle_Insert_Input>
+};
+
+
+export type InsertVehicleGraphLocationOnlyMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_vehicle: Maybe<(
+    { __typename?: 'vehicle_mutation_response' }
+    & Pick<Vehicle_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'vehicle' }
+      & VehicleGraphLocationOnlyFragment
+    )> }
+  )> }
+);
+
+export type InsertVehicleGraphLocationOnlyWithOnConflictMutationVariables = {
   objects: Array<Vehicle_Insert_Input>,
   onConflict?: Maybe<Vehicle_On_Conflict>
 };
 
 
-export type InsertVehicleGraphLocationOnlyMutation = (
+export type InsertVehicleGraphLocationOnlyWithOnConflictMutation = (
   { __typename?: 'mutation_root' }
   & { insert_vehicle: Maybe<(
     { __typename?: 'vehicle_mutation_response' }
@@ -5959,12 +5993,29 @@ export type FetchObservationModelFieldsQuery = (
 );
 
 export type InsertObservationModelFieldsMutationVariables = {
+  objects: Array<Observation_Insert_Input>
+};
+
+
+export type InsertObservationModelFieldsMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_observation: Maybe<(
+    { __typename?: 'observation_mutation_response' }
+    & Pick<Observation_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'observation' }
+      & ObservationModelFieldsFragment
+    )> }
+  )> }
+);
+
+export type InsertObservationModelFieldsWithOnConflictMutationVariables = {
   objects: Array<Observation_Insert_Input>,
   onConflict?: Maybe<Observation_On_Conflict>
 };
 
 
-export type InsertObservationModelFieldsMutation = (
+export type InsertObservationModelFieldsWithOnConflictMutation = (
   { __typename?: 'mutation_root' }
   & { insert_observation: Maybe<(
     { __typename?: 'observation_mutation_response' }
@@ -6048,12 +6099,29 @@ export type FetchPModelFieldsQuery = (
 );
 
 export type InsertPModelFieldsMutationVariables = {
+  objects: Array<P_Insert_Input>
+};
+
+
+export type InsertPModelFieldsMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_p: Maybe<(
+    { __typename?: 'p_mutation_response' }
+    & Pick<P_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'p' }
+      & PModelFieldsFragment
+    )> }
+  )> }
+);
+
+export type InsertPModelFieldsWithOnConflictMutationVariables = {
   objects: Array<P_Insert_Input>,
   onConflict?: Maybe<P_On_Conflict>
 };
 
 
-export type InsertPModelFieldsMutation = (
+export type InsertPModelFieldsWithOnConflictMutation = (
   { __typename?: 'mutation_root' }
   & { insert_p: Maybe<(
     { __typename?: 'p_mutation_response' }
@@ -6137,12 +6205,29 @@ export type FetchPatientModelFieldsQuery = (
 );
 
 export type InsertPatientModelFieldsMutationVariables = {
+  objects: Array<Patient_Insert_Input>
+};
+
+
+export type InsertPatientModelFieldsMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_patient: Maybe<(
+    { __typename?: 'patient_mutation_response' }
+    & Pick<Patient_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'patient' }
+      & PatientModelFieldsFragment
+    )> }
+  )> }
+);
+
+export type InsertPatientModelFieldsWithOnConflictMutationVariables = {
   objects: Array<Patient_Insert_Input>,
   onConflict?: Maybe<Patient_On_Conflict>
 };
 
 
-export type InsertPatientModelFieldsMutation = (
+export type InsertPatientModelFieldsWithOnConflictMutation = (
   { __typename?: 'mutation_root' }
   & { insert_patient: Maybe<(
     { __typename?: 'patient_mutation_response' }
@@ -6226,12 +6311,29 @@ export type FetchUsersModelFieldsQuery = (
 );
 
 export type InsertUsersModelFieldsMutationVariables = {
+  objects: Array<Users_Insert_Input>
+};
+
+
+export type InsertUsersModelFieldsMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_users: Maybe<(
+    { __typename?: 'users_mutation_response' }
+    & Pick<Users_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'users' }
+      & UsersModelFieldsFragment
+    )> }
+  )> }
+);
+
+export type InsertUsersModelFieldsWithOnConflictMutationVariables = {
   objects: Array<Users_Insert_Input>,
   onConflict?: Maybe<Users_On_Conflict>
 };
 
 
-export type InsertUsersModelFieldsMutation = (
+export type InsertUsersModelFieldsWithOnConflictMutation = (
   { __typename?: 'mutation_root' }
   & { insert_users: Maybe<(
     { __typename?: 'users_mutation_response' }
@@ -6315,12 +6417,29 @@ export type FetchVehicleModelFieldsQuery = (
 );
 
 export type InsertVehicleModelFieldsMutationVariables = {
+  objects: Array<Vehicle_Insert_Input>
+};
+
+
+export type InsertVehicleModelFieldsMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_vehicle: Maybe<(
+    { __typename?: 'vehicle_mutation_response' }
+    & Pick<Vehicle_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'vehicle' }
+      & VehicleModelFieldsFragment
+    )> }
+  )> }
+);
+
+export type InsertVehicleModelFieldsWithOnConflictMutationVariables = {
   objects: Array<Vehicle_Insert_Input>,
   onConflict?: Maybe<Vehicle_On_Conflict>
 };
 
 
-export type InsertVehicleModelFieldsMutation = (
+export type InsertVehicleModelFieldsWithOnConflictMutation = (
   { __typename?: 'mutation_root' }
   & { insert_vehicle: Maybe<(
     { __typename?: 'vehicle_mutation_response' }
@@ -6404,12 +6523,29 @@ export type FetchVehicle_LocationModelFieldsQuery = (
 );
 
 export type InsertVehicle_LocationModelFieldsMutationVariables = {
+  objects: Array<Vehicle_Location_Insert_Input>
+};
+
+
+export type InsertVehicle_LocationModelFieldsMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_vehicle_location: Maybe<(
+    { __typename?: 'vehicle_location_mutation_response' }
+    & Pick<Vehicle_Location_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'vehicle_location' }
+      & Vehicle_LocationModelFieldsFragment
+    )> }
+  )> }
+);
+
+export type InsertVehicle_LocationModelFieldsWithOnConflictMutationVariables = {
   objects: Array<Vehicle_Location_Insert_Input>,
   onConflict?: Maybe<Vehicle_Location_On_Conflict>
 };
 
 
-export type InsertVehicle_LocationModelFieldsMutation = (
+export type InsertVehicle_LocationModelFieldsWithOnConflictMutation = (
   { __typename?: 'mutation_root' }
   & { insert_vehicle_location: Maybe<(
     { __typename?: 'vehicle_location_mutation_response' }
@@ -6549,8 +6685,8 @@ export const FetchVehicleGraphDocument = gql`
     ${VehicleGraphFragmentDoc}`;
 export type FetchVehicleGraphQueryResult = ApolloReactCommon.QueryResult<FetchVehicleGraphQuery, FetchVehicleGraphQueryVariables>;
 export const InsertVehicleGraphDocument = gql`
-    mutation insertVehicleGraph($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
-  insert_vehicle(objects: $objects, on_conflict: $onConflict) {
+    mutation insertVehicleGraph($objects: [vehicle_insert_input!]!) {
+  insert_vehicle(objects: $objects) {
     affected_rows
     returning {
       ...VehicleGraph
@@ -6561,6 +6697,19 @@ export const InsertVehicleGraphDocument = gql`
 export type InsertVehicleGraphMutationFn = ApolloReactCommon.MutationFunction<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>;
 export type InsertVehicleGraphMutationResult = ApolloReactCommon.MutationResult<InsertVehicleGraphMutation>;
 export type InsertVehicleGraphMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>;
+export const InsertVehicleGraphWithOnConflictDocument = gql`
+    mutation insertVehicleGraphWithOnConflict($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
+  insert_vehicle(objects: $objects, on_conflict: $onConflict) {
+    affected_rows
+    returning {
+      ...VehicleGraph
+    }
+  }
+}
+    ${VehicleGraphFragmentDoc}`;
+export type InsertVehicleGraphWithOnConflictMutationFn = ApolloReactCommon.MutationFunction<InsertVehicleGraphWithOnConflictMutation, InsertVehicleGraphWithOnConflictMutationVariables>;
+export type InsertVehicleGraphWithOnConflictMutationResult = ApolloReactCommon.MutationResult<InsertVehicleGraphWithOnConflictMutation>;
+export type InsertVehicleGraphWithOnConflictMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertVehicleGraphWithOnConflictMutation, InsertVehicleGraphWithOnConflictMutationVariables>;
 export const UpdateVehicleGraphByIdDocument = gql`
     mutation updateVehicleGraphById($id: String, $set: vehicle_set_input) {
   update_vehicle(_set: $set, where: {id: {_eq: $id}}) {
@@ -6624,8 +6773,8 @@ export const FetchVehicleGraphLocationOnlyDocument = gql`
     ${VehicleGraphLocationOnlyFragmentDoc}`;
 export type FetchVehicleGraphLocationOnlyQueryResult = ApolloReactCommon.QueryResult<FetchVehicleGraphLocationOnlyQuery, FetchVehicleGraphLocationOnlyQueryVariables>;
 export const InsertVehicleGraphLocationOnlyDocument = gql`
-    mutation insertVehicleGraphLocationOnly($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
-  insert_vehicle(objects: $objects, on_conflict: $onConflict) {
+    mutation insertVehicleGraphLocationOnly($objects: [vehicle_insert_input!]!) {
+  insert_vehicle(objects: $objects) {
     affected_rows
     returning {
       ...VehicleGraphLocationOnly
@@ -6636,6 +6785,19 @@ export const InsertVehicleGraphLocationOnlyDocument = gql`
 export type InsertVehicleGraphLocationOnlyMutationFn = ApolloReactCommon.MutationFunction<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>;
 export type InsertVehicleGraphLocationOnlyMutationResult = ApolloReactCommon.MutationResult<InsertVehicleGraphLocationOnlyMutation>;
 export type InsertVehicleGraphLocationOnlyMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>;
+export const InsertVehicleGraphLocationOnlyWithOnConflictDocument = gql`
+    mutation insertVehicleGraphLocationOnlyWithOnConflict($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
+  insert_vehicle(objects: $objects, on_conflict: $onConflict) {
+    affected_rows
+    returning {
+      ...VehicleGraphLocationOnly
+    }
+  }
+}
+    ${VehicleGraphLocationOnlyFragmentDoc}`;
+export type InsertVehicleGraphLocationOnlyWithOnConflictMutationFn = ApolloReactCommon.MutationFunction<InsertVehicleGraphLocationOnlyWithOnConflictMutation, InsertVehicleGraphLocationOnlyWithOnConflictMutationVariables>;
+export type InsertVehicleGraphLocationOnlyWithOnConflictMutationResult = ApolloReactCommon.MutationResult<InsertVehicleGraphLocationOnlyWithOnConflictMutation>;
+export type InsertVehicleGraphLocationOnlyWithOnConflictMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertVehicleGraphLocationOnlyWithOnConflictMutation, InsertVehicleGraphLocationOnlyWithOnConflictMutationVariables>;
 export const UpdateVehicleGraphLocationOnlyByIdDocument = gql`
     mutation updateVehicleGraphLocationOnlyById($id: String, $set: vehicle_set_input) {
   update_vehicle(_set: $set, where: {id: {_eq: $id}}) {
@@ -6679,8 +6841,8 @@ export const FetchObservationModelFieldsDocument = gql`
     ${ObservationModelFieldsFragmentDoc}`;
 export type FetchObservationModelFieldsQueryResult = ApolloReactCommon.QueryResult<FetchObservationModelFieldsQuery, FetchObservationModelFieldsQueryVariables>;
 export const InsertObservationModelFieldsDocument = gql`
-    mutation insertObservationModelFields($objects: [observation_insert_input!]!, $onConflict: observation_on_conflict) {
-  insert_observation(objects: $objects, on_conflict: $onConflict) {
+    mutation insertObservationModelFields($objects: [observation_insert_input!]!) {
+  insert_observation(objects: $objects) {
     affected_rows
     returning {
       ...ObservationModelFields
@@ -6691,6 +6853,19 @@ export const InsertObservationModelFieldsDocument = gql`
 export type InsertObservationModelFieldsMutationFn = ApolloReactCommon.MutationFunction<InsertObservationModelFieldsMutation, InsertObservationModelFieldsMutationVariables>;
 export type InsertObservationModelFieldsMutationResult = ApolloReactCommon.MutationResult<InsertObservationModelFieldsMutation>;
 export type InsertObservationModelFieldsMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertObservationModelFieldsMutation, InsertObservationModelFieldsMutationVariables>;
+export const InsertObservationModelFieldsWithOnConflictDocument = gql`
+    mutation insertObservationModelFieldsWithOnConflict($objects: [observation_insert_input!]!, $onConflict: observation_on_conflict) {
+  insert_observation(objects: $objects, on_conflict: $onConflict) {
+    affected_rows
+    returning {
+      ...ObservationModelFields
+    }
+  }
+}
+    ${ObservationModelFieldsFragmentDoc}`;
+export type InsertObservationModelFieldsWithOnConflictMutationFn = ApolloReactCommon.MutationFunction<InsertObservationModelFieldsWithOnConflictMutation, InsertObservationModelFieldsWithOnConflictMutationVariables>;
+export type InsertObservationModelFieldsWithOnConflictMutationResult = ApolloReactCommon.MutationResult<InsertObservationModelFieldsWithOnConflictMutation>;
+export type InsertObservationModelFieldsWithOnConflictMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertObservationModelFieldsWithOnConflictMutation, InsertObservationModelFieldsWithOnConflictMutationVariables>;
 export const UpdateObservationModelFieldsByIdDocument = gql`
     mutation updateObservationModelFieldsById($id: uuid, $set: observation_set_input) {
   update_observation(_set: $set, where: {id: {_eq: $id}}) {
@@ -6734,8 +6909,8 @@ export const FetchPModelFieldsDocument = gql`
     ${PModelFieldsFragmentDoc}`;
 export type FetchPModelFieldsQueryResult = ApolloReactCommon.QueryResult<FetchPModelFieldsQuery, FetchPModelFieldsQueryVariables>;
 export const InsertPModelFieldsDocument = gql`
-    mutation insertPModelFields($objects: [p_insert_input!]!, $onConflict: p_on_conflict) {
-  insert_p(objects: $objects, on_conflict: $onConflict) {
+    mutation insertPModelFields($objects: [p_insert_input!]!) {
+  insert_p(objects: $objects) {
     affected_rows
     returning {
       ...PModelFields
@@ -6746,6 +6921,19 @@ export const InsertPModelFieldsDocument = gql`
 export type InsertPModelFieldsMutationFn = ApolloReactCommon.MutationFunction<InsertPModelFieldsMutation, InsertPModelFieldsMutationVariables>;
 export type InsertPModelFieldsMutationResult = ApolloReactCommon.MutationResult<InsertPModelFieldsMutation>;
 export type InsertPModelFieldsMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertPModelFieldsMutation, InsertPModelFieldsMutationVariables>;
+export const InsertPModelFieldsWithOnConflictDocument = gql`
+    mutation insertPModelFieldsWithOnConflict($objects: [p_insert_input!]!, $onConflict: p_on_conflict) {
+  insert_p(objects: $objects, on_conflict: $onConflict) {
+    affected_rows
+    returning {
+      ...PModelFields
+    }
+  }
+}
+    ${PModelFieldsFragmentDoc}`;
+export type InsertPModelFieldsWithOnConflictMutationFn = ApolloReactCommon.MutationFunction<InsertPModelFieldsWithOnConflictMutation, InsertPModelFieldsWithOnConflictMutationVariables>;
+export type InsertPModelFieldsWithOnConflictMutationResult = ApolloReactCommon.MutationResult<InsertPModelFieldsWithOnConflictMutation>;
+export type InsertPModelFieldsWithOnConflictMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertPModelFieldsWithOnConflictMutation, InsertPModelFieldsWithOnConflictMutationVariables>;
 export const UpdatePModelFieldsByIdDocument = gql`
     mutation updatePModelFieldsById($id: Int, $set: p_set_input) {
   update_p(_set: $set, where: {id: {_eq: $id}}) {
@@ -6789,8 +6977,8 @@ export const FetchPatientModelFieldsDocument = gql`
     ${PatientModelFieldsFragmentDoc}`;
 export type FetchPatientModelFieldsQueryResult = ApolloReactCommon.QueryResult<FetchPatientModelFieldsQuery, FetchPatientModelFieldsQueryVariables>;
 export const InsertPatientModelFieldsDocument = gql`
-    mutation insertPatientModelFields($objects: [patient_insert_input!]!, $onConflict: patient_on_conflict) {
-  insert_patient(objects: $objects, on_conflict: $onConflict) {
+    mutation insertPatientModelFields($objects: [patient_insert_input!]!) {
+  insert_patient(objects: $objects) {
     affected_rows
     returning {
       ...PatientModelFields
@@ -6801,6 +6989,19 @@ export const InsertPatientModelFieldsDocument = gql`
 export type InsertPatientModelFieldsMutationFn = ApolloReactCommon.MutationFunction<InsertPatientModelFieldsMutation, InsertPatientModelFieldsMutationVariables>;
 export type InsertPatientModelFieldsMutationResult = ApolloReactCommon.MutationResult<InsertPatientModelFieldsMutation>;
 export type InsertPatientModelFieldsMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertPatientModelFieldsMutation, InsertPatientModelFieldsMutationVariables>;
+export const InsertPatientModelFieldsWithOnConflictDocument = gql`
+    mutation insertPatientModelFieldsWithOnConflict($objects: [patient_insert_input!]!, $onConflict: patient_on_conflict) {
+  insert_patient(objects: $objects, on_conflict: $onConflict) {
+    affected_rows
+    returning {
+      ...PatientModelFields
+    }
+  }
+}
+    ${PatientModelFieldsFragmentDoc}`;
+export type InsertPatientModelFieldsWithOnConflictMutationFn = ApolloReactCommon.MutationFunction<InsertPatientModelFieldsWithOnConflictMutation, InsertPatientModelFieldsWithOnConflictMutationVariables>;
+export type InsertPatientModelFieldsWithOnConflictMutationResult = ApolloReactCommon.MutationResult<InsertPatientModelFieldsWithOnConflictMutation>;
+export type InsertPatientModelFieldsWithOnConflictMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertPatientModelFieldsWithOnConflictMutation, InsertPatientModelFieldsWithOnConflictMutationVariables>;
 export const UpdatePatientModelFieldsByIdDocument = gql`
     mutation updatePatientModelFieldsById($id: uuid, $set: patient_set_input) {
   update_patient(_set: $set, where: {id: {_eq: $id}}) {
@@ -6844,8 +7045,8 @@ export const FetchUsersModelFieldsDocument = gql`
     ${UsersModelFieldsFragmentDoc}`;
 export type FetchUsersModelFieldsQueryResult = ApolloReactCommon.QueryResult<FetchUsersModelFieldsQuery, FetchUsersModelFieldsQueryVariables>;
 export const InsertUsersModelFieldsDocument = gql`
-    mutation insertUsersModelFields($objects: [users_insert_input!]!, $onConflict: users_on_conflict) {
-  insert_users(objects: $objects, on_conflict: $onConflict) {
+    mutation insertUsersModelFields($objects: [users_insert_input!]!) {
+  insert_users(objects: $objects) {
     affected_rows
     returning {
       ...UsersModelFields
@@ -6856,6 +7057,19 @@ export const InsertUsersModelFieldsDocument = gql`
 export type InsertUsersModelFieldsMutationFn = ApolloReactCommon.MutationFunction<InsertUsersModelFieldsMutation, InsertUsersModelFieldsMutationVariables>;
 export type InsertUsersModelFieldsMutationResult = ApolloReactCommon.MutationResult<InsertUsersModelFieldsMutation>;
 export type InsertUsersModelFieldsMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertUsersModelFieldsMutation, InsertUsersModelFieldsMutationVariables>;
+export const InsertUsersModelFieldsWithOnConflictDocument = gql`
+    mutation insertUsersModelFieldsWithOnConflict($objects: [users_insert_input!]!, $onConflict: users_on_conflict) {
+  insert_users(objects: $objects, on_conflict: $onConflict) {
+    affected_rows
+    returning {
+      ...UsersModelFields
+    }
+  }
+}
+    ${UsersModelFieldsFragmentDoc}`;
+export type InsertUsersModelFieldsWithOnConflictMutationFn = ApolloReactCommon.MutationFunction<InsertUsersModelFieldsWithOnConflictMutation, InsertUsersModelFieldsWithOnConflictMutationVariables>;
+export type InsertUsersModelFieldsWithOnConflictMutationResult = ApolloReactCommon.MutationResult<InsertUsersModelFieldsWithOnConflictMutation>;
+export type InsertUsersModelFieldsWithOnConflictMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertUsersModelFieldsWithOnConflictMutation, InsertUsersModelFieldsWithOnConflictMutationVariables>;
 export const UpdateUsersModelFieldsByIdDocument = gql`
     mutation updateUsersModelFieldsById($id: Int, $set: users_set_input) {
   update_users(_set: $set, where: {id: {_eq: $id}}) {
@@ -6899,8 +7113,8 @@ export const FetchVehicleModelFieldsDocument = gql`
     ${VehicleModelFieldsFragmentDoc}`;
 export type FetchVehicleModelFieldsQueryResult = ApolloReactCommon.QueryResult<FetchVehicleModelFieldsQuery, FetchVehicleModelFieldsQueryVariables>;
 export const InsertVehicleModelFieldsDocument = gql`
-    mutation insertVehicleModelFields($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
-  insert_vehicle(objects: $objects, on_conflict: $onConflict) {
+    mutation insertVehicleModelFields($objects: [vehicle_insert_input!]!) {
+  insert_vehicle(objects: $objects) {
     affected_rows
     returning {
       ...VehicleModelFields
@@ -6911,6 +7125,19 @@ export const InsertVehicleModelFieldsDocument = gql`
 export type InsertVehicleModelFieldsMutationFn = ApolloReactCommon.MutationFunction<InsertVehicleModelFieldsMutation, InsertVehicleModelFieldsMutationVariables>;
 export type InsertVehicleModelFieldsMutationResult = ApolloReactCommon.MutationResult<InsertVehicleModelFieldsMutation>;
 export type InsertVehicleModelFieldsMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertVehicleModelFieldsMutation, InsertVehicleModelFieldsMutationVariables>;
+export const InsertVehicleModelFieldsWithOnConflictDocument = gql`
+    mutation insertVehicleModelFieldsWithOnConflict($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
+  insert_vehicle(objects: $objects, on_conflict: $onConflict) {
+    affected_rows
+    returning {
+      ...VehicleModelFields
+    }
+  }
+}
+    ${VehicleModelFieldsFragmentDoc}`;
+export type InsertVehicleModelFieldsWithOnConflictMutationFn = ApolloReactCommon.MutationFunction<InsertVehicleModelFieldsWithOnConflictMutation, InsertVehicleModelFieldsWithOnConflictMutationVariables>;
+export type InsertVehicleModelFieldsWithOnConflictMutationResult = ApolloReactCommon.MutationResult<InsertVehicleModelFieldsWithOnConflictMutation>;
+export type InsertVehicleModelFieldsWithOnConflictMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertVehicleModelFieldsWithOnConflictMutation, InsertVehicleModelFieldsWithOnConflictMutationVariables>;
 export const UpdateVehicleModelFieldsByIdDocument = gql`
     mutation updateVehicleModelFieldsById($id: String, $set: vehicle_set_input) {
   update_vehicle(_set: $set, where: {id: {_eq: $id}}) {
@@ -6954,8 +7181,8 @@ export const FetchVehicle_LocationModelFieldsDocument = gql`
     ${Vehicle_LocationModelFieldsFragmentDoc}`;
 export type FetchVehicle_LocationModelFieldsQueryResult = ApolloReactCommon.QueryResult<FetchVehicle_LocationModelFieldsQuery, FetchVehicle_LocationModelFieldsQueryVariables>;
 export const InsertVehicle_LocationModelFieldsDocument = gql`
-    mutation insertVehicle_LocationModelFields($objects: [vehicle_location_insert_input!]!, $onConflict: vehicle_location_on_conflict) {
-  insert_vehicle_location(objects: $objects, on_conflict: $onConflict) {
+    mutation insertVehicle_LocationModelFields($objects: [vehicle_location_insert_input!]!) {
+  insert_vehicle_location(objects: $objects) {
     affected_rows
     returning {
       ...Vehicle_LocationModelFields
@@ -6966,6 +7193,19 @@ export const InsertVehicle_LocationModelFieldsDocument = gql`
 export type InsertVehicle_LocationModelFieldsMutationFn = ApolloReactCommon.MutationFunction<InsertVehicle_LocationModelFieldsMutation, InsertVehicle_LocationModelFieldsMutationVariables>;
 export type InsertVehicle_LocationModelFieldsMutationResult = ApolloReactCommon.MutationResult<InsertVehicle_LocationModelFieldsMutation>;
 export type InsertVehicle_LocationModelFieldsMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertVehicle_LocationModelFieldsMutation, InsertVehicle_LocationModelFieldsMutationVariables>;
+export const InsertVehicle_LocationModelFieldsWithOnConflictDocument = gql`
+    mutation insertVehicle_LocationModelFieldsWithOnConflict($objects: [vehicle_location_insert_input!]!, $onConflict: vehicle_location_on_conflict) {
+  insert_vehicle_location(objects: $objects, on_conflict: $onConflict) {
+    affected_rows
+    returning {
+      ...Vehicle_LocationModelFields
+    }
+  }
+}
+    ${Vehicle_LocationModelFieldsFragmentDoc}`;
+export type InsertVehicle_LocationModelFieldsWithOnConflictMutationFn = ApolloReactCommon.MutationFunction<InsertVehicle_LocationModelFieldsWithOnConflictMutation, InsertVehicle_LocationModelFieldsWithOnConflictMutationVariables>;
+export type InsertVehicle_LocationModelFieldsWithOnConflictMutationResult = ApolloReactCommon.MutationResult<InsertVehicle_LocationModelFieldsWithOnConflictMutation>;
+export type InsertVehicle_LocationModelFieldsWithOnConflictMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertVehicle_LocationModelFieldsWithOnConflictMutation, InsertVehicle_LocationModelFieldsWithOnConflictMutationVariables>;
 export const UpdateVehicle_LocationModelFieldsByIdDocument = gql`
     mutation updateVehicle_LocationModelFieldsById($id: Int, $set: vehicle_location_set_input) {
   update_vehicle_location(_set: $set, where: {id: {_eq: $id}}) {

@@ -159,13 +159,19 @@ export function injectInsertReact({
       onConflict?: ${entityPascalName}_On_Conflict,
       options?: Omit<MutationHookOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation' | 'variables'>,
     }) {
-      const lazyMutation = useMutation<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>( 
-        Insert${fragmentName}Document, 
-        {
-          variables: { objects: [${entityShortCamelCaseName}], onConflict },
-          ...options,
-        }
-      );
+      const lazyMutation = onConflict
+        ? useMutation<Insert${fragmentName}Mutation, Insert${fragmentName}WithOnConflictMutationVariables>( 
+          Insert${fragmentName}WithOnConflictDocument, 
+          {
+            variables: { objects: [${entityShortCamelCaseName}], onConflict },
+            ...options,
+          })
+        : useMutation<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>( 
+          Insert${fragmentName}Document, 
+          {
+            variables: { objects: [${entityShortCamelCaseName}] },
+            ...options,
+          });
     
       return [lazyMutation[0], { ...lazyMutation[1], ${fragmentNameCamelCase}: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.insert_${entityName} && lazyMutation[1].data.insert_${entityName}!.returning && lazyMutation[1].data.insert_${entityName}!.returning[0] }]
     }
@@ -187,7 +193,9 @@ export function injectInsertReact({
   contentManager.addImport(makeImportStatement(`${entityPascalName}_On_Conflict`, typescriptCodegenOutputPath));
   contentManager.addImport(makeImportStatement(`Insert${fragmentName}Mutation`, typescriptCodegenOutputPath));
   contentManager.addImport(makeImportStatement(`Insert${fragmentName}MutationVariables`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`Insert${fragmentName}WithOnConflictMutationVariables`, typescriptCodegenOutputPath));
   contentManager.addImport(makeImportStatement(`Insert${fragmentName}Document`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`Insert${fragmentName}WithOnConflictDocument`, typescriptCodegenOutputPath));
 }
 
 // ---------------------------------

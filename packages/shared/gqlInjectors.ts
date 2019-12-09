@@ -96,7 +96,24 @@ export function injectInsertGql({
     //
 
     const INSERT_${fragmentName.toUpperCase()} = gql\`
-      mutation insert${fragmentName}($objects: [${entityName}_insert_input!]!, $onConflict: ${entityName}_on_conflict) {
+      mutation insert${fragmentName}($objects: [${entityName}_insert_input!]!) {
+        insert_${entityName}(objects: $objects) {
+          affected_rows
+          returning {
+            ...${fragmentName}
+          }
+        }
+      }
+      \${${fragmentDocName}}
+    \`;`);
+
+  contentManager.addContent(`
+
+    // Mutation: Insert
+    //
+
+    const INSERT_${fragmentName.toUpperCase()}_WITH_ONCONFLICT = gql\`
+      mutation insert${fragmentName}WithOnConflict($objects: [${entityName}_insert_input!]!, $onConflict: ${entityName}_on_conflict) {
         insert_${entityName}(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {

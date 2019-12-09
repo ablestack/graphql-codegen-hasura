@@ -53,7 +53,23 @@ import gql from 'graphql-tag';
     //
 
     const INSERT_OBSERVATIONMODELFIELDS = gql`
-      mutation insertObservationModelFields($objects: [observation_insert_input!]!, $onConflict: observation_on_conflict) {
+      mutation insertObservationModelFields($objects: [observation_insert_input!]!) {
+        insert_observation(objects: $objects) {
+          affected_rows
+          returning {
+            ...ObservationModelFields
+          }
+        }
+      }
+      ${ObservationModelFieldsFragmentDoc}
+    `;
+
+
+    // Mutation: Insert
+    //
+
+    const INSERT_OBSERVATIONMODELFIELDS_WITH_ONCONFLICT = gql`
+      mutation insertObservationModelFieldsWithOnConflict($objects: [observation_insert_input!]!, $onConflict: observation_on_conflict) {
         insert_observation(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {
@@ -149,7 +165,23 @@ import gql from 'graphql-tag';
     //
 
     const INSERT_PMODELFIELDS = gql`
-      mutation insertPModelFields($objects: [p_insert_input!]!, $onConflict: p_on_conflict) {
+      mutation insertPModelFields($objects: [p_insert_input!]!) {
+        insert_p(objects: $objects) {
+          affected_rows
+          returning {
+            ...PModelFields
+          }
+        }
+      }
+      ${PModelFieldsFragmentDoc}
+    `;
+
+
+    // Mutation: Insert
+    //
+
+    const INSERT_PMODELFIELDS_WITH_ONCONFLICT = gql`
+      mutation insertPModelFieldsWithOnConflict($objects: [p_insert_input!]!, $onConflict: p_on_conflict) {
         insert_p(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {
@@ -244,7 +276,23 @@ import gql from 'graphql-tag';
     //
 
     const INSERT_PATIENTMODELFIELDS = gql`
-      mutation insertPatientModelFields($objects: [patient_insert_input!]!, $onConflict: patient_on_conflict) {
+      mutation insertPatientModelFields($objects: [patient_insert_input!]!) {
+        insert_patient(objects: $objects) {
+          affected_rows
+          returning {
+            ...PatientModelFields
+          }
+        }
+      }
+      ${PatientModelFieldsFragmentDoc}
+    `;
+
+
+    // Mutation: Insert
+    //
+
+    const INSERT_PATIENTMODELFIELDS_WITH_ONCONFLICT = gql`
+      mutation insertPatientModelFieldsWithOnConflict($objects: [patient_insert_input!]!, $onConflict: patient_on_conflict) {
         insert_patient(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {
@@ -340,7 +388,23 @@ import gql from 'graphql-tag';
     //
 
     const INSERT_USERSMODELFIELDS = gql`
-      mutation insertUsersModelFields($objects: [users_insert_input!]!, $onConflict: users_on_conflict) {
+      mutation insertUsersModelFields($objects: [users_insert_input!]!) {
+        insert_users(objects: $objects) {
+          affected_rows
+          returning {
+            ...UsersModelFields
+          }
+        }
+      }
+      ${UsersModelFieldsFragmentDoc}
+    `;
+
+
+    // Mutation: Insert
+    //
+
+    const INSERT_USERSMODELFIELDS_WITH_ONCONFLICT = gql`
+      mutation insertUsersModelFieldsWithOnConflict($objects: [users_insert_input!]!, $onConflict: users_on_conflict) {
         insert_users(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {
@@ -435,7 +499,23 @@ import gql from 'graphql-tag';
     //
 
     const INSERT_VEHICLEMODELFIELDS = gql`
-      mutation insertVehicleModelFields($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
+      mutation insertVehicleModelFields($objects: [vehicle_insert_input!]!) {
+        insert_vehicle(objects: $objects) {
+          affected_rows
+          returning {
+            ...VehicleModelFields
+          }
+        }
+      }
+      ${VehicleModelFieldsFragmentDoc}
+    `;
+
+
+    // Mutation: Insert
+    //
+
+    const INSERT_VEHICLEMODELFIELDS_WITH_ONCONFLICT = gql`
+      mutation insertVehicleModelFieldsWithOnConflict($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
         insert_vehicle(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {
@@ -532,7 +612,23 @@ import gql from 'graphql-tag';
     //
 
     const INSERT_VEHICLE_LOCATIONMODELFIELDS = gql`
-      mutation insertVehicle_LocationModelFields($objects: [vehicle_location_insert_input!]!, $onConflict: vehicle_location_on_conflict) {
+      mutation insertVehicle_LocationModelFields($objects: [vehicle_location_insert_input!]!) {
+        insert_vehicle_location(objects: $objects) {
+          affected_rows
+          returning {
+            ...Vehicle_LocationModelFields
+          }
+        }
+      }
+      ${Vehicle_LocationModelFieldsFragmentDoc}
+    `;
+
+
+    // Mutation: Insert
+    //
+
+    const INSERT_VEHICLE_LOCATIONMODELFIELDS_WITH_ONCONFLICT = gql`
+      mutation insertVehicle_LocationModelFieldsWithOnConflict($objects: [vehicle_location_insert_input!]!, $onConflict: vehicle_location_on_conflict) {
         insert_vehicle_location(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {

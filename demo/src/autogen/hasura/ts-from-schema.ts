@@ -11,7 +11,9 @@ import { Observation_Insert_Input } from '../';
 import { Observation_On_Conflict } from '../';
 import { InsertObservationModelFieldsMutation } from '../';
 import { InsertObservationModelFieldsMutationVariables } from '../';
+import { InsertObservationModelFieldsWithOnConflictMutationVariables } from '../';
 import { InsertObservationModelFieldsDocument } from '../';
+import { InsertObservationModelFieldsWithOnConflictDocument } from '../';
 import { Observation_Set_Input } from '../';
 import { UpdateObservationModelFieldsByIdMutation } from '../';
 import { UpdateObservationModelFieldsByIdMutationVariables } from '../';
@@ -29,7 +31,9 @@ import { P_Insert_Input } from '../';
 import { P_On_Conflict } from '../';
 import { InsertPModelFieldsMutation } from '../';
 import { InsertPModelFieldsMutationVariables } from '../';
+import { InsertPModelFieldsWithOnConflictMutationVariables } from '../';
 import { InsertPModelFieldsDocument } from '../';
+import { InsertPModelFieldsWithOnConflictDocument } from '../';
 import { P_Set_Input } from '../';
 import { UpdatePModelFieldsByIdMutation } from '../';
 import { UpdatePModelFieldsByIdMutationVariables } from '../';
@@ -47,7 +51,9 @@ import { Patient_Insert_Input } from '../';
 import { Patient_On_Conflict } from '../';
 import { InsertPatientModelFieldsMutation } from '../';
 import { InsertPatientModelFieldsMutationVariables } from '../';
+import { InsertPatientModelFieldsWithOnConflictMutationVariables } from '../';
 import { InsertPatientModelFieldsDocument } from '../';
+import { InsertPatientModelFieldsWithOnConflictDocument } from '../';
 import { Patient_Set_Input } from '../';
 import { UpdatePatientModelFieldsByIdMutation } from '../';
 import { UpdatePatientModelFieldsByIdMutationVariables } from '../';
@@ -65,7 +71,9 @@ import { Users_Insert_Input } from '../';
 import { Users_On_Conflict } from '../';
 import { InsertUsersModelFieldsMutation } from '../';
 import { InsertUsersModelFieldsMutationVariables } from '../';
+import { InsertUsersModelFieldsWithOnConflictMutationVariables } from '../';
 import { InsertUsersModelFieldsDocument } from '../';
+import { InsertUsersModelFieldsWithOnConflictDocument } from '../';
 import { Users_Set_Input } from '../';
 import { UpdateUsersModelFieldsByIdMutation } from '../';
 import { UpdateUsersModelFieldsByIdMutationVariables } from '../';
@@ -83,7 +91,9 @@ import { Vehicle_Insert_Input } from '../';
 import { Vehicle_On_Conflict } from '../';
 import { InsertVehicleModelFieldsMutation } from '../';
 import { InsertVehicleModelFieldsMutationVariables } from '../';
+import { InsertVehicleModelFieldsWithOnConflictMutationVariables } from '../';
 import { InsertVehicleModelFieldsDocument } from '../';
+import { InsertVehicleModelFieldsWithOnConflictDocument } from '../';
 import { Vehicle_Set_Input } from '../';
 import { UpdateVehicleModelFieldsByIdMutation } from '../';
 import { UpdateVehicleModelFieldsByIdMutationVariables } from '../';
@@ -101,7 +111,9 @@ import { Vehicle_Location_Insert_Input } from '../';
 import { Vehicle_Location_On_Conflict } from '../';
 import { InsertVehicle_LocationModelFieldsMutation } from '../';
 import { InsertVehicle_LocationModelFieldsMutationVariables } from '../';
+import { InsertVehicle_LocationModelFieldsWithOnConflictMutationVariables } from '../';
 import { InsertVehicle_LocationModelFieldsDocument } from '../';
+import { InsertVehicle_LocationModelFieldsWithOnConflictDocument } from '../';
 import { Vehicle_Location_Set_Input } from '../';
 import { UpdateVehicle_LocationModelFieldsByIdMutation } from '../';
 import { UpdateVehicle_LocationModelFieldsByIdMutationVariables } from '../';
@@ -146,7 +158,7 @@ import { UpdateVehicle_LocationModelFieldsDocument } from '../';
     // Insert Helper
     //
 
-    export async function insertObservationModelFieldsObject({
+    export async function insertObservationModelFields({
       apolloClient,
       observation,
       onConflict,
@@ -158,11 +170,17 @@ import { UpdateVehicle_LocationModelFieldsDocument } from '../';
       options?: Omit<MutationOptions<InsertObservationModelFieldsMutation, InsertObservationModelFieldsMutationVariables>, 'mutation' | 'variables'>,
     }) {
       
-      const mutation = await apolloClient.mutate<InsertObservationModelFieldsMutation, InsertObservationModelFieldsMutationVariables>({ 
-        mutation: InsertObservationModelFieldsDocument, 
-        variables: { objects: [observation], onConflict },
-        ...options,
-      });
+      const mutation = onConflict
+        ? await apolloClient.mutate<InsertObservationModelFieldsMutation, InsertObservationModelFieldsWithOnConflictMutationVariables>({ 
+          mutation: InsertObservationModelFieldsWithOnConflictDocument, 
+          variables: { objects: [observation], onConflict },
+            ...options,
+          })
+        : await apolloClient.mutate<InsertObservationModelFieldsMutation, InsertObservationModelFieldsMutationVariables>({ 
+          mutation: InsertObservationModelFieldsDocument, 
+          variables: { objects: [observation] },
+            ...options,
+          });
         
       return { ...mutation, observationModelFields:mutation && mutation.data && mutation.data.insert_observation && mutation.data.insert_observation!.returning && mutation.data.insert_observation!.returning[0] };
     }
@@ -251,7 +269,7 @@ import { UpdateVehicle_LocationModelFieldsDocument } from '../';
     // Insert Helper
     //
 
-    export async function insertPModelFieldsObject({
+    export async function insertPModelFields({
       apolloClient,
       p,
       onConflict,
@@ -263,11 +281,17 @@ import { UpdateVehicle_LocationModelFieldsDocument } from '../';
       options?: Omit<MutationOptions<InsertPModelFieldsMutation, InsertPModelFieldsMutationVariables>, 'mutation' | 'variables'>,
     }) {
       
-      const mutation = await apolloClient.mutate<InsertPModelFieldsMutation, InsertPModelFieldsMutationVariables>({ 
-        mutation: InsertPModelFieldsDocument, 
-        variables: { objects: [p], onConflict },
-        ...options,
-      });
+      const mutation = onConflict
+        ? await apolloClient.mutate<InsertPModelFieldsMutation, InsertPModelFieldsWithOnConflictMutationVariables>({ 
+          mutation: InsertPModelFieldsWithOnConflictDocument, 
+          variables: { objects: [p], onConflict },
+            ...options,
+          })
+        : await apolloClient.mutate<InsertPModelFieldsMutation, InsertPModelFieldsMutationVariables>({ 
+          mutation: InsertPModelFieldsDocument, 
+          variables: { objects: [p] },
+            ...options,
+          });
         
       return { ...mutation, pmodelFields:mutation && mutation.data && mutation.data.insert_p && mutation.data.insert_p!.returning && mutation.data.insert_p!.returning[0] };
     }
@@ -356,7 +380,7 @@ import { UpdateVehicle_LocationModelFieldsDocument } from '../';
     // Insert Helper
     //
 
-    export async function insertPatientModelFieldsObject({
+    export async function insertPatientModelFields({
       apolloClient,
       patient,
       onConflict,
@@ -368,11 +392,17 @@ import { UpdateVehicle_LocationModelFieldsDocument } from '../';
       options?: Omit<MutationOptions<InsertPatientModelFieldsMutation, InsertPatientModelFieldsMutationVariables>, 'mutation' | 'variables'>,
     }) {
       
-      const mutation = await apolloClient.mutate<InsertPatientModelFieldsMutation, InsertPatientModelFieldsMutationVariables>({ 
-        mutation: InsertPatientModelFieldsDocument, 
-        variables: { objects: [patient], onConflict },
-        ...options,
-      });
+      const mutation = onConflict
+        ? await apolloClient.mutate<InsertPatientModelFieldsMutation, InsertPatientModelFieldsWithOnConflictMutationVariables>({ 
+          mutation: InsertPatientModelFieldsWithOnConflictDocument, 
+          variables: { objects: [patient], onConflict },
+            ...options,
+          })
+        : await apolloClient.mutate<InsertPatientModelFieldsMutation, InsertPatientModelFieldsMutationVariables>({ 
+          mutation: InsertPatientModelFieldsDocument, 
+          variables: { objects: [patient] },
+            ...options,
+          });
         
       return { ...mutation, patientModelFields:mutation && mutation.data && mutation.data.insert_patient && mutation.data.insert_patient!.returning && mutation.data.insert_patient!.returning[0] };
     }
@@ -461,7 +491,7 @@ import { UpdateVehicle_LocationModelFieldsDocument } from '../';
     // Insert Helper
     //
 
-    export async function insertUsersModelFieldsObject({
+    export async function insertUsersModelFields({
       apolloClient,
       users,
       onConflict,
@@ -473,11 +503,17 @@ import { UpdateVehicle_LocationModelFieldsDocument } from '../';
       options?: Omit<MutationOptions<InsertUsersModelFieldsMutation, InsertUsersModelFieldsMutationVariables>, 'mutation' | 'variables'>,
     }) {
       
-      const mutation = await apolloClient.mutate<InsertUsersModelFieldsMutation, InsertUsersModelFieldsMutationVariables>({ 
-        mutation: InsertUsersModelFieldsDocument, 
-        variables: { objects: [users], onConflict },
-        ...options,
-      });
+      const mutation = onConflict
+        ? await apolloClient.mutate<InsertUsersModelFieldsMutation, InsertUsersModelFieldsWithOnConflictMutationVariables>({ 
+          mutation: InsertUsersModelFieldsWithOnConflictDocument, 
+          variables: { objects: [users], onConflict },
+            ...options,
+          })
+        : await apolloClient.mutate<InsertUsersModelFieldsMutation, InsertUsersModelFieldsMutationVariables>({ 
+          mutation: InsertUsersModelFieldsDocument, 
+          variables: { objects: [users] },
+            ...options,
+          });
         
       return { ...mutation, usersModelFields:mutation && mutation.data && mutation.data.insert_users && mutation.data.insert_users!.returning && mutation.data.insert_users!.returning[0] };
     }
@@ -566,7 +602,7 @@ import { UpdateVehicle_LocationModelFieldsDocument } from '../';
     // Insert Helper
     //
 
-    export async function insertVehicleModelFieldsObject({
+    export async function insertVehicleModelFields({
       apolloClient,
       vehicle,
       onConflict,
@@ -578,11 +614,17 @@ import { UpdateVehicle_LocationModelFieldsDocument } from '../';
       options?: Omit<MutationOptions<InsertVehicleModelFieldsMutation, InsertVehicleModelFieldsMutationVariables>, 'mutation' | 'variables'>,
     }) {
       
-      const mutation = await apolloClient.mutate<InsertVehicleModelFieldsMutation, InsertVehicleModelFieldsMutationVariables>({ 
-        mutation: InsertVehicleModelFieldsDocument, 
-        variables: { objects: [vehicle], onConflict },
-        ...options,
-      });
+      const mutation = onConflict
+        ? await apolloClient.mutate<InsertVehicleModelFieldsMutation, InsertVehicleModelFieldsWithOnConflictMutationVariables>({ 
+          mutation: InsertVehicleModelFieldsWithOnConflictDocument, 
+          variables: { objects: [vehicle], onConflict },
+            ...options,
+          })
+        : await apolloClient.mutate<InsertVehicleModelFieldsMutation, InsertVehicleModelFieldsMutationVariables>({ 
+          mutation: InsertVehicleModelFieldsDocument, 
+          variables: { objects: [vehicle] },
+            ...options,
+          });
         
       return { ...mutation, vehicleModelFields:mutation && mutation.data && mutation.data.insert_vehicle && mutation.data.insert_vehicle!.returning && mutation.data.insert_vehicle!.returning[0] };
     }
@@ -671,7 +713,7 @@ import { UpdateVehicle_LocationModelFieldsDocument } from '../';
     // Insert Helper
     //
 
-    export async function insertVehicle_LocationModelFieldsObject({
+    export async function insertVehicle_LocationModelFields({
       apolloClient,
       vehicle_Location,
       onConflict,
@@ -683,11 +725,17 @@ import { UpdateVehicle_LocationModelFieldsDocument } from '../';
       options?: Omit<MutationOptions<InsertVehicle_LocationModelFieldsMutation, InsertVehicle_LocationModelFieldsMutationVariables>, 'mutation' | 'variables'>,
     }) {
       
-      const mutation = await apolloClient.mutate<InsertVehicle_LocationModelFieldsMutation, InsertVehicle_LocationModelFieldsMutationVariables>({ 
-        mutation: InsertVehicle_LocationModelFieldsDocument, 
-        variables: { objects: [vehicle_Location], onConflict },
-        ...options,
-      });
+      const mutation = onConflict
+        ? await apolloClient.mutate<InsertVehicle_LocationModelFieldsMutation, InsertVehicle_LocationModelFieldsWithOnConflictMutationVariables>({ 
+          mutation: InsertVehicle_LocationModelFieldsWithOnConflictDocument, 
+          variables: { objects: [vehicle_Location], onConflict },
+            ...options,
+          })
+        : await apolloClient.mutate<InsertVehicle_LocationModelFieldsMutation, InsertVehicle_LocationModelFieldsMutationVariables>({ 
+          mutation: InsertVehicle_LocationModelFieldsDocument, 
+          variables: { objects: [vehicle_Location] },
+            ...options,
+          });
         
       return { ...mutation, vehicle_LocationModelFields:mutation && mutation.data && mutation.data.insert_vehicle_location && mutation.data.insert_vehicle_location!.returning && mutation.data.insert_vehicle_location!.returning[0] };
     }

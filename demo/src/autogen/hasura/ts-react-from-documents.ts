@@ -10,7 +10,9 @@ import { Vehicle_Insert_Input } from '../';
 import { Vehicle_On_Conflict } from '../';
 import { InsertVehicleGraphMutation } from '../';
 import { InsertVehicleGraphMutationVariables } from '../';
+import { InsertVehicleGraphWithOnConflictMutationVariables } from '../';
 import { InsertVehicleGraphDocument } from '../';
+import { InsertVehicleGraphWithOnConflictDocument } from '../';
 import { Vehicle_Set_Input } from '../';
 import { UpdateVehicleGraphByIdMutation } from '../';
 import { UpdateVehicleGraphByIdMutationVariables } from '../';
@@ -32,7 +34,9 @@ import { FetchVehicleGraphLocationOnlyDocument } from '../';
 import { FetchVehicleGraphLocationOnlyQueryVariables } from '../';
 import { InsertVehicleGraphLocationOnlyMutation } from '../';
 import { InsertVehicleGraphLocationOnlyMutationVariables } from '../';
+import { InsertVehicleGraphLocationOnlyWithOnConflictMutationVariables } from '../';
 import { InsertVehicleGraphLocationOnlyDocument } from '../';
+import { InsertVehicleGraphLocationOnlyWithOnConflictDocument } from '../';
 import { UpdateVehicleGraphLocationOnlyByIdMutation } from '../';
 import { UpdateVehicleGraphLocationOnlyByIdMutationVariables } from '../';
 import { UpdateVehicleGraphLocationOnlyByIdDocument } from '../';
@@ -120,19 +124,25 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
       onConflict?: Vehicle_On_Conflict,
       options?: Omit<MutationHookOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation' | 'variables'>,
     }) {
-      const lazyMutation = useMutation<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>( 
-        InsertVehicleGraphDocument, 
-        {
-          variables: { objects: [vehicle], onConflict },
-          ...options,
-        }
-      );
+      const lazyMutation = onConflict
+        ? useMutation<InsertVehicleGraphMutation, InsertVehicleGraphWithOnConflictMutationVariables>( 
+          InsertVehicleGraphWithOnConflictDocument, 
+          {
+            variables: { objects: [vehicle], onConflict },
+            ...options,
+          })
+        : useMutation<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>( 
+          InsertVehicleGraphDocument, 
+          {
+            variables: { objects: [vehicle] },
+            ...options,
+          });
     
       return [lazyMutation[0], { ...lazyMutation[1], vehicleGraph: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.insert_vehicle && lazyMutation[1].data.insert_vehicle!.returning && lazyMutation[1].data.insert_vehicle!.returning[0] }]
     }
   
 
-    export async function insertVehicleGraphObjects({
+    export async function useInsertVehicleGraphObjects({
       options,
     }:{
       options: Omit<MutationHookOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation'>,
@@ -146,7 +156,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     // Update Hooks
     //
 
-    export async function updateVehicleGraphById({
+    export async function useUpdateVehicleGraphById({
       vehicleId,
       set,
       options,
@@ -161,7 +171,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     }
   
 
-    export async function updateVehicleGraphObjects({
+    export async function useUpdateVehicleGraphObjects({
       apolloClient,
       options,
     }: {
@@ -177,7 +187,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     // Delete Hooks
     //
 
-    export async function removeVehicleModelById({
+    export async function useRemoveVehicleModelById({
       vehicleId,
       options,
     }:{
@@ -190,7 +200,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     }
   
 
-    export async function removeVehicleModelObjects({
+    export async function useRemoveVehicleModelObjects({
       options,
     }:{
       options: Omit<MutationHookOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>, 'mutation'>,
@@ -275,19 +285,25 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
       onConflict?: Vehicle_On_Conflict,
       options?: Omit<MutationHookOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation' | 'variables'>,
     }) {
-      const lazyMutation = useMutation<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>( 
-        InsertVehicleGraphLocationOnlyDocument, 
-        {
-          variables: { objects: [vehicle], onConflict },
-          ...options,
-        }
-      );
+      const lazyMutation = onConflict
+        ? useMutation<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyWithOnConflictMutationVariables>( 
+          InsertVehicleGraphLocationOnlyWithOnConflictDocument, 
+          {
+            variables: { objects: [vehicle], onConflict },
+            ...options,
+          })
+        : useMutation<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>( 
+          InsertVehicleGraphLocationOnlyDocument, 
+          {
+            variables: { objects: [vehicle] },
+            ...options,
+          });
     
       return [lazyMutation[0], { ...lazyMutation[1], vehicleGraphLocationOnly: lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.insert_vehicle && lazyMutation[1].data.insert_vehicle!.returning && lazyMutation[1].data.insert_vehicle!.returning[0] }]
     }
   
 
-    export async function insertVehicleGraphLocationOnlyObjects({
+    export async function useInsertVehicleGraphLocationOnlyObjects({
       options,
     }:{
       options: Omit<MutationHookOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation'>,
@@ -301,7 +317,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     // Update Hooks
     //
 
-    export async function updateVehicleGraphLocationOnlyById({
+    export async function useUpdateVehicleGraphLocationOnlyById({
       vehicleId,
       set,
       options,
@@ -316,7 +332,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     }
   
 
-    export async function updateVehicleGraphLocationOnlyObjects({
+    export async function useUpdateVehicleGraphLocationOnlyObjects({
       apolloClient,
       options,
     }: {

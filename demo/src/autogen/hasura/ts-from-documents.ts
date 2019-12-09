@@ -11,7 +11,9 @@ import { Vehicle_Insert_Input } from '../';
 import { Vehicle_On_Conflict } from '../';
 import { InsertVehicleGraphMutation } from '../';
 import { InsertVehicleGraphMutationVariables } from '../';
+import { InsertVehicleGraphWithOnConflictMutationVariables } from '../';
 import { InsertVehicleGraphDocument } from '../';
+import { InsertVehicleGraphWithOnConflictDocument } from '../';
 import { Vehicle_Set_Input } from '../';
 import { UpdateVehicleGraphByIdMutation } from '../';
 import { UpdateVehicleGraphByIdMutationVariables } from '../';
@@ -33,7 +35,9 @@ import { FetchVehicleGraphLocationOnlyDocument } from '../';
 import { FetchVehicleGraphLocationOnlyQueryVariables } from '../';
 import { InsertVehicleGraphLocationOnlyMutation } from '../';
 import { InsertVehicleGraphLocationOnlyMutationVariables } from '../';
+import { InsertVehicleGraphLocationOnlyWithOnConflictMutationVariables } from '../';
 import { InsertVehicleGraphLocationOnlyDocument } from '../';
+import { InsertVehicleGraphLocationOnlyWithOnConflictDocument } from '../';
 import { UpdateVehicleGraphLocationOnlyByIdMutation } from '../';
 import { UpdateVehicleGraphLocationOnlyByIdMutationVariables } from '../';
 import { UpdateVehicleGraphLocationOnlyByIdDocument } from '../';
@@ -77,7 +81,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     // Insert Helper
     //
 
-    export async function insertVehicleGraphObject({
+    export async function insertVehicleGraph({
       apolloClient,
       vehicle,
       onConflict,
@@ -89,11 +93,17 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
       options?: Omit<MutationOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation' | 'variables'>,
     }) {
       
-      const mutation = await apolloClient.mutate<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>({ 
-        mutation: InsertVehicleGraphDocument, 
-        variables: { objects: [vehicle], onConflict },
-        ...options,
-      });
+      const mutation = onConflict
+        ? await apolloClient.mutate<InsertVehicleGraphMutation, InsertVehicleGraphWithOnConflictMutationVariables>({ 
+          mutation: InsertVehicleGraphWithOnConflictDocument, 
+          variables: { objects: [vehicle], onConflict },
+            ...options,
+          })
+        : await apolloClient.mutate<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>({ 
+          mutation: InsertVehicleGraphDocument, 
+          variables: { objects: [vehicle] },
+            ...options,
+          });
         
       return { ...mutation, vehicleGraph:mutation && mutation.data && mutation.data.insert_vehicle && mutation.data.insert_vehicle!.returning && mutation.data.insert_vehicle!.returning[0] };
     }
@@ -209,7 +219,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     // Insert Helper
     //
 
-    export async function insertVehicleGraphLocationOnlyObject({
+    export async function insertVehicleGraphLocationOnly({
       apolloClient,
       vehicle,
       onConflict,
@@ -221,11 +231,17 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
       options?: Omit<MutationOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation' | 'variables'>,
     }) {
       
-      const mutation = await apolloClient.mutate<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>({ 
-        mutation: InsertVehicleGraphLocationOnlyDocument, 
-        variables: { objects: [vehicle], onConflict },
-        ...options,
-      });
+      const mutation = onConflict
+        ? await apolloClient.mutate<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyWithOnConflictMutationVariables>({ 
+          mutation: InsertVehicleGraphLocationOnlyWithOnConflictDocument, 
+          variables: { objects: [vehicle], onConflict },
+            ...options,
+          })
+        : await apolloClient.mutate<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>({ 
+          mutation: InsertVehicleGraphLocationOnlyDocument, 
+          variables: { objects: [vehicle] },
+            ...options,
+          });
         
       return { ...mutation, vehicleGraphLocationOnly:mutation && mutation.data && mutation.data.insert_vehicle && mutation.data.insert_vehicle!.returning && mutation.data.insert_vehicle!.returning[0] };
     }
