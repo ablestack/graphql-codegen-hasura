@@ -6,11 +6,13 @@ graphql-codegen-hasura is a collection of code generator plugins for [graphql-co
 
 These plugins allow for the following approaches to Hasura client code generation (or a combination of both):
 
-1.  **Table First**: Generate Hasura client code (gql & TypeScript) for every table defined in Hasura. This approach allows you to get up and running the fastest. However, it may result in a lot of unused (and so unnecessary) code being generated.
+1.  **Fragment First**: Generate Hasura client code (gql & TypeScript) for every fragment defined in the target source code. This approach approach will generally provide greater long-term flexibility as it allows you to define and work with nested entity graphs. It also will only generate the code you need. However, it is slightly less automated, as it requires you to define graph fragments manually
 
-2.  **Fragment First**: Generate Hasura client code (gql & TypeScript) for every fragment defined in the target source code. This approach approach will generally provide greater long-term flexibility as it allows you to define and work with nested entity graphs. It also will only generate the code you need. However, it is slightly less automated, as it requires you to define graph fragments manually
+2.  **Table First** (Deprecated): Generate Hasura client code (gql & TypeScript) for every table defined in Hasura. This approach allows you to get up and running the fastest. However, it may result in a lot of unused (and so unnecessary) code being generated.
 
 ## Quick Start
+
+To quickly view the type of code that gets generated, view the [autogen code files in the demo project](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura).
 
 To quickly try out the code-generation:
 
