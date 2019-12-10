@@ -7,6 +7,7 @@
       "packages/graphql-codegen-hasura-typescript-from-schema",
       "packages/graphql-codegen-hasura-typescript-from-documents",
       "packages/graphql-codegen-hasura-typescript-react-from-documents",
+      "packages/graphql-codegen-hasura-typescript-typepolicies-from-documents",
       "demo"
     ]
   },

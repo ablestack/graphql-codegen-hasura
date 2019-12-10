@@ -44,14 +44,12 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   Object.values(schema.getTypeMap())
     .filter(t => TABLE_TYPE_FILTER(t))
     .map(t => {
-      return `
-      ${makeEntityModelSharedGql(t, contentManager, config)}
-      ${config.withFragments && makeEntityModelFragmentsGql(t, contentManager, config)}
-      ${config.withQueries && makeEntityQueryMutationGql(t, contentManager, config)}
-      ${config.withInserts && makeEntityInsertMutationGql(t, contentManager, config)}
-      ${config.withUpdates && makeEntityUpdateMutationGql(t, contentManager, config)}
-      ${config.withDeletes && makeEntityDeleteMutationGql(t, contentManager, config)}
-      `;
+      injectEntityModelSharedGql(t, contentManager, config);
+      config.withFragments && injectEntityModelFragmentsGql(t, contentManager, config);
+      config.withQueries && injectEntityQueryMutationGql(t, contentManager, config);
+      config.withInserts && injectEntityInsertMutationGql(t, contentManager, config);
+      config.withUpdates && injectEntityUpdateMutationGql(t, contentManager, config);
+      config.withDeletes && injectEntityDeleteMutationGql(t, contentManager, config);
     });
 
   return {
@@ -63,7 +61,7 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
 // --------------------------------------
 //
 
-function makeEntityModelSharedGql(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
+function injectEntityModelSharedGql(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const entityName = namedType.name;
 
   contentManager.addContent(`
@@ -75,7 +73,7 @@ function makeEntityModelSharedGql(namedType: GraphQLNamedType, contentManager: C
   if (config.typescriptCodegenOutputPath) injectFragmentImport({ contentManager, fragmentName, fragmentRelativeImportPath: config.typescriptCodegenOutputPath });
 }
 
-function makeEntityModelFragmentsGql(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
+function injectEntityModelFragmentsGql(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const entityName = namedType.name;
   const fragmentName = makeFragmentName(entityName, config.trimString);
   const fragmentDocName = makeFragmentDocName(fragmentName);
@@ -105,7 +103,7 @@ function makeEntityModelFragmentsGql(namedType: GraphQLNamedType, contentManager
 // --------------------------------------
 //
 
-function makeEntityQueryMutationGql(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
+function injectEntityQueryMutationGql(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const primaryKeyIdField = getPrimaryKeyIdField(namedType);
   if (!primaryKeyIdField) return;
 
@@ -124,7 +122,7 @@ function makeEntityQueryMutationGql(namedType: GraphQLNamedType, contentManager:
 // --------------------------------------
 //
 
-function makeEntityInsertMutationGql(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
+function injectEntityInsertMutationGql(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const primaryKeyIdField = getPrimaryKeyIdField(namedType);
   if (!primaryKeyIdField) return;
 
@@ -143,7 +141,7 @@ function makeEntityInsertMutationGql(namedType: GraphQLNamedType, contentManager
 // --------------------------------------
 //
 
-function makeEntityUpdateMutationGql(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
+function injectEntityUpdateMutationGql(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const primaryKeyIdField = getPrimaryKeyIdField(namedType);
   if (!primaryKeyIdField) return;
 
@@ -162,7 +160,7 @@ function makeEntityUpdateMutationGql(namedType: GraphQLNamedType, contentManager
 // --------------------------------------
 //
 
-function makeEntityDeleteMutationGql(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
+function injectEntityDeleteMutationGql(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const primaryKeyIdField = getPrimaryKeyIdField(namedType);
   if (!primaryKeyIdField) return;
 

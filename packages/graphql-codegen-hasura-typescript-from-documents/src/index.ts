@@ -31,23 +31,19 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   // get typemap from schema
   const typeMap = schema.getTypeMap();
 
+  // find fragment documents
+  const documentFragments = documents.flatMap(document => {
+    return document.content.definitions.filter(definition => definition.kind === "FragmentDefinition");
+  }) as FragmentDefinitionNode[];
+
   // iterate and generate
-  documents
-    .map(document => {
-      document.content.definitions
-        .filter(definition => definition.kind === "FragmentDefinition")
-        .map(definition => {
-          const fd = definition as FragmentDefinitionNode;
-          return `
-      ${makeEntitySharedTypeScript(fd, typeMap, contentManager, config)}
-      ${config.withQueries && makeEntityQueryMutationTypeScript(fd, typeMap, contentManager, config)}
-      ${config.withInserts && makeEntityInsertMutationTypeScript(fd, typeMap, contentManager, config)}
-      ${config.withUpdates && makeEntityUpdateMutationTypeScript(fd, typeMap, contentManager, config)}
-      ${config.withDeletes && makeEntityDeleteMutationTypeScript(fd, typeMap, contentManager, config)}
-      `;
-        });
-    })
-    .flat();
+  documentFragments.map(fragmentDefinition => {
+    injectEntitySharedTypeScript(fragmentDefinition, typeMap, contentManager, config);
+    config.withQueries && injectEntityQueryMutationTypeScript(fragmentDefinition, typeMap, contentManager, config);
+    config.withInserts && injectEntityInsertMutationTypeScript(fragmentDefinition, typeMap, contentManager, config);
+    config.withUpdates && injectEntityUpdateMutationTypeScript(fragmentDefinition, typeMap, contentManager, config);
+    config.withDeletes && injectEntityDeleteMutationTypeScript(fragmentDefinition, typeMap, contentManager, config);
+  });
 
   return {
     prepend: contentManager.generateImportArray(),
@@ -58,7 +54,7 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
 // --------------------------------------
 //
 
-function makeEntitySharedTypeScript(fragmentDefinitionNode: FragmentDefinitionNode, schemaTypeMap: TypeMap, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
+function injectEntitySharedTypeScript(fragmentDefinitionNode: FragmentDefinitionNode, schemaTypeMap: TypeMap, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const fragmentName = fragmentDefinitionNode.name.value;
   const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
   const relatedTableNamedType = schemaTypeMap[fragmentTableName];
@@ -78,7 +74,7 @@ function makeEntitySharedTypeScript(fragmentDefinitionNode: FragmentDefinitionNo
 // --------------------------------------
 //
 
-function makeEntityQueryMutationTypeScript(
+function injectEntityQueryMutationTypeScript(
   fragmentDefinitionNode: FragmentDefinitionNode,
   schemaTypeMap: TypeMap,
   contentManager: ContentManager,
@@ -104,7 +100,7 @@ function makeEntityQueryMutationTypeScript(
 // --------------------------------------
 //
 
-function makeEntityInsertMutationTypeScript(
+function injectEntityInsertMutationTypeScript(
   fragmentDefinitionNode: FragmentDefinitionNode,
   schemaTypeMap: TypeMap,
   contentManager: ContentManager,
@@ -129,7 +125,7 @@ function makeEntityInsertMutationTypeScript(
 // --------------------------------------
 //
 
-function makeEntityUpdateMutationTypeScript(
+function injectEntityUpdateMutationTypeScript(
   fragmentDefinitionNode: FragmentDefinitionNode,
   schemaTypeMap: TypeMap,
   contentManager: ContentManager,
@@ -155,7 +151,7 @@ function makeEntityUpdateMutationTypeScript(
 // --------------------------------------
 //
 
-function makeEntityDeleteMutationTypeScript(
+function injectEntityDeleteMutationTypeScript(
   fragmentDefinitionNode: FragmentDefinitionNode,
   schemaTypeMap: TypeMap,
   contentManager: ContentManager,
