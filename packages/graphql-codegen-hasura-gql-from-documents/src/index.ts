@@ -39,7 +39,7 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   // iterate and generate
   documentFragments.map(fragmentDefinition => {
     injectEntityModelSharedGql(fragmentDefinition, typeMap, contentManager, config);
-    config.withQueries && injectEntityQueryMutationGql(fragmentDefinition, typeMap, contentManager, config);
+    config.withQueries && injectEntityQueryGql(fragmentDefinition, typeMap, contentManager, config);
     config.withInserts && injectEntityInsertMutationGql(fragmentDefinition, typeMap, contentManager, config);
     config.withUpdates && injectEntityUpdateMutationGql(fragmentDefinition, typeMap, contentManager, config);
     config.withDeletes && injectEntityDeleteMutationGql(fragmentDefinition, typeMap, contentManager, config);
@@ -68,13 +68,12 @@ function injectEntityModelSharedGql(fragmentDefinitionNode: FragmentDefinitionNo
 // --------------------------------------
 //
 
-function injectEntityQueryMutationGql(fragmentDefinitionNode: FragmentDefinitionNode, schemaTypeMap: TypeMap, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
+function injectEntityQueryGql(fragmentDefinitionNode: FragmentDefinitionNode, schemaTypeMap: TypeMap, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const fragmentName = fragmentDefinitionNode.name.value;
   const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
   const relatedTableNamedType = schemaTypeMap[fragmentTableName];
 
   const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
-  if (!relatedTablePrimaryKeyIdField) return;
 
   injectFetchGql({
     contentManager,

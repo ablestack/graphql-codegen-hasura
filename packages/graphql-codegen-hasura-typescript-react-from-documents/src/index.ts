@@ -42,7 +42,7 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   // iterate and generate
   documentFragments.map(fragmentDefinition => {
     injectEntitySharedTypeScript(fragmentDefinition, contentManager, typeMap, config);
-    config.withQueries && injectEntityQueryMutationTypeScript(fragmentDefinition, contentManager, typeMap, config);
+    config.withQueries && injectEntityQueryTypeScript(fragmentDefinition, contentManager, typeMap, config);
     config.withInserts && injectEntityInsertMutationTypeScript(fragmentDefinition, contentManager, typeMap, config);
     config.withUpdates && injectEntityUpdateMutationTypeScript(fragmentDefinition, contentManager, typeMap, config);
     config.withDeletes && injectEntityDeleteMutationTypeScript(fragmentDefinition, contentManager, typeMap, config);
@@ -77,18 +77,12 @@ function injectEntitySharedTypeScript(fragmentDefinitionNode: FragmentDefinition
 // --------------------------------------
 //
 
-function injectEntityQueryMutationTypeScript(
-  fragmentDefinitionNode: FragmentDefinitionNode,
-  contentManager: ContentManager,
-  schemaTypeMap: TypeMap,
-  config: CstmHasuraCrudPluginConfig
-) {
+function injectEntityQueryTypeScript(fragmentDefinitionNode: FragmentDefinitionNode, contentManager: ContentManager, schemaTypeMap: TypeMap, config: CstmHasuraCrudPluginConfig) {
   const fragmentName = fragmentDefinitionNode.name.value;
   const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
   const relatedTableNamedType = schemaTypeMap[fragmentTableName];
 
   const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
-  if (!relatedTablePrimaryKeyIdField) return;
 
   injectFetchReact({
     contentManager,

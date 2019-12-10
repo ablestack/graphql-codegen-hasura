@@ -46,14 +46,15 @@ export function injectFetchReact({
   entityName: string;
   fragmentName: string;
   trimString?: string;
-  primaryKeyIdField: FieldDefinitionNode;
+  primaryKeyIdField?: FieldDefinitionNode | null;
   typescriptCodegenOutputPath: string;
 }) {
   const entityShortName = makeShortName(entityName, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
 
-  contentManager.addContent(`
+  if (primaryKeyIdField) {
+    contentManager.addContent(`
       // Fetch Hooks
       //
   
@@ -95,6 +96,7 @@ export function injectFetchReact({
           return [lazyQuery[0], { ...lazyQuery[1], ${fragmentNameCamelCase}: lazyQuery[1] && lazyQuery[1].data && lazyQuery[1].data.${entityName}_by_pk }]
         }
     `);
+  }
 
   contentManager.addContent(`
       // Fetch Collection Hook
@@ -116,9 +118,10 @@ export function injectFetchReact({
         return [lazyQuery[0], { ...lazyQuery[1], objects: lazyQuery[1] && lazyQuery[1].data && lazyQuery[1].data.${entityName} }]
       }
     `);
-  contentManager.addImport(makeImportStatement(`Fetch${fragmentName}ByIdQuery`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Fetch${fragmentName}ByIdQueryVariables`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Fetch${fragmentName}ByIdDocument`, typescriptCodegenOutputPath));
+
+  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`Fetch${fragmentName}ByIdQuery`, typescriptCodegenOutputPath));
+  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`Fetch${fragmentName}ByIdQueryVariables`, typescriptCodegenOutputPath));
+  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`Fetch${fragmentName}ByIdDocument`, typescriptCodegenOutputPath));
   contentManager.addImport(makeImportStatement(`Fetch${fragmentName}Query`, typescriptCodegenOutputPath));
   contentManager.addImport(makeImportStatement(`Fetch${fragmentName}Document`, typescriptCodegenOutputPath));
   contentManager.addImport(makeImportStatement(`Fetch${fragmentName}QueryVariables`, typescriptCodegenOutputPath));

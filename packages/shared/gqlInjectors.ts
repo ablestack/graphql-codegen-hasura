@@ -31,14 +31,15 @@ export function injectFetchGql({
   entityName: string;
   fragmentName: string;
   trimString?: string;
-  primaryKeyIdField: FieldDefinitionNode;
+  primaryKeyIdField?: FieldDefinitionNode | null;
 }) {
   const shortName = makeShortName(entityName, trimString);
   const entityShortCamelName = makeCamelCase(shortName);
-  const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
   const fragmentDocName = makeFragmentDocName(fragmentName);
 
-  contentManager.addContent(`
+  if (primaryKeyIdField) {
+    const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
+    contentManager.addContent(`
 
     // Query: FetchById
     //
@@ -51,6 +52,7 @@ export function injectFetchGql({
       }
       \${${fragmentDocName}}
     \`;`);
+  }
 
   contentManager.addContent(`
 

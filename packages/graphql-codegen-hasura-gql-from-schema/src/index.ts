@@ -46,7 +46,7 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
     .map(t => {
       injectEntityModelSharedGql(t, contentManager, config);
       config.withFragments && injectEntityModelFragmentsGql(t, contentManager, config);
-      config.withQueries && injectEntityQueryMutationGql(t, contentManager, config);
+      config.withQueries && injectEntityQueryGql(t, contentManager, config);
       config.withInserts && injectEntityInsertMutationGql(t, contentManager, config);
       config.withUpdates && injectEntityUpdateMutationGql(t, contentManager, config);
       config.withDeletes && injectEntityDeleteMutationGql(t, contentManager, config);
@@ -103,9 +103,8 @@ function injectEntityModelFragmentsGql(namedType: GraphQLNamedType, contentManag
 // --------------------------------------
 //
 
-function injectEntityQueryMutationGql(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
+function injectEntityQueryGql(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const primaryKeyIdField = getPrimaryKeyIdField(namedType);
-  if (!primaryKeyIdField) return;
 
   const entityName = namedType.name;
   const fragmentName = makeFragmentName(entityName, config.trimString);

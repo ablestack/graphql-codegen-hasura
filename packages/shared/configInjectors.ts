@@ -16,9 +16,11 @@ export function injectEntityTypePolicy({
   entityName: string;
   fragmentName: string;
   trimString?: string;
-  primaryKeyIdField: FieldDefinitionNode;
+  primaryKeyIdField?: FieldDefinitionNode | null;
   typescriptCodegenOutputPath: string;
 }) {
+  if (!primaryKeyIdField) return;
+
   const entityShortName = makeShortName(entityName, trimString);
 
   contentManager.addContent(`

@@ -49,14 +49,15 @@ export function injectFetchHelpers({
   entityName: string;
   fragmentName: string;
   trimString?: string;
-  primaryKeyIdField: FieldDefinitionNode;
+  primaryKeyIdField?: FieldDefinitionNode | null;
   typescriptCodegenOutputPath: string;
 }) {
   const entityShortName = makeShortName(entityName, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
 
-  contentManager.addContent(`
+  if (primaryKeyIdField) {
+    contentManager.addContent(`
       // Fetch Helper
       //
   
@@ -73,6 +74,8 @@ export function injectFetchHelpers({
         return { ...query, ${fragmentNameCamelCase}: query && query.data && query.data.${entityName}_by_pk }
       }
     `);
+  }
+
   contentManager.addContent(`
       export async function fetch${fragmentName}Objects({
         apolloClient,
@@ -85,8 +88,9 @@ export function injectFetchHelpers({
         return { ...query, objects: query && query.data && query.data.${entityName} }
       }
     `);
-  contentManager.addImport(makeImportStatement(`Fetch${fragmentName}ByIdQuery`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Fetch${fragmentName}ByIdDocument`, typescriptCodegenOutputPath));
+
+  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`Fetch${fragmentName}ByIdQuery`, typescriptCodegenOutputPath));
+  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`Fetch${fragmentName}ByIdDocument`, typescriptCodegenOutputPath));
   contentManager.addImport(makeImportStatement(`Fetch${fragmentName}Query`, typescriptCodegenOutputPath));
   contentManager.addImport(makeImportStatement(`Fetch${fragmentName}Document`, typescriptCodegenOutputPath));
   contentManager.addImport(makeImportStatement(`Fetch${fragmentName}QueryVariables`, typescriptCodegenOutputPath));

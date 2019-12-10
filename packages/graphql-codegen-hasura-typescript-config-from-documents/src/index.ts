@@ -80,7 +80,6 @@ function injectTableResolverTypes(fragmentDefinitionNode: FragmentDefinitionNode
   const relatedTableNamedType = schemaTypeMap[fragmentTableName];
 
   const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
-  if (!relatedTablePrimaryKeyIdField) return;
 
   injectEntityResolverTypes({
     contentManager,
@@ -101,7 +100,6 @@ function injectTableTypePolicies(fragmentDefinitionNode: FragmentDefinitionNode,
   const relatedTableNamedType = schemaTypeMap[fragmentTableName];
 
   const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
-  if (!relatedTablePrimaryKeyIdField) return;
 
   injectEntityTypePolicy({
     contentManager,
@@ -120,11 +118,15 @@ function injectTablesTypePolicies(fragmentDefinitionNodes: FragmentDefinitionNod
   const entitiesFromFragments = fragmentDefinitionNodes.map(fragmentDefinitionNode => {
     const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
     const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+    const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+
+    if (!relatedTablePrimaryKeyIdField) return null;
+
     const entityShortName = makeShortName(relatedTableNamedType.name, config.trimString);
     return `${entityShortName}TypePoliciesConfig`;
   });
 
-  const uniqueEntitiesFromFragments = [...new Set(entitiesFromFragments)];
+  const uniqueEntitiesFromFragments = [...new Set(entitiesFromFragments.filter(item => item != null))];
 
   contentManager.addContent(`
 

@@ -42,7 +42,7 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
     .filter(t => TABLE_TYPE_FILTER(t))
     .map(t => {
       injectEntitySharedTypeScript(t, contentManager, config);
-      config.withQueries && injectEntityQueryMutationTypeScript(t, contentManager, config);
+      config.withQueries && injectEntityQueryTypeScript(t, contentManager, config);
       config.withInserts && injectEntityInsertMutationTypeScript(t, contentManager, config);
       config.withUpdates && injectEntityUpdateMutationTypeScript(t, contentManager, config);
       config.withDeletes && injectEntityDeleteMutationTypeScript(t, contentManager, config);
@@ -75,9 +75,8 @@ function injectEntitySharedTypeScript(namedType: GraphQLNamedType, contentManage
 // --------------------------------------
 //
 
-function injectEntityQueryMutationTypeScript(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
+function injectEntityQueryTypeScript(namedType: GraphQLNamedType, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const primaryKeyIdField = getPrimaryKeyIdField(namedType);
-  if (!primaryKeyIdField) return;
 
   const fragmentName = makeFragmentName(namedType.name, config.trimString);
 
