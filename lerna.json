@@ -1,5 +1,5 @@
 {
-  "version": "2.9.1",
+  "version": "2.10.0",
   "packages": [
     "packages/graphql-codegen-hasura-gql-from-schema",
     "packages/graphql-codegen-hasura-gql-from-documents",
