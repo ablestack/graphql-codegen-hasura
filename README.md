@@ -30,7 +30,8 @@ These plugins require and augment the existing fantastic GraphQL code generator 
 - The **graphql-codegen-hasura-gql-from-documents** plugin generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) gql mutations and queries for every _Fragment_ defined in the targeted (code) documents.
 - The **graphql-codegen-hasura-typescript-from-schema** plugin generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Table_ defined in the Hasura database.
 - The **graphql-codegen-hasura-typescript-from-documents** plugin generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Fragment_ defined in the targeted (code) documents.
-- The **graphql-codegen-hasura-typescript-react-from-documents** (Experimental) plugin generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) React Hooks for every _Fragment_ defined in the targeted (code) documents.
+- The **graphql-codegen-hasura-typescript-react-from-documents** plugin generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) React Hooks for every _Fragment_ defined in the targeted (code) documents.
+- The **graphql-codegen-hasura-typescript-config-from-documents** plugin generates TypeScript TypePolicies and Resolver Types for tables related to GQL fragments found in the targeted documents (code). Note: Only support reactApolloVersion 3
 
 ## Structure
 
@@ -63,7 +64,7 @@ It is **important to note**: The TypeScript Generation leverages the files creat
 3. Add the graphql-codegen-hasura packages:
 
 ```
-    yarn add graphql-codegen-hasura-gql-from-schema graphql-codegen-hasura-gql-from-documents graphql-codegen-hasura-typescript-from-schema graphql-codegen-hasura-typescript-from-documents
+    yarn add graphql-codegen-hasura-gql-from-schema graphql-codegen-hasura-gql-from-documents graphql-codegen-hasura-typescript-from-schema graphql-codegen-hasura-typescript-from-documents graphql-codegen-hasura-typescript-react-from-documents graphql-codegen-hasura-typescript-config-from-documents
 ```
 
 4. Create configuration YAML files (see below)
@@ -130,6 +131,14 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 - withUpdates: boolean flag for update Hooks code generation
 - withDeletes: boolean flag for delete Hooks code generation
 
+### graphql-codegen-hasura-typescript-react-documents plugin
+
+- typescriptCodegenOutputPath: import path to the code generated with dependent @graphql-codegen/typescript generated code
+- trimString: optional string to trim from each type name. Useful for trimming Hasura prepended schema name
+- withQueries: boolean flag for query Hooks code generation
+- withTypePolicies: boolean flag for Type Policies code generation
+- withResolverTypes: boolean flag for Resolver Types code generation
+
 ## Plugin Details
 
 ### graphql-codegen-hasura-gql-from-schema plugin
@@ -140,117 +149,6 @@ Generates gql fragments, mutations and queries for every _Table_ defined in the 
 
 See [demo/src/autogen/hasura/gql-from-schema.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
 
-#### Example Output for `User` Entity
-
-```typescript
-// users GQL
-//------------------------------------------------
-
-// Scalar Fields Fragment
-//
-
-export const UsersModelFields = gql`
-  fragment UsersModelFields on users {
-    created_at
-    id
-    name
-  }
-`;
-
-// Mutation: Insert
-//
-
-const INSERT_USERS_MODEL = gql`
-  mutation insertUsersModel($objects: [users_insert_input!]!, $onConflict: users_on_conflict) {
-    insert_users(objects: $objects, on_conflict: $onConflict) {
-      affected_rows
-      returning {
-        ...UsersModelFields
-      }
-    }
-  }
-  ${UsersModelFields}
-`;
-
-// Query: FetchById
-//
-
-const FETCH_USERS_MODEL_BYID = gql`
-  query fetchUsersModelById($usersId: Int!) {
-    users_by_pk(id: $usersId) {
-      ...UsersModelFields
-    }
-  }
-  ${UsersModelFields}
-`;
-
-// Query: Fetch
-//
-
-const FETCH_USERS_MODELS = gql`
-  query fetchUsersModel($distinct_on: [users_select_column!], $where: users_bool_exp, $limit: Int, $offset: Int, $order_by: [users_order_by!]) {
-    users(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-      ...UsersModelFields
-    }
-  }
-  ${UsersModelFields}
-`;
-
-// Mutation: Update by Id
-//
-
-const UPDATE_USERS_MODEL_BYID = gql`
-  mutation updateUsersModelById($id: Int, $set: users_set_input) {
-    update_users(_set: $set, where: { id: { _eq: $id } }) {
-      affected_rows
-      returning {
-        ...UsersModelFields
-      }
-    }
-  }
-  ${UsersModelFields}
-`;
-
-// Mutation: Update
-//
-
-const UPDATE_USERS_MODELS = gql`
-  mutation updateUsersModel($set: users_set_input, $where: users_bool_exp!) {
-    update_users(_set: $set, where: $where) {
-      affected_rows
-      returning {
-        ...UsersModelFields
-      }
-    }
-  }
-  ${UsersModelFields}
-`;
-
-// Mutation: Remove by Id
-//
-
-const REMOVE_USERS_MODEL_BYID = gql`
-  mutation removeUsersModelById($id: Int) {
-    delete_users(where: { id: { _eq: $id } }) {
-      affected_rows
-    }
-  }
-  ${UsersModelFields}
-`;
-
-// Mutation: Remove
-//
-
-const REMOVE_USERS_MODELS = gql`
-  mutation removeUsersModel($where: users_bool_exp!) {
-    delete_users(where: $where) {
-      affected_rows
-    }
-  }
-  ${UsersModelFields}
-`;
-```
-
 ### graphql-codegen-hasura-gql-from-documents plugin
 
 #### Overview
@@ -258,10 +156,6 @@ const REMOVE_USERS_MODELS = gql`
 Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) gql mutations and queries for every _Fragment_ defined in the targeted (code) documents.
 
 See [demo/src/autogen/hasura/gql-from-documents.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
-
-#### Example Output
-
-This has the same output as the [graphql-codegen-hasura-typescript-from-schema](#graphql-codegen-hasura-typescript-from-schema-plugin) plugin, except that the generated code is fragment-driven, as opposed to table-driven
 
 ### graphql-codegen-hasura-typescript-from-schema plugin
 
@@ -271,107 +165,7 @@ Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) 
 
 Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Fragment_ defined in the targeted (code) documents. Provides wrapped client.query & client.mutate calls, in addition to adding some convenience features.
 
-See [demo/src/autogen/hasura/typescript-from-schema.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
-
-#### Example Output for `User` Entity
-
-```typescript
-// users Helpers
-//------------------------------------------------
-
-// Insert Helper
-//
-
-export async function insertUsersModel(
-  apolloClient: ApolloClient<object>,
-  usersId: string,
-  options: Omit<MutationOptions<InsertUsersModelMutation, InsertUsersModelMutationVariables>, "mutation">
-): Promise<{ result: FetchResult<InsertUsersModelMutation>; returning: (UsersModelFieldsFragment | null | undefined)[] | null | undefined }> {
-  const result = await apolloClient.mutate<InsertUsersModelMutation, InsertUsersModelMutationVariables>({ mutation: InsertUsersModelDocument, ...options });
-
-  const returning = result && result.data && result.data.insert_users && result.data.insert_users!.returning;
-
-  return { result, returning };
-}
-
-// Fetch Helper
-//
-
-export async function fetchUsersModelById(apolloClient: ApolloClient<object>, usersId: string): Promise<UsersModelFieldsFragment | null | undefined> {
-  const usersResult = await apolloClient.query<FetchUsersModelByIdQuery>({ query: FetchUsersModelByIdDocument, variables: { id: usersId } });
-  return usersResult.data.users_by_pk;
-}
-
-export async function fetchUsersModel(
-  apolloClient: ApolloClient<object>,
-  usersId: string,
-  options: Omit<QueryOptions<FetchUsersModelQueryVariables>, "query">
-): Promise<UsersModelFieldsFragment[] | null | undefined> {
-  const usersResult = await apolloClient.query<FetchUsersModelQuery>({ query: FetchUsersModelDocument, ...options });
-  return usersResult.data.users;
-}
-
-// Update Helper
-//
-
-export async function updateUsersModelById(
-  apolloClient: ApolloClient<object>,
-  usersId: number,
-  set: Users_Set_Input,
-  options: Omit<MutationOptions<UpdateUsersModelByIdMutation, UpdateUsersModelByIdMutationVariables>, "mutation">
-): Promise<{ result: FetchResult<UpdateUsersModelByIdMutation>; returning: (UsersModelFieldsFragment | null | undefined)[] | null | undefined }> {
-  const result = await apolloClient.mutate<UpdateUsersModelByIdMutation, UpdateUsersModelByIdMutationVariables>({
-    mutation: UpdateUsersModelByIdDocument,
-    variables: { id: usersId, set },
-    ...options
-  });
-
-  const returning = result && result.data && result.data.update_users && result.data.update_users!.returning;
-
-  return { result, returning };
-}
-
-export async function updateUsersModel(
-  apolloClient: ApolloClient<object>,
-  options: Omit<MutationOptions<UpdateUsersModelMutation, UpdateUsersModelMutationVariables>, "mutation">
-): Promise<{ result: FetchResult<UpdateUsersModelMutation>; returning: (UsersModelFieldsFragment | null | undefined)[] | null | undefined }> {
-  const result = await apolloClient.mutate<UpdateUsersModelMutation, UpdateUsersModelMutationVariables>({ mutation: UpdateUsersModelDocument, ...options });
-
-  const returning = result && result.data && result.data.update_users && result.data.update_users!.returning;
-
-  return { result, returning };
-}
-
-// Delete Helper
-//
-
-export async function removeUsersModelById(
-  apolloClient: ApolloClient<object>,
-  usersId: number,
-  options: Omit<MutationOptions<RemoveUsersModelByIdMutation, RemoveUsersModelByIdMutationVariables>, "mutation">
-): Promise<{ result: FetchResult<RemoveUsersModelByIdMutation>; returning: number | null | undefined }> {
-  const result = await apolloClient.mutate<RemoveUsersModelByIdMutation, RemoveUsersModelByIdMutationVariables>({
-    mutation: RemoveUsersModelByIdDocument,
-    variables: { id: usersId },
-    ...options
-  });
-
-  const returning = result && result.data && result.data.delete_users && result.data.delete_users!.affected_rows;
-
-  return { result, returning };
-}
-
-export async function removeUsersModel(
-  apolloClient: ApolloClient<object>,
-  options: Omit<MutationOptions<RemoveUsersModelMutation, RemoveUsersModelMutationVariables>, "mutation">
-): Promise<{ result: FetchResult<RemoveUsersModelMutation>; returning: number | null | undefined }> {
-  const result = await apolloClient.mutate<RemoveUsersModelMutation, RemoveUsersModelMutationVariables>({ mutation: RemoveUsersModelDocument, ...options });
-
-  const returning = result && result.data && result.data.delete_users && result.data.delete_users!.affected_rows;
-
-  return { result, returning };
-}
-```
+See [demo/src/autogen/hasura/ts-from-schema.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
 
 ### graphql-codegen-hasura-typescript-from-documents plugin
 
@@ -379,11 +173,23 @@ export async function removeUsersModel(
 
 Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Fragment_ defined in the targeted (code) documents. Provides wrapped client.query & client.mutate calls, in addition to adding some convenience features.
 
-See [demo/src/autogen/hasura/typescript-from-documents.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
+See [demo/src/autogen/hasura/ts-from-documents.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
 
-#### Example Output
+### graphql-codegen-hasura-typescript-react-from-documents plugin
 
-This has the same output as the [graphql-codegen-hasura-typescript-from-schema](#graphql-codegen-hasura-typescript-from-schema-plugin) plugin, except that the generated code is fragment-driven, as opposed to table-driven
+#### Overview
+
+Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) React Hooks for every _Fragment_ defined in the targeted (code) documents.
+
+See [demo/src/autogen/hasura/ts-react-from-documents.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
+
+### graphql-codegen-hasura-typescript-config-from-documents plugin
+
+#### Overview
+
+Generates TypeScript Type Policies and Resolver Types for tables related to GQL fragments found in the targeted documents (code). **Note: Only support reactApolloVersion 3**.
+
+See [demo/src/autogen/hasura/ts-config-from-documents.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
 
 ## Naming Conventions
 

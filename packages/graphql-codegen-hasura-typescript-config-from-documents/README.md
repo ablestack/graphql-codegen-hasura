@@ -1,10 +1,10 @@
-# graphql-codegen-hasura-typescript-typepolicies-from-documents-documents-documents
+# graphql-codegen-hasura-typescript-config-from-documents-documents-documents
 
 ## Summary
 
-When used in conjunction with [graphql-code-generator](https://graphql-code-generator.com/), this plugin will automatically generate TypeScript TypePolicies for tables related to GQL fragments found in the targeted documents (code). The TypePolicies associate the Hasura single and multiple entity types to optimize client caching.
+When used in conjunction with [graphql-code-generator](https://graphql-code-generator.com/), this plugin will automatically generate TypeScript TypePolicies and Resolver Types for tables related to GQL fragments found in the targeted documents (code). The TypePolicies associate the Hasura single and multiple entity types to optimize client caching.
 
-graphql-codegen-hasura-typescript-typepolicies-from-documents-documents is a code generator plugin for [graphql-code-generator](https://graphql-code-generator.com/) designed to automate some coding tasks around the development of a strongly typed [Hasura](https://hasura.io/) backend with an [Apollo GraphQL](https://www.apollographql.com/) React client.
+graphql-codegen-hasura-typescript-config-from-documents-documents is a code generator plugin for [graphql-code-generator](https://graphql-code-generator.com/) designed to automate some coding tasks around the development of a strongly typed [Hasura](https://hasura.io/) backend with an [Apollo GraphQL](https://www.apollographql.com/) React client.
 
 ## Instructions
 

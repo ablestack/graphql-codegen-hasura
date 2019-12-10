@@ -58,11 +58,13 @@ generates:
       withInserts: true
       withUpdates: true
       withDeletes: true
-  ./src/autogen/hasura/ts-typepolicies-from-documents.ts:
+  ./src/autogen/hasura/ts-config-from-documents.ts:
     documents:
       - ./src/customFragments.ts
     plugins:
-      - graphql-codegen-hasura-typescript-typepolicies-from-documents
+      - graphql-codegen-hasura-typescript-config-from-documents
     config:
       typescriptCodegenOutputPath: "../"
       trimString:
+      withTypePolicies: true
+      withResolverTypes: true
