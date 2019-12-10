@@ -19,6 +19,7 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   const contentManager = new ContentManager();
 
   if (config.withResolverTypes) {
+    contentManager.addImport(`/* eslint-disable @typescript-eslint/class-name-casing */`);
     contentManager.addImport(`import { ApolloCache, NormalizedCacheObject, ApolloClient, StoreObject } from '@apollo/client';`);
   }
 
@@ -39,13 +40,8 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
     injectTableResolversBaseTypes(contentManager, config);
 
     documentFragments.map(fragmentDefinition => {
-      injectTableResolverTypes(fragmentDefinition, contentManager, typeMap, config);
-    });
-  }
-
-  if (config.withTypePolicies) {
-    documentFragments.map(fragmentDefinition => {
-      injectTableTypePolicies(fragmentDefinition, contentManager, typeMap, config);
+      if (config.withResolverTypes) injectTableResolverTypes(fragmentDefinition, contentManager, typeMap, config);
+      if (config.withTypePolicies) injectTableTypePolicies(fragmentDefinition, contentManager, typeMap, config);
     });
   }
 

@@ -22,7 +22,7 @@ export function injectEntityTypePolicy({
   const entityShortName = makeShortName(entityName, trimString);
 
   contentManager.addContent(`
-    // ${entityName} TypePolicy
+    // ${entityName} Type Policy
     //------------------------------------------------
   `);
 
@@ -64,7 +64,7 @@ export function injectEntityResolverTypes({
   const entityPascalName = makePascalCase(entityName);
   const entityShortName = makeShortName(entityName, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
-  const entityShortPascalCaseName = makePascalCase(entityShortCamelCaseName);
+  const entityShortPascalCaseName = makePascalCase(entityShortName);
 
   contentManager.addContent(`
   // ${entityName} Resolver Types
