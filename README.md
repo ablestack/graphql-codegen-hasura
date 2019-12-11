@@ -1,6 +1,10 @@
 # Overview
 
-graphql-codegen-hasura is a collection of code generator plugins for [graphql-code-generator](https://graphql-code-generator.com/). These plugins are designed to automate coding tasks around the development of a strongly typed client for a [Hasura](https://hasura.io/) backend. The majority of the code generated is strongly-typed wrappers for [Apollo GraphQL](https://www.apollographql.com/), in addition to a number of convenience features.
+graphql-codegen-hasura is a collection of code generator plugins for [graphql-code-generator](https://graphql-code-generator.com/). These plugins are designed to automate coding tasks around the development of a strongly typed client for a [Hasura](https://hasura.io/) backend. The majority of the code generated is strongly-typed wrappers for [Apollo GraphQL](https://www.apollographql.com/), in addition to a number of convenience features. \*
+
+## Status: _ BETA _
+
+Important Note: Despite the 2.x version number, this is a beta project, with an evolving (and thus unstable)codebase. Feel free to use the project "as is", but expect breaking changes when you retrieve updates. However, all any breaking changes will be released with a new version number in order to minimize disruption to consumers.
 
 ## Approaches
 

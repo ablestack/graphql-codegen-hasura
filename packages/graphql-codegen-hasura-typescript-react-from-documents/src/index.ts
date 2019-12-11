@@ -29,7 +29,7 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
       config.reactApolloVersion === 3 ? "@apollo/client" : "@apollo/react-hooks"
     }'`);
   contentManager.addImport(`import { FetchResult } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-link"}'`);
-  contentManager.addImport(`import { ApolloClient } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-client"}'`);
+  contentManager.addImport(`import { ApolloClient, QueryLazyOptions, MutationFunctionOptions } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-client"}'`);
 
   // get typemap from schema
   const typeMap = schema.getTypeMap();
