@@ -88,12 +88,12 @@ export function injectEntityResolverTypes({
   `);
 
   contentManager.addContent(`
-  export interface ${entityShortPascalCaseName}ResolverFn {
-    (${entityShortCamelCaseName}: Partial<${entityPascalName}>, args: Query_Root${entityPascalName}Args, context: ApolloContext, info: any): any;
+  export interface ${entityShortPascalCaseName}ResolverFn<TContext> {
+    (${entityShortCamelCaseName}: Partial<${entityPascalName}>, args: Query_Root${entityPascalName}Args, context: TContext, info: any): any;
   }
 
-  export interface ${entityShortPascalCaseName}ResolverMap {
-    [field: string]: ${entityShortName}ResolverFn;
+  export interface ${entityShortPascalCaseName}ResolverMap<TContext = ApolloContext> {
+    [field: string]: ${entityShortName}ResolverFn<TContext>;
   }
   `);
 
