@@ -4,7 +4,7 @@ graphql-codegen-hasura is a collection of code generator plugins for [graphql-co
 
 ## Status: _ BETA _
 
-Important Note: Despite the 2.x version number, this is a beta project, with an evolving (and thus unstable)codebase. Feel free to use the project "as is", but expect breaking changes when you retrieve updates. However, all any breaking changes will be released with a new version number in order to minimize disruption to consumers.
+Important Note: Despite the 2.x version number, this project is at "Beta" status, with an evolving (and thus unstable) codebase. Feel free to use the project "as is", but expect breaking changes when you retrieve updates. However, any breaking changes will be released as a new major or minor version in order to minimize disruption to consumers.
 
 ## Approaches
 
