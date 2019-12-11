@@ -95,7 +95,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
 
       // Lazy Fetch Hook
       //
-      export function useFetchVehicleGraphByIdLazyQuery({ options }: { options?: Omit<LazyQueryHookOptions<FetchVehicleGraphByIdQuery, FetchVehicleGraphByIdQueryVariables>, 'query' | 'variables'> }) {
+      export function useFetchVehicleGraphByIdLazyQuery(options?: Omit<LazyQueryHookOptions<FetchVehicleGraphByIdQuery, FetchVehicleGraphByIdQueryVariables>, 'query' | 'variables'>) {
         const lazyQuery = useLazyQuery<FetchVehicleGraphByIdQuery, FetchVehicleGraphByIdQueryVariables>(FetchVehicleGraphByIdDocument, options );
         
         const wrappedLazyQuery = ({ vehicleId, options }: { vehicleId:string, options?: Omit<QueryLazyOptions<FetchVehicleGraphByIdQueryVariables>, 'variables'> }) => {
@@ -110,19 +110,17 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
 
       // Fetch Collection Hook
       //
-      export function useFetchVehicleGraphObjectsQuery({ options } : {
-        options: Omit<QueryHookOptions<FetchVehicleGraphQuery, FetchVehicleGraphQueryVariables>, 'query'>
-      }) {
+      export function useFetchVehicleGraphObjectsQuery( options: Omit<QueryHookOptions<FetchVehicleGraphQuery, FetchVehicleGraphQueryVariables>, 'query'> ) {
           const query = useQuery<FetchVehicleGraphQuery, FetchVehicleGraphQueryVariables>(FetchVehicleGraphDocument, options );
           return { ...query, objects: query && query.data && query.data.vehicle }
       }
   
       // Lazy Fetch Collection Hook
       //
-      export function useFetchVehicleGraphObjectsLazyQuery({ options } : { options?: Omit<LazyQueryHookOptions<FetchVehicleGraphQuery, FetchVehicleGraphQueryVariables>, 'query'> }) {
+      export function useFetchVehicleGraphObjectsLazyQuery( options?: Omit<LazyQueryHookOptions<FetchVehicleGraphQuery, FetchVehicleGraphQueryVariables>, 'query'> ) {
         const lazyQuery = useLazyQuery<FetchVehicleGraphQuery, FetchVehicleGraphQueryVariables>(FetchVehicleGraphDocument, options );
       
-        const wrappedLazyQuery = ({ options } : { options?: QueryLazyOptions<FetchVehicleGraphQueryVariables> }) => {
+        const wrappedLazyQuery = ( options?: QueryLazyOptions<FetchVehicleGraphQueryVariables> ) => {
           return lazyQuery[0]();
         };
     
@@ -134,7 +132,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
 
   // Insert Hooks
   //
-  export function useInsertVehicleGraph({ options } :{ options?: Omit<MutationHookOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation' | 'variables'> }) {
+  export function useInsertVehicleGraph( options?: Omit<MutationHookOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation' | 'variables'> ) {
     const lazyMutation = useMutation<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>( InsertVehicleGraphDocument, options );
                                 
     const wrappedLazyMutation = ({ vehicle, options } :{ vehicle: Vehicle_Insert_Input, options?: Omit<MutationFunctionOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'variables'> }) => {
@@ -148,7 +146,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
   
 
 
-  export function useInsertVehicleGraphWithOnConflict({ options } :{ options?: Omit<MutationHookOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation' | 'variables'> }) {
+  export function useInsertVehicleGraphWithOnConflict( options?: Omit<MutationHookOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation' | 'variables'> ) {
     const lazyMutation = useMutation<InsertVehicleGraphMutation, InsertVehicleGraphWithOnConflictMutationVariables>( InsertVehicleGraphWithOnConflictDocument, options );
                                 
     const wrappedLazyMutation = ({ vehicle, onConflict, options } :{ vehicle: Vehicle_Insert_Input, onConflict?: Vehicle_On_Conflict, options?: Omit<MutationFunctionOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'variables'> }) => {
@@ -161,10 +159,10 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
   }
   
 
-  export function useInsertVehicleGraphObjects({ options } :{ options?: Omit<MutationHookOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation'> }) {
+  export function useInsertVehicleGraphObjects( options?: Omit<MutationHookOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation'> ) {
     const lazyMutation = useMutation<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>( InsertVehicleGraphDocument, options );
                                 
-    const wrappedLazyMutation = ({ options } :{ options?: MutationFunctionOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables> }) => {
+    const wrappedLazyMutation = ( options?: MutationFunctionOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables> ) => {
       return lazyMutation[0]( options );
     };
 
@@ -176,7 +174,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
 
     // Update Hooks
     //
-    export function useUpdateVehicleGraphById({ options }: { options?: Omit<MutationHookOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>, 'mutation' | 'variables'>; }) {
+    export function useUpdateVehicleGraphById( options?: Omit<MutationHookOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>, 'mutation' | 'variables'> ) {
       const lazyMutation = useMutation<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>(UpdateVehicleGraphByIdDocument, options );
       
       const wrappedLazyMutation = ({ vehicleId, set, options }: { vehicleId: string; set: Vehicle_Set_Input; options?: Omit<MutationFunctionOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>, 'variables'>; }) => {
@@ -189,10 +187,10 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     }
   
 
-    export function useUpdateVehicleGraph({ options }: { options?: Omit<MutationHookOptions<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables>, 'mutation'> }) {
+    export function useUpdateVehicleGraph( options?: Omit<MutationHookOptions<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables>, 'mutation'> ) {
       const lazyMutation = useMutation<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables>(UpdateVehicleGraphDocument, options );
       
-      const wrappedLazyMutation = ({ options }: { options: MutationFunctionOptions<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables> }) => {
+      const wrappedLazyMutation = ( options: MutationFunctionOptions<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables> ) => {
         return lazyMutation[0]( options );
       };
 
@@ -205,7 +203,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     // Delete Hooks
     //
 
-    export async function useRemoveVehicleModelById({ options }:{ options?: Omit<MutationHookOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, 'mutation' | 'variables'> }) {
+    export async function useRemoveVehicleModelById( options?: Omit<MutationHookOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, 'mutation' | 'variables'> ) {
       const lazyMutation = useMutation<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>(RemoveVehicleModelByIdDocument, options );
       
       const wrappedLazyMutation = ({ vehicleId, options }:{ vehicleId: string, options?: Omit<MutationFunctionOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, 'variables'> }) => {
@@ -218,10 +216,10 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     }
   
 
-    export async function useRemoveVehicleModelObjects({ options }:{ options?: Omit<MutationHookOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>, 'mutation'> }) {
+    export async function useRemoveVehicleModelObjects( options?: Omit<MutationHookOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>, 'mutation'> ) {
       const lazyMutation = useMutation<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>(RemoveVehicleModelDocument, options );
       
-      const wrappedLazyMutation = ({ options }:{ options: MutationFunctionOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables> }) => {
+      const wrappedLazyMutation = ( options: MutationFunctionOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables> ) => {
         return lazyMutation[0]( options );
       };
 
@@ -276,7 +274,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
 
       // Lazy Fetch Hook
       //
-      export function useFetchVehicleGraphLocationOnlyByIdLazyQuery({ options }: { options?: Omit<LazyQueryHookOptions<FetchVehicleGraphLocationOnlyByIdQuery, FetchVehicleGraphLocationOnlyByIdQueryVariables>, 'query' | 'variables'> }) {
+      export function useFetchVehicleGraphLocationOnlyByIdLazyQuery(options?: Omit<LazyQueryHookOptions<FetchVehicleGraphLocationOnlyByIdQuery, FetchVehicleGraphLocationOnlyByIdQueryVariables>, 'query' | 'variables'>) {
         const lazyQuery = useLazyQuery<FetchVehicleGraphLocationOnlyByIdQuery, FetchVehicleGraphLocationOnlyByIdQueryVariables>(FetchVehicleGraphLocationOnlyByIdDocument, options );
         
         const wrappedLazyQuery = ({ vehicleId, options }: { vehicleId:string, options?: Omit<QueryLazyOptions<FetchVehicleGraphLocationOnlyByIdQueryVariables>, 'variables'> }) => {
@@ -291,19 +289,17 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
 
       // Fetch Collection Hook
       //
-      export function useFetchVehicleGraphLocationOnlyObjectsQuery({ options } : {
-        options: Omit<QueryHookOptions<FetchVehicleGraphLocationOnlyQuery, FetchVehicleGraphLocationOnlyQueryVariables>, 'query'>
-      }) {
+      export function useFetchVehicleGraphLocationOnlyObjectsQuery( options: Omit<QueryHookOptions<FetchVehicleGraphLocationOnlyQuery, FetchVehicleGraphLocationOnlyQueryVariables>, 'query'> ) {
           const query = useQuery<FetchVehicleGraphLocationOnlyQuery, FetchVehicleGraphLocationOnlyQueryVariables>(FetchVehicleGraphLocationOnlyDocument, options );
           return { ...query, objects: query && query.data && query.data.vehicle }
       }
   
       // Lazy Fetch Collection Hook
       //
-      export function useFetchVehicleGraphLocationOnlyObjectsLazyQuery({ options } : { options?: Omit<LazyQueryHookOptions<FetchVehicleGraphLocationOnlyQuery, FetchVehicleGraphLocationOnlyQueryVariables>, 'query'> }) {
+      export function useFetchVehicleGraphLocationOnlyObjectsLazyQuery( options?: Omit<LazyQueryHookOptions<FetchVehicleGraphLocationOnlyQuery, FetchVehicleGraphLocationOnlyQueryVariables>, 'query'> ) {
         const lazyQuery = useLazyQuery<FetchVehicleGraphLocationOnlyQuery, FetchVehicleGraphLocationOnlyQueryVariables>(FetchVehicleGraphLocationOnlyDocument, options );
       
-        const wrappedLazyQuery = ({ options } : { options?: QueryLazyOptions<FetchVehicleGraphLocationOnlyQueryVariables> }) => {
+        const wrappedLazyQuery = ( options?: QueryLazyOptions<FetchVehicleGraphLocationOnlyQueryVariables> ) => {
           return lazyQuery[0]();
         };
     
@@ -315,7 +311,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
 
   // Insert Hooks
   //
-  export function useInsertVehicleGraphLocationOnly({ options } :{ options?: Omit<MutationHookOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation' | 'variables'> }) {
+  export function useInsertVehicleGraphLocationOnly( options?: Omit<MutationHookOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation' | 'variables'> ) {
     const lazyMutation = useMutation<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>( InsertVehicleGraphLocationOnlyDocument, options );
                                 
     const wrappedLazyMutation = ({ vehicle, options } :{ vehicle: Vehicle_Insert_Input, options?: Omit<MutationFunctionOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'variables'> }) => {
@@ -329,7 +325,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
   
 
 
-  export function useInsertVehicleGraphLocationOnlyWithOnConflict({ options } :{ options?: Omit<MutationHookOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation' | 'variables'> }) {
+  export function useInsertVehicleGraphLocationOnlyWithOnConflict( options?: Omit<MutationHookOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation' | 'variables'> ) {
     const lazyMutation = useMutation<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyWithOnConflictMutationVariables>( InsertVehicleGraphLocationOnlyWithOnConflictDocument, options );
                                 
     const wrappedLazyMutation = ({ vehicle, onConflict, options } :{ vehicle: Vehicle_Insert_Input, onConflict?: Vehicle_On_Conflict, options?: Omit<MutationFunctionOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'variables'> }) => {
@@ -342,10 +338,10 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
   }
   
 
-  export function useInsertVehicleGraphLocationOnlyObjects({ options } :{ options?: Omit<MutationHookOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation'> }) {
+  export function useInsertVehicleGraphLocationOnlyObjects( options?: Omit<MutationHookOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation'> ) {
     const lazyMutation = useMutation<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>( InsertVehicleGraphLocationOnlyDocument, options );
                                 
-    const wrappedLazyMutation = ({ options } :{ options?: MutationFunctionOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables> }) => {
+    const wrappedLazyMutation = ( options?: MutationFunctionOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables> ) => {
       return lazyMutation[0]( options );
     };
 
@@ -357,7 +353,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
 
     // Update Hooks
     //
-    export function useUpdateVehicleGraphLocationOnlyById({ options }: { options?: Omit<MutationHookOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>, 'mutation' | 'variables'>; }) {
+    export function useUpdateVehicleGraphLocationOnlyById( options?: Omit<MutationHookOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>, 'mutation' | 'variables'> ) {
       const lazyMutation = useMutation<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>(UpdateVehicleGraphLocationOnlyByIdDocument, options );
       
       const wrappedLazyMutation = ({ vehicleId, set, options }: { vehicleId: string; set: Vehicle_Set_Input; options?: Omit<MutationFunctionOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>, 'variables'>; }) => {
@@ -370,10 +366,10 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     }
   
 
-    export function useUpdateVehicleGraphLocationOnly({ options }: { options?: Omit<MutationHookOptions<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>, 'mutation'> }) {
+    export function useUpdateVehicleGraphLocationOnly( options?: Omit<MutationHookOptions<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>, 'mutation'> ) {
       const lazyMutation = useMutation<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>(UpdateVehicleGraphLocationOnlyDocument, options );
       
-      const wrappedLazyMutation = ({ options }: { options: MutationFunctionOptions<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables> }) => {
+      const wrappedLazyMutation = ( options: MutationFunctionOptions<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables> ) => {
         return lazyMutation[0]( options );
       };
 

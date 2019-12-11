@@ -122,44 +122,20 @@ export function injectInsertHelpers({
     // Insert Helper
     //
 
-    export async function insert${fragmentName}({
-      apolloClient,
-      ${entityShortCamelCaseName},
-      onConflict,
-      options,
-    } :{
-      apolloClient: ApolloClient<object>,
-      ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input,
-      onConflict?: ${entityPascalName}_On_Conflict,
-      options?: Omit<MutationOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation' | 'variables'>,
-    }) {
+    export async function insert${fragmentName}({ apolloClient, ${entityShortCamelCaseName}, onConflict, options } :{ apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, onConflict?: ${entityPascalName}_On_Conflict, options?: Omit<MutationOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation' | 'variables'> }) {
       
       const mutation = onConflict
-        ? await apolloClient.mutate<Insert${fragmentName}Mutation, Insert${fragmentName}WithOnConflictMutationVariables>({ 
-          mutation: Insert${fragmentName}WithOnConflictDocument, 
-          variables: { objects: [${entityShortCamelCaseName}], onConflict },
-            ...options,
-          })
-        : await apolloClient.mutate<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>({ 
-          mutation: Insert${fragmentName}Document, 
-          variables: { objects: [${entityShortCamelCaseName}] },
-            ...options,
-          });
+        ? await apolloClient.mutate<Insert${fragmentName}Mutation, Insert${fragmentName}WithOnConflictMutationVariables>({ mutation: Insert${fragmentName}WithOnConflictDocument, variables: { objects: [${entityShortCamelCaseName}], onConflict }, ...options })
+        : await apolloClient.mutate<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>({ mutation: Insert${fragmentName}Document, variables: { objects: [${entityShortCamelCaseName}] }, ...options });
         
       return { ...mutation, ${fragmentNameCamelCase}:mutation && mutation.data && mutation.data.insert_${entityName} && mutation.data.insert_${entityName}!.returning && mutation.data.insert_${entityName}!.returning[0] };
     }
   `);
 
   contentManager.addContent(`
-    export async function insert${fragmentName}Objects({
-      apolloClient,
-      options,
-    }:{
-      apolloClient: ApolloClient<object>,
-      options: Omit<MutationOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation'>,
-    }) {
+    export async function insert${fragmentName}Objects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation'> }) {
       
-      const mutation = await apolloClient.mutate<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>({ mutation: Insert${fragmentName}Document, ...options,});
+      const mutation = await apolloClient.mutate<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>({ mutation: Insert${fragmentName}Document, ...options });
        
       return { ...mutation, objects: mutation && mutation.data && mutation.data.insert_${entityName} && mutation.data.insert_${entityName}!.returning };
     }
@@ -201,17 +177,7 @@ export function injectUpdateHelpers({
     // Update Helper
     //
 
-    export async function update${fragmentName}ById({
-      apolloClient,
-      ${entityShortCamelCaseName}Id,
-      set,
-      options,
-    }: { 
-      apolloClient: ApolloClient<object>,
-      ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName},
-      set: ${entityPascalName}_Set_Input,
-      options?: Omit<MutationOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>, 'mutation'>,
-    }) {
+    export async function update${fragmentName}ById({ apolloClient, ${entityShortCamelCaseName}Id, set, options }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, set: ${entityPascalName}_Set_Input, options?: Omit<MutationOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>, 'mutation'> }) {
       const mutation = await apolloClient.mutate<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>({ mutation: Update${fragmentName}ByIdDocument, variables: { id:${entityShortCamelCaseName}Id, set }, ...options,});
         
       return { ...mutation, ${fragmentNameCamelCase}:mutation && mutation.data && mutation.data.update_${entityName} && mutation.data.update_${entityName}!.returning && mutation.data.update_${entityName}!.returning[0] };
@@ -219,13 +185,7 @@ export function injectUpdateHelpers({
   `);
 
   contentManager.addContent(`
-    export async function update${fragmentName}Objects({
-      apolloClient,
-      options,
-    }: {
-      apolloClient: ApolloClient<object>,
-      options: Omit<MutationOptions<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>, 'mutation'>,
-    }) {  
+    export async function update${fragmentName}Objects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>, 'mutation'> }) {  
       const mutation = await apolloClient.mutate<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>({ mutation: Update${fragmentName}Document, ...options,});
         
       return { ...mutation, objects:mutation && mutation.data && mutation.data.update_${entityName} && mutation.data.update_${entityName}!.returning };
@@ -268,15 +228,7 @@ export function injectDeleteHelpers({
     // Delete Helper
     //
 
-    export async function remove${entityModelName}ById({
-      apolloClient,
-      ${entityShortCamelCaseName}Id,
-      options,
-    }:{
-      apolloClient: ApolloClient<object>,
-      ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName},
-      options?: Omit<MutationOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, 'mutation'>,
-    }) {
+    export async function remove${entityModelName}ById({ apolloClient, ${entityShortCamelCaseName}Id, options } :{ apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, options?: Omit<MutationOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, 'mutation'> }) {
       const mutation = await apolloClient.mutate<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>({ mutation: Remove${entityModelName}ByIdDocument, variables: { id:${entityShortCamelCaseName}Id, }, ...options,});
     
       return { ...mutation, affected_rows:mutation && mutation.data && mutation.data.delete_${entityName} && mutation.data.delete_${entityName}!.affected_rows };
@@ -284,13 +236,7 @@ export function injectDeleteHelpers({
   `);
 
   contentManager.addContent(`
-    export async function remove${entityModelName}Objects({
-      apolloClient,
-      options,
-    }:{
-      apolloClient: ApolloClient<object>,
-      options: Omit<MutationOptions<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>, 'mutation'>,
-    }) {  
+    export async function remove${entityModelName}Objects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>, 'mutation'> }) {  
       const mutation = await apolloClient.mutate<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>({ mutation: Remove${entityModelName}Document, ...options,});
         
       return { ...mutation, affected_rows:mutation && mutation.data && mutation.data.delete_${entityName} && mutation.data.delete_${entityName}!.affected_rows };

@@ -81,43 +81,19 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     // Insert Helper
     //
 
-    export async function insertVehicleGraph({
-      apolloClient,
-      vehicle,
-      onConflict,
-      options,
-    } :{
-      apolloClient: ApolloClient<object>,
-      vehicle: Vehicle_Insert_Input,
-      onConflict?: Vehicle_On_Conflict,
-      options?: Omit<MutationOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation' | 'variables'>,
-    }) {
+    export async function insertVehicleGraph({ apolloClient, vehicle, onConflict, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, onConflict?: Vehicle_On_Conflict, options?: Omit<MutationOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation' | 'variables'> }) {
       
       const mutation = onConflict
-        ? await apolloClient.mutate<InsertVehicleGraphMutation, InsertVehicleGraphWithOnConflictMutationVariables>({ 
-          mutation: InsertVehicleGraphWithOnConflictDocument, 
-          variables: { objects: [vehicle], onConflict },
-            ...options,
-          })
-        : await apolloClient.mutate<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>({ 
-          mutation: InsertVehicleGraphDocument, 
-          variables: { objects: [vehicle] },
-            ...options,
-          });
+        ? await apolloClient.mutate<InsertVehicleGraphMutation, InsertVehicleGraphWithOnConflictMutationVariables>({ mutation: InsertVehicleGraphWithOnConflictDocument, variables: { objects: [vehicle], onConflict }, ...options })
+        : await apolloClient.mutate<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>({ mutation: InsertVehicleGraphDocument, variables: { objects: [vehicle] }, ...options });
         
       return { ...mutation, vehicleGraph:mutation && mutation.data && mutation.data.insert_vehicle && mutation.data.insert_vehicle!.returning && mutation.data.insert_vehicle!.returning[0] };
     }
   
 
-    export async function insertVehicleGraphObjects({
-      apolloClient,
-      options,
-    }:{
-      apolloClient: ApolloClient<object>,
-      options: Omit<MutationOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation'>,
-    }) {
+    export async function insertVehicleGraphObjects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation'> }) {
       
-      const mutation = await apolloClient.mutate<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>({ mutation: InsertVehicleGraphDocument, ...options,});
+      const mutation = await apolloClient.mutate<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>({ mutation: InsertVehicleGraphDocument, ...options });
        
       return { ...mutation, objects: mutation && mutation.data && mutation.data.insert_vehicle && mutation.data.insert_vehicle!.returning };
     }
@@ -126,30 +102,14 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     // Update Helper
     //
 
-    export async function updateVehicleGraphById({
-      apolloClient,
-      vehicleId,
-      set,
-      options,
-    }: { 
-      apolloClient: ApolloClient<object>,
-      vehicleId: string,
-      set: Vehicle_Set_Input,
-      options?: Omit<MutationOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>, 'mutation'>,
-    }) {
+    export async function updateVehicleGraphById({ apolloClient, vehicleId, set, options }: { apolloClient: ApolloClient<object>, vehicleId: string, set: Vehicle_Set_Input, options?: Omit<MutationOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>, 'mutation'> }) {
       const mutation = await apolloClient.mutate<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>({ mutation: UpdateVehicleGraphByIdDocument, variables: { id:vehicleId, set }, ...options,});
         
       return { ...mutation, vehicleGraph:mutation && mutation.data && mutation.data.update_vehicle && mutation.data.update_vehicle!.returning && mutation.data.update_vehicle!.returning[0] };
     }
   
 
-    export async function updateVehicleGraphObjects({
-      apolloClient,
-      options,
-    }: {
-      apolloClient: ApolloClient<object>,
-      options: Omit<MutationOptions<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables>, 'mutation'>,
-    }) {  
+    export async function updateVehicleGraphObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables>, 'mutation'> }) {  
       const mutation = await apolloClient.mutate<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables>({ mutation: UpdateVehicleGraphDocument, ...options,});
         
       return { ...mutation, objects:mutation && mutation.data && mutation.data.update_vehicle && mutation.data.update_vehicle!.returning };
@@ -159,28 +119,14 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     // Delete Helper
     //
 
-    export async function removeVehicleModelById({
-      apolloClient,
-      vehicleId,
-      options,
-    }:{
-      apolloClient: ApolloClient<object>,
-      vehicleId: string,
-      options?: Omit<MutationOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, 'mutation'>,
-    }) {
+    export async function removeVehicleModelById({ apolloClient, vehicleId, options } :{ apolloClient: ApolloClient<object>, vehicleId: string, options?: Omit<MutationOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, 'mutation'> }) {
       const mutation = await apolloClient.mutate<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>({ mutation: RemoveVehicleModelByIdDocument, variables: { id:vehicleId, }, ...options,});
     
       return { ...mutation, affected_rows:mutation && mutation.data && mutation.data.delete_vehicle && mutation.data.delete_vehicle!.affected_rows };
     }
   
 
-    export async function removeVehicleModelObjects({
-      apolloClient,
-      options,
-    }:{
-      apolloClient: ApolloClient<object>,
-      options: Omit<MutationOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>, 'mutation'>,
-    }) {  
+    export async function removeVehicleModelObjects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>, 'mutation'> }) {  
       const mutation = await apolloClient.mutate<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>({ mutation: RemoveVehicleModelDocument, ...options,});
         
       return { ...mutation, affected_rows:mutation && mutation.data && mutation.data.delete_vehicle && mutation.data.delete_vehicle!.affected_rows };
@@ -219,43 +165,19 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     // Insert Helper
     //
 
-    export async function insertVehicleGraphLocationOnly({
-      apolloClient,
-      vehicle,
-      onConflict,
-      options,
-    } :{
-      apolloClient: ApolloClient<object>,
-      vehicle: Vehicle_Insert_Input,
-      onConflict?: Vehicle_On_Conflict,
-      options?: Omit<MutationOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation' | 'variables'>,
-    }) {
+    export async function insertVehicleGraphLocationOnly({ apolloClient, vehicle, onConflict, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, onConflict?: Vehicle_On_Conflict, options?: Omit<MutationOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation' | 'variables'> }) {
       
       const mutation = onConflict
-        ? await apolloClient.mutate<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyWithOnConflictMutationVariables>({ 
-          mutation: InsertVehicleGraphLocationOnlyWithOnConflictDocument, 
-          variables: { objects: [vehicle], onConflict },
-            ...options,
-          })
-        : await apolloClient.mutate<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>({ 
-          mutation: InsertVehicleGraphLocationOnlyDocument, 
-          variables: { objects: [vehicle] },
-            ...options,
-          });
+        ? await apolloClient.mutate<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyWithOnConflictMutationVariables>({ mutation: InsertVehicleGraphLocationOnlyWithOnConflictDocument, variables: { objects: [vehicle], onConflict }, ...options })
+        : await apolloClient.mutate<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>({ mutation: InsertVehicleGraphLocationOnlyDocument, variables: { objects: [vehicle] }, ...options });
         
       return { ...mutation, vehicleGraphLocationOnly:mutation && mutation.data && mutation.data.insert_vehicle && mutation.data.insert_vehicle!.returning && mutation.data.insert_vehicle!.returning[0] };
     }
   
 
-    export async function insertVehicleGraphLocationOnlyObjects({
-      apolloClient,
-      options,
-    }:{
-      apolloClient: ApolloClient<object>,
-      options: Omit<MutationOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation'>,
-    }) {
+    export async function insertVehicleGraphLocationOnlyObjects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation'> }) {
       
-      const mutation = await apolloClient.mutate<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>({ mutation: InsertVehicleGraphLocationOnlyDocument, ...options,});
+      const mutation = await apolloClient.mutate<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>({ mutation: InsertVehicleGraphLocationOnlyDocument, ...options });
        
       return { ...mutation, objects: mutation && mutation.data && mutation.data.insert_vehicle && mutation.data.insert_vehicle!.returning };
     }
@@ -264,30 +186,14 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     // Update Helper
     //
 
-    export async function updateVehicleGraphLocationOnlyById({
-      apolloClient,
-      vehicleId,
-      set,
-      options,
-    }: { 
-      apolloClient: ApolloClient<object>,
-      vehicleId: string,
-      set: Vehicle_Set_Input,
-      options?: Omit<MutationOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>, 'mutation'>,
-    }) {
+    export async function updateVehicleGraphLocationOnlyById({ apolloClient, vehicleId, set, options }: { apolloClient: ApolloClient<object>, vehicleId: string, set: Vehicle_Set_Input, options?: Omit<MutationOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>, 'mutation'> }) {
       const mutation = await apolloClient.mutate<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>({ mutation: UpdateVehicleGraphLocationOnlyByIdDocument, variables: { id:vehicleId, set }, ...options,});
         
       return { ...mutation, vehicleGraphLocationOnly:mutation && mutation.data && mutation.data.update_vehicle && mutation.data.update_vehicle!.returning && mutation.data.update_vehicle!.returning[0] };
     }
   
 
-    export async function updateVehicleGraphLocationOnlyObjects({
-      apolloClient,
-      options,
-    }: {
-      apolloClient: ApolloClient<object>,
-      options: Omit<MutationOptions<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>, 'mutation'>,
-    }) {  
+    export async function updateVehicleGraphLocationOnlyObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>, 'mutation'> }) {  
       const mutation = await apolloClient.mutate<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>({ mutation: UpdateVehicleGraphLocationOnlyDocument, ...options,});
         
       return { ...mutation, objects:mutation && mutation.data && mutation.data.update_vehicle && mutation.data.update_vehicle!.returning };

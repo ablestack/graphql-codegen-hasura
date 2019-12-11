@@ -101,7 +101,7 @@ export function injectFetchReact({
 
       // Lazy Fetch Hook
       //
-      export function useFetch${fragmentName}ByIdLazyQuery({ options }: { options?: Omit<LazyQueryHookOptions<Fetch${fragmentName}ByIdQuery, Fetch${fragmentName}ByIdQueryVariables>, 'query' | 'variables'> }) {
+      export function useFetch${fragmentName}ByIdLazyQuery(options?: Omit<LazyQueryHookOptions<Fetch${fragmentName}ByIdQuery, Fetch${fragmentName}ByIdQueryVariables>, 'query' | 'variables'>) {
         const lazyQuery = useLazyQuery<Fetch${fragmentName}ByIdQuery, Fetch${fragmentName}ByIdQueryVariables>(Fetch${fragmentName}ByIdDocument, options );
         
         const wrappedLazyQuery = ({ ${entityShortCamelCaseName}Id, options }: { ${entityShortCamelCaseName}Id:string, options?: Omit<QueryLazyOptions<Fetch${fragmentName}ByIdQueryVariables>, 'variables'> }) => {
@@ -118,9 +118,7 @@ export function injectFetchReact({
   contentManager.addContent(`
       // Fetch Collection Hook
       //
-      export function useFetch${fragmentName}ObjectsQuery({ options } : {
-        options: Omit<QueryHookOptions<Fetch${fragmentName}Query, Fetch${fragmentName}QueryVariables>, 'query'>
-      }) {
+      export function useFetch${fragmentName}ObjectsQuery( options: Omit<QueryHookOptions<Fetch${fragmentName}Query, Fetch${fragmentName}QueryVariables>, 'query'> ) {
           const query = useQuery<Fetch${fragmentName}Query, Fetch${fragmentName}QueryVariables>(Fetch${fragmentName}Document, options );
           return { ...query, objects: query && query.data && query.data.${entityName} }
       }`);
@@ -128,10 +126,10 @@ export function injectFetchReact({
   contentManager.addContent(`  
       // Lazy Fetch Collection Hook
       //
-      export function useFetch${fragmentName}ObjectsLazyQuery({ options } : { options?: Omit<LazyQueryHookOptions<Fetch${fragmentName}Query, Fetch${fragmentName}QueryVariables>, 'query'> }) {
+      export function useFetch${fragmentName}ObjectsLazyQuery( options?: Omit<LazyQueryHookOptions<Fetch${fragmentName}Query, Fetch${fragmentName}QueryVariables>, 'query'> ) {
         const lazyQuery = useLazyQuery<Fetch${fragmentName}Query, Fetch${fragmentName}QueryVariables>(Fetch${fragmentName}Document, options );
       
-        const wrappedLazyQuery = ({ options } : { options?: QueryLazyOptions<Fetch${fragmentName}QueryVariables> }) => {
+        const wrappedLazyQuery = ( options?: QueryLazyOptions<Fetch${fragmentName}QueryVariables> ) => {
           return lazyQuery[0]();
         };
     
@@ -174,7 +172,7 @@ export function injectInsertReact({
   contentManager.addContent(`
   // Insert Hooks
   //
-  export function useInsert${fragmentName}({ options } :{ options?: Omit<MutationHookOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation' | 'variables'> }) {
+  export function useInsert${fragmentName}( options?: Omit<MutationHookOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation' | 'variables'> ) {
     const lazyMutation = useMutation<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>( Insert${fragmentName}Document, options );
                                 
     const wrappedLazyMutation = ({ ${entityShortCamelCaseName}, options } :{ ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, options?: Omit<MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'variables'> }) => {
@@ -189,7 +187,7 @@ export function injectInsertReact({
 
   contentManager.addContent(`
 
-  export function useInsert${fragmentName}WithOnConflict({ options } :{ options?: Omit<MutationHookOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation' | 'variables'> }) {
+  export function useInsert${fragmentName}WithOnConflict( options?: Omit<MutationHookOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation' | 'variables'> ) {
     const lazyMutation = useMutation<Insert${fragmentName}Mutation, Insert${fragmentName}WithOnConflictMutationVariables>( Insert${fragmentName}WithOnConflictDocument, options );
                                 
     const wrappedLazyMutation = ({ ${entityShortCamelCaseName}, onConflict, options } :{ ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, onConflict?: ${entityPascalName}_On_Conflict, options?: Omit<MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'variables'> }) => {
@@ -203,10 +201,10 @@ export function injectInsertReact({
   `);
 
   contentManager.addContent(`
-  export function useInsert${fragmentName}Objects({ options } :{ options?: Omit<MutationHookOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation'> }) {
+  export function useInsert${fragmentName}Objects( options?: Omit<MutationHookOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation'> ) {
     const lazyMutation = useMutation<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>( Insert${fragmentName}Document, options );
                                 
-    const wrappedLazyMutation = ({ options } :{ options?: MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables> }) => {
+    const wrappedLazyMutation = ( options?: MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables> ) => {
       return lazyMutation[0]( options );
     };
 
@@ -251,7 +249,7 @@ export function injectUpdateReact({
   contentManager.addContent(`
     // Update Hooks
     //
-    export function useUpdate${fragmentName}ById({ options }: { options?: Omit<MutationHookOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>, 'mutation' | 'variables'>; }) {
+    export function useUpdate${fragmentName}ById( options?: Omit<MutationHookOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>, 'mutation' | 'variables'> ) {
       const lazyMutation = useMutation<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>(Update${fragmentName}ByIdDocument, options );
       
       const wrappedLazyMutation = ({ ${entityShortCamelCaseName}Id, set, options }: { ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}; set: ${entityPascalName}_Set_Input; options?: Omit<MutationFunctionOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>, 'variables'>; }) => {
@@ -265,10 +263,10 @@ export function injectUpdateReact({
   `);
 
   contentManager.addContent(`
-    export function useUpdate${fragmentName}({ options }: { options?: Omit<MutationHookOptions<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>, 'mutation'> }) {
+    export function useUpdate${fragmentName}( options?: Omit<MutationHookOptions<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>, 'mutation'> ) {
       const lazyMutation = useMutation<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>(Update${fragmentName}Document, options );
       
-      const wrappedLazyMutation = ({ options }: { options: MutationFunctionOptions<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables> }) => {
+      const wrappedLazyMutation = ( options: MutationFunctionOptions<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables> ) => {
         return lazyMutation[0]( options );
       };
 
@@ -314,7 +312,7 @@ export function injectDeleteReact({
     // Delete Hooks
     //
 
-    export async function useRemove${entityModelName}ById({ options }:{ options?: Omit<MutationHookOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, 'mutation' | 'variables'> }) {
+    export async function useRemove${entityModelName}ById( options?: Omit<MutationHookOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, 'mutation' | 'variables'> ) {
       const lazyMutation = useMutation<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>(Remove${entityModelName}ByIdDocument, options );
       
       const wrappedLazyMutation = ({ ${entityShortCamelCaseName}Id, options }:{ ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, options?: Omit<MutationFunctionOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, 'variables'> }) => {
@@ -328,10 +326,10 @@ export function injectDeleteReact({
   `);
 
   contentManager.addContent(`
-    export async function useRemove${entityModelName}Objects({ options }:{ options?: Omit<MutationHookOptions<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>, 'mutation'> }) {
+    export async function useRemove${entityModelName}Objects( options?: Omit<MutationHookOptions<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>, 'mutation'> ) {
       const lazyMutation = useMutation<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>(Remove${entityModelName}Document, options );
       
-      const wrappedLazyMutation = ({ options }:{ options: MutationFunctionOptions<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables> }) => {
+      const wrappedLazyMutation = ( options: MutationFunctionOptions<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables> ) => {
         return lazyMutation[0]( options );
       };
 
