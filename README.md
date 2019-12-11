@@ -2,7 +2,7 @@
 
 graphql-codegen-hasura is a collection of code generator plugins for [graphql-code-generator](https://graphql-code-generator.com/). These plugins are designed to automate coding tasks around the development of a strongly typed client for a [Hasura](https://hasura.io/) backend. The majority of the code generated is strongly-typed wrappers for [Apollo GraphQL](https://www.apollographql.com/), in addition to a number of convenience features. \*
 
-## Status: _ BETA _
+## Status: \*BETA\*
 
 Important Note: Despite the 2.x version number, this project is at "Beta" status, with an evolving (and thus unstable) codebase. Feel free to use the project "as is", but expect breaking changes when you retrieve updates. However, any breaking changes will be released as a new major or minor version in order to minimize disruption to consumers.
 
@@ -244,5 +244,5 @@ There are many refinements and enhancements that would be beneficial, and contri
 
 ## Notes
 
-- This is development is not affiliated with either the [graphql-code-generator](https://graphql-code-generator.com/) team, the [Hasura](https://hasura.io/) team, or the [Apollo GraphQL](https://www.apollographql.com/) team.
-- graphql-code-generator only picking up gql from 'graphql-tag' import, and not the newer '@apollo/client' import. The 'graphql-tag' import will continue to be used until this is addressed, even for react-apollo v3.
+- This is development is not affiliated with either the [graphql-code-generator](https://graphql-code-generator.com/) team, the [Hasura](https://hasura.io/) team, or the [Apollo GraphQL](https://www.apollographql.com/) team
+- graphql-code-generator only picking up gql from 'graphql-tag' import, and not the newer '@apollo/client' import. The 'graphql-tag' import will continue to be used until this is addressed, even for react-apollo v3
