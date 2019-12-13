@@ -203,7 +203,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     // Delete Hooks
     //
 
-    export async function useRemoveVehicleModelById( options?: Omit<MutationHookOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, 'mutation' | 'variables'> ) {
+    export function useRemoveVehicleModelById( options?: Omit<MutationHookOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, 'mutation' | 'variables'> ) {
       const lazyMutation = useMutation<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>(RemoveVehicleModelByIdDocument, options );
       
       const wrappedLazyMutation = ({ vehicleId, options }:{ vehicleId: string, options?: Omit<MutationFunctionOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, 'variables'> }) => {
@@ -212,11 +212,11 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
       
       const pickAffectedRows = () => { return ( lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_vehicle && lazyMutation[1].data.delete_vehicle!.affected_rows ); };
 
-      return [wrappedLazyMutation, { ...lazyMutation[1], affected_rows: pickAffectedRows() }]
+      return [wrappedLazyMutation, { ...lazyMutation[1], affected_rows: pickAffectedRows() }] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { affected_rows: ReturnType<typeof pickAffectedRows> }];
     }
   
 
-    export async function useRemoveVehicleModelObjects( options?: Omit<MutationHookOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>, 'mutation'> ) {
+    export function useRemoveVehicleModelObjects( options?: Omit<MutationHookOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>, 'mutation'> ) {
       const lazyMutation = useMutation<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>(RemoveVehicleModelDocument, options );
       
       const wrappedLazyMutation = ( options: MutationFunctionOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables> ) => {
@@ -225,7 +225,7 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
 
       const pickAffectedRows = () => { return ( lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_vehicle && lazyMutation[1].data.delete_vehicle!.affected_rows ); };
 
-      return [wrappedLazyMutation, { ...lazyMutation[1], affected_rows: pickAffectedRows() }]
+      return [wrappedLazyMutation, { ...lazyMutation[1], affected_rows: pickAffectedRows() }] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { affected_rows: ReturnType<typeof pickAffectedRows> }];
     }
   
 

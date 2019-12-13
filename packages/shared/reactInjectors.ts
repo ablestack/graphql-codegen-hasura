@@ -312,7 +312,7 @@ export function injectDeleteReact({
     // Delete Hooks
     //
 
-    export async function useRemove${entityModelName}ById( options?: Omit<MutationHookOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, 'mutation' | 'variables'> ) {
+    export function useRemove${entityModelName}ById( options?: Omit<MutationHookOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, 'mutation' | 'variables'> ) {
       const lazyMutation = useMutation<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>(Remove${entityModelName}ByIdDocument, options );
       
       const wrappedLazyMutation = ({ ${entityShortCamelCaseName}Id, options }:{ ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, options?: Omit<MutationFunctionOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, 'variables'> }) => {
@@ -321,12 +321,12 @@ export function injectDeleteReact({
       
       const pickAffectedRows = () => { return ( lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_${entityName} && lazyMutation[1].data.delete_${entityName}!.affected_rows ); };
 
-      return [wrappedLazyMutation, { ...lazyMutation[1], affected_rows: pickAffectedRows() }]
+      return [wrappedLazyMutation, { ...lazyMutation[1], affected_rows: pickAffectedRows() }] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { affected_rows: ReturnType<typeof pickAffectedRows> }];
     }
   `);
 
   contentManager.addContent(`
-    export async function useRemove${entityModelName}Objects( options?: Omit<MutationHookOptions<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>, 'mutation'> ) {
+    export function useRemove${entityModelName}Objects( options?: Omit<MutationHookOptions<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>, 'mutation'> ) {
       const lazyMutation = useMutation<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>(Remove${entityModelName}Document, options );
       
       const wrappedLazyMutation = ( options: MutationFunctionOptions<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables> ) => {
@@ -335,7 +335,7 @@ export function injectDeleteReact({
 
       const pickAffectedRows = () => { return ( lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_${entityName} && lazyMutation[1].data.delete_${entityName}!.affected_rows ); };
 
-      return [wrappedLazyMutation, { ...lazyMutation[1], affected_rows: pickAffectedRows() }]
+      return [wrappedLazyMutation, { ...lazyMutation[1], affected_rows: pickAffectedRows() }] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { affected_rows: ReturnType<typeof pickAffectedRows> }];
     }
   `);
 

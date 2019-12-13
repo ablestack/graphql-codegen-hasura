@@ -33,12 +33,12 @@ import { Query_RootVehicleArgs } from '../';
   //------------------------------------------------
   
 
-  export interface VehicleResolverFn {
-    (vehicle: Partial<Vehicle>, args: Query_RootVehicleArgs, context: ApolloContext, info: any): any;
+  export interface VehicleResolverFn<TContext> {
+    (vehicle: Partial<Vehicle>, args: Query_RootVehicleArgs, context: TContext, info: any): any;
   }
 
-  export interface VehicleResolverMap {
-    [field: string]: VehicleResolverFn;
+  export interface VehicleResolverMap<TContext = ApolloContext> {
+    [field: string]: VehicleResolverFn<TContext>;
   }
   
 
