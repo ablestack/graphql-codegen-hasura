@@ -98,13 +98,13 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
       export function useFetchVehicleGraphByIdLazyQuery(options?: Omit<LazyQueryHookOptions<FetchVehicleGraphByIdQuery, FetchVehicleGraphByIdQueryVariables>, 'query' | 'variables'>) {
         const lazyQuery = useLazyQuery<FetchVehicleGraphByIdQuery, FetchVehicleGraphByIdQueryVariables>(FetchVehicleGraphByIdDocument, options );
         
+        const pickVehicleGraph = (query: FetchVehicleGraphByIdQuery | null | undefined) => { return ( query && query.vehicle_by_pk ); };
+        
         const wrappedLazyQuery = ({ vehicleId, options }: { vehicleId:string, options?: Omit<QueryLazyOptions<FetchVehicleGraphByIdQueryVariables>, 'variables'> }) => {
           return lazyQuery[0]({ variables: { vehicleId }, ...options });
-        };
-               
-        const pickVehicleGraph = () => { return ( lazyQuery[1] && lazyQuery[1].data && lazyQuery[1].data.vehicle_by_pk ); };
+        };   
 
-        return [wrappedLazyQuery, { ...lazyQuery[1], vehicleGraph: pickVehicleGraph() }] as [typeof wrappedLazyQuery, typeof lazyQuery[1] & { vehicleGraph: ReturnType<typeof pickVehicleGraph> }];
+        return [wrappedLazyQuery, { ...lazyQuery[1], vehicleGraph: pickVehicleGraph(lazyQuery[1].data) }] as [typeof wrappedLazyQuery, typeof lazyQuery[1] & { vehicleGraph: ReturnType<typeof pickVehicleGraph> }];
       }
     
 
@@ -120,13 +120,13 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
       export function useFetchVehicleGraphObjectsLazyQuery( options?: Omit<LazyQueryHookOptions<FetchVehicleGraphQuery, FetchVehicleGraphQueryVariables>, 'query'> ) {
         const lazyQuery = useLazyQuery<FetchVehicleGraphQuery, FetchVehicleGraphQueryVariables>(FetchVehicleGraphDocument, options );
       
+        const pickObjects = (query: FetchVehicleGraphQuery | null | undefined) => { return ( query && query.vehicle ); };
+        
         const wrappedLazyQuery = ( options?: QueryLazyOptions<FetchVehicleGraphQueryVariables> ) => {
           return lazyQuery[0]();
         };
     
-        const pickObjects = () => { return ( lazyQuery[1] && lazyQuery[1].data && lazyQuery[1].data.vehicle ); };
-
-        return [wrappedLazyQuery, { ...lazyQuery[1], objects: pickObjects() }] as [typeof wrappedLazyQuery, typeof lazyQuery[1] & { objects: ReturnType<typeof pickObjects> }];
+        return [wrappedLazyQuery, { ...lazyQuery[1], objects: pickObjects(lazyQuery[1].data) }] as [typeof wrappedLazyQuery, typeof lazyQuery[1] & { objects: ReturnType<typeof pickObjects> }];
       }
     
 
@@ -135,13 +135,14 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
   export function useInsertVehicleGraph( options?: Omit<MutationHookOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation' | 'variables'> ) {
     const lazyMutation = useMutation<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>( InsertVehicleGraphDocument, options );
                                 
-    const wrappedLazyMutation = ({ vehicle, options } :{ vehicle: Vehicle_Insert_Input, options?: Omit<MutationFunctionOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'variables'> }) => {
-      return lazyMutation[0]({ variables: { objects: [vehicle] }, ...options });
+    const pickVehicleGraph = (mutation:InsertVehicleGraphMutation | null | undefined) => { return ( mutation && mutation.insert_vehicle && mutation.insert_vehicle!.returning && mutation.insert_vehicle!.returning[0] ); };
+    
+    const wrappedLazyMutation = async ({ vehicle, options } :{ vehicle: Vehicle_Insert_Input, options?: Omit<MutationFunctionOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'variables'> }) => {
+      const fetchResult = await lazyMutation[0]({ variables: { objects: [vehicle] }, ...options });
+      return { ...fetchResult, vehicleGraph: pickVehicleGraph(fetchResult.data) };
     };
 
-    const pickVehicleGraph = () => { return ( lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.insert_vehicle && lazyMutation[1].data.insert_vehicle!.returning && lazyMutation[1].data.insert_vehicle!.returning[0] ); };
-
-    return [ wrappedLazyMutation, { ...lazyMutation[1], vehicleGraph: pickVehicleGraph(), }, ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { vehicleGraph: ReturnType<typeof pickVehicleGraph> }];
+    return [ wrappedLazyMutation, { ...lazyMutation[1], vehicleGraph: pickVehicleGraph(lazyMutation[1].data) } ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { vehicleGraph: ReturnType<typeof pickVehicleGraph> }];
   }
   
 
@@ -149,26 +150,28 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
   export function useInsertVehicleGraphWithOnConflict( options?: Omit<MutationHookOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation' | 'variables'> ) {
     const lazyMutation = useMutation<InsertVehicleGraphMutation, InsertVehicleGraphWithOnConflictMutationVariables>( InsertVehicleGraphWithOnConflictDocument, options );
                                 
-    const wrappedLazyMutation = ({ vehicle, onConflict, options } :{ vehicle: Vehicle_Insert_Input, onConflict?: Vehicle_On_Conflict, options?: Omit<MutationFunctionOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'variables'> }) => {
-      return lazyMutation[0]({ variables: { objects: [vehicle], onConflict }, ...options });
+    const wrappedLazyMutation = async ({ vehicle, onConflict, options } :{ vehicle: Vehicle_Insert_Input, onConflict?: Vehicle_On_Conflict, options?: Omit<MutationFunctionOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'variables'> }) => {
+      const fetchResult = await lazyMutation[0]({ variables: { objects: [vehicle], onConflict }, ...options });
+      return { ...fetchResult, vehicleGraph: pickVehicleGraph(fetchResult.data) };
     };
 
-    const pickVehicleGraph = () => { return ( lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.insert_vehicle && lazyMutation[1].data.insert_vehicle!.returning && lazyMutation[1].data.insert_vehicle!.returning[0] ); };
+    const pickVehicleGraph = (mutation:InsertVehicleGraphMutation | null | undefined) => { return ( mutation && mutation.insert_vehicle && mutation.insert_vehicle!.returning && mutation.insert_vehicle!.returning[0] ); };
 
-    return [ wrappedLazyMutation, { ...lazyMutation[1], vehicleGraph: pickVehicleGraph(), }, ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { vehicleGraph: ReturnType<typeof pickVehicleGraph> }];
+    return [ wrappedLazyMutation, { ...lazyMutation[1], vehicleGraph: pickVehicleGraph(lazyMutation[1].data) } ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { vehicleGraph: ReturnType<typeof pickVehicleGraph> }];
   }
   
 
   export function useInsertVehicleGraphObjects( options?: Omit<MutationHookOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation'> ) {
     const lazyMutation = useMutation<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>( InsertVehicleGraphDocument, options );
                                 
-    const wrappedLazyMutation = ( options?: MutationFunctionOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables> ) => {
-      return lazyMutation[0]( options );
+    const pickObjects = (mutation:InsertVehicleGraphMutation | null | undefined) => { return ( mutation && mutation.insert_vehicle && mutation.insert_vehicle!.returning ); };
+    
+    const wrappedLazyMutation = async ( options?: MutationFunctionOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables> ) => {
+      const fetchResult = await lazyMutation[0]( options );
+      return { ...fetchResult, objects: pickObjects(fetchResult.data) }
     };
 
-    const pickObjects = () => { return ( lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.insert_vehicle && lazyMutation[1].data.insert_vehicle!.returning ); };
-
-    return [ wrappedLazyMutation, { ...lazyMutation[1], objects: pickObjects(), }, ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { objects: ReturnType<typeof pickObjects> }];
+    return [ wrappedLazyMutation, { ...lazyMutation[1], objects: pickObjects(lazyMutation[1].data) } ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { objects: ReturnType<typeof pickObjects> }];
   }
   
 
@@ -177,26 +180,28 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     export function useUpdateVehicleGraphById( options?: Omit<MutationHookOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>, 'mutation' | 'variables'> ) {
       const lazyMutation = useMutation<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>(UpdateVehicleGraphByIdDocument, options );
       
-      const wrappedLazyMutation = ({ vehicleId, set, options }: { vehicleId: string; set: Vehicle_Set_Input; options?: Omit<MutationFunctionOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>, 'variables'>; }) => {
-        return lazyMutation[0]({ variables: { id: vehicleId, set }, ...options });
+      const pickVehicleGraph = (mutation:UpdateVehicleGraphMutation | null | undefined) => { return ( mutation && mutation.update_vehicle && mutation.update_vehicle!.returning && mutation.update_vehicle!.returning[0] ); };
+      
+      const wrappedLazyMutation = async ({ vehicleId, set, options }: { vehicleId: string; set: Vehicle_Set_Input; options?: Omit<MutationFunctionOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>, 'variables'>; }) => {
+        const fetchResult = await lazyMutation[0]({ variables: { id: vehicleId, set }, ...options });
+        return { ...fetchResult, vehicleGraph: pickVehicleGraph(fetchResult.data) };
       };
 
-      const pickVehicleGraph = () => { return ( lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.update_vehicle && lazyMutation[1].data.update_vehicle!.returning && lazyMutation[1].data.update_vehicle!.returning[0] ); };
-
-      return [ wrappedLazyMutation, { ...lazyMutation[1], vehicleGraph: pickVehicleGraph(), }, ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { vehicleGraph: ReturnType<typeof pickVehicleGraph> }];
+      return [ wrappedLazyMutation, { ...lazyMutation[1], vehicleGraph: pickVehicleGraph(lazyMutation[1].data) } ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { vehicleGraph: ReturnType<typeof pickVehicleGraph> }];
     }
   
 
     export function useUpdateVehicleGraph( options?: Omit<MutationHookOptions<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables>, 'mutation'> ) {
       const lazyMutation = useMutation<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables>(UpdateVehicleGraphDocument, options );
       
-      const wrappedLazyMutation = ( options: MutationFunctionOptions<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables> ) => {
-        return lazyMutation[0]( options );
+      const pickObjects = (mutation:UpdateVehicleGraphMutation | null | undefined) => { return ( mutation && mutation.update_vehicle && mutation.update_vehicle!.returning ); };
+      
+      const wrappedLazyMutation = async ( options: MutationFunctionOptions<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables> ) => {
+        const fetchResult = await lazyMutation[0]( options );
+        return { ...fetchResult, objects: pickObjects(fetchResult.data) }
       };
 
-      const pickObjects = () => { return ( lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.update_vehicle && lazyMutation[1].data.update_vehicle!.returning ); };
-
-      return [ wrappedLazyMutation, { ...lazyMutation[1], objects: pickObjects(), }, ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { objects: ReturnType<typeof pickObjects> }];
+      return [ wrappedLazyMutation, { ...lazyMutation[1], objects: pickObjects(lazyMutation[1].data) } ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { objects: ReturnType<typeof pickObjects> }];
     }
   
 
@@ -206,26 +211,28 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     export function useRemoveVehicleModelById( options?: Omit<MutationHookOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, 'mutation' | 'variables'> ) {
       const lazyMutation = useMutation<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>(RemoveVehicleModelByIdDocument, options );
       
-      const wrappedLazyMutation = ({ vehicleId, options }:{ vehicleId: string, options?: Omit<MutationFunctionOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, 'variables'> }) => {
-        return lazyMutation[0]({ variables: { id:vehicleId }, ...options });
+      const pickAffectedRows = (mutation:RemoveVehicleModelByIdMutation | null | undefined) => { return ( mutation && mutation.delete_vehicle && mutation.delete_vehicle!.affected_rows ); };
+      
+      const wrappedLazyMutation = async ({ vehicleId, options }:{ vehicleId: string, options?: Omit<MutationFunctionOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, 'variables'> }) => {
+        const fetchResult = await lazyMutation[0]({ variables: { id:vehicleId }, ...options });
+        return { ...fetchResult, affected_rows: pickAffectedRows(fetchResult.data) }
       }; 
       
-      const pickAffectedRows = () => { return ( lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_vehicle && lazyMutation[1].data.delete_vehicle!.affected_rows ); };
-
-      return [wrappedLazyMutation, { ...lazyMutation[1], affected_rows: pickAffectedRows() }] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { affected_rows: ReturnType<typeof pickAffectedRows> }];
+      return [wrappedLazyMutation, { ...lazyMutation[1], affected_rows: pickAffectedRows(lazyMutation[1].data) }] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { affected_rows: ReturnType<typeof pickAffectedRows> }];
     }
   
 
     export function useRemoveVehicleModelObjects( options?: Omit<MutationHookOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>, 'mutation'> ) {
       const lazyMutation = useMutation<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>(RemoveVehicleModelDocument, options );
       
-      const wrappedLazyMutation = ( options: MutationFunctionOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables> ) => {
-        return lazyMutation[0]( options );
+      const pickAffectedRows = (mutation: RemoveVehicleModelMutation | null | undefined) => { return ( mutation && mutation.delete_vehicle && mutation.delete_vehicle!.affected_rows ); };
+      
+      const wrappedLazyMutation = async ( options: MutationFunctionOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables> ) => {
+        const fetchResult = await lazyMutation[0]( options );
+        return { ...fetchResult, affected_rows: pickAffectedRows(fetchResult.data) }
       };
 
-      const pickAffectedRows = () => { return ( lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.delete_vehicle && lazyMutation[1].data.delete_vehicle!.affected_rows ); };
-
-      return [wrappedLazyMutation, { ...lazyMutation[1], affected_rows: pickAffectedRows() }] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { affected_rows: ReturnType<typeof pickAffectedRows> }];
+      return [wrappedLazyMutation, { ...lazyMutation[1], affected_rows: pickAffectedRows(lazyMutation[1].data) }] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { affected_rows: ReturnType<typeof pickAffectedRows> }];
     }
   
 
@@ -277,13 +284,13 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
       export function useFetchVehicleGraphLocationOnlyByIdLazyQuery(options?: Omit<LazyQueryHookOptions<FetchVehicleGraphLocationOnlyByIdQuery, FetchVehicleGraphLocationOnlyByIdQueryVariables>, 'query' | 'variables'>) {
         const lazyQuery = useLazyQuery<FetchVehicleGraphLocationOnlyByIdQuery, FetchVehicleGraphLocationOnlyByIdQueryVariables>(FetchVehicleGraphLocationOnlyByIdDocument, options );
         
+        const pickVehicleGraphLocationOnly = (query: FetchVehicleGraphLocationOnlyByIdQuery | null | undefined) => { return ( query && query.vehicle_by_pk ); };
+        
         const wrappedLazyQuery = ({ vehicleId, options }: { vehicleId:string, options?: Omit<QueryLazyOptions<FetchVehicleGraphLocationOnlyByIdQueryVariables>, 'variables'> }) => {
           return lazyQuery[0]({ variables: { vehicleId }, ...options });
-        };
-               
-        const pickVehicleGraphLocationOnly = () => { return ( lazyQuery[1] && lazyQuery[1].data && lazyQuery[1].data.vehicle_by_pk ); };
+        };   
 
-        return [wrappedLazyQuery, { ...lazyQuery[1], vehicleGraphLocationOnly: pickVehicleGraphLocationOnly() }] as [typeof wrappedLazyQuery, typeof lazyQuery[1] & { vehicleGraphLocationOnly: ReturnType<typeof pickVehicleGraphLocationOnly> }];
+        return [wrappedLazyQuery, { ...lazyQuery[1], vehicleGraphLocationOnly: pickVehicleGraphLocationOnly(lazyQuery[1].data) }] as [typeof wrappedLazyQuery, typeof lazyQuery[1] & { vehicleGraphLocationOnly: ReturnType<typeof pickVehicleGraphLocationOnly> }];
       }
     
 
@@ -299,13 +306,13 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
       export function useFetchVehicleGraphLocationOnlyObjectsLazyQuery( options?: Omit<LazyQueryHookOptions<FetchVehicleGraphLocationOnlyQuery, FetchVehicleGraphLocationOnlyQueryVariables>, 'query'> ) {
         const lazyQuery = useLazyQuery<FetchVehicleGraphLocationOnlyQuery, FetchVehicleGraphLocationOnlyQueryVariables>(FetchVehicleGraphLocationOnlyDocument, options );
       
+        const pickObjects = (query: FetchVehicleGraphLocationOnlyQuery | null | undefined) => { return ( query && query.vehicle ); };
+        
         const wrappedLazyQuery = ( options?: QueryLazyOptions<FetchVehicleGraphLocationOnlyQueryVariables> ) => {
           return lazyQuery[0]();
         };
     
-        const pickObjects = () => { return ( lazyQuery[1] && lazyQuery[1].data && lazyQuery[1].data.vehicle ); };
-
-        return [wrappedLazyQuery, { ...lazyQuery[1], objects: pickObjects() }] as [typeof wrappedLazyQuery, typeof lazyQuery[1] & { objects: ReturnType<typeof pickObjects> }];
+        return [wrappedLazyQuery, { ...lazyQuery[1], objects: pickObjects(lazyQuery[1].data) }] as [typeof wrappedLazyQuery, typeof lazyQuery[1] & { objects: ReturnType<typeof pickObjects> }];
       }
     
 
@@ -314,13 +321,14 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
   export function useInsertVehicleGraphLocationOnly( options?: Omit<MutationHookOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation' | 'variables'> ) {
     const lazyMutation = useMutation<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>( InsertVehicleGraphLocationOnlyDocument, options );
                                 
-    const wrappedLazyMutation = ({ vehicle, options } :{ vehicle: Vehicle_Insert_Input, options?: Omit<MutationFunctionOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'variables'> }) => {
-      return lazyMutation[0]({ variables: { objects: [vehicle] }, ...options });
+    const pickVehicleGraphLocationOnly = (mutation:InsertVehicleGraphLocationOnlyMutation | null | undefined) => { return ( mutation && mutation.insert_vehicle && mutation.insert_vehicle!.returning && mutation.insert_vehicle!.returning[0] ); };
+    
+    const wrappedLazyMutation = async ({ vehicle, options } :{ vehicle: Vehicle_Insert_Input, options?: Omit<MutationFunctionOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'variables'> }) => {
+      const fetchResult = await lazyMutation[0]({ variables: { objects: [vehicle] }, ...options });
+      return { ...fetchResult, vehicleGraphLocationOnly: pickVehicleGraphLocationOnly(fetchResult.data) };
     };
 
-    const pickVehicleGraphLocationOnly = () => { return ( lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.insert_vehicle && lazyMutation[1].data.insert_vehicle!.returning && lazyMutation[1].data.insert_vehicle!.returning[0] ); };
-
-    return [ wrappedLazyMutation, { ...lazyMutation[1], vehicleGraphLocationOnly: pickVehicleGraphLocationOnly(), }, ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { vehicleGraphLocationOnly: ReturnType<typeof pickVehicleGraphLocationOnly> }];
+    return [ wrappedLazyMutation, { ...lazyMutation[1], vehicleGraphLocationOnly: pickVehicleGraphLocationOnly(lazyMutation[1].data) } ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { vehicleGraphLocationOnly: ReturnType<typeof pickVehicleGraphLocationOnly> }];
   }
   
 
@@ -328,26 +336,28 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
   export function useInsertVehicleGraphLocationOnlyWithOnConflict( options?: Omit<MutationHookOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation' | 'variables'> ) {
     const lazyMutation = useMutation<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyWithOnConflictMutationVariables>( InsertVehicleGraphLocationOnlyWithOnConflictDocument, options );
                                 
-    const wrappedLazyMutation = ({ vehicle, onConflict, options } :{ vehicle: Vehicle_Insert_Input, onConflict?: Vehicle_On_Conflict, options?: Omit<MutationFunctionOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'variables'> }) => {
-      return lazyMutation[0]({ variables: { objects: [vehicle], onConflict }, ...options });
+    const wrappedLazyMutation = async ({ vehicle, onConflict, options } :{ vehicle: Vehicle_Insert_Input, onConflict?: Vehicle_On_Conflict, options?: Omit<MutationFunctionOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'variables'> }) => {
+      const fetchResult = await lazyMutation[0]({ variables: { objects: [vehicle], onConflict }, ...options });
+      return { ...fetchResult, vehicleGraphLocationOnly: pickVehicleGraphLocationOnly(fetchResult.data) };
     };
 
-    const pickVehicleGraphLocationOnly = () => { return ( lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.insert_vehicle && lazyMutation[1].data.insert_vehicle!.returning && lazyMutation[1].data.insert_vehicle!.returning[0] ); };
+    const pickVehicleGraphLocationOnly = (mutation:InsertVehicleGraphLocationOnlyMutation | null | undefined) => { return ( mutation && mutation.insert_vehicle && mutation.insert_vehicle!.returning && mutation.insert_vehicle!.returning[0] ); };
 
-    return [ wrappedLazyMutation, { ...lazyMutation[1], vehicleGraphLocationOnly: pickVehicleGraphLocationOnly(), }, ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { vehicleGraphLocationOnly: ReturnType<typeof pickVehicleGraphLocationOnly> }];
+    return [ wrappedLazyMutation, { ...lazyMutation[1], vehicleGraphLocationOnly: pickVehicleGraphLocationOnly(lazyMutation[1].data) } ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { vehicleGraphLocationOnly: ReturnType<typeof pickVehicleGraphLocationOnly> }];
   }
   
 
   export function useInsertVehicleGraphLocationOnlyObjects( options?: Omit<MutationHookOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation'> ) {
     const lazyMutation = useMutation<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>( InsertVehicleGraphLocationOnlyDocument, options );
                                 
-    const wrappedLazyMutation = ( options?: MutationFunctionOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables> ) => {
-      return lazyMutation[0]( options );
+    const pickObjects = (mutation:InsertVehicleGraphLocationOnlyMutation | null | undefined) => { return ( mutation && mutation.insert_vehicle && mutation.insert_vehicle!.returning ); };
+    
+    const wrappedLazyMutation = async ( options?: MutationFunctionOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables> ) => {
+      const fetchResult = await lazyMutation[0]( options );
+      return { ...fetchResult, objects: pickObjects(fetchResult.data) }
     };
 
-    const pickObjects = () => { return ( lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.insert_vehicle && lazyMutation[1].data.insert_vehicle!.returning ); };
-
-    return [ wrappedLazyMutation, { ...lazyMutation[1], objects: pickObjects(), }, ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { objects: ReturnType<typeof pickObjects> }];
+    return [ wrappedLazyMutation, { ...lazyMutation[1], objects: pickObjects(lazyMutation[1].data) } ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { objects: ReturnType<typeof pickObjects> }];
   }
   
 
@@ -356,25 +366,27 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
     export function useUpdateVehicleGraphLocationOnlyById( options?: Omit<MutationHookOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>, 'mutation' | 'variables'> ) {
       const lazyMutation = useMutation<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>(UpdateVehicleGraphLocationOnlyByIdDocument, options );
       
-      const wrappedLazyMutation = ({ vehicleId, set, options }: { vehicleId: string; set: Vehicle_Set_Input; options?: Omit<MutationFunctionOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>, 'variables'>; }) => {
-        return lazyMutation[0]({ variables: { id: vehicleId, set }, ...options });
+      const pickVehicleGraphLocationOnly = (mutation:UpdateVehicleGraphLocationOnlyMutation | null | undefined) => { return ( mutation && mutation.update_vehicle && mutation.update_vehicle!.returning && mutation.update_vehicle!.returning[0] ); };
+      
+      const wrappedLazyMutation = async ({ vehicleId, set, options }: { vehicleId: string; set: Vehicle_Set_Input; options?: Omit<MutationFunctionOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>, 'variables'>; }) => {
+        const fetchResult = await lazyMutation[0]({ variables: { id: vehicleId, set }, ...options });
+        return { ...fetchResult, vehicleGraphLocationOnly: pickVehicleGraphLocationOnly(fetchResult.data) };
       };
 
-      const pickVehicleGraphLocationOnly = () => { return ( lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.update_vehicle && lazyMutation[1].data.update_vehicle!.returning && lazyMutation[1].data.update_vehicle!.returning[0] ); };
-
-      return [ wrappedLazyMutation, { ...lazyMutation[1], vehicleGraphLocationOnly: pickVehicleGraphLocationOnly(), }, ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { vehicleGraphLocationOnly: ReturnType<typeof pickVehicleGraphLocationOnly> }];
+      return [ wrappedLazyMutation, { ...lazyMutation[1], vehicleGraphLocationOnly: pickVehicleGraphLocationOnly(lazyMutation[1].data) } ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { vehicleGraphLocationOnly: ReturnType<typeof pickVehicleGraphLocationOnly> }];
     }
   
 
     export function useUpdateVehicleGraphLocationOnly( options?: Omit<MutationHookOptions<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>, 'mutation'> ) {
       const lazyMutation = useMutation<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>(UpdateVehicleGraphLocationOnlyDocument, options );
       
-      const wrappedLazyMutation = ( options: MutationFunctionOptions<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables> ) => {
-        return lazyMutation[0]( options );
+      const pickObjects = (mutation:UpdateVehicleGraphLocationOnlyMutation | null | undefined) => { return ( mutation && mutation.update_vehicle && mutation.update_vehicle!.returning ); };
+      
+      const wrappedLazyMutation = async ( options: MutationFunctionOptions<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables> ) => {
+        const fetchResult = await lazyMutation[0]( options );
+        return { ...fetchResult, objects: pickObjects(fetchResult.data) }
       };
 
-      const pickObjects = () => { return ( lazyMutation[1] && lazyMutation[1].data && lazyMutation[1].data.update_vehicle && lazyMutation[1].data.update_vehicle!.returning ); };
-
-      return [ wrappedLazyMutation, { ...lazyMutation[1], objects: pickObjects(), }, ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { objects: ReturnType<typeof pickObjects> }];
+      return [ wrappedLazyMutation, { ...lazyMutation[1], objects: pickObjects(lazyMutation[1].data) } ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { objects: ReturnType<typeof pickObjects> }];
     }
   
