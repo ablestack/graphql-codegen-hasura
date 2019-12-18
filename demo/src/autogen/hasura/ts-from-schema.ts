@@ -1,6 +1,26 @@
 import { ApolloClient } from '@apollo/client'
 import { FetchResult } from '@apollo/client'
 import { QueryOptions, MutationOptions } from '@apollo/client'
+import { DogsModelFieldsFragment } from '../';
+import { FetchDogsModelFieldsByIdQuery } from '../';
+import { FetchDogsModelFieldsByIdDocument } from '../';
+import { FetchDogsModelFieldsQuery } from '../';
+import { FetchDogsModelFieldsDocument } from '../';
+import { FetchDogsModelFieldsQueryVariables } from '../';
+import { Dogs_Insert_Input } from '../';
+import { Dogs_On_Conflict } from '../';
+import { InsertDogsModelFieldsMutation } from '../';
+import { InsertDogsModelFieldsMutationVariables } from '../';
+import { InsertDogsModelFieldsWithOnConflictMutationVariables } from '../';
+import { InsertDogsModelFieldsDocument } from '../';
+import { InsertDogsModelFieldsWithOnConflictDocument } from '../';
+import { Dogs_Set_Input } from '../';
+import { UpdateDogsModelFieldsByIdMutation } from '../';
+import { UpdateDogsModelFieldsByIdMutationVariables } from '../';
+import { UpdateDogsModelFieldsByIdDocument } from '../';
+import { UpdateDogsModelFieldsMutation } from '../';
+import { UpdateDogsModelFieldsMutationVariables } from '../';
+import { UpdateDogsModelFieldsDocument } from '../';
 import { ObservationModelFieldsFragment } from '../';
 import { FetchObservationModelFieldsByIdQuery } from '../';
 import { FetchObservationModelFieldsByIdDocument } from '../';
@@ -121,6 +141,77 @@ import { UpdateVehicle_LocationModelFieldsByIdDocument } from '../';
 import { UpdateVehicle_LocationModelFieldsMutation } from '../';
 import { UpdateVehicle_LocationModelFieldsMutationVariables } from '../';
 import { UpdateVehicle_LocationModelFieldsDocument } from '../';
+
+    // dogs Helpers
+    //------------------------------------------------
+  
+
+      // Fetch Helper
+      //
+  
+      export async function fetchDogsModelFieldsById({
+        apolloClient,
+        dogsId,
+        options,
+      }: {
+        apolloClient: ApolloClient<object>, 
+        dogsId: string,
+        options?: Omit<QueryOptions<FetchDogsModelFieldsQueryVariables>, 'query' | 'variables'>,
+      }) {
+        const query = await apolloClient.query<FetchDogsModelFieldsByIdQuery>({ query: FetchDogsModelFieldsByIdDocument, variables: { dogsId }, ...options });
+        return { ...query, dogsModelFields: query && query.data && query.data.dogs_by_pk }
+      }
+    
+
+      export async function fetchDogsModelFieldsObjects({
+        apolloClient,
+        options,
+      }:{
+        apolloClient: ApolloClient<object>,
+        options: Omit<QueryOptions<FetchDogsModelFieldsQueryVariables>, 'query'>,
+      }) {
+        const query = await apolloClient.query<FetchDogsModelFieldsQuery>({ query: FetchDogsModelFieldsDocument, ...options });
+        return { ...query, objects: query && query.data && query.data.dogs }
+      }
+    
+
+    // Insert Helper
+    //
+
+    export async function insertDogsModelFields({ apolloClient, dogs, onConflict, options } :{ apolloClient: ApolloClient<object>, dogs: Dogs_Insert_Input, onConflict?: Dogs_On_Conflict, options?: Omit<MutationOptions<InsertDogsModelFieldsMutation, InsertDogsModelFieldsMutationVariables>, 'mutation' | 'variables'> }) {
+      
+      const mutation = onConflict
+        ? await apolloClient.mutate<InsertDogsModelFieldsMutation, InsertDogsModelFieldsWithOnConflictMutationVariables>({ mutation: InsertDogsModelFieldsWithOnConflictDocument, variables: { objects: [dogs], onConflict }, ...options })
+        : await apolloClient.mutate<InsertDogsModelFieldsMutation, InsertDogsModelFieldsMutationVariables>({ mutation: InsertDogsModelFieldsDocument, variables: { objects: [dogs] }, ...options });
+        
+      return { ...mutation, dogsModelFields:mutation && mutation.data && mutation.data.insert_dogs && mutation.data.insert_dogs!.returning && mutation.data.insert_dogs!.returning[0] };
+    }
+  
+
+    export async function insertDogsModelFieldsObjects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<InsertDogsModelFieldsMutation, InsertDogsModelFieldsMutationVariables>, 'mutation'> }) {
+      
+      const mutation = await apolloClient.mutate<InsertDogsModelFieldsMutation, InsertDogsModelFieldsMutationVariables>({ mutation: InsertDogsModelFieldsDocument, ...options });
+       
+      return { ...mutation, objects: mutation && mutation.data && mutation.data.insert_dogs && mutation.data.insert_dogs!.returning };
+    }
+  
+
+    // Update Helper
+    //
+
+    export async function updateDogsModelFieldsById({ apolloClient, dogsId, set, options }: { apolloClient: ApolloClient<object>, dogsId: string, set: Dogs_Set_Input, options?: Omit<MutationOptions<UpdateDogsModelFieldsByIdMutation, UpdateDogsModelFieldsByIdMutationVariables>, 'mutation'> }) {
+      const mutation = await apolloClient.mutate<UpdateDogsModelFieldsByIdMutation, UpdateDogsModelFieldsByIdMutationVariables>({ mutation: UpdateDogsModelFieldsByIdDocument, variables: { id:dogsId, set }, ...options,});
+        
+      return { ...mutation, dogsModelFields:mutation && mutation.data && mutation.data.update_dogs && mutation.data.update_dogs!.returning && mutation.data.update_dogs!.returning[0] };
+    }
+  
+
+    export async function updateDogsModelFieldsObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<UpdateDogsModelFieldsMutation, UpdateDogsModelFieldsMutationVariables>, 'mutation'> }) {  
+      const mutation = await apolloClient.mutate<UpdateDogsModelFieldsMutation, UpdateDogsModelFieldsMutationVariables>({ mutation: UpdateDogsModelFieldsDocument, ...options,});
+        
+      return { ...mutation, objects:mutation && mutation.data && mutation.data.update_dogs && mutation.data.update_dogs!.returning };
+    }
+  
 
     // observation Helpers
     //------------------------------------------------

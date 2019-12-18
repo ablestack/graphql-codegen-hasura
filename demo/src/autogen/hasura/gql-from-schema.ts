@@ -1,6 +1,119 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import gql from 'graphql-tag';
 
+  // dogs GQL
+  //------------------------------------------------
+  
+
+
+    // Scalar Fields Fragment
+    //
+
+    export const DogsModelFieldsFragmentDoc = gql`
+      fragment DogsModelFields on dogs {
+      breed
+      id
+      pretentious
+      shovel_faced
+      }
+    `;
+
+
+    // Query: FetchById
+    //
+
+    const FETCH_DOGSMODELFIELDS_BYID = gql`
+      query fetchDogsModelFieldsById($dogsId: uuid!) {
+        dogs_by_pk(id: $dogsId) {
+          ...DogsModelFields
+        }
+      }
+      ${DogsModelFieldsFragmentDoc}
+    `;
+
+
+    // Query: Fetch
+    //
+
+    const FETCH_DOGSMODELFIELDSS = gql`
+      query fetchDogsModelFields(
+        $distinct_on: [dogs_select_column!]
+        $where: dogs_bool_exp
+        $limit: Int
+        $offset: Int
+        $order_by: [dogs_order_by!]
+      ) {
+        dogs(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+          ...DogsModelFields
+        }
+      }
+      ${DogsModelFieldsFragmentDoc}
+    `;
+
+
+    // Mutation: Insert
+    //
+
+    const INSERT_DOGSMODELFIELDS = gql`
+      mutation insertDogsModelFields($objects: [dogs_insert_input!]!) {
+        insert_dogs(objects: $objects) {
+          affected_rows
+          returning {
+            ...DogsModelFields
+          }
+        }
+      }
+      ${DogsModelFieldsFragmentDoc}
+    `;
+
+
+    // Mutation: Insert
+    //
+
+    const INSERT_DOGSMODELFIELDS_WITH_ONCONFLICT = gql`
+      mutation insertDogsModelFieldsWithOnConflict($objects: [dogs_insert_input!]!, $onConflict: dogs_on_conflict) {
+        insert_dogs(objects: $objects, on_conflict: $onConflict) {
+          affected_rows
+          returning {
+            ...DogsModelFields
+          }
+        }
+      }
+      ${DogsModelFieldsFragmentDoc}
+    `;
+
+
+    // Mutation: Update by Id
+    //
+
+    const UPDATE_DOGSMODELFIELDS_BYID = gql`
+      mutation updateDogsModelFieldsById($id: uuid, $set: dogs_set_input) {
+        update_dogs(_set: $set, where: { id: { _eq: $id } }) {
+          affected_rows
+          returning {
+            ...DogsModelFields
+          }
+        }
+      }
+      ${DogsModelFieldsFragmentDoc}
+    `;
+
+
+    // Mutation: Update
+    //
+
+    const UPDATE_DOGSMODELFIELDSS = gql`
+      mutation updateDogsModelFields($set: dogs_set_input, $where:dogs_bool_exp!) {
+        update_dogs(_set: $set, where: $where) {
+          affected_rows
+          returning {
+            ...DogsModelFields
+          }
+        }
+      }
+      ${DogsModelFieldsFragmentDoc}
+    `;
+
   // observation GQL
   //------------------------------------------------
   

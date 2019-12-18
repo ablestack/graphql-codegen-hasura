@@ -1,10 +1,10 @@
 # Overview
 
-graphql-codegen-hasura is a collection of code generator plugins for [graphql-code-generator](https://graphql-code-generator.com/). These plugins are designed to automate coding tasks around the development of a strongly typed client for a [Hasura](https://hasura.io/) backend. The majority of the code generated is strongly-typed wrappers for [Apollo GraphQL](https://www.apollographql.com/), in addition to a number of convenience features. \*
+graphql-codegen-hasura is a collection of code generator plugins for [graphql-code-generator](https://graphql-code-generator.com/). These plugins are designed to automate coding tasks around the development of a strongly typed client for a [Hasura](https://hasura.io/) backend. The majority of the code generated is strongly-typed wrappers for [Apollo GraphQL](https://www.apollographql.com/), in addition to a number of convenience features.
 
 ## Status: \*BETA\*
 
-Important Note: Despite the 2.x version number, this project is at "Beta" status, with an evolving (and thus unstable) codebase. Feel free to use the project "as is", but expect breaking changes when you retrieve updates. However, any breaking changes will be released as a new major or minor version in order to minimize disruption to consumers.
+Important Note: Despite the 2.x version number, this project is at "Beta" status, with an evolving codebase. However, any breaking changes will be released with new minor or major version bumps in order to minimize disruption to any consumers.
 
 ## Approaches
 
@@ -232,13 +232,14 @@ This code was initially developed for use in a single separate commercial projec
 
 Known Issues Include:
 
-- Hasura views break the code generation
+- None at present
 
 ## Refinements and Enhancements Needed
 
 There are many refinements and enhancements that would be beneficial, and contributions to that end are encouraged. Notable examples include:
 
-- Fix known issues
+- Fix known issues (done)
+- Add automated tests
 - Add validation (especially for checking for package prerequisites). See [these docs](https://graphql-code-generator.com/docs/custom-codegen/validate-configuration)
 - Rewrite the plugins to use the graphql-code-generator [recommended Visitor pattern](https://graphql-code-generator.com/docs/custom-codegen/using-visitor)
 

@@ -33,7 +33,7 @@ export function injectEntityTypePolicy({
         Query: {
           fields: {
             ${entityName}_by_pk(existingData, { args, toReference }) {
-              return existingData || toReference({ __typename: '${entityName}', id: args.id });
+              return existingData || toReference({ __typename: '${entityName}', id: args!.id });
             },
           },
         },

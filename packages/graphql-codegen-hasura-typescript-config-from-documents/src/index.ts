@@ -62,7 +62,7 @@ function injectTableResolversBaseTypes(contentManager: ContentManager, config: C
   contentManager.addContent(`
   export interface ApolloContext {
     cache: ApolloCache<NormalizedCacheObject>;
-    client: ApolloClient<object>;
+    client: ApolloClient<NormalizedCacheObject>;
     getCacheKey: (object: StoreObject) => string;
   }
   

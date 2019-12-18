@@ -6,7 +6,7 @@ import { Query_RootVehicleArgs } from '../';
 
   export interface ApolloContext {
     cache: ApolloCache<NormalizedCacheObject>;
-    client: ApolloClient<object>;
+    client: ApolloClient<NormalizedCacheObject>;
     getCacheKey: (object: StoreObject) => string;
   }
   
@@ -50,7 +50,7 @@ import { Query_RootVehicleArgs } from '../';
         Query: {
           fields: {
             vehicle_by_pk(existingData, { args, toReference }) {
-              return existingData || toReference({ __typename: 'vehicle', id: args.id });
+              return existingData || toReference({ __typename: 'vehicle', id: args!.id });
             },
           },
         },
