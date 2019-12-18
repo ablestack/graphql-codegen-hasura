@@ -44,6 +44,32 @@ import { UpdateVehicleGraphLocationOnlyByIdDocument } from '../';
 import { UpdateVehicleGraphLocationOnlyMutation } from '../';
 import { UpdateVehicleGraphLocationOnlyMutationVariables } from '../';
 import { UpdateVehicleGraphLocationOnlyDocument } from '../';
+import { DogModelFragment } from '../';
+import { FetchDogModelByIdQuery } from '../';
+import { FetchDogModelByIdDocument } from '../';
+import { FetchDogModelQuery } from '../';
+import { FetchDogModelDocument } from '../';
+import { FetchDogModelQueryVariables } from '../';
+import { Dogs_Insert_Input } from '../';
+import { Dogs_On_Conflict } from '../';
+import { InsertDogModelMutation } from '../';
+import { InsertDogModelMutationVariables } from '../';
+import { InsertDogModelWithOnConflictMutationVariables } from '../';
+import { InsertDogModelDocument } from '../';
+import { InsertDogModelWithOnConflictDocument } from '../';
+import { Dogs_Set_Input } from '../';
+import { UpdateDogModelByIdMutation } from '../';
+import { UpdateDogModelByIdMutationVariables } from '../';
+import { UpdateDogModelByIdDocument } from '../';
+import { UpdateDogModelMutation } from '../';
+import { UpdateDogModelMutationVariables } from '../';
+import { UpdateDogModelDocument } from '../';
+import { RemoveDogsModelMutation } from '../';
+import { RemoveDogsModelMutationVariables } from '../';
+import { RemoveDogsModelDocument } from '../';
+import { RemoveDogsModelByIdMutation } from '../';
+import { RemoveDogsModelByIdMutationVariables } from '../';
+import { RemoveDogsModelByIdDocument } from '../';
 
     // vehicle Helpers
     //------------------------------------------------
@@ -197,5 +223,93 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
       const mutation = await apolloClient.mutate<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>({ mutation: UpdateVehicleGraphLocationOnlyDocument, ...options,});
         
       return { ...mutation, objects:mutation && mutation.data && mutation.data.update_vehicle && mutation.data.update_vehicle!.returning };
+    }
+  
+
+    // dogs Helpers
+    //------------------------------------------------
+  
+
+      // Fetch Helper
+      //
+  
+      export async function fetchDogModelById({
+        apolloClient,
+        dogsId,
+        options,
+      }: {
+        apolloClient: ApolloClient<object>, 
+        dogsId: string,
+        options?: Omit<QueryOptions<FetchDogModelQueryVariables>, 'query' | 'variables'>,
+      }) {
+        const query = await apolloClient.query<FetchDogModelByIdQuery>({ query: FetchDogModelByIdDocument, variables: { dogsId }, ...options });
+        return { ...query, dogModel: query && query.data && query.data.dogs_by_pk }
+      }
+    
+
+      export async function fetchDogModelObjects({
+        apolloClient,
+        options,
+      }:{
+        apolloClient: ApolloClient<object>,
+        options: Omit<QueryOptions<FetchDogModelQueryVariables>, 'query'>,
+      }) {
+        const query = await apolloClient.query<FetchDogModelQuery>({ query: FetchDogModelDocument, ...options });
+        return { ...query, objects: query && query.data && query.data.dogs }
+      }
+    
+
+    // Insert Helper
+    //
+
+    export async function insertDogModel({ apolloClient, dogs, onConflict, options } :{ apolloClient: ApolloClient<object>, dogs: Dogs_Insert_Input, onConflict?: Dogs_On_Conflict, options?: Omit<MutationOptions<InsertDogModelMutation, InsertDogModelMutationVariables>, 'mutation' | 'variables'> }) {
+      
+      const mutation = onConflict
+        ? await apolloClient.mutate<InsertDogModelMutation, InsertDogModelWithOnConflictMutationVariables>({ mutation: InsertDogModelWithOnConflictDocument, variables: { objects: [dogs], onConflict }, ...options })
+        : await apolloClient.mutate<InsertDogModelMutation, InsertDogModelMutationVariables>({ mutation: InsertDogModelDocument, variables: { objects: [dogs] }, ...options });
+        
+      return { ...mutation, dogModel:mutation && mutation.data && mutation.data.insert_dogs && mutation.data.insert_dogs!.returning && mutation.data.insert_dogs!.returning[0] };
+    }
+  
+
+    export async function insertDogModelObjects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<InsertDogModelMutation, InsertDogModelMutationVariables>, 'mutation'> }) {
+      
+      const mutation = await apolloClient.mutate<InsertDogModelMutation, InsertDogModelMutationVariables>({ mutation: InsertDogModelDocument, ...options });
+       
+      return { ...mutation, objects: mutation && mutation.data && mutation.data.insert_dogs && mutation.data.insert_dogs!.returning };
+    }
+  
+
+    // Update Helper
+    //
+
+    export async function updateDogModelById({ apolloClient, dogsId, set, options }: { apolloClient: ApolloClient<object>, dogsId: string, set: Dogs_Set_Input, options?: Omit<MutationOptions<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>, 'mutation'> }) {
+      const mutation = await apolloClient.mutate<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>({ mutation: UpdateDogModelByIdDocument, variables: { id:dogsId, set }, ...options,});
+        
+      return { ...mutation, dogModel:mutation && mutation.data && mutation.data.update_dogs && mutation.data.update_dogs!.returning && mutation.data.update_dogs!.returning[0] };
+    }
+  
+
+    export async function updateDogModelObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<UpdateDogModelMutation, UpdateDogModelMutationVariables>, 'mutation'> }) {  
+      const mutation = await apolloClient.mutate<UpdateDogModelMutation, UpdateDogModelMutationVariables>({ mutation: UpdateDogModelDocument, ...options,});
+        
+      return { ...mutation, objects:mutation && mutation.data && mutation.data.update_dogs && mutation.data.update_dogs!.returning };
+    }
+  
+
+    // Delete Helper
+    //
+
+    export async function removeDogsModelById({ apolloClient, dogsId, options } :{ apolloClient: ApolloClient<object>, dogsId: string, options?: Omit<MutationOptions<RemoveDogsModelByIdMutation, RemoveDogsModelByIdMutationVariables>, 'mutation'> }) {
+      const mutation = await apolloClient.mutate<RemoveDogsModelByIdMutation, RemoveDogsModelByIdMutationVariables>({ mutation: RemoveDogsModelByIdDocument, variables: { id:dogsId, }, ...options,});
+    
+      return { ...mutation, affected_rows:mutation && mutation.data && mutation.data.delete_dogs && mutation.data.delete_dogs!.affected_rows };
+    }
+  
+
+    export async function removeDogsModelObjects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<RemoveDogsModelMutation, RemoveDogsModelMutationVariables>, 'mutation'> }) {  
+      const mutation = await apolloClient.mutate<RemoveDogsModelMutation, RemoveDogsModelMutationVariables>({ mutation: RemoveDogsModelDocument, ...options,});
+        
+      return { ...mutation, affected_rows:mutation && mutation.data && mutation.data.delete_dogs && mutation.data.delete_dogs!.affected_rows };
     }
   

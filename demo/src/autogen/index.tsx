@@ -6214,6 +6214,133 @@ export type UpdateVehicleGraphLocationOnlyMutation = (
   )> }
 );
 
+export type FetchDogModelByIdQueryVariables = {
+  dogsId: Scalars['uuid']
+};
+
+
+export type FetchDogModelByIdQuery = (
+  { __typename?: 'query_root' }
+  & { dogs_by_pk: Maybe<(
+    { __typename?: 'dogs' }
+    & DogModelFragment
+  )> }
+);
+
+export type FetchDogModelQueryVariables = {
+  distinct_on?: Maybe<Array<Dogs_Select_Column>>,
+  where?: Maybe<Dogs_Bool_Exp>,
+  limit?: Maybe<Scalars['Int']>,
+  offset?: Maybe<Scalars['Int']>,
+  order_by?: Maybe<Array<Dogs_Order_By>>
+};
+
+
+export type FetchDogModelQuery = (
+  { __typename?: 'query_root' }
+  & { dogs: Array<(
+    { __typename?: 'dogs' }
+    & DogModelFragment
+  )> }
+);
+
+export type InsertDogModelMutationVariables = {
+  objects: Array<Dogs_Insert_Input>
+};
+
+
+export type InsertDogModelMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_dogs: Maybe<(
+    { __typename?: 'dogs_mutation_response' }
+    & Pick<Dogs_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'dogs' }
+      & DogModelFragment
+    )> }
+  )> }
+);
+
+export type InsertDogModelWithOnConflictMutationVariables = {
+  objects: Array<Dogs_Insert_Input>,
+  onConflict?: Maybe<Dogs_On_Conflict>
+};
+
+
+export type InsertDogModelWithOnConflictMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_dogs: Maybe<(
+    { __typename?: 'dogs_mutation_response' }
+    & Pick<Dogs_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'dogs' }
+      & DogModelFragment
+    )> }
+  )> }
+);
+
+export type UpdateDogModelByIdMutationVariables = {
+  id?: Maybe<Scalars['uuid']>,
+  set?: Maybe<Dogs_Set_Input>
+};
+
+
+export type UpdateDogModelByIdMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_dogs: Maybe<(
+    { __typename?: 'dogs_mutation_response' }
+    & Pick<Dogs_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'dogs' }
+      & DogModelFragment
+    )> }
+  )> }
+);
+
+export type UpdateDogModelMutationVariables = {
+  set?: Maybe<Dogs_Set_Input>,
+  where: Dogs_Bool_Exp
+};
+
+
+export type UpdateDogModelMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_dogs: Maybe<(
+    { __typename?: 'dogs_mutation_response' }
+    & Pick<Dogs_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'dogs' }
+      & DogModelFragment
+    )> }
+  )> }
+);
+
+export type RemoveDogsModelByIdMutationVariables = {
+  id?: Maybe<Scalars['uuid']>
+};
+
+
+export type RemoveDogsModelByIdMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_dogs: Maybe<(
+    { __typename?: 'dogs_mutation_response' }
+    & Pick<Dogs_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
+export type RemoveDogsModelMutationVariables = {
+  where: Dogs_Bool_Exp
+};
+
+
+export type RemoveDogsModelMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_dogs: Maybe<(
+    { __typename?: 'dogs_mutation_response' }
+    & Pick<Dogs_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
 export type DogsModelFieldsFragment = (
   { __typename?: 'dogs' }
   & Pick<Dogs, 'breed' | 'id' | 'pretentious' | 'shovel_faced'>
@@ -6974,6 +7101,11 @@ export type VehicleGraphLocationOnlyFragment = (
   )> }
 );
 
+export type DogModelFragment = (
+  { __typename?: 'dogs' }
+  & Pick<Dogs, 'breed' | 'id'>
+);
+
 export const DogsModelFieldsFragmentDoc = gql`
     fragment DogsModelFields on dogs {
   breed
@@ -7037,6 +7169,12 @@ export const VehicleGraphLocationOnlyFragmentDoc = gql`
   locations {
     location
   }
+}
+    `;
+export const DogModelFragmentDoc = gql`
+    fragment DogModel on dogs {
+  breed
+  id
 }
     `;
 export const FetchVehicleGraphByIdDocument = gql`
@@ -7195,6 +7333,94 @@ export const UpdateVehicleGraphLocationOnlyDocument = gql`
 export type UpdateVehicleGraphLocationOnlyMutationFn = ApolloReactCommon.MutationFunction<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>;
 export type UpdateVehicleGraphLocationOnlyMutationResult = ApolloReactCommon.MutationResult<UpdateVehicleGraphLocationOnlyMutation>;
 export type UpdateVehicleGraphLocationOnlyMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>;
+export const FetchDogModelByIdDocument = gql`
+    query fetchDogModelById($dogsId: uuid!) {
+  dogs_by_pk(id: $dogsId) {
+    ...DogModel
+  }
+}
+    ${DogModelFragmentDoc}`;
+export type FetchDogModelByIdQueryResult = ApolloReactCommon.QueryResult<FetchDogModelByIdQuery, FetchDogModelByIdQueryVariables>;
+export const FetchDogModelDocument = gql`
+    query fetchDogModel($distinct_on: [dogs_select_column!], $where: dogs_bool_exp, $limit: Int, $offset: Int, $order_by: [dogs_order_by!]) {
+  dogs(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+    ...DogModel
+  }
+}
+    ${DogModelFragmentDoc}`;
+export type FetchDogModelQueryResult = ApolloReactCommon.QueryResult<FetchDogModelQuery, FetchDogModelQueryVariables>;
+export const InsertDogModelDocument = gql`
+    mutation insertDogModel($objects: [dogs_insert_input!]!) {
+  insert_dogs(objects: $objects) {
+    affected_rows
+    returning {
+      ...DogModel
+    }
+  }
+}
+    ${DogModelFragmentDoc}`;
+export type InsertDogModelMutationFn = ApolloReactCommon.MutationFunction<InsertDogModelMutation, InsertDogModelMutationVariables>;
+export type InsertDogModelMutationResult = ApolloReactCommon.MutationResult<InsertDogModelMutation>;
+export type InsertDogModelMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertDogModelMutation, InsertDogModelMutationVariables>;
+export const InsertDogModelWithOnConflictDocument = gql`
+    mutation insertDogModelWithOnConflict($objects: [dogs_insert_input!]!, $onConflict: dogs_on_conflict) {
+  insert_dogs(objects: $objects, on_conflict: $onConflict) {
+    affected_rows
+    returning {
+      ...DogModel
+    }
+  }
+}
+    ${DogModelFragmentDoc}`;
+export type InsertDogModelWithOnConflictMutationFn = ApolloReactCommon.MutationFunction<InsertDogModelWithOnConflictMutation, InsertDogModelWithOnConflictMutationVariables>;
+export type InsertDogModelWithOnConflictMutationResult = ApolloReactCommon.MutationResult<InsertDogModelWithOnConflictMutation>;
+export type InsertDogModelWithOnConflictMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertDogModelWithOnConflictMutation, InsertDogModelWithOnConflictMutationVariables>;
+export const UpdateDogModelByIdDocument = gql`
+    mutation updateDogModelById($id: uuid, $set: dogs_set_input) {
+  update_dogs(_set: $set, where: {id: {_eq: $id}}) {
+    affected_rows
+    returning {
+      ...DogModel
+    }
+  }
+}
+    ${DogModelFragmentDoc}`;
+export type UpdateDogModelByIdMutationFn = ApolloReactCommon.MutationFunction<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>;
+export type UpdateDogModelByIdMutationResult = ApolloReactCommon.MutationResult<UpdateDogModelByIdMutation>;
+export type UpdateDogModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>;
+export const UpdateDogModelDocument = gql`
+    mutation updateDogModel($set: dogs_set_input, $where: dogs_bool_exp!) {
+  update_dogs(_set: $set, where: $where) {
+    affected_rows
+    returning {
+      ...DogModel
+    }
+  }
+}
+    ${DogModelFragmentDoc}`;
+export type UpdateDogModelMutationFn = ApolloReactCommon.MutationFunction<UpdateDogModelMutation, UpdateDogModelMutationVariables>;
+export type UpdateDogModelMutationResult = ApolloReactCommon.MutationResult<UpdateDogModelMutation>;
+export type UpdateDogModelMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateDogModelMutation, UpdateDogModelMutationVariables>;
+export const RemoveDogsModelByIdDocument = gql`
+    mutation removeDogsModelById($id: uuid) {
+  delete_dogs(where: {id: {_eq: $id}}) {
+    affected_rows
+  }
+}
+    `;
+export type RemoveDogsModelByIdMutationFn = ApolloReactCommon.MutationFunction<RemoveDogsModelByIdMutation, RemoveDogsModelByIdMutationVariables>;
+export type RemoveDogsModelByIdMutationResult = ApolloReactCommon.MutationResult<RemoveDogsModelByIdMutation>;
+export type RemoveDogsModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveDogsModelByIdMutation, RemoveDogsModelByIdMutationVariables>;
+export const RemoveDogsModelDocument = gql`
+    mutation removeDogsModel($where: dogs_bool_exp!) {
+  delete_dogs(where: $where) {
+    affected_rows
+  }
+}
+    `;
+export type RemoveDogsModelMutationFn = ApolloReactCommon.MutationFunction<RemoveDogsModelMutation, RemoveDogsModelMutationVariables>;
+export type RemoveDogsModelMutationResult = ApolloReactCommon.MutationResult<RemoveDogsModelMutation>;
+export type RemoveDogsModelMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveDogsModelMutation, RemoveDogsModelMutationVariables>;
 export const FetchDogsModelFieldsByIdDocument = gql`
     query fetchDogsModelFieldsById($dogsId: uuid!) {
   dogs_by_pk(id: $dogsId) {

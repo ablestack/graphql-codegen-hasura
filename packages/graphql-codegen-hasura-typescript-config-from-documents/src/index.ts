@@ -135,11 +135,13 @@ function injectTablesTypePolicies(fragmentDefinitionNodes: FragmentDefinitionNod
 
   // COMBINED TYPE POLICIES CONFIG
 
-  export const CombinedTypePoliciesConfig: TypePolicies = Object.assign(
-    \{\},
-    ${uniqueEntitiesFromFragments.join(",\n    ")}
-  );
-  `);
+  export const CombinedTypePoliciesConfig: TypePolicies = {
+    Query: {
+      fields: { 
+        ${uniqueEntitiesFromFragments.map(entityString => `...${entityString}.Query.fields`).join(",\n        ")}
+      },
+    },
+  }`);
 }
 // --------------------------------------
 //

@@ -2,6 +2,7 @@
 import gql from 'graphql-tag';
 import { VehicleGraphFragmentDoc } from '../';
 import { VehicleGraphLocationOnlyFragmentDoc } from '../';
+import { DogModelFragmentDoc } from '../';
 
     // VehicleGraph GQL
     //------------------------------------------------ 
@@ -225,4 +226,128 @@ import { VehicleGraphLocationOnlyFragmentDoc } from '../';
         }
       }
       ${VehicleGraphLocationOnlyFragmentDoc}
+    `;
+
+    // DogModel GQL
+    //------------------------------------------------ 
+  
+
+
+    // Query: FetchById
+    //
+
+    const FETCH_DOGMODEL_BYID = gql`
+      query fetchDogModelById($dogsId: uuid!) {
+        dogs_by_pk(id: $dogsId) {
+          ...DogModel
+        }
+      }
+      ${DogModelFragmentDoc}
+    `;
+
+
+    // Query: Fetch
+    //
+
+    const FETCH_DOGMODELS = gql`
+      query fetchDogModel(
+        $distinct_on: [dogs_select_column!]
+        $where: dogs_bool_exp
+        $limit: Int
+        $offset: Int
+        $order_by: [dogs_order_by!]
+      ) {
+        dogs(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+          ...DogModel
+        }
+      }
+      ${DogModelFragmentDoc}
+    `;
+
+
+    // Mutation: Insert
+    //
+
+    const INSERT_DOGMODEL = gql`
+      mutation insertDogModel($objects: [dogs_insert_input!]!) {
+        insert_dogs(objects: $objects) {
+          affected_rows
+          returning {
+            ...DogModel
+          }
+        }
+      }
+      ${DogModelFragmentDoc}
+    `;
+
+
+    // Mutation: Insert
+    //
+
+    const INSERT_DOGMODEL_WITH_ONCONFLICT = gql`
+      mutation insertDogModelWithOnConflict($objects: [dogs_insert_input!]!, $onConflict: dogs_on_conflict) {
+        insert_dogs(objects: $objects, on_conflict: $onConflict) {
+          affected_rows
+          returning {
+            ...DogModel
+          }
+        }
+      }
+      ${DogModelFragmentDoc}
+    `;
+
+
+    // Mutation: Update by Id
+    //
+
+    const UPDATE_DOGMODEL_BYID = gql`
+      mutation updateDogModelById($id: uuid, $set: dogs_set_input) {
+        update_dogs(_set: $set, where: { id: { _eq: $id } }) {
+          affected_rows
+          returning {
+            ...DogModel
+          }
+        }
+      }
+      ${DogModelFragmentDoc}
+    `;
+
+
+    // Mutation: Update
+    //
+
+    const UPDATE_DOGMODELS = gql`
+      mutation updateDogModel($set: dogs_set_input, $where:dogs_bool_exp!) {
+        update_dogs(_set: $set, where: $where) {
+          affected_rows
+          returning {
+            ...DogModel
+          }
+        }
+      }
+      ${DogModelFragmentDoc}
+    `;
+
+
+    // Mutation: Remove by Id
+    //
+
+    const REMOVE_DOGSMODEL_BYID = gql`
+      mutation removeDogsModelById($id: uuid) {
+        delete_dogs(where: { id: { _eq: $id } }) {
+          affected_rows
+        }
+      }
+    `;
+
+
+    // Mutation: Remove
+    //
+
+    const REMOVE_DOGSMODELS = gql`
+      mutation removeDogsModel($where:dogs_bool_exp!) {
+        delete_dogs(where: $where) {
+          affected_rows
+        }
+      }
     `;

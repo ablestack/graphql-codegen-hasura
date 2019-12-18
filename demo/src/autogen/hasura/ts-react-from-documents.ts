@@ -43,6 +43,32 @@ import { UpdateVehicleGraphLocationOnlyByIdDocument } from '../';
 import { UpdateVehicleGraphLocationOnlyMutation } from '../';
 import { UpdateVehicleGraphLocationOnlyMutationVariables } from '../';
 import { UpdateVehicleGraphLocationOnlyDocument } from '../';
+import { FetchDogModelByIdQuery } from '../';
+import { FetchDogModelByIdQueryVariables } from '../';
+import { FetchDogModelByIdDocument } from '../';
+import { FetchDogModelQuery } from '../';
+import { FetchDogModelDocument } from '../';
+import { FetchDogModelQueryVariables } from '../';
+import { Dogs_Insert_Input } from '../';
+import { Dogs_On_Conflict } from '../';
+import { InsertDogModelMutation } from '../';
+import { InsertDogModelMutationVariables } from '../';
+import { InsertDogModelWithOnConflictMutationVariables } from '../';
+import { InsertDogModelDocument } from '../';
+import { InsertDogModelWithOnConflictDocument } from '../';
+import { Dogs_Set_Input } from '../';
+import { UpdateDogModelByIdMutation } from '../';
+import { UpdateDogModelByIdMutationVariables } from '../';
+import { UpdateDogModelByIdDocument } from '../';
+import { UpdateDogModelMutation } from '../';
+import { UpdateDogModelMutationVariables } from '../';
+import { UpdateDogModelDocument } from '../';
+import { RemoveDogsModelMutation } from '../';
+import { RemoveDogsModelMutationVariables } from '../';
+import { RemoveDogsModelDocument } from '../';
+import { RemoveDogsModelByIdMutation } from '../';
+import { RemoveDogsModelByIdMutationVariables } from '../';
+import { RemoveDogsModelByIdDocument } from '../';
 
     import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation } from '@apollo/client'
 
@@ -388,5 +414,195 @@ import { UpdateVehicleGraphLocationOnlyDocument } from '../';
       };
 
       return [ wrappedLazyMutation, { ...lazyMutation[1], objects: pickObjects(lazyMutation[1].data) } ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { objects: ReturnType<typeof pickObjects> }];
+    }
+  
+
+    // dogs React
+    //------------------------------------------------
+  
+
+      // Fetch Hooks
+      //
+  
+      /**
+       * __useFetchDogModelByIdQuery__
+       *
+       * To run a query within a React component, call `useDogModelByIdQuery`
+       * When your component renders, `useDogModelByIdQuery` returns an object from Apollo Client that contains loading, error, data properties, and a shortcut result property 
+       *
+       * @param options options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+       *
+       * @example
+       * const { loading, error, dogModel } = useFetchDogModelByIdQuery({ dogsId:<value> });
+       * 
+       * The majority of the options and the specifics of their behavior are derived from apollographql. See https://www.apollographql.com/docs/react/api/react-hooks/#usequery for details
+       * 
+       */
+
+        // Fetch Hook
+        //
+        export function useFetchDogModelByIdQuery({ 
+          dogsId, 
+          options, 
+        }: {
+          dogsId:string,
+          options?: Omit<QueryHookOptions<FetchDogModelByIdQuery, FetchDogModelByIdQueryVariables>, 'query' | 'variables'>
+        }) {
+            const query = useQuery<FetchDogModelByIdQuery, FetchDogModelByIdQueryVariables>(FetchDogModelByIdDocument, { variables: { dogsId }, ...options });
+            return { ...query, dogModel: query && query.data && query.data.dogs_by_pk } 
+        }
+    
+
+      /**
+       * __useFetchDogModelByIdLazyQuery__
+       * 
+       * @example
+       * const [fetchDogModelById, { called, loading, error, dogModel }] = useFetchDogModelById();
+       * fetchDogModelById({ dogsId:<value> });
+       * 
+       * The majority of the options and the specifics of their behavior are derived from apollographql. See https://www.apollographql.com/docs/react/api/react-hooks/#uselazyquery for details
+       * 
+       */
+
+      // Lazy Fetch Hook
+      //
+      export function useFetchDogModelByIdLazyQuery(options?: Omit<LazyQueryHookOptions<FetchDogModelByIdQuery, FetchDogModelByIdQueryVariables>, 'query' | 'variables'>) {
+        const lazyQuery = useLazyQuery<FetchDogModelByIdQuery, FetchDogModelByIdQueryVariables>(FetchDogModelByIdDocument, options );
+        
+        const pickDogModel = (query: FetchDogModelByIdQuery | null | undefined) => { return ( query && query.dogs_by_pk ); };
+        
+        const wrappedLazyQuery = ({ dogsId, options }: { dogsId:string, options?: Omit<QueryLazyOptions<FetchDogModelByIdQueryVariables>, 'variables'> }) => {
+          return lazyQuery[0]({ variables: { dogsId }, ...options });
+        };   
+
+        return [wrappedLazyQuery, { ...lazyQuery[1], dogModel: pickDogModel(lazyQuery[1].data) }] as [typeof wrappedLazyQuery, typeof lazyQuery[1] & { dogModel: ReturnType<typeof pickDogModel> }];
+      }
+    
+
+      // Fetch Collection Hook
+      //
+      export function useFetchDogModelObjectsQuery( options: Omit<QueryHookOptions<FetchDogModelQuery, FetchDogModelQueryVariables>, 'query'> ) {
+          const query = useQuery<FetchDogModelQuery, FetchDogModelQueryVariables>(FetchDogModelDocument, options );
+          return { ...query, objects: query && query.data && query.data.dogs }
+      }
+  
+      // Lazy Fetch Collection Hook
+      //
+      export function useFetchDogModelObjectsLazyQuery( options?: Omit<LazyQueryHookOptions<FetchDogModelQuery, FetchDogModelQueryVariables>, 'query'> ) {
+        const lazyQuery = useLazyQuery<FetchDogModelQuery, FetchDogModelQueryVariables>(FetchDogModelDocument, options );
+      
+        const pickObjects = (query: FetchDogModelQuery | null | undefined) => { return ( query && query.dogs ); };
+        
+        const wrappedLazyQuery = ( options?: QueryLazyOptions<FetchDogModelQueryVariables> ) => {
+          return lazyQuery[0]();
+        };
+    
+        return [wrappedLazyQuery, { ...lazyQuery[1], objects: pickObjects(lazyQuery[1].data) }] as [typeof wrappedLazyQuery, typeof lazyQuery[1] & { objects: ReturnType<typeof pickObjects> }];
+      }
+    
+
+  // Insert Hooks
+  //
+  export function useInsertDogModel( options?: Omit<MutationHookOptions<InsertDogModelMutation, InsertDogModelMutationVariables>, 'mutation' | 'variables'> ) {
+    const lazyMutation = useMutation<InsertDogModelMutation, InsertDogModelMutationVariables>( InsertDogModelDocument, options );
+                                
+    const pickDogModel = (mutation:InsertDogModelMutation | null | undefined) => { return ( mutation && mutation.insert_dogs && mutation.insert_dogs!.returning && mutation.insert_dogs!.returning[0] ); };
+    
+    const wrappedLazyMutation = async ({ dogs, options } :{ dogs: Dogs_Insert_Input, options?: Omit<MutationFunctionOptions<InsertDogModelMutation, InsertDogModelMutationVariables>, 'variables'> }) => {
+      const fetchResult = await lazyMutation[0]({ variables: { objects: [dogs] }, ...options });
+      return { ...fetchResult, dogModel: pickDogModel(fetchResult.data) };
+    };
+
+    return [ wrappedLazyMutation, { ...lazyMutation[1], dogModel: pickDogModel(lazyMutation[1].data) } ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { dogModel: ReturnType<typeof pickDogModel> }];
+  }
+  
+
+
+  export function useInsertDogModelWithOnConflict( options?: Omit<MutationHookOptions<InsertDogModelMutation, InsertDogModelMutationVariables>, 'mutation' | 'variables'> ) {
+    const lazyMutation = useMutation<InsertDogModelMutation, InsertDogModelWithOnConflictMutationVariables>( InsertDogModelWithOnConflictDocument, options );
+                                
+    const wrappedLazyMutation = async ({ dogs, onConflict, options } :{ dogs: Dogs_Insert_Input, onConflict?: Dogs_On_Conflict, options?: Omit<MutationFunctionOptions<InsertDogModelMutation, InsertDogModelMutationVariables>, 'variables'> }) => {
+      const fetchResult = await lazyMutation[0]({ variables: { objects: [dogs], onConflict }, ...options });
+      return { ...fetchResult, dogModel: pickDogModel(fetchResult.data) };
+    };
+
+    const pickDogModel = (mutation:InsertDogModelMutation | null | undefined) => { return ( mutation && mutation.insert_dogs && mutation.insert_dogs!.returning && mutation.insert_dogs!.returning[0] ); };
+
+    return [ wrappedLazyMutation, { ...lazyMutation[1], dogModel: pickDogModel(lazyMutation[1].data) } ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { dogModel: ReturnType<typeof pickDogModel> }];
+  }
+  
+
+  export function useInsertDogModelObjects( options?: Omit<MutationHookOptions<InsertDogModelMutation, InsertDogModelMutationVariables>, 'mutation'> ) {
+    const lazyMutation = useMutation<InsertDogModelMutation, InsertDogModelMutationVariables>( InsertDogModelDocument, options );
+                                
+    const pickObjects = (mutation:InsertDogModelMutation | null | undefined) => { return ( mutation && mutation.insert_dogs && mutation.insert_dogs!.returning ); };
+    
+    const wrappedLazyMutation = async ( options?: MutationFunctionOptions<InsertDogModelMutation, InsertDogModelMutationVariables> ) => {
+      const fetchResult = await lazyMutation[0]( options );
+      return { ...fetchResult, objects: pickObjects(fetchResult.data) }
+    };
+
+    return [ wrappedLazyMutation, { ...lazyMutation[1], objects: pickObjects(lazyMutation[1].data) } ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { objects: ReturnType<typeof pickObjects> }];
+  }
+  
+
+    // Update Hooks
+    //
+    export function useUpdateDogModelById( options?: Omit<MutationHookOptions<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>, 'mutation' | 'variables'> ) {
+      const lazyMutation = useMutation<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>(UpdateDogModelByIdDocument, options );
+      
+      const pickDogModel = (mutation:UpdateDogModelMutation | null | undefined) => { return ( mutation && mutation.update_dogs && mutation.update_dogs!.returning && mutation.update_dogs!.returning[0] ); };
+      
+      const wrappedLazyMutation = async ({ dogsId, set, options }: { dogsId: string; set: Dogs_Set_Input; options?: Omit<MutationFunctionOptions<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>, 'variables'>; }) => {
+        const fetchResult = await lazyMutation[0]({ variables: { id: dogsId, set }, ...options });
+        return { ...fetchResult, dogModel: pickDogModel(fetchResult.data) };
+      };
+
+      return [ wrappedLazyMutation, { ...lazyMutation[1], dogModel: pickDogModel(lazyMutation[1].data) } ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { dogModel: ReturnType<typeof pickDogModel> }];
+    }
+  
+
+    export function useUpdateDogModel( options?: Omit<MutationHookOptions<UpdateDogModelMutation, UpdateDogModelMutationVariables>, 'mutation'> ) {
+      const lazyMutation = useMutation<UpdateDogModelMutation, UpdateDogModelMutationVariables>(UpdateDogModelDocument, options );
+      
+      const pickObjects = (mutation:UpdateDogModelMutation | null | undefined) => { return ( mutation && mutation.update_dogs && mutation.update_dogs!.returning ); };
+      
+      const wrappedLazyMutation = async ( options: MutationFunctionOptions<UpdateDogModelMutation, UpdateDogModelMutationVariables> ) => {
+        const fetchResult = await lazyMutation[0]( options );
+        return { ...fetchResult, objects: pickObjects(fetchResult.data) }
+      };
+
+      return [ wrappedLazyMutation, { ...lazyMutation[1], objects: pickObjects(lazyMutation[1].data) } ] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { objects: ReturnType<typeof pickObjects> }];
+    }
+  
+
+    // Delete Hooks
+    //
+
+    export function useRemoveDogsModelById( options?: Omit<MutationHookOptions<RemoveDogsModelByIdMutation, RemoveDogsModelByIdMutationVariables>, 'mutation' | 'variables'> ) {
+      const lazyMutation = useMutation<RemoveDogsModelByIdMutation, RemoveDogsModelByIdMutationVariables>(RemoveDogsModelByIdDocument, options );
+      
+      const pickAffectedRows = (mutation:RemoveDogsModelByIdMutation | null | undefined) => { return ( mutation && mutation.delete_dogs && mutation.delete_dogs!.affected_rows ); };
+      
+      const wrappedLazyMutation = async ({ dogsId, options }:{ dogsId: string, options?: Omit<MutationFunctionOptions<RemoveDogsModelByIdMutation, RemoveDogsModelByIdMutationVariables>, 'variables'> }) => {
+        const fetchResult = await lazyMutation[0]({ variables: { id:dogsId }, ...options });
+        return { ...fetchResult, affected_rows: pickAffectedRows(fetchResult.data) }
+      }; 
+      
+      return [wrappedLazyMutation, { ...lazyMutation[1], affected_rows: pickAffectedRows(lazyMutation[1].data) }] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { affected_rows: ReturnType<typeof pickAffectedRows> }];
+    }
+  
+
+    export function useRemoveDogsModelObjects( options?: Omit<MutationHookOptions<RemoveDogsModelMutation, RemoveDogsModelMutationVariables>, 'mutation'> ) {
+      const lazyMutation = useMutation<RemoveDogsModelMutation, RemoveDogsModelMutationVariables>(RemoveDogsModelDocument, options );
+      
+      const pickAffectedRows = (mutation: RemoveDogsModelMutation | null | undefined) => { return ( mutation && mutation.delete_dogs && mutation.delete_dogs!.affected_rows ); };
+      
+      const wrappedLazyMutation = async ( options: MutationFunctionOptions<RemoveDogsModelMutation, RemoveDogsModelMutationVariables> ) => {
+        const fetchResult = await lazyMutation[0]( options );
+        return { ...fetchResult, affected_rows: pickAffectedRows(fetchResult.data) }
+      };
+
+      return [wrappedLazyMutation, { ...lazyMutation[1], affected_rows: pickAffectedRows(lazyMutation[1].data) }] as [typeof wrappedLazyMutation, typeof lazyMutation[1] & { affected_rows: ReturnType<typeof pickAffectedRows> }];
     }
   
