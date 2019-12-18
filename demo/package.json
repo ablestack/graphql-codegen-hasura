@@ -3,7 +3,7 @@
   "name": "demo",
   "version": "2.13.0-alpha.0",
   "dependencies": {
-    "@apollo/client": "^3.0.0-beta.14",
+    "@apollo/client": "^3.0.0-beta.15",
     "@apollo/react-hooks": "^3.2.0-beta.0",
     "@types/jest": "24.0.23",
     "@types/node": "12.12.14",
@@ -26,7 +26,8 @@
     "graphql-codegen-hasura-typescript-config-from-documents": "^2.13.0-alpha.0",
     "graphql-codegen-hasura-typescript-from-documents": "^2.13.0-alpha.0",
     "graphql-codegen-hasura-typescript-from-schema": "^2.13.0-alpha.0",
-    "graphql-codegen-hasura-typescript-react-from-documents": "^2.13.0-alpha.0"
+    "graphql-codegen-hasura-typescript-react-from-documents": "^2.13.0-alpha.0",
+    "typescript": "^3.7.2"
   },
   "scripts": {
     "start": "react-scripts start",

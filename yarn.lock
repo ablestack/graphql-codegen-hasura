@@ -2,7 +2,22 @@
 # yarn lockfile v1
 
 
-"@apollo/client@^3.0.0-beta.14", "@apollo/client@^3.0.0-beta.4":
+"@apollo/client@^3.0.0-beta.15":
+  version "3.0.0-beta.16"
+  resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.0.0-beta.16.tgz#5452a8748ed6cb3fa0ce5450589cfc2005cbeedc"
+  integrity sha512-g5cIMnTwvUCpO4SlBXKXH3vsKI7ie355KC4rZ2Gthon4lZ9GbSf1W8i77ihARElNdybrSuzEVBpenNi+XumVcg==
+  dependencies:
+    "@types/zen-observable" "^0.8.0"
+    "@wry/equality" "^0.1.9"
+    fast-json-stable-stringify "^2.0.0"
+    graphql-tag "^2.10.1"
+    optimism "^0.11.3"
+    symbol-observable "^1.2.0"
+    ts-invariant "^0.4.4"
+    tslib "^1.10.0"
+    zen-observable "^0.8.14"
+
+"@apollo/client@^3.0.0-beta.4":
   version "3.0.0-beta.14"
   resolved "https://registry.yarnpkg.com/@apollo/client/-/client-3.0.0-beta.14.tgz#25a0b43c8a55ef6f914e600270bd8f2c3fded2c2"
   integrity sha512-C6aTXjmYVVYrypGXY8QT7j0EOnCmkKau544Bc0iPUKsyXCA+ic9Ri3gNCeuBqQg0TnAc++E0N/NzirD7VcqxHA==
@@ -12994,10 +13009,15 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@3.7.2, typescript@^3.7.2:
+typescript@3.7.2:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.2.tgz#27e489b95fa5909445e9fef5ee48d81697ad18fb"
   integrity sha512-ml7V7JfiN2Xwvcer+XAf2csGO1bPBdRbFCkYBczNZggrBZ9c7G3riSUeJmqEU5uOtXNPMhE3n+R4FA/3YOAWOQ==
+
+typescript@^3.7.2:
+  version "3.7.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.3.tgz#b36840668a16458a7025b9eabfad11b66ab85c69"
+  integrity sha512-Mcr/Qk7hXqFBXMN7p7Lusj1ktCBydylfQM/FZCk5glCNQJrCUKPkMHdo9R0MTFWsC/4kPFvDS0fDPvukfCkFsw==
 
 ua-parser-js@^0.7.18:
   version "0.7.20"
