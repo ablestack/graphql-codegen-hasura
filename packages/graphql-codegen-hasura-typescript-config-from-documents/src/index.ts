@@ -13,6 +13,7 @@ export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
   trimString?: string;
   withTypePolicies?: boolean;
   withResolverTypes?: boolean;
+  withCombinedTypePolicyObject: boolean;
 }
 
 export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: GraphQLSchema, documents: Types.DocumentFile[], config: CstmHasuraCrudPluginConfig) => {
@@ -45,7 +46,7 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
     });
   }
 
-  if (config.withTypePolicies) {
+  if (config.withTypePolicies && config.withCombinedTypePolicyObject) {
     injectTablesTypePolicies(documentFragments, contentManager, typeMap, config);
   }
 

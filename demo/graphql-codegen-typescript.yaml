@@ -68,3 +68,4 @@ generates:
       trimString:
       withTypePolicies: true
       withResolverTypes: true
+      withCombinedTypePolicyObject: true
