@@ -72,6 +72,31 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation } from '@apollo/client'
 
+    // UTILITY METHODS
+    //------------------------------------------------
+  
+
+    
+    // Optimistic response generation utility method
+    //
+    function generateOptimisticResponseForMutationById<T>(operationType: "update", entityName: string, entityId: any, setObject: object) {
+      return ({
+        __typename: "mutation_root",
+        [`${operationType}_${entityName}`]: {
+          affected_rows: 1,
+          returning: [
+            {
+              id: entityId,
+              __typename: entityName,
+              ...setObject
+            }
+          ],
+          __typename: `${entityName}_mutation_response`
+        }
+      } as unknown) as T;
+    }
+  
+
     // vehicle React
     //------------------------------------------------
   
@@ -172,7 +197,7 @@ import { RemoveDogsModelByIdDocument } from '../';
   }
   
 
-
+  //
   export function useInsertVehicleGraphWithOnConflict( options?: Omit<MutationHookOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation' | 'variables'> ) {
     const lazyMutation = useMutation<InsertVehicleGraphMutation, InsertVehicleGraphWithOnConflictMutationVariables>( InsertVehicleGraphWithOnConflictDocument, options );
                                 
@@ -187,6 +212,7 @@ import { RemoveDogsModelByIdDocument } from '../';
   }
   
 
+  //
   export function useInsertVehicleGraphObjects( options?: Omit<MutationHookOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation'> ) {
     const lazyMutation = useMutation<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>( InsertVehicleGraphDocument, options );
                                 
@@ -208,8 +234,11 @@ import { RemoveDogsModelByIdDocument } from '../';
       
       const pickVehicleGraph = (mutation:UpdateVehicleGraphMutation | null | undefined) => { return ( mutation && mutation.update_vehicle && mutation.update_vehicle!.returning && mutation.update_vehicle!.returning[0] ); };
       
-      const wrappedLazyMutation = async ({ vehicleId, set, options }: { vehicleId: string; set: Vehicle_Set_Input; options?: Omit<MutationFunctionOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>, 'variables'>; }) => {
-        const fetchResult = await lazyMutation[0]({ variables: { id: vehicleId, set }, ...options });
+      const wrappedLazyMutation = async ({ vehicleId, set, autoOptimisticResponse, options }: { vehicleId: string; set: Vehicle_Set_Input; autoOptimisticResponse?:boolean; options?: Omit<MutationFunctionOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>, 'variables'>; }) => {
+        const mutationOptions:MutationFunctionOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables> = { variables: { id:vehicleId, set }, ...options };
+        if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutationById<UpdateVehicleGraphByIdMutation>('update', 'vehicle', vehicleId, set); }
+
+        const fetchResult = await lazyMutation[0]({ variables: { id: vehicleId, set }, ...mutationOptions });
         return { ...fetchResult, vehicleGraph: pickVehicleGraph(fetchResult.data) };
       };
 
@@ -217,6 +246,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     }
   
 
+    //
     export function useUpdateVehicleGraph( options?: Omit<MutationHookOptions<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables>, 'mutation'> ) {
       const lazyMutation = useMutation<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables>(UpdateVehicleGraphDocument, options );
       
@@ -248,6 +278,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     }
   
 
+    //
     export function useRemoveVehicleModelObjects( options?: Omit<MutationHookOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>, 'mutation'> ) {
       const lazyMutation = useMutation<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>(RemoveVehicleModelDocument, options );
       
@@ -358,7 +389,7 @@ import { RemoveDogsModelByIdDocument } from '../';
   }
   
 
-
+  //
   export function useInsertVehicleGraphLocationOnlyWithOnConflict( options?: Omit<MutationHookOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation' | 'variables'> ) {
     const lazyMutation = useMutation<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyWithOnConflictMutationVariables>( InsertVehicleGraphLocationOnlyWithOnConflictDocument, options );
                                 
@@ -373,6 +404,7 @@ import { RemoveDogsModelByIdDocument } from '../';
   }
   
 
+  //
   export function useInsertVehicleGraphLocationOnlyObjects( options?: Omit<MutationHookOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation'> ) {
     const lazyMutation = useMutation<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>( InsertVehicleGraphLocationOnlyDocument, options );
                                 
@@ -394,8 +426,11 @@ import { RemoveDogsModelByIdDocument } from '../';
       
       const pickVehicleGraphLocationOnly = (mutation:UpdateVehicleGraphLocationOnlyMutation | null | undefined) => { return ( mutation && mutation.update_vehicle && mutation.update_vehicle!.returning && mutation.update_vehicle!.returning[0] ); };
       
-      const wrappedLazyMutation = async ({ vehicleId, set, options }: { vehicleId: string; set: Vehicle_Set_Input; options?: Omit<MutationFunctionOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>, 'variables'>; }) => {
-        const fetchResult = await lazyMutation[0]({ variables: { id: vehicleId, set }, ...options });
+      const wrappedLazyMutation = async ({ vehicleId, set, autoOptimisticResponse, options }: { vehicleId: string; set: Vehicle_Set_Input; autoOptimisticResponse?:boolean; options?: Omit<MutationFunctionOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>, 'variables'>; }) => {
+        const mutationOptions:MutationFunctionOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables> = { variables: { id:vehicleId, set }, ...options };
+        if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutationById<UpdateVehicleGraphLocationOnlyByIdMutation>('update', 'vehicle', vehicleId, set); }
+
+        const fetchResult = await lazyMutation[0]({ variables: { id: vehicleId, set }, ...mutationOptions });
         return { ...fetchResult, vehicleGraphLocationOnly: pickVehicleGraphLocationOnly(fetchResult.data) };
       };
 
@@ -403,6 +438,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     }
   
 
+    //
     export function useUpdateVehicleGraphLocationOnly( options?: Omit<MutationHookOptions<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>, 'mutation'> ) {
       const lazyMutation = useMutation<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>(UpdateVehicleGraphLocationOnlyDocument, options );
       
@@ -517,7 +553,7 @@ import { RemoveDogsModelByIdDocument } from '../';
   }
   
 
-
+  //
   export function useInsertDogModelWithOnConflict( options?: Omit<MutationHookOptions<InsertDogModelMutation, InsertDogModelMutationVariables>, 'mutation' | 'variables'> ) {
     const lazyMutation = useMutation<InsertDogModelMutation, InsertDogModelWithOnConflictMutationVariables>( InsertDogModelWithOnConflictDocument, options );
                                 
@@ -532,6 +568,7 @@ import { RemoveDogsModelByIdDocument } from '../';
   }
   
 
+  //
   export function useInsertDogModelObjects( options?: Omit<MutationHookOptions<InsertDogModelMutation, InsertDogModelMutationVariables>, 'mutation'> ) {
     const lazyMutation = useMutation<InsertDogModelMutation, InsertDogModelMutationVariables>( InsertDogModelDocument, options );
                                 
@@ -553,8 +590,11 @@ import { RemoveDogsModelByIdDocument } from '../';
       
       const pickDogModel = (mutation:UpdateDogModelMutation | null | undefined) => { return ( mutation && mutation.update_dogs && mutation.update_dogs!.returning && mutation.update_dogs!.returning[0] ); };
       
-      const wrappedLazyMutation = async ({ dogsId, set, options }: { dogsId: string; set: Dogs_Set_Input; options?: Omit<MutationFunctionOptions<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>, 'variables'>; }) => {
-        const fetchResult = await lazyMutation[0]({ variables: { id: dogsId, set }, ...options });
+      const wrappedLazyMutation = async ({ dogsId, set, autoOptimisticResponse, options }: { dogsId: string; set: Dogs_Set_Input; autoOptimisticResponse?:boolean; options?: Omit<MutationFunctionOptions<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>, 'variables'>; }) => {
+        const mutationOptions:MutationFunctionOptions<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables> = { variables: { id:dogsId, set }, ...options };
+        if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutationById<UpdateDogModelByIdMutation>('update', 'dogs', dogsId, set); }
+
+        const fetchResult = await lazyMutation[0]({ variables: { id: dogsId, set }, ...mutationOptions });
         return { ...fetchResult, dogModel: pickDogModel(fetchResult.data) };
       };
 
@@ -562,6 +602,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     }
   
 
+    //
     export function useUpdateDogModel( options?: Omit<MutationHookOptions<UpdateDogModelMutation, UpdateDogModelMutationVariables>, 'mutation'> ) {
       const lazyMutation = useMutation<UpdateDogModelMutation, UpdateDogModelMutationVariables>(UpdateDogModelDocument, options );
       
@@ -593,6 +634,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     }
   
 
+    //
     export function useRemoveDogsModelObjects( options?: Omit<MutationHookOptions<RemoveDogsModelMutation, RemoveDogsModelMutationVariables>, 'mutation'> ) {
       const lazyMutation = useMutation<RemoveDogsModelMutation, RemoveDogsModelMutationVariables>(RemoveDogsModelDocument, options );
       

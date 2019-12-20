@@ -187,7 +187,7 @@ export function injectInsertReact({
   `);
 
   contentManager.addContent(`
-
+  //
   export function useInsert${fragmentName}WithOnConflict( options?: Omit<MutationHookOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation' | 'variables'> ) {
     const lazyMutation = useMutation<Insert${fragmentName}Mutation, Insert${fragmentName}WithOnConflictMutationVariables>( Insert${fragmentName}WithOnConflictDocument, options );
                                 
@@ -203,6 +203,7 @@ export function injectInsertReact({
   `);
 
   contentManager.addContent(`
+  //
   export function useInsert${fragmentName}Objects( options?: Omit<MutationHookOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation'> ) {
     const lazyMutation = useMutation<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>( Insert${fragmentName}Document, options );
                                 
@@ -257,8 +258,11 @@ export function injectUpdateReact({
       
       const pick${fragmentName} = (mutation:Update${fragmentName}Mutation | null | undefined) => { return ( mutation && mutation.update_${entityName} && mutation.update_${entityName}!.returning && mutation.update_${entityName}!.returning[0] ); };
       
-      const wrappedLazyMutation = async ({ ${entityShortCamelCaseName}Id, set, options }: { ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}; set: ${entityPascalName}_Set_Input; options?: Omit<MutationFunctionOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>, 'variables'>; }) => {
-        const fetchResult = await lazyMutation[0]({ variables: { id: ${entityShortCamelCaseName}Id, set }, ...options });
+      const wrappedLazyMutation = async ({ ${entityShortCamelCaseName}Id, set, autoOptimisticResponse, options }: { ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}; set: ${entityPascalName}_Set_Input; autoOptimisticResponse?:boolean; options?: Omit<MutationFunctionOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>, 'variables'>; }) => {
+        const mutationOptions:MutationFunctionOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables> = { variables: { id:${entityShortCamelCaseName}Id, set }, ...options };
+        if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutationById<Update${fragmentName}ByIdMutation>('update', '${entityName}', ${entityShortCamelCaseName}Id, set); }
+
+        const fetchResult = await lazyMutation[0]({ variables: { id: ${entityShortCamelCaseName}Id, set }, ...mutationOptions });
         return { ...fetchResult, ${fragmentNameCamelCase}: pick${fragmentName}(fetchResult.data) };
       };
 
@@ -267,6 +271,7 @@ export function injectUpdateReact({
   `);
 
   contentManager.addContent(`
+    //
     export function useUpdate${fragmentName}( options?: Omit<MutationHookOptions<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>, 'mutation'> ) {
       const lazyMutation = useMutation<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>(Update${fragmentName}Document, options );
       
@@ -332,6 +337,7 @@ export function injectDeleteReact({
   `);
 
   contentManager.addContent(`
+    //
     export function useRemove${entityModelName}Objects( options?: Omit<MutationHookOptions<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>, 'mutation'> ) {
       const lazyMutation = useMutation<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>(Remove${entityModelName}Document, options );
       

@@ -3,6 +3,7 @@ import { RawTypesConfig } from "@graphql-codegen/visitor-plugin-common";
 import { FragmentDefinitionNode, GraphQLSchema } from "graphql";
 import { TypeMap } from "graphql/type/schema";
 import { getPrimaryKeyIdField, injectDeleteHelpers, injectFetchHelpers, injectInsertHelpers, injectSharedHelpers, injectUpdateHelpers, ContentManager } from "../../shared";
+import { injectUtilityMethodGenerateOptimisticResponseForMutationById } from "../../shared/sharedInjectors";
 
 // -----------------------------------------------------
 //
@@ -35,6 +36,14 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   const documentFragments = documents.flatMap(document => {
     return document.content.definitions.filter(definition => definition.kind === "FragmentDefinition");
   }) as FragmentDefinitionNode[];
+
+  // Inject utility methods as needed
+  config.withUpdates &&
+    contentManager.addContent(`
+    // UTILITY METHODS
+    //------------------------------------------------
+  `);
+  config.withUpdates && injectUtilityMethodGenerateOptimisticResponseForMutationById({ contentManager });
 
   // iterate and generate
   documentFragments.map(fragmentDefinition => {

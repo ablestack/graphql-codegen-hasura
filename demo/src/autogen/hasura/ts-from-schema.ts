@@ -142,7 +142,32 @@ import { UpdateVehicle_LocationModelFieldsMutation } from '../';
 import { UpdateVehicle_LocationModelFieldsMutationVariables } from '../';
 import { UpdateVehicle_LocationModelFieldsDocument } from '../';
 
-    // dogs Helpers
+    // UTILITY METHODS
+    //------------------------------------------------
+  
+
+    
+    // Optimistic response generation utility method
+    //
+    function generateOptimisticResponseForMutationById<T>(operationType: "update", entityName: string, entityId: any, setObject: object) {
+      return ({
+        __typename: "mutation_root",
+        [`${operationType}_${entityName}`]: {
+          affected_rows: 1,
+          returning: [
+            {
+              id: entityId,
+              __typename: entityName,
+              ...setObject
+            }
+          ],
+          __typename: `${entityName}_mutation_response`
+        }
+      } as unknown) as T;
+    }
+  
+
+    // dogs HELPERS
     //------------------------------------------------
   
 
@@ -199,21 +224,24 @@ import { UpdateVehicle_LocationModelFieldsDocument } from '../';
     // Update Helper
     //
 
-    export async function updateDogsModelFieldsById({ apolloClient, dogsId, set, options }: { apolloClient: ApolloClient<object>, dogsId: string, set: Dogs_Set_Input, options?: Omit<MutationOptions<UpdateDogsModelFieldsByIdMutation, UpdateDogsModelFieldsByIdMutationVariables>, 'mutation'> }) {
-      const mutation = await apolloClient.mutate<UpdateDogsModelFieldsByIdMutation, UpdateDogsModelFieldsByIdMutationVariables>({ mutation: UpdateDogsModelFieldsByIdDocument, variables: { id:dogsId, set }, ...options,});
+    export async function updateDogsModelFieldsById({ apolloClient, dogsId, set, autoOptimisticResponse, options }: { apolloClient: ApolloClient<object>, dogsId: string, set: Dogs_Set_Input, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<UpdateDogsModelFieldsByIdMutation, UpdateDogsModelFieldsByIdMutationVariables>, 'mutation'> }) {
+      const mutationOptions:MutationOptions<UpdateDogsModelFieldsByIdMutation, UpdateDogsModelFieldsByIdMutationVariables> = { mutation: UpdateDogsModelFieldsByIdDocument, variables: { id:dogsId, set }, ...options };
+      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutationById<UpdateDogsModelFieldsByIdMutation>('update', 'dogs', dogsId, set); }
+
+      const mutation = await apolloClient.mutate<UpdateDogsModelFieldsByIdMutation, UpdateDogsModelFieldsByIdMutationVariables>(mutationOptions);
         
       return { ...mutation, dogsModelFields:mutation && mutation.data && mutation.data.update_dogs && mutation.data.update_dogs!.returning && mutation.data.update_dogs!.returning[0] };
     }
   
 
     export async function updateDogsModelFieldsObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<UpdateDogsModelFieldsMutation, UpdateDogsModelFieldsMutationVariables>, 'mutation'> }) {  
-      const mutation = await apolloClient.mutate<UpdateDogsModelFieldsMutation, UpdateDogsModelFieldsMutationVariables>({ mutation: UpdateDogsModelFieldsDocument, ...options,});
+      const mutation = await apolloClient.mutate<UpdateDogsModelFieldsMutation, UpdateDogsModelFieldsMutationVariables>({ mutation: UpdateDogsModelFieldsDocument, ...options } );
         
       return { ...mutation, objects:mutation && mutation.data && mutation.data.update_dogs && mutation.data.update_dogs!.returning };
     }
   
 
-    // observation Helpers
+    // observation HELPERS
     //------------------------------------------------
   
 
@@ -270,21 +298,24 @@ import { UpdateVehicle_LocationModelFieldsDocument } from '../';
     // Update Helper
     //
 
-    export async function updateObservationModelFieldsById({ apolloClient, observationId, set, options }: { apolloClient: ApolloClient<object>, observationId: string, set: Observation_Set_Input, options?: Omit<MutationOptions<UpdateObservationModelFieldsByIdMutation, UpdateObservationModelFieldsByIdMutationVariables>, 'mutation'> }) {
-      const mutation = await apolloClient.mutate<UpdateObservationModelFieldsByIdMutation, UpdateObservationModelFieldsByIdMutationVariables>({ mutation: UpdateObservationModelFieldsByIdDocument, variables: { id:observationId, set }, ...options,});
+    export async function updateObservationModelFieldsById({ apolloClient, observationId, set, autoOptimisticResponse, options }: { apolloClient: ApolloClient<object>, observationId: string, set: Observation_Set_Input, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<UpdateObservationModelFieldsByIdMutation, UpdateObservationModelFieldsByIdMutationVariables>, 'mutation'> }) {
+      const mutationOptions:MutationOptions<UpdateObservationModelFieldsByIdMutation, UpdateObservationModelFieldsByIdMutationVariables> = { mutation: UpdateObservationModelFieldsByIdDocument, variables: { id:observationId, set }, ...options };
+      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutationById<UpdateObservationModelFieldsByIdMutation>('update', 'observation', observationId, set); }
+
+      const mutation = await apolloClient.mutate<UpdateObservationModelFieldsByIdMutation, UpdateObservationModelFieldsByIdMutationVariables>(mutationOptions);
         
       return { ...mutation, observationModelFields:mutation && mutation.data && mutation.data.update_observation && mutation.data.update_observation!.returning && mutation.data.update_observation!.returning[0] };
     }
   
 
     export async function updateObservationModelFieldsObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<UpdateObservationModelFieldsMutation, UpdateObservationModelFieldsMutationVariables>, 'mutation'> }) {  
-      const mutation = await apolloClient.mutate<UpdateObservationModelFieldsMutation, UpdateObservationModelFieldsMutationVariables>({ mutation: UpdateObservationModelFieldsDocument, ...options,});
+      const mutation = await apolloClient.mutate<UpdateObservationModelFieldsMutation, UpdateObservationModelFieldsMutationVariables>({ mutation: UpdateObservationModelFieldsDocument, ...options } );
         
       return { ...mutation, objects:mutation && mutation.data && mutation.data.update_observation && mutation.data.update_observation!.returning };
     }
   
 
-    // p Helpers
+    // p HELPERS
     //------------------------------------------------
   
 
@@ -341,21 +372,24 @@ import { UpdateVehicle_LocationModelFieldsDocument } from '../';
     // Update Helper
     //
 
-    export async function updatePModelFieldsById({ apolloClient, pId, set, options }: { apolloClient: ApolloClient<object>, pId: number, set: P_Set_Input, options?: Omit<MutationOptions<UpdatePModelFieldsByIdMutation, UpdatePModelFieldsByIdMutationVariables>, 'mutation'> }) {
-      const mutation = await apolloClient.mutate<UpdatePModelFieldsByIdMutation, UpdatePModelFieldsByIdMutationVariables>({ mutation: UpdatePModelFieldsByIdDocument, variables: { id:pId, set }, ...options,});
+    export async function updatePModelFieldsById({ apolloClient, pId, set, autoOptimisticResponse, options }: { apolloClient: ApolloClient<object>, pId: number, set: P_Set_Input, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<UpdatePModelFieldsByIdMutation, UpdatePModelFieldsByIdMutationVariables>, 'mutation'> }) {
+      const mutationOptions:MutationOptions<UpdatePModelFieldsByIdMutation, UpdatePModelFieldsByIdMutationVariables> = { mutation: UpdatePModelFieldsByIdDocument, variables: { id:pId, set }, ...options };
+      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutationById<UpdatePModelFieldsByIdMutation>('update', 'p', pId, set); }
+
+      const mutation = await apolloClient.mutate<UpdatePModelFieldsByIdMutation, UpdatePModelFieldsByIdMutationVariables>(mutationOptions);
         
       return { ...mutation, pmodelFields:mutation && mutation.data && mutation.data.update_p && mutation.data.update_p!.returning && mutation.data.update_p!.returning[0] };
     }
   
 
     export async function updatePModelFieldsObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<UpdatePModelFieldsMutation, UpdatePModelFieldsMutationVariables>, 'mutation'> }) {  
-      const mutation = await apolloClient.mutate<UpdatePModelFieldsMutation, UpdatePModelFieldsMutationVariables>({ mutation: UpdatePModelFieldsDocument, ...options,});
+      const mutation = await apolloClient.mutate<UpdatePModelFieldsMutation, UpdatePModelFieldsMutationVariables>({ mutation: UpdatePModelFieldsDocument, ...options } );
         
       return { ...mutation, objects:mutation && mutation.data && mutation.data.update_p && mutation.data.update_p!.returning };
     }
   
 
-    // patient Helpers
+    // patient HELPERS
     //------------------------------------------------
   
 
@@ -412,21 +446,24 @@ import { UpdateVehicle_LocationModelFieldsDocument } from '../';
     // Update Helper
     //
 
-    export async function updatePatientModelFieldsById({ apolloClient, patientId, set, options }: { apolloClient: ApolloClient<object>, patientId: string, set: Patient_Set_Input, options?: Omit<MutationOptions<UpdatePatientModelFieldsByIdMutation, UpdatePatientModelFieldsByIdMutationVariables>, 'mutation'> }) {
-      const mutation = await apolloClient.mutate<UpdatePatientModelFieldsByIdMutation, UpdatePatientModelFieldsByIdMutationVariables>({ mutation: UpdatePatientModelFieldsByIdDocument, variables: { id:patientId, set }, ...options,});
+    export async function updatePatientModelFieldsById({ apolloClient, patientId, set, autoOptimisticResponse, options }: { apolloClient: ApolloClient<object>, patientId: string, set: Patient_Set_Input, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<UpdatePatientModelFieldsByIdMutation, UpdatePatientModelFieldsByIdMutationVariables>, 'mutation'> }) {
+      const mutationOptions:MutationOptions<UpdatePatientModelFieldsByIdMutation, UpdatePatientModelFieldsByIdMutationVariables> = { mutation: UpdatePatientModelFieldsByIdDocument, variables: { id:patientId, set }, ...options };
+      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutationById<UpdatePatientModelFieldsByIdMutation>('update', 'patient', patientId, set); }
+
+      const mutation = await apolloClient.mutate<UpdatePatientModelFieldsByIdMutation, UpdatePatientModelFieldsByIdMutationVariables>(mutationOptions);
         
       return { ...mutation, patientModelFields:mutation && mutation.data && mutation.data.update_patient && mutation.data.update_patient!.returning && mutation.data.update_patient!.returning[0] };
     }
   
 
     export async function updatePatientModelFieldsObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<UpdatePatientModelFieldsMutation, UpdatePatientModelFieldsMutationVariables>, 'mutation'> }) {  
-      const mutation = await apolloClient.mutate<UpdatePatientModelFieldsMutation, UpdatePatientModelFieldsMutationVariables>({ mutation: UpdatePatientModelFieldsDocument, ...options,});
+      const mutation = await apolloClient.mutate<UpdatePatientModelFieldsMutation, UpdatePatientModelFieldsMutationVariables>({ mutation: UpdatePatientModelFieldsDocument, ...options } );
         
       return { ...mutation, objects:mutation && mutation.data && mutation.data.update_patient && mutation.data.update_patient!.returning };
     }
   
 
-    // users Helpers
+    // users HELPERS
     //------------------------------------------------
   
 
@@ -483,21 +520,24 @@ import { UpdateVehicle_LocationModelFieldsDocument } from '../';
     // Update Helper
     //
 
-    export async function updateUsersModelFieldsById({ apolloClient, usersId, set, options }: { apolloClient: ApolloClient<object>, usersId: number, set: Users_Set_Input, options?: Omit<MutationOptions<UpdateUsersModelFieldsByIdMutation, UpdateUsersModelFieldsByIdMutationVariables>, 'mutation'> }) {
-      const mutation = await apolloClient.mutate<UpdateUsersModelFieldsByIdMutation, UpdateUsersModelFieldsByIdMutationVariables>({ mutation: UpdateUsersModelFieldsByIdDocument, variables: { id:usersId, set }, ...options,});
+    export async function updateUsersModelFieldsById({ apolloClient, usersId, set, autoOptimisticResponse, options }: { apolloClient: ApolloClient<object>, usersId: number, set: Users_Set_Input, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<UpdateUsersModelFieldsByIdMutation, UpdateUsersModelFieldsByIdMutationVariables>, 'mutation'> }) {
+      const mutationOptions:MutationOptions<UpdateUsersModelFieldsByIdMutation, UpdateUsersModelFieldsByIdMutationVariables> = { mutation: UpdateUsersModelFieldsByIdDocument, variables: { id:usersId, set }, ...options };
+      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutationById<UpdateUsersModelFieldsByIdMutation>('update', 'users', usersId, set); }
+
+      const mutation = await apolloClient.mutate<UpdateUsersModelFieldsByIdMutation, UpdateUsersModelFieldsByIdMutationVariables>(mutationOptions);
         
       return { ...mutation, usersModelFields:mutation && mutation.data && mutation.data.update_users && mutation.data.update_users!.returning && mutation.data.update_users!.returning[0] };
     }
   
 
     export async function updateUsersModelFieldsObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<UpdateUsersModelFieldsMutation, UpdateUsersModelFieldsMutationVariables>, 'mutation'> }) {  
-      const mutation = await apolloClient.mutate<UpdateUsersModelFieldsMutation, UpdateUsersModelFieldsMutationVariables>({ mutation: UpdateUsersModelFieldsDocument, ...options,});
+      const mutation = await apolloClient.mutate<UpdateUsersModelFieldsMutation, UpdateUsersModelFieldsMutationVariables>({ mutation: UpdateUsersModelFieldsDocument, ...options } );
         
       return { ...mutation, objects:mutation && mutation.data && mutation.data.update_users && mutation.data.update_users!.returning };
     }
   
 
-    // vehicle Helpers
+    // vehicle HELPERS
     //------------------------------------------------
   
 
@@ -554,21 +594,24 @@ import { UpdateVehicle_LocationModelFieldsDocument } from '../';
     // Update Helper
     //
 
-    export async function updateVehicleModelFieldsById({ apolloClient, vehicleId, set, options }: { apolloClient: ApolloClient<object>, vehicleId: string, set: Vehicle_Set_Input, options?: Omit<MutationOptions<UpdateVehicleModelFieldsByIdMutation, UpdateVehicleModelFieldsByIdMutationVariables>, 'mutation'> }) {
-      const mutation = await apolloClient.mutate<UpdateVehicleModelFieldsByIdMutation, UpdateVehicleModelFieldsByIdMutationVariables>({ mutation: UpdateVehicleModelFieldsByIdDocument, variables: { id:vehicleId, set }, ...options,});
+    export async function updateVehicleModelFieldsById({ apolloClient, vehicleId, set, autoOptimisticResponse, options }: { apolloClient: ApolloClient<object>, vehicleId: string, set: Vehicle_Set_Input, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<UpdateVehicleModelFieldsByIdMutation, UpdateVehicleModelFieldsByIdMutationVariables>, 'mutation'> }) {
+      const mutationOptions:MutationOptions<UpdateVehicleModelFieldsByIdMutation, UpdateVehicleModelFieldsByIdMutationVariables> = { mutation: UpdateVehicleModelFieldsByIdDocument, variables: { id:vehicleId, set }, ...options };
+      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutationById<UpdateVehicleModelFieldsByIdMutation>('update', 'vehicle', vehicleId, set); }
+
+      const mutation = await apolloClient.mutate<UpdateVehicleModelFieldsByIdMutation, UpdateVehicleModelFieldsByIdMutationVariables>(mutationOptions);
         
       return { ...mutation, vehicleModelFields:mutation && mutation.data && mutation.data.update_vehicle && mutation.data.update_vehicle!.returning && mutation.data.update_vehicle!.returning[0] };
     }
   
 
     export async function updateVehicleModelFieldsObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<UpdateVehicleModelFieldsMutation, UpdateVehicleModelFieldsMutationVariables>, 'mutation'> }) {  
-      const mutation = await apolloClient.mutate<UpdateVehicleModelFieldsMutation, UpdateVehicleModelFieldsMutationVariables>({ mutation: UpdateVehicleModelFieldsDocument, ...options,});
+      const mutation = await apolloClient.mutate<UpdateVehicleModelFieldsMutation, UpdateVehicleModelFieldsMutationVariables>({ mutation: UpdateVehicleModelFieldsDocument, ...options } );
         
       return { ...mutation, objects:mutation && mutation.data && mutation.data.update_vehicle && mutation.data.update_vehicle!.returning };
     }
   
 
-    // vehicle_location Helpers
+    // vehicle_location HELPERS
     //------------------------------------------------
   
 
@@ -625,15 +668,18 @@ import { UpdateVehicle_LocationModelFieldsDocument } from '../';
     // Update Helper
     //
 
-    export async function updateVehicle_LocationModelFieldsById({ apolloClient, vehicle_LocationId, set, options }: { apolloClient: ApolloClient<object>, vehicle_LocationId: number, set: Vehicle_Location_Set_Input, options?: Omit<MutationOptions<UpdateVehicle_LocationModelFieldsByIdMutation, UpdateVehicle_LocationModelFieldsByIdMutationVariables>, 'mutation'> }) {
-      const mutation = await apolloClient.mutate<UpdateVehicle_LocationModelFieldsByIdMutation, UpdateVehicle_LocationModelFieldsByIdMutationVariables>({ mutation: UpdateVehicle_LocationModelFieldsByIdDocument, variables: { id:vehicle_LocationId, set }, ...options,});
+    export async function updateVehicle_LocationModelFieldsById({ apolloClient, vehicle_LocationId, set, autoOptimisticResponse, options }: { apolloClient: ApolloClient<object>, vehicle_LocationId: number, set: Vehicle_Location_Set_Input, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<UpdateVehicle_LocationModelFieldsByIdMutation, UpdateVehicle_LocationModelFieldsByIdMutationVariables>, 'mutation'> }) {
+      const mutationOptions:MutationOptions<UpdateVehicle_LocationModelFieldsByIdMutation, UpdateVehicle_LocationModelFieldsByIdMutationVariables> = { mutation: UpdateVehicle_LocationModelFieldsByIdDocument, variables: { id:vehicle_LocationId, set }, ...options };
+      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutationById<UpdateVehicle_LocationModelFieldsByIdMutation>('update', 'vehicle_location', vehicle_LocationId, set); }
+
+      const mutation = await apolloClient.mutate<UpdateVehicle_LocationModelFieldsByIdMutation, UpdateVehicle_LocationModelFieldsByIdMutationVariables>(mutationOptions);
         
       return { ...mutation, vehicle_LocationModelFields:mutation && mutation.data && mutation.data.update_vehicle_location && mutation.data.update_vehicle_location!.returning && mutation.data.update_vehicle_location!.returning[0] };
     }
   
 
     export async function updateVehicle_LocationModelFieldsObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<UpdateVehicle_LocationModelFieldsMutation, UpdateVehicle_LocationModelFieldsMutationVariables>, 'mutation'> }) {  
-      const mutation = await apolloClient.mutate<UpdateVehicle_LocationModelFieldsMutation, UpdateVehicle_LocationModelFieldsMutationVariables>({ mutation: UpdateVehicle_LocationModelFieldsDocument, ...options,});
+      const mutation = await apolloClient.mutate<UpdateVehicle_LocationModelFieldsMutation, UpdateVehicle_LocationModelFieldsMutationVariables>({ mutation: UpdateVehicle_LocationModelFieldsDocument, ...options } );
         
       return { ...mutation, objects:mutation && mutation.data && mutation.data.update_vehicle_location && mutation.data.update_vehicle_location!.returning };
     }

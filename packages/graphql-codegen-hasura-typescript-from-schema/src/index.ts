@@ -12,6 +12,7 @@ import {
   makeFragmentName,
   ContentManager
 } from "../../shared";
+import { injectUtilityMethodGenerateOptimisticResponseForMutationById } from "../../shared/sharedInjectors";
 
 // -----------------------------------------------------
 //
@@ -36,6 +37,14 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   contentManager.addImport(`import { ApolloClient } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-client"}'`);
   contentManager.addImport(`import { FetchResult } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-link"}'`);
   contentManager.addImport(`import { QueryOptions, MutationOptions } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "react-apollo"}'`);
+
+  // Inject utility methods as needed
+  config.withUpdates &&
+    contentManager.addContent(`
+    // UTILITY METHODS
+    //------------------------------------------------
+  `);
+  config.withUpdates && injectUtilityMethodGenerateOptimisticResponseForMutationById({ contentManager });
 
   // iterate and generate
   Object.values(schema.getTypeMap())
