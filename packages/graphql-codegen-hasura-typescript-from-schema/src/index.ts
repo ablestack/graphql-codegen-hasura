@@ -30,13 +30,11 @@ export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
 
 export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: GraphQLSchema, documents: Types.DocumentFile[], config: CstmHasuraCrudPluginConfig) => {
   // Set config defaults
-  if (!config.reactApolloVersion) config.reactApolloVersion = 3;
+  if (!config.reactApolloVersion) config.reactApolloVersion = 2;
 
   const contentManager = new ContentManager();
 
-  contentManager.addImport(`import { ApolloClient } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-client"}'`);
-  contentManager.addImport(`import { FetchResult } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-link"}'`);
-  contentManager.addImport(`import { QueryOptions, MutationOptions } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "react-apollo"}'`);
+  contentManager.addImport(`import { ApolloClient, QueryOptions, MutationOptions } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-client"}'`);
 
   // Inject utility methods as needed
   config.withUpdates &&

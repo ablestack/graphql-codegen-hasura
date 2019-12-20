@@ -146,6 +146,7 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 
 ### graphql-codegen-hasura-typescript-config-documents plugin
 
+- reactApolloVersion (2 | 3, default value: 3): sets the version of react-apollo
 - typescriptCodegenOutputPath: import path to the code generated with dependent @graphql-codegen/typescript generated code
 - trimString: optional string to trim from each type name. Useful for trimming Hasura prepended schema name
 - withQueries: boolean flag for query Hooks code generation
@@ -238,7 +239,6 @@ Known Issues Include:
 
 There are many refinements and enhancements that would be beneficial, and contributions to that end are encouraged. Notable examples include:
 
-- Fix known issues (done)
 - Add automated tests
 - Add validation (especially for checking for package prerequisites). See [these docs](https://graphql-code-generator.com/docs/custom-codegen/validate-configuration)
 - Rewrite the plugins to use the graphql-code-generator [recommended Visitor pattern](https://graphql-code-generator.com/docs/custom-codegen/using-visitor)

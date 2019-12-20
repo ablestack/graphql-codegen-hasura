@@ -21,16 +21,17 @@ export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
 
 export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: GraphQLSchema, documents: Types.DocumentFile[], config: CstmHasuraCrudPluginConfig) => {
   // Set config defaults
-  if (!config.reactApolloVersion) config.reactApolloVersion = 3;
+  if (!config.reactApolloVersion) config.reactApolloVersion = 2;
 
   const contentManager = new ContentManager();
 
-  contentManager.addImport(`
-    import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation } from '${
+  contentManager.addImport(
+    `  import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation, QueryLazyOptions } from '${
       config.reactApolloVersion === 3 ? "@apollo/client" : "@apollo/react-hooks"
-    }'`);
+    }'`
+  );
+  contentManager.addImport(`import { MutationFunctionOptions } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "react-apollo"}'`);
   contentManager.addImport(`import { FetchResult } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-link"}'`);
-  contentManager.addImport(`import { ApolloClient, QueryLazyOptions, MutationFunctionOptions } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-client"}'`);
 
   // get typemap from schema
   const typeMap = schema.getTypeMap();

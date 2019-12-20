@@ -64,8 +64,11 @@ generates:
     plugins:
       - graphql-codegen-hasura-typescript-config-from-documents
     config:
+      reactApolloVersion: 3
       typescriptCodegenOutputPath: "../"
       trimString:
       withTypePolicies: true
       withResolverTypes: true
-      withCombinedTypePolicyObject: true
+      withCombinedTypePolicyObject: false
+      withCacheRedirects: true
+      withCombinedCacheRedirectObject: true

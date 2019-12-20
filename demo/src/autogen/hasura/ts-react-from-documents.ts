@@ -1,5 +1,5 @@
+import { MutationFunctionOptions } from '@apollo/client'
 import { FetchResult } from '@apollo/client'
-import { ApolloClient, QueryLazyOptions, MutationFunctionOptions } from '@apollo/client'
 import { FetchVehicleGraphByIdQuery } from '../';
 import { FetchVehicleGraphByIdQueryVariables } from '../';
 import { FetchVehicleGraphByIdDocument } from '../';
@@ -69,8 +69,7 @@ import { RemoveDogsModelDocument } from '../';
 import { RemoveDogsModelByIdMutation } from '../';
 import { RemoveDogsModelByIdMutationVariables } from '../';
 import { RemoveDogsModelByIdDocument } from '../';
-
-    import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation } from '@apollo/client'
+  import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation, QueryLazyOptions } from '@apollo/client'
 
     // UTILITY METHODS
     //------------------------------------------------

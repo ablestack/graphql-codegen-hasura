@@ -2,30 +2,40 @@ import { PluginFunction, Types } from "@graphql-codegen/plugin-helpers";
 import { RawTypesConfig } from "@graphql-codegen/visitor-plugin-common";
 import { FragmentDefinitionNode, GraphQLSchema } from "graphql";
 import { TypeMap } from "graphql/type/schema";
-import { getPrimaryKeyIdField, injectEntityTypePolicy, injectEntityResolverTypes, ContentManager, makeShortName } from "../../shared";
+import { getPrimaryKeyIdField, injectEntityTypePolicy, injectEntityResolverTypes, ContentManager, makeShortName, injectEntityCacheRedirect } from "../../shared";
 
 // -----------------------------------------------------
 //
 // -----------------------------------------------------
 
 export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
+  reactApolloVersion?: number;
   typescriptCodegenOutputPath: string;
   trimString?: string;
   withTypePolicies?: boolean;
   withResolverTypes?: boolean;
   withCombinedTypePolicyObject: boolean;
+  withCacheRedirects: boolean;
+  withCombinedCacheRedirectObject: boolean;
 }
 
 export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: GraphQLSchema, documents: Types.DocumentFile[], config: CstmHasuraCrudPluginConfig) => {
+  // Set config defaults
+  if (!config.reactApolloVersion) config.reactApolloVersion = 2;
+
   const contentManager = new ContentManager();
 
-  if (config.withResolverTypes) {
+  if (config.withResolverTypes && config.reactApolloVersion === 3) {
     contentManager.addImport(`/* eslint-disable @typescript-eslint/class-name-casing */`);
     contentManager.addImport(`import { ApolloCache, NormalizedCacheObject, ApolloClient, StoreObject } from '@apollo/client';`);
   }
 
-  if (config.withTypePolicies) {
+  if (config.withTypePolicies && config.reactApolloVersion === 3) {
     contentManager.addImport(`import { TypePolicies } from '@apollo/client/cache/inmemory/policies';`);
+  }
+
+  if (config.withCacheRedirects && config.reactApolloVersion === 2) {
+    contentManager.addImport(`import { CacheResolverMap } from 'apollo-cache-inmemory';`);
   }
 
   // get typemap from schema
@@ -39,15 +49,20 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   // iterate and generate
   if (config.withResolverTypes) {
     injectTableResolversBaseTypes(contentManager, config);
-
-    documentFragments.map(fragmentDefinition => {
-      if (config.withResolverTypes) injectTableResolverTypes(fragmentDefinition, contentManager, typeMap, config);
-      if (config.withTypePolicies) injectTableTypePolicies(fragmentDefinition, contentManager, typeMap, config);
-    });
   }
 
-  if (config.withTypePolicies && config.withCombinedTypePolicyObject) {
-    injectTablesTypePolicies(documentFragments, contentManager, typeMap, config);
+  documentFragments.map(fragmentDefinition => {
+    if (config.withResolverTypes && config.reactApolloVersion === 3) injectTableResolverTypes(fragmentDefinition, contentManager, typeMap, config);
+    if (config.withTypePolicies && config.reactApolloVersion === 3) injectTypePolicies(fragmentDefinition, contentManager, typeMap, config);
+    if (config.withCacheRedirects && config.reactApolloVersion === 2) injectCacheRedirects(fragmentDefinition, contentManager, typeMap, config);
+  });
+
+  if (config.withTypePolicies && config.withCombinedTypePolicyObject && config.reactApolloVersion === 3) {
+    injectCombinedTypePolicyObject(documentFragments, contentManager, typeMap, config);
+  }
+
+  if (config.withCacheRedirects && config.withCombinedCacheRedirectObject && config.reactApolloVersion === 2) {
+    injectCombinedCacheRedirectObject(documentFragments, contentManager, typeMap, config);
   }
 
   return {
@@ -95,7 +110,7 @@ function injectTableResolverTypes(fragmentDefinitionNode: FragmentDefinitionNode
 // --------------------------------------
 //
 
-function injectTableTypePolicies(fragmentDefinitionNode: FragmentDefinitionNode, contentManager: ContentManager, schemaTypeMap: TypeMap, config: CstmHasuraCrudPluginConfig) {
+function injectTypePolicies(fragmentDefinitionNode: FragmentDefinitionNode, contentManager: ContentManager, schemaTypeMap: TypeMap, config: CstmHasuraCrudPluginConfig) {
   const fragmentName = fragmentDefinitionNode.name.value;
   const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
   const relatedTableNamedType = schemaTypeMap[fragmentTableName];
@@ -115,7 +130,12 @@ function injectTableTypePolicies(fragmentDefinitionNode: FragmentDefinitionNode,
 // --------------------------------------
 //
 
-function injectTablesTypePolicies(fragmentDefinitionNodes: FragmentDefinitionNode[], contentManager: ContentManager, schemaTypeMap: TypeMap, config: CstmHasuraCrudPluginConfig) {
+function injectCombinedTypePolicyObject(
+  fragmentDefinitionNodes: FragmentDefinitionNode[],
+  contentManager: ContentManager,
+  schemaTypeMap: TypeMap,
+  config: CstmHasuraCrudPluginConfig
+) {
   const entitiesFromFragments = fragmentDefinitionNodes.map(fragmentDefinitionNode => {
     const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
     const relatedTableNamedType = schemaTypeMap[fragmentTableName];
@@ -141,6 +161,61 @@ function injectTablesTypePolicies(fragmentDefinitionNodes: FragmentDefinitionNod
       fields: { 
         ${uniqueEntitiesFromFragments.map(entityString => `...${entityString}.Query.fields`).join(",\n        ")}
       },
+    },
+  }`);
+}
+// --------------------------------------
+//
+
+function injectCacheRedirects(fragmentDefinitionNode: FragmentDefinitionNode, contentManager: ContentManager, schemaTypeMap: TypeMap, config: CstmHasuraCrudPluginConfig) {
+  const fragmentName = fragmentDefinitionNode.name.value;
+  const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
+  const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+
+  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+
+  injectEntityCacheRedirect({
+    contentManager,
+    entityName: relatedTableNamedType.name,
+    fragmentName,
+    trimString: config.trimString,
+    primaryKeyIdField: relatedTablePrimaryKeyIdField,
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath
+  });
+}
+
+// --------------------------------------
+//
+
+function injectCombinedCacheRedirectObject(
+  fragmentDefinitionNodes: FragmentDefinitionNode[],
+  contentManager: ContentManager,
+  schemaTypeMap: TypeMap,
+  config: CstmHasuraCrudPluginConfig
+) {
+  const entitiesFromFragments = fragmentDefinitionNodes.map(fragmentDefinitionNode => {
+    const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
+    const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+    const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+
+    if (!relatedTablePrimaryKeyIdField) return null;
+
+    const entityShortName = makeShortName(relatedTableNamedType.name, config.trimString);
+    return `${entityShortName}CacheRedirectConfig`;
+  });
+
+  const uniqueEntitiesFromFragments = [...new Set(entitiesFromFragments.filter(item => item != null))];
+
+  contentManager.addContent(`
+
+  //------------------------------------
+  //
+
+  // COMBINED CACHE REDIRECT CONFIG
+
+  export const CombinedCacheRedirectConfig: CacheResolverMap = {
+    Query: {
+      ${uniqueEntitiesFromFragments.map(entityString => `...${entityString}.Query`).join(",\n      ")}
     },
   }`);
 }

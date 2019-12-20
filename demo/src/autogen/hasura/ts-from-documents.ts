@@ -1,6 +1,4 @@
-import { ApolloClient } from '@apollo/client'
-import { FetchResult } from '@apollo/client'
-import { QueryOptions, MutationOptions } from '@apollo/client'
+import { ApolloClient, QueryOptions, MutationOptions } from '@apollo/client'
 import { VehicleGraphFragment } from '../';
 import { FetchVehicleGraphByIdQuery } from '../';
 import { FetchVehicleGraphByIdDocument } from '../';

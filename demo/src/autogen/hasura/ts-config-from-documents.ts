@@ -51,9 +51,12 @@ import { Query_RootDogsArgs } from '../';
       export const VehicleTypePoliciesConfig: TypePolicies = {
         Query: {
           fields: {
-            vehicle_by_pk(existingData, { args, toReference }) {
-              return existingData || toReference({ __typename: 'vehicle', id: args!.id });
-            },
+            vehicle_by_pk:{
+              keyArgs: ["id"],
+              read(existingData, { args, toReference }) {
+                return existingData || toReference({ __typename: 'vehicle', id: args!.id });
+              },
+            }
           },
         },
       };
@@ -93,25 +96,13 @@ import { Query_RootDogsArgs } from '../';
       export const DogsTypePoliciesConfig: TypePolicies = {
         Query: {
           fields: {
-            dogs_by_pk(existingData, { args, toReference }) {
-              return existingData || toReference({ __typename: 'dogs', id: args!.id });
-            },
+            dogs_by_pk:{
+              keyArgs: ["id"],
+              read(existingData, { args, toReference }) {
+                return existingData || toReference({ __typename: 'dogs', id: args!.id });
+              },
+            }
           },
         },
       };
   
-
-
-  //------------------------------------
-  //
-
-  // COMBINED TYPE POLICIES CONFIG
-
-  export const CombinedTypePoliciesConfig: TypePolicies = {
-    Query: {
-      fields: { 
-        ...VehicleTypePoliciesConfig.Query.fields,
-        ...DogsTypePoliciesConfig.Query.fields
-      },
-    },
-  }
