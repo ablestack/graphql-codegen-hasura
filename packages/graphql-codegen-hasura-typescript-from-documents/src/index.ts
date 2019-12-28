@@ -2,8 +2,16 @@ import { PluginFunction, Types } from "@graphql-codegen/plugin-helpers";
 import { RawTypesConfig } from "@graphql-codegen/visitor-plugin-common";
 import { FragmentDefinitionNode, GraphQLSchema } from "graphql";
 import { TypeMap } from "graphql/type/schema";
-import { getPrimaryKeyIdField, injectDeleteHelpers, injectFetchHelpers, injectInsertHelpers, injectSharedHelpers, injectUpdateHelpers, ContentManager } from "../../shared";
-import { injectUtilityMethodGenerateOptimisticResponseForMutationById } from "../../shared/sharedInjectors";
+import {
+  getPrimaryKeyIdField,
+  injectGlobalCode,
+  injectDeleteHelpers,
+  injectFetchHelpers,
+  injectInsertHelpers,
+  injectSharedHelpers,
+  injectUpdateHelpers,
+  ContentManager
+} from "../../shared";
 
 // -----------------------------------------------------
 //
@@ -21,11 +29,16 @@ export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
 
 export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: GraphQLSchema, documents: Types.DocumentFile[], config: CstmHasuraCrudPluginConfig) => {
   // Set config defaults
-  if (!config.reactApolloVersion) config.reactApolloVersion = 2;
+  if (!config.reactApolloVersion) config.reactApolloVersion = 3;
 
   const contentManager = new ContentManager();
 
-  contentManager.addImport(`import { ApolloClient, QueryOptions, MutationOptions } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-client"}'`);
+  injectGlobalCode({
+    contentManager,
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath,
+    reactApolloVersion: config.reactApolloVersion,
+    withUpdates: config.withUpdates
+  });
 
   // get typemap from schema
   const typeMap = schema.getTypeMap();
@@ -34,14 +47,6 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   const documentFragments = documents.flatMap(document => {
     return document.content.definitions.filter(definition => definition.kind === "FragmentDefinition");
   }) as FragmentDefinitionNode[];
-
-  // Inject utility methods as needed
-  config.withUpdates &&
-    contentManager.addContent(`
-    // UTILITY METHODS
-    //------------------------------------------------
-  `);
-  config.withUpdates && injectUtilityMethodGenerateOptimisticResponseForMutationById({ contentManager });
 
   // iterate and generate
   documentFragments.map(fragmentDefinition => {
