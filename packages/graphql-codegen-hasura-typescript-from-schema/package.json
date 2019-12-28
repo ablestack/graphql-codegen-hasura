@@ -1,6 +1,6 @@
 {
   "name": "graphql-codegen-hasura-typescript-from-schema",
-  "version": "2.15.1",
+  "version": "2.16.0-alpha.0",
   "description": "GraphQL Code Generator plugin for generating a CRUD TypeScript for Hasura",
   "author": "ahrnee <ahrndee@gmail.com>",
   "license": "MIT",
