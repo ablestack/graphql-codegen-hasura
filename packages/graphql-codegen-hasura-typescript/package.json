@@ -1,5 +1,5 @@
 {
-  "name": "graphql-codegen-hasura-typescript-from-documents",
+  "name": "graphql-codegen-hasura-typescript",
   "version": "2.16.0-alpha.0",
   "description": "GraphQL Code Generator plugin for generating a CRUD TypeScript for Hasura from Documents",
   "author": "ahrnee <ahrndee@gmail.com>",
@@ -32,10 +32,10 @@
     "typescript": "3.7.2"
   },
   "sideEffects": false,
-  "main": "dist/graphql-codegen-hasura-typescript-from-documents/src/index.js",
-  "typings": "dist/graphql-codegen-hasura-typescript-from-documents/src/index.d.ts",
+  "main": "dist/graphql-codegen-hasura-typescript/src/index.js",
+  "typings": "dist/graphql-codegen-hasura-typescript/src/index.d.ts",
   "typescript": {
-    "definition": "dist/graphql-codegen-hasura-typescript-from-documents/src/index.d.ts"
+    "definition": "dist/graphql-codegen-hasura-typescript/src/index.d.ts"
   },
   "files": [
     "README.md",

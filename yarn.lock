@@ -6555,6 +6555,16 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.15, graceful-fs@^4.1.2, graceful-fs@^4.1.6
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.3.tgz#4a12ff1b60376ef09862c2093edd908328be8423"
   integrity sha512-a30VEBm4PEdx1dRB7MFK7BejejvCvBronbLjht+sHuGYj8PHs7M/5Z+rt5lw551vZ7yfTCj4Vuyy3mSJytDWRQ==
 
+graphql-codegen-hasura-gql-from-schema@^2.16.0-alpha.0:
+  version "2.16.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/graphql-codegen-hasura-gql-from-schema/-/graphql-codegen-hasura-gql-from-schema-2.16.0-alpha.0.tgz#133fa3ee648ae6d103fe542ce383d8ba67b1c615"
+  integrity sha512-ClHKraJsnLZ7Fj491ueHKPfnrQU3pzxZkQHC9MB8GhhBC4WL1RHH1Co8yfMEZBDej8Fmk3PAtccCJLW5WIX6VA==
+
+graphql-codegen-hasura-typescript-from-schema@^2.16.0-alpha.0:
+  version "2.16.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/graphql-codegen-hasura-typescript-from-schema/-/graphql-codegen-hasura-typescript-from-schema-2.16.0-alpha.0.tgz#7fb938e56ab1c1669cd7b6a2250984306838a579"
+  integrity sha512-w+OryAAJIjCkzMYQjZjavk+wAaHCgcPZInZ98icBkN/Lto2m+Se7d4rCnqNH9yStK1Y+6g2FiRK5Sy3nZxaUgg==
+
 graphql-config@3.0.0-alpha.14:
   version "3.0.0-alpha.14"
   resolved "https://registry.yarnpkg.com/graphql-config/-/graphql-config-3.0.0-alpha.14.tgz#42e1616c6974797c370a53025f99cf2a5a3c4110"

@@ -21,22 +21,11 @@ generates:
       withComponent: false
       skipTypename: false
       includeDirectives: true
-  ./src/autogen/hasura/ts-from-schema.ts:
-    plugins:
-      - graphql-codegen-hasura-typescript-from-schema
-    config:
-      reactApolloVersion: 3
-      typescriptCodegenOutputPath: "../"
-      trimString:
-      withQueries: true
-      withInserts: true
-      withUpdates: true
-      withDeletes: false
-  ./src/autogen/hasura/ts-from-documents.ts:
+  ./src/autogen/hasura/ts.ts:
     documents:
       - ./src/customFragments.ts
     plugins:
-      - graphql-codegen-hasura-typescript-from-documents
+      - graphql-codegen-hasura-typescript
     config:
       reactApolloVersion: 3
       typescriptCodegenOutputPath: "../"
@@ -45,11 +34,11 @@ generates:
       withInserts: true
       withUpdates: true
       withDeletes: true
-  ./src/autogen/hasura/ts-react-from-documents.ts:
+  ./src/autogen/hasura/react.ts:
     documents:
       - ./src/customFragments.ts
     plugins:
-      - graphql-codegen-hasura-typescript-react-from-documents
+      - graphql-codegen-hasura-react
     config:
       reactApolloVersion: 3
       typescriptCodegenOutputPath: "../"
@@ -58,11 +47,11 @@ generates:
       withInserts: true
       withUpdates: true
       withDeletes: true
-  ./src/autogen/hasura/ts-config-from-documents.ts:
+  ./src/autogen/hasura/config.ts:
     documents:
       - ./src/customFragments.ts
     plugins:
-      - graphql-codegen-hasura-typescript-config-from-documents
+      - graphql-codegen-hasura-client-config
     config:
       reactApolloVersion: 3
       typescriptCodegenOutputPath: "../"

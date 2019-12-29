@@ -7,20 +7,9 @@ config:
     DateTime: Date
     JSON: "{ [key: string]: any }"
 generates:
-  ./src/autogen/hasura/gql-from-schema.ts:
+  ./src/autogen/hasura/gql.ts:
     plugins:
-      - graphql-codegen-hasura-gql-from-schema
-    config:
-      reactApolloVersion: 3
-      trimString:
-      withFragments: true
-      withQueries: true
-      withInserts: true
-      withUpdates: true
-      withDeletes: false
-  ./src/autogen/hasura/gql-from-documents.ts:
-    plugins:
-      - graphql-codegen-hasura-gql-from-documents
+      - graphql-codegen-hasura-gql
     documents:
       - ./src/customFragments.ts
     config:

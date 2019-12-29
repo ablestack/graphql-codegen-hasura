@@ -1,7 +1,7 @@
 {
-  "name": "graphql-codegen-hasura-gql-from-schema",
+  "name": "graphql-codegen-hasura-client-config",
   "version": "2.16.0-alpha.0",
-  "description": "GraphQL Code Generator plugin for generating a CRUD Gql for Hasura",
+  "description": "GraphQL Code Generator plugin for generating a CRUD TypeScript Config for Hasura from Documents",
   "author": "ahrnee <ahrndee@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/ahrnee/graphql-codegen-hasura",
@@ -27,15 +27,14 @@
     "@graphql-codegen/visitor-plugin-common": "1.8.3",
     "graphql": "^14.5.8",
     "path": "^0.12.7",
-    "react": "^16.12.0",
     "tslib": "1.10.0",
     "typescript": "3.7.2"
   },
   "sideEffects": false,
-  "main": "dist/graphql-codegen-hasura-gql-from-schema/src/index.js",
-  "typings": "dist/graphql-codegen-hasura-gql-from-schema/src/index.d.ts",
+  "main": "dist/graphql-codegen-hasura-client-config/src/index.js",
+  "typings": "dist/graphql-codegen-hasura-client-config/src/index.d.ts",
   "typescript": {
-    "definition": "dist/graphql-codegen-hasura-gql-from-schema/src/index.d.ts"
+    "definition": "dist/graphql-codegen-hasura-client-config/src/index.d.ts"
   },
   "files": [
     "README.md",

@@ -1,10 +1,10 @@
-# graphql-codegen-hasura-typescript-react-from-documents-documents-documents
+# graphql-codegen-hasura-gql
 
 ## Summary
 
-When used in conjunction with [graphql-code-generator](https://graphql-code-generator.com/), this plugin will automatically generate [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Table_ defined in the Hasura database. Every scalar field in each table is included in the fragments.
+When used in conjunction with [graphql-code-generator](https://graphql-code-generator.com/), this plugin will automatically generate non-nested gql fragments, mutations and queries for every _Fragment_ defined in the targeted (code) documents. Every scalar field in each table is included in the fragments.
 
-graphql-codegen-hasura-typescript-react-from-documents-documents is a code generator plugin for [graphql-code-generator](https://graphql-code-generator.com/) designed to automate some coding tasks around the development of a strongly typed [Hasura](https://hasura.io/) backend with an [Apollo GraphQL](https://www.apollographql.com/) React client.
+graphql-codegen-hasura-gql is a code generator plugin for [graphql-code-generator](https://graphql-code-generator.com/) designed to automate some coding tasks around the development of a strongly typed [Hasura](https://hasura.io/) backend with an [Apollo GraphQL](https://www.apollographql.com/) React client.
 
 ## Instructions
 

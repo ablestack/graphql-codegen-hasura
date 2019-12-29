@@ -4,15 +4,19 @@ graphql-codegen-hasura is a collection of code generator plugins for [graphql-co
 
 ## Status: \*BETA\*
 
-Important Note: Despite the 2.x version number, this project is at "Beta" status, with an evolving codebase. However, any breaking changes will be released with new minor or major version bumps in order to minimize disruption to any consumers.
+Important Note: Despite the version number, this project is at "Beta" status, with an evolving codebase. However, any breaking changes will be released with new minor or major version bumps in order to minimize disruption to any consumers.
 
-## Approaches
+## Approach
 
-These plugins allow for the following approaches to Hasura client code generation (or a combination of both):
+These plugins follow a **Fragment First** approach to Hasura client code generation:
 
-1.  **Fragment First**: Generate Hasura client code (gql & TypeScript) for every fragment defined in the target source code. This approach approach will generally provide greater long-term flexibility as it allows you to define and work with nested entity graphs. It also will only generate the code you need. However, it is slightly less automated, as it requires you to define graph fragments manually
+1. The Developer defines one or multiple gql Fragments in source code
+2. The plugins scans the target source code for gql Fragments
+3. The plugins generate CRUD and config gql and TypeScript code based on the located fragments
 
-2.  **Table First** (Deprecated): Generate Hasura client code (gql & TypeScript) for every table defined in Hasura. This approach allows you to get up and running the fastest. However, it may result in a lot of unused (and so unnecessary) code being generated.
+## Apollo Version
+
+Please note, this library currently only supports version 3 of the React Apollo client
 
 ## Quick Start
 
@@ -32,17 +36,13 @@ To quickly try out the code-generation:
 
 These plugins require and augment the existing fantastic GraphQL code generator plugins available from [graphql-code-generator](https://graphql-code-generator.com/)
 
-- **graphql-codegen-hasura-gql-from-schema**
-  - Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) gql fragments, mutations and queries for every _Table_ defined in the Hasura database
-- **graphql-codegen-hasura-gql-from-documents**
+- **graphql-codegen-hasura-gql**
   - Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) gql mutations and queries for every _Fragment_ defined in the targeted (code) documents
-- **graphql-codegen-hasura-typescript-from-schema**
-  - Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Table_ defined in the Hasura database
-- **graphql-codegen-hasura-typescript-from-documents**
+- **graphql-codegen-hasura-typescript**
   - Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Fragment_ defined in the targeted (code) documents
-- **graphql-codegen-hasura-typescript-react-from-documents**
+- **graphql-codegen-hasura-react**
   - Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) React Hooks for every _Fragment_ defined in the targeted (code) documents
-- **graphql-codegen-hasura-typescript-config-from-documents**
+- **graphql-codegen-hasura-client-config**
   - Generates TypeScript TypePolicies and Resolver Types for tables related to GQL fragments found in the targeted documents (code)
   - Note: Only support reactApolloVersion 3
 
@@ -77,7 +77,7 @@ It is **important to note**: The TypeScript Generation leverages the files creat
 3. Add the graphql-codegen-hasura packages:
 
 ```
-    yarn add graphql-codegen-hasura-gql-from-schema graphql-codegen-hasura-gql-from-documents graphql-codegen-hasura-typescript-from-schema graphql-codegen-hasura-typescript-from-documents graphql-codegen-hasura-typescript-react-from-documents graphql-codegen-hasura-typescript-config-from-documents
+    yarn add graphql-codegen-hasura-gql graphql-codegen-hasura-typescript graphql-codegen-hasura-react graphql-codegen-hasura-client-config
 ```
 
 4. Create configuration YAML files (see below)
@@ -93,7 +93,7 @@ graphql-codegen --config=graphql-codegen-typescript.yaml
 
 See [graphql-code-generator documentation](https://graphql-code-generator.com/docs/getting-started/codegen-config) for configuration instructions. See below for the specific configuration flags that are available on these plugins
 
-### graphql-codegen-hasura-gql-from-schema plugin
+### graphql-codegen-hasura-gql plugin
 
 - reactApolloVersion (2 | 3, default value: 3): sets the version of react-apollo
 - fragmentRelativeImportPath: import path to the gql fragment generated code. Only required if withFragments:false
@@ -104,7 +104,7 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 - withUpdates: boolean flag for update gql code generation
 - withDeletes: boolean flag for delete gql code generation
 
-### graphql-codegen-hasura-typescript-from-documents plugin
+### graphql-codegen-hasura-typescript plugin
 
 - reactApolloVersion (2 | 3, default value: 3): sets the version of react-apollo
 - typescriptCodegenOutputPath: import path to the code generated with dependent @graphql-codegen/typescript generated code
@@ -114,27 +114,7 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 - withUpdates: boolean flag for update TypeScript code generation
 - withDeletes: boolean flag for delete TypeScript code generation
 
-### graphql-codegen-hasura-typescript-schema plugin
-
-- reactApolloVersion (2 | 3, default value: 3): sets the version of react-apollo
-- typescriptCodegenOutputPath: import path to the code generated with dependent @graphql-codegen/typescript generated code
-- trimString: optional string to trim from each type name. Useful for trimming Hasura prepended schema name
-- withQueries: boolean flag for query TypeScript code generation
-- withInserts: boolean flag for insert TypeScript code generation
-- withUpdates: boolean flag for update TypeScript code generation
-- withDeletes: boolean flag for delete TypeScript code generation
-
-### graphql-codegen-hasura-typescript-documents plugin
-
-- reactApolloVersion (2 | 3, default value: 3): sets the version of react-apollo
-- typescriptCodegenOutputPath: import path to the code generated with dependent @graphql-codegen/typescript generated code
-- trimString: optional string to trim from each type name. Useful for trimming Hasura prepended schema name
-- withQueries: boolean flag for query TypeScript code generation
-- withInserts: boolean flag for insert TypeScript code generation
-- withUpdates: boolean flag for update TypeScript code generation
-- withDeletes: boolean flag for delete TypeScript code generation
-
-### graphql-codegen-hasura-typescript-react-documents plugin
+### graphql-codegen-hasura-react plugin
 
 - reactApolloVersion (2 | 3, default value: 3): sets the version of react-apollo
 - typescriptCodegenOutputPath: import path to the code generated with dependent @graphql-codegen/typescript generated code
@@ -144,7 +124,7 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 - withUpdates: boolean flag for update Hooks code generation
 - withDeletes: boolean flag for delete Hooks code generation
 
-### graphql-codegen-hasura-typescript-config-documents plugin
+### graphql-codegen-hasura-client-config plugin
 
 - reactApolloVersion (2 | 3, default value: 3): sets the version of react-apollo
 - typescriptCodegenOutputPath: import path to the code generated with dependent @graphql-codegen/typescript generated code
@@ -155,55 +135,37 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 
 ## Plugin Details
 
-### graphql-codegen-hasura-gql-from-schema plugin
-
-#### Overview
-
-Generates gql fragments, mutations and queries for every _Table_ defined in the Hasura database.
-
-See [demo/src/autogen/hasura/gql-from-schema.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
-
-### graphql-codegen-hasura-gql-from-documents plugin
+### graphql-codegen-hasura-gql plugin
 
 #### Overview
 
 Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) gql mutations and queries for every _Fragment_ defined in the targeted (code) documents.
 
-See [demo/src/autogen/hasura/gql-from-documents.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
+See [demo/src/autogen/hasura/gql.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
 
-### graphql-codegen-hasura-typescript-from-schema plugin
-
-#### Overview
-
-Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Table_ defined in the Hasura database
-
-Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Fragment_ defined in the targeted (code) documents. Provides wrapped client.query & client.mutate calls, in addition to adding some convenience features.
-
-See [demo/src/autogen/hasura/ts-from-schema.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
-
-### graphql-codegen-hasura-typescript-from-documents plugin
+### graphql-codegen-hasura-typescript plugin
 
 #### Overview
 
 Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Fragment_ defined in the targeted (code) documents. Provides wrapped client.query & client.mutate calls, in addition to adding some convenience features.
 
-See [demo/src/autogen/hasura/ts-from-documents.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
+See [demo/src/autogen/hasura/ts.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
 
-### graphql-codegen-hasura-typescript-react-from-documents plugin
+### graphql-codegen-hasura-react plugin
 
 #### Overview
 
 Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) React Hooks for every _Fragment_ defined in the targeted (code) documents.
 
-See [demo/src/autogen/hasura/ts-react-from-documents.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
+See [demo/src/autogen/hasura/ts-react.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
 
-### graphql-codegen-hasura-typescript-config-from-documents plugin
+### graphql-codegen-hasura-client-config plugin
 
 #### Overview
 
 Generates TypeScript Type Policies and Resolver Types for tables related to GQL fragments found in the targeted documents (code). **Note: Only support reactApolloVersion 3**.
 
-See [demo/src/autogen/hasura/ts-config-from-documents.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
+See [demo/src/autogen/hasura/ts-config.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
 
 ## Naming Conventions
 
