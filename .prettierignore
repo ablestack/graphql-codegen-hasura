@@ -1,0 +1,3 @@
+/src/**/*.autogen.*
+/demo/src/**/autogen/**/*
+tsconfig.json

@@ -9,7 +9,7 @@ export function injectUtilityMethodGenerateOptimisticResponseForMutationById({ c
     
     // Optimistic response generation utility method
     //
-    function generateOptimisticResponseForMutationById<T>(operationType: "update", entityName: string, entityId: any, setObject: object) {
+    function generateOptimisticResponseForMutationById<T>(operationType: "update", entityName: string, entityId: any, setObject: object): T {
       return ({
         __typename: "mutation_root",
         [\`\${operationType}_\${entityName}\`]: {

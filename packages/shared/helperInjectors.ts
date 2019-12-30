@@ -23,7 +23,7 @@ export function injectGlobalCode({
   contentManager.addContent(`
     // GLOBAL TYPES
     //------------------------------------------------
-    export type RemoveEntitiesQueryResultEx = { affected_rows:number };
+    export type RemoveEntitiesQueryHelperResultEx = { affected_rows:number };
   `);
 
   // Inject utility methods as needed
@@ -60,8 +60,8 @@ export function injectSharedHelpers({
     // ${entityName} HELPERS
     //------------------------------------------------
 
-    export type ${fragmentName}ByIdQueryResultEx = { ${fragmentNameCamelCase}:${fragmentTypeScriptTypeName} | null | undefined };
-    export type ${fragmentName}ObjectsQueryResultEx = { objects:${fragmentTypeScriptTypeName}[] };
+    export type ${fragmentName}ByIdHelperResultEx = { ${fragmentNameCamelCase}:${fragmentTypeScriptTypeName} | null | undefined };
+    export type ${fragmentName}ObjectsHelperResultEx = { objects:${fragmentTypeScriptTypeName}[] };
   
   `);
 
@@ -99,11 +99,11 @@ export function injectFetchHelpers({
     contentManager.addContent(`
       // Fetch Helper
       //
-      type Fetch${fragmentName}ByIdQueryResult = ApolloQueryResult<Fetch${fragmentName}ByIdQuery>;
-      export type Fetch${fragmentName}ByIdQueryResultEx = Fetch${fragmentName}ByIdQueryResult & ${fragmentName}ByIdQueryResultEx;
+      export type Fetch${fragmentName}ByIdApolloQueryResult = ApolloQueryResult<Fetch${fragmentName}ByIdQuery>;
+      export type Fetch${fragmentName}ByIdApolloQueryHookResultEx = Fetch${fragmentName}ByIdApolloQueryResult & ${fragmentName}ByIdHookResultEx;
 
-      export async function fetch${fragmentName}ById({ apolloClient, ${entityShortCamelCaseName}Id, options }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, options?: Omit<QueryOptions<Fetch${fragmentName}QueryVariables>, 'query' | 'variables'> }): Promise<Fetch${fragmentName}ByIdQueryResultEx> {
-        const query: Fetch${fragmentName}ByIdQueryResult = await apolloClient.query<Fetch${fragmentName}ByIdQuery>({ query: Fetch${fragmentName}ByIdDocument, variables: { ${entityShortCamelCaseName}Id }, ...options });
+      export async function fetch${fragmentName}ById({ apolloClient, ${entityShortCamelCaseName}Id, options }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, options?: Omit<QueryOptions<Fetch${fragmentName}QueryVariables>, 'query' | 'variables'> }): Promise<Fetch${fragmentName}ByIdApolloQueryHelperResultEx> {
+        const query: Fetch${fragmentName}ByIdApolloQueryResult = await apolloClient.query<Fetch${fragmentName}ByIdQuery>({ query: Fetch${fragmentName}ByIdDocument, variables: { ${entityShortCamelCaseName}Id }, ...options });
         
         return { ...query, ${fragmentNameCamelCase}: query && query.data && query.data.${entityName}_by_pk }
       }
@@ -113,11 +113,11 @@ export function injectFetchHelpers({
   contentManager.addContent(`
       // Fetch Objects Helper
       //
-      type Fetch${fragmentName}ObjectsQueryResult = ApolloQueryResult<Fetch${fragmentName}Query>;
-      export type Fetch${fragmentName}ObjectsQueryResultEx = Fetch${fragmentName}ObjectsQueryResult & ${fragmentName}ObjectsQueryResultEx;
+      export type Fetch${fragmentName}ObjectsApolloQueryResult = ApolloQueryResult<Fetch${fragmentName}Query>;
+      export type Fetch${fragmentName}ObjectsApolloQueryResultEx = Fetch${fragmentName}ObjectsApolloQueryResult & ${fragmentName}ObjectsHelperResultEx;
 
-      export async function fetch${fragmentName}Objects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<Fetch${fragmentName}QueryVariables>, 'query'> }): Promise<Fetch${fragmentName}ObjectsQueryResultEx> {
-        const query: Fetch${fragmentName}ObjectsQueryResult = await apolloClient.query<Fetch${fragmentName}Query>({ query: Fetch${fragmentName}Document, ...options });
+      export async function fetch${fragmentName}Objects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<Fetch${fragmentName}QueryVariables>, 'query'> }): Promise<Fetch${fragmentName}ObjectsApolloQueryResultEx> {
+        const query: Fetch${fragmentName}ObjectsApolloQueryResult = await apolloClient.query<Fetch${fragmentName}Query>({ query: Fetch${fragmentName}Document, ...options });
         
         return { ...query, objects: (query && query.data && query.data.${entityName}) || [] }
       }
@@ -155,11 +155,11 @@ export function injectInsertHelpers({
   contentManager.addContent(`
     // Insert Helper
     //
-    type Insert${fragmentName}QueryResult = FetchResult<Insert${fragmentName}Mutation, Record<string, any>, Record<string, any>>;
-    export type Insert${fragmentName}QueryResultEx = Insert${fragmentName}QueryResult & ${fragmentName}ByIdQueryResultEx;
+    type Insert${fragmentName}FetchResult = FetchResult<Insert${fragmentName}Mutation, Record<string, any>, Record<string, any>>;
+    export type Insert${fragmentName}FetchHelperResultEx = Insert${fragmentName}FetchResult & ${fragmentName}ByIdHelperResultEx;
 
-    export async function insert${fragmentName}({ apolloClient, ${entityShortCamelCaseName}, onConflict, options } :{ apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, onConflict?: ${entityPascalName}_On_Conflict, options?: Omit<MutationOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation' | 'variables'> }): Promise<Insert${fragmentName}QueryResultEx> {
-      const mutation:Insert${fragmentName}QueryResult = onConflict
+    export async function insert${fragmentName}({ apolloClient, ${entityShortCamelCaseName}, onConflict, options } :{ apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, onConflict?: ${entityPascalName}_On_Conflict, options?: Omit<MutationOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation' | 'variables'> }): Promise<Insert${fragmentName}FetchHelperResultEx> {
+      const mutation:Insert${fragmentName}FetchResult = onConflict
         ? await apolloClient.mutate<Insert${fragmentName}Mutation, Insert${fragmentName}WithOnConflictMutationVariables>({ mutation: Insert${fragmentName}WithOnConflictDocument, variables: { objects: [${entityShortCamelCaseName}], onConflict }, ...options })
         : await apolloClient.mutate<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>({ mutation: Insert${fragmentName}Document, variables: { objects: [${entityShortCamelCaseName}] }, ...options });
         
@@ -170,11 +170,11 @@ export function injectInsertHelpers({
   contentManager.addContent(`
     // Insert Objects Helper
     //
-    type Insert${fragmentName}ObjectsQueryResult = FetchResult<Insert${fragmentName}Mutation, Record<string, any>, Record<string, any>>;
-    export type Insert${fragmentName}ObjectsQueryResultEx = Insert${fragmentName}ObjectsQueryResult & ${fragmentName}ObjectsQueryResultEx;
+    type Insert${fragmentName}ObjectsFetchResult = FetchResult<Insert${fragmentName}Mutation, Record<string, any>, Record<string, any>>;
+    export type Insert${fragmentName}ObjectsHelperResultEx = Insert${fragmentName}ObjectsFetchResult & ${fragmentName}ObjectsHelperResultEx;
 
-    export async function insert${fragmentName}Objects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation'> }): Promise<Insert${fragmentName}ObjectsQueryResultEx> {
-      const mutation: Insert${fragmentName}ObjectsQueryResult = await apolloClient.mutate<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>({ mutation: Insert${fragmentName}Document, ...options });
+    export async function insert${fragmentName}Objects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation'> }): Promise<Insert${fragmentName}ObjectsHelperResultEx> {
+      const mutation: Insert${fragmentName}ObjectsFetchResult = await apolloClient.mutate<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>({ mutation: Insert${fragmentName}Document, ...options });
        
       return { ...mutation, objects: (mutation && mutation.data && mutation.data.insert_${entityName} && mutation.data.insert_${entityName}!.returning) || [] };
     }
@@ -216,9 +216,9 @@ export function injectUpdateHelpers({
     // Update Helper
     //
     type Update${fragmentName}ByIdQueryResult = FetchResult<Update${fragmentName}ByIdMutation, Record<string, any>, Record<string, any>>;
-    export type Update${fragmentName}ByIdQueryResultEx = Update${fragmentName}ByIdQueryResult & ${fragmentName}ByIdQueryResultEx;
+    export type Update${fragmentName}ByIdHelperResultEx = Update${fragmentName}ByIdQueryResult & ${fragmentName}ByIdHelperResultEx;
 
-    export async function update${fragmentName}ById({ apolloClient, ${entityShortCamelCaseName}Id, set, autoOptimisticResponse, options }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, set: ${entityPascalName}_Set_Input, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>, 'mutation'> }): Promise<Update${fragmentName}ByIdQueryResultEx> {
+    export async function update${fragmentName}ById({ apolloClient, ${entityShortCamelCaseName}Id, set, autoOptimisticResponse, options }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, set: ${entityPascalName}_Set_Input, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>, 'mutation'> }): Promise<Update${fragmentName}ByIdHelperResultEx> {
       const mutationOptions:MutationOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables> = { mutation: Update${fragmentName}ByIdDocument, variables: { id:${entityShortCamelCaseName}Id, set }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutationById<Update${fragmentName}ByIdMutation>('update', '${entityName}', ${entityShortCamelCaseName}Id, set); }
 
@@ -231,11 +231,11 @@ export function injectUpdateHelpers({
   contentManager.addContent(`
     // Update Objects Helper
     //
-    type Update${fragmentName}ObjectsQueryResult = FetchResult<Update${fragmentName}Mutation, Record<string, any>, Record<string, any>>;
-    export type Update${fragmentName}ObjectsQueryResultEx = Update${fragmentName}ObjectsQueryResult & ${fragmentName}ObjectsQueryResultEx;
+    type Update${fragmentName}ObjectsFetchResult = FetchResult<Update${fragmentName}Mutation, Record<string, any>, Record<string, any>>;
+    export type Update${fragmentName}ObjectsHelperResultEx = Update${fragmentName}ObjectsFetchResult & ${fragmentName}ObjectsHelperResultEx;
 
-    export async function update${fragmentName}Objects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>, 'mutation'> }): Promise<Update${fragmentName}ObjectsQueryResultEx> {  
-      const mutation:Update${fragmentName}ObjectsQueryResult = await apolloClient.mutate<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>({ mutation: Update${fragmentName}Document, ...options } );
+    export async function update${fragmentName}Objects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>, 'mutation'> }): Promise<Update${fragmentName}ObjectsHelperResultEx> {  
+      const mutation:Update${fragmentName}ObjectsFetchResult = await apolloClient.mutate<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>({ mutation: Update${fragmentName}Document, ...options } );
         
       return { ...mutation, objects:(mutation && mutation.data && mutation.data.update_${entityName} && mutation.data.update_${entityName}!.returning) || [] };
     }
@@ -279,9 +279,9 @@ export function injectDeleteHelpers({
     //
 
     type Remove${entityModelName}ByIdQueryResult = FetchResult<Remove${entityModelName}ByIdMutation, Record<string, any>, Record<string, any>>;
-    export type Remove${entityModelName}ByIdQueryResultEx = Remove${entityModelName}ByIdQueryResult & RemoveEntitiesQueryResultEx;
+    export type Remove${entityModelName}ByIdQueryHelperResultEx = Remove${entityModelName}ByIdQueryResult & RemoveEntitiesQueryHelperResultEx;
   
-    export async function remove${entityModelName}ById({ apolloClient, ${entityShortCamelCaseName}Id, options } :{ apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, options?: Omit<MutationOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, 'mutation'> }): Promise<Remove${entityModelName}ByIdQueryResultEx> {
+    export async function remove${entityModelName}ById({ apolloClient, ${entityShortCamelCaseName}Id, options } :{ apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, options?: Omit<MutationOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, 'mutation'> }): Promise<Remove${entityModelName}ByIdQueryHelperResultEx> {
       const mutation:Remove${entityModelName}ByIdQueryResult = await apolloClient.mutate<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>({ mutation: Remove${entityModelName}ByIdDocument, variables: { id:${entityShortCamelCaseName}Id, }, ...options } );
     
       return { ...mutation, affected_rows:(mutation && mutation.data && mutation.data.delete_${entityName} && mutation.data.delete_${entityName}!.affected_rows) || 0 };
@@ -290,9 +290,9 @@ export function injectDeleteHelpers({
 
   contentManager.addContent(`
     type Remove${entityModelName}ObjectsQueryResult = FetchResult<Remove${entityModelName}Mutation, Record<string, any>, Record<string, any>>;
-    export type Remove${entityModelName}ObjectsQueryResultEx = Remove${entityModelName}ObjectsQueryResult & RemoveEntitiesQueryResultEx;  
+    export type Remove${entityModelName}ObjectsQueryHelperResultEx = Remove${entityModelName}ObjectsQueryResult & RemoveEntitiesQueryHelperResultEx;  
   
-    export async function remove${entityModelName}Objects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>, 'mutation'> }): Promise<Remove${entityModelName}ObjectsQueryResultEx> {  
+    export async function remove${entityModelName}Objects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>, 'mutation'> }): Promise<Remove${entityModelName}ObjectsQueryHelperResultEx> {  
         const mutation:Remove${entityModelName}ByIdQueryResult = await apolloClient.mutate<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>({ mutation: Remove${entityModelName}Document, ...options } );
           
         return { ...mutation, affected_rows:(mutation && mutation.data && mutation.data.delete_${entityName} && mutation.data.delete_${entityName}!.affected_rows) || 0 };
