@@ -1,3 +1,4 @@
+import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation, QueryLazyOptions, MutationFunctionOptions, QueryResult, MutationTuple, FetchResult } from '@apollo/client';
 import { VehicleGraphFragment } from '../';
 import { FetchVehicleGraphByIdQuery } from '../';
 import { FetchVehicleGraphByIdQueryVariables } from '../';
@@ -70,7 +71,6 @@ import { RemoveDogsModelDocument } from '../';
 import { RemoveDogsModelByIdMutation } from '../';
 import { RemoveDogsModelByIdMutationVariables } from '../';
 import { RemoveDogsModelByIdDocument } from '../';
-  import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation, QueryLazyOptions, MutationFunctionOptions, QueryResult, MutationTuple, FetchResult } from '@apollo/client'"}'
 
     // GLOBAL TYPES
     //------------------------------------------------

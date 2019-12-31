@@ -44,7 +44,6 @@ These plugins require and augment the existing fantastic GraphQL code generator 
   - Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) React Hooks for every _Fragment_ defined in the targeted (code) documents
 - **graphql-codegen-hasura-client-config**
   - Generates TypeScript TypePolicies and Resolver Types for tables related to GQL fragments found in the targeted documents (code)
-  - Note: Only support reactApolloVersion 3
 
 ## Structure
 
@@ -95,7 +94,6 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 
 ### graphql-codegen-hasura-gql plugin
 
-- reactApolloVersion (2 | 3, default value: 3): sets the version of react-apollo
 - fragmentRelativeImportPath: import path to the gql fragment generated code. Only required if withFragments:false
 - trimString: optional string to trim from each type name. Useful for trimming Hasura prepended schema name
 - withFragments: boolean flag for fragment gql code generation
@@ -106,7 +104,6 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 
 ### graphql-codegen-hasura-typescript plugin
 
-- reactApolloVersion (2 | 3, default value: 3): sets the version of react-apollo
 - typescriptCodegenOutputPath: import path to the code generated with dependent @graphql-codegen/typescript generated code
 - trimString: optional string to trim from each type name. Useful for trimming Hasura prepended schema name
 - withQueries: boolean flag for query TypeScript code generation
@@ -116,7 +113,6 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 
 ### graphql-codegen-hasura-react plugin
 
-- reactApolloVersion (2 | 3, default value: 3): sets the version of react-apollo
 - typescriptCodegenOutputPath: import path to the code generated with dependent @graphql-codegen/typescript generated code
 - trimString: optional string to trim from each type name. Useful for trimming Hasura prepended schema name
 - withQueries: boolean flag for query Hooks code generation
@@ -126,7 +122,6 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 
 ### graphql-codegen-hasura-client-config plugin
 
-- reactApolloVersion (2 | 3, default value: 3): sets the version of react-apollo
 - typescriptCodegenOutputPath: import path to the code generated with dependent @graphql-codegen/typescript generated code
 - trimString: optional string to trim from each type name. Useful for trimming Hasura prepended schema name
 - withQueries: boolean flag for query Hooks code generation
@@ -163,7 +158,7 @@ See [demo/src/autogen/hasura/ts-react.ts](https://github.com/ahrnee/graphql-code
 
 #### Overview
 
-Generates TypeScript Type Policies and Resolver Types for tables related to GQL fragments found in the targeted documents (code). **Note: Only support reactApolloVersion 3**.
+Generates TypeScript Type Policies and Resolver Types for tables related to GQL fragments found in the targeted documents (code).
 
 See [demo/src/autogen/hasura/ts-config.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
 

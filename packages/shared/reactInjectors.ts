@@ -15,7 +15,7 @@ export function injectGlobalReactCode({
   withUpdates: boolean;
 }) {
   contentManager.addImport(
-    `  import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation, QueryLazyOptions, MutationFunctionOptions, QueryResult, MutationTuple, FetchResult } from '@apollo/client'"}'`
+    `import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation, QueryLazyOptions, MutationFunctionOptions, QueryResult, MutationTuple, FetchResult } from '@apollo/client';`
   );
 
   contentManager.addContent(`
