@@ -1,6 +1,37 @@
 import { FieldDefinitionNode } from "graphql";
 import { getIdTypeScriptFieldType, makeImportStatement, makeModelName, makeShortName, ContentManager } from ".";
 import { makeCamelCase, makePascalCase, makeFragmentTypeScriptTypeName } from "./utils";
+import { injectUtilityMethodGenerateOptimisticResponseForMutationById } from "./sharedInjectors";
+
+// ---------------------------------
+//
+export function injectGlobalReactCode({
+  contentManager,
+  typescriptCodegenOutputPath,
+  withUpdates
+}: {
+  contentManager: ContentManager;
+  typescriptCodegenOutputPath: string;
+  withUpdates: boolean;
+}) {
+  contentManager.addImport(
+    `  import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation, QueryLazyOptions, MutationFunctionOptions, QueryResult, MutationTuple, FetchResult } from '@apollo/client'"}'`
+  );
+
+  contentManager.addContent(`
+    // GLOBAL TYPES
+    //------------------------------------------------
+    export type RemoveEntitiesQueryHookResultEx = { affected_rows:number };
+  `);
+
+  // Inject utility methods as needed
+  withUpdates &&
+    contentManager.addContent(`
+    // UTILITY METHODS
+    //------------------------------------------------
+  `);
+  withUpdates && injectUtilityMethodGenerateOptimisticResponseForMutationById({ contentManager });
+}
 
 // ---------------------------------
 //
@@ -398,7 +429,7 @@ export function injectDeleteReact({
 
     // Types
     type Remove${entityModelName}ByIdFetchResult = FetchResult<Remove${entityModelName}ByIdMutation, Record<string, any>, Record<string, any>>;
-    export type Remove${entityModelName}ByIdMutationResultEx = Remove${entityModelName}ByIdFetchResult & { affected_rows: number };
+    export type Remove${entityModelName}ByIdMutationResultEx = Remove${entityModelName}ByIdFetchResult & RemoveEntitiesQueryHookResultEx;
 
     // Function
     type PickRemove${entityModelName}Fn = (mutation: Remove${entityModelName}ByIdMutation | null | undefined) => number;
@@ -431,7 +462,7 @@ export function injectDeleteReact({
 
     // Types
     type Remove${entityModelName}ObjectsMutationResult = FetchResult<Remove${entityModelName}Mutation, Record<string, any>, Record<string, any>>;
-    export type Remove${entityModelName}ObjectsMutationResultEx = Remove${entityModelName}ObjectsMutationResult & { affected_rows: number };
+    export type Remove${entityModelName}ObjectsMutationResultEx = Remove${entityModelName}ObjectsMutationResult & RemoveEntitiesQueryHookResultEx;
 
     // Function
     type PickRemove${entityModelName}ObjectsFn = (mutation: Remove${entityModelName}Mutation | null | undefined) => number;

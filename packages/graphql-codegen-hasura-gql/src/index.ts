@@ -2,7 +2,7 @@ import { PluginFunction, Types } from "@graphql-codegen/plugin-helpers";
 import { RawTypesConfig } from "@graphql-codegen/visitor-plugin-common";
 import { FragmentDefinitionNode, GraphQLSchema } from "graphql";
 import { TypeMap } from "graphql/type/schema";
-import { getPrimaryKeyIdField, injectDeleteGql, injectFetchGql, injectFragmentImport, injectInsertGql, injectUpdateGql, ContentManager } from "../../shared";
+import { getPrimaryKeyIdField, injectDeleteGql, injectFetchGql, injectFragmentImport, injectInsertGql, injectUpdateGql, ContentManager, injectGlobalGqlCode } from "../../shared";
 
 // -----------------------------------------------------
 //
@@ -20,13 +20,16 @@ export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
 
 export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: GraphQLSchema, documents: Types.DocumentFile[], config: CstmHasuraCrudPluginConfig) => {
   // Set config defaults
-  if (!config.reactApolloVersion) config.reactApolloVersion = 3;
+  if (!config.reactApolloVersion && config.reactApolloVersion !== 3) {
+    throw new Error("Currently this codegen tool is only compatible with Apollo Client V3");
+  }
 
   const contentManager = new ContentManager();
 
-  contentManager.addImport("/* eslint-disable @typescript-eslint/no-unused-vars */");
-  //contentManager.addImport(`import gql from '${config.reactApolloVersion === 3 ? "@apollo/client" : "graphql-tag"}';`);  //graphql-code-generator still only picking up gql from 'graphql-tag' import. Will switch to "@apollo/client" import when this issue is addressed
-  contentManager.addImport(`import gql from 'graphql-tag';`);
+  injectGlobalGqlCode({
+    contentManager,
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath
+  });
 
   // get typemap from schema
   const typeMap = schema.getTypeMap();

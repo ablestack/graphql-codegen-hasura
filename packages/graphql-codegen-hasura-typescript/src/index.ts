@@ -4,7 +4,7 @@ import { FragmentDefinitionNode, GraphQLSchema } from "graphql";
 import { TypeMap } from "graphql/type/schema";
 import {
   getPrimaryKeyIdField,
-  injectGlobalCode,
+  injectGlobalHelperCode,
   injectDeleteHelpers,
   injectFetchHelpers,
   injectInsertHelpers,
@@ -29,14 +29,15 @@ export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
 
 export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: GraphQLSchema, documents: Types.DocumentFile[], config: CstmHasuraCrudPluginConfig) => {
   // Set config defaults
-  if (!config.reactApolloVersion) config.reactApolloVersion = 3;
+  if (!config.reactApolloVersion && config.reactApolloVersion !== 3) {
+    throw new Error("Currently this codegen tool is only compatible with Apollo Client V3");
+  }
 
   const contentManager = new ContentManager();
 
-  injectGlobalCode({
+  injectGlobalHelperCode({
     contentManager,
     typescriptCodegenOutputPath: config.typescriptCodegenOutputPath,
-    reactApolloVersion: config.reactApolloVersion,
     withUpdates: config.withUpdates
   });
 

@@ -1,5 +1,3 @@
-import { MutationFunctionOptions, QueryResult, MutationTuple } from '@apollo/client'
-import { FetchResult } from '@apollo/client'
 import { VehicleGraphFragment } from '../';
 import { FetchVehicleGraphByIdQuery } from '../';
 import { FetchVehicleGraphByIdQueryVariables } from '../';
@@ -72,7 +70,12 @@ import { RemoveDogsModelDocument } from '../';
 import { RemoveDogsModelByIdMutation } from '../';
 import { RemoveDogsModelByIdMutationVariables } from '../';
 import { RemoveDogsModelByIdDocument } from '../';
-  import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation, QueryLazyOptions } from '@apollo/client'
+  import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation, QueryLazyOptions, MutationFunctionOptions, QueryResult, MutationTuple, FetchResult } from '@apollo/client'"}'
+
+    // GLOBAL TYPES
+    //------------------------------------------------
+    export type RemoveEntitiesQueryHookResultEx = { affected_rows:number };
+  
 
     // UTILITY METHODS
     //------------------------------------------------
@@ -337,7 +340,7 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     // Types
     type RemoveVehicleModelByIdFetchResult = FetchResult<RemoveVehicleModelByIdMutation, Record<string, any>, Record<string, any>>;
-    export type RemoveVehicleModelByIdMutationResultEx = RemoveVehicleModelByIdFetchResult & { affected_rows: number };
+    export type RemoveVehicleModelByIdMutationResultEx = RemoveVehicleModelByIdFetchResult & RemoveEntitiesQueryHookResultEx;
 
     // Function
     type PickRemoveVehicleModelFn = (mutation: RemoveVehicleModelByIdMutation | null | undefined) => number;
@@ -369,7 +372,7 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     // Types
     type RemoveVehicleModelObjectsMutationResult = FetchResult<RemoveVehicleModelMutation, Record<string, any>, Record<string, any>>;
-    export type RemoveVehicleModelObjectsMutationResultEx = RemoveVehicleModelObjectsMutationResult & { affected_rows: number };
+    export type RemoveVehicleModelObjectsMutationResultEx = RemoveVehicleModelObjectsMutationResult & RemoveEntitiesQueryHookResultEx;
 
     // Function
     type PickRemoveVehicleModelObjectsFn = (mutation: RemoveVehicleModelMutation | null | undefined) => number;
@@ -864,7 +867,7 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     // Types
     type RemoveDogsModelByIdFetchResult = FetchResult<RemoveDogsModelByIdMutation, Record<string, any>, Record<string, any>>;
-    export type RemoveDogsModelByIdMutationResultEx = RemoveDogsModelByIdFetchResult & { affected_rows: number };
+    export type RemoveDogsModelByIdMutationResultEx = RemoveDogsModelByIdFetchResult & RemoveEntitiesQueryHookResultEx;
 
     // Function
     type PickRemoveDogsModelFn = (mutation: RemoveDogsModelByIdMutation | null | undefined) => number;
@@ -896,7 +899,7 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     // Types
     type RemoveDogsModelObjectsMutationResult = FetchResult<RemoveDogsModelMutation, Record<string, any>, Record<string, any>>;
-    export type RemoveDogsModelObjectsMutationResultEx = RemoveDogsModelObjectsMutationResult & { affected_rows: number };
+    export type RemoveDogsModelObjectsMutationResultEx = RemoveDogsModelObjectsMutationResult & RemoveEntitiesQueryHookResultEx;
 
     // Function
     type PickRemoveDogsModelObjectsFn = (mutation: RemoveDogsModelMutation | null | undefined) => number;

@@ -1,24 +1,20 @@
 import { FieldDefinitionNode } from "graphql";
-import { getIdTypeScriptFieldType, makeFragmentName, makeModelName, makeShortName, makeImportStatement, ContentManager } from ".";
-import { makeFragmentTypeScriptTypeName, makePascalCase, makeCamelCase } from "./utils";
+import { ContentManager, getIdTypeScriptFieldType, makeImportStatement, makeModelName, makeShortName } from ".";
 import { injectUtilityMethodGenerateOptimisticResponseForMutationById } from "./sharedInjectors";
+import { makeCamelCase, makeFragmentTypeScriptTypeName, makePascalCase } from "./utils";
 
 // ---------------------------------
 //
-export function injectGlobalCode({
+export function injectGlobalHelperCode({
   contentManager,
   typescriptCodegenOutputPath,
-  reactApolloVersion,
   withUpdates
 }: {
   contentManager: ContentManager;
-  reactApolloVersion: number;
   typescriptCodegenOutputPath: string;
   withUpdates: boolean;
 }) {
-  contentManager.addImport(
-    `import { ApolloClient, QueryOptions, MutationOptions, ApolloQueryResult, FetchResult } from '${reactApolloVersion === 3 ? "@apollo/client" : "apollo-client"}'`
-  );
+  contentManager.addImport(`import { ApolloClient, QueryOptions, MutationOptions, ApolloQueryResult, FetchResult } from '@apollo/client'`);
 
   contentManager.addContent(`
     // GLOBAL TYPES

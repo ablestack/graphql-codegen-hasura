@@ -2,7 +2,15 @@ import { PluginFunction, Types } from "@graphql-codegen/plugin-helpers";
 import { RawTypesConfig } from "@graphql-codegen/visitor-plugin-common";
 import { FragmentDefinitionNode, GraphQLSchema } from "graphql";
 import { TypeMap } from "graphql/type/schema";
-import { getPrimaryKeyIdField, injectEntityTypePolicy, injectEntityResolverTypes, ContentManager, makeShortName, injectEntityCacheRedirect } from "../../shared";
+import {
+  getPrimaryKeyIdField,
+  injectEntityTypePolicy,
+  injectEntityResolverTypes,
+  ContentManager,
+  makeShortName,
+  injectEntityCacheRedirect,
+  injectGlobalConfigCode
+} from "../../shared";
 
 // -----------------------------------------------------
 //
@@ -21,22 +29,18 @@ export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
 
 export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: GraphQLSchema, documents: Types.DocumentFile[], config: CstmHasuraCrudPluginConfig) => {
   // Set config defaults
-  if (!config.reactApolloVersion) config.reactApolloVersion = 3;
+  if (!config.reactApolloVersion && config.reactApolloVersion !== 3) {
+    throw new Error("Currently this codegen tool is only compatible with Apollo Client V3");
+  }
 
   const contentManager = new ContentManager();
 
-  if (config.withResolverTypes && config.reactApolloVersion === 3) {
-    contentManager.addImport(`/* eslint-disable @typescript-eslint/class-name-casing */`);
-    contentManager.addImport(`import { ApolloCache, NormalizedCacheObject, ApolloClient, StoreObject } from '@apollo/client';`);
-  }
-
-  if (config.withTypePolicies && config.reactApolloVersion === 3) {
-    contentManager.addImport(`import { TypePolicies } from '@apollo/client/cache/inmemory/policies';`);
-  }
-
-  if (config.withCacheRedirects && config.reactApolloVersion === 2) {
-    contentManager.addImport(`import { CacheResolverMap } from 'apollo-cache-inmemory';`);
-  }
+  injectGlobalConfigCode({
+    contentManager,
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath,
+    withResolverTypes: config.withResolverTypes,
+    withTypePolicies: config.withTypePolicies
+  });
 
   // get typemap from schema
   const typeMap = schema.getTypeMap();

@@ -4,6 +4,14 @@ import { makeImportStatement, makeShortName, makeCamelCase } from "./utils";
 
 // ---------------------------------
 //
+export function injectGlobalGqlCode({ contentManager, typescriptCodegenOutputPath }: { contentManager: ContentManager; typescriptCodegenOutputPath: string }) {
+  contentManager.addImport("/* eslint-disable @typescript-eslint/no-unused-vars */");
+  //contentManager.addImport(`import gql from '@apollo/client'`);  //graphql-code-generator still only picking up gql from 'graphql-tag' import. Will switch to "@apollo/client" import when this issue is addressed
+  contentManager.addImport(`import gql from 'graphql-tag';`);
+}
+
+// ---------------------------------
+//
 export function injectFragmentImport({
   contentManager,
   fragmentName,

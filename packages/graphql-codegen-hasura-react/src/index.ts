@@ -2,8 +2,16 @@ import { PluginFunction, Types } from "@graphql-codegen/plugin-helpers";
 import { RawTypesConfig } from "@graphql-codegen/visitor-plugin-common";
 import { FragmentDefinitionNode, GraphQLSchema } from "graphql";
 import { TypeMap } from "graphql/type/schema";
-import { getPrimaryKeyIdField, injectDeleteReact, injectFetchReact, injectInsertReact, injectSharedReact, injectUpdateReact, ContentManager } from "../../shared";
-import { injectUtilityMethodGenerateOptimisticResponseForMutationById } from "../../shared/sharedInjectors";
+import {
+  ContentManager,
+  getPrimaryKeyIdField,
+  injectDeleteReact,
+  injectFetchReact,
+  injectGlobalReactCode,
+  injectInsertReact,
+  injectSharedReact,
+  injectUpdateReact
+} from "../../shared";
 
 // -----------------------------------------------------
 //
@@ -21,17 +29,17 @@ export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
 
 export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: GraphQLSchema, documents: Types.DocumentFile[], config: CstmHasuraCrudPluginConfig) => {
   // Set config defaults
-  if (!config.reactApolloVersion) config.reactApolloVersion = 3;
+  if (!config.reactApolloVersion && config.reactApolloVersion !== 3) {
+    throw new Error("Currently this codegen tool is only compatible with Apollo Client V3");
+  }
 
   const contentManager = new ContentManager();
 
-  contentManager.addImport(
-    `  import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation, QueryLazyOptions } from '${
-      config.reactApolloVersion === 3 ? "@apollo/client" : "@apollo/react-hooks"
-    }'`
-  );
-  contentManager.addImport(`import { MutationFunctionOptions, QueryResult, MutationTuple } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "react-apollo"}'`);
-  contentManager.addImport(`import { FetchResult } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-link"}'`);
+  injectGlobalReactCode({
+    contentManager,
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath,
+    withUpdates: config.withUpdates
+  });
 
   // get typemap from schema
   const typeMap = schema.getTypeMap();
@@ -40,14 +48,6 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   const documentFragments = documents.flatMap(document => {
     return document.content.definitions.filter(definition => definition.kind === "FragmentDefinition");
   }) as FragmentDefinitionNode[];
-
-  // Inject utility methods as needed
-  config.withUpdates &&
-    contentManager.addContent(`
-    // UTILITY METHODS
-    //------------------------------------------------
-  `);
-  config.withUpdates && injectUtilityMethodGenerateOptimisticResponseForMutationById({ contentManager });
 
   // iterate and generate
   documentFragments.map(fragmentDefinition => {

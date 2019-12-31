@@ -4,6 +4,29 @@ import { makeCamelCase, makePascalCase } from "./utils";
 
 // ---------------------------------
 //
+export function injectGlobalConfigCode({
+  contentManager,
+  typescriptCodegenOutputPath,
+  withResolverTypes,
+  withTypePolicies
+}: {
+  contentManager: ContentManager;
+  typescriptCodegenOutputPath: string;
+  withResolverTypes: boolean;
+  withTypePolicies: boolean;
+}) {
+  if (withResolverTypes) {
+    contentManager.addImport(`/* eslint-disable @typescript-eslint/class-name-casing */`);
+    contentManager.addImport(`import { ApolloCache, NormalizedCacheObject, ApolloClient, StoreObject } from '@apollo/client';`);
+  }
+
+  if (withTypePolicies) {
+    contentManager.addImport(`import { TypePolicies } from '@apollo/client/cache/inmemory/policies';`);
+  }
+}
+
+// ---------------------------------
+//
 export function injectEntityTypePolicy({
   contentManager,
   entityName,
