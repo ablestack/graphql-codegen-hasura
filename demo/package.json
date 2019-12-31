@@ -22,10 +22,8 @@
     "@graphql-codegen/typescript-resolvers": "1.8.3",
     "graphql-codegen-hasura-client-config": "^3.2.1",
     "graphql-codegen-hasura-gql": "^3.2.1",
-    "graphql-codegen-hasura-gql-from-schema": "^2.16.0-alpha.0",
     "graphql-codegen-hasura-react": "^3.2.1",
     "graphql-codegen-hasura-typescript": "^3.2.1",
-    "graphql-codegen-hasura-typescript-from-schema": "^2.16.0-alpha.0",
     "typescript": "^3.7.2"
   },
   "scripts": {
