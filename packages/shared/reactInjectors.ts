@@ -233,7 +233,7 @@ export function injectInsertReact({
 
   type PickInsert${fragmentName}Fn = (mutation: Insert${fragmentName}Mutation | null | undefined) => ${fragmentName}Fragment | null | undefined;
   type Insert${fragmentName}LazyMutationFn = MutationTuple<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>;
-  type Insert${fragmentName}WrappedLazyMutationFn = ({ ${entityName}, options }: { ${entityName}: ${entityPascalName}_Insert_Input; options?: Omit<MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, "variables">; }) => Promise<Insert${fragmentName}MutationResultEx>;
+  type Insert${fragmentName}WrappedLazyMutationFn = ({ ${entityShortCamelCaseName}, options }: { ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input; options?: Omit<MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, "variables">; }) => Promise<Insert${fragmentName}MutationResultEx>;
   export type Insert${fragmentName}LazyMutationReturn = [Insert${fragmentName}WrappedLazyMutationFn, Insert${fragmentName}MutationResultEx];
 
   // Function
@@ -241,8 +241,8 @@ export function injectInsertReact({
     const lazyMutation: Insert${fragmentName}LazyMutationFn = useMutation<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>(Insert${fragmentName}Document, options);
     const pick${fragmentName}: PickInsert${fragmentName}Fn = (mutation) => { return mutation && mutation.insert_${entityName} && mutation.insert_${entityName}!.returning && mutation.insert_${entityName}!.returning[0]; };
 
-    const wrappedLazyMutation: Insert${fragmentName}WrappedLazyMutationFn = async ({ ${entityName}, options }: { ${entityName}: ${entityPascalName}_Insert_Input; options?: Omit<MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, "variables">; }) => {
-      const fetchResult = await lazyMutation[0]({ variables: { objects: [${entityName}] }, ...options });
+    const wrappedLazyMutation: Insert${fragmentName}WrappedLazyMutationFn = async ({ ${entityShortCamelCaseName}, options }: { ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input; options?: Omit<MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, "variables">; }) => {
+      const fetchResult = await lazyMutation[0]({ variables: { objects: [${entityShortCamelCaseName}] }, ...options });
       return { ...fetchResult, ${fragmentNameCamelCase}: pick${fragmentName}(fetchResult.data) };
     };
 
@@ -256,7 +256,7 @@ export function injectInsertReact({
 
   // Types
   type Insert${fragmentName}WithOnConflictLazyMutationFn = MutationTuple<Insert${fragmentName}Mutation, Insert${fragmentName}WithOnConflictMutationVariables>;
-  type Insert${fragmentName}WithOnConflictWrappedLazyMutationFn = ({ ${entityName}, options }: { ${entityName}: ${entityPascalName}_Insert_Input; options?: Omit<MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}WithOnConflictMutationVariables>, "variables">; }) => Promise<Insert${fragmentName}MutationResultEx>;
+  type Insert${fragmentName}WithOnConflictWrappedLazyMutationFn = ({ ${entityShortCamelCaseName}, options }: { ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input; options?: Omit<MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}WithOnConflictMutationVariables>, "variables">; }) => Promise<Insert${fragmentName}MutationResultEx>;
   export type Insert${fragmentName}WithOnConflictLazyMutationReturn = [Insert${fragmentName}WithOnConflictWrappedLazyMutationFn, Insert${fragmentName}MutationResultEx];
 
   // Function
@@ -264,9 +264,9 @@ export function injectInsertReact({
     const lazyMutation: Insert${fragmentName}WithOnConflictLazyMutationFn = useMutation<Insert${fragmentName}Mutation, Insert${fragmentName}WithOnConflictMutationVariables>(Insert${fragmentName}WithOnConflictDocument, options);
     const pick${fragmentName}: PickInsert${fragmentName}Fn = (mutation: Insert${fragmentName}Mutation | null | undefined) => { return mutation && mutation.insert_${entityName} && mutation.insert_${entityName}!.returning && mutation.insert_${entityName}!.returning[0]; };
 
-    const wrappedLazyMutation:Insert${fragmentName}WithOnConflictWrappedLazyMutationFn = async ({ ${entityName}, onConflict, options }: { ${entityName}: ${entityPascalName}_Insert_Input; onConflict?: ${entityPascalName}_On_Conflict; options?: Omit<MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, "variables">;
+    const wrappedLazyMutation:Insert${fragmentName}WithOnConflictWrappedLazyMutationFn = async ({ ${entityShortCamelCaseName}, onConflict, options }: { ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input; onConflict?: ${entityPascalName}_On_Conflict; options?: Omit<MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, "variables">;
     }) => {
-      const fetchResult = await lazyMutation[0]({ variables: { objects: [${entityName}], onConflict }, ...options });
+      const fetchResult = await lazyMutation[0]({ variables: { objects: [${entityShortCamelCaseName}], onConflict }, ...options });
       return { ...fetchResult, ${fragmentNameCamelCase}: pick${fragmentName}(fetchResult.data) };
     };
 
