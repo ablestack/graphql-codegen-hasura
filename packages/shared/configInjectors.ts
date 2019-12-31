@@ -1,6 +1,7 @@
-import { FieldDefinitionNode } from "graphql";
-import { getIdTypeScriptFieldType, makeImportStatement, makeModelName, makeShortName, ContentManager } from ".";
-import { makeCamelCase, makePascalCase } from "./utils";
+import { FieldDefinitionNode, FragmentDefinitionNode } from "graphql";
+import { TypeMap } from "graphql/type/schema";
+import { ContentManager, makeImportStatement, makeShortName } from ".";
+import { makeCamelCase, makePascalCase, getPrimaryKeyIdField } from "./utils";
 
 // ---------------------------------
 //
@@ -18,6 +19,17 @@ export function injectGlobalConfigCode({
   if (withResolverTypes) {
     contentManager.addImport(`/* eslint-disable @typescript-eslint/class-name-casing */`);
     contentManager.addImport(`import { ApolloCache, NormalizedCacheObject, ApolloClient, StoreObject } from '@apollo/client';`);
+    contentManager.addContent(`
+    export interface ApolloContext {
+      cache: ApolloCache<NormalizedCacheObject>;
+      client: ApolloClient<NormalizedCacheObject>;
+      getCacheKey: (object: StoreObject) => string;
+    }
+    
+    export interface RootResolver<TableResolverMap> {
+      [table: string]: TableResolverMap;
+    }
+    `);
   }
 
   if (withTypePolicies) {
@@ -163,4 +175,37 @@ export function injectEntityResolverTypes({
 
   contentManager.addImport(makeImportStatement(`${entityPascalName}`, typescriptCodegenOutputPath));
   contentManager.addImport(makeImportStatement(`Query_Root${entityPascalName}Args`, typescriptCodegenOutputPath));
+}
+
+// --------------------------------------
+//
+
+export function injectCombinedTypePolicyObject(fragmentDefinitionNodes: FragmentDefinitionNode[], contentManager: ContentManager, schemaTypeMap: TypeMap, trimString?: string) {
+  const entitiesFromFragments = fragmentDefinitionNodes.map(fragmentDefinitionNode => {
+    const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
+    const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+    const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+
+    if (!relatedTablePrimaryKeyIdField) return null;
+
+    const entityShortName = makeShortName(relatedTableNamedType.name, trimString);
+    return `${entityShortName}TypePoliciesConfig`;
+  });
+
+  const uniqueEntitiesFromFragments = [...new Set(entitiesFromFragments.filter(item => item != null))];
+
+  contentManager.addContent(`
+
+  //------------------------------------
+  //
+
+  // COMBINED TYPE POLICIES CONFIG
+
+  export const CombinedTypePoliciesConfig: TypePolicies = {
+    Query: {
+      fields: { 
+        ${uniqueEntitiesFromFragments.map(entityString => `...${entityString}.Query.fields`).join(",\n        ")}
+      },
+    },
+  }`);
 }

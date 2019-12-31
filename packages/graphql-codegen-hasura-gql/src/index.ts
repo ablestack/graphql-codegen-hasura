@@ -20,7 +20,7 @@ export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
 
 export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: GraphQLSchema, documents: Types.DocumentFile[], config: CstmHasuraCrudPluginConfig) => {
   // Set config defaults
-  if (!config.reactApolloVersion && config.reactApolloVersion !== 3) {
+  if (config.reactApolloVersion && config.reactApolloVersion !== 3) {
     throw new Error("Currently this codegen tool is only compatible with Apollo Client V3");
   }
 

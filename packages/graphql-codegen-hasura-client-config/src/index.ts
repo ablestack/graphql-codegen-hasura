@@ -9,7 +9,8 @@ import {
   ContentManager,
   makeShortName,
   injectEntityCacheRedirect,
-  injectGlobalConfigCode
+  injectGlobalConfigCode,
+  injectCombinedTypePolicyObject
 } from "../../shared";
 
 // -----------------------------------------------------
@@ -29,7 +30,7 @@ export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
 
 export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: GraphQLSchema, documents: Types.DocumentFile[], config: CstmHasuraCrudPluginConfig) => {
   // Set config defaults
-  if (!config.reactApolloVersion && config.reactApolloVersion !== 3) {
+  if (config.reactApolloVersion && config.reactApolloVersion !== 3) {
     throw new Error("Currently this codegen tool is only compatible with Apollo Client V3");
   }
 
@@ -51,22 +52,14 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   }) as FragmentDefinitionNode[];
 
   // iterate and generate
-  if (config.withResolverTypes) {
-    injectTableResolversBaseTypes(contentManager, config);
-  }
-
   documentFragments.map(fragmentDefinition => {
-    if (config.withResolverTypes && config.reactApolloVersion === 3) injectTableResolverTypes(fragmentDefinition, contentManager, typeMap, config);
-    if (config.withTypePolicies && config.reactApolloVersion === 3) injectTypePolicies(fragmentDefinition, contentManager, typeMap, config);
-    if (config.withCacheRedirects && config.reactApolloVersion === 2) injectCacheRedirects(fragmentDefinition, contentManager, typeMap, config);
+    if (config.withResolverTypes) injectTableResolverTypes(fragmentDefinition, contentManager, typeMap, config);
+    if (config.withTypePolicies) injectTypePolicies(fragmentDefinition, contentManager, typeMap, config);
   });
 
-  if (config.withTypePolicies && config.withCombinedTypePolicyObject && config.reactApolloVersion === 3) {
-    injectCombinedTypePolicyObject(documentFragments, contentManager, typeMap, config);
-  }
-
-  if (config.withCacheRedirects && config.withCombinedCacheRedirectObject && config.reactApolloVersion === 2) {
-    injectCombinedCacheRedirectObject(documentFragments, contentManager, typeMap, config);
+  // Inject combined TypePolicy object per config
+  if (config.withTypePolicies && config.withCombinedTypePolicyObject) {
+    injectCombinedTypePolicyObject(documentFragments, contentManager, typeMap, config.trimString);
   }
 
   return {
@@ -75,22 +68,6 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   };
 };
 
-// --------------------------------------
-//
-
-function injectTableResolversBaseTypes(contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
-  contentManager.addContent(`
-  export interface ApolloContext {
-    cache: ApolloCache<NormalizedCacheObject>;
-    client: ApolloClient<NormalizedCacheObject>;
-    getCacheKey: (object: StoreObject) => string;
-  }
-  
-  export interface RootResolver<TableResolverMap> {
-    [table: string]: TableResolverMap;
-  }
-  `);
-}
 // --------------------------------------
 //
 
@@ -131,43 +108,6 @@ function injectTypePolicies(fragmentDefinitionNode: FragmentDefinitionNode, cont
   });
 }
 
-// --------------------------------------
-//
-
-function injectCombinedTypePolicyObject(
-  fragmentDefinitionNodes: FragmentDefinitionNode[],
-  contentManager: ContentManager,
-  schemaTypeMap: TypeMap,
-  config: CstmHasuraCrudPluginConfig
-) {
-  const entitiesFromFragments = fragmentDefinitionNodes.map(fragmentDefinitionNode => {
-    const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
-    const relatedTableNamedType = schemaTypeMap[fragmentTableName];
-    const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
-
-    if (!relatedTablePrimaryKeyIdField) return null;
-
-    const entityShortName = makeShortName(relatedTableNamedType.name, config.trimString);
-    return `${entityShortName}TypePoliciesConfig`;
-  });
-
-  const uniqueEntitiesFromFragments = [...new Set(entitiesFromFragments.filter(item => item != null))];
-
-  contentManager.addContent(`
-
-  //------------------------------------
-  //
-
-  // COMBINED TYPE POLICIES CONFIG
-
-  export const CombinedTypePoliciesConfig: TypePolicies = {
-    Query: {
-      fields: { 
-        ${uniqueEntitiesFromFragments.map(entityString => `...${entityString}.Query.fields`).join(",\n        ")}
-      },
-    },
-  }`);
-}
 // --------------------------------------
 //
 
