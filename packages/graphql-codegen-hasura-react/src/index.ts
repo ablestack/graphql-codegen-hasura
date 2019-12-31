@@ -30,7 +30,7 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
       config.reactApolloVersion === 3 ? "@apollo/client" : "@apollo/react-hooks"
     }'`
   );
-  contentManager.addImport(`import { MutationFunctionOptions } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "react-apollo"}'`);
+  contentManager.addImport(`import { MutationFunctionOptions, QueryResult, MutationTuple } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "react-apollo"}'`);
   contentManager.addImport(`import { FetchResult } from '${config.reactApolloVersion === 3 ? "@apollo/client" : "apollo-link"}'`);
 
   // get typemap from schema
