@@ -10,7 +10,8 @@ import {
   injectInsertHelpers,
   injectSharedHelpers,
   injectUpdateHelpers,
-  ContentManager
+  ContentManager,
+  injectClientAndCacheHelpers
 } from "../../shared";
 
 // -----------------------------------------------------
@@ -21,6 +22,7 @@ export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
   reactApolloVersion?: number;
   typescriptCodegenOutputPath: string;
   trimString?: string;
+  withClientAndCacheHelpers?: boolean;
   withQueries?: boolean;
   withInserts?: boolean;
   withUpdates?: boolean;
@@ -52,6 +54,7 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   // iterate and generate
   documentFragments.map(fragmentDefinition => {
     injectEntitySharedTypeScript(fragmentDefinition, typeMap, contentManager, config);
+    config.withClientAndCacheHelpers && injectClientAndCacheTypeScript(fragmentDefinition, typeMap, contentManager, config);
     config.withQueries && injectEntityQueryTypeScript(fragmentDefinition, typeMap, contentManager, config);
     config.withInserts && injectEntityInsertMutationTypeScript(fragmentDefinition, typeMap, contentManager, config);
     config.withUpdates && injectEntityUpdateMutationTypeScript(fragmentDefinition, typeMap, contentManager, config);
@@ -84,6 +87,31 @@ function injectEntitySharedTypeScript(fragmentDefinitionNode: FragmentDefinition
     typescriptCodegenOutputPath: config.typescriptCodegenOutputPath
   });
 }
+// --------------------------------------
+//
+
+function injectClientAndCacheTypeScript(
+  fragmentDefinitionNode: FragmentDefinitionNode,
+  schemaTypeMap: TypeMap,
+  contentManager: ContentManager,
+  config: CstmHasuraCrudPluginConfig
+) {
+  const fragmentName = fragmentDefinitionNode.name.value;
+  const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
+  const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+
+  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+
+  injectClientAndCacheHelpers({
+    contentManager,
+    entityName: relatedTableNamedType.name,
+    fragmentName,
+    trimString: config.trimString,
+    primaryKeyIdField: relatedTablePrimaryKeyIdField,
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath
+  });
+}
+
 // --------------------------------------
 //
 

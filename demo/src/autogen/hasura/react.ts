@@ -75,30 +75,28 @@ import { RemoveDogsModelByIdDocument } from '../';
     // GLOBAL TYPES
     //------------------------------------------------
     export type RemoveEntitiesQueryHookResultEx = { affected_rows:number };
+    export type ObjectWithId<T = any> = { id:T };
   
 
     // UTILITY METHODS
     //------------------------------------------------
   
 
-    
     // Optimistic response generation utility method
     //
-    function generateOptimisticResponseForMutationById<T>(operationType: "update", entityName: string, entityId: any, setObject: object): T {
-      return ({
-        __typename: "mutation_root",
+    function generateOptimisticResponseForMutation<T>({ operationType, entityName, objects }: { operationType: 'update' | 'insert'; entityName: string; objects: { id:any }[] }): T {
+      const optimisticResponse = ({
+        __typename: 'mutation_root',
         [`${operationType}_${entityName}`]: {
-          affected_rows: 1,
-          returning: [
-            {
-              id: entityId,
-              __typename: entityName,
-              ...setObject
-            }
-          ],
-          __typename: `${entityName}_mutation_response`
-        }
+          affected_rows: objects.length,
+          returning: objects.map(entity => {
+            return { ...entity, __typename: entityName };
+          }),
+          __typename: `${entityName}_mutation_response`,
+        },
       } as unknown) as T;
+
+      return optimisticResponse;
     }
   
 
@@ -284,7 +282,7 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     type PickUpdateVehicleGraphByIdFn = (mutation: UpdateVehicleGraphByIdMutation | null | undefined) => VehicleGraphFragment | null | undefined;
     type UpdateVehicleGraphByIdLazyMutationFn = MutationTuple<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>;
-    type UpdateVehicleGraphByIdWrappedLazyMutationFn = ({ vehicleId, set, autoOptimisticResponse, options }: { vehicleId: string; set: Vehicle_Set_Input; autoOptimisticResponse?: boolean; options?: Omit<MutationFunctionOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>, "variables">; }) => Promise<UpdateVehicleGraphByIdMutationResultEx>;
+    type UpdateVehicleGraphByIdWrappedLazyMutationFn = ({ vehicleId, set, autoOptimisticResponse, options }: { vehicleId: string; set: Vehicle_Set_Input & ObjectWithId<string>; autoOptimisticResponse?: boolean; options?: Omit<MutationFunctionOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>, "variables">; }) => Promise<UpdateVehicleGraphByIdMutationResultEx>;
     export type UpdateVehicleGraphByIdLazyMutationReturn = [UpdateVehicleGraphByIdWrappedLazyMutationFn, UpdateVehicleGraphByIdMutationResultEx];
 
     export function useUpdateVehicleGraphById(options?: Omit<MutationHookOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>, "mutation" | "variables">): UpdateVehicleGraphByIdLazyMutationReturn {
@@ -295,7 +293,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       const wrappedLazyMutation: UpdateVehicleGraphByIdWrappedLazyMutationFn = async ({ vehicleId, set, autoOptimisticResponse, options }) => {
         const mutationOptions: MutationFunctionOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables> = { variables: { id: vehicleId, set }, ...options };
         if (autoOptimisticResponse && (!options || !options.optimisticResponse)) {
-          mutationOptions.optimisticResponse = generateOptimisticResponseForMutationById<UpdateVehicleGraphByIdMutation>("update", "vehicle", vehicleId, set);
+          mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<UpdateVehicleGraphByIdMutation>({ operationType:'update', entityName:"vehicle", objects:[set] });
         }
 
         const fetchResult: UpdateVehicleGraphByIdMutationResult = await lazyMutation[0]({ variables: { id: vehicleId, set }, ...mutationOptions });
@@ -578,7 +576,7 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     type PickUpdateVehicleGraphLocationOnlyByIdFn = (mutation: UpdateVehicleGraphLocationOnlyByIdMutation | null | undefined) => VehicleGraphLocationOnlyFragment | null | undefined;
     type UpdateVehicleGraphLocationOnlyByIdLazyMutationFn = MutationTuple<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>;
-    type UpdateVehicleGraphLocationOnlyByIdWrappedLazyMutationFn = ({ vehicleId, set, autoOptimisticResponse, options }: { vehicleId: string; set: Vehicle_Set_Input; autoOptimisticResponse?: boolean; options?: Omit<MutationFunctionOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>, "variables">; }) => Promise<UpdateVehicleGraphLocationOnlyByIdMutationResultEx>;
+    type UpdateVehicleGraphLocationOnlyByIdWrappedLazyMutationFn = ({ vehicleId, set, autoOptimisticResponse, options }: { vehicleId: string; set: Vehicle_Set_Input & ObjectWithId<string>; autoOptimisticResponse?: boolean; options?: Omit<MutationFunctionOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>, "variables">; }) => Promise<UpdateVehicleGraphLocationOnlyByIdMutationResultEx>;
     export type UpdateVehicleGraphLocationOnlyByIdLazyMutationReturn = [UpdateVehicleGraphLocationOnlyByIdWrappedLazyMutationFn, UpdateVehicleGraphLocationOnlyByIdMutationResultEx];
 
     export function useUpdateVehicleGraphLocationOnlyById(options?: Omit<MutationHookOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>, "mutation" | "variables">): UpdateVehicleGraphLocationOnlyByIdLazyMutationReturn {
@@ -589,7 +587,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       const wrappedLazyMutation: UpdateVehicleGraphLocationOnlyByIdWrappedLazyMutationFn = async ({ vehicleId, set, autoOptimisticResponse, options }) => {
         const mutationOptions: MutationFunctionOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables> = { variables: { id: vehicleId, set }, ...options };
         if (autoOptimisticResponse && (!options || !options.optimisticResponse)) {
-          mutationOptions.optimisticResponse = generateOptimisticResponseForMutationById<UpdateVehicleGraphLocationOnlyByIdMutation>("update", "vehicle", vehicleId, set);
+          mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<UpdateVehicleGraphLocationOnlyByIdMutation>({ operationType:'update', entityName:"vehicle", objects:[set] });
         }
 
         const fetchResult: UpdateVehicleGraphLocationOnlyByIdMutationResult = await lazyMutation[0]({ variables: { id: vehicleId, set }, ...mutationOptions });
@@ -811,7 +809,7 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     type PickUpdateDogModelByIdFn = (mutation: UpdateDogModelByIdMutation | null | undefined) => DogModelFragment | null | undefined;
     type UpdateDogModelByIdLazyMutationFn = MutationTuple<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>;
-    type UpdateDogModelByIdWrappedLazyMutationFn = ({ dogsId, set, autoOptimisticResponse, options }: { dogsId: string; set: Dogs_Set_Input; autoOptimisticResponse?: boolean; options?: Omit<MutationFunctionOptions<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>, "variables">; }) => Promise<UpdateDogModelByIdMutationResultEx>;
+    type UpdateDogModelByIdWrappedLazyMutationFn = ({ dogsId, set, autoOptimisticResponse, options }: { dogsId: string; set: Dogs_Set_Input & ObjectWithId<string>; autoOptimisticResponse?: boolean; options?: Omit<MutationFunctionOptions<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>, "variables">; }) => Promise<UpdateDogModelByIdMutationResultEx>;
     export type UpdateDogModelByIdLazyMutationReturn = [UpdateDogModelByIdWrappedLazyMutationFn, UpdateDogModelByIdMutationResultEx];
 
     export function useUpdateDogModelById(options?: Omit<MutationHookOptions<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>, "mutation" | "variables">): UpdateDogModelByIdLazyMutationReturn {
@@ -822,7 +820,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       const wrappedLazyMutation: UpdateDogModelByIdWrappedLazyMutationFn = async ({ dogsId, set, autoOptimisticResponse, options }) => {
         const mutationOptions: MutationFunctionOptions<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables> = { variables: { id: dogsId, set }, ...options };
         if (autoOptimisticResponse && (!options || !options.optimisticResponse)) {
-          mutationOptions.optimisticResponse = generateOptimisticResponseForMutationById<UpdateDogModelByIdMutation>("update", "dogs", dogsId, set);
+          mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<UpdateDogModelByIdMutation>({ operationType:'update', entityName:"dogs", objects:[set] });
         }
 
         const fetchResult: UpdateDogModelByIdMutationResult = await lazyMutation[0]({ variables: { id: dogsId, set }, ...mutationOptions });

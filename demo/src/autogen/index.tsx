@@ -65,6 +65,7 @@ export type Scalars = {
   circle: any,
   polygon: any,
   timestamptz: any,
+  date: any,
   /** 
  * Allows use of a JSON String for input / output from the GraphQL schema.
    * 
@@ -590,6 +591,20 @@ export type DataSourceEdge = {
   node?: Maybe<DataSource>,
 };
 
+
+
+/** expression to compare columns of type date. All fields are combined with logical 'AND'. */
+export type Date_Comparison_Exp = {
+  _eq?: Maybe<Scalars['date']>,
+  _gt?: Maybe<Scalars['date']>,
+  _gte?: Maybe<Scalars['date']>,
+  _in?: Maybe<Array<Maybe<Scalars['date']>>>,
+  _is_null?: Maybe<Scalars['Boolean']>,
+  _lt?: Maybe<Scalars['date']>,
+  _lte?: Maybe<Scalars['date']>,
+  _neq?: Maybe<Scalars['date']>,
+  _nin?: Maybe<Array<Maybe<Scalars['date']>>>,
+};
 
 export type DateAnswer = Node & Answer & {
    __typename?: 'DateAnswer',
@@ -5409,7 +5424,7 @@ export type Vehicle_Location = {
    __typename?: 'vehicle_location',
   id: Scalars['Int'],
   location: Scalars['String'],
-  timestamp: Scalars['timestamptz'],
+  timestamp: Scalars['date'],
   /** An object relationship */
   vehicle: Vehicle,
   vehicle_id: Scalars['String'],
@@ -5484,7 +5499,7 @@ export type Vehicle_Location_Bool_Exp = {
   _or?: Maybe<Array<Maybe<Vehicle_Location_Bool_Exp>>>,
   id?: Maybe<Integer_Comparison_Exp>,
   location?: Maybe<Text_Comparison_Exp>,
-  timestamp?: Maybe<Timestamptz_Comparison_Exp>,
+  timestamp?: Maybe<Date_Comparison_Exp>,
   vehicle?: Maybe<Vehicle_Bool_Exp>,
   vehicle_id?: Maybe<Text_Comparison_Exp>,
 };
@@ -5504,7 +5519,7 @@ export type Vehicle_Location_Inc_Input = {
 export type Vehicle_Location_Insert_Input = {
   id?: Maybe<Scalars['Int']>,
   location?: Maybe<Scalars['String']>,
-  timestamp?: Maybe<Scalars['timestamptz']>,
+  timestamp?: Maybe<Scalars['date']>,
   vehicle?: Maybe<Vehicle_Obj_Rel_Insert_Input>,
   vehicle_id?: Maybe<Scalars['String']>,
 };
@@ -5514,7 +5529,7 @@ export type Vehicle_Location_Max_Fields = {
    __typename?: 'vehicle_location_max_fields',
   id?: Maybe<Scalars['Int']>,
   location?: Maybe<Scalars['String']>,
-  timestamp?: Maybe<Scalars['timestamptz']>,
+  timestamp?: Maybe<Scalars['date']>,
   vehicle_id?: Maybe<Scalars['String']>,
 };
 
@@ -5531,7 +5546,7 @@ export type Vehicle_Location_Min_Fields = {
    __typename?: 'vehicle_location_min_fields',
   id?: Maybe<Scalars['Int']>,
   location?: Maybe<Scalars['String']>,
-  timestamp?: Maybe<Scalars['timestamptz']>,
+  timestamp?: Maybe<Scalars['date']>,
   vehicle_id?: Maybe<Scalars['String']>,
 };
 
@@ -5589,7 +5604,7 @@ export enum Vehicle_Location_Select_Column {
 export type Vehicle_Location_Set_Input = {
   id?: Maybe<Scalars['Int']>,
   location?: Maybe<Scalars['String']>,
-  timestamp?: Maybe<Scalars['timestamptz']>,
+  timestamp?: Maybe<Scalars['date']>,
   vehicle_id?: Maybe<Scalars['String']>,
 };
 

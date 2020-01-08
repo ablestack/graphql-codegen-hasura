@@ -30,6 +30,7 @@ generates:
       reactApolloVersion: 3
       typescriptCodegenOutputPath: "../"
       trimString:
+      withClientAndCacheHelpers: true
       withQueries: true
       withInserts: true
       withUpdates: true

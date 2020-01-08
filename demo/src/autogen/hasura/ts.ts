@@ -1,5 +1,6 @@
-import { ApolloClient, QueryOptions, MutationOptions, ApolloQueryResult, FetchResult } from '@apollo/client'
+import { ApolloClient, QueryOptions, MutationOptions, ApolloQueryResult, FetchResult, defaultDataIdFromObject } from '@apollo/client'
 import { VehicleGraphFragment } from '../';
+import { VehicleGraphFragmentDoc } from '../';
 import { FetchVehicleGraphByIdQuery } from '../';
 import { FetchVehicleGraphByIdDocument } from '../';
 import { FetchVehicleGraphQuery } from '../';
@@ -26,6 +27,7 @@ import { RemoveVehicleModelByIdMutation } from '../';
 import { RemoveVehicleModelByIdMutationVariables } from '../';
 import { RemoveVehicleModelByIdDocument } from '../';
 import { VehicleGraphLocationOnlyFragment } from '../';
+import { VehicleGraphLocationOnlyFragmentDoc } from '../';
 import { FetchVehicleGraphLocationOnlyByIdQuery } from '../';
 import { FetchVehicleGraphLocationOnlyByIdDocument } from '../';
 import { FetchVehicleGraphLocationOnlyQuery } from '../';
@@ -43,6 +45,7 @@ import { UpdateVehicleGraphLocationOnlyMutation } from '../';
 import { UpdateVehicleGraphLocationOnlyMutationVariables } from '../';
 import { UpdateVehicleGraphLocationOnlyDocument } from '../';
 import { DogModelFragment } from '../';
+import { DogModelFragmentDoc } from '../';
 import { FetchDogModelByIdQuery } from '../';
 import { FetchDogModelByIdDocument } from '../';
 import { FetchDogModelQuery } from '../';
@@ -72,30 +75,28 @@ import { RemoveDogsModelByIdDocument } from '../';
     // GLOBAL TYPES
     //------------------------------------------------
     export type RemoveEntitiesQueryHelperResultEx = { affected_rows:number };
+    export type ObjectWithId<T = any> = { id:T };
   
 
     // UTILITY METHODS
     //------------------------------------------------
   
 
-    
     // Optimistic response generation utility method
     //
-    function generateOptimisticResponseForMutationById<T>(operationType: "update", entityName: string, entityId: any, setObject: object): T {
-      return ({
-        __typename: "mutation_root",
+    function generateOptimisticResponseForMutation<T>({ operationType, entityName, objects }: { operationType: 'update' | 'insert'; entityName: string; objects: { id:any }[] }): T {
+      const optimisticResponse = ({
+        __typename: 'mutation_root',
         [`${operationType}_${entityName}`]: {
-          affected_rows: 1,
-          returning: [
-            {
-              id: entityId,
-              __typename: entityName,
-              ...setObject
-            }
-          ],
-          __typename: `${entityName}_mutation_response`
-        }
+          affected_rows: objects.length,
+          returning: objects.map(entity => {
+            return { ...entity, __typename: entityName };
+          }),
+          __typename: `${entityName}_mutation_response`,
+        },
       } as unknown) as T;
+
+      return optimisticResponse;
     }
   
 
@@ -106,6 +107,21 @@ import { RemoveDogsModelByIdDocument } from '../';
     export type VehicleGraphObjectsHelperResultEx = { objects:VehicleGraphFragment[] };
   
   
+
+      // Direct Client & Cache Helpers
+      //
+      export function clientReadFragmentVehicleGraphById({ apolloClient, vehicleGraphId}: { apolloClient: ApolloClient<object>, vehicleGraphId: string }): VehicleGraphFragment | null | undefined {
+        return apolloClient.readFragment<VehicleGraphFragment | null | undefined>({fragment: VehicleGraphFragmentDoc, fragmentName:'VehicleGraph', id:vehicleGraphId });
+      }
+  
+      export function clientWriteFragmentVehicleGraphById({ apolloClient, vehicleGraphPartial }: { apolloClient: ApolloClient<object>, vehicleGraphPartial: Partial<VehicleGraphFragment> & { id: string } }): void {
+        return apolloClient.writeFragment<Partial<VehicleGraphFragment>>({fragment: VehicleGraphFragmentDoc, fragmentName:'VehicleGraph', id: defaultDataIdFromObject(vehicleGraphPartial), data: vehicleGraphPartial });
+      }
+  
+      export function cacheWriteFragmentVehicleGraphById({ apolloClient, vehicleGraphPartial }: { apolloClient: ApolloClient<object>, vehicleGraphPartial: Partial<VehicleGraphFragment> & { id: string } }): void {
+        return apolloClient.cache.writeFragment<Partial<VehicleGraphFragment>>({fragment: VehicleGraphFragmentDoc, fragmentName:'VehicleGraph', id: defaultDataIdFromObject(vehicleGraphPartial), data: vehicleGraphPartial });
+      }
+    
 
       // Fetch Helper
       //
@@ -136,13 +152,26 @@ import { RemoveDogsModelByIdDocument } from '../';
     type InsertVehicleGraphFetchResult = FetchResult<InsertVehicleGraphMutation, Record<string, any>, Record<string, any>>;
     export type InsertVehicleGraphFetchHelperResultEx = InsertVehicleGraphFetchResult & VehicleGraphByIdHelperResultEx;
 
-    export async function insertVehicleGraph({ apolloClient, vehicle, onConflict, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, onConflict?: Vehicle_On_Conflict, options?: Omit<MutationOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleGraphFetchHelperResultEx> {
-      const mutation:InsertVehicleGraphFetchResult = onConflict
-        ? await apolloClient.mutate<InsertVehicleGraphMutation, InsertVehicleGraphWithOnConflictMutationVariables>({ mutation: InsertVehicleGraphWithOnConflictDocument, variables: { objects: [vehicle], onConflict }, ...options })
-        : await apolloClient.mutate<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>({ mutation: InsertVehicleGraphDocument, variables: { objects: [vehicle] }, ...options });
+    export async function insertVehicleGraph({ apolloClient, vehicle, autoOptimisticResponse, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input & ObjectWithId<string>, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleGraphFetchHelperResultEx> {
+      const mutationOptions:MutationOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables> = { mutation: InsertVehicleGraphDocument, variables: { objects: [vehicle] }, ...options };
+      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertVehicleGraphMutation>({ operationType: 'insert', entityName:'vehicle', objects:[vehicle] }); }
+      
+      const mutation:InsertVehicleGraphFetchResult = await apolloClient.mutate<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>(mutationOptions);
         
       return { ...mutation, vehicleGraph:mutation && mutation.data && mutation.data.insert_vehicle && mutation.data.insert_vehicle!.returning && mutation.data.insert_vehicle!.returning[0] };
     }
+
+    export async function insertVehicleGraphWithOnConflict({ apolloClient, vehicle, onConflict, autoOptimisticResponse, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input & ObjectWithId<string>, onConflict: Vehicle_On_Conflict, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleGraphFetchHelperResultEx> {
+      const mutationOptions:MutationOptions<InsertVehicleGraphMutation, InsertVehicleGraphWithOnConflictMutationVariables> = { mutation: InsertVehicleGraphDocument, variables: { objects: [vehicle], onConflict }, ...options };
+      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertVehicleGraphMutation>({ operationType: 'insert', entityName:'vehicle', objects:[vehicle] }); }
+      
+      const mutation:InsertVehicleGraphFetchResult = await apolloClient.mutate<InsertVehicleGraphMutation, InsertVehicleGraphWithOnConflictMutationVariables>(mutationOptions);
+        
+      return { ...mutation, vehicleGraph:mutation && mutation.data && mutation.data.insert_vehicle && mutation.data.insert_vehicle!.returning && mutation.data.insert_vehicle!.returning[0] };
+    }
+
+
+
   
 
     // Insert Objects Helper
@@ -162,9 +191,9 @@ import { RemoveDogsModelByIdDocument } from '../';
     type UpdateVehicleGraphByIdQueryResult = FetchResult<UpdateVehicleGraphByIdMutation, Record<string, any>, Record<string, any>>;
     export type UpdateVehicleGraphByIdHelperResultEx = UpdateVehicleGraphByIdQueryResult & VehicleGraphByIdHelperResultEx;
 
-    export async function updateVehicleGraphById({ apolloClient, vehicleId, set, autoOptimisticResponse, options }: { apolloClient: ApolloClient<object>, vehicleId: string, set: Vehicle_Set_Input, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>, 'mutation'> }): Promise<UpdateVehicleGraphByIdHelperResultEx> {
-      const mutationOptions:MutationOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables> = { mutation: UpdateVehicleGraphByIdDocument, variables: { id:vehicleId, set }, ...options };
-      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutationById<UpdateVehicleGraphByIdMutation>('update', 'vehicle', vehicleId, set); }
+    export async function updateVehicleGraphById({ apolloClient, set, autoOptimisticResponse, options }: { apolloClient: ApolloClient<object>, set: Vehicle_Set_Input & ObjectWithId<string>, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>, 'mutation'> }): Promise<UpdateVehicleGraphByIdHelperResultEx> {
+      const mutationOptions:MutationOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables> = { mutation: UpdateVehicleGraphByIdDocument, variables: { id:set.id, set }, ...options };
+      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<UpdateVehicleGraphByIdMutation>({ operationType: 'update', entityName:'vehicle', objects:[set] }); }
 
       const mutation:UpdateVehicleGraphByIdQueryResult = await apolloClient.mutate<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>(mutationOptions);
         
@@ -216,6 +245,21 @@ import { RemoveDogsModelByIdDocument } from '../';
   
   
 
+      // Direct Client & Cache Helpers
+      //
+      export function clientReadFragmentVehicleGraphLocationOnlyById({ apolloClient, vehicleGraphLocationOnlyId}: { apolloClient: ApolloClient<object>, vehicleGraphLocationOnlyId: string }): VehicleGraphLocationOnlyFragment | null | undefined {
+        return apolloClient.readFragment<VehicleGraphLocationOnlyFragment | null | undefined>({fragment: VehicleGraphLocationOnlyFragmentDoc, fragmentName:'VehicleGraphLocationOnly', id:vehicleGraphLocationOnlyId });
+      }
+  
+      export function clientWriteFragmentVehicleGraphLocationOnlyById({ apolloClient, vehicleGraphLocationOnlyPartial }: { apolloClient: ApolloClient<object>, vehicleGraphLocationOnlyPartial: Partial<VehicleGraphLocationOnlyFragment> & { id: string } }): void {
+        return apolloClient.writeFragment<Partial<VehicleGraphLocationOnlyFragment>>({fragment: VehicleGraphLocationOnlyFragmentDoc, fragmentName:'VehicleGraphLocationOnly', id: defaultDataIdFromObject(vehicleGraphLocationOnlyPartial), data: vehicleGraphLocationOnlyPartial });
+      }
+  
+      export function cacheWriteFragmentVehicleGraphLocationOnlyById({ apolloClient, vehicleGraphLocationOnlyPartial }: { apolloClient: ApolloClient<object>, vehicleGraphLocationOnlyPartial: Partial<VehicleGraphLocationOnlyFragment> & { id: string } }): void {
+        return apolloClient.cache.writeFragment<Partial<VehicleGraphLocationOnlyFragment>>({fragment: VehicleGraphLocationOnlyFragmentDoc, fragmentName:'VehicleGraphLocationOnly', id: defaultDataIdFromObject(vehicleGraphLocationOnlyPartial), data: vehicleGraphLocationOnlyPartial });
+      }
+    
+
       // Fetch Helper
       //
       export type FetchVehicleGraphLocationOnlyByIdApolloQueryResult = ApolloQueryResult<FetchVehicleGraphLocationOnlyByIdQuery>;
@@ -245,13 +289,26 @@ import { RemoveDogsModelByIdDocument } from '../';
     type InsertVehicleGraphLocationOnlyFetchResult = FetchResult<InsertVehicleGraphLocationOnlyMutation, Record<string, any>, Record<string, any>>;
     export type InsertVehicleGraphLocationOnlyFetchHelperResultEx = InsertVehicleGraphLocationOnlyFetchResult & VehicleGraphLocationOnlyByIdHelperResultEx;
 
-    export async function insertVehicleGraphLocationOnly({ apolloClient, vehicle, onConflict, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, onConflict?: Vehicle_On_Conflict, options?: Omit<MutationOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleGraphLocationOnlyFetchHelperResultEx> {
-      const mutation:InsertVehicleGraphLocationOnlyFetchResult = onConflict
-        ? await apolloClient.mutate<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyWithOnConflictMutationVariables>({ mutation: InsertVehicleGraphLocationOnlyWithOnConflictDocument, variables: { objects: [vehicle], onConflict }, ...options })
-        : await apolloClient.mutate<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>({ mutation: InsertVehicleGraphLocationOnlyDocument, variables: { objects: [vehicle] }, ...options });
+    export async function insertVehicleGraphLocationOnly({ apolloClient, vehicle, autoOptimisticResponse, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input & ObjectWithId<string>, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleGraphLocationOnlyFetchHelperResultEx> {
+      const mutationOptions:MutationOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables> = { mutation: InsertVehicleGraphLocationOnlyDocument, variables: { objects: [vehicle] }, ...options };
+      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertVehicleGraphLocationOnlyMutation>({ operationType: 'insert', entityName:'vehicle', objects:[vehicle] }); }
+      
+      const mutation:InsertVehicleGraphLocationOnlyFetchResult = await apolloClient.mutate<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>(mutationOptions);
         
       return { ...mutation, vehicleGraphLocationOnly:mutation && mutation.data && mutation.data.insert_vehicle && mutation.data.insert_vehicle!.returning && mutation.data.insert_vehicle!.returning[0] };
     }
+
+    export async function insertVehicleGraphLocationOnlyWithOnConflict({ apolloClient, vehicle, onConflict, autoOptimisticResponse, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input & ObjectWithId<string>, onConflict: Vehicle_On_Conflict, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleGraphLocationOnlyFetchHelperResultEx> {
+      const mutationOptions:MutationOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyWithOnConflictMutationVariables> = { mutation: InsertVehicleGraphLocationOnlyDocument, variables: { objects: [vehicle], onConflict }, ...options };
+      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertVehicleGraphLocationOnlyMutation>({ operationType: 'insert', entityName:'vehicle', objects:[vehicle] }); }
+      
+      const mutation:InsertVehicleGraphLocationOnlyFetchResult = await apolloClient.mutate<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyWithOnConflictMutationVariables>(mutationOptions);
+        
+      return { ...mutation, vehicleGraphLocationOnly:mutation && mutation.data && mutation.data.insert_vehicle && mutation.data.insert_vehicle!.returning && mutation.data.insert_vehicle!.returning[0] };
+    }
+
+
+
   
 
     // Insert Objects Helper
@@ -271,9 +328,9 @@ import { RemoveDogsModelByIdDocument } from '../';
     type UpdateVehicleGraphLocationOnlyByIdQueryResult = FetchResult<UpdateVehicleGraphLocationOnlyByIdMutation, Record<string, any>, Record<string, any>>;
     export type UpdateVehicleGraphLocationOnlyByIdHelperResultEx = UpdateVehicleGraphLocationOnlyByIdQueryResult & VehicleGraphLocationOnlyByIdHelperResultEx;
 
-    export async function updateVehicleGraphLocationOnlyById({ apolloClient, vehicleId, set, autoOptimisticResponse, options }: { apolloClient: ApolloClient<object>, vehicleId: string, set: Vehicle_Set_Input, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>, 'mutation'> }): Promise<UpdateVehicleGraphLocationOnlyByIdHelperResultEx> {
-      const mutationOptions:MutationOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables> = { mutation: UpdateVehicleGraphLocationOnlyByIdDocument, variables: { id:vehicleId, set }, ...options };
-      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutationById<UpdateVehicleGraphLocationOnlyByIdMutation>('update', 'vehicle', vehicleId, set); }
+    export async function updateVehicleGraphLocationOnlyById({ apolloClient, set, autoOptimisticResponse, options }: { apolloClient: ApolloClient<object>, set: Vehicle_Set_Input & ObjectWithId<string>, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>, 'mutation'> }): Promise<UpdateVehicleGraphLocationOnlyByIdHelperResultEx> {
+      const mutationOptions:MutationOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables> = { mutation: UpdateVehicleGraphLocationOnlyByIdDocument, variables: { id:set.id, set }, ...options };
+      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<UpdateVehicleGraphLocationOnlyByIdMutation>({ operationType: 'update', entityName:'vehicle', objects:[set] }); }
 
       const mutation:UpdateVehicleGraphLocationOnlyByIdQueryResult = await apolloClient.mutate<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>(mutationOptions);
         
@@ -300,6 +357,21 @@ import { RemoveDogsModelByIdDocument } from '../';
     export type DogModelObjectsHelperResultEx = { objects:DogModelFragment[] };
   
   
+
+      // Direct Client & Cache Helpers
+      //
+      export function clientReadFragmentDogModelById({ apolloClient, dogModelId}: { apolloClient: ApolloClient<object>, dogModelId: string }): DogModelFragment | null | undefined {
+        return apolloClient.readFragment<DogModelFragment | null | undefined>({fragment: DogModelFragmentDoc, fragmentName:'DogModel', id:dogModelId });
+      }
+  
+      export function clientWriteFragmentDogModelById({ apolloClient, dogModelPartial }: { apolloClient: ApolloClient<object>, dogModelPartial: Partial<DogModelFragment> & { id: string } }): void {
+        return apolloClient.writeFragment<Partial<DogModelFragment>>({fragment: DogModelFragmentDoc, fragmentName:'DogModel', id: defaultDataIdFromObject(dogModelPartial), data: dogModelPartial });
+      }
+  
+      export function cacheWriteFragmentDogModelById({ apolloClient, dogModelPartial }: { apolloClient: ApolloClient<object>, dogModelPartial: Partial<DogModelFragment> & { id: string } }): void {
+        return apolloClient.cache.writeFragment<Partial<DogModelFragment>>({fragment: DogModelFragmentDoc, fragmentName:'DogModel', id: defaultDataIdFromObject(dogModelPartial), data: dogModelPartial });
+      }
+    
 
       // Fetch Helper
       //
@@ -330,13 +402,26 @@ import { RemoveDogsModelByIdDocument } from '../';
     type InsertDogModelFetchResult = FetchResult<InsertDogModelMutation, Record<string, any>, Record<string, any>>;
     export type InsertDogModelFetchHelperResultEx = InsertDogModelFetchResult & DogModelByIdHelperResultEx;
 
-    export async function insertDogModel({ apolloClient, dogs, onConflict, options } :{ apolloClient: ApolloClient<object>, dogs: Dogs_Insert_Input, onConflict?: Dogs_On_Conflict, options?: Omit<MutationOptions<InsertDogModelMutation, InsertDogModelMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertDogModelFetchHelperResultEx> {
-      const mutation:InsertDogModelFetchResult = onConflict
-        ? await apolloClient.mutate<InsertDogModelMutation, InsertDogModelWithOnConflictMutationVariables>({ mutation: InsertDogModelWithOnConflictDocument, variables: { objects: [dogs], onConflict }, ...options })
-        : await apolloClient.mutate<InsertDogModelMutation, InsertDogModelMutationVariables>({ mutation: InsertDogModelDocument, variables: { objects: [dogs] }, ...options });
+    export async function insertDogModel({ apolloClient, dogs, autoOptimisticResponse, options } :{ apolloClient: ApolloClient<object>, dogs: Dogs_Insert_Input & ObjectWithId<string>, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<InsertDogModelMutation, InsertDogModelMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertDogModelFetchHelperResultEx> {
+      const mutationOptions:MutationOptions<InsertDogModelMutation, InsertDogModelMutationVariables> = { mutation: InsertDogModelDocument, variables: { objects: [dogs] }, ...options };
+      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertDogModelMutation>({ operationType: 'insert', entityName:'dogs', objects:[dogs] }); }
+      
+      const mutation:InsertDogModelFetchResult = await apolloClient.mutate<InsertDogModelMutation, InsertDogModelMutationVariables>(mutationOptions);
         
       return { ...mutation, dogModel:mutation && mutation.data && mutation.data.insert_dogs && mutation.data.insert_dogs!.returning && mutation.data.insert_dogs!.returning[0] };
     }
+
+    export async function insertDogModelWithOnConflict({ apolloClient, dogs, onConflict, autoOptimisticResponse, options } :{ apolloClient: ApolloClient<object>, dogs: Dogs_Insert_Input & ObjectWithId<string>, onConflict: Dogs_On_Conflict, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<InsertDogModelMutation, InsertDogModelMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertDogModelFetchHelperResultEx> {
+      const mutationOptions:MutationOptions<InsertDogModelMutation, InsertDogModelWithOnConflictMutationVariables> = { mutation: InsertDogModelDocument, variables: { objects: [dogs], onConflict }, ...options };
+      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertDogModelMutation>({ operationType: 'insert', entityName:'dogs', objects:[dogs] }); }
+      
+      const mutation:InsertDogModelFetchResult = await apolloClient.mutate<InsertDogModelMutation, InsertDogModelWithOnConflictMutationVariables>(mutationOptions);
+        
+      return { ...mutation, dogModel:mutation && mutation.data && mutation.data.insert_dogs && mutation.data.insert_dogs!.returning && mutation.data.insert_dogs!.returning[0] };
+    }
+
+
+
   
 
     // Insert Objects Helper
@@ -356,9 +441,9 @@ import { RemoveDogsModelByIdDocument } from '../';
     type UpdateDogModelByIdQueryResult = FetchResult<UpdateDogModelByIdMutation, Record<string, any>, Record<string, any>>;
     export type UpdateDogModelByIdHelperResultEx = UpdateDogModelByIdQueryResult & DogModelByIdHelperResultEx;
 
-    export async function updateDogModelById({ apolloClient, dogsId, set, autoOptimisticResponse, options }: { apolloClient: ApolloClient<object>, dogsId: string, set: Dogs_Set_Input, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>, 'mutation'> }): Promise<UpdateDogModelByIdHelperResultEx> {
-      const mutationOptions:MutationOptions<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables> = { mutation: UpdateDogModelByIdDocument, variables: { id:dogsId, set }, ...options };
-      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutationById<UpdateDogModelByIdMutation>('update', 'dogs', dogsId, set); }
+    export async function updateDogModelById({ apolloClient, set, autoOptimisticResponse, options }: { apolloClient: ApolloClient<object>, set: Dogs_Set_Input & ObjectWithId<string>, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>, 'mutation'> }): Promise<UpdateDogModelByIdHelperResultEx> {
+      const mutationOptions:MutationOptions<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables> = { mutation: UpdateDogModelByIdDocument, variables: { id:set.id, set }, ...options };
+      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<UpdateDogModelByIdMutation>({ operationType: 'update', entityName:'dogs', objects:[set] }); }
 
       const mutation:UpdateDogModelByIdQueryResult = await apolloClient.mutate<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>(mutationOptions);
         

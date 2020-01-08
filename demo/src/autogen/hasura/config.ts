@@ -6,16 +6,16 @@ import { Query_RootVehicleArgs } from '../';
 import { Dogs } from '../';
 import { Query_RootDogsArgs } from '../';
 
-  export interface ApolloContext {
-    cache: ApolloCache<NormalizedCacheObject>;
-    client: ApolloClient<NormalizedCacheObject>;
-    getCacheKey: (object: StoreObject) => string;
-  }
-  
-  export interface RootResolver<TableResolverMap> {
-    [table: string]: TableResolverMap;
-  }
-  
+    export interface ApolloContext {
+      cache: ApolloCache<NormalizedCacheObject>;
+      client: ApolloClient<NormalizedCacheObject>;
+      getCacheKey: (object: StoreObject) => string;
+    }
+    
+    export interface RootResolver<TableResolverMap> {
+      [table: string]: TableResolverMap;
+    }
+    
 
   // vehicle Resolver Types
   //------------------------------------------------
