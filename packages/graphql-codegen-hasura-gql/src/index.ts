@@ -2,7 +2,16 @@ import { PluginFunction, Types } from "@graphql-codegen/plugin-helpers";
 import { RawTypesConfig } from "@graphql-codegen/visitor-plugin-common";
 import { FragmentDefinitionNode, GraphQLSchema } from "graphql";
 import { TypeMap } from "graphql/type/schema";
-import { getPrimaryKeyIdField, injectDeleteGql, injectFetchGql, injectFragmentImport, injectInsertGql, injectUpdateGql, ContentManager, injectGlobalGqlCode } from "../../shared";
+import {
+  getPrimaryKeyIdField,
+  injectDeleteGql,
+  injectFetchGql,
+  injectFragmentImport,
+  injectInsertGql,
+  injectUpdateGql,
+  ContentManager,
+  injectGlobalGqlCode
+} from "graphql-codegen-hasura-shared";
 
 // -----------------------------------------------------
 //

@@ -12,7 +12,7 @@ import {
   injectUpdateHelpers,
   ContentManager,
   injectClientAndCacheHelpers
-} from "../../shared";
+} from "graphql-codegen-hasura-shared";
 
 // -----------------------------------------------------
 //

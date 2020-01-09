@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig-base",
+  "files": [],
+  "include": [],
+  "references": [
+    { "path": "./packages/graphql-codegen-hasura-client-config" },
+    { "path": "./packages/graphql-codegen-hasura-core" },
+    { "path": "./packages/graphql-codegen-hasura-gql" },
+    { "path": "./packages/graphql-codegen-hasura-react" },
+    { "path": "./packages/graphql-codegen-hasura-typescript" },
+  ]
+}

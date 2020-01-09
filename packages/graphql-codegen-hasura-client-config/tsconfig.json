@@ -1,24 +1,9 @@
 {
+  "extends": "../../tsconfig-base",
   "compilerOptions": {
-    "esModuleInterop": true,
-    "importHelpers": true,
-    "experimentalDecorators": true,
-    "module": "commonjs",
-    "target": "es2018",
-    "lib": ["es6", "esnext", "es2015", "dom"],
-    "suppressImplicitAnyIndexErrors": true,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "sourceMap": true,
-    "declaration": true,
-    "outDir": "./dist/",
-    "noImplicitAny": false,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "noImplicitReturns": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false
+    "outDir": "dist",
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "tests", "dist"]
+  "exclude": ["node_modules", "tests", "dist"],
+  "references": [{ "path": "../graphql-codegen-hasura-shared" }]
 }

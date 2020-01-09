@@ -1,6 +1,5 @@
 import { GraphQLNamedType, FieldDefinitionNode, ObjectTypeDefinitionNode } from "graphql";
 import _ from "lodash";
-import { type } from "os";
 import { toPascalCase } from "@graphql-codegen/visitor-plugin-common";
 
 export const TABLE_TYPE_FILTER = (t: GraphQLNamedType) => {

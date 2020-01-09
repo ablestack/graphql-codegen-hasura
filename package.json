@@ -11,8 +11,8 @@
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "build": "lerna run build",
-    "rebuild": "lerna run rebuild",
+    "build": "tsc --build --verbose",
+    "rebuild": "tsc --build --force --verbose",
     "publish": "lerna publish"
   },
   "devDependencies": {

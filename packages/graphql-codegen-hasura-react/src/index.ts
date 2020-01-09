@@ -11,7 +11,7 @@ import {
   injectInsertReact,
   injectSharedReact,
   injectUpdateReact
-} from "../../shared";
+} from "graphql-codegen-hasura-shared";
 
 // -----------------------------------------------------
 //

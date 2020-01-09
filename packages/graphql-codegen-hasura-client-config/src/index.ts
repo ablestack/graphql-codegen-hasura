@@ -11,7 +11,7 @@ import {
   injectEntityCacheRedirect,
   injectGlobalConfigCode,
   injectCombinedTypePolicyObject
-} from "../../shared";
+} from "graphql-codegen-hasura-shared";
 
 // -----------------------------------------------------
 //

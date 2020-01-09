@@ -9,13 +9,10 @@
     "type": "git",
     "url": "git+https://github.com/ahrnee/graphql-codegen-hasura"
   },
-  "scripts": {
-    "build": "rm -r dist/ && mkdir -p dist/ && cp package.json dist/ && tsc --build --verbose",
-    "rebuild": "rm -r dist/ && mkdir -p dist/ && cp package.json dist/ && tsc --build --force --verbose"
-  },
+  "scripts": {},
   "publishConfig": {
     "access": "public",
-    "directory": "dist"
+    "directory": "dist/src"
   },
   "peerDependencies": {
     "graphql-tag": "^2.0.0"
