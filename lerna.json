@@ -1,18 +1,20 @@
 {
-  "version": "3.3.2-alpha.0",
+  "version": "3.3.3-alpha.0",
   "packages": [
     ".",
-    "packages/graphql-codegen-hasura-core",
+    "demo",
     "packages/graphql-codegen-hasura-client-config",
+    "packages/graphql-codegen-hasura-core",
     "packages/graphql-codegen-hasura-gql",
     "packages/graphql-codegen-hasura-react",
     "packages/graphql-codegen-hasura-shared",
-    "packages/graphql-codegen-hasura-typescript",
-    "demo"
+    "packages/graphql-codegen-hasura-typescript"
   ],
   "command": {
     "publish": {
-      "ignoreChanges": ["*.md"]
+      "ignoreChanges": [
+        "*.md"
+      ]
     }
   }
 }
