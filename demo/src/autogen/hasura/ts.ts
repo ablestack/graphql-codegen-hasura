@@ -99,6 +99,14 @@ import { RemoveDogsModelByIdDocument } from '../';
       export function cacheWriteFragmentVehicleGraphById({ apolloClient, vehicleGraphPartial }: { apolloClient: ApolloClient<object>, vehicleGraphPartial: Partial<VehicleGraphFragment> & { id: string } }): void {
         return apolloClient.cache.writeFragment<Partial<VehicleGraphFragment>>({fragment: VehicleGraphFragmentDoc, fragmentName:'VehicleGraph', id: defaultDataIdFromObject(vehicleGraphPartial), data: vehicleGraphPartial });
       }
+
+      export function clientReadQueryVehicleGraphById({ apolloClient, vehicleGraphId}: { apolloClient: ApolloClient<object>, vehicleGraphId: string }): VehicleGraphFragment | null | undefined {
+        return apolloClient.readQuery<VehicleGraphFragment | null | undefined>({ query: FetchVehicleGraphByIdDocument, variables: { vehicleGraphId }  });
+      }
+
+      export function clientWriteQueryVehicleGraphById({ apolloClient, vehicleGraphId, vehicleGraph }: { apolloClient: ApolloClient<object>, vehicleGraphId: string, vehicleGraph: VehicleGraphFragment | null }): void {
+        return apolloClient.writeQuery<VehicleGraphFragment | null>({ query: FetchVehicleGraphByIdDocument, variables: { vehicleGraphId }, data:vehicleGraph });
+      }
     
 
       // Fetch Helper
@@ -236,6 +244,14 @@ import { RemoveDogsModelByIdDocument } from '../';
       export function cacheWriteFragmentVehicleGraphLocationOnlyById({ apolloClient, vehicleGraphLocationOnlyPartial }: { apolloClient: ApolloClient<object>, vehicleGraphLocationOnlyPartial: Partial<VehicleGraphLocationOnlyFragment> & { id: string } }): void {
         return apolloClient.cache.writeFragment<Partial<VehicleGraphLocationOnlyFragment>>({fragment: VehicleGraphLocationOnlyFragmentDoc, fragmentName:'VehicleGraphLocationOnly', id: defaultDataIdFromObject(vehicleGraphLocationOnlyPartial), data: vehicleGraphLocationOnlyPartial });
       }
+
+      export function clientReadQueryVehicleGraphLocationOnlyById({ apolloClient, vehicleGraphLocationOnlyId}: { apolloClient: ApolloClient<object>, vehicleGraphLocationOnlyId: string }): VehicleGraphLocationOnlyFragment | null | undefined {
+        return apolloClient.readQuery<VehicleGraphLocationOnlyFragment | null | undefined>({ query: FetchVehicleGraphLocationOnlyByIdDocument, variables: { vehicleGraphLocationOnlyId }  });
+      }
+
+      export function clientWriteQueryVehicleGraphLocationOnlyById({ apolloClient, vehicleGraphLocationOnlyId, vehicleGraphLocationOnly }: { apolloClient: ApolloClient<object>, vehicleGraphLocationOnlyId: string, vehicleGraphLocationOnly: VehicleGraphLocationOnlyFragment | null }): void {
+        return apolloClient.writeQuery<VehicleGraphLocationOnlyFragment | null>({ query: FetchVehicleGraphLocationOnlyByIdDocument, variables: { vehicleGraphLocationOnlyId }, data:vehicleGraphLocationOnly });
+      }
     
 
       // Fetch Helper
@@ -348,6 +364,14 @@ import { RemoveDogsModelByIdDocument } from '../';
   
       export function cacheWriteFragmentDogModelById({ apolloClient, dogModelPartial }: { apolloClient: ApolloClient<object>, dogModelPartial: Partial<DogModelFragment> & { id: string } }): void {
         return apolloClient.cache.writeFragment<Partial<DogModelFragment>>({fragment: DogModelFragmentDoc, fragmentName:'DogModel', id: defaultDataIdFromObject(dogModelPartial), data: dogModelPartial });
+      }
+
+      export function clientReadQueryDogModelById({ apolloClient, dogModelId}: { apolloClient: ApolloClient<object>, dogModelId: string }): DogModelFragment | null | undefined {
+        return apolloClient.readQuery<DogModelFragment | null | undefined>({ query: FetchDogModelByIdDocument, variables: { dogModelId }  });
+      }
+
+      export function clientWriteQueryDogModelById({ apolloClient, dogModelId, dogModel }: { apolloClient: ApolloClient<object>, dogModelId: string, dogModel: DogModelFragment | null }): void {
+        return apolloClient.writeQuery<DogModelFragment | null>({ query: FetchDogModelByIdDocument, variables: { dogModelId }, data:dogModel });
       }
     
 
