@@ -11,8 +11,7 @@
   },
   "scripts": {
     "build": "tsc --build --verbose",
-    "rebuild": "tsc --build --force --verbose",
-    "link": "yarn link"
+    "rebuild": "tsc --build --force --verbose"
   },
   "publishConfig": {
     "access": "public"
@@ -26,6 +25,7 @@
     "@graphql-codegen/typescript": "^1.8.3",
     "@graphql-codegen/visitor-plugin-common": "1.8.3",
     "graphql": "^14.5.8",
+    "graphql-codegen-hasura-shared": "^3.3.2-alpha.0",
     "path": "^0.12.7",
     "react": "^16.12.0",
     "tslib": "1.10.0",

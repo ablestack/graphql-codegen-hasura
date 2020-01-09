@@ -1,15 +1,5 @@
 {
   "private": true,
-  "workspaces": {
-    "packages": [
-      "packages/graphql-codegen-hasura-core",
-      "packages/graphql-codegen-hasura-gql",
-      "packages/graphql-codegen-hasura-typescript",
-      "packages/graphql-codegen-hasura-react",
-      "packages/graphql-codegen-hasura-client-config",
-      "demo"
-    ]
-  },
   "name": "graphql-codegen-hasura",
   "version": "0.1.0",
   "description": "A collection of codgen plugins to support Hasura/Apollo GraphQL development",

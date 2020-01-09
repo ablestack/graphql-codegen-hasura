@@ -27,15 +27,12 @@
     "graphql-codegen-hasura-typescript": "^3.3.2-alpha.0",
     "typescript": "^3.7.2"
   },
-  "resolutions": {
-    "@types/react": "^16.9.13"
-  },
   "scripts": {
     "start": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "generate": "graphql-codegen --config=graphql-codegen-gql.yaml; graphql-codegen --config=graphql-codegen-typescript.yaml",
-    "build-and-generate": "lerna run build && yarn generate"
+    "build-and-generate": "lerna run build && npm generate"
   },
   "eslintConfig": {
     "extends": "react-app"

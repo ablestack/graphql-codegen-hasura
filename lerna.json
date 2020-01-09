@@ -2,14 +2,13 @@
   "version": "3.3.2-alpha.0",
   "packages": [
     "packages/graphql-codegen-hasura-core",
-    "packages/graphql-codegen-hasura-gql",
-    "packages/graphql-codegen-hasura-typescript",
-    "packages/graphql-codegen-hasura-react",
     "packages/graphql-codegen-hasura-client-config",
+    "packages/graphql-codegen-hasura-gql",
+    "packages/graphql-codegen-hasura-react",
+    "packages/graphql-codegen-hasura-shared",
+    "packages/graphql-codegen-hasura-typescript",
     "demo"
   ],
-  "useWorkspaces": true,
-  "npmClient": "yarn",
   "command": {
     "publish": {
       "ignoreChanges": ["*.md"]

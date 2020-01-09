@@ -1,7 +1,7 @@
 {
-  "name": "graphql-codegen-hasura-typescript",
+  "name": "graphql-codegen-hasura-shared",
   "version": "3.3.2-alpha.0",
-  "description": "GraphQL Code Generator plugin for generating a CRUD TypeScript for Hasura from Documents",
+  "description": "GraphQL Code Generator plugin for generating a CRUD TypeScript Config for Hasura from Documents",
   "author": "ahrnee <ahrndee@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/ahrnee/graphql-codegen-hasura",
@@ -10,11 +10,12 @@
     "url": "git+https://github.com/ahrnee/graphql-codegen-hasura"
   },
   "scripts": {
-    "build": "tsc --build --verbose",
-    "rebuild": "tsc --build --force --verbose"
+    "build": "rm -r dist/ && mkdir -p dist/ && cp package.json dist/ && tsc --build --verbose",
+    "rebuild": "rm -r dist/ && mkdir -p dist/ && cp package.json dist/ && tsc --build --force --verbose"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "directory": "dist"
   },
   "peerDependencies": {
     "graphql-tag": "^2.0.0"
@@ -25,17 +26,15 @@
     "@graphql-codegen/typescript": "^1.8.3",
     "@graphql-codegen/visitor-plugin-common": "1.8.3",
     "graphql": "^14.5.8",
-    "graphql-codegen-hasura-shared": "^3.3.2-alpha.0",
     "path": "^0.12.7",
-    "react": "^16.12.0",
     "tslib": "1.10.0",
     "typescript": "3.7.2"
   },
   "sideEffects": false,
-  "main": "dist/graphql-codegen-hasura-typescript/src/index.js",
-  "typings": "dist/graphql-codegen-hasura-typescript/src/index.d.ts",
+  "main": "dist/graphql-codegen-hasura-client-config/src/index.js",
+  "typings": "dist/graphql-codegen-hasura-client-config/src/index.d.ts",
   "typescript": {
-    "definition": "dist/graphql-codegen-hasura-typescript/src/index.d.ts"
+    "definition": "dist/graphql-codegen-hasura-client-config/src/index.d.ts"
   },
   "files": [
     "README.md",

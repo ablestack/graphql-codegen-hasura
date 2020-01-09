@@ -29,7 +29,7 @@ To quickly try out the code-generation:
 3. Run the following command
 
 ```
-  yarn; yarn generate;
+  npm install; npm generate;
 ```
 
 ## The Plugins
@@ -72,13 +72,13 @@ It is **important to note**: The TypeScript Generation leverages the files creat
 2. Add the package dependencies required by graphql-codegen-hasura:
 
 ```
-    yarn add @graphql-codegen/cli @graphql-codegen/introspection @graphql-codegen/typescript @graphql-codegen/typescript-operations @graphql-codegen/typescript-react-apollo
+    npm install @graphql-codegen/cli @graphql-codegen/introspection @graphql-codegen/typescript @graphql-codegen/typescript-operations @graphql-codegen/typescript-react-apollo
 ```
 
 3. Add the graphql-codegen-hasura packages:
 
 ```
-    yarn add graphql-codegen-hasura-core graphql-codegen-hasura-gql graphql-codegen-hasura-typescript graphql-codegen-hasura-react graphql-codegen-hasura-client-config
+    npm install graphql-codegen-hasura-core graphql-codegen-hasura-gql graphql-codegen-hasura-typescript graphql-codegen-hasura-react graphql-codegen-hasura-client-config
 ```
 
 4. Create configuration YAML files (see below)
