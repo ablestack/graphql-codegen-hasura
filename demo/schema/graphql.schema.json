@@ -13728,6 +13728,12 @@
         "interfaces": null,
         "enumValues": [
           {
+            "name": "active",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "created_at",
             "description": "column name",
             "isDeprecated": false,
@@ -13754,6 +13760,16 @@
         "description": "ordering options when selecting data from \"users\"",
         "fields": null,
         "inputFields": [
+          {
+            "name": "active",
+            "description": "",
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
           {
             "name": "created_at",
             "description": "",
@@ -13830,6 +13846,16 @@
                 "name": "users_bool_exp",
                 "ofType": null
               }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "active",
+            "description": "",
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "boolean_comparison_exp",
+              "ofType": null
             },
             "defaultValue": null
           },
@@ -13992,6 +14018,18 @@
         "name": "users",
         "description": "columns and relationships of \"users\"",
         "fields": [
+          {
+            "name": "active",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "created_at",
             "description": "",
@@ -20311,6 +20349,16 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "active",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "created_at",
             "description": "",
             "type": {
@@ -20417,6 +20465,12 @@
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
+          {
+            "name": "active",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "created_at",
             "description": "column name",
@@ -25596,6 +25650,16 @@
         "description": "input type for updating data in table \"users\"",
         "fields": null,
         "inputFields": [
+          {
+            "name": "active",
+            "description": "",
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
           {
             "name": "created_at",
             "description": "",

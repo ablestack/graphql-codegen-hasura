@@ -36,6 +36,8 @@ To quickly try out the code-generation:
 
 These plugins require and augment the existing fantastic GraphQL code generator plugins available from [graphql-code-generator](https://graphql-code-generator.com/)
 
+- **graphql-codegen-hasura-core**
+  - Supporting types and functions for generated code. Should be referenced in dependencies of package.json by all code consuming the generated code
 - **graphql-codegen-hasura-gql**
   - Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) gql mutations and queries for every _Fragment_ defined in the targeted (code) documents
 - **graphql-codegen-hasura-typescript**
@@ -76,7 +78,7 @@ It is **important to note**: The TypeScript Generation leverages the files creat
 3. Add the graphql-codegen-hasura packages:
 
 ```
-    yarn add graphql-codegen-hasura-gql graphql-codegen-hasura-typescript graphql-codegen-hasura-react graphql-codegen-hasura-client-config
+    yarn add graphql-codegen-hasura-core graphql-codegen-hasura-gql graphql-codegen-hasura-typescript graphql-codegen-hasura-react graphql-codegen-hasura-client-config
 ```
 
 4. Create configuration YAML files (see below)

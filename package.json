@@ -2,9 +2,8 @@
   "private": true,
   "workspaces": {
     "packages": [
-      "packages/graphql-codegen-hasura-gql-from-schema",
+      "packages/graphql-codegen-hasura-core",
       "packages/graphql-codegen-hasura-gql",
-      "packages/graphql-codegen-hasura-typescript-from-schema",
       "packages/graphql-codegen-hasura-typescript",
       "packages/graphql-codegen-hasura-react",
       "packages/graphql-codegen-hasura-client-config",
@@ -27,7 +26,7 @@
     "publish": "lerna publish"
   },
   "devDependencies": {
-    "lerna": "^3.14.1",
+    "lerna": "^3.20.0",
     "ts-node": "~7.0.0",
     "typescript": "^3.7.2"
   }

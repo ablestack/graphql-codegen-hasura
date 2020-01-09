@@ -1,7 +1,6 @@
 import { FieldDefinitionNode } from "graphql";
 import { getIdTypeScriptFieldType, makeImportStatement, makeModelName, makeShortName, ContentManager } from ".";
 import { makeCamelCase, makePascalCase, makeFragmentTypeScriptTypeName } from "./utils";
-import { injectUtilityMethodGenerateOptimisticResponseForMutation } from "./sharedInjectors";
 
 // ---------------------------------
 //
@@ -14,6 +13,7 @@ export function injectGlobalReactCode({
   typescriptCodegenOutputPath: string;
   withUpdates: boolean;
 }) {
+  contentManager.addImport(`import { ObjectWithId, generateOptimisticResponseForMutation } from 'graphql-codegen-hasura-core'`);
   contentManager.addImport(
     `import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation, QueryLazyOptions, MutationFunctionOptions, QueryResult, MutationTuple, FetchResult } from '@apollo/client';`
   );
@@ -22,16 +22,14 @@ export function injectGlobalReactCode({
     // GLOBAL TYPES
     //------------------------------------------------
     export type RemoveEntitiesQueryHookResultEx = { affected_rows:number };
-    export type RObjectWithId<T = any> = { id:T };
   `);
 
-  // Inject utility methods as needed
-  withUpdates &&
-    contentManager.addContent(`
-    // UTILITY METHODS
-    //------------------------------------------------
-  `);
-  withUpdates && injectUtilityMethodGenerateOptimisticResponseForMutation({ contentManager });
+  // // Inject utility methods as needed
+  // withUpdates &&
+  //   contentManager.addContent(`
+  //   // UTILITY METHODS
+  //   //------------------------------------------------
+  // `);
 }
 
 // ---------------------------------
@@ -235,7 +233,7 @@ export function injectInsertReact({
 
   type PickInsert${fragmentName}Fn = (mutation: Insert${fragmentName}Mutation | null | undefined) => ${fragmentName}Fragment | null | undefined;
   type Insert${fragmentName}LazyMutationFn = MutationTuple<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>;
-  type Insert${fragmentName}WrappedLazyMutationFn = ({ ${entityShortCamelCaseName}, autoOptimisticResponse, options }: { ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input & RObjectWithId<${primaryKeyIdTypeScriptFieldType.typeName}>; autoOptimisticResponse?:boolean, options?: Omit<MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, "variables">; }) => Promise<Insert${fragmentName}MutationResultEx>;
+  type Insert${fragmentName}WrappedLazyMutationFn = ({ ${entityShortCamelCaseName}, autoOptimisticResponse, options }: { ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input & ObjectWithId<${primaryKeyIdTypeScriptFieldType.typeName}>; autoOptimisticResponse?:boolean, options?: Omit<MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, "variables">; }) => Promise<Insert${fragmentName}MutationResultEx>;
   export type Insert${fragmentName}LazyMutationReturn = [Insert${fragmentName}WrappedLazyMutationFn, Insert${fragmentName}MutationResultEx];
 
   // Function
@@ -262,7 +260,7 @@ export function injectInsertReact({
 
   // Types
   type Insert${fragmentName}WithOnConflictLazyMutationFn = MutationTuple<Insert${fragmentName}Mutation, Insert${fragmentName}WithOnConflictMutationVariables>;
-  type Insert${fragmentName}WithOnConflictWrappedLazyMutationFn = ({ ${entityShortCamelCaseName}, onConflict, autoOptimisticResponse, options }: { ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input & RObjectWithId<${primaryKeyIdTypeScriptFieldType.typeName}>; onConflict: ${entityPascalName}_On_Conflict, autoOptimisticResponse?:boolean; options?: Omit<MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}WithOnConflictMutationVariables>, "variables">; }) => Promise<Insert${fragmentName}MutationResultEx>;
+  type Insert${fragmentName}WithOnConflictWrappedLazyMutationFn = ({ ${entityShortCamelCaseName}, onConflict, autoOptimisticResponse, options }: { ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input & ObjectWithId<${primaryKeyIdTypeScriptFieldType.typeName}>; onConflict: ${entityPascalName}_On_Conflict, autoOptimisticResponse?:boolean; options?: Omit<MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}WithOnConflictMutationVariables>, "variables">; }) => Promise<Insert${fragmentName}MutationResultEx>;
   export type Insert${fragmentName}WithOnConflictLazyMutationReturn = [Insert${fragmentName}WithOnConflictWrappedLazyMutationFn, Insert${fragmentName}MutationResultEx];
 
   // Function

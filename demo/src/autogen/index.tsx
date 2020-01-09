@@ -5046,6 +5046,7 @@ export enum Type {
 /** columns and relationships of "users" */
 export type Users = {
    __typename?: 'users',
+  active?: Maybe<Scalars['Boolean']>,
   created_at: Scalars['timestamptz'],
   id: Scalars['Int'],
   name: Scalars['String'],
@@ -5118,6 +5119,7 @@ export type Users_Bool_Exp = {
   _and?: Maybe<Array<Maybe<Users_Bool_Exp>>>,
   _not?: Maybe<Users_Bool_Exp>,
   _or?: Maybe<Array<Maybe<Users_Bool_Exp>>>,
+  active?: Maybe<Boolean_Comparison_Exp>,
   created_at?: Maybe<Timestamptz_Comparison_Exp>,
   id?: Maybe<Integer_Comparison_Exp>,
   name?: Maybe<Text_Comparison_Exp>,
@@ -5136,6 +5138,7 @@ export type Users_Inc_Input = {
 
 /** input type for inserting data into table "users" */
 export type Users_Insert_Input = {
+  active?: Maybe<Scalars['Boolean']>,
   created_at?: Maybe<Scalars['timestamptz']>,
   id?: Maybe<Scalars['Int']>,
   name?: Maybe<Scalars['String']>,
@@ -5194,6 +5197,7 @@ export type Users_On_Conflict = {
 
 /** ordering options when selecting data from "users" */
 export type Users_Order_By = {
+  active?: Maybe<Order_By>,
   created_at?: Maybe<Order_By>,
   id?: Maybe<Order_By>,
   name?: Maybe<Order_By>,
@@ -5201,6 +5205,8 @@ export type Users_Order_By = {
 
 /** select columns of table "users" */
 export enum Users_Select_Column {
+  /** column name */
+  Active = 'active',
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
@@ -5211,6 +5217,7 @@ export enum Users_Select_Column {
 
 /** input type for updating data in table "users" */
 export type Users_Set_Input = {
+  active?: Maybe<Scalars['Boolean']>,
   created_at?: Maybe<Scalars['timestamptz']>,
   id?: Maybe<Scalars['Int']>,
   name?: Maybe<Scalars['String']>,
@@ -5262,6 +5269,8 @@ export type Users_Sum_Order_By = {
 
 /** update columns of table "users" */
 export enum Users_Update_Column {
+  /** column name */
+  Active = 'active',
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
