@@ -49,35 +49,32 @@ function injectClientAndCacheHelpers({ contentManager, entityName, fragmentName,
     const fragmentNameCamelCase = utils_1.makeCamelCase(fragmentName);
     const fragmentTypeScriptTypeName = utils_1.makeFragmentTypeScriptTypeName(fragmentName);
     const fragmentDocName = utils_1.makeFragmentDocName(fragmentName);
+    const primaryKeyIdTypeScriptFieldType = _1.getIdTypeScriptFieldType(primaryKeyIdField);
     if (primaryKeyIdField) {
         contentManager.addContent(`
       // Direct Client & Cache Helpers
       //
       export function clientReadFragment${fragmentName}ById({ apolloClient, ${fragmentNameCamelCase}Id}: { apolloClient: ApolloClient<object>, ${fragmentNameCamelCase}Id: string }): ${fragmentTypeScriptTypeName} | null | undefined {
-        return apolloClient.readFragment<${fragmentTypeScriptTypeName} | null | undefined>({fragment: ${fragmentName}FragmentDoc, fragmentName:'${fragmentName}', id:${fragmentNameCamelCase}Id });
+        return apolloClient.readFragment<${fragmentTypeScriptTypeName} | null | undefined>({ fragment: ${fragmentName}FragmentDoc, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ __typename: '${entityName}' , id:${fragmentNameCamelCase}Id }) });
       }
   
-      export function clientWriteFragment${fragmentName}ById({ apolloClient, ${fragmentNameCamelCase}Partial }: { apolloClient: ApolloClient<object>, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> & { id: string } }): void {
-        return apolloClient.writeFragment<Partial<${fragmentTypeScriptTypeName}>>({fragment: ${fragmentName}FragmentDoc, fragmentName:'${fragmentName}', id: defaultDataIdFromObject(${fragmentNameCamelCase}Partial), data: ${fragmentNameCamelCase}Partial });
+      export function clientWriteFragment${fragmentName}ById({ apolloClient, ${fragmentNameCamelCase}Id, ${fragmentNameCamelCase}Partial }: { apolloClient: ApolloClient<object>, ${fragmentNameCamelCase}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> | null }): void {
+        return apolloClient.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentName}FragmentDoc, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${fragmentNameCamelCase}Id }), data: ${fragmentNameCamelCase}Partial });
       }
   
-      export function cacheWriteFragment${fragmentName}ById({ apolloClient, ${fragmentNameCamelCase}Partial }: { apolloClient: ApolloClient<object>, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> & { id: string } }): void {
-        return apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}>>({fragment: ${fragmentName}FragmentDoc, fragmentName:'${fragmentName}', id: defaultDataIdFromObject(${fragmentNameCamelCase}Partial), data: ${fragmentNameCamelCase}Partial });
+      export function cacheWriteFragment${fragmentName}ById({ apolloClient, ${fragmentNameCamelCase}Id, ${fragmentNameCamelCase}Partial }: { apolloClient: ApolloClient<object>, ${fragmentNameCamelCase}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> | null }): void {
+        return apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentName}FragmentDoc, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${fragmentNameCamelCase}Id }), data: ${fragmentNameCamelCase}Partial });
       }
 
       export function clientReadQuery${fragmentName}ById({ apolloClient, ${fragmentNameCamelCase}Id}: { apolloClient: ApolloClient<object>, ${fragmentNameCamelCase}Id: string }): ${fragmentName}Fragment | null | undefined {
-        return apolloClient.readQuery<${fragmentName}Fragment | null | undefined>({ query: Fetch${fragmentName}ByIdDocument, variables: { ${fragmentNameCamelCase}Id }  });
+        return apolloClient.readQuery<${fragmentName}Fragment | null >({ query: Fetch${fragmentName}ByIdDocument, variables: { ${fragmentNameCamelCase}Id }  });
       }
 
-      export function clientWriteQuery${fragmentName}ById({ apolloClient, ${fragmentNameCamelCase}Id, ${fragmentNameCamelCase} }: { apolloClient: ApolloClient<object>, ${fragmentNameCamelCase}Id: string, ${fragmentNameCamelCase}: ${fragmentName}Fragment | null }): void {
+      export function clientWriteQuery${fragmentName}ById({ apolloClient, ${fragmentNameCamelCase}Id, ${fragmentNameCamelCase} }: { apolloClient: ApolloClient<object>, ${fragmentNameCamelCase}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}: ${fragmentName}Fragment | null }): void {
         return apolloClient.writeQuery<${fragmentName}Fragment | null>({ query: Fetch${fragmentName}ByIdDocument, variables: { ${fragmentNameCamelCase}Id }, data:${fragmentNameCamelCase} });
       }
 
-      export function cacheReadQuery${fragmentName}ById({ apolloClient, ${fragmentNameCamelCase}Id}: { apolloClient: ApolloClient<object>, ${fragmentNameCamelCase}Id: string }): ${fragmentName}Fragment | null | undefined {
-        return apolloClient.cache.readQuery<${fragmentName}Fragment | null | undefined>({ query: Fetch${fragmentName}ByIdDocument, variables: { ${fragmentNameCamelCase}Id }  });
-      }
-
-      export function cacheWriteQuery${fragmentName}ById({ apolloClient, ${fragmentNameCamelCase}Id, ${fragmentNameCamelCase} }: { apolloClient: ApolloClient<object>, ${fragmentNameCamelCase}Id: string, ${fragmentNameCamelCase}: ${fragmentName}Fragment | null }): void {
+      export function cacheWriteQuery${fragmentName}ById({ apolloClient, ${fragmentNameCamelCase}Id, ${fragmentNameCamelCase} }: { apolloClient: ApolloClient<object>, ${fragmentNameCamelCase}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}: ${fragmentName}Fragment | null }): void {
         return apolloClient.cache.writeQuery<${fragmentName}Fragment | null>({ query: Fetch${fragmentName}ByIdDocument, variables: { ${fragmentNameCamelCase}Id }, data:${fragmentNameCamelCase} });
       }
     `);

@@ -634,7 +634,7 @@
         "signature": "df7fff18e899e97041a1745d489b3a5bd799cb0f8de0045850d59c77ccdf7cc7"
       },
       "../src/helperinjectors.ts": {
-        "version": "da40a298c0aa6adca22c89df6bb761160a406ac93b88fb52a0911f4ac0db32d2",
+        "version": "851ef95230e79ffdf8147ebfb5bf2c4b82b35c90acf0e1b8bb8b707c5b3deac4",
         "signature": "10e45080ec241f8e8acf47aa70ab65c868458d9a2eb04cf6fc50358495df2376"
       },
       "../src/reactinjectors.ts": {
@@ -4542,7 +4542,7 @@
       "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/index.d.ts",
       "../src/utils.ts",
       "../src/gqlinjectors.ts",
-      "../src/helperinjectors.ts",
+      "../src/reactinjectors.ts",
       "../src/index.ts",
       "../src/configinjectors.ts",
       "../src/sharedinjectors.ts",
@@ -4594,7 +4594,7 @@
       "../../../node_modules/@types/node/ts3.2/index.d.ts",
       "../../../node_modules/@types/minimatch/index.d.ts",
       "../../../node_modules/@types/glob/index.d.ts",
-      "../src/reactinjectors.ts"
+      "../src/helperinjectors.ts"
     ]
   },
   "version": "3.7.4"
