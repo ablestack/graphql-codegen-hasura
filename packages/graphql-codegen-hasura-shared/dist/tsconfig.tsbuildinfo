@@ -634,7 +634,7 @@
         "signature": "df7fff18e899e97041a1745d489b3a5bd799cb0f8de0045850d59c77ccdf7cc7"
       },
       "../src/helperinjectors.ts": {
-        "version": "851ef95230e79ffdf8147ebfb5bf2c4b82b35c90acf0e1b8bb8b707c5b3deac4",
+        "version": "90c8f944e6e71e55e9475cfdc642fbd81df4354f40294b9d1b3d3a2854bd3d10",
         "signature": "10e45080ec241f8e8acf47aa70ab65c868458d9a2eb04cf6fc50358495df2376"
       },
       "../src/reactinjectors.ts": {
