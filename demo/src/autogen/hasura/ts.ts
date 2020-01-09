@@ -1,4 +1,4 @@
-import { ObjectWithId } from 'graphql-codegen-hasura-core'
+import { ObjectWithId, generateOptimisticResponseForMutation } from 'graphql-codegen-hasura-core'
 import { ApolloClient, QueryOptions, MutationOptions, ApolloQueryResult, FetchResult, defaultDataIdFromObject } from '@apollo/client'
 import { VehicleGraphFragment } from '../';
 import { VehicleGraphFragmentDoc } from '../';

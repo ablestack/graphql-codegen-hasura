@@ -1,6 +1,7 @@
 {
   "version": "3.3.2-alpha.0",
   "packages": [
+    ".",
     "packages/graphql-codegen-hasura-core",
     "packages/graphql-codegen-hasura-client-config",
     "packages/graphql-codegen-hasura-gql",

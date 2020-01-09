@@ -21,6 +21,7 @@
     "@graphql-codegen/typescript-operations": "1.8.3",
     "@graphql-codegen/typescript-react-apollo": "1.8.3",
     "@graphql-codegen/typescript-resolvers": "1.8.3",
+    "graphql": "^14.5.8",
     "graphql-codegen-hasura-client-config": "^3.3.2-alpha.0",
     "graphql-codegen-hasura-gql": "^3.3.2-alpha.0",
     "graphql-codegen-hasura-react": "^3.3.2-alpha.0",

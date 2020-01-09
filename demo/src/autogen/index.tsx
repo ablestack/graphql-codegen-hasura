@@ -12,13 +12,13 @@ export type Scalars = {
  * The `GenericScalar` scalar type represents a generic
    * GraphQL scalar value that could be:
    * String, Boolean, Int, Float, List or Object.
- */
+ **/
   GenericScalar: any,
   /** 
  * The `DateTime` scalar type represents a DateTime
    * value as specified by
    * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
- */
+ **/
   DateTime: Date,
   /** 
  * Question jexl expression returning boolean.
@@ -36,7 +36,7 @@ export type Scalars = {
    * * 'answer' in 'list-question-slug'|answer
    * * 'answer' in 'table-question-slug'|answer|mapby('column-question')
    * * 'form-slug' == form
- */
+ **/
   QuestionJexl: any,
   /** 
  * Group jexl represents a jexl expression returning group names.
@@ -46,7 +46,7 @@ export type Scalars = {
    * 
    * Examples:
    * * ['group-name1', 'group-name2']|groups
- */
+ **/
   GroupJexl: any,
   /** 
  * Flow jexl represents a jexl expression returning task slugs.
@@ -58,7 +58,7 @@ export type Scalars = {
    * Examples:
    * * 'task-slug'|task
    * * ['task-slug1', 'task-slug2']|tasks
- */
+ **/
   FlowJexl: any,
   uuid: any,
   jsonb: any,
@@ -71,13 +71,13 @@ export type Scalars = {
    * 
    * Use of this type is *not recommended* as you lose the benefits of having a defined, static
    * schema (one of the key benefits of GraphQL).
- */
+ **/
   JSONString: any,
   /** 
  * The `Date` scalar type represents a Date
    * value as specified by
    * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
- */
+ **/
   Date: any,
   /** The `Upload` scalar type represents a file upload. */
   Upload: any,
@@ -2407,7 +2407,7 @@ export type Observation_Delete_At_Path_Input = {
 /** 
  * delete the array element with specified index (negative integers count from the
  * end). throws an error if top level container is not an array
- */
+ **/
 export type Observation_Delete_Elem_Input = {
   resource?: Maybe<Scalars['Int']>,
 };
@@ -2888,7 +2888,7 @@ export type Patient_Delete_At_Path_Input = {
 /** 
  * delete the array element with specified index (negative integers count from the
  * end). throws an error if top level container is not an array
- */
+ **/
 export type Patient_Delete_Elem_Input = {
   resource?: Maybe<Scalars['Int']>,
 };
@@ -3831,7 +3831,7 @@ export type SaveCompleteTaskFormTaskInput = {
  * Allows creating multiple work items for this task using the `CreateWorkItem`
    * mutation. If true, one work item will be created for each entry in
    * `address_groups`.
- */
+ **/
   isMultipleInstance?: Maybe<Scalars['Boolean']>,
   /** Time in seconds task may take to be processed. */
   leadTime?: Maybe<Scalars['Int']>,
@@ -3856,7 +3856,7 @@ export type SaveCompleteWorkflowFormTaskInput = {
  * Allows creating multiple work items for this task using the `CreateWorkItem`
    * mutation. If true, one work item will be created for each entry in
    * `address_groups`.
- */
+ **/
   isMultipleInstance?: Maybe<Scalars['Boolean']>,
   /** Time in seconds task may take to be processed. */
   leadTime?: Maybe<Scalars['Int']>,
@@ -4170,7 +4170,7 @@ export type SaveSimpleTaskInput = {
  * Allows creating multiple work items for this task using the `CreateWorkItem`
    * mutation. If true, one work item will be created for each entry in
    * `address_groups`.
- */
+ **/
   isMultipleInstance?: Maybe<Scalars['Boolean']>,
   /** Time in seconds task may take to be processed. */
   leadTime?: Maybe<Scalars['Int']>,

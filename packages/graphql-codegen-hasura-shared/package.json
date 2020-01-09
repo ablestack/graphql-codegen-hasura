@@ -9,7 +9,9 @@
     "type": "git",
     "url": "git+https://github.com/ahrnee/graphql-codegen-hasura"
   },
-  "scripts": {},
+  "scripts": {
+    "prepublishOnly": "rm -r dist/src/ && mkdir -p dist/src/ && cp package.json dist/src/"
+  },
   "publishConfig": {
     "access": "public",
     "directory": "dist/src"
@@ -35,7 +37,7 @@
   },
   "files": [
     "README.md",
-    "dist/**/*"
+    "dist/src/**/*"
   ],
   "gitHead": "41b2d8aab654a4f5722781e71d266200c273710e"
 }

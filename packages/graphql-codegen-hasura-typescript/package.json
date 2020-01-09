@@ -11,7 +11,8 @@
   },
   "scripts": {},
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "directory": "dist/src"
   },
   "peerDependencies": {
     "graphql-tag": "^2.0.0"
@@ -36,7 +37,7 @@
   },
   "files": [
     "README.md",
-    "dist/**/*"
+    "dist/src/**/*"
   ],
   "gitHead": "41b2d8aab654a4f5722781e71d266200c273710e"
 }
