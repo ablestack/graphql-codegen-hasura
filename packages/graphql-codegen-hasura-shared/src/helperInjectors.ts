@@ -114,6 +114,14 @@ export function injectClientAndCacheHelpers({
       export function clientWriteQuery${fragmentName}ById({ apolloClient, ${fragmentNameCamelCase}Id, ${fragmentNameCamelCase} }: { apolloClient: ApolloClient<object>, ${fragmentNameCamelCase}Id: string, ${fragmentNameCamelCase}: ${fragmentName}Fragment | null }): void {
         return apolloClient.writeQuery<${fragmentName}Fragment | null>({ query: Fetch${fragmentName}ByIdDocument, variables: { ${fragmentNameCamelCase}Id }, data:${fragmentNameCamelCase} });
       }
+
+      export function cacheReadQuery${fragmentName}ById({ apolloClient, ${fragmentNameCamelCase}Id}: { apolloClient: ApolloClient<object>, ${fragmentNameCamelCase}Id: string }): ${fragmentName}Fragment | null | undefined {
+        return apolloClient.cache.readQuery<${fragmentName}Fragment | null | undefined>({ query: Fetch${fragmentName}ByIdDocument, variables: { ${fragmentNameCamelCase}Id }  });
+      }
+
+      export function cacheWriteQuery${fragmentName}ById({ apolloClient, ${fragmentNameCamelCase}Id, ${fragmentNameCamelCase} }: { apolloClient: ApolloClient<object>, ${fragmentNameCamelCase}Id: string, ${fragmentNameCamelCase}: ${fragmentName}Fragment | null }): void {
+        return apolloClient.cache.writeQuery<${fragmentName}Fragment | null>({ query: Fetch${fragmentName}ByIdDocument, variables: { ${fragmentNameCamelCase}Id }, data:${fragmentNameCamelCase} });
+      }
     `);
 
     contentManager.addImport(makeImportStatement(fragmentDocName, typescriptCodegenOutputPath));
