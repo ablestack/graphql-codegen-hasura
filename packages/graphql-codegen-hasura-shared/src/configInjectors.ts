@@ -1,7 +1,7 @@
 import { FieldDefinitionNode, FragmentDefinitionNode } from "graphql";
 import { TypeMap } from "graphql/type/schema";
 import { ContentManager, makeImportStatement, makeShortName } from ".";
-import { makeCamelCase, makePascalCase, getPrimaryKeyIdField } from "./utils";
+import { makeCamelCase, makePascalCase, getPrimaryKeyIdField, getUniqueEntitiesFromFragmentDefinitions } from "./utils";
 
 // ---------------------------------
 //
@@ -181,18 +181,9 @@ export function injectEntityResolverTypes({
 //
 
 export function injectCombinedTypePolicyObject(fragmentDefinitionNodes: FragmentDefinitionNode[], contentManager: ContentManager, schemaTypeMap: TypeMap, trimString?: string) {
-  const entitiesFromFragments = fragmentDefinitionNodes.map(fragmentDefinitionNode => {
-    const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
-    const relatedTableNamedType = schemaTypeMap[fragmentTableName];
-    const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
-
-    if (!relatedTablePrimaryKeyIdField) return null;
-
-    const entityShortName = makeShortName(relatedTableNamedType.name, trimString);
-    return `${entityShortName}TypePoliciesConfig`;
-  });
-
-  const uniqueEntitiesFromFragments = [...new Set(entitiesFromFragments.filter(item => item != null))];
+  const uniqueEntityNamesFromFragments = getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString }).map(
+    entityName => `${entityName}TypePoliciesConfig`
+  );
 
   contentManager.addContent(`
 
@@ -204,7 +195,7 @@ export function injectCombinedTypePolicyObject(fragmentDefinitionNodes: Fragment
   export const CombinedTypePoliciesConfig: TypePolicies = {
     Query: {
       fields: { 
-        ${uniqueEntitiesFromFragments.map(entityString => `...${entityString}.Query.fields`).join(",\n        ")}
+        ${uniqueEntityNamesFromFragments.map(entityString => `...${entityString}.Query.fields`).join(",\n        ")}
       },
     },
   }`);

@@ -1,11 +1,12 @@
-import { FieldDefinitionNode } from "graphql";
+import { FieldDefinitionNode, FragmentDefinitionNode } from "graphql";
 import { ContentManager } from ".";
-export declare function injectGlobalReactCode({ contentManager, typescriptCodegenOutputPath, withUpdates }: {
+import { TypeMap } from "graphql/type/schema";
+export declare function injectGlobalReactCodePre({ contentManager, typescriptCodegenOutputPath, withUpdates }: {
     contentManager: ContentManager;
     typescriptCodegenOutputPath: string;
     withUpdates: boolean;
 }): void;
-export declare function injectSharedReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }: {
+export declare function injectSharedReactPre({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }: {
     contentManager: ContentManager;
     entityName: string;
     fragmentName: string;
@@ -44,4 +45,26 @@ export declare function injectDeleteReact({ contentManager, entityName, fragment
     trimString?: string;
     primaryKeyIdField: FieldDefinitionNode;
     typescriptCodegenOutputPath: string;
+}): void;
+export declare function injectSharedReactPost({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, withQueries, withInserts, withUpdates, withDeletes }: {
+    contentManager: ContentManager;
+    entityName: string;
+    fragmentName: string;
+    trimString?: string;
+    primaryKeyIdField: FieldDefinitionNode;
+    typescriptCodegenOutputPath: string;
+    withQueries?: boolean;
+    withInserts?: boolean;
+    withUpdates?: boolean;
+    withDeletes?: boolean;
+}): void;
+export declare function injectGlobalReactCodePost({ contentManager, fragmentDefinitionNodes, schemaTypeMap, trimString, withQueries, withInserts, withUpdates, withDeletes }: {
+    contentManager: ContentManager;
+    fragmentDefinitionNodes: FragmentDefinitionNode[];
+    schemaTypeMap: TypeMap;
+    trimString?: string;
+    withQueries?: boolean;
+    withInserts?: boolean;
+    withUpdates?: boolean;
+    withDeletes?: boolean;
 }): void;

@@ -116,16 +116,7 @@ exports.injectEntityResolverTypes = injectEntityResolverTypes;
 // --------------------------------------
 //
 function injectCombinedTypePolicyObject(fragmentDefinitionNodes, contentManager, schemaTypeMap, trimString) {
-    const entitiesFromFragments = fragmentDefinitionNodes.map(fragmentDefinitionNode => {
-        const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
-        const relatedTableNamedType = schemaTypeMap[fragmentTableName];
-        const relatedTablePrimaryKeyIdField = utils_1.getPrimaryKeyIdField(relatedTableNamedType);
-        if (!relatedTablePrimaryKeyIdField)
-            return null;
-        const entityShortName = _1.makeShortName(relatedTableNamedType.name, trimString);
-        return `${entityShortName}TypePoliciesConfig`;
-    });
-    const uniqueEntitiesFromFragments = [...new Set(entitiesFromFragments.filter(item => item != null))];
+    const uniqueEntityNamesFromFragments = utils_1.getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString }).map(entityName => `${entityName}TypePoliciesConfig`);
     contentManager.addContent(`
 
   //------------------------------------
@@ -136,7 +127,7 @@ function injectCombinedTypePolicyObject(fragmentDefinitionNodes, contentManager,
   export const CombinedTypePoliciesConfig: TypePolicies = {
     Query: {
       fields: { 
-        ${uniqueEntitiesFromFragments.map(entityString => `...${entityString}.Query.fields`).join(",\n        ")}
+        ${uniqueEntityNamesFromFragments.map(entityString => `...${entityString}.Query.fields`).join(",\n        ")}
       },
     },
   }`);

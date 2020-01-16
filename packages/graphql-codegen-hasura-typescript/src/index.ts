@@ -4,14 +4,16 @@ import { FragmentDefinitionNode, GraphQLSchema } from "graphql";
 import { TypeMap } from "graphql/type/schema";
 import {
   getPrimaryKeyIdField,
-  injectGlobalHelperCode,
   injectDeleteHelpers,
   injectFetchHelpers,
   injectInsertHelpers,
-  injectSharedHelpers,
   injectUpdateHelpers,
   ContentManager,
-  injectClientAndCacheHelpers
+  injectClientAndCacheHelpers,
+  injectGlobalHelperCodePre,
+  injectSharedHelpersPre,
+  injectSharedHelpersPost,
+  injectGlobalHelperCodePost
 } from "graphql-codegen-hasura-shared";
 
 // -----------------------------------------------------
@@ -37,7 +39,7 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
 
   const contentManager = new ContentManager();
 
-  injectGlobalHelperCode({
+  injectGlobalHelperCodePre({
     contentManager,
     typescriptCodegenOutputPath: config.typescriptCodegenOutputPath,
     withUpdates: config.withUpdates
@@ -53,12 +55,25 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
 
   // iterate and generate
   documentFragments.map(fragmentDefinition => {
-    injectEntitySharedTypeScript(fragmentDefinition, typeMap, contentManager, config);
+    injectEntitySharedTypeScriptPre(fragmentDefinition, typeMap, contentManager, config);
     config.withClientAndCacheHelpers && injectClientAndCacheTypeScript(fragmentDefinition, typeMap, contentManager, config);
     config.withQueries && injectEntityQueryTypeScript(fragmentDefinition, typeMap, contentManager, config);
     config.withInserts && injectEntityInsertMutationTypeScript(fragmentDefinition, typeMap, contentManager, config);
     config.withUpdates && injectEntityUpdateMutationTypeScript(fragmentDefinition, typeMap, contentManager, config);
     config.withDeletes && injectEntityDeleteMutationTypeScript(fragmentDefinition, typeMap, contentManager, config);
+    injectEntitySharedTypeScriptPost(fragmentDefinition, typeMap, contentManager, config);
+  });
+
+  injectGlobalHelperCodePost({
+    contentManager,
+    fragmentDefinitionNodes: documentFragments,
+    schemaTypeMap: typeMap,
+    trimString: config.trimString,
+    withClientAndCacheHelpers: config.withClientAndCacheHelpers,
+    withUpdates: config.withUpdates,
+    withInserts: config.withInserts,
+    withQueries: config.withQueries,
+    withDeletes: config.withDeletes
   });
 
   return {
@@ -70,7 +85,12 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
 // --------------------------------------
 //
 
-function injectEntitySharedTypeScript(fragmentDefinitionNode: FragmentDefinitionNode, schemaTypeMap: TypeMap, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
+function injectEntitySharedTypeScriptPre(
+  fragmentDefinitionNode: FragmentDefinitionNode,
+  schemaTypeMap: TypeMap,
+  contentManager: ContentManager,
+  config: CstmHasuraCrudPluginConfig
+) {
   const fragmentName = fragmentDefinitionNode.name.value;
   const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
   const relatedTableNamedType = schemaTypeMap[fragmentTableName];
@@ -78,7 +98,7 @@ function injectEntitySharedTypeScript(fragmentDefinitionNode: FragmentDefinition
   const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
   if (!relatedTablePrimaryKeyIdField) return;
 
-  injectSharedHelpers({
+  injectSharedHelpersPre({
     contentManager,
     entityName: relatedTableNamedType.name,
     fragmentName,
@@ -87,6 +107,38 @@ function injectEntitySharedTypeScript(fragmentDefinitionNode: FragmentDefinition
     typescriptCodegenOutputPath: config.typescriptCodegenOutputPath
   });
 }
+
+// --------------------------------------
+//
+
+function injectEntitySharedTypeScriptPost(
+  fragmentDefinitionNode: FragmentDefinitionNode,
+  schemaTypeMap: TypeMap,
+  contentManager: ContentManager,
+  config: CstmHasuraCrudPluginConfig
+) {
+  const fragmentName = fragmentDefinitionNode.name.value;
+  const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
+  const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+
+  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+  if (!relatedTablePrimaryKeyIdField) return;
+
+  injectSharedHelpersPost({
+    contentManager,
+    entityName: relatedTableNamedType.name,
+    fragmentName,
+    trimString: config.trimString,
+    primaryKeyIdField: relatedTablePrimaryKeyIdField,
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath,
+    withClientAndCacheHelpers: config.withClientAndCacheHelpers,
+    withUpdates: config.withUpdates,
+    withInserts: config.withInserts,
+    withQueries: config.withQueries,
+    withDeletes: config.withDeletes
+  });
+}
+
 // --------------------------------------
 //
 

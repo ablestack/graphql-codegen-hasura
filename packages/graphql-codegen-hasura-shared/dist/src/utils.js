@@ -73,4 +73,17 @@ function customCamelize(str) {
     });
 }
 exports.customCamelize = customCamelize;
+function getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString }) {
+    const entitiesFromFragments = fragmentDefinitionNodes.map(fragmentDefinitionNode => {
+        const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
+        const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+        const relatedTablePrimaryKeyIdField = exports.getPrimaryKeyIdField(relatedTableNamedType);
+        if (!relatedTablePrimaryKeyIdField)
+            return null;
+        const entityShortName = makeShortName(relatedTableNamedType.name, trimString);
+        return `${entityShortName}`;
+    });
+    return [...new Set(entitiesFromFragments.filter(item => item != null))];
+}
+exports.getUniqueEntitiesFromFragmentDefinitions = getUniqueEntitiesFromFragmentDefinitions;
 //# sourceMappingURL=utils.js.map

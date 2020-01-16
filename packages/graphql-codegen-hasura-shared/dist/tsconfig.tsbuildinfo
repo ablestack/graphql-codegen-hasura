@@ -626,27 +626,27 @@
         "signature": "d2fd0ac736563f8d3db1d338b00ca85bcd8dd5b1c8f9a23603006e9d927a1367"
       },
       "../src/utils.ts": {
-        "version": "2097c25124a91862cf5c5c9f61e28c0903904a3db3ceefc4a15c970196114ded",
-        "signature": "ff02e4ba8c109d9fef8b9439eb517b84c0be311c099bbf5933066cfe84a38104"
+        "version": "8a31ed78cb23fdaef3fbf13901865672b1de03852c8ae22b11be1c59079299d0",
+        "signature": "36c4d56998bb49df184e328edc1a7a3af25bbd562ef8004b98d73919da8647f0"
       },
       "../src/gqlinjectors.ts": {
         "version": "170e18508542cb0ac057f7120218df1a58a79f522519a35321447403503258b6",
         "signature": "df7fff18e899e97041a1745d489b3a5bd799cb0f8de0045850d59c77ccdf7cc7"
       },
       "../src/helperinjectors.ts": {
-        "version": "66e3c263f0d2669321a179ea98c3693388cd9a3aef62cff3af67f9677f858bf5",
-        "signature": "10e45080ec241f8e8acf47aa70ab65c868458d9a2eb04cf6fc50358495df2376"
+        "version": "a9c8ef42d9d28b70525763f7959bf8f4425b149da2f567413021060204947f57",
+        "signature": "2a6b6716e248110c01a4fc5b4076bde29be4baabb7cc1421bfe90c63dc3e9bae"
       },
       "../src/reactinjectors.ts": {
-        "version": "dd7f93cb310bf4b694f5e1376109258612801fc09d5095a6e64cde1dbdb63286",
-        "signature": "a91a8ae68cad4c781923e83700790bbbf4b6f5530716b4bae9e4e6a6fe2843a3"
+        "version": "454013cb2774168784299fb67ea7c89e4e63a9d6c4650de253de09ffe8a07d88",
+        "signature": "3c6d10b4b626289e78d012ab23f6ac1bd45bf7bc487afc30f73d3d53f84480dd"
       },
       "../src/index.ts": {
         "version": "7379396b8c6003c908cc430c04685117095583691736ffc93269a6ff91c67baa",
         "signature": "a82805a24e2091534d8ee800bb59af5054c7fdb31f79f2454cc91bbb5401f69e"
       },
       "../src/configinjectors.ts": {
-        "version": "6c68f345f37d28d6974365392688b6156fa0b1d191f3ad0225766f34cbf2328e",
+        "version": "ce33d0f2087bdf0c6bbdc3847bb70f26ddc72750e3f5fe34b02061911ddf90a6",
         "signature": "94217116ffdef2943d2d255ed4377536d90b58bf3b927f7b25c4df0f8a474b84"
       },
       "../src/sharedinjectors.ts": {
@@ -2206,6 +2206,7 @@
       "../src/utils.ts": [
         "../node_modules/graphql/index.d.ts",
         "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/index.d.ts",
+        "../node_modules/graphql/type/schema.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
@@ -2224,6 +2225,7 @@
         "../node_modules/graphql/index.d.ts",
         "../src/index.ts",
         "../src/utils.ts",
+        "../node_modules/graphql/type/schema.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
@@ -2233,6 +2235,7 @@
         "../node_modules/graphql/index.d.ts",
         "../src/index.ts",
         "../src/utils.ts",
+        "../node_modules/graphql/type/schema.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
@@ -3974,7 +3977,8 @@
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "../src/utils.ts": [
-        "../node_modules/graphql/index.d.ts"
+        "../node_modules/graphql/index.d.ts",
+        "../node_modules/graphql/type/schema.d.ts"
       ],
       "../src/gqlinjectors.ts": [
         "../src/index.ts",
@@ -3982,11 +3986,13 @@
       ],
       "../src/helperinjectors.ts": [
         "../src/index.ts",
-        "../node_modules/graphql/index.d.ts"
+        "../node_modules/graphql/index.d.ts",
+        "../node_modules/graphql/type/schema.d.ts"
       ],
       "../src/reactinjectors.ts": [
         "../src/index.ts",
-        "../node_modules/graphql/index.d.ts"
+        "../node_modules/graphql/index.d.ts",
+        "../node_modules/graphql/type/schema.d.ts"
       ],
       "../src/index.ts": [
         "../src/configinjectors.ts",
@@ -4542,7 +4548,7 @@
       "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/index.d.ts",
       "../src/utils.ts",
       "../src/gqlinjectors.ts",
-      "../src/reactinjectors.ts",
+      "../src/helperinjectors.ts",
       "../src/index.ts",
       "../src/configinjectors.ts",
       "../src/sharedinjectors.ts",
@@ -4594,7 +4600,7 @@
       "../../../node_modules/@types/node/ts3.2/index.d.ts",
       "../../../node_modules/@types/minimatch/index.d.ts",
       "../../../node_modules/@types/glob/index.d.ts",
-      "../src/helperinjectors.ts"
+      "../src/reactinjectors.ts"
     ]
   },
   "version": "3.7.4"

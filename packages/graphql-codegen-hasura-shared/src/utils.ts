@@ -1,6 +1,7 @@
-import { GraphQLNamedType, FieldDefinitionNode, ObjectTypeDefinitionNode } from "graphql";
+import { GraphQLNamedType, FieldDefinitionNode, ObjectTypeDefinitionNode, FragmentDefinitionNode } from "graphql";
 import _ from "lodash";
 import { toPascalCase } from "@graphql-codegen/visitor-plugin-common";
+import { TypeMap } from "graphql/type/schema";
 
 export const TABLE_TYPE_FILTER = (t: GraphQLNamedType) => {
   return t.description.includes("columns and relationships of");
@@ -72,4 +73,27 @@ export function customCamelize(str) {
     if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
     return index <= 1 ? match.toLowerCase() : match.toUpperCase();
   });
+}
+
+export function getUniqueEntitiesFromFragmentDefinitions({
+  fragmentDefinitionNodes,
+  schemaTypeMap,
+  trimString
+}: {
+  fragmentDefinitionNodes: FragmentDefinitionNode[];
+  schemaTypeMap: TypeMap;
+  trimString?: string;
+}) {
+  const entitiesFromFragments = fragmentDefinitionNodes.map(fragmentDefinitionNode => {
+    const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
+    const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+    const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+
+    if (!relatedTablePrimaryKeyIdField) return null;
+
+    const entityShortName = makeShortName(relatedTableNamedType.name, trimString);
+    return `${entityShortName}`;
+  });
+
+  return [...new Set(entitiesFromFragments.filter(item => item != null))];
 }

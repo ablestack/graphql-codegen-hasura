@@ -1,4 +1,5 @@
-import { GraphQLNamedType, FieldDefinitionNode } from "graphql";
+import { GraphQLNamedType, FieldDefinitionNode, FragmentDefinitionNode } from "graphql";
+import { TypeMap } from "graphql/type/schema";
 export declare const TABLE_TYPE_FILTER: (t: GraphQLNamedType) => boolean;
 export declare const ID_FIELD_TEST: (f: FieldDefinitionNode) => boolean;
 export declare function SCALAR_TYPE_TEST(f: FieldDefinitionNode): boolean;
@@ -17,3 +18,8 @@ export declare function getIdTypeScriptFieldType(field: FieldDefinitionNode): {
 };
 export declare const getPrimaryKeyIdField: (t: GraphQLNamedType) => FieldDefinitionNode;
 export declare function customCamelize(str: any): any;
+export declare function getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString }: {
+    fragmentDefinitionNodes: FragmentDefinitionNode[];
+    schemaTypeMap: TypeMap;
+    trimString?: string;
+}): string[];

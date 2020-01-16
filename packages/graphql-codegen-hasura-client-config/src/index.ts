@@ -10,7 +10,8 @@ import {
   makeShortName,
   injectEntityCacheRedirect,
   injectGlobalConfigCode,
-  injectCombinedTypePolicyObject
+  injectCombinedTypePolicyObject,
+  getUniqueEntitiesFromFragmentDefinitions
 } from "graphql-codegen-hasura-shared";
 
 // -----------------------------------------------------
@@ -137,17 +138,9 @@ function injectCombinedCacheRedirectObject(
   schemaTypeMap: TypeMap,
   config: CstmHasuraCrudPluginConfig
 ) {
-  const entitiesFromFragments = fragmentDefinitionNodes.map(fragmentDefinitionNode => {
-    const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
-    const relatedTableNamedType = schemaTypeMap[fragmentTableName];
-    const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
-
-    if (!relatedTablePrimaryKeyIdField) return null;
-
-    const entityShortName = makeShortName(relatedTableNamedType.name, config.trimString);
-    return `${entityShortName}CacheRedirectConfig`;
-  });
-
+  const entitiesFromFragments = getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString: config.trimString }).map(
+    entityName => `${entityName}CacheRedirectConfig`
+  );
   const uniqueEntitiesFromFragments = [...new Set(entitiesFromFragments.filter(item => item != null))];
 
   contentManager.addContent(`

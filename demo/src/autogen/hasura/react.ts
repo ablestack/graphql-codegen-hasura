@@ -112,7 +112,7 @@ import { RemoveDogsModelByIdDocument } from '../';
         export type FetchVehicleGraphByIdQueryResultEx = FetchVehicleGraphByIdQueryResult & VehicleGraphByIdHookResultEx;
 
         // Function
-        export function useFetchVehicleGraphByIdQuery({ vehicleId, options }: { vehicleId: string; options?: Omit<QueryHookOptions<FetchVehicleGraphByIdQuery, FetchVehicleGraphByIdQueryVariables>, "query" | "variables">; }): FetchVehicleGraphByIdQueryResultEx {
+        function useFetchVehicleGraphByIdQuery({ vehicleId, options }: { vehicleId: string; options?: Omit<QueryHookOptions<FetchVehicleGraphByIdQuery, FetchVehicleGraphByIdQueryVariables>, "query" | "variables">; }): FetchVehicleGraphByIdQueryResultEx {
           const query: FetchVehicleGraphByIdQueryResult = useQuery<FetchVehicleGraphByIdQuery, FetchVehicleGraphByIdQueryVariables>(FetchVehicleGraphByIdDocument, { variables: { vehicleId }, ...options });
           return { ...query, vehicleGraph: query && query.data && query.data.vehicle_by_pk };
         }
@@ -139,7 +139,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       export type FetchVehicleGraphByIdLazyQueryReturn = [FetchVehicleGraphByIdWrappedLazyQueryFn, FetchVehicleGraphByIdQueryResultEx];
 
       // Function
-      export function useFetchVehicleGraphByIdLazyQuery(options?: Omit<LazyQueryHookOptions<FetchVehicleGraphByIdQuery, FetchVehicleGraphByIdQueryVariables>, "query" | "variables">): FetchVehicleGraphByIdLazyQueryReturn {
+      function useFetchVehicleGraphByIdLazyQuery(options?: Omit<LazyQueryHookOptions<FetchVehicleGraphByIdQuery, FetchVehicleGraphByIdQueryVariables>, "query" | "variables">): FetchVehicleGraphByIdLazyQueryReturn {
         const lazyQuery: FetchVehicleGraphByIdLazyQueryFn = useLazyQuery<FetchVehicleGraphByIdQuery, FetchVehicleGraphByIdQueryVariables>(FetchVehicleGraphByIdDocument, options);
         const pickVehicleGraph: PickFetchVehicleGraphByIdFn = query => { return query && query.vehicle_by_pk; };
         const wrappedLazyQuery: FetchVehicleGraphByIdWrappedLazyQueryFn = ({ vehicleId, options }) => { return lazyQuery[0]({ variables: { vehicleId }, ...options }); };
@@ -156,7 +156,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       export type FetchVehicleGraphObjectsQueryResultEx = FetchVehicleGraphObjectsQueryResult & VehicleGraphObjectsHookResultEx;
 
       // Function
-      export function useFetchVehicleGraphObjectsQuery(options: Omit<QueryHookOptions<FetchVehicleGraphQuery, FetchVehicleGraphQueryVariables>, "query">): FetchVehicleGraphObjectsQueryResultEx {
+      function useFetchVehicleGraphObjectsQuery(options: Omit<QueryHookOptions<FetchVehicleGraphQuery, FetchVehicleGraphQueryVariables>, "query">): FetchVehicleGraphObjectsQueryResultEx {
         const query:FetchVehicleGraphObjectsQueryResult = useQuery<FetchVehicleGraphQuery, FetchVehicleGraphQueryVariables>(FetchVehicleGraphDocument, options);
         return { ...query, objects: (query && query.data && query.data.vehicle) || [] };
       }
@@ -172,7 +172,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       export type FetchVehicleGraphObjectsLazyQueryReturn = [FetchVehicleGraphObjectsWrappedLazyQueryFn, FetchVehicleGraphObjectsQueryResultEx];
 
       // Function
-      export function useFetchVehicleGraphObjectsLazyQuery(options?: Omit<LazyQueryHookOptions<FetchVehicleGraphQuery, FetchVehicleGraphQueryVariables>, "query">): FetchVehicleGraphObjectsLazyQueryReturn {
+      function useFetchVehicleGraphObjectsLazyQuery(options?: Omit<LazyQueryHookOptions<FetchVehicleGraphQuery, FetchVehicleGraphQueryVariables>, "query">): FetchVehicleGraphObjectsLazyQueryReturn {
         const lazyQuery: FetchVehicleGraphObjectsLazyQueryFn = useLazyQuery<FetchVehicleGraphQuery, FetchVehicleGraphQueryVariables>(FetchVehicleGraphDocument, options);
         const pickObjects: PickFetchVehicleGraphObjectsFn = (query: FetchVehicleGraphQuery | null | undefined) => { return (query && query.vehicle) || []; };
         const wrappedLazyQuery: FetchVehicleGraphObjectsWrappedLazyQueryFn = (options) => { return lazyQuery[0]( options ); };
@@ -193,7 +193,7 @@ import { RemoveDogsModelByIdDocument } from '../';
   export type InsertVehicleGraphLazyMutationReturn = [InsertVehicleGraphWrappedLazyMutationFn, InsertVehicleGraphMutationResultEx];
 
   // Function
-  export function useInsertVehicleGraph(options?: Omit<MutationHookOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, "mutation" | "variables">): InsertVehicleGraphLazyMutationReturn {
+  function useInsertVehicleGraph(options?: Omit<MutationHookOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, "mutation" | "variables">): InsertVehicleGraphLazyMutationReturn {
     const lazyMutation: InsertVehicleGraphLazyMutationFn = useMutation<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>(InsertVehicleGraphDocument, options);
     const pickVehicleGraph: PickInsertVehicleGraphFn = (mutation) => { return mutation && mutation.insert_vehicle && mutation.insert_vehicle!.returning && mutation.insert_vehicle!.returning[0]; };
 
@@ -222,7 +222,7 @@ import { RemoveDogsModelByIdDocument } from '../';
   export type InsertVehicleGraphWithOnConflictLazyMutationReturn = [InsertVehicleGraphWithOnConflictWrappedLazyMutationFn, InsertVehicleGraphMutationResultEx];
 
   // Function
-  export function useInsertVehicleGraphWithOnConflict( options?: Omit<MutationHookOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, "mutation" | "variables"> ): InsertVehicleGraphWithOnConflictLazyMutationReturn {
+  function useInsertVehicleGraphWithOnConflict( options?: Omit<MutationHookOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, "mutation" | "variables"> ): InsertVehicleGraphWithOnConflictLazyMutationReturn {
     const lazyMutation: InsertVehicleGraphWithOnConflictLazyMutationFn = useMutation<InsertVehicleGraphMutation, InsertVehicleGraphWithOnConflictMutationVariables>(InsertVehicleGraphWithOnConflictDocument, options);
     const pickVehicleGraph: PickInsertVehicleGraphFn = (mutation: InsertVehicleGraphMutation | null | undefined) => { return mutation && mutation.insert_vehicle && mutation.insert_vehicle!.returning && mutation.insert_vehicle!.returning[0]; };
 
@@ -252,7 +252,7 @@ import { RemoveDogsModelByIdDocument } from '../';
   export type InsertVehicleGraphObjectsLazyMutationReturn = [InsertVehicleGraphObjectsWrappedLazyMutationFn, InsertVehicleGraphObjectsMutationResultEx];
 
   // Function
-  export function useInsertVehicleGraphObjects(options?: Omit<MutationHookOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, "mutation">): InsertVehicleGraphObjectsLazyMutationReturn {
+  function useInsertVehicleGraphObjects(options?: Omit<MutationHookOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, "mutation">): InsertVehicleGraphObjectsLazyMutationReturn {
     const lazyMutation: InsertVehicleGraphObjectsLazyMutationFn = useMutation<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>(InsertVehicleGraphDocument, options);
     const pickObjects: PickInsertVehicleGraphObjectsFn = (mutation: InsertVehicleGraphMutation | null | undefined) => { return (mutation && mutation.insert_vehicle && mutation.insert_vehicle!.returning) || []; };
 
@@ -276,7 +276,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     type UpdateVehicleGraphByIdWrappedLazyMutationFn = ({ vehicleId, set, autoOptimisticResponse, options }: { vehicleId: string; set: Vehicle_Set_Input; autoOptimisticResponse?: boolean; options?: Omit<MutationFunctionOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>, "variables">; }) => Promise<UpdateVehicleGraphByIdMutationResultEx>;
     export type UpdateVehicleGraphByIdLazyMutationReturn = [UpdateVehicleGraphByIdWrappedLazyMutationFn, UpdateVehicleGraphByIdMutationResultEx];
 
-    export function useUpdateVehicleGraphById(options?: Omit<MutationHookOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>, "mutation" | "variables">): UpdateVehicleGraphByIdLazyMutationReturn {
+    function useUpdateVehicleGraphById(options?: Omit<MutationHookOptions<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>, "mutation" | "variables">): UpdateVehicleGraphByIdLazyMutationReturn {
       const lazyMutation: UpdateVehicleGraphByIdLazyMutationFn = useMutation<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>(UpdateVehicleGraphByIdDocument, options);
 
       const pickVehicleGraph: PickUpdateVehicleGraphByIdFn = (mutation) => { return mutation && mutation.update_vehicle && mutation.update_vehicle!.returning && mutation.update_vehicle!.returning[0]; };
@@ -308,7 +308,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     type UpdateVehicleGraphObjectsWrappedLazyMutationFn = (options?: MutationFunctionOptions<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables>) => Promise<UpdateVehicleGraphObjectsMutationResultEx>;
     export type UpdateVehicleGraphObjectsLazyMutationReturn = [UpdateVehicleGraphObjectsWrappedLazyMutationFn, UpdateVehicleGraphObjectsMutationResultEx];
 
-    export function useUpdateVehicleGraph(options?: Omit<MutationHookOptions<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables>, "mutation">): UpdateVehicleGraphObjectsLazyMutationReturn {
+    function useUpdateVehicleGraphObjects(options?: Omit<MutationHookOptions<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables>, "mutation">): UpdateVehicleGraphObjectsLazyMutationReturn {
       const lazyMutation: UpdateVehicleGraphObjectsLazyMutationFn = useMutation<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables>(UpdateVehicleGraphDocument, options);
 
       const pickObjects: PickUpdateVehicleGraphObjectsFn = (mutation: UpdateVehicleGraphMutation | null | undefined) => {
@@ -337,7 +337,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     type RemoveVehicleModelWrappedLazyMutationFn = ({ vehicleId, options }: { vehicleId: string; options?: Omit<MutationFunctionOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, "variables">; }) => Promise<RemoveVehicleModelByIdMutationResultEx>;
     export type RemoveVehicleModelLazyMutationReturn = [RemoveVehicleModelWrappedLazyMutationFn, RemoveVehicleModelByIdMutationResultEx];
 
-    export function useRemoveVehicleModelById(options?: Omit<MutationHookOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, "mutation" | "variables">) {
+    function useRemoveVehicleModelById(options?: Omit<MutationHookOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, "mutation" | "variables">) {
       const lazyMutation: RemoveVehicleModelLazyMutationFn = useMutation<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>(RemoveVehicleModelByIdDocument, options);
 
       const pickAffectedRows: PickRemoveVehicleModelFn = (mutation: RemoveVehicleModelByIdMutation | null | undefined) => {
@@ -369,7 +369,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     type RemoveVehicleModelObjectsWrappedLazyMutationFn = (options: MutationFunctionOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>) => Promise<RemoveVehicleModelObjectsMutationResultEx>;
     export type RemoveVehicleModelObjectsLazyMutationReturn = [RemoveVehicleModelObjectsWrappedLazyMutationFn, RemoveVehicleModelObjectsMutationResultEx];
 
-    export function useRemoveVehicleModelObjects(options?: Omit<MutationHookOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>, "mutation">): RemoveVehicleModelObjectsLazyMutationReturn {
+    function useRemoveVehicleModelObjects(options?: Omit<MutationHookOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>, "mutation">): RemoveVehicleModelObjectsLazyMutationReturn {
       const lazyMutation = useMutation<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>(RemoveVehicleModelDocument, options);
 
       const pickAffectedRows: PickRemoveVehicleModelObjectsFn = (mutation: RemoveVehicleModelMutation | null | undefined) => {
@@ -382,6 +382,31 @@ import { RemoveDogsModelByIdDocument } from '../';
       };
 
       return [wrappedLazyMutation, { ...lazyMutation[1], affected_rows: pickAffectedRows(lazyMutation[1].data) }];
+    }
+  
+
+    // VehicleGraph Fragment Hooks Object
+    //------------------------------------------------
+
+    export const VehicleGraphFragmentGQLHooks = {
+      useFetchByIdQuery: useFetchVehicleGraphByIdQuery,
+      useFetchByIdLazyQuery: useFetchVehicleGraphByIdLazyQuery,
+      useFetchObjectsQuery: useFetchVehicleGraphObjectsQuery,
+      useFetchObjectsLazyQuery: useFetchVehicleGraphObjectsLazyQuery,
+      useInsert: useInsertVehicleGraph,
+      useInsertWithOnConflict: useInsertVehicleGraphWithOnConflict,
+      useInsertObjects: useInsertVehicleGraphObjects,
+      useUpdateById: useUpdateVehicleGraphById,
+      useUpdateObjects: useUpdateVehicleGraphObjects,
+    }
+  
+
+    // vehicle Model Hooks Object
+    //------------------------------------------------
+
+    export const VehicleModelGQLHooks = {
+      useRemoveById: useRemoveVehicleModelById,
+      useRemoveObjects: useRemoveVehicleModelObjects
     }
   
 
@@ -419,7 +444,7 @@ import { RemoveDogsModelByIdDocument } from '../';
         export type FetchVehicleGraphLocationOnlyByIdQueryResultEx = FetchVehicleGraphLocationOnlyByIdQueryResult & VehicleGraphLocationOnlyByIdHookResultEx;
 
         // Function
-        export function useFetchVehicleGraphLocationOnlyByIdQuery({ vehicleId, options }: { vehicleId: string; options?: Omit<QueryHookOptions<FetchVehicleGraphLocationOnlyByIdQuery, FetchVehicleGraphLocationOnlyByIdQueryVariables>, "query" | "variables">; }): FetchVehicleGraphLocationOnlyByIdQueryResultEx {
+        function useFetchVehicleGraphLocationOnlyByIdQuery({ vehicleId, options }: { vehicleId: string; options?: Omit<QueryHookOptions<FetchVehicleGraphLocationOnlyByIdQuery, FetchVehicleGraphLocationOnlyByIdQueryVariables>, "query" | "variables">; }): FetchVehicleGraphLocationOnlyByIdQueryResultEx {
           const query: FetchVehicleGraphLocationOnlyByIdQueryResult = useQuery<FetchVehicleGraphLocationOnlyByIdQuery, FetchVehicleGraphLocationOnlyByIdQueryVariables>(FetchVehicleGraphLocationOnlyByIdDocument, { variables: { vehicleId }, ...options });
           return { ...query, vehicleGraphLocationOnly: query && query.data && query.data.vehicle_by_pk };
         }
@@ -446,7 +471,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       export type FetchVehicleGraphLocationOnlyByIdLazyQueryReturn = [FetchVehicleGraphLocationOnlyByIdWrappedLazyQueryFn, FetchVehicleGraphLocationOnlyByIdQueryResultEx];
 
       // Function
-      export function useFetchVehicleGraphLocationOnlyByIdLazyQuery(options?: Omit<LazyQueryHookOptions<FetchVehicleGraphLocationOnlyByIdQuery, FetchVehicleGraphLocationOnlyByIdQueryVariables>, "query" | "variables">): FetchVehicleGraphLocationOnlyByIdLazyQueryReturn {
+      function useFetchVehicleGraphLocationOnlyByIdLazyQuery(options?: Omit<LazyQueryHookOptions<FetchVehicleGraphLocationOnlyByIdQuery, FetchVehicleGraphLocationOnlyByIdQueryVariables>, "query" | "variables">): FetchVehicleGraphLocationOnlyByIdLazyQueryReturn {
         const lazyQuery: FetchVehicleGraphLocationOnlyByIdLazyQueryFn = useLazyQuery<FetchVehicleGraphLocationOnlyByIdQuery, FetchVehicleGraphLocationOnlyByIdQueryVariables>(FetchVehicleGraphLocationOnlyByIdDocument, options);
         const pickVehicleGraphLocationOnly: PickFetchVehicleGraphLocationOnlyByIdFn = query => { return query && query.vehicle_by_pk; };
         const wrappedLazyQuery: FetchVehicleGraphLocationOnlyByIdWrappedLazyQueryFn = ({ vehicleId, options }) => { return lazyQuery[0]({ variables: { vehicleId }, ...options }); };
@@ -463,7 +488,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       export type FetchVehicleGraphLocationOnlyObjectsQueryResultEx = FetchVehicleGraphLocationOnlyObjectsQueryResult & VehicleGraphLocationOnlyObjectsHookResultEx;
 
       // Function
-      export function useFetchVehicleGraphLocationOnlyObjectsQuery(options: Omit<QueryHookOptions<FetchVehicleGraphLocationOnlyQuery, FetchVehicleGraphLocationOnlyQueryVariables>, "query">): FetchVehicleGraphLocationOnlyObjectsQueryResultEx {
+      function useFetchVehicleGraphLocationOnlyObjectsQuery(options: Omit<QueryHookOptions<FetchVehicleGraphLocationOnlyQuery, FetchVehicleGraphLocationOnlyQueryVariables>, "query">): FetchVehicleGraphLocationOnlyObjectsQueryResultEx {
         const query:FetchVehicleGraphLocationOnlyObjectsQueryResult = useQuery<FetchVehicleGraphLocationOnlyQuery, FetchVehicleGraphLocationOnlyQueryVariables>(FetchVehicleGraphLocationOnlyDocument, options);
         return { ...query, objects: (query && query.data && query.data.vehicle) || [] };
       }
@@ -479,7 +504,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       export type FetchVehicleGraphLocationOnlyObjectsLazyQueryReturn = [FetchVehicleGraphLocationOnlyObjectsWrappedLazyQueryFn, FetchVehicleGraphLocationOnlyObjectsQueryResultEx];
 
       // Function
-      export function useFetchVehicleGraphLocationOnlyObjectsLazyQuery(options?: Omit<LazyQueryHookOptions<FetchVehicleGraphLocationOnlyQuery, FetchVehicleGraphLocationOnlyQueryVariables>, "query">): FetchVehicleGraphLocationOnlyObjectsLazyQueryReturn {
+      function useFetchVehicleGraphLocationOnlyObjectsLazyQuery(options?: Omit<LazyQueryHookOptions<FetchVehicleGraphLocationOnlyQuery, FetchVehicleGraphLocationOnlyQueryVariables>, "query">): FetchVehicleGraphLocationOnlyObjectsLazyQueryReturn {
         const lazyQuery: FetchVehicleGraphLocationOnlyObjectsLazyQueryFn = useLazyQuery<FetchVehicleGraphLocationOnlyQuery, FetchVehicleGraphLocationOnlyQueryVariables>(FetchVehicleGraphLocationOnlyDocument, options);
         const pickObjects: PickFetchVehicleGraphLocationOnlyObjectsFn = (query: FetchVehicleGraphLocationOnlyQuery | null | undefined) => { return (query && query.vehicle) || []; };
         const wrappedLazyQuery: FetchVehicleGraphLocationOnlyObjectsWrappedLazyQueryFn = (options) => { return lazyQuery[0]( options ); };
@@ -500,7 +525,7 @@ import { RemoveDogsModelByIdDocument } from '../';
   export type InsertVehicleGraphLocationOnlyLazyMutationReturn = [InsertVehicleGraphLocationOnlyWrappedLazyMutationFn, InsertVehicleGraphLocationOnlyMutationResultEx];
 
   // Function
-  export function useInsertVehicleGraphLocationOnly(options?: Omit<MutationHookOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, "mutation" | "variables">): InsertVehicleGraphLocationOnlyLazyMutationReturn {
+  function useInsertVehicleGraphLocationOnly(options?: Omit<MutationHookOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, "mutation" | "variables">): InsertVehicleGraphLocationOnlyLazyMutationReturn {
     const lazyMutation: InsertVehicleGraphLocationOnlyLazyMutationFn = useMutation<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>(InsertVehicleGraphLocationOnlyDocument, options);
     const pickVehicleGraphLocationOnly: PickInsertVehicleGraphLocationOnlyFn = (mutation) => { return mutation && mutation.insert_vehicle && mutation.insert_vehicle!.returning && mutation.insert_vehicle!.returning[0]; };
 
@@ -529,7 +554,7 @@ import { RemoveDogsModelByIdDocument } from '../';
   export type InsertVehicleGraphLocationOnlyWithOnConflictLazyMutationReturn = [InsertVehicleGraphLocationOnlyWithOnConflictWrappedLazyMutationFn, InsertVehicleGraphLocationOnlyMutationResultEx];
 
   // Function
-  export function useInsertVehicleGraphLocationOnlyWithOnConflict( options?: Omit<MutationHookOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, "mutation" | "variables"> ): InsertVehicleGraphLocationOnlyWithOnConflictLazyMutationReturn {
+  function useInsertVehicleGraphLocationOnlyWithOnConflict( options?: Omit<MutationHookOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, "mutation" | "variables"> ): InsertVehicleGraphLocationOnlyWithOnConflictLazyMutationReturn {
     const lazyMutation: InsertVehicleGraphLocationOnlyWithOnConflictLazyMutationFn = useMutation<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyWithOnConflictMutationVariables>(InsertVehicleGraphLocationOnlyWithOnConflictDocument, options);
     const pickVehicleGraphLocationOnly: PickInsertVehicleGraphLocationOnlyFn = (mutation: InsertVehicleGraphLocationOnlyMutation | null | undefined) => { return mutation && mutation.insert_vehicle && mutation.insert_vehicle!.returning && mutation.insert_vehicle!.returning[0]; };
 
@@ -559,7 +584,7 @@ import { RemoveDogsModelByIdDocument } from '../';
   export type InsertVehicleGraphLocationOnlyObjectsLazyMutationReturn = [InsertVehicleGraphLocationOnlyObjectsWrappedLazyMutationFn, InsertVehicleGraphLocationOnlyObjectsMutationResultEx];
 
   // Function
-  export function useInsertVehicleGraphLocationOnlyObjects(options?: Omit<MutationHookOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, "mutation">): InsertVehicleGraphLocationOnlyObjectsLazyMutationReturn {
+  function useInsertVehicleGraphLocationOnlyObjects(options?: Omit<MutationHookOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, "mutation">): InsertVehicleGraphLocationOnlyObjectsLazyMutationReturn {
     const lazyMutation: InsertVehicleGraphLocationOnlyObjectsLazyMutationFn = useMutation<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>(InsertVehicleGraphLocationOnlyDocument, options);
     const pickObjects: PickInsertVehicleGraphLocationOnlyObjectsFn = (mutation: InsertVehicleGraphLocationOnlyMutation | null | undefined) => { return (mutation && mutation.insert_vehicle && mutation.insert_vehicle!.returning) || []; };
 
@@ -583,7 +608,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     type UpdateVehicleGraphLocationOnlyByIdWrappedLazyMutationFn = ({ vehicleId, set, autoOptimisticResponse, options }: { vehicleId: string; set: Vehicle_Set_Input; autoOptimisticResponse?: boolean; options?: Omit<MutationFunctionOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>, "variables">; }) => Promise<UpdateVehicleGraphLocationOnlyByIdMutationResultEx>;
     export type UpdateVehicleGraphLocationOnlyByIdLazyMutationReturn = [UpdateVehicleGraphLocationOnlyByIdWrappedLazyMutationFn, UpdateVehicleGraphLocationOnlyByIdMutationResultEx];
 
-    export function useUpdateVehicleGraphLocationOnlyById(options?: Omit<MutationHookOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>, "mutation" | "variables">): UpdateVehicleGraphLocationOnlyByIdLazyMutationReturn {
+    function useUpdateVehicleGraphLocationOnlyById(options?: Omit<MutationHookOptions<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>, "mutation" | "variables">): UpdateVehicleGraphLocationOnlyByIdLazyMutationReturn {
       const lazyMutation: UpdateVehicleGraphLocationOnlyByIdLazyMutationFn = useMutation<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>(UpdateVehicleGraphLocationOnlyByIdDocument, options);
 
       const pickVehicleGraphLocationOnly: PickUpdateVehicleGraphLocationOnlyByIdFn = (mutation) => { return mutation && mutation.update_vehicle && mutation.update_vehicle!.returning && mutation.update_vehicle!.returning[0]; };
@@ -615,7 +640,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     type UpdateVehicleGraphLocationOnlyObjectsWrappedLazyMutationFn = (options?: MutationFunctionOptions<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>) => Promise<UpdateVehicleGraphLocationOnlyObjectsMutationResultEx>;
     export type UpdateVehicleGraphLocationOnlyObjectsLazyMutationReturn = [UpdateVehicleGraphLocationOnlyObjectsWrappedLazyMutationFn, UpdateVehicleGraphLocationOnlyObjectsMutationResultEx];
 
-    export function useUpdateVehicleGraphLocationOnly(options?: Omit<MutationHookOptions<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>, "mutation">): UpdateVehicleGraphLocationOnlyObjectsLazyMutationReturn {
+    function useUpdateVehicleGraphLocationOnlyObjects(options?: Omit<MutationHookOptions<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>, "mutation">): UpdateVehicleGraphLocationOnlyObjectsLazyMutationReturn {
       const lazyMutation: UpdateVehicleGraphLocationOnlyObjectsLazyMutationFn = useMutation<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>(UpdateVehicleGraphLocationOnlyDocument, options);
 
       const pickObjects: PickUpdateVehicleGraphLocationOnlyObjectsFn = (mutation: UpdateVehicleGraphLocationOnlyMutation | null | undefined) => {
@@ -628,6 +653,22 @@ import { RemoveDogsModelByIdDocument } from '../';
       };
 
       return [wrappedLazyMutation, { ...lazyMutation[1], objects: pickObjects(lazyMutation[1].data) }];
+    }
+  
+
+    // VehicleGraphLocationOnly Fragment Hooks Object
+    //------------------------------------------------
+
+    export const VehicleGraphLocationOnlyFragmentGQLHooks = {
+      useFetchByIdQuery: useFetchVehicleGraphLocationOnlyByIdQuery,
+      useFetchByIdLazyQuery: useFetchVehicleGraphLocationOnlyByIdLazyQuery,
+      useFetchObjectsQuery: useFetchVehicleGraphLocationOnlyObjectsQuery,
+      useFetchObjectsLazyQuery: useFetchVehicleGraphLocationOnlyObjectsLazyQuery,
+      useInsert: useInsertVehicleGraphLocationOnly,
+      useInsertWithOnConflict: useInsertVehicleGraphLocationOnlyWithOnConflict,
+      useInsertObjects: useInsertVehicleGraphLocationOnlyObjects,
+      useUpdateById: useUpdateVehicleGraphLocationOnlyById,
+      useUpdateObjects: useUpdateVehicleGraphLocationOnlyObjects,
     }
   
 
@@ -665,7 +706,7 @@ import { RemoveDogsModelByIdDocument } from '../';
         export type FetchDogModelByIdQueryResultEx = FetchDogModelByIdQueryResult & DogModelByIdHookResultEx;
 
         // Function
-        export function useFetchDogModelByIdQuery({ dogsId, options }: { dogsId: string; options?: Omit<QueryHookOptions<FetchDogModelByIdQuery, FetchDogModelByIdQueryVariables>, "query" | "variables">; }): FetchDogModelByIdQueryResultEx {
+        function useFetchDogModelByIdQuery({ dogsId, options }: { dogsId: string; options?: Omit<QueryHookOptions<FetchDogModelByIdQuery, FetchDogModelByIdQueryVariables>, "query" | "variables">; }): FetchDogModelByIdQueryResultEx {
           const query: FetchDogModelByIdQueryResult = useQuery<FetchDogModelByIdQuery, FetchDogModelByIdQueryVariables>(FetchDogModelByIdDocument, { variables: { dogsId }, ...options });
           return { ...query, dogModel: query && query.data && query.data.dogs_by_pk };
         }
@@ -692,7 +733,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       export type FetchDogModelByIdLazyQueryReturn = [FetchDogModelByIdWrappedLazyQueryFn, FetchDogModelByIdQueryResultEx];
 
       // Function
-      export function useFetchDogModelByIdLazyQuery(options?: Omit<LazyQueryHookOptions<FetchDogModelByIdQuery, FetchDogModelByIdQueryVariables>, "query" | "variables">): FetchDogModelByIdLazyQueryReturn {
+      function useFetchDogModelByIdLazyQuery(options?: Omit<LazyQueryHookOptions<FetchDogModelByIdQuery, FetchDogModelByIdQueryVariables>, "query" | "variables">): FetchDogModelByIdLazyQueryReturn {
         const lazyQuery: FetchDogModelByIdLazyQueryFn = useLazyQuery<FetchDogModelByIdQuery, FetchDogModelByIdQueryVariables>(FetchDogModelByIdDocument, options);
         const pickDogModel: PickFetchDogModelByIdFn = query => { return query && query.dogs_by_pk; };
         const wrappedLazyQuery: FetchDogModelByIdWrappedLazyQueryFn = ({ dogsId, options }) => { return lazyQuery[0]({ variables: { dogsId }, ...options }); };
@@ -709,7 +750,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       export type FetchDogModelObjectsQueryResultEx = FetchDogModelObjectsQueryResult & DogModelObjectsHookResultEx;
 
       // Function
-      export function useFetchDogModelObjectsQuery(options: Omit<QueryHookOptions<FetchDogModelQuery, FetchDogModelQueryVariables>, "query">): FetchDogModelObjectsQueryResultEx {
+      function useFetchDogModelObjectsQuery(options: Omit<QueryHookOptions<FetchDogModelQuery, FetchDogModelQueryVariables>, "query">): FetchDogModelObjectsQueryResultEx {
         const query:FetchDogModelObjectsQueryResult = useQuery<FetchDogModelQuery, FetchDogModelQueryVariables>(FetchDogModelDocument, options);
         return { ...query, objects: (query && query.data && query.data.dogs) || [] };
       }
@@ -725,7 +766,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       export type FetchDogModelObjectsLazyQueryReturn = [FetchDogModelObjectsWrappedLazyQueryFn, FetchDogModelObjectsQueryResultEx];
 
       // Function
-      export function useFetchDogModelObjectsLazyQuery(options?: Omit<LazyQueryHookOptions<FetchDogModelQuery, FetchDogModelQueryVariables>, "query">): FetchDogModelObjectsLazyQueryReturn {
+      function useFetchDogModelObjectsLazyQuery(options?: Omit<LazyQueryHookOptions<FetchDogModelQuery, FetchDogModelQueryVariables>, "query">): FetchDogModelObjectsLazyQueryReturn {
         const lazyQuery: FetchDogModelObjectsLazyQueryFn = useLazyQuery<FetchDogModelQuery, FetchDogModelQueryVariables>(FetchDogModelDocument, options);
         const pickObjects: PickFetchDogModelObjectsFn = (query: FetchDogModelQuery | null | undefined) => { return (query && query.dogs) || []; };
         const wrappedLazyQuery: FetchDogModelObjectsWrappedLazyQueryFn = (options) => { return lazyQuery[0]( options ); };
@@ -746,7 +787,7 @@ import { RemoveDogsModelByIdDocument } from '../';
   export type InsertDogModelLazyMutationReturn = [InsertDogModelWrappedLazyMutationFn, InsertDogModelMutationResultEx];
 
   // Function
-  export function useInsertDogModel(options?: Omit<MutationHookOptions<InsertDogModelMutation, InsertDogModelMutationVariables>, "mutation" | "variables">): InsertDogModelLazyMutationReturn {
+  function useInsertDogModel(options?: Omit<MutationHookOptions<InsertDogModelMutation, InsertDogModelMutationVariables>, "mutation" | "variables">): InsertDogModelLazyMutationReturn {
     const lazyMutation: InsertDogModelLazyMutationFn = useMutation<InsertDogModelMutation, InsertDogModelMutationVariables>(InsertDogModelDocument, options);
     const pickDogModel: PickInsertDogModelFn = (mutation) => { return mutation && mutation.insert_dogs && mutation.insert_dogs!.returning && mutation.insert_dogs!.returning[0]; };
 
@@ -775,7 +816,7 @@ import { RemoveDogsModelByIdDocument } from '../';
   export type InsertDogModelWithOnConflictLazyMutationReturn = [InsertDogModelWithOnConflictWrappedLazyMutationFn, InsertDogModelMutationResultEx];
 
   // Function
-  export function useInsertDogModelWithOnConflict( options?: Omit<MutationHookOptions<InsertDogModelMutation, InsertDogModelMutationVariables>, "mutation" | "variables"> ): InsertDogModelWithOnConflictLazyMutationReturn {
+  function useInsertDogModelWithOnConflict( options?: Omit<MutationHookOptions<InsertDogModelMutation, InsertDogModelMutationVariables>, "mutation" | "variables"> ): InsertDogModelWithOnConflictLazyMutationReturn {
     const lazyMutation: InsertDogModelWithOnConflictLazyMutationFn = useMutation<InsertDogModelMutation, InsertDogModelWithOnConflictMutationVariables>(InsertDogModelWithOnConflictDocument, options);
     const pickDogModel: PickInsertDogModelFn = (mutation: InsertDogModelMutation | null | undefined) => { return mutation && mutation.insert_dogs && mutation.insert_dogs!.returning && mutation.insert_dogs!.returning[0]; };
 
@@ -805,7 +846,7 @@ import { RemoveDogsModelByIdDocument } from '../';
   export type InsertDogModelObjectsLazyMutationReturn = [InsertDogModelObjectsWrappedLazyMutationFn, InsertDogModelObjectsMutationResultEx];
 
   // Function
-  export function useInsertDogModelObjects(options?: Omit<MutationHookOptions<InsertDogModelMutation, InsertDogModelMutationVariables>, "mutation">): InsertDogModelObjectsLazyMutationReturn {
+  function useInsertDogModelObjects(options?: Omit<MutationHookOptions<InsertDogModelMutation, InsertDogModelMutationVariables>, "mutation">): InsertDogModelObjectsLazyMutationReturn {
     const lazyMutation: InsertDogModelObjectsLazyMutationFn = useMutation<InsertDogModelMutation, InsertDogModelMutationVariables>(InsertDogModelDocument, options);
     const pickObjects: PickInsertDogModelObjectsFn = (mutation: InsertDogModelMutation | null | undefined) => { return (mutation && mutation.insert_dogs && mutation.insert_dogs!.returning) || []; };
 
@@ -829,7 +870,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     type UpdateDogModelByIdWrappedLazyMutationFn = ({ dogsId, set, autoOptimisticResponse, options }: { dogsId: string; set: Dogs_Set_Input; autoOptimisticResponse?: boolean; options?: Omit<MutationFunctionOptions<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>, "variables">; }) => Promise<UpdateDogModelByIdMutationResultEx>;
     export type UpdateDogModelByIdLazyMutationReturn = [UpdateDogModelByIdWrappedLazyMutationFn, UpdateDogModelByIdMutationResultEx];
 
-    export function useUpdateDogModelById(options?: Omit<MutationHookOptions<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>, "mutation" | "variables">): UpdateDogModelByIdLazyMutationReturn {
+    function useUpdateDogModelById(options?: Omit<MutationHookOptions<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>, "mutation" | "variables">): UpdateDogModelByIdLazyMutationReturn {
       const lazyMutation: UpdateDogModelByIdLazyMutationFn = useMutation<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>(UpdateDogModelByIdDocument, options);
 
       const pickDogModel: PickUpdateDogModelByIdFn = (mutation) => { return mutation && mutation.update_dogs && mutation.update_dogs!.returning && mutation.update_dogs!.returning[0]; };
@@ -861,7 +902,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     type UpdateDogModelObjectsWrappedLazyMutationFn = (options?: MutationFunctionOptions<UpdateDogModelMutation, UpdateDogModelMutationVariables>) => Promise<UpdateDogModelObjectsMutationResultEx>;
     export type UpdateDogModelObjectsLazyMutationReturn = [UpdateDogModelObjectsWrappedLazyMutationFn, UpdateDogModelObjectsMutationResultEx];
 
-    export function useUpdateDogModel(options?: Omit<MutationHookOptions<UpdateDogModelMutation, UpdateDogModelMutationVariables>, "mutation">): UpdateDogModelObjectsLazyMutationReturn {
+    function useUpdateDogModelObjects(options?: Omit<MutationHookOptions<UpdateDogModelMutation, UpdateDogModelMutationVariables>, "mutation">): UpdateDogModelObjectsLazyMutationReturn {
       const lazyMutation: UpdateDogModelObjectsLazyMutationFn = useMutation<UpdateDogModelMutation, UpdateDogModelMutationVariables>(UpdateDogModelDocument, options);
 
       const pickObjects: PickUpdateDogModelObjectsFn = (mutation: UpdateDogModelMutation | null | undefined) => {
@@ -890,7 +931,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     type RemoveDogsModelWrappedLazyMutationFn = ({ dogsId, options }: { dogsId: string; options?: Omit<MutationFunctionOptions<RemoveDogsModelByIdMutation, RemoveDogsModelByIdMutationVariables>, "variables">; }) => Promise<RemoveDogsModelByIdMutationResultEx>;
     export type RemoveDogsModelLazyMutationReturn = [RemoveDogsModelWrappedLazyMutationFn, RemoveDogsModelByIdMutationResultEx];
 
-    export function useRemoveDogsModelById(options?: Omit<MutationHookOptions<RemoveDogsModelByIdMutation, RemoveDogsModelByIdMutationVariables>, "mutation" | "variables">) {
+    function useRemoveDogsModelById(options?: Omit<MutationHookOptions<RemoveDogsModelByIdMutation, RemoveDogsModelByIdMutationVariables>, "mutation" | "variables">) {
       const lazyMutation: RemoveDogsModelLazyMutationFn = useMutation<RemoveDogsModelByIdMutation, RemoveDogsModelByIdMutationVariables>(RemoveDogsModelByIdDocument, options);
 
       const pickAffectedRows: PickRemoveDogsModelFn = (mutation: RemoveDogsModelByIdMutation | null | undefined) => {
@@ -922,7 +963,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     type RemoveDogsModelObjectsWrappedLazyMutationFn = (options: MutationFunctionOptions<RemoveDogsModelMutation, RemoveDogsModelMutationVariables>) => Promise<RemoveDogsModelObjectsMutationResultEx>;
     export type RemoveDogsModelObjectsLazyMutationReturn = [RemoveDogsModelObjectsWrappedLazyMutationFn, RemoveDogsModelObjectsMutationResultEx];
 
-    export function useRemoveDogsModelObjects(options?: Omit<MutationHookOptions<RemoveDogsModelMutation, RemoveDogsModelMutationVariables>, "mutation">): RemoveDogsModelObjectsLazyMutationReturn {
+    function useRemoveDogsModelObjects(options?: Omit<MutationHookOptions<RemoveDogsModelMutation, RemoveDogsModelMutationVariables>, "mutation">): RemoveDogsModelObjectsLazyMutationReturn {
       const lazyMutation = useMutation<RemoveDogsModelMutation, RemoveDogsModelMutationVariables>(RemoveDogsModelDocument, options);
 
       const pickAffectedRows: PickRemoveDogsModelObjectsFn = (mutation: RemoveDogsModelMutation | null | undefined) => {
@@ -935,5 +976,45 @@ import { RemoveDogsModelByIdDocument } from '../';
       };
 
       return [wrappedLazyMutation, { ...lazyMutation[1], affected_rows: pickAffectedRows(lazyMutation[1].data) }];
+    }
+  
+
+    // DogModel Fragment Hooks Object
+    //------------------------------------------------
+
+    export const DogModelFragmentGQLHooks = {
+      useFetchByIdQuery: useFetchDogModelByIdQuery,
+      useFetchByIdLazyQuery: useFetchDogModelByIdLazyQuery,
+      useFetchObjectsQuery: useFetchDogModelObjectsQuery,
+      useFetchObjectsLazyQuery: useFetchDogModelObjectsLazyQuery,
+      useInsert: useInsertDogModel,
+      useInsertWithOnConflict: useInsertDogModelWithOnConflict,
+      useInsertObjects: useInsertDogModelObjects,
+      useUpdateById: useUpdateDogModelById,
+      useUpdateObjects: useUpdateDogModelObjects,
+    }
+  
+
+    // dogs Model Hooks Object
+    //------------------------------------------------
+
+    export const DogsModelGQLHooks = {
+      useRemoveById: useRemoveDogsModelById,
+      useRemoveObjects: useRemoveDogsModelObjects
+    }
+  
+
+    // COMBINED HOOKS OBJECT
+    //------------------------------------------------
+    export const GQLHooks = {
+      Fragments: {
+        VehicleGraph: VehicleGraphFragmentGQLHooks,
+        VehicleGraphLocationOnly: VehicleGraphLocationOnlyFragmentGQLHooks,
+        DogModel: DogModelFragmentGQLHooks
+      },
+      Models: {
+        VehicleModel: VehicleModelGQLHooks,
+        DogsModel: DogsModelGQLHooks
+      }
     }
   

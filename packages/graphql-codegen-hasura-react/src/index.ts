@@ -7,10 +7,12 @@ import {
   getPrimaryKeyIdField,
   injectDeleteReact,
   injectFetchReact,
-  injectGlobalReactCode,
   injectInsertReact,
-  injectSharedReact,
-  injectUpdateReact
+  injectUpdateReact,
+  injectGlobalReactCodePre,
+  injectSharedReactPre,
+  injectGlobalReactCodePost,
+  injectSharedReactPost
 } from "graphql-codegen-hasura-shared";
 
 // -----------------------------------------------------
@@ -35,7 +37,7 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
 
   const contentManager = new ContentManager();
 
-  injectGlobalReactCode({
+  injectGlobalReactCodePre({
     contentManager,
     typescriptCodegenOutputPath: config.typescriptCodegenOutputPath,
     withUpdates: config.withUpdates
@@ -51,11 +53,23 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
 
   // iterate and generate
   documentFragments.map(fragmentDefinition => {
-    injectEntitySharedTypeScript(fragmentDefinition, contentManager, typeMap, config);
+    injectEntitySharedTypeScriptPre(fragmentDefinition, contentManager, typeMap, config);
     config.withQueries && injectEntityQueryTypeScript(fragmentDefinition, contentManager, typeMap, config);
     config.withInserts && injectEntityInsertMutationTypeScript(fragmentDefinition, contentManager, typeMap, config);
     config.withUpdates && injectEntityUpdateMutationTypeScript(fragmentDefinition, contentManager, typeMap, config);
     config.withDeletes && injectEntityDeleteMutationTypeScript(fragmentDefinition, contentManager, typeMap, config);
+    injectEntitySharedTypeScriptPost(fragmentDefinition, typeMap, contentManager, config);
+  });
+
+  injectGlobalReactCodePost({
+    contentManager,
+    fragmentDefinitionNodes: documentFragments,
+    schemaTypeMap: typeMap,
+    trimString: config.trimString,
+    withUpdates: config.withUpdates,
+    withInserts: config.withInserts,
+    withQueries: config.withQueries,
+    withDeletes: config.withDeletes
   });
 
   return {
@@ -67,7 +81,12 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
 // --------------------------------------
 //
 
-function injectEntitySharedTypeScript(fragmentDefinitionNode: FragmentDefinitionNode, contentManager: ContentManager, schemaTypeMap: TypeMap, config: CstmHasuraCrudPluginConfig) {
+function injectEntitySharedTypeScriptPre(
+  fragmentDefinitionNode: FragmentDefinitionNode,
+  contentManager: ContentManager,
+  schemaTypeMap: TypeMap,
+  config: CstmHasuraCrudPluginConfig
+) {
   const fragmentName = fragmentDefinitionNode.name.value;
   const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
   const relatedTableNamedType = schemaTypeMap[fragmentTableName];
@@ -75,7 +94,7 @@ function injectEntitySharedTypeScript(fragmentDefinitionNode: FragmentDefinition
   const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
   if (!relatedTablePrimaryKeyIdField) return;
 
-  injectSharedReact({
+  injectSharedReactPre({
     contentManager,
     entityName: relatedTableNamedType.name,
     fragmentName,
@@ -84,6 +103,37 @@ function injectEntitySharedTypeScript(fragmentDefinitionNode: FragmentDefinition
     typescriptCodegenOutputPath: config.typescriptCodegenOutputPath
   });
 }
+
+// --------------------------------------
+//
+
+function injectEntitySharedTypeScriptPost(
+  fragmentDefinitionNode: FragmentDefinitionNode,
+  schemaTypeMap: TypeMap,
+  contentManager: ContentManager,
+  config: CstmHasuraCrudPluginConfig
+) {
+  const fragmentName = fragmentDefinitionNode.name.value;
+  const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
+  const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+
+  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+  if (!relatedTablePrimaryKeyIdField) return;
+
+  injectSharedReactPost({
+    contentManager,
+    entityName: relatedTableNamedType.name,
+    fragmentName,
+    trimString: config.trimString,
+    primaryKeyIdField: relatedTablePrimaryKeyIdField,
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath,
+    withUpdates: config.withUpdates,
+    withInserts: config.withInserts,
+    withQueries: config.withQueries,
+    withDeletes: config.withDeletes
+  });
+}
+
 // --------------------------------------
 //
 
