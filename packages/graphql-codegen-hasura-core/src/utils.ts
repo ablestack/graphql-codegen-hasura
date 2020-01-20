@@ -1,3 +1,5 @@
+import { defaultDataIdFromObject } from "@apollo/client";
+
 // Optimistic response generation utility method
 //
 export function generateOptimisticResponseForMutation<T>({
@@ -5,7 +7,7 @@ export function generateOptimisticResponseForMutation<T>({
   entityName,
   objects
 }: {
-  operationType: "update" | "insert";
+  operationType: "update" | "insert" | "delete";
   entityName: string;
   objects: { id: any }[];
 }): T {
@@ -21,4 +23,14 @@ export function generateOptimisticResponseForMutation<T>({
   } as unknown) as T;
 
   return optimisticResponse;
+}
+
+/**
+ *
+ * @param param0
+ */
+export function generateUpdateFunctionForMutation<T>({ operationType, entityName, entityId }: { operationType: "delete"; entityName: string; entityId: string }) {
+  return (cache: any, result: any) => {
+    cache.evict(defaultDataIdFromObject({ __typename: entityName, id: entityId }));
+  };
 }

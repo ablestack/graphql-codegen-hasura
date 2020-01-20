@@ -1,4 +1,4 @@
-import { ObjectWithId, generateOptimisticResponseForMutation } from 'graphql-codegen-hasura-core'
+import { ObjectWithId, generateOptimisticResponseForMutation, generateUpdateFunctionForMutation } from 'graphql-codegen-hasura-core'
 import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation, QueryLazyOptions, MutationFunctionOptions, QueryResult, MutationTuple, FetchResult } from '@apollo/client';
 import { VehicleGraphFragment } from '../';
 import { FetchVehicleGraphByIdQuery } from '../';
@@ -334,18 +334,22 @@ import { RemoveDogsModelByIdDocument } from '../';
     // Function
     type PickRemoveVehicleModelFn = (mutation: RemoveVehicleModelByIdMutation | null | undefined) => number;
     type RemoveVehicleModelLazyMutationFn = MutationTuple<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>;
-    type RemoveVehicleModelWrappedLazyMutationFn = ({ vehicleId, options }: { vehicleId: string; options?: Omit<MutationFunctionOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, "variables">; }) => Promise<RemoveVehicleModelByIdMutationResultEx>;
+    type RemoveVehicleModelWrappedLazyMutationFn = ({ vehicleId, autoOptimisticResponse, options }: { vehicleId: string; autoOptimisticResponse?:boolean, options?: Omit<MutationFunctionOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, "variables">; }) => Promise<RemoveVehicleModelByIdMutationResultEx>;
     export type RemoveVehicleModelLazyMutationReturn = [RemoveVehicleModelWrappedLazyMutationFn, RemoveVehicleModelByIdMutationResultEx];
 
     function useRemoveVehicleModelById(options?: Omit<MutationHookOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, "mutation" | "variables">) {
       const lazyMutation: RemoveVehicleModelLazyMutationFn = useMutation<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>(RemoveVehicleModelByIdDocument, options);
-
+      
       const pickAffectedRows: PickRemoveVehicleModelFn = (mutation: RemoveVehicleModelByIdMutation | null | undefined) => {
         return (mutation && mutation.delete_vehicle && mutation.delete_vehicle!.affected_rows) || 0;
       };
 
-      const wrappedLazyMutation: RemoveVehicleModelWrappedLazyMutationFn = async ({ vehicleId, options }) => {
-        const fetchResult: RemoveVehicleModelByIdFetchResult = await lazyMutation[0]({ variables: { id: vehicleId }, ...options });
+      const wrappedLazyMutation: RemoveVehicleModelWrappedLazyMutationFn = async ({ vehicleId, autoOptimisticResponse, options }) => {
+        const mutationOptions:MutationFunctionOptions<RemoveVehicleModelMutation, RemoveVehicleModelByIdMutationVariables> = { variables: { id: vehicleId }, ...options };
+        if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<RemoveVehicleModelMutation>({ operationType: 'delete', entityName:'vehicle', objects:[{ id:vehicleId }] });        }
+        if((!options || !options.update)){ mutationOptions.update = generateUpdateFunctionForMutation<RemoveVehicleModelByIdMutation>({ operationType: 'delete', entityName:'vehicle', entityId:vehicleId }); }
+        
+        const fetchResult: RemoveVehicleModelByIdFetchResult = await lazyMutation[0](mutationOptions);
         return { ...fetchResult, affected_rows: pickAffectedRows(fetchResult.data) };
       };
 
@@ -928,18 +932,22 @@ import { RemoveDogsModelByIdDocument } from '../';
     // Function
     type PickRemoveDogsModelFn = (mutation: RemoveDogsModelByIdMutation | null | undefined) => number;
     type RemoveDogsModelLazyMutationFn = MutationTuple<RemoveDogsModelByIdMutation, RemoveDogsModelByIdMutationVariables>;
-    type RemoveDogsModelWrappedLazyMutationFn = ({ dogsId, options }: { dogsId: string; options?: Omit<MutationFunctionOptions<RemoveDogsModelByIdMutation, RemoveDogsModelByIdMutationVariables>, "variables">; }) => Promise<RemoveDogsModelByIdMutationResultEx>;
+    type RemoveDogsModelWrappedLazyMutationFn = ({ dogsId, autoOptimisticResponse, options }: { dogsId: string; autoOptimisticResponse?:boolean, options?: Omit<MutationFunctionOptions<RemoveDogsModelByIdMutation, RemoveDogsModelByIdMutationVariables>, "variables">; }) => Promise<RemoveDogsModelByIdMutationResultEx>;
     export type RemoveDogsModelLazyMutationReturn = [RemoveDogsModelWrappedLazyMutationFn, RemoveDogsModelByIdMutationResultEx];
 
     function useRemoveDogsModelById(options?: Omit<MutationHookOptions<RemoveDogsModelByIdMutation, RemoveDogsModelByIdMutationVariables>, "mutation" | "variables">) {
       const lazyMutation: RemoveDogsModelLazyMutationFn = useMutation<RemoveDogsModelByIdMutation, RemoveDogsModelByIdMutationVariables>(RemoveDogsModelByIdDocument, options);
-
+      
       const pickAffectedRows: PickRemoveDogsModelFn = (mutation: RemoveDogsModelByIdMutation | null | undefined) => {
         return (mutation && mutation.delete_dogs && mutation.delete_dogs!.affected_rows) || 0;
       };
 
-      const wrappedLazyMutation: RemoveDogsModelWrappedLazyMutationFn = async ({ dogsId, options }) => {
-        const fetchResult: RemoveDogsModelByIdFetchResult = await lazyMutation[0]({ variables: { id: dogsId }, ...options });
+      const wrappedLazyMutation: RemoveDogsModelWrappedLazyMutationFn = async ({ dogsId, autoOptimisticResponse, options }) => {
+        const mutationOptions:MutationFunctionOptions<RemoveDogsModelMutation, RemoveDogsModelByIdMutationVariables> = { variables: { id: dogsId }, ...options };
+        if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<RemoveDogsModelMutation>({ operationType: 'delete', entityName:'dogs', objects:[{ id:dogsId }] });        }
+        if((!options || !options.update)){ mutationOptions.update = generateUpdateFunctionForMutation<RemoveDogsModelByIdMutation>({ operationType: 'delete', entityName:'dogs', entityId:dogsId }); }
+        
+        const fetchResult: RemoveDogsModelByIdFetchResult = await lazyMutation[0](mutationOptions);
         return { ...fetchResult, affected_rows: pickAffectedRows(fetchResult.data) };
       };
 
