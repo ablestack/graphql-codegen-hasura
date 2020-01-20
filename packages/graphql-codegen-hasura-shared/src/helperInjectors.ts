@@ -366,7 +366,7 @@ export function injectDeleteHelpers({
       
       const mutation:Remove${entityModelName}ByIdQueryResult = await apolloClient.mutate<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>(mutationOptions);
     
-      return { ...mutation, affected_rows:(mutation && mutation.data && mutation.data.delete_${entityShortCamelCaseName} && mutation.data.delete_${entityShortCamelCaseName}!.affected_rows) || 0 };
+      return { ...mutation, affected_rows:(mutation && mutation.data && mutation.data.delete_${entityName} && mutation.data.delete_${entityName}!.affected_rows) || 0 };
     }
   `);
 
