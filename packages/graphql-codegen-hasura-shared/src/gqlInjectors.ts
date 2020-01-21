@@ -1,6 +1,6 @@
 import { FieldDefinitionNode } from "graphql";
 import { getIdPostGresFieldType, makeModelName, makeFragmentDocName, ContentManager } from ".";
-import { makeImportStatement, makeShortName, makeCamelCase, makePascalCase } from "./utils";
+import { makeImportStatement, makeShortName, makeCamelCase, makePascalCase, camelToSnakeUpperCase } from "./utils";
 
 // ---------------------------------
 //
@@ -113,11 +113,11 @@ function makeFetchByIdGQL({
   const entityShortCamelName = makeCamelCase(shortName);
   const fragmentDocName = makeFragmentDocName(fragmentName);
   const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
-  const fetchTypePascalCase = makePascalCase(fetchType);
-  const fetchTypeUpperCase = fetchType.toUpperCase();
+  const fetchCamelCaseTypeVerb = fetchType === "query" ? "query" : "subscribeTo";
+  const fetchTypeVerbUpperCase = camelToSnakeUpperCase(fetchCamelCaseTypeVerb);
 
-  return `const FETCH_${fragmentName.toUpperCase()}_BYID_AS_${fetchTypeUpperCase} = gql\`
-  ${fetchType} fetch${fragmentName}ByIdAs${fetchTypePascalCase}($${entityShortCamelName}Id: ${primaryKeyIdPostGresFieldType}!) {
+  return `const ${fetchTypeVerbUpperCase}_${fragmentName.toUpperCase()}_BYID = gql\`
+  ${fetchType} fetchCamelCaseTypeVerb${fragmentName}ById($${entityShortCamelName}Id: ${primaryKeyIdPostGresFieldType}!) {
     ${entityName}_by_pk(id: $${entityShortCamelName}Id) {
       ...${fragmentName}
     }
@@ -142,11 +142,11 @@ function makeFetchObjectsGQL({
   const entityShortCamelName = makeCamelCase(shortName);
   const fragmentDocName = makeFragmentDocName(fragmentName);
   const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
-  const fetchTypePascalCase = makePascalCase(fetchType);
-  const fetchTypeUpperCase = fetchType.toUpperCase();
+  const fetchCamelCaseTypeVerb = fetchType === "query" ? "query" : "subscribeTo";
+  const fetchTypeVerbUpperCase = camelToSnakeUpperCase(fetchCamelCaseTypeVerb);
 
-  return `const FETCH_${fragmentName.toUpperCase()}_OBJECTS_AS_${fetchTypeUpperCase} = gql\`
-  ${fetchType} fetch${fragmentName}As${fetchTypePascalCase}(
+  return `const ${fetchTypeVerbUpperCase}_${fragmentName.toUpperCase()}_OBJECTS = gql\`
+  ${fetchType} ${fetchCamelCaseTypeVerb}${fragmentName}(
     $distinct_on: [${entityName}_select_column!]
     $where: ${entityName}_bool_exp
     $limit: Int

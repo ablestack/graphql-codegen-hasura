@@ -1,6 +1,6 @@
 import { generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, ObjectWithId } from 'graphql-codegen-hasura-core'
-import { ApolloClient, ApolloQueryResult, defaultDataIdFromObject, FetchResult, MutationOptions, ObservableQuery, QueryOptions } from '@apollo/client'
-import { VehicleGraphFragment } from '../';
+import { ApolloClient, ApolloQueryResult, defaultDataIdFromObject, FetchResult, MutationOptions, ObservableQuery, QueryOptions, SubscriptionOptions, Observable } from '@apollo/client'
+import { VehicleGraphFragment, FetchVehicleGraphAsSubscriptionSubscription, FetchVehicleGraphAsSubscriptionSubscriptionVariables, FetchVehicleGraphAsSubscriptionDocument, FetchVehicleGraphByIdAsSubscriptionSubscription, FetchVehicleGraphByIdAsSubscriptionSubscriptionVariables, FetchVehicleGraphByIdAsSubscriptionDocument } from '../';
 import { VehicleGraphFragmentDoc } from '../';
 import { FetchVehicleGraphByIdAsQueryQuery } from '../';
 import { FetchVehicleGraphByIdAsQueryDocument } from '../';
@@ -75,6 +75,7 @@ import { RemoveDogsModelDocument } from '../';
 import { RemoveDogsModelByIdMutation } from '../';
 import { RemoveDogsModelByIdMutationVariables } from '../';
 import { RemoveDogsModelByIdDocument } from '../';
+import { valueFromAST } from 'graphql';
 
     // GLOBAL TYPES
     //------------------------------------------------
@@ -116,7 +117,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       }
     
 
-      // Fetch Helper
+      // Query Fetch Helper
       //
       export type FetchVehicleGraphByIdAsQueryApolloQueryResult = ApolloQueryResult<FetchVehicleGraphByIdAsQueryQuery>;
       export type FetchVehicleGraphByIdAsQueryApolloQueryHelperResultEx = FetchVehicleGraphByIdAsQueryApolloQueryResult & VehicleGraphByIdHelperResultEx;
@@ -131,22 +132,28 @@ import { RemoveDogsModelByIdDocument } from '../';
       async function watchQueryVehicleGraphModelById({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<FetchVehicleGraphByIdAsQueryQueryVariables>, 'query'> }) : Promise<WatchFetchVehicleGraphByIdAsQueryModelByIdApolloObservableQuery> {
         return apolloClient.watchQuery<FetchVehicleGraphByIdAsQueryQuery>({ query: FetchVehicleGraphByIdAsQueryDocument, ...options });
       }
+
+      // Subscription Fetch ById Helper
+      //
+      export type FetchVehicleGraphByIdAsSubscriptionSubscriptionResult = FetchResult<FetchVehicleGraphByIdAsSubscriptionSubscription, Record<string, any>, Record<string, any>>;
+      export type FetchVehicleGraphByIdAsSubscriptionSubscriptionResultEx = FetchResult<FetchVehicleGraphByIdAsSubscriptionSubscription & VehicleGraphByIdHelperResultEx, Record<string, any>, Record<string, any>>;
+
+      async function fetchVehicleGraphByIdAsSubscription({ apolloClient, vehicleId, options }: { apolloClient: ApolloClient<object>, vehicleId:string, options: Omit<SubscriptionOptions<FetchVehicleGraphByIdAsSubscriptionSubscriptionVariables>, 'query' | 'variables'> }): Promise<Observable<FetchVehicleGraphByIdAsSubscriptionSubscriptionResultEx>> {
+        const subscription:Observable<FetchVehicleGraphByIdAsSubscriptionSubscriptionResult> = apolloClient.subscribe<FetchVehicleGraphByIdAsSubscriptionSubscription>({ query: FetchVehicleGraphByIdAsSubscriptionDocument, variables: { vehicleId }, ...options });
+        
+        return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, vehicleGraph:(value && value.data && value.data.vehicle_by_pk) || [] }  as FetchVehicleGraphByIdAsSubscriptionSubscriptionResultEx }) ;
+      }
     
 
-      // Fetch Objects Helper
+      // Subscription Fetch Objects Helper
       //
-      export type FetchVehicleGraphAsQueryObjectsApolloQueryResult = ApolloQueryResult<FetchVehicleGraphAsQueryQuery>;
-      export type FetchVehicleGraphAsQueryObjectsApolloQueryResultEx = FetchVehicleGraphAsQueryObjectsApolloQueryResult & VehicleGraphObjectsHelperResultEx;
+      export type FetchVehicleGraphAsSubscriptionSubscriptionResult = FetchResult<FetchVehicleGraphAsSubscriptionSubscription, Record<string, any>, Record<string, any>>;
+      export type FetchVehicleGraphAsSubscriptionSubscriptionResultEx = FetchResult<FetchVehicleGraphAsSubscriptionSubscription & VehicleGraphObjectsHelperResultEx, Record<string, any>, Record<string, any>>;
 
-      async function fetchVehicleGraphObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<FetchVehicleGraphAsQueryQueryVariables>, 'query'> }): Promise<FetchVehicleGraphAsQueryObjectsApolloQueryResultEx> {
-        const query: FetchVehicleGraphAsQueryObjectsApolloQueryResult = await apolloClient.query<FetchVehicleGraphAsQueryQuery>({ query: FetchVehicleGraphAsQueryDocument, ...options });
+      async function fetchVehicleGraphObjectsAsSubscription({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<SubscriptionOptions<FetchVehicleGraphAsSubscriptionSubscriptionVariables>, 'query'> }): Promise<Observable<FetchVehicleGraphAsSubscriptionSubscriptionResultEx>> {
+        const subscription:Observable<FetchVehicleGraphAsSubscriptionSubscriptionResult> = apolloClient.subscribe<FetchVehicleGraphAsSubscriptionSubscription>({ query: FetchVehicleGraphAsSubscriptionDocument, ...options });
         
-        return { ...query, objects: (query && query.data && query.data.vehicle) || [] }
-      }
-
-      export type WatchVehicleGraphModelObjectsApolloObservableQuery = ObservableQuery<FetchVehicleGraphAsQueryQuery>;
-      async function watchQueryVehicleGraphModelObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<FetchVehicleGraphAsQueryQueryVariables>, 'query'> }) : Promise<WatchVehicleGraphModelObjectsApolloObservableQuery> {
-        return apolloClient.watchQuery<FetchVehicleGraphAsQueryQuery>({ query: FetchVehicleGraphAsQueryDocument, ...options });
+        return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, objects:(value && value.data && value.data.vehicle) || [] }  as FetchVehicleGraphAsSubscriptionSubscriptionResultEx }) ;
       }
     
 

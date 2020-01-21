@@ -146,53 +146,85 @@ export function injectFetchHelpers({
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
   const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(fragmentName);
-  const fetchByIdName = `Fetch${fragmentName}ByIdAsQuery`;
-  const fetchObjectsName = `Fetch${fragmentName}AsQuery`;
+  const queryByIdName = `Query${fragmentName}ById`;
+  const queryObjectsName = `Query${fragmentName}Objects`;
+  const subscribeByIdName = `SubscribeTo${fragmentName}ById`;
+  const subscribeObjectsName = `SubscribeTo${fragmentName}Objects`;
 
   if (primaryKeyIdField) {
     contentManager.addContent(`
-      // Fetch Helper
+      // Query Fetch Helper
       //
-      export type ${fetchByIdName}ApolloQueryResult = ApolloQueryResult<${fetchByIdName}Query>;
-      export type ${fetchByIdName}ApolloQueryHelperResultEx = ${fetchByIdName}ApolloQueryResult & ${fragmentName}ByIdHelperResultEx;
+      export type ${queryByIdName}ApolloQueryResult = ApolloQueryResult<${queryByIdName}Query>;
+      export type ${queryByIdName}ApolloQueryHelperResultEx = ${queryByIdName}ApolloQueryResult & ${fragmentName}ByIdHelperResultEx;
 
-      async function fetch${fragmentName}ById({ apolloClient, ${entityShortCamelCaseName}Id, options }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, options?: Omit<QueryOptions<${fetchByIdName}QueryVariables>, 'query' | 'variables'> }): Promise<${fetchByIdName}ApolloQueryHelperResultEx> {
-        const query: ${fetchByIdName}ApolloQueryResult = await apolloClient.query<${fetchByIdName}Query>({ query: ${fetchByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, ...options });
+      async function fetch${fragmentName}ById({ apolloClient, ${entityShortCamelCaseName}Id, options }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, options?: Omit<QueryOptions<${queryByIdName}QueryVariables>, 'query' | 'variables'> }): Promise<${queryByIdName}ApolloQueryHelperResultEx> {
+        const query: ${queryByIdName}ApolloQueryResult = await apolloClient.query<${queryByIdName}Query>({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, ...options });
         
         return { ...query, ${fragmentNameCamelCase}: query && query.data && query.data.${entityName}_by_pk }
       }
 
-      export type Watch${fetchByIdName}ModelByIdApolloObservableQuery = ObservableQuery<${fetchByIdName}Query>;
-      async function watchQuery${fragmentName}ModelById({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<${fetchByIdName}QueryVariables>, 'query'> }) : Promise<Watch${fetchByIdName}ModelByIdApolloObservableQuery> {
-        return apolloClient.watchQuery<${fetchByIdName}Query>({ query: ${fetchByIdName}Document, ...options });
+      // Query Watch ById Helper
+      //
+      export type Watch${queryByIdName}ModelByIdApolloObservableQuery = ObservableQuery<${queryByIdName}Query>;
+      async function watchQuery${fragmentName}ModelById({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<${queryByIdName}QueryVariables>, 'query'> }) : Promise<Watch${queryByIdName}ModelByIdApolloObservableQuery> {
+        return apolloClient.watchQuery<${queryByIdName}Query>({ query: ${queryByIdName}Document, ...options });
       }
     `);
   }
 
   contentManager.addContent(`
-      // Fetch Objects Helper
+      // Query Fetch Objects Helper
       //
-      export type ${fetchObjectsName}ObjectsApolloQueryResult = ApolloQueryResult<${fetchObjectsName}Query>;
-      export type ${fetchObjectsName}ObjectsApolloQueryResultEx = ${fetchObjectsName}ObjectsApolloQueryResult & ${fragmentName}ObjectsHelperResultEx;
+      export type ${queryObjectsName}ObjectsApolloQueryResult = ApolloQueryResult<${queryObjectsName}Query>;
+      export type ${queryObjectsName}ObjectsApolloQueryResultEx = ${queryObjectsName}ObjectsApolloQueryResult & ${fragmentName}ObjectsHelperResultEx;
 
-      async function fetch${fragmentName}Objects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<${fetchObjectsName}QueryVariables>, 'query'> }): Promise<${fetchObjectsName}ObjectsApolloQueryResultEx> {
-        const query: ${fetchObjectsName}ObjectsApolloQueryResult = await apolloClient.query<${fetchObjectsName}Query>({ query: ${fetchObjectsName}Document, ...options });
+      async function fetch${fragmentName}Objects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<${queryObjectsName}QueryVariables>, 'query'> }): Promise<${queryObjectsName}ObjectsApolloQueryResultEx> {
+        const query: ${queryObjectsName}ObjectsApolloQueryResult = await apolloClient.query<${queryObjectsName}Query>({ query: ${queryObjectsName}Document, ...options });
         
         return { ...query, objects: (query && query.data && query.data.${entityName}) || [] }
       }
 
-      export type Watch${fragmentName}ModelObjectsApolloObservableQuery = ObservableQuery<${fetchObjectsName}Query>;
-      async function watchQuery${fragmentName}ModelObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<${fetchObjectsName}QueryVariables>, 'query'> }) : Promise<Watch${fragmentName}ModelObjectsApolloObservableQuery> {
-        return apolloClient.watchQuery<${fetchObjectsName}Query>({ query: ${fetchObjectsName}Document, ...options });
+      // Query Watch Objects Helper
+      //
+      export type Watch${fragmentName}ModelObjectsApolloObservableQuery = ObservableQuery<${queryObjectsName}Query>;
+      async function watchQuery${fragmentName}ModelObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<${queryObjectsName}QueryVariables>, 'query'> }) : Promise<Watch${fragmentName}ModelObjectsApolloObservableQuery> {
+        return apolloClient.watchQuery<${queryObjectsName}Query>({ query: ${queryObjectsName}Document, ...options });
       }
     `);
 
-  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${fetchObjectsName}Query`, typescriptCodegenOutputPath));
-  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${fetchObjectsName}Document`, typescriptCodegenOutputPath));
-  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${fetchByIdName}QueryVariables`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`${fetchObjectsName}Query`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`${fetchObjectsName}Document`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`${fetchObjectsName}QueryVariables`, typescriptCodegenOutputPath));
+  contentManager.addContent(`
+    // Subscription Fetch ById Helper
+    //
+    export type ${subscribeByIdName}SubscriptionResult = FetchResult<${subscribeByIdName}Subscription, Record<string, any>, Record<string, any>>;
+    export type ${subscribeByIdName}SubscriptionResultEx = FetchResult<${subscribeByIdName}Subscription & ${fragmentName}ByIdHelperResultEx, Record<string, any>, Record<string, any>>;
+
+    async function fetch${fragmentName}ByIdAsSubscription({ apolloClient, ${entityShortCamelCaseName}Id, options }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id:string, options: Omit<SubscriptionOptions<${subscribeByIdName}SubscriptionVariables>, 'query' | 'variables'> }): Promise<Observable<${subscribeByIdName}SubscriptionResultEx>> {
+      const subscription:Observable<${subscribeByIdName}SubscriptionResult> = apolloClient.subscribe<${subscribeByIdName}Subscription>({ query: ${subscribeByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, ...options });
+      
+      return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, ${fragmentNameCamelCase}:(value && value.data && value.data.${entityName}_by_pk) || [] }  as ${subscribeByIdName}SubscriptionResultEx }) ;
+    }
+  `);
+
+  contentManager.addContent(`
+      // Subscription Fetch Objects Helper
+      //
+      export type ${subscribeObjectsName}SubscriptionResult = FetchResult<${subscribeObjectsName}Subscription, Record<string, any>, Record<string, any>>;
+      export type ${subscribeObjectsName}SubscriptionResultEx = FetchResult<${subscribeObjectsName}Subscription & ${fragmentName}ObjectsHelperResultEx, Record<string, any>, Record<string, any>>;
+
+      async function fetch${fragmentName}Objects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<SubscriptionOptions<${subscribeObjectsName}SubscriptionVariables>, 'subscription'> }): Promise<Observable<${subscribeObjectsName}SubscriptionResultEx>> {
+        const subscription:Observable<${subscribeObjectsName}SubscriptionResult> = apolloClient.subscribe<${subscribeObjectsName}Subscription>({ query: ${subscribeObjectsName}Document, ...options });
+        
+        return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, objects:(value && value.data && value.data.${entityName}) || [] }  as ${subscribeObjectsName}SubscriptionResultEx }) ;
+      }
+    `);
+
+  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${queryObjectsName}Query`, typescriptCodegenOutputPath));
+  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${queryObjectsName}Document`, typescriptCodegenOutputPath));
+  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${queryByIdName}QueryVariables`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`${queryObjectsName}Query`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`${queryObjectsName}Document`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`${queryObjectsName}QueryVariables`, typescriptCodegenOutputPath));
 }
 
 // ---------------------------------
@@ -438,9 +470,9 @@ export function injectSharedHelpersPost({
       ${withClientAndCacheHelpers && `clientWriteQueryById: clientWriteQuery${fragmentName}ById`},
       ${withClientAndCacheHelpers && `cacheWriteQueryById: cacheWriteQuery${fragmentName}ById`},
       ${withQueries && `fetchById: fetch${fragmentName}ById`},
-      ${withQueries && `watchQueryById: fetch${fragmentName}ById`},
+      ${withQueries && `watchQueryById: watchQuery${fragmentName}ModelById`},
       ${withQueries && `fetchObjects: fetch${fragmentName}Objects`},
-      ${withQueries && `watchQueryObjects: fetch${fragmentName}Objects`},
+      ${withQueries && `watchQueryObjects: watchQuery${fragmentName}ModelObjects`},
       ${withInserts && `insert: insert${fragmentName}`},
       ${withInserts && `insertWithOnConflict: insert${fragmentName}WithOnConflict`},
       ${withInserts && `insertObjects: insert${fragmentName}Objects`},

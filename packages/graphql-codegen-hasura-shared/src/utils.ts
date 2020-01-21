@@ -23,6 +23,11 @@ export function makePascalCase(typename: string) {
   return toPascalCase(typename);
 }
 
+export function camelToSnakeUpperCase(str: string) {
+  const _ = str.replace(/([A-Z])/g, `_$1`);
+  return _.toUpperCase();
+}
+
 export function makeShortName(typename: string, trimString: string = undefined) {
   return `${toPascalCase(trimString ? typename.replace(trimString, "") : typename)}`;
 }
