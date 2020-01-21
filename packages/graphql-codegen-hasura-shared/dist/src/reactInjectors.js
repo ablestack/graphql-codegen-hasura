@@ -42,13 +42,15 @@ function injectFetchReact({ contentManager, entityName, fragmentName, trimString
     const entityShortCamelCaseName = utils_1.makeCamelCase(entityShortName);
     const fragmentNameCamelCase = utils_1.makeCamelCase(fragmentName);
     const fragmentTypeScriptTypeName = utils_1.makeFragmentTypeScriptTypeName(fragmentName);
+    const fetchByIdName = `Fetch${fragmentName}ByIdAsQuery`;
+    const fetchObjectsName = `Fetch${fragmentName}AsQuery`;
     if (primaryKeyIdField) {
         contentManager.addContent(`
       // Fetch Hooks
       //
   
       /**
-       * __useFetch${fragmentName}ByIdQuery__
+       * __use${fetchByIdName}Query__
        *
        * To run a query within a React component, call \`use${fragmentName}ByIdQuery\`
        * When your component renders, \`use${fragmentName}ByIdQuery\` returns an object from Apollo Client that contains loading, error, data properties, and a shortcut result property 
@@ -56,7 +58,7 @@ function injectFetchReact({ contentManager, entityName, fragmentName, trimString
        * @param options options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
        *
        * @example
-       * const { loading, error, ${fragmentNameCamelCase} } = useFetch${fragmentName}ByIdQuery({ ${entityShortCamelCaseName}Id:<value> });
+       * const { loading, error, ${fragmentNameCamelCase} } = use${fetchByIdName}Query({ ${entityShortCamelCaseName}Id:<value> });
        * 
        * The majority of the options and the specifics of their behavior are derived from apollographql. See https://www.apollographql.com/docs/react/api/react-hooks/#usequery for details
        * 
@@ -66,21 +68,21 @@ function injectFetchReact({ contentManager, entityName, fragmentName, trimString
         //
 
         // Types
-        type Fetch${fragmentName}ByIdQueryResult = QueryResult<Fetch${fragmentName}ByIdQuery, Fetch${fragmentName}ByIdQueryVariables>;
-        export type Fetch${fragmentName}ByIdQueryResultEx = Fetch${fragmentName}ByIdQueryResult & ${fragmentName}ByIdHookResultEx;
+        type ${fetchByIdName}QueryResult = QueryResult<${fetchByIdName}Query, ${fetchByIdName}QueryVariables>;
+        export type ${fetchByIdName}QueryResultEx = ${fetchByIdName}QueryResult & ${fragmentName}ByIdHookResultEx;
 
         // Function
-        function useFetch${fragmentName}ByIdQuery({ ${entityShortCamelCaseName}Id, options }: { ${entityShortCamelCaseName}Id: string; options?: Omit<QueryHookOptions<Fetch${fragmentName}ByIdQuery, Fetch${fragmentName}ByIdQueryVariables>, "query" | "variables">; }): Fetch${fragmentName}ByIdQueryResultEx {
-          const query: Fetch${fragmentName}ByIdQueryResult = useQuery<Fetch${fragmentName}ByIdQuery, Fetch${fragmentName}ByIdQueryVariables>(Fetch${fragmentName}ByIdDocument, { variables: { ${entityShortCamelCaseName}Id }, ...options });
+        function use${fetchByIdName}Query({ ${entityShortCamelCaseName}Id, options }: { ${entityShortCamelCaseName}Id: string; options?: Omit<QueryHookOptions<${fetchByIdName}Query, ${fetchByIdName}QueryVariables>, "query" | "variables">; }): ${fetchByIdName}QueryResultEx {
+          const query: ${fetchByIdName}QueryResult = useQuery<${fetchByIdName}Query, ${fetchByIdName}QueryVariables>(${fetchByIdName}Document, { variables: { ${entityShortCamelCaseName}Id }, ...options });
           return { ...query, ${fragmentNameCamelCase}: query && query.data && query.data.${entityName}_by_pk };
         }
     `);
         contentManager.addContent(`
       /**
-       * __useFetch${fragmentName}ByIdLazyQuery__
+       * __use${fetchByIdName}LazyQuery__
        * 
        * @example
-       * const [fetch${fragmentName}ById, { called, loading, error, ${fragmentNameCamelCase} }] = useFetch${fragmentName}ById();
+       * const [fetch${fragmentName}ById, { called, loading, error, ${fragmentNameCamelCase} }] = use${fetchByIdName}();
        * fetch${fragmentName}ById({ ${entityShortCamelCaseName}Id:<value> });
        * 
        * The majority of the options and the specifics of their behavior are derived from apollographql. See https://www.apollographql.com/docs/react/api/react-hooks/#uselazyquery for details
@@ -91,17 +93,17 @@ function injectFetchReact({ contentManager, entityName, fragmentName, trimString
       //
       
       // Types
-      type PickFetch${fragmentName}ByIdFn = (query: Fetch${fragmentName}ByIdQuery | null | undefined) => ${fragmentName}Fragment | null | undefined;
-      type Fetch${fragmentName}ByIdLazyQueryFn = [(options?: QueryLazyOptions<Fetch${fragmentName}ByIdQueryVariables> | undefined) => void, Fetch${fragmentName}ByIdQueryResult]
-      type Fetch${fragmentName}ByIdWrappedLazyQueryFn = ({ ${entityShortCamelCaseName}Id, options }: { ${entityShortCamelCaseName}Id: string; options?: Omit<QueryLazyOptions<Fetch${fragmentName}ByIdQueryVariables>, "variables">; }) => void;
-      export type Fetch${fragmentName}ByIdLazyQueryReturn = [Fetch${fragmentName}ByIdWrappedLazyQueryFn, Fetch${fragmentName}ByIdQueryResultEx];
+      type Pick${fetchByIdName}Fn = (query: ${fetchByIdName}Query | null | undefined) => ${fragmentName}Fragment | null | undefined;
+      type ${fetchByIdName}LazyQueryFn = [(options?: QueryLazyOptions<${fetchByIdName}QueryVariables> | undefined) => void, ${fetchByIdName}QueryResult]
+      type ${fetchByIdName}WrappedLazyQueryFn = ({ ${entityShortCamelCaseName}Id, options }: { ${entityShortCamelCaseName}Id: string; options?: Omit<QueryLazyOptions<${fetchByIdName}QueryVariables>, "variables">; }) => void;
+      export type ${fetchByIdName}LazyQueryReturn = [${fetchByIdName}WrappedLazyQueryFn, ${fetchByIdName}QueryResultEx];
 
       // Function
-      function useFetch${fragmentName}ByIdLazyQuery(options?: Omit<LazyQueryHookOptions<Fetch${fragmentName}ByIdQuery, Fetch${fragmentName}ByIdQueryVariables>, "query" | "variables">): Fetch${fragmentName}ByIdLazyQueryReturn {
-        const lazyQuery: Fetch${fragmentName}ByIdLazyQueryFn = useLazyQuery<Fetch${fragmentName}ByIdQuery, Fetch${fragmentName}ByIdQueryVariables>(Fetch${fragmentName}ByIdDocument, options);
-        const pick${fragmentName}: PickFetch${fragmentName}ByIdFn = query => { return query && query.${entityName}_by_pk; };
-        const wrappedLazyQuery: Fetch${fragmentName}ByIdWrappedLazyQueryFn = ({ ${entityShortCamelCaseName}Id, options }) => { return lazyQuery[0]({ variables: { ${entityShortCamelCaseName}Id }, ...options }); };
-        const returnVal: Fetch${fragmentName}ByIdLazyQueryReturn = [wrappedLazyQuery, { ...lazyQuery[1], ${fragmentNameCamelCase}: pick${fragmentName}(lazyQuery[1].data) }];
+      function use${fetchByIdName}LazyQuery(options?: Omit<LazyQueryHookOptions<${fetchByIdName}Query, ${fetchByIdName}QueryVariables>, "query" | "variables">): ${fetchByIdName}LazyQueryReturn {
+        const lazyQuery: ${fetchByIdName}LazyQueryFn = useLazyQuery<${fetchByIdName}Query, ${fetchByIdName}QueryVariables>(${fetchByIdName}Document, options);
+        const pick${fragmentName}: Pick${fetchByIdName}Fn = query => { return query && query.${entityName}_by_pk; };
+        const wrappedLazyQuery: ${fetchByIdName}WrappedLazyQueryFn = ({ ${entityShortCamelCaseName}Id, options }) => { return lazyQuery[0]({ variables: { ${entityShortCamelCaseName}Id }, ...options }); };
+        const returnVal: ${fetchByIdName}LazyQueryReturn = [wrappedLazyQuery, { ...lazyQuery[1], ${fragmentNameCamelCase}: pick${fragmentName}(lazyQuery[1].data) }];
         return returnVal;
       }
     `);
@@ -111,12 +113,12 @@ function injectFetchReact({ contentManager, entityName, fragmentName, trimString
       //
 
       // Types
-      export type Fetch${fragmentName}ObjectsQueryResult = QueryResult<Fetch${fragmentName}Query, Fetch${fragmentName}QueryVariables>;
-      export type Fetch${fragmentName}ObjectsQueryResultEx = Fetch${fragmentName}ObjectsQueryResult & ${fragmentName}ObjectsHookResultEx;
+      export type ${fetchObjectsName}QueryResult = QueryResult<${fetchObjectsName}Query, ${fetchObjectsName}QueryVariables>;
+      export type ${fetchObjectsName}QueryResultEx = ${fetchObjectsName}QueryResult & ${fragmentName}ObjectsHookResultEx;
 
       // Function
-      function useFetch${fragmentName}ObjectsQuery(options: Omit<QueryHookOptions<Fetch${fragmentName}Query, Fetch${fragmentName}QueryVariables>, "query">): Fetch${fragmentName}ObjectsQueryResultEx {
-        const query:Fetch${fragmentName}ObjectsQueryResult = useQuery<Fetch${fragmentName}Query, Fetch${fragmentName}QueryVariables>(Fetch${fragmentName}Document, options);
+      function use${fetchObjectsName}Query(options: Omit<QueryHookOptions<${fetchObjectsName}Query, ${fetchObjectsName}QueryVariables>, "query">): ${fetchObjectsName}QueryResultEx {
+        const query:${fetchObjectsName}QueryResult = useQuery<${fetchObjectsName}Query, ${fetchObjectsName}QueryVariables>(${fetchObjectsName}Document, options);
         return { ...query, objects: (query && query.data && query.data.${entityName}) || [] };
       }
       `);
@@ -125,28 +127,28 @@ function injectFetchReact({ contentManager, entityName, fragmentName, trimString
       //
 
       // Types
-      type PickFetch${fragmentName}ObjectsFn = (query: Fetch${fragmentName}Query | null | undefined) => ${fragmentName}Fragment[];
-      type Fetch${fragmentName}ObjectsLazyQueryFn = [(options?: QueryLazyOptions<Fetch${fragmentName}QueryVariables> | undefined) => void, Fetch${fragmentName}ObjectsQueryResult]
-      type Fetch${fragmentName}ObjectsWrappedLazyQueryFn = (options?: QueryLazyOptions<Fetch${fragmentName}QueryVariables>) => void;
-      export type Fetch${fragmentName}ObjectsLazyQueryReturn = [Fetch${fragmentName}ObjectsWrappedLazyQueryFn, Fetch${fragmentName}ObjectsQueryResultEx];
+      type Pick${fetchObjectsName}Fn = (query: ${fetchObjectsName}Query | null | undefined) => ${fragmentName}Fragment[];
+      type ${fetchObjectsName}LazyQueryFn = [(options?: QueryLazyOptions<${fetchObjectsName}QueryVariables> | undefined) => void, ${fetchObjectsName}QueryResult]
+      type ${fetchObjectsName}WrappedLazyQueryFn = (options?: QueryLazyOptions<${fetchObjectsName}QueryVariables>) => void;
+      export type ${fetchObjectsName}LazyQueryReturn = [${fetchObjectsName}WrappedLazyQueryFn, ${fetchObjectsName}QueryResultEx];
 
       // Function
-      function useFetch${fragmentName}ObjectsLazyQuery(options?: Omit<LazyQueryHookOptions<Fetch${fragmentName}Query, Fetch${fragmentName}QueryVariables>, "query">): Fetch${fragmentName}ObjectsLazyQueryReturn {
-        const lazyQuery: Fetch${fragmentName}ObjectsLazyQueryFn = useLazyQuery<Fetch${fragmentName}Query, Fetch${fragmentName}QueryVariables>(Fetch${fragmentName}Document, options);
-        const pickObjects: PickFetch${fragmentName}ObjectsFn = (query: Fetch${fragmentName}Query | null | undefined) => { return (query && query.${entityName}) || []; };
-        const wrappedLazyQuery: Fetch${fragmentName}ObjectsWrappedLazyQueryFn = (options) => { return lazyQuery[0]( options ); };
+      function use${fetchObjectsName}LazyQuery(options?: Omit<LazyQueryHookOptions<${fetchObjectsName}Query, ${fetchObjectsName}QueryVariables>, "query">): ${fetchObjectsName}LazyQueryReturn {
+        const lazyQuery: ${fetchObjectsName}LazyQueryFn = useLazyQuery<${fetchObjectsName}Query, ${fetchObjectsName}QueryVariables>(${fetchObjectsName}Document, options);
+        const pickObjects: Pick${fetchObjectsName}Fn = (query: ${fetchObjectsName}Query | null | undefined) => { return (query && query.${entityName}) || []; };
+        const wrappedLazyQuery: ${fetchObjectsName}WrappedLazyQueryFn = (options) => { return lazyQuery[0]( options ); };
         return [wrappedLazyQuery, { ...lazyQuery[1], objects: pickObjects(lazyQuery[1].data) }] as [typeof wrappedLazyQuery, typeof lazyQuery[1] & { objects: ReturnType<typeof pickObjects> }];
       }
     `);
     if (primaryKeyIdField)
-        contentManager.addImport(_1.makeImportStatement(`Fetch${fragmentName}ByIdQuery`, typescriptCodegenOutputPath));
+        contentManager.addImport(_1.makeImportStatement(`${fetchByIdName}Query`, typescriptCodegenOutputPath));
     if (primaryKeyIdField)
-        contentManager.addImport(_1.makeImportStatement(`Fetch${fragmentName}ByIdQueryVariables`, typescriptCodegenOutputPath));
+        contentManager.addImport(_1.makeImportStatement(`${fetchByIdName}QueryVariables`, typescriptCodegenOutputPath));
     if (primaryKeyIdField)
-        contentManager.addImport(_1.makeImportStatement(`Fetch${fragmentName}ByIdDocument`, typescriptCodegenOutputPath));
-    contentManager.addImport(_1.makeImportStatement(`Fetch${fragmentName}Query`, typescriptCodegenOutputPath));
-    contentManager.addImport(_1.makeImportStatement(`Fetch${fragmentName}Document`, typescriptCodegenOutputPath));
-    contentManager.addImport(_1.makeImportStatement(`Fetch${fragmentName}QueryVariables`, typescriptCodegenOutputPath));
+        contentManager.addImport(_1.makeImportStatement(`${fetchByIdName}Document`, typescriptCodegenOutputPath));
+    contentManager.addImport(_1.makeImportStatement(`${fetchObjectsName}Query`, typescriptCodegenOutputPath));
+    contentManager.addImport(_1.makeImportStatement(`${fetchObjectsName}Document`, typescriptCodegenOutputPath));
+    contentManager.addImport(_1.makeImportStatement(`${fetchObjectsName}QueryVariables`, typescriptCodegenOutputPath));
 }
 exports.injectFetchReact = injectFetchReact;
 // ---------------------------------
@@ -413,16 +415,18 @@ exports.injectDeleteReact = injectDeleteReact;
 //
 function injectSharedReactPost({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, withQueries, withInserts, withUpdates, withDeletes }) {
     const entityModelName = _1.makeModelName(entityName, trimString);
+    const fetchByIdName = `Fetch${fragmentName}ByIdAsQuery`;
+    const fetchObjectsName = `Fetch${fragmentName}AsQuery`;
     (withQueries || withInserts || withUpdates) &&
         contentManager.addContent(`
     // ${fragmentName} Fragment Hooks Object
     //------------------------------------------------
 
     export const ${fragmentName}FragmentGQLHooks = {
-      ${withQueries && `useFetchByIdQuery: useFetch${fragmentName}ByIdQuery`},
-      ${withQueries && `useFetchByIdLazyQuery: useFetch${fragmentName}ByIdLazyQuery`},
-      ${withQueries && `useFetchObjectsQuery: useFetch${fragmentName}ObjectsQuery`},
-      ${withQueries && `useFetchObjectsLazyQuery: useFetch${fragmentName}ObjectsLazyQuery`},
+      ${withQueries && `useFetchByIdQuery: use${fetchByIdName}Query`},
+      ${withQueries && `useFetchByIdLazyQuery: use${fetchByIdName}LazyQuery`},
+      ${withQueries && `useFetchObjectsQuery: use${fetchObjectsName}Query`},
+      ${withQueries && `useFetchObjectsLazyQuery: use${fetchObjectsName}LazyQuery`},
       ${withInserts && `useInsert: useInsert${fragmentName}`},
       ${withInserts && `useInsertWithOnConflict: useInsert${fragmentName}WithOnConflict`},
       ${withInserts && `useInsertObjects: useInsert${fragmentName}Objects`},
