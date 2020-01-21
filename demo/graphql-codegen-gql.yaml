@@ -17,6 +17,7 @@ generates:
       typescriptCodegenOutputPath: ../
       trimString:
       withQueries: true
+      withSubscriptions: true
       withInserts: true
       withUpdates: true
       withDeletes: true

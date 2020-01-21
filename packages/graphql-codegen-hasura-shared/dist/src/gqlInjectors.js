@@ -20,7 +20,7 @@ function injectFragmentImport({ contentManager, fragmentName, fragmentRelativeIm
 exports.injectFragmentImport = injectFragmentImport;
 // ---------------------------------
 //
-function injectFetchGql({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField }) {
+function injectFetchAsQueryGql({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField }) {
     const shortName = utils_1.makeShortName(entityName, trimString);
     const entityShortCamelName = utils_1.makeCamelCase(shortName);
     const fragmentDocName = _1.makeFragmentDocName(fragmentName);
@@ -30,37 +30,73 @@ function injectFetchGql({ contentManager, entityName, fragmentName, trimString, 
 
     // Query: FetchById
     //
-
-    const FETCH_${fragmentName.toUpperCase()}_BYID = gql\`
-      query fetch${fragmentName}ById($${entityShortCamelName}Id: ${primaryKeyIdPostGresFieldType}!) {
-        ${entityName}_by_pk(id: $${entityShortCamelName}Id) {
-          ...${fragmentName}
-        }
-      }
-      \${${fragmentDocName}}
-    \`;`);
+    ${makeFetchByIdGQL({ fetchType: "query", entityName, fragmentName, trimString, primaryKeyIdField })}`);
     }
     contentManager.addContent(`
 
     // Query: Fetch
     //
-
-    const FETCH_${fragmentName.toUpperCase()}S = gql\`
-      query fetch${fragmentName}(
-        $distinct_on: [${entityName}_select_column!]
-        $where: ${entityName}_bool_exp
-        $limit: Int
-        $offset: Int
-        $order_by: [${entityName}_order_by!]
-      ) {
-        ${entityName}(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-          ...${fragmentName}
-        }
-      }
-      \${${fragmentDocName}}
-    \`;`);
+    ${makeFetchObjectsGQL({ fetchType: "query", entityName, fragmentName, trimString, primaryKeyIdField })}`);
 }
-exports.injectFetchGql = injectFetchGql;
+exports.injectFetchAsQueryGql = injectFetchAsQueryGql;
+// ---------------------------------
+//
+function injectFetchAsSubscriptionGql({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField }) {
+    const shortName = utils_1.makeShortName(entityName, trimString);
+    const entityShortCamelName = utils_1.makeCamelCase(shortName);
+    const fragmentDocName = _1.makeFragmentDocName(fragmentName);
+    if (primaryKeyIdField) {
+        const primaryKeyIdPostGresFieldType = _1.getIdPostGresFieldType(primaryKeyIdField);
+        contentManager.addContent(`
+
+    // Subscription: FetchById
+    //
+    ${makeFetchByIdGQL({ fetchType: "subscription", entityName, fragmentName, trimString, primaryKeyIdField })}`);
+    }
+    contentManager.addContent(`
+
+    // Subscription: Fetch
+    //
+    ${makeFetchObjectsGQL({ fetchType: "subscription", entityName, fragmentName, trimString, primaryKeyIdField })}`);
+}
+exports.injectFetchAsSubscriptionGql = injectFetchAsSubscriptionGql;
+function makeFetchByIdGQL({ fetchType, entityName, fragmentName, trimString, primaryKeyIdField }) {
+    const shortName = utils_1.makeShortName(entityName, trimString);
+    const entityShortCamelName = utils_1.makeCamelCase(shortName);
+    const fragmentDocName = _1.makeFragmentDocName(fragmentName);
+    const primaryKeyIdPostGresFieldType = _1.getIdPostGresFieldType(primaryKeyIdField);
+    const fetchTypePascalCase = utils_1.makePascalCase(fetchType);
+    const fetchTypeUpperCase = fetchType.toUpperCase();
+    return `const FETCH_${fragmentName.toUpperCase()}_BYID_AS_${fetchTypeUpperCase} = gql\`
+  ${fetchType} fetch${fragmentName}ByIdAs${fetchTypePascalCase}($${entityShortCamelName}Id: ${primaryKeyIdPostGresFieldType}!) {
+    ${entityName}_by_pk(id: $${entityShortCamelName}Id) {
+      ...${fragmentName}
+    }
+  }
+  \${${fragmentDocName}}\`;`;
+}
+function makeFetchObjectsGQL({ fetchType, entityName, fragmentName, trimString, primaryKeyIdField }) {
+    const shortName = utils_1.makeShortName(entityName, trimString);
+    const entityShortCamelName = utils_1.makeCamelCase(shortName);
+    const fragmentDocName = _1.makeFragmentDocName(fragmentName);
+    const primaryKeyIdPostGresFieldType = _1.getIdPostGresFieldType(primaryKeyIdField);
+    const fetchTypePascalCase = utils_1.makePascalCase(fetchType);
+    const fetchTypeUpperCase = fetchType.toUpperCase();
+    return `const FETCH_${fragmentName.toUpperCase()}_OBJECTS_AS_${fetchTypeUpperCase} = gql\`
+  ${fetchType} fetch${fragmentName}As${fetchTypePascalCase}(
+    $distinct_on: [${entityName}_select_column!]
+    $where: ${entityName}_bool_exp
+    $limit: Int
+    $offset: Int
+    $order_by: [${entityName}_order_by!]
+  ) {
+    ${entityName}(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+      ...${fragmentName}
+    }
+  }
+  \${${fragmentDocName}}
+  \`;`;
+}
 // ---------------------------------
 //
 function injectInsertGql({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField }) {

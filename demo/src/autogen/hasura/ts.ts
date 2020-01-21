@@ -2,11 +2,11 @@ import { generateOptimisticResponseForMutation, generateUpdateFunctionForMutatio
 import { ApolloClient, ApolloQueryResult, defaultDataIdFromObject, FetchResult, MutationOptions, ObservableQuery, QueryOptions } from '@apollo/client'
 import { VehicleGraphFragment } from '../';
 import { VehicleGraphFragmentDoc } from '../';
-import { FetchVehicleGraphByIdQuery } from '../';
-import { FetchVehicleGraphByIdDocument } from '../';
-import { FetchVehicleGraphQuery } from '../';
-import { FetchVehicleGraphDocument } from '../';
-import { FetchVehicleGraphQueryVariables } from '../';
+import { FetchVehicleGraphByIdAsQueryQuery } from '../';
+import { FetchVehicleGraphByIdAsQueryDocument } from '../';
+import { FetchVehicleGraphAsQueryQuery } from '../';
+import { FetchVehicleGraphAsQueryDocument } from '../';
+import { FetchVehicleGraphAsQueryQueryVariables } from '../';
 import { Vehicle_Insert_Input } from '../';
 import { Vehicle_On_Conflict } from '../';
 import { InsertVehicleGraphMutation } from '../';
@@ -29,11 +29,11 @@ import { RemoveVehicleModelByIdMutationVariables } from '../';
 import { RemoveVehicleModelByIdDocument } from '../';
 import { VehicleGraphLocationOnlyFragment } from '../';
 import { VehicleGraphLocationOnlyFragmentDoc } from '../';
-import { FetchVehicleGraphLocationOnlyByIdQuery } from '../';
-import { FetchVehicleGraphLocationOnlyByIdDocument } from '../';
-import { FetchVehicleGraphLocationOnlyQuery } from '../';
-import { FetchVehicleGraphLocationOnlyDocument } from '../';
-import { FetchVehicleGraphLocationOnlyQueryVariables } from '../';
+import { FetchVehicleGraphLocationOnlyByIdAsQueryQuery } from '../';
+import { FetchVehicleGraphLocationOnlyByIdAsQueryDocument } from '../';
+import { FetchVehicleGraphLocationOnlyAsQueryQuery } from '../';
+import { FetchVehicleGraphLocationOnlyAsQueryDocument } from '../';
+import { FetchVehicleGraphLocationOnlyAsQueryQueryVariables } from '../';
 import { InsertVehicleGraphLocationOnlyMutation } from '../';
 import { InsertVehicleGraphLocationOnlyMutationVariables } from '../';
 import { InsertVehicleGraphLocationOnlyWithOnConflictMutationVariables } from '../';
@@ -47,11 +47,11 @@ import { UpdateVehicleGraphLocationOnlyMutationVariables } from '../';
 import { UpdateVehicleGraphLocationOnlyDocument } from '../';
 import { DogModelFragment } from '../';
 import { DogModelFragmentDoc } from '../';
-import { FetchDogModelByIdQuery } from '../';
-import { FetchDogModelByIdDocument } from '../';
-import { FetchDogModelQuery } from '../';
-import { FetchDogModelDocument } from '../';
-import { FetchDogModelQueryVariables } from '../';
+import { FetchDogModelByIdAsQueryQuery } from '../';
+import { FetchDogModelByIdAsQueryDocument } from '../';
+import { FetchDogModelAsQueryQuery } from '../';
+import { FetchDogModelAsQueryDocument } from '../';
+import { FetchDogModelAsQueryQueryVariables } from '../';
 import { Dogs_Insert_Input } from '../';
 import { Dogs_On_Conflict } from '../';
 import { InsertDogModelMutation } from '../';
@@ -101,15 +101,15 @@ import { RemoveDogsModelByIdDocument } from '../';
       }
 
       function clientReadQueryVehicleGraphById({ apolloClient, vehicleGraphId}: { apolloClient: ApolloClient<object>, vehicleGraphId: string }): VehicleGraphFragment | null | undefined {
-        return apolloClient.readQuery<VehicleGraphFragment | null >({ query: FetchVehicleGraphByIdDocument, variables: { vehicleGraphId }  });
+        return apolloClient.readQuery<VehicleGraphFragment | null >({ query: FetchVehicleGraphByIdAsQueryDocument, variables: { vehicleGraphId }  });
       }
 
       function clientWriteQueryVehicleGraphById({ apolloClient, vehicleGraphId, vehicleGraph }: { apolloClient: ApolloClient<object>, vehicleGraphId: string, vehicleGraph: VehicleGraphFragment | null }): void {
-        return apolloClient.writeQuery<VehicleGraphFragment | null>({ query: FetchVehicleGraphByIdDocument, variables: { vehicleGraphId }, data: (vehicleGraph ? { ...vehicleGraph, __typename: 'vehicle' } : null) });
+        return apolloClient.writeQuery<VehicleGraphFragment | null>({ query: FetchVehicleGraphByIdAsQueryDocument, variables: { vehicleGraphId }, data: (vehicleGraph ? { ...vehicleGraph, __typename: 'vehicle' } : null) });
       }
 
       function cacheWriteQueryVehicleGraphById({ apolloClient, vehicleGraphId, vehicleGraph }: { apolloClient: ApolloClient<object>, vehicleGraphId: string, vehicleGraph: VehicleGraphFragment | null }): void {
-        return apolloClient.cache.writeQuery<VehicleGraphFragment | null>({ query: FetchVehicleGraphByIdDocument, variables: { vehicleGraphId }, data: (vehicleGraph ? { ...vehicleGraph, __typename: 'vehicle' } : null) });
+        return apolloClient.cache.writeQuery<VehicleGraphFragment | null>({ query: FetchVehicleGraphByIdAsQueryDocument, variables: { vehicleGraphId }, data: (vehicleGraph ? { ...vehicleGraph, __typename: 'vehicle' } : null) });
       }
     
 
@@ -119,14 +119,14 @@ import { RemoveDogsModelByIdDocument } from '../';
       export type FetchVehicleGraphByIdApolloQueryHelperResultEx = FetchVehicleGraphByIdApolloQueryResult & VehicleGraphByIdHelperResultEx;
 
       async function fetchVehicleGraphById({ apolloClient, vehicleId, options }: { apolloClient: ApolloClient<object>, vehicleId: string, options?: Omit<QueryOptions<FetchVehicleGraphQueryVariables>, 'query' | 'variables'> }): Promise<FetchVehicleGraphByIdApolloQueryHelperResultEx> {
-        const query: FetchVehicleGraphByIdApolloQueryResult = await apolloClient.query<FetchVehicleGraphByIdQuery>({ query: FetchVehicleGraphByIdDocument, variables: { vehicleId }, ...options });
+        const query: FetchVehicleGraphByIdApolloQueryResult = await apolloClient.query<FetchVehicleGraphByIdQuery>({ query: FetchVehicleGraphByIdAsQueryDocument, variables: { vehicleId }, ...options });
         
         return { ...query, vehicleGraph: query && query.data && query.data.vehicle_by_pk }
       }
 
       export type WatchVehicleGraphModelByIdApolloObservableQuery = ObservableQuery<FetchVehicleGraphQuery>;
       async function watchQueryVehicleGraphModelById({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<FetchVehicleGraphQueryVariables>, 'query'> }) : Promise<WatchVehicleGraphModelByIdApolloObservableQuery> {
-        return apolloClient.watchQuery<FetchVehicleGraphQuery>({ query: FetchVehicleGraphDocument, ...options });
+        return apolloClient.watchQuery<FetchVehicleGraphQuery>({ query: FetchVehicleGraphByIdAsQueryDocument, ...options });
       }
     
 
@@ -136,14 +136,14 @@ import { RemoveDogsModelByIdDocument } from '../';
       export type FetchVehicleGraphObjectsApolloQueryResultEx = FetchVehicleGraphObjectsApolloQueryResult & VehicleGraphObjectsHelperResultEx;
 
       async function fetchVehicleGraphObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<FetchVehicleGraphQueryVariables>, 'query'> }): Promise<FetchVehicleGraphObjectsApolloQueryResultEx> {
-        const query: FetchVehicleGraphObjectsApolloQueryResult = await apolloClient.query<FetchVehicleGraphQuery>({ query: FetchVehicleGraphDocument, ...options });
+        const query: FetchVehicleGraphObjectsApolloQueryResult = await apolloClient.query<FetchVehicleGraphQuery>({ query: FetchVehicleGraphAsQueryDocument, ...options });
         
         return { ...query, objects: (query && query.data && query.data.vehicle) || [] }
       }
 
       export type WatchVehicleGraphModelObjectsApolloObservableQuery = ObservableQuery<FetchVehicleGraphQuery>;
       async function watchQueryVehicleGraphModelObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<FetchVehicleGraphQueryVariables>, 'query'> }) : Promise<WatchVehicleGraphModelObjectsApolloObservableQuery> {
-        return apolloClient.watchQuery<FetchVehicleGraphQuery>({ query: FetchVehicleGraphDocument, ...options });
+        return apolloClient.watchQuery<FetchVehicleGraphQuery>({ query: FetchVehicleGraphAsQueryDocument, ...options });
       }
     
 
@@ -301,15 +301,15 @@ import { RemoveDogsModelByIdDocument } from '../';
       }
 
       function clientReadQueryVehicleGraphLocationOnlyById({ apolloClient, vehicleGraphLocationOnlyId}: { apolloClient: ApolloClient<object>, vehicleGraphLocationOnlyId: string }): VehicleGraphLocationOnlyFragment | null | undefined {
-        return apolloClient.readQuery<VehicleGraphLocationOnlyFragment | null >({ query: FetchVehicleGraphLocationOnlyByIdDocument, variables: { vehicleGraphLocationOnlyId }  });
+        return apolloClient.readQuery<VehicleGraphLocationOnlyFragment | null >({ query: FetchVehicleGraphLocationOnlyByIdAsQueryDocument, variables: { vehicleGraphLocationOnlyId }  });
       }
 
       function clientWriteQueryVehicleGraphLocationOnlyById({ apolloClient, vehicleGraphLocationOnlyId, vehicleGraphLocationOnly }: { apolloClient: ApolloClient<object>, vehicleGraphLocationOnlyId: string, vehicleGraphLocationOnly: VehicleGraphLocationOnlyFragment | null }): void {
-        return apolloClient.writeQuery<VehicleGraphLocationOnlyFragment | null>({ query: FetchVehicleGraphLocationOnlyByIdDocument, variables: { vehicleGraphLocationOnlyId }, data: (vehicleGraphLocationOnly ? { ...vehicleGraphLocationOnly, __typename: 'vehicle' } : null) });
+        return apolloClient.writeQuery<VehicleGraphLocationOnlyFragment | null>({ query: FetchVehicleGraphLocationOnlyByIdAsQueryDocument, variables: { vehicleGraphLocationOnlyId }, data: (vehicleGraphLocationOnly ? { ...vehicleGraphLocationOnly, __typename: 'vehicle' } : null) });
       }
 
       function cacheWriteQueryVehicleGraphLocationOnlyById({ apolloClient, vehicleGraphLocationOnlyId, vehicleGraphLocationOnly }: { apolloClient: ApolloClient<object>, vehicleGraphLocationOnlyId: string, vehicleGraphLocationOnly: VehicleGraphLocationOnlyFragment | null }): void {
-        return apolloClient.cache.writeQuery<VehicleGraphLocationOnlyFragment | null>({ query: FetchVehicleGraphLocationOnlyByIdDocument, variables: { vehicleGraphLocationOnlyId }, data: (vehicleGraphLocationOnly ? { ...vehicleGraphLocationOnly, __typename: 'vehicle' } : null) });
+        return apolloClient.cache.writeQuery<VehicleGraphLocationOnlyFragment | null>({ query: FetchVehicleGraphLocationOnlyByIdAsQueryDocument, variables: { vehicleGraphLocationOnlyId }, data: (vehicleGraphLocationOnly ? { ...vehicleGraphLocationOnly, __typename: 'vehicle' } : null) });
       }
     
 
@@ -319,14 +319,14 @@ import { RemoveDogsModelByIdDocument } from '../';
       export type FetchVehicleGraphLocationOnlyByIdApolloQueryHelperResultEx = FetchVehicleGraphLocationOnlyByIdApolloQueryResult & VehicleGraphLocationOnlyByIdHelperResultEx;
 
       async function fetchVehicleGraphLocationOnlyById({ apolloClient, vehicleId, options }: { apolloClient: ApolloClient<object>, vehicleId: string, options?: Omit<QueryOptions<FetchVehicleGraphLocationOnlyQueryVariables>, 'query' | 'variables'> }): Promise<FetchVehicleGraphLocationOnlyByIdApolloQueryHelperResultEx> {
-        const query: FetchVehicleGraphLocationOnlyByIdApolloQueryResult = await apolloClient.query<FetchVehicleGraphLocationOnlyByIdQuery>({ query: FetchVehicleGraphLocationOnlyByIdDocument, variables: { vehicleId }, ...options });
+        const query: FetchVehicleGraphLocationOnlyByIdApolloQueryResult = await apolloClient.query<FetchVehicleGraphLocationOnlyByIdQuery>({ query: FetchVehicleGraphLocationOnlyByIdAsQueryDocument, variables: { vehicleId }, ...options });
         
         return { ...query, vehicleGraphLocationOnly: query && query.data && query.data.vehicle_by_pk }
       }
 
       export type WatchVehicleGraphLocationOnlyModelByIdApolloObservableQuery = ObservableQuery<FetchVehicleGraphLocationOnlyQuery>;
       async function watchQueryVehicleGraphLocationOnlyModelById({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<FetchVehicleGraphLocationOnlyQueryVariables>, 'query'> }) : Promise<WatchVehicleGraphLocationOnlyModelByIdApolloObservableQuery> {
-        return apolloClient.watchQuery<FetchVehicleGraphLocationOnlyQuery>({ query: FetchVehicleGraphLocationOnlyDocument, ...options });
+        return apolloClient.watchQuery<FetchVehicleGraphLocationOnlyQuery>({ query: FetchVehicleGraphLocationOnlyByIdAsQueryDocument, ...options });
       }
     
 
@@ -336,14 +336,14 @@ import { RemoveDogsModelByIdDocument } from '../';
       export type FetchVehicleGraphLocationOnlyObjectsApolloQueryResultEx = FetchVehicleGraphLocationOnlyObjectsApolloQueryResult & VehicleGraphLocationOnlyObjectsHelperResultEx;
 
       async function fetchVehicleGraphLocationOnlyObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<FetchVehicleGraphLocationOnlyQueryVariables>, 'query'> }): Promise<FetchVehicleGraphLocationOnlyObjectsApolloQueryResultEx> {
-        const query: FetchVehicleGraphLocationOnlyObjectsApolloQueryResult = await apolloClient.query<FetchVehicleGraphLocationOnlyQuery>({ query: FetchVehicleGraphLocationOnlyDocument, ...options });
+        const query: FetchVehicleGraphLocationOnlyObjectsApolloQueryResult = await apolloClient.query<FetchVehicleGraphLocationOnlyQuery>({ query: FetchVehicleGraphLocationOnlyAsQueryDocument, ...options });
         
         return { ...query, objects: (query && query.data && query.data.vehicle) || [] }
       }
 
       export type WatchVehicleGraphLocationOnlyModelObjectsApolloObservableQuery = ObservableQuery<FetchVehicleGraphLocationOnlyQuery>;
       async function watchQueryVehicleGraphLocationOnlyModelObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<FetchVehicleGraphLocationOnlyQueryVariables>, 'query'> }) : Promise<WatchVehicleGraphLocationOnlyModelObjectsApolloObservableQuery> {
-        return apolloClient.watchQuery<FetchVehicleGraphLocationOnlyQuery>({ query: FetchVehicleGraphLocationOnlyDocument, ...options });
+        return apolloClient.watchQuery<FetchVehicleGraphLocationOnlyQuery>({ query: FetchVehicleGraphLocationOnlyAsQueryDocument, ...options });
       }
     
 
@@ -464,15 +464,15 @@ import { RemoveDogsModelByIdDocument } from '../';
       }
 
       function clientReadQueryDogModelById({ apolloClient, dogModelId}: { apolloClient: ApolloClient<object>, dogModelId: string }): DogModelFragment | null | undefined {
-        return apolloClient.readQuery<DogModelFragment | null >({ query: FetchDogModelByIdDocument, variables: { dogModelId }  });
+        return apolloClient.readQuery<DogModelFragment | null >({ query: FetchDogModelByIdAsQueryDocument, variables: { dogModelId }  });
       }
 
       function clientWriteQueryDogModelById({ apolloClient, dogModelId, dogModel }: { apolloClient: ApolloClient<object>, dogModelId: string, dogModel: DogModelFragment | null }): void {
-        return apolloClient.writeQuery<DogModelFragment | null>({ query: FetchDogModelByIdDocument, variables: { dogModelId }, data: (dogModel ? { ...dogModel, __typename: 'dogs' } : null) });
+        return apolloClient.writeQuery<DogModelFragment | null>({ query: FetchDogModelByIdAsQueryDocument, variables: { dogModelId }, data: (dogModel ? { ...dogModel, __typename: 'dogs' } : null) });
       }
 
       function cacheWriteQueryDogModelById({ apolloClient, dogModelId, dogModel }: { apolloClient: ApolloClient<object>, dogModelId: string, dogModel: DogModelFragment | null }): void {
-        return apolloClient.cache.writeQuery<DogModelFragment | null>({ query: FetchDogModelByIdDocument, variables: { dogModelId }, data: (dogModel ? { ...dogModel, __typename: 'dogs' } : null) });
+        return apolloClient.cache.writeQuery<DogModelFragment | null>({ query: FetchDogModelByIdAsQueryDocument, variables: { dogModelId }, data: (dogModel ? { ...dogModel, __typename: 'dogs' } : null) });
       }
     
 
@@ -482,14 +482,14 @@ import { RemoveDogsModelByIdDocument } from '../';
       export type FetchDogModelByIdApolloQueryHelperResultEx = FetchDogModelByIdApolloQueryResult & DogModelByIdHelperResultEx;
 
       async function fetchDogModelById({ apolloClient, dogsId, options }: { apolloClient: ApolloClient<object>, dogsId: string, options?: Omit<QueryOptions<FetchDogModelQueryVariables>, 'query' | 'variables'> }): Promise<FetchDogModelByIdApolloQueryHelperResultEx> {
-        const query: FetchDogModelByIdApolloQueryResult = await apolloClient.query<FetchDogModelByIdQuery>({ query: FetchDogModelByIdDocument, variables: { dogsId }, ...options });
+        const query: FetchDogModelByIdApolloQueryResult = await apolloClient.query<FetchDogModelByIdQuery>({ query: FetchDogModelByIdAsQueryDocument, variables: { dogsId }, ...options });
         
         return { ...query, dogModel: query && query.data && query.data.dogs_by_pk }
       }
 
       export type WatchDogModelModelByIdApolloObservableQuery = ObservableQuery<FetchDogModelQuery>;
       async function watchQueryDogModelModelById({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<FetchDogModelQueryVariables>, 'query'> }) : Promise<WatchDogModelModelByIdApolloObservableQuery> {
-        return apolloClient.watchQuery<FetchDogModelQuery>({ query: FetchDogModelDocument, ...options });
+        return apolloClient.watchQuery<FetchDogModelQuery>({ query: FetchDogModelByIdAsQueryDocument, ...options });
       }
     
 
@@ -499,14 +499,14 @@ import { RemoveDogsModelByIdDocument } from '../';
       export type FetchDogModelObjectsApolloQueryResultEx = FetchDogModelObjectsApolloQueryResult & DogModelObjectsHelperResultEx;
 
       async function fetchDogModelObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<FetchDogModelQueryVariables>, 'query'> }): Promise<FetchDogModelObjectsApolloQueryResultEx> {
-        const query: FetchDogModelObjectsApolloQueryResult = await apolloClient.query<FetchDogModelQuery>({ query: FetchDogModelDocument, ...options });
+        const query: FetchDogModelObjectsApolloQueryResult = await apolloClient.query<FetchDogModelQuery>({ query: FetchDogModelAsQueryDocument, ...options });
         
         return { ...query, objects: (query && query.data && query.data.dogs) || [] }
       }
 
       export type WatchDogModelModelObjectsApolloObservableQuery = ObservableQuery<FetchDogModelQuery>;
       async function watchQueryDogModelModelObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<FetchDogModelQueryVariables>, 'query'> }) : Promise<WatchDogModelModelObjectsApolloObservableQuery> {
-        return apolloClient.watchQuery<FetchDogModelQuery>({ query: FetchDogModelDocument, ...options });
+        return apolloClient.watchQuery<FetchDogModelQuery>({ query: FetchDogModelAsQueryDocument, ...options });
       }
     
 

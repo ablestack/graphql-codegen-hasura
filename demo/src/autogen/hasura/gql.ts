@@ -11,34 +11,60 @@ import { DogModelFragmentDoc } from '../';
 
     // Query: FetchById
     //
-
-    const FETCH_VEHICLEGRAPH_BYID = gql`
-      query fetchVehicleGraphById($vehicleId: String!) {
-        vehicle_by_pk(id: $vehicleId) {
-          ...VehicleGraph
-        }
-      }
-      ${VehicleGraphFragmentDoc}
-    `;
+    const FETCH_VEHICLEGRAPH_BYID_AS_QUERY = gql`
+  query fetchVehicleGraphByIdAsQuery($vehicleId: String!) {
+    vehicle_by_pk(id: $vehicleId) {
+      ...VehicleGraph
+    }
+  }
+  ${VehicleGraphFragmentDoc}`;
 
 
     // Query: Fetch
     //
+    const FETCH_VEHICLEGRAPH_OBJECTS_AS_QUERY = gql`
+  query fetchVehicleGraphAsQuery(
+    $distinct_on: [vehicle_select_column!]
+    $where: vehicle_bool_exp
+    $limit: Int
+    $offset: Int
+    $order_by: [vehicle_order_by!]
+  ) {
+    vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+      ...VehicleGraph
+    }
+  }
+  ${VehicleGraphFragmentDoc}
+  `;
 
-    const FETCH_VEHICLEGRAPHS = gql`
-      query fetchVehicleGraph(
-        $distinct_on: [vehicle_select_column!]
-        $where: vehicle_bool_exp
-        $limit: Int
-        $offset: Int
-        $order_by: [vehicle_order_by!]
-      ) {
-        vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-          ...VehicleGraph
-        }
-      }
-      ${VehicleGraphFragmentDoc}
-    `;
+
+    // Subscription: FetchById
+    //
+    const FETCH_VEHICLEGRAPH_BYID_AS_SUBSCRIPTION = gql`
+  subscription fetchVehicleGraphByIdAsSubscription($vehicleId: String!) {
+    vehicle_by_pk(id: $vehicleId) {
+      ...VehicleGraph
+    }
+  }
+  ${VehicleGraphFragmentDoc}`;
+
+
+    // Subscription: Fetch
+    //
+    const FETCH_VEHICLEGRAPH_OBJECTS_AS_SUBSCRIPTION = gql`
+  subscription fetchVehicleGraphAsSubscription(
+    $distinct_on: [vehicle_select_column!]
+    $where: vehicle_bool_exp
+    $limit: Int
+    $offset: Int
+    $order_by: [vehicle_order_by!]
+  ) {
+    vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+      ...VehicleGraph
+    }
+  }
+  ${VehicleGraphFragmentDoc}
+  `;
 
 
     // Mutation: Insert
@@ -135,34 +161,60 @@ import { DogModelFragmentDoc } from '../';
 
     // Query: FetchById
     //
-
-    const FETCH_VEHICLEGRAPHLOCATIONONLY_BYID = gql`
-      query fetchVehicleGraphLocationOnlyById($vehicleId: String!) {
-        vehicle_by_pk(id: $vehicleId) {
-          ...VehicleGraphLocationOnly
-        }
-      }
-      ${VehicleGraphLocationOnlyFragmentDoc}
-    `;
+    const FETCH_VEHICLEGRAPHLOCATIONONLY_BYID_AS_QUERY = gql`
+  query fetchVehicleGraphLocationOnlyByIdAsQuery($vehicleId: String!) {
+    vehicle_by_pk(id: $vehicleId) {
+      ...VehicleGraphLocationOnly
+    }
+  }
+  ${VehicleGraphLocationOnlyFragmentDoc}`;
 
 
     // Query: Fetch
     //
+    const FETCH_VEHICLEGRAPHLOCATIONONLY_OBJECTS_AS_QUERY = gql`
+  query fetchVehicleGraphLocationOnlyAsQuery(
+    $distinct_on: [vehicle_select_column!]
+    $where: vehicle_bool_exp
+    $limit: Int
+    $offset: Int
+    $order_by: [vehicle_order_by!]
+  ) {
+    vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+      ...VehicleGraphLocationOnly
+    }
+  }
+  ${VehicleGraphLocationOnlyFragmentDoc}
+  `;
 
-    const FETCH_VEHICLEGRAPHLOCATIONONLYS = gql`
-      query fetchVehicleGraphLocationOnly(
-        $distinct_on: [vehicle_select_column!]
-        $where: vehicle_bool_exp
-        $limit: Int
-        $offset: Int
-        $order_by: [vehicle_order_by!]
-      ) {
-        vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-          ...VehicleGraphLocationOnly
-        }
-      }
-      ${VehicleGraphLocationOnlyFragmentDoc}
-    `;
+
+    // Subscription: FetchById
+    //
+    const FETCH_VEHICLEGRAPHLOCATIONONLY_BYID_AS_SUBSCRIPTION = gql`
+  subscription fetchVehicleGraphLocationOnlyByIdAsSubscription($vehicleId: String!) {
+    vehicle_by_pk(id: $vehicleId) {
+      ...VehicleGraphLocationOnly
+    }
+  }
+  ${VehicleGraphLocationOnlyFragmentDoc}`;
+
+
+    // Subscription: Fetch
+    //
+    const FETCH_VEHICLEGRAPHLOCATIONONLY_OBJECTS_AS_SUBSCRIPTION = gql`
+  subscription fetchVehicleGraphLocationOnlyAsSubscription(
+    $distinct_on: [vehicle_select_column!]
+    $where: vehicle_bool_exp
+    $limit: Int
+    $offset: Int
+    $order_by: [vehicle_order_by!]
+  ) {
+    vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+      ...VehicleGraphLocationOnly
+    }
+  }
+  ${VehicleGraphLocationOnlyFragmentDoc}
+  `;
 
 
     // Mutation: Insert
@@ -235,34 +287,60 @@ import { DogModelFragmentDoc } from '../';
 
     // Query: FetchById
     //
-
-    const FETCH_DOGMODEL_BYID = gql`
-      query fetchDogModelById($dogsId: uuid!) {
-        dogs_by_pk(id: $dogsId) {
-          ...DogModel
-        }
-      }
-      ${DogModelFragmentDoc}
-    `;
+    const FETCH_DOGMODEL_BYID_AS_QUERY = gql`
+  query fetchDogModelByIdAsQuery($dogsId: uuid!) {
+    dogs_by_pk(id: $dogsId) {
+      ...DogModel
+    }
+  }
+  ${DogModelFragmentDoc}`;
 
 
     // Query: Fetch
     //
+    const FETCH_DOGMODEL_OBJECTS_AS_QUERY = gql`
+  query fetchDogModelAsQuery(
+    $distinct_on: [dogs_select_column!]
+    $where: dogs_bool_exp
+    $limit: Int
+    $offset: Int
+    $order_by: [dogs_order_by!]
+  ) {
+    dogs(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+      ...DogModel
+    }
+  }
+  ${DogModelFragmentDoc}
+  `;
 
-    const FETCH_DOGMODELS = gql`
-      query fetchDogModel(
-        $distinct_on: [dogs_select_column!]
-        $where: dogs_bool_exp
-        $limit: Int
-        $offset: Int
-        $order_by: [dogs_order_by!]
-      ) {
-        dogs(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-          ...DogModel
-        }
-      }
-      ${DogModelFragmentDoc}
-    `;
+
+    // Subscription: FetchById
+    //
+    const FETCH_DOGMODEL_BYID_AS_SUBSCRIPTION = gql`
+  subscription fetchDogModelByIdAsSubscription($dogsId: uuid!) {
+    dogs_by_pk(id: $dogsId) {
+      ...DogModel
+    }
+  }
+  ${DogModelFragmentDoc}`;
+
+
+    // Subscription: Fetch
+    //
+    const FETCH_DOGMODEL_OBJECTS_AS_SUBSCRIPTION = gql`
+  subscription fetchDogModelAsSubscription(
+    $distinct_on: [dogs_select_column!]
+    $where: dogs_bool_exp
+    $limit: Int
+    $offset: Int
+    $order_by: [dogs_order_by!]
+  ) {
+    dogs(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+      ...DogModel
+    }
+  }
+  ${DogModelFragmentDoc}
+  `;
 
 
     // Mutation: Insert

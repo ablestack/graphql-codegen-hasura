@@ -9,7 +9,14 @@ export declare function injectFragmentImport({ contentManager, fragmentName, fra
     fragmentName: string;
     fragmentRelativeImportPath: string;
 }): void;
-export declare function injectFetchGql({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField }: {
+export declare function injectFetchAsQueryGql({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField }: {
+    contentManager: ContentManager;
+    entityName: string;
+    fragmentName: string;
+    trimString?: string;
+    primaryKeyIdField?: FieldDefinitionNode | null;
+}): void;
+export declare function injectFetchAsSubscriptionGql({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField }: {
     contentManager: ContentManager;
     entityName: string;
     fragmentName: string;

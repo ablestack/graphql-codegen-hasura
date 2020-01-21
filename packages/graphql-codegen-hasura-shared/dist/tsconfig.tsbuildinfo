@@ -630,11 +630,11 @@
         "signature": "36c4d56998bb49df184e328edc1a7a3af25bbd562ef8004b98d73919da8647f0"
       },
       "../src/gqlinjectors.ts": {
-        "version": "170e18508542cb0ac057f7120218df1a58a79f522519a35321447403503258b6",
-        "signature": "df7fff18e899e97041a1745d489b3a5bd799cb0f8de0045850d59c77ccdf7cc7"
+        "version": "11f2a53dfca7cc7429a238a6792f2f2bcd187e206ae679e076acf11852ad9623",
+        "signature": "16172fabdd337c5efa670da193f5bdc05135ae501c7b22fb0ce52c0675bcc677"
       },
       "../src/helperinjectors.ts": {
-        "version": "00ae19970b95413a1657e3dbfbc1790b4998b510720f112a6e9e8cff186239ec",
+        "version": "4aba0ef3cfbdb28148e1d3df0e6aac686b74800ed62b58cf4661a1e80cbc03ef",
         "signature": "2a6b6716e248110c01a4fc5b4076bde29be4baabb7cc1421bfe90c63dc3e9bae"
       },
       "../src/reactinjectors.ts": {
