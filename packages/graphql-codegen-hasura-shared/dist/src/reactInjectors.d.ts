@@ -22,6 +22,14 @@ export declare function injectQueryReact({ contentManager, entityName, fragmentN
     primaryKeyIdField?: FieldDefinitionNode | null;
     typescriptCodegenOutputPath: string;
 }): void;
+export declare function injectSubscriptionReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }: {
+    contentManager: ContentManager;
+    entityName: string;
+    fragmentName: string;
+    trimString?: string;
+    primaryKeyIdField?: FieldDefinitionNode | null;
+    typescriptCodegenOutputPath: string;
+}): void;
 export declare function injectInsertReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }: {
     contentManager: ContentManager;
     entityName: string;

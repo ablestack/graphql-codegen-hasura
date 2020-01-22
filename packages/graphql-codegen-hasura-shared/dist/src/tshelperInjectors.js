@@ -104,7 +104,7 @@ function injectQueryHelpers({ contentManager, entityName, fragmentName, trimStri
       async function ${queryByIdNameCamelCase}({ apolloClient, ${entityShortCamelCaseName}Id, options }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, options?: Omit<QueryOptions<${queryByIdName}QueryVariables>, 'query' | 'variables'> }): Promise<${queryByIdName}ApolloQueryHelperResultEx> {
         const query: ${queryByIdName}ApolloQueryResult = await apolloClient.query<${queryByIdName}Query>({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, ...options });
         
-        return { ...query, ${fragmentNameCamelCase}: query && query.data && query.data.${entityName}_by_pk }
+        return { ...query, ${fragmentNameCamelCase}: query?.data?.${entityName}_by_pk }
       }
 
       // Query Watch ById Helper
@@ -124,7 +124,7 @@ function injectQueryHelpers({ contentManager, entityName, fragmentName, trimStri
       async function ${queryObjectsNameCamelCase}({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<${queryObjectsName}QueryVariables>, 'query'> }): Promise<${queryObjectsName}ObjectsApolloQueryResultEx> {
         const query: ${queryObjectsName}ObjectsApolloQueryResult = await apolloClient.query<${queryObjectsName}Query>({ query: ${queryObjectsName}Document, ...options });
         
-        return { ...query, objects: (query && query.data && query.data.${entityName}) || [] }
+        return { ...query, objects: query?.data?.${entityName} || [] }
       }
 
       // Query Watch Objects Helper
@@ -166,7 +166,7 @@ function injectSubscriptionHelpers({ contentManager, entityName, fragmentName, t
     async function ${subscribeByIdNameCamelCase}({ apolloClient, ${entityShortCamelCaseName}Id, options }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id:string, options: Omit<SubscriptionOptions<${subscribeByIdName}SubscriptionVariables>, 'query' | 'variables'> }): Promise<Observable<${subscribeByIdName}SubscriptionResultEx>> {
       const subscription:Observable<${subscribeByIdName}SubscriptionResult> = apolloClient.subscribe<${subscribeByIdName}Subscription>({ query: ${subscribeByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, ...options });
       
-      return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, ${fragmentNameCamelCase}:(value && value.data && value.data.${entityName}_by_pk) || [] }  as ${subscribeByIdName}SubscriptionResultEx }) ;
+      return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, ${fragmentNameCamelCase}:value?.data?.${entityName}_by_pk || [] }  as ${subscribeByIdName}SubscriptionResultEx }) ;
     }
     `);
     }
@@ -179,7 +179,7 @@ function injectSubscriptionHelpers({ contentManager, entityName, fragmentName, t
       async function ${subscribeObjectsNameCamelCase}({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<SubscriptionOptions<${subscribeObjectsName}SubscriptionVariables>, 'subscription'> }): Promise<Observable<${subscribeObjectsName}SubscriptionResultEx>> {
         const subscription:Observable<${subscribeObjectsName}SubscriptionResult> = apolloClient.subscribe<${subscribeObjectsName}Subscription>({ query: ${subscribeObjectsName}Document, ...options });
         
-        return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, objects:(value && value.data && value.data.${entityName}) || [] }  as ${subscribeObjectsName}SubscriptionResultEx }) ;
+        return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, objects: value?.data?.${entityName} || [] }  as ${subscribeObjectsName}SubscriptionResultEx }) ;
       }
     `);
     if (primaryKeyIdField)
@@ -216,7 +216,7 @@ function injectInsertHelpers({ contentManager, entityName, fragmentName, trimStr
       
       const mutation:Insert${fragmentName}FetchResult = await apolloClient.mutate<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>(mutationOptions);
         
-      return { ...mutation, ${fragmentNameCamelCase}:mutation && mutation.data && mutation.data.insert_${entityName} && mutation.data.insert_${entityName}!.returning && mutation.data.insert_${entityName}!.returning[0] };
+      return { ...mutation, ${fragmentNameCamelCase}: mutation?.data?.insert_${entityName}?.returning && mutation.data.insert_${entityName}.returning[0] };
     }
 
     async function insert${fragmentName}WithOnConflict({ apolloClient, ${entityShortCamelCaseName}, onConflict, autoOptimisticResponse, options } :{ apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, onConflict: ${entityPascalName}_On_Conflict, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation' | 'variables'> }): Promise<Insert${fragmentName}FetchHelperResultEx> {
@@ -228,7 +228,7 @@ function injectInsertHelpers({ contentManager, entityName, fragmentName, trimStr
       
       const mutation:Insert${fragmentName}FetchResult = await apolloClient.mutate<Insert${fragmentName}Mutation, Insert${fragmentName}WithOnConflictMutationVariables>(mutationOptions);
         
-      return { ...mutation, ${fragmentNameCamelCase}:mutation && mutation.data && mutation.data.insert_${entityName} && mutation.data.insert_${entityName}!.returning && mutation.data.insert_${entityName}!.returning[0] };
+      return { ...mutation, ${fragmentNameCamelCase}: mutation?.data?.insert_${entityName}?.returning && mutation.data.insert_${entityName}.returning[0] };
     }
 
 
@@ -243,7 +243,7 @@ function injectInsertHelpers({ contentManager, entityName, fragmentName, trimStr
     async function insert${fragmentName}Objects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, 'mutation'> }): Promise<Insert${fragmentName}ObjectsHelperResultEx> {
       const mutation: Insert${fragmentName}ObjectsFetchResult = await apolloClient.mutate<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>({ mutation: Insert${fragmentName}Document, ...options });
        
-      return { ...mutation, objects: (mutation && mutation.data && mutation.data.insert_${entityName} && mutation.data.insert_${entityName}!.returning) || [] };
+      return { ...mutation, objects: mutation?.data?.insert_${entityName}?.returning || [] };
     }
   `);
     contentManager.addImport(_1.makeImportStatement(`${entityPascalName}_Insert_Input`, typescriptCodegenOutputPath));
@@ -275,7 +275,7 @@ function injectUpdateHelpers({ contentManager, entityName, fragmentName, trimStr
 
       const mutation:Update${fragmentName}ByIdQueryResult = await apolloClient.mutate<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>(mutationOptions);
         
-      return { ...mutation, ${fragmentNameCamelCase}:mutation && mutation.data && mutation.data.update_${entityName} && mutation.data.update_${entityName}!.returning && mutation.data.update_${entityName}!.returning[0] };
+      return { ...mutation, ${fragmentNameCamelCase}: mutation?.data?.update_${entityName}?.returning && mutation.data.update_${entityName}.returning[0] };
     }
   `);
     contentManager.addContent(`
@@ -287,7 +287,7 @@ function injectUpdateHelpers({ contentManager, entityName, fragmentName, trimStr
     async function update${fragmentName}Objects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>, 'mutation'> }): Promise<Update${fragmentName}ObjectsHelperResultEx> {  
       const mutation:Update${fragmentName}ObjectsFetchResult = await apolloClient.mutate<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>({ mutation: Update${fragmentName}Document, ...options } );
         
-      return { ...mutation, objects:(mutation && mutation.data && mutation.data.update_${entityName} && mutation.data.update_${entityName}!.returning) || [] };
+      return { ...mutation, objects:mutation?.data?.update_${entityName}?.returning || [] };
     }
   `);
     contentManager.addImport(_1.makeImportStatement(`${entityPascalName}_Set_Input`, typescriptCodegenOutputPath));
@@ -322,7 +322,7 @@ function injectDeleteHelpers({ contentManager, entityName, fragmentName, trimStr
       
       const mutation:Remove${entityModelName}ByIdQueryResult = await apolloClient.mutate<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>(mutationOptions);
     
-      return { ...mutation, affected_rows:(mutation && mutation.data && mutation.data.delete_${entityName} && mutation.data.delete_${entityName}!.affected_rows) || 0 };
+      return { ...mutation, affected_rows: mutation?.data?.delete_${entityName}?.affected_rows || 0 };
     }
   `);
     contentManager.addContent(`
@@ -332,7 +332,7 @@ function injectDeleteHelpers({ contentManager, entityName, fragmentName, trimStr
     async function remove${entityModelName}Objects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>, 'mutation'> }): Promise<Remove${entityModelName}ObjectsQueryHelperResultEx> {  
         const mutation:Remove${entityModelName}ByIdQueryResult = await apolloClient.mutate<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>({ mutation: Remove${entityModelName}Document, ...options } );
           
-        return { ...mutation, affected_rows:(mutation && mutation.data && mutation.data.delete_${entityName} && mutation.data.delete_${entityName}!.affected_rows) || 0 };
+        return { ...mutation, affected_rows: mutation?.data?.delete_${entityName}?.affected_rows || 0 };
       }
   `);
     contentManager.addImport(_1.makeImportStatement(`Remove${entityModelName}Mutation`, typescriptCodegenOutputPath));

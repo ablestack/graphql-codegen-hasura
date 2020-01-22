@@ -12,7 +12,8 @@ import {
   injectGlobalReactCodePre,
   injectSharedReactPre,
   injectGlobalReactCodePost,
-  injectSharedReactPost
+  injectSharedReactPost,
+  injectSubscriptionReact
 } from "graphql-codegen-hasura-shared";
 
 // -----------------------------------------------------
@@ -24,6 +25,7 @@ export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
   typescriptCodegenOutputPath: string;
   trimString?: string;
   withQueries?: boolean;
+  withSubscriptions?: boolean;
   withInserts?: boolean;
   withUpdates?: boolean;
   withDeletes?: boolean;
@@ -55,6 +57,7 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   documentFragments.map(fragmentDefinition => {
     injectEntitySharedTypeScriptPre(fragmentDefinition, contentManager, typeMap, config);
     config.withQueries && injectEntityQueryTypeScript(fragmentDefinition, contentManager, typeMap, config);
+    config.withSubscriptions && injectEntitySubscriptionTypeScript(fragmentDefinition, contentManager, typeMap, config);
     config.withInserts && injectEntityInsertMutationTypeScript(fragmentDefinition, contentManager, typeMap, config);
     config.withUpdates && injectEntityUpdateMutationTypeScript(fragmentDefinition, contentManager, typeMap, config);
     config.withDeletes && injectEntityDeleteMutationTypeScript(fragmentDefinition, contentManager, typeMap, config);
@@ -145,6 +148,31 @@ function injectEntityQueryTypeScript(fragmentDefinitionNode: FragmentDefinitionN
   const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
 
   injectQueryReact({
+    contentManager,
+    entityName: relatedTableNamedType.name,
+    fragmentName,
+    trimString: config.trimString,
+    primaryKeyIdField: relatedTablePrimaryKeyIdField,
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath
+  });
+}
+
+// --------------------------------------
+//
+
+function injectEntitySubscriptionTypeScript(
+  fragmentDefinitionNode: FragmentDefinitionNode,
+  contentManager: ContentManager,
+  schemaTypeMap: TypeMap,
+  config: CstmHasuraCrudPluginConfig
+) {
+  const fragmentName = fragmentDefinitionNode.name.value;
+  const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
+  const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+
+  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+
+  injectSubscriptionReact({
     contentManager,
     entityName: relatedTableNamedType.name,
     fragmentName,

@@ -634,12 +634,12 @@
         "signature": "16172fabdd337c5efa670da193f5bdc05135ae501c7b22fb0ce52c0675bcc677"
       },
       "../src/tshelperinjectors.ts": {
-        "version": "7dae6f3bc62bd83f2a1431cc8d120232247a1c232d897e446da5da3382665408",
+        "version": "d3a02282d27706321024e692a0aaccdd00d021381be66207f4426ed7cb9042db",
         "signature": "1d09eea9de5f88446d5e6d4a42bd3e728a0f0b9e32b285e856711edd19ca22a6"
       },
       "../src/reactinjectors.ts": {
-        "version": "bfc27bfc607e063b50757d4d9bb23c3fe0ef113223ce494632a474ef3d8b9b69",
-        "signature": "906d8ff7264f042a2babbd600eb37c15b45b504f3c46de3b8ddb02f82c60b896"
+        "version": "4046b4ea504410c24ce64dae173d741e44e729945d90d2cfc4e1b835b32f44bc",
+        "signature": "5f65124e487fa308bebd07bde5c0ca367d359b07e72f0b6801b13d603d01f01d"
       },
       "../src/index.ts": {
         "version": "482f70b8779284bf2891532bbc24e63d44e2f06e360531891e6373ca9424f1a0",

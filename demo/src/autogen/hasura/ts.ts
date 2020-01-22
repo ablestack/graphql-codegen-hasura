@@ -142,7 +142,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       async function queryVehicleGraphById({ apolloClient, vehicleId, options }: { apolloClient: ApolloClient<object>, vehicleId: string, options?: Omit<QueryOptions<QueryVehicleGraphByIdQueryVariables>, 'query' | 'variables'> }): Promise<QueryVehicleGraphByIdApolloQueryHelperResultEx> {
         const query: QueryVehicleGraphByIdApolloQueryResult = await apolloClient.query<QueryVehicleGraphByIdQuery>({ query: QueryVehicleGraphByIdDocument, variables: { vehicleId }, ...options });
         
-        return { ...query, vehicleGraph: query && query.data && query.data.vehicle_by_pk }
+        return { ...query, vehicleGraph: query?.data?.vehicle_by_pk }
       }
 
       // Query Watch ById Helper
@@ -161,7 +161,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       async function queryVehicleGraphObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<QueryVehicleGraphObjectsQueryVariables>, 'query'> }): Promise<QueryVehicleGraphObjectsObjectsApolloQueryResultEx> {
         const query: QueryVehicleGraphObjectsObjectsApolloQueryResult = await apolloClient.query<QueryVehicleGraphObjectsQuery>({ query: QueryVehicleGraphObjectsDocument, ...options });
         
-        return { ...query, objects: (query && query.data && query.data.vehicle) || [] }
+        return { ...query, objects: query?.data?.vehicle || [] }
       }
 
       // Query Watch Objects Helper
@@ -180,7 +180,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     async function subscribeToVehicleGraphById({ apolloClient, vehicleId, options }: { apolloClient: ApolloClient<object>, vehicleId:string, options: Omit<SubscriptionOptions<SubscribeToVehicleGraphByIdSubscriptionVariables>, 'query' | 'variables'> }): Promise<Observable<SubscribeToVehicleGraphByIdSubscriptionResultEx>> {
       const subscription:Observable<SubscribeToVehicleGraphByIdSubscriptionResult> = apolloClient.subscribe<SubscribeToVehicleGraphByIdSubscription>({ query: SubscribeToVehicleGraphByIdDocument, variables: { vehicleId }, ...options });
       
-      return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, vehicleGraph:(value && value.data && value.data.vehicle_by_pk) || [] }  as SubscribeToVehicleGraphByIdSubscriptionResultEx }) ;
+      return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, vehicleGraph:value?.data?.vehicle_by_pk || [] }  as SubscribeToVehicleGraphByIdSubscriptionResultEx }) ;
     }
     
 
@@ -192,7 +192,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       async function subscribeToVehicleGraphObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<SubscriptionOptions<SubscribeToVehicleGraphObjectsSubscriptionVariables>, 'subscription'> }): Promise<Observable<SubscribeToVehicleGraphObjectsSubscriptionResultEx>> {
         const subscription:Observable<SubscribeToVehicleGraphObjectsSubscriptionResult> = apolloClient.subscribe<SubscribeToVehicleGraphObjectsSubscription>({ query: SubscribeToVehicleGraphObjectsDocument, ...options });
         
-        return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, objects:(value && value.data && value.data.vehicle) || [] }  as SubscribeToVehicleGraphObjectsSubscriptionResultEx }) ;
+        return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, objects: value?.data?.vehicle || [] }  as SubscribeToVehicleGraphObjectsSubscriptionResultEx }) ;
       }
     
 
@@ -210,7 +210,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       
       const mutation:InsertVehicleGraphFetchResult = await apolloClient.mutate<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>(mutationOptions);
         
-      return { ...mutation, vehicleGraph:mutation && mutation.data && mutation.data.insert_vehicle && mutation.data.insert_vehicle!.returning && mutation.data.insert_vehicle!.returning[0] };
+      return { ...mutation, vehicleGraph: mutation?.data?.insert_vehicle?.returning && mutation.data.insert_vehicle.returning[0] };
     }
 
     async function insertVehicleGraphWithOnConflict({ apolloClient, vehicle, onConflict, autoOptimisticResponse, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, onConflict: Vehicle_On_Conflict, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleGraphFetchHelperResultEx> {
@@ -222,7 +222,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       
       const mutation:InsertVehicleGraphFetchResult = await apolloClient.mutate<InsertVehicleGraphMutation, InsertVehicleGraphWithOnConflictMutationVariables>(mutationOptions);
         
-      return { ...mutation, vehicleGraph:mutation && mutation.data && mutation.data.insert_vehicle && mutation.data.insert_vehicle!.returning && mutation.data.insert_vehicle!.returning[0] };
+      return { ...mutation, vehicleGraph: mutation?.data?.insert_vehicle?.returning && mutation.data.insert_vehicle.returning[0] };
     }
 
 
@@ -237,7 +237,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     async function insertVehicleGraphObjects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>, 'mutation'> }): Promise<InsertVehicleGraphObjectsHelperResultEx> {
       const mutation: InsertVehicleGraphObjectsFetchResult = await apolloClient.mutate<InsertVehicleGraphMutation, InsertVehicleGraphMutationVariables>({ mutation: InsertVehicleGraphDocument, ...options });
        
-      return { ...mutation, objects: (mutation && mutation.data && mutation.data.insert_vehicle && mutation.data.insert_vehicle!.returning) || [] };
+      return { ...mutation, objects: mutation?.data?.insert_vehicle?.returning || [] };
     }
   
 
@@ -252,7 +252,7 @@ import { RemoveDogsModelByIdDocument } from '../';
 
       const mutation:UpdateVehicleGraphByIdQueryResult = await apolloClient.mutate<UpdateVehicleGraphByIdMutation, UpdateVehicleGraphByIdMutationVariables>(mutationOptions);
         
-      return { ...mutation, vehicleGraph:mutation && mutation.data && mutation.data.update_vehicle && mutation.data.update_vehicle!.returning && mutation.data.update_vehicle!.returning[0] };
+      return { ...mutation, vehicleGraph: mutation?.data?.update_vehicle?.returning && mutation.data.update_vehicle.returning[0] };
     }
   
 
@@ -264,7 +264,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     async function updateVehicleGraphObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables>, 'mutation'> }): Promise<UpdateVehicleGraphObjectsHelperResultEx> {  
       const mutation:UpdateVehicleGraphObjectsFetchResult = await apolloClient.mutate<UpdateVehicleGraphMutation, UpdateVehicleGraphMutationVariables>({ mutation: UpdateVehicleGraphDocument, ...options } );
         
-      return { ...mutation, objects:(mutation && mutation.data && mutation.data.update_vehicle && mutation.data.update_vehicle!.returning) || [] };
+      return { ...mutation, objects:mutation?.data?.update_vehicle?.returning || [] };
     }
   
   
@@ -282,7 +282,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       
       const mutation:RemoveVehicleModelByIdQueryResult = await apolloClient.mutate<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>(mutationOptions);
     
-      return { ...mutation, affected_rows:(mutation && mutation.data && mutation.data.delete_vehicle && mutation.data.delete_vehicle!.affected_rows) || 0 };
+      return { ...mutation, affected_rows: mutation?.data?.delete_vehicle?.affected_rows || 0 };
     }
   
 
@@ -292,7 +292,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     async function removeVehicleModelObjects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>, 'mutation'> }): Promise<RemoveVehicleModelObjectsQueryHelperResultEx> {  
         const mutation:RemoveVehicleModelByIdQueryResult = await apolloClient.mutate<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>({ mutation: RemoveVehicleModelDocument, ...options } );
           
-        return { ...mutation, affected_rows:(mutation && mutation.data && mutation.data.delete_vehicle && mutation.data.delete_vehicle!.affected_rows) || 0 };
+        return { ...mutation, affected_rows: mutation?.data?.delete_vehicle?.affected_rows || 0 };
       }
   
 
@@ -372,7 +372,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       async function queryVehicleGraphLocationOnlyById({ apolloClient, vehicleId, options }: { apolloClient: ApolloClient<object>, vehicleId: string, options?: Omit<QueryOptions<QueryVehicleGraphLocationOnlyByIdQueryVariables>, 'query' | 'variables'> }): Promise<QueryVehicleGraphLocationOnlyByIdApolloQueryHelperResultEx> {
         const query: QueryVehicleGraphLocationOnlyByIdApolloQueryResult = await apolloClient.query<QueryVehicleGraphLocationOnlyByIdQuery>({ query: QueryVehicleGraphLocationOnlyByIdDocument, variables: { vehicleId }, ...options });
         
-        return { ...query, vehicleGraphLocationOnly: query && query.data && query.data.vehicle_by_pk }
+        return { ...query, vehicleGraphLocationOnly: query?.data?.vehicle_by_pk }
       }
 
       // Query Watch ById Helper
@@ -391,7 +391,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       async function queryVehicleGraphLocationOnlyObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<QueryVehicleGraphLocationOnlyObjectsQueryVariables>, 'query'> }): Promise<QueryVehicleGraphLocationOnlyObjectsObjectsApolloQueryResultEx> {
         const query: QueryVehicleGraphLocationOnlyObjectsObjectsApolloQueryResult = await apolloClient.query<QueryVehicleGraphLocationOnlyObjectsQuery>({ query: QueryVehicleGraphLocationOnlyObjectsDocument, ...options });
         
-        return { ...query, objects: (query && query.data && query.data.vehicle) || [] }
+        return { ...query, objects: query?.data?.vehicle || [] }
       }
 
       // Query Watch Objects Helper
@@ -410,7 +410,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     async function subscribeToVehicleGraphLocationOnlyById({ apolloClient, vehicleId, options }: { apolloClient: ApolloClient<object>, vehicleId:string, options: Omit<SubscriptionOptions<SubscribeToVehicleGraphLocationOnlyByIdSubscriptionVariables>, 'query' | 'variables'> }): Promise<Observable<SubscribeToVehicleGraphLocationOnlyByIdSubscriptionResultEx>> {
       const subscription:Observable<SubscribeToVehicleGraphLocationOnlyByIdSubscriptionResult> = apolloClient.subscribe<SubscribeToVehicleGraphLocationOnlyByIdSubscription>({ query: SubscribeToVehicleGraphLocationOnlyByIdDocument, variables: { vehicleId }, ...options });
       
-      return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, vehicleGraphLocationOnly:(value && value.data && value.data.vehicle_by_pk) || [] }  as SubscribeToVehicleGraphLocationOnlyByIdSubscriptionResultEx }) ;
+      return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, vehicleGraphLocationOnly:value?.data?.vehicle_by_pk || [] }  as SubscribeToVehicleGraphLocationOnlyByIdSubscriptionResultEx }) ;
     }
     
 
@@ -422,7 +422,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       async function subscribeToVehicleGraphLocationOnlyObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<SubscriptionOptions<SubscribeToVehicleGraphLocationOnlyObjectsSubscriptionVariables>, 'subscription'> }): Promise<Observable<SubscribeToVehicleGraphLocationOnlyObjectsSubscriptionResultEx>> {
         const subscription:Observable<SubscribeToVehicleGraphLocationOnlyObjectsSubscriptionResult> = apolloClient.subscribe<SubscribeToVehicleGraphLocationOnlyObjectsSubscription>({ query: SubscribeToVehicleGraphLocationOnlyObjectsDocument, ...options });
         
-        return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, objects:(value && value.data && value.data.vehicle) || [] }  as SubscribeToVehicleGraphLocationOnlyObjectsSubscriptionResultEx }) ;
+        return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, objects: value?.data?.vehicle || [] }  as SubscribeToVehicleGraphLocationOnlyObjectsSubscriptionResultEx }) ;
       }
     
 
@@ -440,7 +440,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       
       const mutation:InsertVehicleGraphLocationOnlyFetchResult = await apolloClient.mutate<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>(mutationOptions);
         
-      return { ...mutation, vehicleGraphLocationOnly:mutation && mutation.data && mutation.data.insert_vehicle && mutation.data.insert_vehicle!.returning && mutation.data.insert_vehicle!.returning[0] };
+      return { ...mutation, vehicleGraphLocationOnly: mutation?.data?.insert_vehicle?.returning && mutation.data.insert_vehicle.returning[0] };
     }
 
     async function insertVehicleGraphLocationOnlyWithOnConflict({ apolloClient, vehicle, onConflict, autoOptimisticResponse, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, onConflict: Vehicle_On_Conflict, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleGraphLocationOnlyFetchHelperResultEx> {
@@ -452,7 +452,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       
       const mutation:InsertVehicleGraphLocationOnlyFetchResult = await apolloClient.mutate<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyWithOnConflictMutationVariables>(mutationOptions);
         
-      return { ...mutation, vehicleGraphLocationOnly:mutation && mutation.data && mutation.data.insert_vehicle && mutation.data.insert_vehicle!.returning && mutation.data.insert_vehicle!.returning[0] };
+      return { ...mutation, vehicleGraphLocationOnly: mutation?.data?.insert_vehicle?.returning && mutation.data.insert_vehicle.returning[0] };
     }
 
 
@@ -467,7 +467,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     async function insertVehicleGraphLocationOnlyObjects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>, 'mutation'> }): Promise<InsertVehicleGraphLocationOnlyObjectsHelperResultEx> {
       const mutation: InsertVehicleGraphLocationOnlyObjectsFetchResult = await apolloClient.mutate<InsertVehicleGraphLocationOnlyMutation, InsertVehicleGraphLocationOnlyMutationVariables>({ mutation: InsertVehicleGraphLocationOnlyDocument, ...options });
        
-      return { ...mutation, objects: (mutation && mutation.data && mutation.data.insert_vehicle && mutation.data.insert_vehicle!.returning) || [] };
+      return { ...mutation, objects: mutation?.data?.insert_vehicle?.returning || [] };
     }
   
 
@@ -482,7 +482,7 @@ import { RemoveDogsModelByIdDocument } from '../';
 
       const mutation:UpdateVehicleGraphLocationOnlyByIdQueryResult = await apolloClient.mutate<UpdateVehicleGraphLocationOnlyByIdMutation, UpdateVehicleGraphLocationOnlyByIdMutationVariables>(mutationOptions);
         
-      return { ...mutation, vehicleGraphLocationOnly:mutation && mutation.data && mutation.data.update_vehicle && mutation.data.update_vehicle!.returning && mutation.data.update_vehicle!.returning[0] };
+      return { ...mutation, vehicleGraphLocationOnly: mutation?.data?.update_vehicle?.returning && mutation.data.update_vehicle.returning[0] };
     }
   
 
@@ -494,7 +494,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     async function updateVehicleGraphLocationOnlyObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>, 'mutation'> }): Promise<UpdateVehicleGraphLocationOnlyObjectsHelperResultEx> {  
       const mutation:UpdateVehicleGraphLocationOnlyObjectsFetchResult = await apolloClient.mutate<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>({ mutation: UpdateVehicleGraphLocationOnlyDocument, ...options } );
         
-      return { ...mutation, objects:(mutation && mutation.data && mutation.data.update_vehicle && mutation.data.update_vehicle!.returning) || [] };
+      return { ...mutation, objects:mutation?.data?.update_vehicle?.returning || [] };
     }
   
 
@@ -565,7 +565,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       async function queryDogModelById({ apolloClient, dogsId, options }: { apolloClient: ApolloClient<object>, dogsId: string, options?: Omit<QueryOptions<QueryDogModelByIdQueryVariables>, 'query' | 'variables'> }): Promise<QueryDogModelByIdApolloQueryHelperResultEx> {
         const query: QueryDogModelByIdApolloQueryResult = await apolloClient.query<QueryDogModelByIdQuery>({ query: QueryDogModelByIdDocument, variables: { dogsId }, ...options });
         
-        return { ...query, dogModel: query && query.data && query.data.dogs_by_pk }
+        return { ...query, dogModel: query?.data?.dogs_by_pk }
       }
 
       // Query Watch ById Helper
@@ -584,7 +584,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       async function queryDogModelObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<QueryDogModelObjectsQueryVariables>, 'query'> }): Promise<QueryDogModelObjectsObjectsApolloQueryResultEx> {
         const query: QueryDogModelObjectsObjectsApolloQueryResult = await apolloClient.query<QueryDogModelObjectsQuery>({ query: QueryDogModelObjectsDocument, ...options });
         
-        return { ...query, objects: (query && query.data && query.data.dogs) || [] }
+        return { ...query, objects: query?.data?.dogs || [] }
       }
 
       // Query Watch Objects Helper
@@ -603,7 +603,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     async function subscribeToDogModelById({ apolloClient, dogsId, options }: { apolloClient: ApolloClient<object>, dogsId:string, options: Omit<SubscriptionOptions<SubscribeToDogModelByIdSubscriptionVariables>, 'query' | 'variables'> }): Promise<Observable<SubscribeToDogModelByIdSubscriptionResultEx>> {
       const subscription:Observable<SubscribeToDogModelByIdSubscriptionResult> = apolloClient.subscribe<SubscribeToDogModelByIdSubscription>({ query: SubscribeToDogModelByIdDocument, variables: { dogsId }, ...options });
       
-      return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, dogModel:(value && value.data && value.data.dogs_by_pk) || [] }  as SubscribeToDogModelByIdSubscriptionResultEx }) ;
+      return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, dogModel:value?.data?.dogs_by_pk || [] }  as SubscribeToDogModelByIdSubscriptionResultEx }) ;
     }
     
 
@@ -615,7 +615,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       async function subscribeToDogModelObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<SubscriptionOptions<SubscribeToDogModelObjectsSubscriptionVariables>, 'subscription'> }): Promise<Observable<SubscribeToDogModelObjectsSubscriptionResultEx>> {
         const subscription:Observable<SubscribeToDogModelObjectsSubscriptionResult> = apolloClient.subscribe<SubscribeToDogModelObjectsSubscription>({ query: SubscribeToDogModelObjectsDocument, ...options });
         
-        return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, objects:(value && value.data && value.data.dogs) || [] }  as SubscribeToDogModelObjectsSubscriptionResultEx }) ;
+        return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, objects: value?.data?.dogs || [] }  as SubscribeToDogModelObjectsSubscriptionResultEx }) ;
       }
     
 
@@ -633,7 +633,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       
       const mutation:InsertDogModelFetchResult = await apolloClient.mutate<InsertDogModelMutation, InsertDogModelMutationVariables>(mutationOptions);
         
-      return { ...mutation, dogModel:mutation && mutation.data && mutation.data.insert_dogs && mutation.data.insert_dogs!.returning && mutation.data.insert_dogs!.returning[0] };
+      return { ...mutation, dogModel: mutation?.data?.insert_dogs?.returning && mutation.data.insert_dogs.returning[0] };
     }
 
     async function insertDogModelWithOnConflict({ apolloClient, dogs, onConflict, autoOptimisticResponse, options } :{ apolloClient: ApolloClient<object>, dogs: Dogs_Insert_Input, onConflict: Dogs_On_Conflict, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<InsertDogModelMutation, InsertDogModelMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertDogModelFetchHelperResultEx> {
@@ -645,7 +645,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       
       const mutation:InsertDogModelFetchResult = await apolloClient.mutate<InsertDogModelMutation, InsertDogModelWithOnConflictMutationVariables>(mutationOptions);
         
-      return { ...mutation, dogModel:mutation && mutation.data && mutation.data.insert_dogs && mutation.data.insert_dogs!.returning && mutation.data.insert_dogs!.returning[0] };
+      return { ...mutation, dogModel: mutation?.data?.insert_dogs?.returning && mutation.data.insert_dogs.returning[0] };
     }
 
 
@@ -660,7 +660,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     async function insertDogModelObjects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<InsertDogModelMutation, InsertDogModelMutationVariables>, 'mutation'> }): Promise<InsertDogModelObjectsHelperResultEx> {
       const mutation: InsertDogModelObjectsFetchResult = await apolloClient.mutate<InsertDogModelMutation, InsertDogModelMutationVariables>({ mutation: InsertDogModelDocument, ...options });
        
-      return { ...mutation, objects: (mutation && mutation.data && mutation.data.insert_dogs && mutation.data.insert_dogs!.returning) || [] };
+      return { ...mutation, objects: mutation?.data?.insert_dogs?.returning || [] };
     }
   
 
@@ -675,7 +675,7 @@ import { RemoveDogsModelByIdDocument } from '../';
 
       const mutation:UpdateDogModelByIdQueryResult = await apolloClient.mutate<UpdateDogModelByIdMutation, UpdateDogModelByIdMutationVariables>(mutationOptions);
         
-      return { ...mutation, dogModel:mutation && mutation.data && mutation.data.update_dogs && mutation.data.update_dogs!.returning && mutation.data.update_dogs!.returning[0] };
+      return { ...mutation, dogModel: mutation?.data?.update_dogs?.returning && mutation.data.update_dogs.returning[0] };
     }
   
 
@@ -687,7 +687,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     async function updateDogModelObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<UpdateDogModelMutation, UpdateDogModelMutationVariables>, 'mutation'> }): Promise<UpdateDogModelObjectsHelperResultEx> {  
       const mutation:UpdateDogModelObjectsFetchResult = await apolloClient.mutate<UpdateDogModelMutation, UpdateDogModelMutationVariables>({ mutation: UpdateDogModelDocument, ...options } );
         
-      return { ...mutation, objects:(mutation && mutation.data && mutation.data.update_dogs && mutation.data.update_dogs!.returning) || [] };
+      return { ...mutation, objects:mutation?.data?.update_dogs?.returning || [] };
     }
   
   
@@ -705,7 +705,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       
       const mutation:RemoveDogsModelByIdQueryResult = await apolloClient.mutate<RemoveDogsModelByIdMutation, RemoveDogsModelByIdMutationVariables>(mutationOptions);
     
-      return { ...mutation, affected_rows:(mutation && mutation.data && mutation.data.delete_dogs && mutation.data.delete_dogs!.affected_rows) || 0 };
+      return { ...mutation, affected_rows: mutation?.data?.delete_dogs?.affected_rows || 0 };
     }
   
 
@@ -715,7 +715,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     async function removeDogsModelObjects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<RemoveDogsModelMutation, RemoveDogsModelMutationVariables>, 'mutation'> }): Promise<RemoveDogsModelObjectsQueryHelperResultEx> {  
         const mutation:RemoveDogsModelByIdQueryResult = await apolloClient.mutate<RemoveDogsModelMutation, RemoveDogsModelMutationVariables>({ mutation: RemoveDogsModelDocument, ...options } );
           
-        return { ...mutation, affected_rows:(mutation && mutation.data && mutation.data.delete_dogs && mutation.data.delete_dogs!.affected_rows) || 0 };
+        return { ...mutation, affected_rows: mutation?.data?.delete_dogs?.affected_rows || 0 };
       }
   
 
