@@ -19,6 +19,11 @@ function makePascalCase(typename) {
     return visitor_plugin_common_1.toPascalCase(typename);
 }
 exports.makePascalCase = makePascalCase;
+function camelToSnakeUpperCase(str) {
+    const _ = str.replace(/([A-Z])/g, `_$1`);
+    return _.toUpperCase();
+}
+exports.camelToSnakeUpperCase = camelToSnakeUpperCase;
 function makeShortName(typename, trimString = undefined) {
     return `${visitor_plugin_common_1.toPascalCase(trimString ? typename.replace(trimString, "") : typename)}`;
 }

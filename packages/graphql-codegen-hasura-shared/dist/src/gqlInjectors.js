@@ -65,10 +65,10 @@ function makeFetchByIdGQL({ fetchType, entityName, fragmentName, trimString, pri
     const entityShortCamelName = utils_1.makeCamelCase(shortName);
     const fragmentDocName = _1.makeFragmentDocName(fragmentName);
     const primaryKeyIdPostGresFieldType = _1.getIdPostGresFieldType(primaryKeyIdField);
-    const fetchTypePascalCase = utils_1.makePascalCase(fetchType);
-    const fetchTypeUpperCase = fetchType.toUpperCase();
-    return `const FETCH_${fragmentName.toUpperCase()}_BYID_AS_${fetchTypeUpperCase} = gql\`
-  ${fetchType} fetch${fragmentName}ByIdAs${fetchTypePascalCase}($${entityShortCamelName}Id: ${primaryKeyIdPostGresFieldType}!) {
+    const fetchCamelCaseTypeVerb = fetchType === "query" ? "query" : "subscribeTo";
+    const fetchTypeVerbUpperCase = utils_1.camelToSnakeUpperCase(fetchCamelCaseTypeVerb);
+    return `const ${fetchTypeVerbUpperCase}_${fragmentName.toUpperCase()}_BYID = gql\`
+  ${fetchType} ${fetchCamelCaseTypeVerb}${fragmentName}ById($${entityShortCamelName}Id: ${primaryKeyIdPostGresFieldType}!) {
     ${entityName}_by_pk(id: $${entityShortCamelName}Id) {
       ...${fragmentName}
     }
@@ -80,10 +80,10 @@ function makeFetchObjectsGQL({ fetchType, entityName, fragmentName, trimString, 
     const entityShortCamelName = utils_1.makeCamelCase(shortName);
     const fragmentDocName = _1.makeFragmentDocName(fragmentName);
     const primaryKeyIdPostGresFieldType = _1.getIdPostGresFieldType(primaryKeyIdField);
-    const fetchTypePascalCase = utils_1.makePascalCase(fetchType);
-    const fetchTypeUpperCase = fetchType.toUpperCase();
-    return `const FETCH_${fragmentName.toUpperCase()}_OBJECTS_AS_${fetchTypeUpperCase} = gql\`
-  ${fetchType} fetch${fragmentName}As${fetchTypePascalCase}(
+    const fetchCamelCaseTypeVerb = fetchType === "query" ? "query" : "subscribeTo";
+    const fetchTypeVerbUpperCase = utils_1.camelToSnakeUpperCase(fetchCamelCaseTypeVerb);
+    return `const ${fetchTypeVerbUpperCase}_${fragmentName.toUpperCase()}_OBJECTS = gql\`
+  ${fetchType} ${fetchCamelCaseTypeVerb}${fragmentName}Objects(
     $distinct_on: [${entityName}_select_column!]
     $where: ${entityName}_bool_exp
     $limit: Int

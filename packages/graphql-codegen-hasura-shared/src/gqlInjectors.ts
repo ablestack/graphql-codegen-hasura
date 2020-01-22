@@ -117,7 +117,7 @@ function makeFetchByIdGQL({
   const fetchTypeVerbUpperCase = camelToSnakeUpperCase(fetchCamelCaseTypeVerb);
 
   return `const ${fetchTypeVerbUpperCase}_${fragmentName.toUpperCase()}_BYID = gql\`
-  ${fetchType} fetchCamelCaseTypeVerb${fragmentName}ById($${entityShortCamelName}Id: ${primaryKeyIdPostGresFieldType}!) {
+  ${fetchType} ${fetchCamelCaseTypeVerb}${fragmentName}ById($${entityShortCamelName}Id: ${primaryKeyIdPostGresFieldType}!) {
     ${entityName}_by_pk(id: $${entityShortCamelName}Id) {
       ...${fragmentName}
     }
@@ -146,7 +146,7 @@ function makeFetchObjectsGQL({
   const fetchTypeVerbUpperCase = camelToSnakeUpperCase(fetchCamelCaseTypeVerb);
 
   return `const ${fetchTypeVerbUpperCase}_${fragmentName.toUpperCase()}_OBJECTS = gql\`
-  ${fetchType} ${fetchCamelCaseTypeVerb}${fragmentName}(
+  ${fetchType} ${fetchCamelCaseTypeVerb}${fragmentName}Objects(
     $distinct_on: [${entityName}_select_column!]
     $where: ${entityName}_bool_exp
     $limit: Int

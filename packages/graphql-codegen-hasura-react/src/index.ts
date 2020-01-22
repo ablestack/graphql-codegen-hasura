@@ -6,7 +6,7 @@ import {
   ContentManager,
   getPrimaryKeyIdField,
   injectDeleteReact,
-  injectFetchReact,
+  injectQueryReact,
   injectInsertReact,
   injectUpdateReact,
   injectGlobalReactCodePre,
@@ -144,7 +144,7 @@ function injectEntityQueryTypeScript(fragmentDefinitionNode: FragmentDefinitionN
 
   const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
 
-  injectFetchReact({
+  injectQueryReact({
     contentManager,
     entityName: relatedTableNamedType.name,
     fragmentName,

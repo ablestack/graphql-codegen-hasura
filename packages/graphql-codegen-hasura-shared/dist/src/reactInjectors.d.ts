@@ -14,7 +14,7 @@ export declare function injectSharedReactPre({ contentManager, entityName, fragm
     primaryKeyIdField: FieldDefinitionNode;
     typescriptCodegenOutputPath: string;
 }): void;
-export declare function injectFetchReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }: {
+export declare function injectQueryReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }: {
     contentManager: ContentManager;
     entityName: string;
     fragmentName: string;

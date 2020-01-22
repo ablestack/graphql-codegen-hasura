@@ -11,8 +11,8 @@ import { DogModelFragmentDoc } from '../';
 
     // Query: FetchById
     //
-    const FETCH_VEHICLEGRAPH_BYID_AS_QUERY = gql`
-  query fetchVehicleGraphByIdAsQuery($vehicleId: String!) {
+    const QUERY_VEHICLEGRAPH_BYID = gql`
+  query queryVehicleGraphById($vehicleId: String!) {
     vehicle_by_pk(id: $vehicleId) {
       ...VehicleGraph
     }
@@ -22,8 +22,8 @@ import { DogModelFragmentDoc } from '../';
 
     // Query: Fetch
     //
-    const FETCH_VEHICLEGRAPH_OBJECTS_AS_QUERY = gql`
-  query fetchVehicleGraphAsQuery(
+    const QUERY_VEHICLEGRAPH_OBJECTS = gql`
+  query queryVehicleGraphObjects(
     $distinct_on: [vehicle_select_column!]
     $where: vehicle_bool_exp
     $limit: Int
@@ -40,8 +40,8 @@ import { DogModelFragmentDoc } from '../';
 
     // Subscription: FetchById
     //
-    const FETCH_VEHICLEGRAPH_BYID_AS_SUBSCRIPTION = gql`
-  subscription fetchVehicleGraphByIdAsSubscription($vehicleId: String!) {
+    const SUBSCRIBE_TO_VEHICLEGRAPH_BYID = gql`
+  subscription subscribeToVehicleGraphById($vehicleId: String!) {
     vehicle_by_pk(id: $vehicleId) {
       ...VehicleGraph
     }
@@ -51,8 +51,8 @@ import { DogModelFragmentDoc } from '../';
 
     // Subscription: Fetch
     //
-    const FETCH_VEHICLEGRAPH_OBJECTS_AS_SUBSCRIPTION = gql`
-  subscription fetchVehicleGraphAsSubscription(
+    const SUBSCRIBE_TO_VEHICLEGRAPH_OBJECTS = gql`
+  subscription subscribeToVehicleGraphObjects(
     $distinct_on: [vehicle_select_column!]
     $where: vehicle_bool_exp
     $limit: Int
@@ -161,8 +161,8 @@ import { DogModelFragmentDoc } from '../';
 
     // Query: FetchById
     //
-    const FETCH_VEHICLEGRAPHLOCATIONONLY_BYID_AS_QUERY = gql`
-  query fetchVehicleGraphLocationOnlyByIdAsQuery($vehicleId: String!) {
+    const QUERY_VEHICLEGRAPHLOCATIONONLY_BYID = gql`
+  query queryVehicleGraphLocationOnlyById($vehicleId: String!) {
     vehicle_by_pk(id: $vehicleId) {
       ...VehicleGraphLocationOnly
     }
@@ -172,8 +172,8 @@ import { DogModelFragmentDoc } from '../';
 
     // Query: Fetch
     //
-    const FETCH_VEHICLEGRAPHLOCATIONONLY_OBJECTS_AS_QUERY = gql`
-  query fetchVehicleGraphLocationOnlyAsQuery(
+    const QUERY_VEHICLEGRAPHLOCATIONONLY_OBJECTS = gql`
+  query queryVehicleGraphLocationOnlyObjects(
     $distinct_on: [vehicle_select_column!]
     $where: vehicle_bool_exp
     $limit: Int
@@ -190,8 +190,8 @@ import { DogModelFragmentDoc } from '../';
 
     // Subscription: FetchById
     //
-    const FETCH_VEHICLEGRAPHLOCATIONONLY_BYID_AS_SUBSCRIPTION = gql`
-  subscription fetchVehicleGraphLocationOnlyByIdAsSubscription($vehicleId: String!) {
+    const SUBSCRIBE_TO_VEHICLEGRAPHLOCATIONONLY_BYID = gql`
+  subscription subscribeToVehicleGraphLocationOnlyById($vehicleId: String!) {
     vehicle_by_pk(id: $vehicleId) {
       ...VehicleGraphLocationOnly
     }
@@ -201,8 +201,8 @@ import { DogModelFragmentDoc } from '../';
 
     // Subscription: Fetch
     //
-    const FETCH_VEHICLEGRAPHLOCATIONONLY_OBJECTS_AS_SUBSCRIPTION = gql`
-  subscription fetchVehicleGraphLocationOnlyAsSubscription(
+    const SUBSCRIBE_TO_VEHICLEGRAPHLOCATIONONLY_OBJECTS = gql`
+  subscription subscribeToVehicleGraphLocationOnlyObjects(
     $distinct_on: [vehicle_select_column!]
     $where: vehicle_bool_exp
     $limit: Int
@@ -287,8 +287,8 @@ import { DogModelFragmentDoc } from '../';
 
     // Query: FetchById
     //
-    const FETCH_DOGMODEL_BYID_AS_QUERY = gql`
-  query fetchDogModelByIdAsQuery($dogsId: uuid!) {
+    const QUERY_DOGMODEL_BYID = gql`
+  query queryDogModelById($dogsId: uuid!) {
     dogs_by_pk(id: $dogsId) {
       ...DogModel
     }
@@ -298,8 +298,8 @@ import { DogModelFragmentDoc } from '../';
 
     // Query: Fetch
     //
-    const FETCH_DOGMODEL_OBJECTS_AS_QUERY = gql`
-  query fetchDogModelAsQuery(
+    const QUERY_DOGMODEL_OBJECTS = gql`
+  query queryDogModelObjects(
     $distinct_on: [dogs_select_column!]
     $where: dogs_bool_exp
     $limit: Int
@@ -316,8 +316,8 @@ import { DogModelFragmentDoc } from '../';
 
     // Subscription: FetchById
     //
-    const FETCH_DOGMODEL_BYID_AS_SUBSCRIPTION = gql`
-  subscription fetchDogModelByIdAsSubscription($dogsId: uuid!) {
+    const SUBSCRIBE_TO_DOGMODEL_BYID = gql`
+  subscription subscribeToDogModelById($dogsId: uuid!) {
     dogs_by_pk(id: $dogsId) {
       ...DogModel
     }
@@ -327,8 +327,8 @@ import { DogModelFragmentDoc } from '../';
 
     // Subscription: Fetch
     //
-    const FETCH_DOGMODEL_OBJECTS_AS_SUBSCRIPTION = gql`
-  subscription fetchDogModelAsSubscription(
+    const SUBSCRIBE_TO_DOGMODEL_OBJECTS = gql`
+  subscription subscribeToDogModelObjects(
     $distinct_on: [dogs_select_column!]
     $where: dogs_bool_exp
     $limit: Int

@@ -5,7 +5,8 @@ import { TypeMap } from "graphql/type/schema";
 import {
   getPrimaryKeyIdField,
   injectDeleteHelpers,
-  injectFetchHelpers,
+  injectQueryHelpers,
+  injectSubscriptionHelpers,
   injectInsertHelpers,
   injectUpdateHelpers,
   ContentManager,
@@ -26,6 +27,7 @@ export interface CstmHasuraCrudPluginConfig extends RawTypesConfig {
   trimString?: string;
   withClientAndCacheHelpers?: boolean;
   withQueries?: boolean;
+  withSubscriptions?: boolean;
   withInserts?: boolean;
   withUpdates?: boolean;
   withDeletes?: boolean;
@@ -58,6 +60,7 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
     injectEntitySharedTypeScriptPre(fragmentDefinition, typeMap, contentManager, config);
     config.withClientAndCacheHelpers && injectClientAndCacheTypeScript(fragmentDefinition, typeMap, contentManager, config);
     config.withQueries && injectEntityQueryTypeScript(fragmentDefinition, typeMap, contentManager, config);
+    config.withSubscriptions && injectEntitySubscriptionTypeScript(fragmentDefinition, typeMap, contentManager, config);
     config.withInserts && injectEntityInsertMutationTypeScript(fragmentDefinition, typeMap, contentManager, config);
     config.withUpdates && injectEntityUpdateMutationTypeScript(fragmentDefinition, typeMap, contentManager, config);
     config.withDeletes && injectEntityDeleteMutationTypeScript(fragmentDefinition, typeMap, contentManager, config);
@@ -70,9 +73,10 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
     schemaTypeMap: typeMap,
     trimString: config.trimString,
     withClientAndCacheHelpers: config.withClientAndCacheHelpers,
-    withUpdates: config.withUpdates,
-    withInserts: config.withInserts,
     withQueries: config.withQueries,
+    withSubscriptions: config.withSubscriptions,
+    withInserts: config.withInserts,
+    withUpdates: config.withUpdates,
     withDeletes: config.withDeletes
   });
 
@@ -132,9 +136,10 @@ function injectEntitySharedTypeScriptPost(
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
     typescriptCodegenOutputPath: config.typescriptCodegenOutputPath,
     withClientAndCacheHelpers: config.withClientAndCacheHelpers,
+    withQueries: config.withQueries,
+    withSubscriptions: config.withSubscriptions,
     withUpdates: config.withUpdates,
     withInserts: config.withInserts,
-    withQueries: config.withQueries,
     withDeletes: config.withDeletes
   });
 }
@@ -174,7 +179,32 @@ function injectEntityQueryTypeScript(fragmentDefinitionNode: FragmentDefinitionN
 
   const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
 
-  injectFetchHelpers({
+  injectQueryHelpers({
+    contentManager,
+    entityName: relatedTableNamedType.name,
+    fragmentName,
+    trimString: config.trimString,
+    primaryKeyIdField: relatedTablePrimaryKeyIdField,
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath
+  });
+}
+
+// --------------------------------------
+//
+
+function injectEntitySubscriptionTypeScript(
+  fragmentDefinitionNode: FragmentDefinitionNode,
+  schemaTypeMap: TypeMap,
+  contentManager: ContentManager,
+  config: CstmHasuraCrudPluginConfig
+) {
+  const fragmentName = fragmentDefinitionNode.name.value;
+  const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
+  const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+
+  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+
+  injectSubscriptionHelpers({
     contentManager,
     entityName: relatedTableNamedType.name,
     fragmentName,

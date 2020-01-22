@@ -66,7 +66,7 @@ export function injectSharedReactPre({
 
 // ---------------------------------
 //
-export function injectFetchReact({
+export function injectQueryReact({
   contentManager,
   entityName,
   fragmentName,
@@ -85,115 +85,90 @@ export function injectFetchReact({
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
   const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(fragmentName);
-  const fetchByIdName = `Fetch${fragmentName}ByIdAsQuery`;
-  const fetchObjectsName = `Fetch${fragmentName}AsQuery`;
+  const queryByIdName = `Query${fragmentName}ById`;
+  const queryObjectsName = `Query${fragmentName}Objects`;
 
   if (primaryKeyIdField) {
-    contentManager.addContent(`
-      // Fetch Hooks
-      //
-  
-      /**
-       * __use${fetchByIdName}Query__
-       *
-       * To run a query within a React component, call \`use${fragmentName}ByIdQuery\`
-       * When your component renders, \`use${fragmentName}ByIdQuery\` returns an object from Apollo Client that contains loading, error, data properties, and a shortcut result property 
-       *
-       * @param options options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
-       *
-       * @example
-       * const { loading, error, ${fragmentNameCamelCase} } = use${fetchByIdName}Query({ ${entityShortCamelCaseName}Id:<value> });
-       * 
-       * The majority of the options and the specifics of their behavior are derived from apollographql. See https://www.apollographql.com/docs/react/api/react-hooks/#usequery for details
-       * 
-       */
-
-        // Fetch Hook
-        //
+    contentManager.addContent(`     
+        /**
+         *  Query Hook
+         */
 
         // Types
-        type ${fetchByIdName}QueryResult = QueryResult<${fetchByIdName}Query, ${fetchByIdName}QueryVariables>;
-        export type ${fetchByIdName}QueryResultEx = ${fetchByIdName}QueryResult & ${fragmentName}ByIdHookResultEx;
+        type ${queryByIdName}Result = QueryResult<${queryByIdName}Query, ${queryByIdName}QueryVariables>;
+        export type ${queryByIdName}ResultEx = ${queryByIdName}Result & ${fragmentName}ByIdHookResultEx;
 
         // Function
-        function use${fetchByIdName}Query({ ${entityShortCamelCaseName}Id, options }: { ${entityShortCamelCaseName}Id: string; options?: Omit<QueryHookOptions<${fetchByIdName}Query, ${fetchByIdName}QueryVariables>, "query" | "variables">; }): ${fetchByIdName}QueryResultEx {
-          const query: ${fetchByIdName}QueryResult = useQuery<${fetchByIdName}Query, ${fetchByIdName}QueryVariables>(${fetchByIdName}Document, { variables: { ${entityShortCamelCaseName}Id }, ...options });
+        function use${queryByIdName}({ ${entityShortCamelCaseName}Id, options }: { ${entityShortCamelCaseName}Id: string; options?: Omit<QueryHookOptions<${queryByIdName}Query, ${queryByIdName}QueryVariables>, "query" | "variables">; }): ${queryByIdName}ResultEx {
+          const query: ${queryByIdName}Result = useQuery<${queryByIdName}Query, ${queryByIdName}QueryVariables>(${queryByIdName}Document, { variables: { ${entityShortCamelCaseName}Id }, ...options });
           return { ...query, ${fragmentNameCamelCase}: query && query.data && query.data.${entityName}_by_pk };
         }
     `);
 
     contentManager.addContent(`
       /**
-       * __use${fetchByIdName}LazyQuery__
-       * 
-       * @example
-       * const [fetch${fragmentName}ById, { called, loading, error, ${fragmentNameCamelCase} }] = use${fetchByIdName}();
-       * fetch${fragmentName}ById({ ${entityShortCamelCaseName}Id:<value> });
-       * 
-       * The majority of the options and the specifics of their behavior are derived from apollographql. See https://www.apollographql.com/docs/react/api/react-hooks/#uselazyquery for details
-       * 
+       *  Lazy Query Hook
        */
-
-      // Lazy Fetch Hook
-      //
       
       // Types
-      type Pick${fetchByIdName}Fn = (query: ${fetchByIdName}Query | null | undefined) => ${fragmentName}Fragment | null | undefined;
-      type ${fetchByIdName}LazyQueryFn = [(options?: QueryLazyOptions<${fetchByIdName}QueryVariables> | undefined) => void, ${fetchByIdName}QueryResult]
-      type ${fetchByIdName}WrappedLazyQueryFn = ({ ${entityShortCamelCaseName}Id, options }: { ${entityShortCamelCaseName}Id: string; options?: Omit<QueryLazyOptions<${fetchByIdName}QueryVariables>, "variables">; }) => void;
-      export type ${fetchByIdName}LazyQueryReturn = [${fetchByIdName}WrappedLazyQueryFn, ${fetchByIdName}QueryResultEx];
+      type Pick${queryByIdName}Fn = (query: ${queryByIdName}Query | null | undefined) => ${fragmentName}Fragment | null | undefined;
+      type ${queryByIdName}LazyFn = [(options?: QueryLazyOptions<${queryByIdName}QueryVariables> | undefined) => void, ${queryByIdName}Result]
+      type ${queryByIdName}WrappedLazyFn = ({ ${entityShortCamelCaseName}Id, options }: { ${entityShortCamelCaseName}Id: string; options?: Omit<QueryLazyOptions<${queryByIdName}QueryVariables>, "variables">; }) => void;
+      export type ${queryByIdName}LazyReturn = [${queryByIdName}WrappedLazyFn, ${queryByIdName}ResultEx];
 
       // Function
-      function use${fetchByIdName}LazyQuery(options?: Omit<LazyQueryHookOptions<${fetchByIdName}Query, ${fetchByIdName}QueryVariables>, "query" | "variables">): ${fetchByIdName}LazyQueryReturn {
-        const lazyQuery: ${fetchByIdName}LazyQueryFn = useLazyQuery<${fetchByIdName}Query, ${fetchByIdName}QueryVariables>(${fetchByIdName}Document, options);
-        const pick${fragmentName}: Pick${fetchByIdName}Fn = query => { return query && query.${entityName}_by_pk; };
-        const wrappedLazyQuery: ${fetchByIdName}WrappedLazyQueryFn = ({ ${entityShortCamelCaseName}Id, options }) => { return lazyQuery[0]({ variables: { ${entityShortCamelCaseName}Id }, ...options }); };
-        const returnVal: ${fetchByIdName}LazyQueryReturn = [wrappedLazyQuery, { ...lazyQuery[1], ${fragmentNameCamelCase}: pick${fragmentName}(lazyQuery[1].data) }];
+      function use${queryByIdName}Lazy(options?: Omit<LazyQueryHookOptions<${queryByIdName}Query, ${queryByIdName}QueryVariables>, "query" | "variables">): ${queryByIdName}LazyReturn {
+        const lazyQuery: ${queryByIdName}LazyFn = useLazyQuery<${queryByIdName}Query, ${queryByIdName}QueryVariables>(${queryByIdName}Document, options);
+        const pick${fragmentName}: Pick${queryByIdName}Fn = query => { return query && query.${entityName}_by_pk; };
+        const wrappedLazyQuery: ${queryByIdName}WrappedLazyFn = ({ ${entityShortCamelCaseName}Id, options }) => { return lazyQuery[0]({ variables: { ${entityShortCamelCaseName}Id }, ...options }); };
+        const returnVal: ${queryByIdName}LazyReturn = [wrappedLazyQuery, { ...lazyQuery[1], ${fragmentNameCamelCase}: pick${fragmentName}(lazyQuery[1].data) }];
         return returnVal;
       }
     `);
   }
 
   contentManager.addContent(`
-      // Fetch Collection Hook
-      //
+      /**
+       *  Query Collection Hook
+       */
 
       // Types
-      export type ${fetchObjectsName}QueryResult = QueryResult<${fetchObjectsName}Query, ${fetchObjectsName}QueryVariables>;
-      export type ${fetchObjectsName}QueryResultEx = ${fetchObjectsName}QueryResult & ${fragmentName}ObjectsHookResultEx;
+      export type ${queryObjectsName}Result = QueryResult<${queryObjectsName}Query, ${queryObjectsName}QueryVariables>;
+      export type ${queryObjectsName}ResultEx = ${queryObjectsName}Result & ${fragmentName}ObjectsHookResultEx;
 
       // Function
-      function use${fetchObjectsName}Query(options: Omit<QueryHookOptions<${fetchObjectsName}Query, ${fetchObjectsName}QueryVariables>, "query">): ${fetchObjectsName}QueryResultEx {
-        const query:${fetchObjectsName}QueryResult = useQuery<${fetchObjectsName}Query, ${fetchObjectsName}QueryVariables>(${fetchObjectsName}Document, options);
+      function use${queryObjectsName}(options: Omit<QueryHookOptions<${queryObjectsName}Query, ${queryObjectsName}QueryVariables>, "query">): ${queryObjectsName}ResultEx {
+        const query:${queryObjectsName}Result = useQuery<${queryObjectsName}Query, ${queryObjectsName}QueryVariables>(${queryObjectsName}Document, options);
         return { ...query, objects: (query && query.data && query.data.${entityName}) || [] };
       }
       `);
 
   contentManager.addContent(`  
-      // Lazy Fetch Collection Hook
-      //
+      /**
+       *  Lazy Query Collection Hook
+       */
 
       // Types
-      type Pick${fetchObjectsName}Fn = (query: ${fetchObjectsName}Query | null | undefined) => ${fragmentName}Fragment[];
-      type ${fetchObjectsName}LazyQueryFn = [(options?: QueryLazyOptions<${fetchObjectsName}QueryVariables> | undefined) => void, ${fetchObjectsName}QueryResult]
-      type ${fetchObjectsName}WrappedLazyQueryFn = (options?: QueryLazyOptions<${fetchObjectsName}QueryVariables>) => void;
-      export type ${fetchObjectsName}LazyQueryReturn = [${fetchObjectsName}WrappedLazyQueryFn, ${fetchObjectsName}QueryResultEx];
+      type Pick${queryObjectsName}Fn = (query: ${queryObjectsName}Query | null | undefined) => ${fragmentName}Fragment[];
+      type ${queryObjectsName}LazyFn = [(options?: QueryLazyOptions<${queryObjectsName}QueryVariables> | undefined) => void, ${queryObjectsName}Result]
+      type ${queryObjectsName}WrappedLazyFn = (options?: QueryLazyOptions<${queryObjectsName}QueryVariables>) => void;
+      export type ${queryObjectsName}LazyReturn = [${queryObjectsName}WrappedLazyFn, ${queryObjectsName}ResultEx];
 
       // Function
-      function use${fetchObjectsName}LazyQuery(options?: Omit<LazyQueryHookOptions<${fetchObjectsName}Query, ${fetchObjectsName}QueryVariables>, "query">): ${fetchObjectsName}LazyQueryReturn {
-        const lazyQuery: ${fetchObjectsName}LazyQueryFn = useLazyQuery<${fetchObjectsName}Query, ${fetchObjectsName}QueryVariables>(${fetchObjectsName}Document, options);
-        const pickObjects: Pick${fetchObjectsName}Fn = (query: ${fetchObjectsName}Query | null | undefined) => { return (query && query.${entityName}) || []; };
-        const wrappedLazyQuery: ${fetchObjectsName}WrappedLazyQueryFn = (options) => { return lazyQuery[0]( options ); };
+      function use${queryObjectsName}Lazy(options?: Omit<LazyQueryHookOptions<${queryObjectsName}Query, ${queryObjectsName}QueryVariables>, "query">): ${queryObjectsName}LazyReturn {
+        const lazyQuery: ${queryObjectsName}LazyFn = useLazyQuery<${queryObjectsName}Query, ${queryObjectsName}QueryVariables>(${queryObjectsName}Document, options);
+        const pickObjects: Pick${queryObjectsName}Fn = (query: ${queryObjectsName}Query | null | undefined) => { return (query && query.${entityName}) || []; };
+        const wrappedLazyQuery: ${queryObjectsName}WrappedLazyFn = (options) => { return lazyQuery[0]( options ); };
         return [wrappedLazyQuery, { ...lazyQuery[1], objects: pickObjects(lazyQuery[1].data) }] as [typeof wrappedLazyQuery, typeof lazyQuery[1] & { objects: ReturnType<typeof pickObjects> }];
       }
     `);
 
-  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${fetchByIdName}Query`, typescriptCodegenOutputPath));
-  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${fetchByIdName}QueryVariables`, typescriptCodegenOutputPath));
-  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${fetchByIdName}Document`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`${fetchObjectsName}Query`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`${fetchObjectsName}Document`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`${fetchObjectsName}QueryVariables`, typescriptCodegenOutputPath));
+  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${queryByIdName}Query`, typescriptCodegenOutputPath));
+  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${queryByIdName}QueryVariables`, typescriptCodegenOutputPath));
+  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${queryByIdName}Document`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`${queryObjectsName}Query`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`${queryObjectsName}Document`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`${queryObjectsName}QueryVariables`, typescriptCodegenOutputPath));
 }
 
 // ---------------------------------
@@ -220,8 +195,9 @@ export function injectInsertReact({
   const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
 
   contentManager.addContent(`
-  // Insert Hooks
-  //
+  /**
+   *  Insert Hooks
+   */
 
   // Types
   type Insert${fragmentName}MutationResult = FetchResult<Insert${fragmentName}Mutation, Record<string, any>, Record<string, any>>;
@@ -340,8 +316,9 @@ export function injectUpdateReact({
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
 
   contentManager.addContent(`
-    // Update Hooks
-    //
+    /**
+     *  Update Hooks
+     */
     
     type Update${fragmentName}ByIdMutationResult = FetchResult<Update${fragmentName}ByIdMutation, Record<string, any>, Record<string, any>>;
     export type Update${fragmentName}ByIdMutationResultEx = Update${fragmentName}ByIdMutationResult & ${fragmentName}ByIdHookResultEx;
@@ -434,8 +411,9 @@ export function injectDeleteReact({
   const entityPascalName = makePascalCase(entityName);
 
   contentManager.addContent(`
-    // Delete Hooks
-    //
+    /**
+     *  Delete Hooks
+     */
 
     // Types
     type Remove${entityModelName}ByIdFetchResult = FetchResult<Remove${entityModelName}ByIdMutation, Record<string, any>, Record<string, any>>;
@@ -534,19 +512,20 @@ export function injectSharedReactPost({
   withDeletes?: boolean;
 }) {
   const entityModelName = makeModelName(entityName, trimString);
-  const fetchByIdName = `Fetch${fragmentName}ByIdAsQuery`;
-  const fetchObjectsName = `Fetch${fragmentName}AsQuery`;
+  const queryByIdName = `Query${fragmentName}ById`;
+  const queryObjectsName = `Query${fragmentName}Objects`;
 
   (withQueries || withInserts || withUpdates) &&
     contentManager.addContent(`
-    // ${fragmentName} Fragment Hooks Object
-    //------------------------------------------------
+    /*
+     * ${fragmentName} FRAGMENT HOOKS OBJECT
+     */
 
     export const ${fragmentName}FragmentGQLHooks = {
-      ${withQueries && `useFetchByIdQuery: use${fetchByIdName}Query`},
-      ${withQueries && `useFetchByIdLazyQuery: use${fetchByIdName}LazyQuery`},
-      ${withQueries && `useFetchObjectsQuery: use${fetchObjectsName}Query`},
-      ${withQueries && `useFetchObjectsLazyQuery: use${fetchObjectsName}LazyQuery`},
+      ${withQueries && `useQueryById: use${queryByIdName}`},
+      ${withQueries && `useQueryByIdLazy: use${queryByIdName}Lazy`},
+      ${withQueries && `useQueryObjects: use${queryObjectsName}`},
+      ${withQueries && `useQueryObjectsLazy: use${queryObjectsName}Lazy`},
       ${withInserts && `useInsert: useInsert${fragmentName}`},
       ${withInserts && `useInsertWithOnConflict: useInsert${fragmentName}WithOnConflict`},
       ${withInserts && `useInsertObjects: useInsert${fragmentName}Objects`},
@@ -557,8 +536,9 @@ export function injectSharedReactPost({
 
   if (withDeletes) {
     contentManager.addContent(`
-    // ${entityName} Model Hooks Object
-    //------------------------------------------------
+    /*
+    * ${entityName} MODEL HOOKS OBJECT
+    */
 
     export const ${entityModelName}GQLHooks = {
       ${withDeletes && `useRemoveById: useRemove${entityModelName}ById`},
@@ -594,8 +574,9 @@ export function injectGlobalReactCodePost({
   );
 
   contentManager.addContent(`
-    // COMBINED HOOKS OBJECT
-    //------------------------------------------------
+    /*
+     * COMBINED HOOKS OBJECT
+     */
     export const GQLHooks = {
       ${
         withQueries || withInserts || withUpdates

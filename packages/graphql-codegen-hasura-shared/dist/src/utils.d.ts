@@ -5,6 +5,7 @@ export declare const ID_FIELD_TEST: (f: FieldDefinitionNode) => boolean;
 export declare function SCALAR_TYPE_TEST(f: FieldDefinitionNode): boolean;
 export declare function makeCamelCase(typename: string): any;
 export declare function makePascalCase(typename: string): string;
+export declare function camelToSnakeUpperCase(str: string): string;
 export declare function makeShortName(typename: string, trimString?: string): string;
 export declare function makeModelName(typename: string, trimString?: string): string;
 export declare function makeImportStatement(importName: string, importPath: string): string;

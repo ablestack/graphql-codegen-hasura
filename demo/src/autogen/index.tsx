@@ -6010,12 +6010,12 @@ export enum WorkItemStatusArgument {
   Ready = 'READY'
 }
 
-export type FetchVehicleGraphByIdAsQueryQueryVariables = {
+export type QueryVehicleGraphByIdQueryVariables = {
   vehicleId: Scalars['String']
 };
 
 
-export type FetchVehicleGraphByIdAsQueryQuery = (
+export type QueryVehicleGraphByIdQuery = (
   { __typename?: 'query_root' }
   & { vehicle_by_pk: Maybe<(
     { __typename?: 'vehicle' }
@@ -6023,7 +6023,7 @@ export type FetchVehicleGraphByIdAsQueryQuery = (
   )> }
 );
 
-export type FetchVehicleGraphAsQueryQueryVariables = {
+export type QueryVehicleGraphObjectsQueryVariables = {
   distinct_on?: Maybe<Array<Vehicle_Select_Column>>,
   where?: Maybe<Vehicle_Bool_Exp>,
   limit?: Maybe<Scalars['Int']>,
@@ -6032,7 +6032,7 @@ export type FetchVehicleGraphAsQueryQueryVariables = {
 };
 
 
-export type FetchVehicleGraphAsQueryQuery = (
+export type QueryVehicleGraphObjectsQuery = (
   { __typename?: 'query_root' }
   & { vehicle: Array<(
     { __typename?: 'vehicle' }
@@ -6040,12 +6040,12 @@ export type FetchVehicleGraphAsQueryQuery = (
   )> }
 );
 
-export type FetchVehicleGraphByIdAsSubscriptionSubscriptionVariables = {
+export type SubscribeToVehicleGraphByIdSubscriptionVariables = {
   vehicleId: Scalars['String']
 };
 
 
-export type FetchVehicleGraphByIdAsSubscriptionSubscription = (
+export type SubscribeToVehicleGraphByIdSubscription = (
   { __typename?: 'subscription_root' }
   & { vehicle_by_pk: Maybe<(
     { __typename?: 'vehicle' }
@@ -6053,7 +6053,7 @@ export type FetchVehicleGraphByIdAsSubscriptionSubscription = (
   )> }
 );
 
-export type FetchVehicleGraphAsSubscriptionSubscriptionVariables = {
+export type SubscribeToVehicleGraphObjectsSubscriptionVariables = {
   distinct_on?: Maybe<Array<Vehicle_Select_Column>>,
   where?: Maybe<Vehicle_Bool_Exp>,
   limit?: Maybe<Scalars['Int']>,
@@ -6062,7 +6062,7 @@ export type FetchVehicleGraphAsSubscriptionSubscriptionVariables = {
 };
 
 
-export type FetchVehicleGraphAsSubscriptionSubscription = (
+export type SubscribeToVehicleGraphObjectsSubscription = (
   { __typename?: 'subscription_root' }
   & { vehicle: Array<(
     { __typename?: 'vehicle' }
@@ -6167,12 +6167,12 @@ export type RemoveVehicleModelMutation = (
   )> }
 );
 
-export type FetchVehicleGraphLocationOnlyByIdAsQueryQueryVariables = {
+export type QueryVehicleGraphLocationOnlyByIdQueryVariables = {
   vehicleId: Scalars['String']
 };
 
 
-export type FetchVehicleGraphLocationOnlyByIdAsQueryQuery = (
+export type QueryVehicleGraphLocationOnlyByIdQuery = (
   { __typename?: 'query_root' }
   & { vehicle_by_pk: Maybe<(
     { __typename?: 'vehicle' }
@@ -6180,7 +6180,7 @@ export type FetchVehicleGraphLocationOnlyByIdAsQueryQuery = (
   )> }
 );
 
-export type FetchVehicleGraphLocationOnlyAsQueryQueryVariables = {
+export type QueryVehicleGraphLocationOnlyObjectsQueryVariables = {
   distinct_on?: Maybe<Array<Vehicle_Select_Column>>,
   where?: Maybe<Vehicle_Bool_Exp>,
   limit?: Maybe<Scalars['Int']>,
@@ -6189,7 +6189,7 @@ export type FetchVehicleGraphLocationOnlyAsQueryQueryVariables = {
 };
 
 
-export type FetchVehicleGraphLocationOnlyAsQueryQuery = (
+export type QueryVehicleGraphLocationOnlyObjectsQuery = (
   { __typename?: 'query_root' }
   & { vehicle: Array<(
     { __typename?: 'vehicle' }
@@ -6197,12 +6197,12 @@ export type FetchVehicleGraphLocationOnlyAsQueryQuery = (
   )> }
 );
 
-export type FetchVehicleGraphLocationOnlyByIdAsSubscriptionSubscriptionVariables = {
+export type SubscribeToVehicleGraphLocationOnlyByIdSubscriptionVariables = {
   vehicleId: Scalars['String']
 };
 
 
-export type FetchVehicleGraphLocationOnlyByIdAsSubscriptionSubscription = (
+export type SubscribeToVehicleGraphLocationOnlyByIdSubscription = (
   { __typename?: 'subscription_root' }
   & { vehicle_by_pk: Maybe<(
     { __typename?: 'vehicle' }
@@ -6210,7 +6210,7 @@ export type FetchVehicleGraphLocationOnlyByIdAsSubscriptionSubscription = (
   )> }
 );
 
-export type FetchVehicleGraphLocationOnlyAsSubscriptionSubscriptionVariables = {
+export type SubscribeToVehicleGraphLocationOnlyObjectsSubscriptionVariables = {
   distinct_on?: Maybe<Array<Vehicle_Select_Column>>,
   where?: Maybe<Vehicle_Bool_Exp>,
   limit?: Maybe<Scalars['Int']>,
@@ -6219,7 +6219,7 @@ export type FetchVehicleGraphLocationOnlyAsSubscriptionSubscriptionVariables = {
 };
 
 
-export type FetchVehicleGraphLocationOnlyAsSubscriptionSubscription = (
+export type SubscribeToVehicleGraphLocationOnlyObjectsSubscription = (
   { __typename?: 'subscription_root' }
   & { vehicle: Array<(
     { __typename?: 'vehicle' }
@@ -6298,12 +6298,12 @@ export type UpdateVehicleGraphLocationOnlyMutation = (
   )> }
 );
 
-export type FetchDogModelByIdAsQueryQueryVariables = {
+export type QueryDogModelByIdQueryVariables = {
   dogsId: Scalars['uuid']
 };
 
 
-export type FetchDogModelByIdAsQueryQuery = (
+export type QueryDogModelByIdQuery = (
   { __typename?: 'query_root' }
   & { dogs_by_pk: Maybe<(
     { __typename?: 'dogs' }
@@ -6311,7 +6311,7 @@ export type FetchDogModelByIdAsQueryQuery = (
   )> }
 );
 
-export type FetchDogModelAsQueryQueryVariables = {
+export type QueryDogModelObjectsQueryVariables = {
   distinct_on?: Maybe<Array<Dogs_Select_Column>>,
   where?: Maybe<Dogs_Bool_Exp>,
   limit?: Maybe<Scalars['Int']>,
@@ -6320,7 +6320,7 @@ export type FetchDogModelAsQueryQueryVariables = {
 };
 
 
-export type FetchDogModelAsQueryQuery = (
+export type QueryDogModelObjectsQuery = (
   { __typename?: 'query_root' }
   & { dogs: Array<(
     { __typename?: 'dogs' }
@@ -6328,12 +6328,12 @@ export type FetchDogModelAsQueryQuery = (
   )> }
 );
 
-export type FetchDogModelByIdAsSubscriptionSubscriptionVariables = {
+export type SubscribeToDogModelByIdSubscriptionVariables = {
   dogsId: Scalars['uuid']
 };
 
 
-export type FetchDogModelByIdAsSubscriptionSubscription = (
+export type SubscribeToDogModelByIdSubscription = (
   { __typename?: 'subscription_root' }
   & { dogs_by_pk: Maybe<(
     { __typename?: 'dogs' }
@@ -6341,7 +6341,7 @@ export type FetchDogModelByIdAsSubscriptionSubscription = (
   )> }
 );
 
-export type FetchDogModelAsSubscriptionSubscriptionVariables = {
+export type SubscribeToDogModelObjectsSubscriptionVariables = {
   distinct_on?: Maybe<Array<Dogs_Select_Column>>,
   where?: Maybe<Dogs_Bool_Exp>,
   limit?: Maybe<Scalars['Int']>,
@@ -6350,7 +6350,7 @@ export type FetchDogModelAsSubscriptionSubscriptionVariables = {
 };
 
 
-export type FetchDogModelAsSubscriptionSubscription = (
+export type SubscribeToDogModelObjectsSubscription = (
   { __typename?: 'subscription_root' }
   & { dogs: Array<(
     { __typename?: 'dogs' }
@@ -6501,38 +6501,38 @@ export const DogModelFragmentDoc = gql`
   id
 }
     `;
-export const FetchVehicleGraphByIdAsQueryDocument = gql`
-    query fetchVehicleGraphByIdAsQuery($vehicleId: String!) {
+export const QueryVehicleGraphByIdDocument = gql`
+    query queryVehicleGraphById($vehicleId: String!) {
   vehicle_by_pk(id: $vehicleId) {
     ...VehicleGraph
   }
 }
     ${VehicleGraphFragmentDoc}`;
-export type FetchVehicleGraphByIdAsQueryQueryResult = ApolloReactCommon.QueryResult<FetchVehicleGraphByIdAsQueryQuery, FetchVehicleGraphByIdAsQueryQueryVariables>;
-export const FetchVehicleGraphAsQueryDocument = gql`
-    query fetchVehicleGraphAsQuery($distinct_on: [vehicle_select_column!], $where: vehicle_bool_exp, $limit: Int, $offset: Int, $order_by: [vehicle_order_by!]) {
+export type QueryVehicleGraphByIdQueryResult = ApolloReactCommon.QueryResult<QueryVehicleGraphByIdQuery, QueryVehicleGraphByIdQueryVariables>;
+export const QueryVehicleGraphObjectsDocument = gql`
+    query queryVehicleGraphObjects($distinct_on: [vehicle_select_column!], $where: vehicle_bool_exp, $limit: Int, $offset: Int, $order_by: [vehicle_order_by!]) {
   vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
     ...VehicleGraph
   }
 }
     ${VehicleGraphFragmentDoc}`;
-export type FetchVehicleGraphAsQueryQueryResult = ApolloReactCommon.QueryResult<FetchVehicleGraphAsQueryQuery, FetchVehicleGraphAsQueryQueryVariables>;
-export const FetchVehicleGraphByIdAsSubscriptionDocument = gql`
-    subscription fetchVehicleGraphByIdAsSubscription($vehicleId: String!) {
+export type QueryVehicleGraphObjectsQueryResult = ApolloReactCommon.QueryResult<QueryVehicleGraphObjectsQuery, QueryVehicleGraphObjectsQueryVariables>;
+export const SubscribeToVehicleGraphByIdDocument = gql`
+    subscription subscribeToVehicleGraphById($vehicleId: String!) {
   vehicle_by_pk(id: $vehicleId) {
     ...VehicleGraph
   }
 }
     ${VehicleGraphFragmentDoc}`;
-export type FetchVehicleGraphByIdAsSubscriptionSubscriptionResult = ApolloReactCommon.SubscriptionResult<FetchVehicleGraphByIdAsSubscriptionSubscription>;
-export const FetchVehicleGraphAsSubscriptionDocument = gql`
-    subscription fetchVehicleGraphAsSubscription($distinct_on: [vehicle_select_column!], $where: vehicle_bool_exp, $limit: Int, $offset: Int, $order_by: [vehicle_order_by!]) {
+export type SubscribeToVehicleGraphByIdSubscriptionResult = ApolloReactCommon.SubscriptionResult<SubscribeToVehicleGraphByIdSubscription>;
+export const SubscribeToVehicleGraphObjectsDocument = gql`
+    subscription subscribeToVehicleGraphObjects($distinct_on: [vehicle_select_column!], $where: vehicle_bool_exp, $limit: Int, $offset: Int, $order_by: [vehicle_order_by!]) {
   vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
     ...VehicleGraph
   }
 }
     ${VehicleGraphFragmentDoc}`;
-export type FetchVehicleGraphAsSubscriptionSubscriptionResult = ApolloReactCommon.SubscriptionResult<FetchVehicleGraphAsSubscriptionSubscription>;
+export type SubscribeToVehicleGraphObjectsSubscriptionResult = ApolloReactCommon.SubscriptionResult<SubscribeToVehicleGraphObjectsSubscription>;
 export const InsertVehicleGraphDocument = gql`
     mutation insertVehicleGraph($objects: [vehicle_insert_input!]!) {
   insert_vehicle(objects: $objects) {
@@ -6605,38 +6605,38 @@ export const RemoveVehicleModelDocument = gql`
 export type RemoveVehicleModelMutationFn = ApolloReactCommon.MutationFunction<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>;
 export type RemoveVehicleModelMutationResult = ApolloReactCommon.MutationResult<RemoveVehicleModelMutation>;
 export type RemoveVehicleModelMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>;
-export const FetchVehicleGraphLocationOnlyByIdAsQueryDocument = gql`
-    query fetchVehicleGraphLocationOnlyByIdAsQuery($vehicleId: String!) {
+export const QueryVehicleGraphLocationOnlyByIdDocument = gql`
+    query queryVehicleGraphLocationOnlyById($vehicleId: String!) {
   vehicle_by_pk(id: $vehicleId) {
     ...VehicleGraphLocationOnly
   }
 }
     ${VehicleGraphLocationOnlyFragmentDoc}`;
-export type FetchVehicleGraphLocationOnlyByIdAsQueryQueryResult = ApolloReactCommon.QueryResult<FetchVehicleGraphLocationOnlyByIdAsQueryQuery, FetchVehicleGraphLocationOnlyByIdAsQueryQueryVariables>;
-export const FetchVehicleGraphLocationOnlyAsQueryDocument = gql`
-    query fetchVehicleGraphLocationOnlyAsQuery($distinct_on: [vehicle_select_column!], $where: vehicle_bool_exp, $limit: Int, $offset: Int, $order_by: [vehicle_order_by!]) {
+export type QueryVehicleGraphLocationOnlyByIdQueryResult = ApolloReactCommon.QueryResult<QueryVehicleGraphLocationOnlyByIdQuery, QueryVehicleGraphLocationOnlyByIdQueryVariables>;
+export const QueryVehicleGraphLocationOnlyObjectsDocument = gql`
+    query queryVehicleGraphLocationOnlyObjects($distinct_on: [vehicle_select_column!], $where: vehicle_bool_exp, $limit: Int, $offset: Int, $order_by: [vehicle_order_by!]) {
   vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
     ...VehicleGraphLocationOnly
   }
 }
     ${VehicleGraphLocationOnlyFragmentDoc}`;
-export type FetchVehicleGraphLocationOnlyAsQueryQueryResult = ApolloReactCommon.QueryResult<FetchVehicleGraphLocationOnlyAsQueryQuery, FetchVehicleGraphLocationOnlyAsQueryQueryVariables>;
-export const FetchVehicleGraphLocationOnlyByIdAsSubscriptionDocument = gql`
-    subscription fetchVehicleGraphLocationOnlyByIdAsSubscription($vehicleId: String!) {
+export type QueryVehicleGraphLocationOnlyObjectsQueryResult = ApolloReactCommon.QueryResult<QueryVehicleGraphLocationOnlyObjectsQuery, QueryVehicleGraphLocationOnlyObjectsQueryVariables>;
+export const SubscribeToVehicleGraphLocationOnlyByIdDocument = gql`
+    subscription subscribeToVehicleGraphLocationOnlyById($vehicleId: String!) {
   vehicle_by_pk(id: $vehicleId) {
     ...VehicleGraphLocationOnly
   }
 }
     ${VehicleGraphLocationOnlyFragmentDoc}`;
-export type FetchVehicleGraphLocationOnlyByIdAsSubscriptionSubscriptionResult = ApolloReactCommon.SubscriptionResult<FetchVehicleGraphLocationOnlyByIdAsSubscriptionSubscription>;
-export const FetchVehicleGraphLocationOnlyAsSubscriptionDocument = gql`
-    subscription fetchVehicleGraphLocationOnlyAsSubscription($distinct_on: [vehicle_select_column!], $where: vehicle_bool_exp, $limit: Int, $offset: Int, $order_by: [vehicle_order_by!]) {
+export type SubscribeToVehicleGraphLocationOnlyByIdSubscriptionResult = ApolloReactCommon.SubscriptionResult<SubscribeToVehicleGraphLocationOnlyByIdSubscription>;
+export const SubscribeToVehicleGraphLocationOnlyObjectsDocument = gql`
+    subscription subscribeToVehicleGraphLocationOnlyObjects($distinct_on: [vehicle_select_column!], $where: vehicle_bool_exp, $limit: Int, $offset: Int, $order_by: [vehicle_order_by!]) {
   vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
     ...VehicleGraphLocationOnly
   }
 }
     ${VehicleGraphLocationOnlyFragmentDoc}`;
-export type FetchVehicleGraphLocationOnlyAsSubscriptionSubscriptionResult = ApolloReactCommon.SubscriptionResult<FetchVehicleGraphLocationOnlyAsSubscriptionSubscription>;
+export type SubscribeToVehicleGraphLocationOnlyObjectsSubscriptionResult = ApolloReactCommon.SubscriptionResult<SubscribeToVehicleGraphLocationOnlyObjectsSubscription>;
 export const InsertVehicleGraphLocationOnlyDocument = gql`
     mutation insertVehicleGraphLocationOnly($objects: [vehicle_insert_input!]!) {
   insert_vehicle(objects: $objects) {
@@ -6689,38 +6689,38 @@ export const UpdateVehicleGraphLocationOnlyDocument = gql`
 export type UpdateVehicleGraphLocationOnlyMutationFn = ApolloReactCommon.MutationFunction<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>;
 export type UpdateVehicleGraphLocationOnlyMutationResult = ApolloReactCommon.MutationResult<UpdateVehicleGraphLocationOnlyMutation>;
 export type UpdateVehicleGraphLocationOnlyMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateVehicleGraphLocationOnlyMutation, UpdateVehicleGraphLocationOnlyMutationVariables>;
-export const FetchDogModelByIdAsQueryDocument = gql`
-    query fetchDogModelByIdAsQuery($dogsId: uuid!) {
+export const QueryDogModelByIdDocument = gql`
+    query queryDogModelById($dogsId: uuid!) {
   dogs_by_pk(id: $dogsId) {
     ...DogModel
   }
 }
     ${DogModelFragmentDoc}`;
-export type FetchDogModelByIdAsQueryQueryResult = ApolloReactCommon.QueryResult<FetchDogModelByIdAsQueryQuery, FetchDogModelByIdAsQueryQueryVariables>;
-export const FetchDogModelAsQueryDocument = gql`
-    query fetchDogModelAsQuery($distinct_on: [dogs_select_column!], $where: dogs_bool_exp, $limit: Int, $offset: Int, $order_by: [dogs_order_by!]) {
+export type QueryDogModelByIdQueryResult = ApolloReactCommon.QueryResult<QueryDogModelByIdQuery, QueryDogModelByIdQueryVariables>;
+export const QueryDogModelObjectsDocument = gql`
+    query queryDogModelObjects($distinct_on: [dogs_select_column!], $where: dogs_bool_exp, $limit: Int, $offset: Int, $order_by: [dogs_order_by!]) {
   dogs(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
     ...DogModel
   }
 }
     ${DogModelFragmentDoc}`;
-export type FetchDogModelAsQueryQueryResult = ApolloReactCommon.QueryResult<FetchDogModelAsQueryQuery, FetchDogModelAsQueryQueryVariables>;
-export const FetchDogModelByIdAsSubscriptionDocument = gql`
-    subscription fetchDogModelByIdAsSubscription($dogsId: uuid!) {
+export type QueryDogModelObjectsQueryResult = ApolloReactCommon.QueryResult<QueryDogModelObjectsQuery, QueryDogModelObjectsQueryVariables>;
+export const SubscribeToDogModelByIdDocument = gql`
+    subscription subscribeToDogModelById($dogsId: uuid!) {
   dogs_by_pk(id: $dogsId) {
     ...DogModel
   }
 }
     ${DogModelFragmentDoc}`;
-export type FetchDogModelByIdAsSubscriptionSubscriptionResult = ApolloReactCommon.SubscriptionResult<FetchDogModelByIdAsSubscriptionSubscription>;
-export const FetchDogModelAsSubscriptionDocument = gql`
-    subscription fetchDogModelAsSubscription($distinct_on: [dogs_select_column!], $where: dogs_bool_exp, $limit: Int, $offset: Int, $order_by: [dogs_order_by!]) {
+export type SubscribeToDogModelByIdSubscriptionResult = ApolloReactCommon.SubscriptionResult<SubscribeToDogModelByIdSubscription>;
+export const SubscribeToDogModelObjectsDocument = gql`
+    subscription subscribeToDogModelObjects($distinct_on: [dogs_select_column!], $where: dogs_bool_exp, $limit: Int, $offset: Int, $order_by: [dogs_order_by!]) {
   dogs(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
     ...DogModel
   }
 }
     ${DogModelFragmentDoc}`;
-export type FetchDogModelAsSubscriptionSubscriptionResult = ApolloReactCommon.SubscriptionResult<FetchDogModelAsSubscriptionSubscription>;
+export type SubscribeToDogModelObjectsSubscriptionResult = ApolloReactCommon.SubscriptionResult<SubscribeToDogModelObjectsSubscription>;
 export const InsertDogModelDocument = gql`
     mutation insertDogModel($objects: [dogs_insert_input!]!) {
   insert_dogs(objects: $objects) {

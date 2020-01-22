@@ -1,12 +1,12 @@
 import { ObjectWithId, generateOptimisticResponseForMutation, generateUpdateFunctionForMutation } from 'graphql-codegen-hasura-core'
 import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation, QueryLazyOptions, MutationFunctionOptions, QueryResult, MutationTuple, FetchResult } from '@apollo/client';
 import { VehicleGraphFragment } from '../';
-import { FetchVehicleGraphByIdAsQueryQuery } from '../';
-import { FetchVehicleGraphByIdAsQueryQueryVariables } from '../';
-import { FetchVehicleGraphByIdAsQueryDocument } from '../';
-import { FetchVehicleGraphAsQueryQuery } from '../';
-import { FetchVehicleGraphAsQueryDocument } from '../';
-import { FetchVehicleGraphAsQueryQueryVariables } from '../';
+import { QueryVehicleGraphByIdQuery } from '../';
+import { QueryVehicleGraphByIdQueryVariables } from '../';
+import { QueryVehicleGraphByIdDocument } from '../';
+import { QueryVehicleGraphObjectsQuery } from '../';
+import { QueryVehicleGraphObjectsDocument } from '../';
+import { QueryVehicleGraphObjectsQueryVariables } from '../';
 import { Vehicle_Insert_Input } from '../';
 import { Vehicle_On_Conflict } from '../';
 import { InsertVehicleGraphMutation } from '../';
@@ -28,12 +28,12 @@ import { RemoveVehicleModelByIdMutation } from '../';
 import { RemoveVehicleModelByIdMutationVariables } from '../';
 import { RemoveVehicleModelByIdDocument } from '../';
 import { VehicleGraphLocationOnlyFragment } from '../';
-import { FetchVehicleGraphLocationOnlyByIdAsQueryQuery } from '../';
-import { FetchVehicleGraphLocationOnlyByIdAsQueryQueryVariables } from '../';
-import { FetchVehicleGraphLocationOnlyByIdAsQueryDocument } from '../';
-import { FetchVehicleGraphLocationOnlyAsQueryQuery } from '../';
-import { FetchVehicleGraphLocationOnlyAsQueryDocument } from '../';
-import { FetchVehicleGraphLocationOnlyAsQueryQueryVariables } from '../';
+import { QueryVehicleGraphLocationOnlyByIdQuery } from '../';
+import { QueryVehicleGraphLocationOnlyByIdQueryVariables } from '../';
+import { QueryVehicleGraphLocationOnlyByIdDocument } from '../';
+import { QueryVehicleGraphLocationOnlyObjectsQuery } from '../';
+import { QueryVehicleGraphLocationOnlyObjectsDocument } from '../';
+import { QueryVehicleGraphLocationOnlyObjectsQueryVariables } from '../';
 import { InsertVehicleGraphLocationOnlyMutation } from '../';
 import { InsertVehicleGraphLocationOnlyMutationVariables } from '../';
 import { InsertVehicleGraphLocationOnlyWithOnConflictMutationVariables } from '../';
@@ -46,12 +46,12 @@ import { UpdateVehicleGraphLocationOnlyMutation } from '../';
 import { UpdateVehicleGraphLocationOnlyMutationVariables } from '../';
 import { UpdateVehicleGraphLocationOnlyDocument } from '../';
 import { DogModelFragment } from '../';
-import { FetchDogModelByIdAsQueryQuery } from '../';
-import { FetchDogModelByIdAsQueryQueryVariables } from '../';
-import { FetchDogModelByIdAsQueryDocument } from '../';
-import { FetchDogModelAsQueryQuery } from '../';
-import { FetchDogModelAsQueryDocument } from '../';
-import { FetchDogModelAsQueryQueryVariables } from '../';
+import { QueryDogModelByIdQuery } from '../';
+import { QueryDogModelByIdQueryVariables } from '../';
+import { QueryDogModelByIdDocument } from '../';
+import { QueryDogModelObjectsQuery } from '../';
+import { QueryDogModelObjectsDocument } from '../';
+import { QueryDogModelObjectsQueryVariables } from '../';
 import { Dogs_Insert_Input } from '../';
 import { Dogs_On_Conflict } from '../';
 import { InsertDogModelMutation } from '../';
@@ -85,103 +85,79 @@ import { RemoveDogsModelByIdDocument } from '../';
     export type VehicleGraphObjectsHookResultEx = { objects:VehicleGraphFragment[] };
 
   
-
-      // Fetch Hooks
-      //
-  
-      /**
-       * __useFetchVehicleGraphByIdAsQueryQuery__
-       *
-       * To run a query within a React component, call `useVehicleGraphByIdQuery`
-       * When your component renders, `useVehicleGraphByIdQuery` returns an object from Apollo Client that contains loading, error, data properties, and a shortcut result property 
-       *
-       * @param options options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
-       *
-       * @example
-       * const { loading, error, vehicleGraph } = useFetchVehicleGraphByIdAsQueryQuery({ vehicleId:<value> });
-       * 
-       * The majority of the options and the specifics of their behavior are derived from apollographql. See https://www.apollographql.com/docs/react/api/react-hooks/#usequery for details
-       * 
-       */
-
-        // Fetch Hook
-        //
+     
+        /**
+         *  Query Hook
+         */
 
         // Types
-        type FetchVehicleGraphByIdAsQueryQueryResult = QueryResult<FetchVehicleGraphByIdAsQueryQuery, FetchVehicleGraphByIdAsQueryQueryVariables>;
-        export type FetchVehicleGraphByIdAsQueryQueryResultEx = FetchVehicleGraphByIdAsQueryQueryResult & VehicleGraphByIdHookResultEx;
+        type QueryVehicleGraphByIdResult = QueryResult<QueryVehicleGraphByIdQuery, QueryVehicleGraphByIdQueryVariables>;
+        export type QueryVehicleGraphByIdResultEx = QueryVehicleGraphByIdResult & VehicleGraphByIdHookResultEx;
 
         // Function
-        function useFetchVehicleGraphByIdAsQueryQuery({ vehicleId, options }: { vehicleId: string; options?: Omit<QueryHookOptions<FetchVehicleGraphByIdAsQueryQuery, FetchVehicleGraphByIdAsQueryQueryVariables>, "query" | "variables">; }): FetchVehicleGraphByIdAsQueryQueryResultEx {
-          const query: FetchVehicleGraphByIdAsQueryQueryResult = useQuery<FetchVehicleGraphByIdAsQueryQuery, FetchVehicleGraphByIdAsQueryQueryVariables>(FetchVehicleGraphByIdAsQueryDocument, { variables: { vehicleId }, ...options });
+        function useQueryVehicleGraphById({ vehicleId, options }: { vehicleId: string; options?: Omit<QueryHookOptions<QueryVehicleGraphByIdQuery, QueryVehicleGraphByIdQueryVariables>, "query" | "variables">; }): QueryVehicleGraphByIdResultEx {
+          const query: QueryVehicleGraphByIdResult = useQuery<QueryVehicleGraphByIdQuery, QueryVehicleGraphByIdQueryVariables>(QueryVehicleGraphByIdDocument, { variables: { vehicleId }, ...options });
           return { ...query, vehicleGraph: query && query.data && query.data.vehicle_by_pk };
         }
     
 
       /**
-       * __useFetchVehicleGraphByIdAsQueryLazyQuery__
-       * 
-       * @example
-       * const [fetchVehicleGraphById, { called, loading, error, vehicleGraph }] = useFetchVehicleGraphByIdAsQuery();
-       * fetchVehicleGraphById({ vehicleId:<value> });
-       * 
-       * The majority of the options and the specifics of their behavior are derived from apollographql. See https://www.apollographql.com/docs/react/api/react-hooks/#uselazyquery for details
-       * 
+       *  Lazy Query Hook
        */
-
-      // Lazy Fetch Hook
-      //
       
       // Types
-      type PickFetchVehicleGraphByIdAsQueryFn = (query: FetchVehicleGraphByIdAsQueryQuery | null | undefined) => VehicleGraphFragment | null | undefined;
-      type FetchVehicleGraphByIdAsQueryLazyQueryFn = [(options?: QueryLazyOptions<FetchVehicleGraphByIdAsQueryQueryVariables> | undefined) => void, FetchVehicleGraphByIdAsQueryQueryResult]
-      type FetchVehicleGraphByIdAsQueryWrappedLazyQueryFn = ({ vehicleId, options }: { vehicleId: string; options?: Omit<QueryLazyOptions<FetchVehicleGraphByIdAsQueryQueryVariables>, "variables">; }) => void;
-      export type FetchVehicleGraphByIdAsQueryLazyQueryReturn = [FetchVehicleGraphByIdAsQueryWrappedLazyQueryFn, FetchVehicleGraphByIdAsQueryQueryResultEx];
+      type PickQueryVehicleGraphByIdFn = (query: QueryVehicleGraphByIdQuery | null | undefined) => VehicleGraphFragment | null | undefined;
+      type QueryVehicleGraphByIdLazyFn = [(options?: QueryLazyOptions<QueryVehicleGraphByIdQueryVariables> | undefined) => void, QueryVehicleGraphByIdResult]
+      type QueryVehicleGraphByIdWrappedLazyFn = ({ vehicleId, options }: { vehicleId: string; options?: Omit<QueryLazyOptions<QueryVehicleGraphByIdQueryVariables>, "variables">; }) => void;
+      export type QueryVehicleGraphByIdLazyReturn = [QueryVehicleGraphByIdWrappedLazyFn, QueryVehicleGraphByIdResultEx];
 
       // Function
-      function useFetchVehicleGraphByIdAsQueryLazyQuery(options?: Omit<LazyQueryHookOptions<FetchVehicleGraphByIdAsQueryQuery, FetchVehicleGraphByIdAsQueryQueryVariables>, "query" | "variables">): FetchVehicleGraphByIdAsQueryLazyQueryReturn {
-        const lazyQuery: FetchVehicleGraphByIdAsQueryLazyQueryFn = useLazyQuery<FetchVehicleGraphByIdAsQueryQuery, FetchVehicleGraphByIdAsQueryQueryVariables>(FetchVehicleGraphByIdAsQueryDocument, options);
-        const pickVehicleGraph: PickFetchVehicleGraphByIdAsQueryFn = query => { return query && query.vehicle_by_pk; };
-        const wrappedLazyQuery: FetchVehicleGraphByIdAsQueryWrappedLazyQueryFn = ({ vehicleId, options }) => { return lazyQuery[0]({ variables: { vehicleId }, ...options }); };
-        const returnVal: FetchVehicleGraphByIdAsQueryLazyQueryReturn = [wrappedLazyQuery, { ...lazyQuery[1], vehicleGraph: pickVehicleGraph(lazyQuery[1].data) }];
+      function useQueryVehicleGraphByIdLazy(options?: Omit<LazyQueryHookOptions<QueryVehicleGraphByIdQuery, QueryVehicleGraphByIdQueryVariables>, "query" | "variables">): QueryVehicleGraphByIdLazyReturn {
+        const lazyQuery: QueryVehicleGraphByIdLazyFn = useLazyQuery<QueryVehicleGraphByIdQuery, QueryVehicleGraphByIdQueryVariables>(QueryVehicleGraphByIdDocument, options);
+        const pickVehicleGraph: PickQueryVehicleGraphByIdFn = query => { return query && query.vehicle_by_pk; };
+        const wrappedLazyQuery: QueryVehicleGraphByIdWrappedLazyFn = ({ vehicleId, options }) => { return lazyQuery[0]({ variables: { vehicleId }, ...options }); };
+        const returnVal: QueryVehicleGraphByIdLazyReturn = [wrappedLazyQuery, { ...lazyQuery[1], vehicleGraph: pickVehicleGraph(lazyQuery[1].data) }];
         return returnVal;
       }
     
 
-      // Fetch Collection Hook
-      //
+      /**
+       *  Query Collection Hook
+       */
 
       // Types
-      export type FetchVehicleGraphAsQueryQueryResult = QueryResult<FetchVehicleGraphAsQueryQuery, FetchVehicleGraphAsQueryQueryVariables>;
-      export type FetchVehicleGraphAsQueryQueryResultEx = FetchVehicleGraphAsQueryQueryResult & VehicleGraphObjectsHookResultEx;
+      export type QueryVehicleGraphObjectsResult = QueryResult<QueryVehicleGraphObjectsQuery, QueryVehicleGraphObjectsQueryVariables>;
+      export type QueryVehicleGraphObjectsResultEx = QueryVehicleGraphObjectsResult & VehicleGraphObjectsHookResultEx;
 
       // Function
-      function useFetchVehicleGraphAsQueryQuery(options: Omit<QueryHookOptions<FetchVehicleGraphAsQueryQuery, FetchVehicleGraphAsQueryQueryVariables>, "query">): FetchVehicleGraphAsQueryQueryResultEx {
-        const query:FetchVehicleGraphAsQueryQueryResult = useQuery<FetchVehicleGraphAsQueryQuery, FetchVehicleGraphAsQueryQueryVariables>(FetchVehicleGraphAsQueryDocument, options);
+      function useQueryVehicleGraphObjects(options: Omit<QueryHookOptions<QueryVehicleGraphObjectsQuery, QueryVehicleGraphObjectsQueryVariables>, "query">): QueryVehicleGraphObjectsResultEx {
+        const query:QueryVehicleGraphObjectsResult = useQuery<QueryVehicleGraphObjectsQuery, QueryVehicleGraphObjectsQueryVariables>(QueryVehicleGraphObjectsDocument, options);
         return { ...query, objects: (query && query.data && query.data.vehicle) || [] };
       }
       
   
-      // Lazy Fetch Collection Hook
-      //
+      /**
+       *  Lazy Query Collection Hook
+       */
 
       // Types
-      type PickFetchVehicleGraphAsQueryFn = (query: FetchVehicleGraphAsQueryQuery | null | undefined) => VehicleGraphFragment[];
-      type FetchVehicleGraphAsQueryLazyQueryFn = [(options?: QueryLazyOptions<FetchVehicleGraphAsQueryQueryVariables> | undefined) => void, FetchVehicleGraphAsQueryQueryResult]
-      type FetchVehicleGraphAsQueryWrappedLazyQueryFn = (options?: QueryLazyOptions<FetchVehicleGraphAsQueryQueryVariables>) => void;
-      export type FetchVehicleGraphAsQueryLazyQueryReturn = [FetchVehicleGraphAsQueryWrappedLazyQueryFn, FetchVehicleGraphAsQueryQueryResultEx];
+      type PickQueryVehicleGraphObjectsFn = (query: QueryVehicleGraphObjectsQuery | null | undefined) => VehicleGraphFragment[];
+      type QueryVehicleGraphObjectsLazyFn = [(options?: QueryLazyOptions<QueryVehicleGraphObjectsQueryVariables> | undefined) => void, QueryVehicleGraphObjectsResult]
+      type QueryVehicleGraphObjectsWrappedLazyFn = (options?: QueryLazyOptions<QueryVehicleGraphObjectsQueryVariables>) => void;
+      export type QueryVehicleGraphObjectsLazyReturn = [QueryVehicleGraphObjectsWrappedLazyFn, QueryVehicleGraphObjectsResultEx];
 
       // Function
-      function useFetchVehicleGraphAsQueryLazyQuery(options?: Omit<LazyQueryHookOptions<FetchVehicleGraphAsQueryQuery, FetchVehicleGraphAsQueryQueryVariables>, "query">): FetchVehicleGraphAsQueryLazyQueryReturn {
-        const lazyQuery: FetchVehicleGraphAsQueryLazyQueryFn = useLazyQuery<FetchVehicleGraphAsQueryQuery, FetchVehicleGraphAsQueryQueryVariables>(FetchVehicleGraphAsQueryDocument, options);
-        const pickObjects: PickFetchVehicleGraphAsQueryFn = (query: FetchVehicleGraphAsQueryQuery | null | undefined) => { return (query && query.vehicle) || []; };
-        const wrappedLazyQuery: FetchVehicleGraphAsQueryWrappedLazyQueryFn = (options) => { return lazyQuery[0]( options ); };
+      function useQueryVehicleGraphObjectsLazy(options?: Omit<LazyQueryHookOptions<QueryVehicleGraphObjectsQuery, QueryVehicleGraphObjectsQueryVariables>, "query">): QueryVehicleGraphObjectsLazyReturn {
+        const lazyQuery: QueryVehicleGraphObjectsLazyFn = useLazyQuery<QueryVehicleGraphObjectsQuery, QueryVehicleGraphObjectsQueryVariables>(QueryVehicleGraphObjectsDocument, options);
+        const pickObjects: PickQueryVehicleGraphObjectsFn = (query: QueryVehicleGraphObjectsQuery | null | undefined) => { return (query && query.vehicle) || []; };
+        const wrappedLazyQuery: QueryVehicleGraphObjectsWrappedLazyFn = (options) => { return lazyQuery[0]( options ); };
         return [wrappedLazyQuery, { ...lazyQuery[1], objects: pickObjects(lazyQuery[1].data) }] as [typeof wrappedLazyQuery, typeof lazyQuery[1] & { objects: ReturnType<typeof pickObjects> }];
       }
     
 
-  // Insert Hooks
-  //
+  /**
+   *  Insert Hooks
+   */
 
   // Types
   type InsertVehicleGraphMutationResult = FetchResult<InsertVehicleGraphMutation, Record<string, any>, Record<string, any>>;
@@ -265,8 +241,9 @@ import { RemoveDogsModelByIdDocument } from '../';
   }
   
 
-    // Update Hooks
-    //
+    /**
+     *  Update Hooks
+     */
     
     type UpdateVehicleGraphByIdMutationResult = FetchResult<UpdateVehicleGraphByIdMutation, Record<string, any>, Record<string, any>>;
     export type UpdateVehicleGraphByIdMutationResultEx = UpdateVehicleGraphByIdMutationResult & VehicleGraphByIdHookResultEx;
@@ -324,8 +301,9 @@ import { RemoveDogsModelByIdDocument } from '../';
     }
   
 
-    // Delete Hooks
-    //
+    /**
+     *  Delete Hooks
+     */
 
     // Types
     type RemoveVehicleModelByIdFetchResult = FetchResult<RemoveVehicleModelByIdMutation, Record<string, any>, Record<string, any>>;
@@ -389,14 +367,15 @@ import { RemoveDogsModelByIdDocument } from '../';
     }
   
 
-    // VehicleGraph Fragment Hooks Object
-    //------------------------------------------------
+    /*
+     * VehicleGraph FRAGMENT HOOKS OBJECT
+     */
 
     export const VehicleGraphFragmentGQLHooks = {
-      useFetchByIdQuery: useFetchVehicleGraphByIdAsQueryQuery,
-      useFetchByIdLazyQuery: useFetchVehicleGraphByIdAsQueryLazyQuery,
-      useFetchObjectsQuery: useFetchVehicleGraphAsQueryQuery,
-      useFetchObjectsLazyQuery: useFetchVehicleGraphAsQueryLazyQuery,
+      useQueryById: useQueryVehicleGraphById,
+      useQueryByIdLazy: useQueryVehicleGraphByIdLazy,
+      useQueryObjects: useQueryVehicleGraphObjects,
+      useQueryObjectsLazy: useQueryVehicleGraphObjectsLazy,
       useInsert: useInsertVehicleGraph,
       useInsertWithOnConflict: useInsertVehicleGraphWithOnConflict,
       useInsertObjects: useInsertVehicleGraphObjects,
@@ -405,8 +384,9 @@ import { RemoveDogsModelByIdDocument } from '../';
     }
   
 
-    // vehicle Model Hooks Object
-    //------------------------------------------------
+    /*
+    * vehicle MODEL HOOKS OBJECT
+    */
 
     export const VehicleModelGQLHooks = {
       useRemoveById: useRemoveVehicleModelById,
@@ -421,103 +401,79 @@ import { RemoveDogsModelByIdDocument } from '../';
     export type VehicleGraphLocationOnlyObjectsHookResultEx = { objects:VehicleGraphLocationOnlyFragment[] };
 
   
-
-      // Fetch Hooks
-      //
-  
-      /**
-       * __useFetchVehicleGraphLocationOnlyByIdAsQueryQuery__
-       *
-       * To run a query within a React component, call `useVehicleGraphLocationOnlyByIdQuery`
-       * When your component renders, `useVehicleGraphLocationOnlyByIdQuery` returns an object from Apollo Client that contains loading, error, data properties, and a shortcut result property 
-       *
-       * @param options options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
-       *
-       * @example
-       * const { loading, error, vehicleGraphLocationOnly } = useFetchVehicleGraphLocationOnlyByIdAsQueryQuery({ vehicleId:<value> });
-       * 
-       * The majority of the options and the specifics of their behavior are derived from apollographql. See https://www.apollographql.com/docs/react/api/react-hooks/#usequery for details
-       * 
-       */
-
-        // Fetch Hook
-        //
+     
+        /**
+         *  Query Hook
+         */
 
         // Types
-        type FetchVehicleGraphLocationOnlyByIdAsQueryQueryResult = QueryResult<FetchVehicleGraphLocationOnlyByIdAsQueryQuery, FetchVehicleGraphLocationOnlyByIdAsQueryQueryVariables>;
-        export type FetchVehicleGraphLocationOnlyByIdAsQueryQueryResultEx = FetchVehicleGraphLocationOnlyByIdAsQueryQueryResult & VehicleGraphLocationOnlyByIdHookResultEx;
+        type QueryVehicleGraphLocationOnlyByIdResult = QueryResult<QueryVehicleGraphLocationOnlyByIdQuery, QueryVehicleGraphLocationOnlyByIdQueryVariables>;
+        export type QueryVehicleGraphLocationOnlyByIdResultEx = QueryVehicleGraphLocationOnlyByIdResult & VehicleGraphLocationOnlyByIdHookResultEx;
 
         // Function
-        function useFetchVehicleGraphLocationOnlyByIdAsQueryQuery({ vehicleId, options }: { vehicleId: string; options?: Omit<QueryHookOptions<FetchVehicleGraphLocationOnlyByIdAsQueryQuery, FetchVehicleGraphLocationOnlyByIdAsQueryQueryVariables>, "query" | "variables">; }): FetchVehicleGraphLocationOnlyByIdAsQueryQueryResultEx {
-          const query: FetchVehicleGraphLocationOnlyByIdAsQueryQueryResult = useQuery<FetchVehicleGraphLocationOnlyByIdAsQueryQuery, FetchVehicleGraphLocationOnlyByIdAsQueryQueryVariables>(FetchVehicleGraphLocationOnlyByIdAsQueryDocument, { variables: { vehicleId }, ...options });
+        function useQueryVehicleGraphLocationOnlyById({ vehicleId, options }: { vehicleId: string; options?: Omit<QueryHookOptions<QueryVehicleGraphLocationOnlyByIdQuery, QueryVehicleGraphLocationOnlyByIdQueryVariables>, "query" | "variables">; }): QueryVehicleGraphLocationOnlyByIdResultEx {
+          const query: QueryVehicleGraphLocationOnlyByIdResult = useQuery<QueryVehicleGraphLocationOnlyByIdQuery, QueryVehicleGraphLocationOnlyByIdQueryVariables>(QueryVehicleGraphLocationOnlyByIdDocument, { variables: { vehicleId }, ...options });
           return { ...query, vehicleGraphLocationOnly: query && query.data && query.data.vehicle_by_pk };
         }
     
 
       /**
-       * __useFetchVehicleGraphLocationOnlyByIdAsQueryLazyQuery__
-       * 
-       * @example
-       * const [fetchVehicleGraphLocationOnlyById, { called, loading, error, vehicleGraphLocationOnly }] = useFetchVehicleGraphLocationOnlyByIdAsQuery();
-       * fetchVehicleGraphLocationOnlyById({ vehicleId:<value> });
-       * 
-       * The majority of the options and the specifics of their behavior are derived from apollographql. See https://www.apollographql.com/docs/react/api/react-hooks/#uselazyquery for details
-       * 
+       *  Lazy Query Hook
        */
-
-      // Lazy Fetch Hook
-      //
       
       // Types
-      type PickFetchVehicleGraphLocationOnlyByIdAsQueryFn = (query: FetchVehicleGraphLocationOnlyByIdAsQueryQuery | null | undefined) => VehicleGraphLocationOnlyFragment | null | undefined;
-      type FetchVehicleGraphLocationOnlyByIdAsQueryLazyQueryFn = [(options?: QueryLazyOptions<FetchVehicleGraphLocationOnlyByIdAsQueryQueryVariables> | undefined) => void, FetchVehicleGraphLocationOnlyByIdAsQueryQueryResult]
-      type FetchVehicleGraphLocationOnlyByIdAsQueryWrappedLazyQueryFn = ({ vehicleId, options }: { vehicleId: string; options?: Omit<QueryLazyOptions<FetchVehicleGraphLocationOnlyByIdAsQueryQueryVariables>, "variables">; }) => void;
-      export type FetchVehicleGraphLocationOnlyByIdAsQueryLazyQueryReturn = [FetchVehicleGraphLocationOnlyByIdAsQueryWrappedLazyQueryFn, FetchVehicleGraphLocationOnlyByIdAsQueryQueryResultEx];
+      type PickQueryVehicleGraphLocationOnlyByIdFn = (query: QueryVehicleGraphLocationOnlyByIdQuery | null | undefined) => VehicleGraphLocationOnlyFragment | null | undefined;
+      type QueryVehicleGraphLocationOnlyByIdLazyFn = [(options?: QueryLazyOptions<QueryVehicleGraphLocationOnlyByIdQueryVariables> | undefined) => void, QueryVehicleGraphLocationOnlyByIdResult]
+      type QueryVehicleGraphLocationOnlyByIdWrappedLazyFn = ({ vehicleId, options }: { vehicleId: string; options?: Omit<QueryLazyOptions<QueryVehicleGraphLocationOnlyByIdQueryVariables>, "variables">; }) => void;
+      export type QueryVehicleGraphLocationOnlyByIdLazyReturn = [QueryVehicleGraphLocationOnlyByIdWrappedLazyFn, QueryVehicleGraphLocationOnlyByIdResultEx];
 
       // Function
-      function useFetchVehicleGraphLocationOnlyByIdAsQueryLazyQuery(options?: Omit<LazyQueryHookOptions<FetchVehicleGraphLocationOnlyByIdAsQueryQuery, FetchVehicleGraphLocationOnlyByIdAsQueryQueryVariables>, "query" | "variables">): FetchVehicleGraphLocationOnlyByIdAsQueryLazyQueryReturn {
-        const lazyQuery: FetchVehicleGraphLocationOnlyByIdAsQueryLazyQueryFn = useLazyQuery<FetchVehicleGraphLocationOnlyByIdAsQueryQuery, FetchVehicleGraphLocationOnlyByIdAsQueryQueryVariables>(FetchVehicleGraphLocationOnlyByIdAsQueryDocument, options);
-        const pickVehicleGraphLocationOnly: PickFetchVehicleGraphLocationOnlyByIdAsQueryFn = query => { return query && query.vehicle_by_pk; };
-        const wrappedLazyQuery: FetchVehicleGraphLocationOnlyByIdAsQueryWrappedLazyQueryFn = ({ vehicleId, options }) => { return lazyQuery[0]({ variables: { vehicleId }, ...options }); };
-        const returnVal: FetchVehicleGraphLocationOnlyByIdAsQueryLazyQueryReturn = [wrappedLazyQuery, { ...lazyQuery[1], vehicleGraphLocationOnly: pickVehicleGraphLocationOnly(lazyQuery[1].data) }];
+      function useQueryVehicleGraphLocationOnlyByIdLazy(options?: Omit<LazyQueryHookOptions<QueryVehicleGraphLocationOnlyByIdQuery, QueryVehicleGraphLocationOnlyByIdQueryVariables>, "query" | "variables">): QueryVehicleGraphLocationOnlyByIdLazyReturn {
+        const lazyQuery: QueryVehicleGraphLocationOnlyByIdLazyFn = useLazyQuery<QueryVehicleGraphLocationOnlyByIdQuery, QueryVehicleGraphLocationOnlyByIdQueryVariables>(QueryVehicleGraphLocationOnlyByIdDocument, options);
+        const pickVehicleGraphLocationOnly: PickQueryVehicleGraphLocationOnlyByIdFn = query => { return query && query.vehicle_by_pk; };
+        const wrappedLazyQuery: QueryVehicleGraphLocationOnlyByIdWrappedLazyFn = ({ vehicleId, options }) => { return lazyQuery[0]({ variables: { vehicleId }, ...options }); };
+        const returnVal: QueryVehicleGraphLocationOnlyByIdLazyReturn = [wrappedLazyQuery, { ...lazyQuery[1], vehicleGraphLocationOnly: pickVehicleGraphLocationOnly(lazyQuery[1].data) }];
         return returnVal;
       }
     
 
-      // Fetch Collection Hook
-      //
+      /**
+       *  Query Collection Hook
+       */
 
       // Types
-      export type FetchVehicleGraphLocationOnlyAsQueryQueryResult = QueryResult<FetchVehicleGraphLocationOnlyAsQueryQuery, FetchVehicleGraphLocationOnlyAsQueryQueryVariables>;
-      export type FetchVehicleGraphLocationOnlyAsQueryQueryResultEx = FetchVehicleGraphLocationOnlyAsQueryQueryResult & VehicleGraphLocationOnlyObjectsHookResultEx;
+      export type QueryVehicleGraphLocationOnlyObjectsResult = QueryResult<QueryVehicleGraphLocationOnlyObjectsQuery, QueryVehicleGraphLocationOnlyObjectsQueryVariables>;
+      export type QueryVehicleGraphLocationOnlyObjectsResultEx = QueryVehicleGraphLocationOnlyObjectsResult & VehicleGraphLocationOnlyObjectsHookResultEx;
 
       // Function
-      function useFetchVehicleGraphLocationOnlyAsQueryQuery(options: Omit<QueryHookOptions<FetchVehicleGraphLocationOnlyAsQueryQuery, FetchVehicleGraphLocationOnlyAsQueryQueryVariables>, "query">): FetchVehicleGraphLocationOnlyAsQueryQueryResultEx {
-        const query:FetchVehicleGraphLocationOnlyAsQueryQueryResult = useQuery<FetchVehicleGraphLocationOnlyAsQueryQuery, FetchVehicleGraphLocationOnlyAsQueryQueryVariables>(FetchVehicleGraphLocationOnlyAsQueryDocument, options);
+      function useQueryVehicleGraphLocationOnlyObjects(options: Omit<QueryHookOptions<QueryVehicleGraphLocationOnlyObjectsQuery, QueryVehicleGraphLocationOnlyObjectsQueryVariables>, "query">): QueryVehicleGraphLocationOnlyObjectsResultEx {
+        const query:QueryVehicleGraphLocationOnlyObjectsResult = useQuery<QueryVehicleGraphLocationOnlyObjectsQuery, QueryVehicleGraphLocationOnlyObjectsQueryVariables>(QueryVehicleGraphLocationOnlyObjectsDocument, options);
         return { ...query, objects: (query && query.data && query.data.vehicle) || [] };
       }
       
   
-      // Lazy Fetch Collection Hook
-      //
+      /**
+       *  Lazy Query Collection Hook
+       */
 
       // Types
-      type PickFetchVehicleGraphLocationOnlyAsQueryFn = (query: FetchVehicleGraphLocationOnlyAsQueryQuery | null | undefined) => VehicleGraphLocationOnlyFragment[];
-      type FetchVehicleGraphLocationOnlyAsQueryLazyQueryFn = [(options?: QueryLazyOptions<FetchVehicleGraphLocationOnlyAsQueryQueryVariables> | undefined) => void, FetchVehicleGraphLocationOnlyAsQueryQueryResult]
-      type FetchVehicleGraphLocationOnlyAsQueryWrappedLazyQueryFn = (options?: QueryLazyOptions<FetchVehicleGraphLocationOnlyAsQueryQueryVariables>) => void;
-      export type FetchVehicleGraphLocationOnlyAsQueryLazyQueryReturn = [FetchVehicleGraphLocationOnlyAsQueryWrappedLazyQueryFn, FetchVehicleGraphLocationOnlyAsQueryQueryResultEx];
+      type PickQueryVehicleGraphLocationOnlyObjectsFn = (query: QueryVehicleGraphLocationOnlyObjectsQuery | null | undefined) => VehicleGraphLocationOnlyFragment[];
+      type QueryVehicleGraphLocationOnlyObjectsLazyFn = [(options?: QueryLazyOptions<QueryVehicleGraphLocationOnlyObjectsQueryVariables> | undefined) => void, QueryVehicleGraphLocationOnlyObjectsResult]
+      type QueryVehicleGraphLocationOnlyObjectsWrappedLazyFn = (options?: QueryLazyOptions<QueryVehicleGraphLocationOnlyObjectsQueryVariables>) => void;
+      export type QueryVehicleGraphLocationOnlyObjectsLazyReturn = [QueryVehicleGraphLocationOnlyObjectsWrappedLazyFn, QueryVehicleGraphLocationOnlyObjectsResultEx];
 
       // Function
-      function useFetchVehicleGraphLocationOnlyAsQueryLazyQuery(options?: Omit<LazyQueryHookOptions<FetchVehicleGraphLocationOnlyAsQueryQuery, FetchVehicleGraphLocationOnlyAsQueryQueryVariables>, "query">): FetchVehicleGraphLocationOnlyAsQueryLazyQueryReturn {
-        const lazyQuery: FetchVehicleGraphLocationOnlyAsQueryLazyQueryFn = useLazyQuery<FetchVehicleGraphLocationOnlyAsQueryQuery, FetchVehicleGraphLocationOnlyAsQueryQueryVariables>(FetchVehicleGraphLocationOnlyAsQueryDocument, options);
-        const pickObjects: PickFetchVehicleGraphLocationOnlyAsQueryFn = (query: FetchVehicleGraphLocationOnlyAsQueryQuery | null | undefined) => { return (query && query.vehicle) || []; };
-        const wrappedLazyQuery: FetchVehicleGraphLocationOnlyAsQueryWrappedLazyQueryFn = (options) => { return lazyQuery[0]( options ); };
+      function useQueryVehicleGraphLocationOnlyObjectsLazy(options?: Omit<LazyQueryHookOptions<QueryVehicleGraphLocationOnlyObjectsQuery, QueryVehicleGraphLocationOnlyObjectsQueryVariables>, "query">): QueryVehicleGraphLocationOnlyObjectsLazyReturn {
+        const lazyQuery: QueryVehicleGraphLocationOnlyObjectsLazyFn = useLazyQuery<QueryVehicleGraphLocationOnlyObjectsQuery, QueryVehicleGraphLocationOnlyObjectsQueryVariables>(QueryVehicleGraphLocationOnlyObjectsDocument, options);
+        const pickObjects: PickQueryVehicleGraphLocationOnlyObjectsFn = (query: QueryVehicleGraphLocationOnlyObjectsQuery | null | undefined) => { return (query && query.vehicle) || []; };
+        const wrappedLazyQuery: QueryVehicleGraphLocationOnlyObjectsWrappedLazyFn = (options) => { return lazyQuery[0]( options ); };
         return [wrappedLazyQuery, { ...lazyQuery[1], objects: pickObjects(lazyQuery[1].data) }] as [typeof wrappedLazyQuery, typeof lazyQuery[1] & { objects: ReturnType<typeof pickObjects> }];
       }
     
 
-  // Insert Hooks
-  //
+  /**
+   *  Insert Hooks
+   */
 
   // Types
   type InsertVehicleGraphLocationOnlyMutationResult = FetchResult<InsertVehicleGraphLocationOnlyMutation, Record<string, any>, Record<string, any>>;
@@ -601,8 +557,9 @@ import { RemoveDogsModelByIdDocument } from '../';
   }
   
 
-    // Update Hooks
-    //
+    /**
+     *  Update Hooks
+     */
     
     type UpdateVehicleGraphLocationOnlyByIdMutationResult = FetchResult<UpdateVehicleGraphLocationOnlyByIdMutation, Record<string, any>, Record<string, any>>;
     export type UpdateVehicleGraphLocationOnlyByIdMutationResultEx = UpdateVehicleGraphLocationOnlyByIdMutationResult & VehicleGraphLocationOnlyByIdHookResultEx;
@@ -660,14 +617,15 @@ import { RemoveDogsModelByIdDocument } from '../';
     }
   
 
-    // VehicleGraphLocationOnly Fragment Hooks Object
-    //------------------------------------------------
+    /*
+     * VehicleGraphLocationOnly FRAGMENT HOOKS OBJECT
+     */
 
     export const VehicleGraphLocationOnlyFragmentGQLHooks = {
-      useFetchByIdQuery: useFetchVehicleGraphLocationOnlyByIdAsQueryQuery,
-      useFetchByIdLazyQuery: useFetchVehicleGraphLocationOnlyByIdAsQueryLazyQuery,
-      useFetchObjectsQuery: useFetchVehicleGraphLocationOnlyAsQueryQuery,
-      useFetchObjectsLazyQuery: useFetchVehicleGraphLocationOnlyAsQueryLazyQuery,
+      useQueryById: useQueryVehicleGraphLocationOnlyById,
+      useQueryByIdLazy: useQueryVehicleGraphLocationOnlyByIdLazy,
+      useQueryObjects: useQueryVehicleGraphLocationOnlyObjects,
+      useQueryObjectsLazy: useQueryVehicleGraphLocationOnlyObjectsLazy,
       useInsert: useInsertVehicleGraphLocationOnly,
       useInsertWithOnConflict: useInsertVehicleGraphLocationOnlyWithOnConflict,
       useInsertObjects: useInsertVehicleGraphLocationOnlyObjects,
@@ -683,103 +641,79 @@ import { RemoveDogsModelByIdDocument } from '../';
     export type DogModelObjectsHookResultEx = { objects:DogModelFragment[] };
 
   
-
-      // Fetch Hooks
-      //
-  
-      /**
-       * __useFetchDogModelByIdAsQueryQuery__
-       *
-       * To run a query within a React component, call `useDogModelByIdQuery`
-       * When your component renders, `useDogModelByIdQuery` returns an object from Apollo Client that contains loading, error, data properties, and a shortcut result property 
-       *
-       * @param options options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
-       *
-       * @example
-       * const { loading, error, dogModel } = useFetchDogModelByIdAsQueryQuery({ dogsId:<value> });
-       * 
-       * The majority of the options and the specifics of their behavior are derived from apollographql. See https://www.apollographql.com/docs/react/api/react-hooks/#usequery for details
-       * 
-       */
-
-        // Fetch Hook
-        //
+     
+        /**
+         *  Query Hook
+         */
 
         // Types
-        type FetchDogModelByIdAsQueryQueryResult = QueryResult<FetchDogModelByIdAsQueryQuery, FetchDogModelByIdAsQueryQueryVariables>;
-        export type FetchDogModelByIdAsQueryQueryResultEx = FetchDogModelByIdAsQueryQueryResult & DogModelByIdHookResultEx;
+        type QueryDogModelByIdResult = QueryResult<QueryDogModelByIdQuery, QueryDogModelByIdQueryVariables>;
+        export type QueryDogModelByIdResultEx = QueryDogModelByIdResult & DogModelByIdHookResultEx;
 
         // Function
-        function useFetchDogModelByIdAsQueryQuery({ dogsId, options }: { dogsId: string; options?: Omit<QueryHookOptions<FetchDogModelByIdAsQueryQuery, FetchDogModelByIdAsQueryQueryVariables>, "query" | "variables">; }): FetchDogModelByIdAsQueryQueryResultEx {
-          const query: FetchDogModelByIdAsQueryQueryResult = useQuery<FetchDogModelByIdAsQueryQuery, FetchDogModelByIdAsQueryQueryVariables>(FetchDogModelByIdAsQueryDocument, { variables: { dogsId }, ...options });
+        function useQueryDogModelById({ dogsId, options }: { dogsId: string; options?: Omit<QueryHookOptions<QueryDogModelByIdQuery, QueryDogModelByIdQueryVariables>, "query" | "variables">; }): QueryDogModelByIdResultEx {
+          const query: QueryDogModelByIdResult = useQuery<QueryDogModelByIdQuery, QueryDogModelByIdQueryVariables>(QueryDogModelByIdDocument, { variables: { dogsId }, ...options });
           return { ...query, dogModel: query && query.data && query.data.dogs_by_pk };
         }
     
 
       /**
-       * __useFetchDogModelByIdAsQueryLazyQuery__
-       * 
-       * @example
-       * const [fetchDogModelById, { called, loading, error, dogModel }] = useFetchDogModelByIdAsQuery();
-       * fetchDogModelById({ dogsId:<value> });
-       * 
-       * The majority of the options and the specifics of their behavior are derived from apollographql. See https://www.apollographql.com/docs/react/api/react-hooks/#uselazyquery for details
-       * 
+       *  Lazy Query Hook
        */
-
-      // Lazy Fetch Hook
-      //
       
       // Types
-      type PickFetchDogModelByIdAsQueryFn = (query: FetchDogModelByIdAsQueryQuery | null | undefined) => DogModelFragment | null | undefined;
-      type FetchDogModelByIdAsQueryLazyQueryFn = [(options?: QueryLazyOptions<FetchDogModelByIdAsQueryQueryVariables> | undefined) => void, FetchDogModelByIdAsQueryQueryResult]
-      type FetchDogModelByIdAsQueryWrappedLazyQueryFn = ({ dogsId, options }: { dogsId: string; options?: Omit<QueryLazyOptions<FetchDogModelByIdAsQueryQueryVariables>, "variables">; }) => void;
-      export type FetchDogModelByIdAsQueryLazyQueryReturn = [FetchDogModelByIdAsQueryWrappedLazyQueryFn, FetchDogModelByIdAsQueryQueryResultEx];
+      type PickQueryDogModelByIdFn = (query: QueryDogModelByIdQuery | null | undefined) => DogModelFragment | null | undefined;
+      type QueryDogModelByIdLazyFn = [(options?: QueryLazyOptions<QueryDogModelByIdQueryVariables> | undefined) => void, QueryDogModelByIdResult]
+      type QueryDogModelByIdWrappedLazyFn = ({ dogsId, options }: { dogsId: string; options?: Omit<QueryLazyOptions<QueryDogModelByIdQueryVariables>, "variables">; }) => void;
+      export type QueryDogModelByIdLazyReturn = [QueryDogModelByIdWrappedLazyFn, QueryDogModelByIdResultEx];
 
       // Function
-      function useFetchDogModelByIdAsQueryLazyQuery(options?: Omit<LazyQueryHookOptions<FetchDogModelByIdAsQueryQuery, FetchDogModelByIdAsQueryQueryVariables>, "query" | "variables">): FetchDogModelByIdAsQueryLazyQueryReturn {
-        const lazyQuery: FetchDogModelByIdAsQueryLazyQueryFn = useLazyQuery<FetchDogModelByIdAsQueryQuery, FetchDogModelByIdAsQueryQueryVariables>(FetchDogModelByIdAsQueryDocument, options);
-        const pickDogModel: PickFetchDogModelByIdAsQueryFn = query => { return query && query.dogs_by_pk; };
-        const wrappedLazyQuery: FetchDogModelByIdAsQueryWrappedLazyQueryFn = ({ dogsId, options }) => { return lazyQuery[0]({ variables: { dogsId }, ...options }); };
-        const returnVal: FetchDogModelByIdAsQueryLazyQueryReturn = [wrappedLazyQuery, { ...lazyQuery[1], dogModel: pickDogModel(lazyQuery[1].data) }];
+      function useQueryDogModelByIdLazy(options?: Omit<LazyQueryHookOptions<QueryDogModelByIdQuery, QueryDogModelByIdQueryVariables>, "query" | "variables">): QueryDogModelByIdLazyReturn {
+        const lazyQuery: QueryDogModelByIdLazyFn = useLazyQuery<QueryDogModelByIdQuery, QueryDogModelByIdQueryVariables>(QueryDogModelByIdDocument, options);
+        const pickDogModel: PickQueryDogModelByIdFn = query => { return query && query.dogs_by_pk; };
+        const wrappedLazyQuery: QueryDogModelByIdWrappedLazyFn = ({ dogsId, options }) => { return lazyQuery[0]({ variables: { dogsId }, ...options }); };
+        const returnVal: QueryDogModelByIdLazyReturn = [wrappedLazyQuery, { ...lazyQuery[1], dogModel: pickDogModel(lazyQuery[1].data) }];
         return returnVal;
       }
     
 
-      // Fetch Collection Hook
-      //
+      /**
+       *  Query Collection Hook
+       */
 
       // Types
-      export type FetchDogModelAsQueryQueryResult = QueryResult<FetchDogModelAsQueryQuery, FetchDogModelAsQueryQueryVariables>;
-      export type FetchDogModelAsQueryQueryResultEx = FetchDogModelAsQueryQueryResult & DogModelObjectsHookResultEx;
+      export type QueryDogModelObjectsResult = QueryResult<QueryDogModelObjectsQuery, QueryDogModelObjectsQueryVariables>;
+      export type QueryDogModelObjectsResultEx = QueryDogModelObjectsResult & DogModelObjectsHookResultEx;
 
       // Function
-      function useFetchDogModelAsQueryQuery(options: Omit<QueryHookOptions<FetchDogModelAsQueryQuery, FetchDogModelAsQueryQueryVariables>, "query">): FetchDogModelAsQueryQueryResultEx {
-        const query:FetchDogModelAsQueryQueryResult = useQuery<FetchDogModelAsQueryQuery, FetchDogModelAsQueryQueryVariables>(FetchDogModelAsQueryDocument, options);
+      function useQueryDogModelObjects(options: Omit<QueryHookOptions<QueryDogModelObjectsQuery, QueryDogModelObjectsQueryVariables>, "query">): QueryDogModelObjectsResultEx {
+        const query:QueryDogModelObjectsResult = useQuery<QueryDogModelObjectsQuery, QueryDogModelObjectsQueryVariables>(QueryDogModelObjectsDocument, options);
         return { ...query, objects: (query && query.data && query.data.dogs) || [] };
       }
       
   
-      // Lazy Fetch Collection Hook
-      //
+      /**
+       *  Lazy Query Collection Hook
+       */
 
       // Types
-      type PickFetchDogModelAsQueryFn = (query: FetchDogModelAsQueryQuery | null | undefined) => DogModelFragment[];
-      type FetchDogModelAsQueryLazyQueryFn = [(options?: QueryLazyOptions<FetchDogModelAsQueryQueryVariables> | undefined) => void, FetchDogModelAsQueryQueryResult]
-      type FetchDogModelAsQueryWrappedLazyQueryFn = (options?: QueryLazyOptions<FetchDogModelAsQueryQueryVariables>) => void;
-      export type FetchDogModelAsQueryLazyQueryReturn = [FetchDogModelAsQueryWrappedLazyQueryFn, FetchDogModelAsQueryQueryResultEx];
+      type PickQueryDogModelObjectsFn = (query: QueryDogModelObjectsQuery | null | undefined) => DogModelFragment[];
+      type QueryDogModelObjectsLazyFn = [(options?: QueryLazyOptions<QueryDogModelObjectsQueryVariables> | undefined) => void, QueryDogModelObjectsResult]
+      type QueryDogModelObjectsWrappedLazyFn = (options?: QueryLazyOptions<QueryDogModelObjectsQueryVariables>) => void;
+      export type QueryDogModelObjectsLazyReturn = [QueryDogModelObjectsWrappedLazyFn, QueryDogModelObjectsResultEx];
 
       // Function
-      function useFetchDogModelAsQueryLazyQuery(options?: Omit<LazyQueryHookOptions<FetchDogModelAsQueryQuery, FetchDogModelAsQueryQueryVariables>, "query">): FetchDogModelAsQueryLazyQueryReturn {
-        const lazyQuery: FetchDogModelAsQueryLazyQueryFn = useLazyQuery<FetchDogModelAsQueryQuery, FetchDogModelAsQueryQueryVariables>(FetchDogModelAsQueryDocument, options);
-        const pickObjects: PickFetchDogModelAsQueryFn = (query: FetchDogModelAsQueryQuery | null | undefined) => { return (query && query.dogs) || []; };
-        const wrappedLazyQuery: FetchDogModelAsQueryWrappedLazyQueryFn = (options) => { return lazyQuery[0]( options ); };
+      function useQueryDogModelObjectsLazy(options?: Omit<LazyQueryHookOptions<QueryDogModelObjectsQuery, QueryDogModelObjectsQueryVariables>, "query">): QueryDogModelObjectsLazyReturn {
+        const lazyQuery: QueryDogModelObjectsLazyFn = useLazyQuery<QueryDogModelObjectsQuery, QueryDogModelObjectsQueryVariables>(QueryDogModelObjectsDocument, options);
+        const pickObjects: PickQueryDogModelObjectsFn = (query: QueryDogModelObjectsQuery | null | undefined) => { return (query && query.dogs) || []; };
+        const wrappedLazyQuery: QueryDogModelObjectsWrappedLazyFn = (options) => { return lazyQuery[0]( options ); };
         return [wrappedLazyQuery, { ...lazyQuery[1], objects: pickObjects(lazyQuery[1].data) }] as [typeof wrappedLazyQuery, typeof lazyQuery[1] & { objects: ReturnType<typeof pickObjects> }];
       }
     
 
-  // Insert Hooks
-  //
+  /**
+   *  Insert Hooks
+   */
 
   // Types
   type InsertDogModelMutationResult = FetchResult<InsertDogModelMutation, Record<string, any>, Record<string, any>>;
@@ -863,8 +797,9 @@ import { RemoveDogsModelByIdDocument } from '../';
   }
   
 
-    // Update Hooks
-    //
+    /**
+     *  Update Hooks
+     */
     
     type UpdateDogModelByIdMutationResult = FetchResult<UpdateDogModelByIdMutation, Record<string, any>, Record<string, any>>;
     export type UpdateDogModelByIdMutationResultEx = UpdateDogModelByIdMutationResult & DogModelByIdHookResultEx;
@@ -922,8 +857,9 @@ import { RemoveDogsModelByIdDocument } from '../';
     }
   
 
-    // Delete Hooks
-    //
+    /**
+     *  Delete Hooks
+     */
 
     // Types
     type RemoveDogsModelByIdFetchResult = FetchResult<RemoveDogsModelByIdMutation, Record<string, any>, Record<string, any>>;
@@ -987,14 +923,15 @@ import { RemoveDogsModelByIdDocument } from '../';
     }
   
 
-    // DogModel Fragment Hooks Object
-    //------------------------------------------------
+    /*
+     * DogModel FRAGMENT HOOKS OBJECT
+     */
 
     export const DogModelFragmentGQLHooks = {
-      useFetchByIdQuery: useFetchDogModelByIdAsQueryQuery,
-      useFetchByIdLazyQuery: useFetchDogModelByIdAsQueryLazyQuery,
-      useFetchObjectsQuery: useFetchDogModelAsQueryQuery,
-      useFetchObjectsLazyQuery: useFetchDogModelAsQueryLazyQuery,
+      useQueryById: useQueryDogModelById,
+      useQueryByIdLazy: useQueryDogModelByIdLazy,
+      useQueryObjects: useQueryDogModelObjects,
+      useQueryObjectsLazy: useQueryDogModelObjectsLazy,
       useInsert: useInsertDogModel,
       useInsertWithOnConflict: useInsertDogModelWithOnConflict,
       useInsertObjects: useInsertDogModelObjects,
@@ -1003,8 +940,9 @@ import { RemoveDogsModelByIdDocument } from '../';
     }
   
 
-    // dogs Model Hooks Object
-    //------------------------------------------------
+    /*
+    * dogs MODEL HOOKS OBJECT
+    */
 
     export const DogsModelGQLHooks = {
       useRemoveById: useRemoveDogsModelById,
@@ -1012,8 +950,9 @@ import { RemoveDogsModelByIdDocument } from '../';
     }
   
 
-    // COMBINED HOOKS OBJECT
-    //------------------------------------------------
+    /*
+     * COMBINED HOOKS OBJECT
+     */
     export const GQLHooks = {
       Fragments: {
         VehicleGraph: VehicleGraphFragmentGQLHooks,

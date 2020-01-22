@@ -626,24 +626,24 @@
         "signature": "d2fd0ac736563f8d3db1d338b00ca85bcd8dd5b1c8f9a23603006e9d927a1367"
       },
       "../src/utils.ts": {
-        "version": "8a31ed78cb23fdaef3fbf13901865672b1de03852c8ae22b11be1c59079299d0",
-        "signature": "36c4d56998bb49df184e328edc1a7a3af25bbd562ef8004b98d73919da8647f0"
+        "version": "a136b0266de073eb5dc9194d3ad507506c86e0d9e53a3825c6c940be413e41b4",
+        "signature": "7f7da0caeecf5fa2ef3068f04f3bb58fcc1a00a90f5427756781bdd56a8e230f"
       },
       "../src/gqlinjectors.ts": {
-        "version": "11f2a53dfca7cc7429a238a6792f2f2bcd187e206ae679e076acf11852ad9623",
+        "version": "fa1fbf3d2a27ac644e84b256cda5cd9cddb399973ac5b970973b56331a339a19",
         "signature": "16172fabdd337c5efa670da193f5bdc05135ae501c7b22fb0ce52c0675bcc677"
       },
-      "../src/helperinjectors.ts": {
-        "version": "bc585369c2442d1f3cdb5e0cb9aa3efee15f1ba221a122c525da473c17850537",
-        "signature": "2a6b6716e248110c01a4fc5b4076bde29be4baabb7cc1421bfe90c63dc3e9bae"
+      "../src/tshelperinjectors.ts": {
+        "version": "7dae6f3bc62bd83f2a1431cc8d120232247a1c232d897e446da5da3382665408",
+        "signature": "1d09eea9de5f88446d5e6d4a42bd3e728a0f0b9e32b285e856711edd19ca22a6"
       },
       "../src/reactinjectors.ts": {
-        "version": "62406f69e4d8d84b8aafd8fcd178dbb9e7035bbe9ccf08364db268cca59dfb14",
-        "signature": "3c6d10b4b626289e78d012ab23f6ac1bd45bf7bc487afc30f73d3d53f84480dd"
+        "version": "bfc27bfc607e063b50757d4d9bb23c3fe0ef113223ce494632a474ef3d8b9b69",
+        "signature": "906d8ff7264f042a2babbd600eb37c15b45b504f3c46de3b8ddb02f82c60b896"
       },
       "../src/index.ts": {
-        "version": "7379396b8c6003c908cc430c04685117095583691736ffc93269a6ff91c67baa",
-        "signature": "a82805a24e2091534d8ee800bb59af5054c7fdb31f79f2454cc91bbb5401f69e"
+        "version": "482f70b8779284bf2891532bbc24e63d44e2f06e360531891e6373ca9424f1a0",
+        "signature": "c3be183c3115c4a1ca8979e04bb6470814f7ef68d7278ac8cfd0822bcf87f0d1"
       },
       "../src/configinjectors.ts": {
         "version": "ce33d0f2087bdf0c6bbdc3847bb70f26ddc72750e3f5fe34b02061911ddf90a6",
@@ -2221,7 +2221,7 @@
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../src/helperinjectors.ts": [
+      "../src/tshelperinjectors.ts": [
         "../node_modules/graphql/index.d.ts",
         "../src/index.ts",
         "../src/utils.ts",
@@ -2245,7 +2245,7 @@
         "../src/configinjectors.ts",
         "../src/content-manager.ts",
         "../src/gqlinjectors.ts",
-        "../src/helperinjectors.ts",
+        "../src/tshelperinjectors.ts",
         "../src/reactinjectors.ts",
         "../src/utils.ts",
         "../../../node_modules/@types/node/fs.d.ts",
@@ -3984,7 +3984,7 @@
         "../src/index.ts",
         "../node_modules/graphql/index.d.ts"
       ],
-      "../src/helperinjectors.ts": [
+      "../src/tshelperinjectors.ts": [
         "../src/index.ts",
         "../node_modules/graphql/index.d.ts",
         "../node_modules/graphql/type/schema.d.ts"
@@ -3998,7 +3998,7 @@
         "../src/configinjectors.ts",
         "../src/content-manager.ts",
         "../src/gqlinjectors.ts",
-        "../src/helperinjectors.ts",
+        "../src/tshelperinjectors.ts",
         "../src/reactinjectors.ts",
         "../src/utils.ts"
       ],
@@ -4548,7 +4548,7 @@
       "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/index.d.ts",
       "../src/utils.ts",
       "../src/gqlinjectors.ts",
-      "../src/helperinjectors.ts",
+      "../src/tshelperinjectors.ts",
       "../src/index.ts",
       "../src/configinjectors.ts",
       "../src/sharedinjectors.ts",
