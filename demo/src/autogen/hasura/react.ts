@@ -111,15 +111,15 @@ import { RemoveDogsModelByIdDocument } from '../';
     // Types
     type QueryVehicleGraphByIdResult = QueryResult<QueryVehicleGraphByIdQuery, QueryVehicleGraphByIdQueryVariables>;
     type QueryVehicleGraphByIdSubScribeToMore = (options?: Omit<SubscribeToMoreOptions<QueryVehicleGraphByIdQuery, QueryVehicleGraphByIdQueryVariables, QueryVehicleGraphByIdQuery>, 'document' | 'variables'> | undefined) => void
-    export type QueryVehicleGraphByIdResultEx = Omit<QueryVehicleGraphByIdResult & VehicleGraphByIdHookResultEx, 'subscribeToMore'> & { subscribeToMore:QueryVehicleGraphByIdSubScribeToMore };
+    export type QueryVehicleGraphByIdResultEx = Omit<QueryVehicleGraphByIdResult, 'subscribeToMore'> & { subscribeToMore:QueryVehicleGraphByIdSubScribeToMore } & VehicleGraphByIdHookResultEx;
 
     // Function
     function useQueryVehicleGraphById({ vehicleId, options }: { vehicleId: string; options?: Omit<QueryHookOptions<QueryVehicleGraphByIdQuery, QueryVehicleGraphByIdQueryVariables>, "query" | "variables">; }): QueryVehicleGraphByIdResultEx {
       const _query: QueryVehicleGraphByIdResult = useQuery<QueryVehicleGraphByIdQuery, QueryVehicleGraphByIdQueryVariables>(QueryVehicleGraphByIdDocument, { variables: { vehicleId }, ...options });
       
-      const subScribeToMoreOverride:QueryVehicleGraphByIdSubScribeToMore = (options) => { _query.subscribeToMore({document: QueryVehicleGraphByIdDocument, variables: { vehicleId } as QueryVehicleGraphByIdQueryVariables, ...options });}
+      const typedSubscribeToMore:QueryVehicleGraphByIdSubScribeToMore = (options) => { _query.subscribeToMore({document: QueryVehicleGraphByIdDocument, variables: { vehicleId } as QueryVehicleGraphByIdQueryVariables, ...options });}
       const { subscribeToMore, ...query } = _query;      
-      return { ...query, subscribeToMore:subScribeToMoreOverride, vehicleGraph: query?.data?.vehicle_by_pk };
+      return { ...query, subscribeToMore:typedSubscribeToMore, vehicleGraph: query?.data?.vehicle_by_pk };
     }
     
 
@@ -155,12 +155,17 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     // Types
     export type QueryVehicleGraphObjectsResult = QueryResult<QueryVehicleGraphObjectsQuery, QueryVehicleGraphObjectsQueryVariables>;
-    export type QueryVehicleGraphObjectsResultEx = QueryVehicleGraphObjectsResult & VehicleGraphObjectsHookResultEx;
+    type QueryVehicleGraphObjectsSubScribeToMore = (options?: Omit<SubscribeToMoreOptions<QueryVehicleGraphObjectsQuery, QueryVehicleGraphObjectsQueryVariables, QueryVehicleGraphObjectsQuery>, 'document' | 'variables'> | undefined) => void
+    export type QueryVehicleGraphObjectsResultEx = Omit<QueryVehicleGraphObjectsResult, 'subscribeToMore'> & { subscribeToMore:QueryVehicleGraphObjectsSubScribeToMore } & VehicleGraphObjectsHookResultEx;
 
     // Function
     function useQueryVehicleGraphObjects(options: Omit<QueryHookOptions<QueryVehicleGraphObjectsQuery, QueryVehicleGraphObjectsQueryVariables>, "query">): QueryVehicleGraphObjectsResultEx {
-      const query:QueryVehicleGraphObjectsResult = useQuery<QueryVehicleGraphObjectsQuery, QueryVehicleGraphObjectsQueryVariables>(QueryVehicleGraphObjectsDocument, options);
-      return { ...query, objects: query?.data?.vehicle || [] };
+      const _query:QueryVehicleGraphObjectsResult = useQuery<QueryVehicleGraphObjectsQuery, QueryVehicleGraphObjectsQueryVariables>(QueryVehicleGraphObjectsDocument, options);
+
+      const typedSubscribeToMore:QueryVehicleGraphObjectsSubScribeToMore = (options) => { _query.subscribeToMore({document: QueryVehicleGraphObjectsDocument, ...options });}
+      const { subscribeToMore, ...query } = _query;  
+
+      return { ...query, subscribeToMore:typedSubscribeToMore, objects: query?.data?.vehicle || [] };
     }
     
   
@@ -177,9 +182,16 @@ import { RemoveDogsModelByIdDocument } from '../';
     // Function
     function useQueryVehicleGraphObjectsLazy(options?: Omit<LazyQueryHookOptions<QueryVehicleGraphObjectsQuery, QueryVehicleGraphObjectsQueryVariables>, "query">): QueryVehicleGraphObjectsLazyReturn {
       const lazyQuery: QueryVehicleGraphObjectsLazyFn = useLazyQuery<QueryVehicleGraphObjectsQuery, QueryVehicleGraphObjectsQueryVariables>(QueryVehicleGraphObjectsDocument, options);
+      
+      // Setting up typed version of lazyQuery
       const pickObjects: PickQueryVehicleGraphObjectsFn = (query: QueryVehicleGraphObjectsQuery | null | undefined) => { return query?.vehicle || []; };
       const wrappedLazyQuery: QueryVehicleGraphObjectsWrappedLazyFn = (options) => { return lazyQuery[0]( options ); };
-      return [wrappedLazyQuery, { ...lazyQuery[1], objects: pickObjects(lazyQuery[1].data) }] as [typeof wrappedLazyQuery, typeof lazyQuery[1] & { objects: ReturnType<typeof pickObjects> }];
+      
+      // Switching out SubcribeToMore with typed version
+      const typedSubcribeToMore:QueryVehicleGraphObjectsSubScribeToMore = (options) => { lazyQuery[1].subscribeToMore({document: QueryVehicleGraphObjectsDocument, ...options });}
+      const { subscribeToMore, ...lazyQueryResult } = lazyQuery[1];  
+      
+      return [wrappedLazyQuery, { ...lazyQueryResult, subscribeToMore:typedSubcribeToMore, objects: pickObjects(lazyQuery[1].data) }];
     }
   
      
@@ -425,26 +437,26 @@ import { RemoveDogsModelByIdDocument } from '../';
     }
   
 
-    /*
-     * VehicleGraph FRAGMENT HOOKS OBJECT
-     */
+    // VehicleGraph Fragment Helper Object
+    //------------------------------------------------
 
     export const VehicleGraphFragmentGQLHooks = {
       useQueryById: useQueryVehicleGraphById,
       useQueryByIdLazy: useQueryVehicleGraphByIdLazy,
       useQueryObjects: useQueryVehicleGraphObjects,
       useQueryObjectsLazy: useQueryVehicleGraphObjectsLazy,
+      useSubscriptionById: useSubscribeToVehicleGraphById,
+      useSubscriptionObjects: useSubscribeToVehicleGraphObjects,
       useInsert: useInsertVehicleGraph,
       useInsertWithOnConflict: useInsertVehicleGraphWithOnConflict,
       useInsertObjects: useInsertVehicleGraphObjects,
       useUpdateById: useUpdateVehicleGraphById,
       useUpdateObjects: useUpdateVehicleGraphObjects,
     }
-  
+    
 
-    /*
-    * vehicle MODEL HOOKS OBJECT
-    */
+    // vehicle MODEL HOOKS OBJECT
+    //------------------------------------------------
 
     export const VehicleModelGQLHooks = {
       useRemoveById: useRemoveVehicleModelById,
@@ -467,15 +479,15 @@ import { RemoveDogsModelByIdDocument } from '../';
     // Types
     type QueryVehicleGraphLocationOnlyByIdResult = QueryResult<QueryVehicleGraphLocationOnlyByIdQuery, QueryVehicleGraphLocationOnlyByIdQueryVariables>;
     type QueryVehicleGraphLocationOnlyByIdSubScribeToMore = (options?: Omit<SubscribeToMoreOptions<QueryVehicleGraphLocationOnlyByIdQuery, QueryVehicleGraphLocationOnlyByIdQueryVariables, QueryVehicleGraphLocationOnlyByIdQuery>, 'document' | 'variables'> | undefined) => void
-    export type QueryVehicleGraphLocationOnlyByIdResultEx = Omit<QueryVehicleGraphLocationOnlyByIdResult & VehicleGraphLocationOnlyByIdHookResultEx, 'subscribeToMore'> & { subscribeToMore:QueryVehicleGraphLocationOnlyByIdSubScribeToMore };
+    export type QueryVehicleGraphLocationOnlyByIdResultEx = Omit<QueryVehicleGraphLocationOnlyByIdResult, 'subscribeToMore'> & { subscribeToMore:QueryVehicleGraphLocationOnlyByIdSubScribeToMore } & VehicleGraphLocationOnlyByIdHookResultEx;
 
     // Function
     function useQueryVehicleGraphLocationOnlyById({ vehicleId, options }: { vehicleId: string; options?: Omit<QueryHookOptions<QueryVehicleGraphLocationOnlyByIdQuery, QueryVehicleGraphLocationOnlyByIdQueryVariables>, "query" | "variables">; }): QueryVehicleGraphLocationOnlyByIdResultEx {
       const _query: QueryVehicleGraphLocationOnlyByIdResult = useQuery<QueryVehicleGraphLocationOnlyByIdQuery, QueryVehicleGraphLocationOnlyByIdQueryVariables>(QueryVehicleGraphLocationOnlyByIdDocument, { variables: { vehicleId }, ...options });
       
-      const subScribeToMoreOverride:QueryVehicleGraphLocationOnlyByIdSubScribeToMore = (options) => { _query.subscribeToMore({document: QueryVehicleGraphLocationOnlyByIdDocument, variables: { vehicleId } as QueryVehicleGraphLocationOnlyByIdQueryVariables, ...options });}
+      const typedSubscribeToMore:QueryVehicleGraphLocationOnlyByIdSubScribeToMore = (options) => { _query.subscribeToMore({document: QueryVehicleGraphLocationOnlyByIdDocument, variables: { vehicleId } as QueryVehicleGraphLocationOnlyByIdQueryVariables, ...options });}
       const { subscribeToMore, ...query } = _query;      
-      return { ...query, subscribeToMore:subScribeToMoreOverride, vehicleGraphLocationOnly: query?.data?.vehicle_by_pk };
+      return { ...query, subscribeToMore:typedSubscribeToMore, vehicleGraphLocationOnly: query?.data?.vehicle_by_pk };
     }
     
 
@@ -511,12 +523,17 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     // Types
     export type QueryVehicleGraphLocationOnlyObjectsResult = QueryResult<QueryVehicleGraphLocationOnlyObjectsQuery, QueryVehicleGraphLocationOnlyObjectsQueryVariables>;
-    export type QueryVehicleGraphLocationOnlyObjectsResultEx = QueryVehicleGraphLocationOnlyObjectsResult & VehicleGraphLocationOnlyObjectsHookResultEx;
+    type QueryVehicleGraphLocationOnlyObjectsSubScribeToMore = (options?: Omit<SubscribeToMoreOptions<QueryVehicleGraphLocationOnlyObjectsQuery, QueryVehicleGraphLocationOnlyObjectsQueryVariables, QueryVehicleGraphLocationOnlyObjectsQuery>, 'document' | 'variables'> | undefined) => void
+    export type QueryVehicleGraphLocationOnlyObjectsResultEx = Omit<QueryVehicleGraphLocationOnlyObjectsResult, 'subscribeToMore'> & { subscribeToMore:QueryVehicleGraphLocationOnlyObjectsSubScribeToMore } & VehicleGraphLocationOnlyObjectsHookResultEx;
 
     // Function
     function useQueryVehicleGraphLocationOnlyObjects(options: Omit<QueryHookOptions<QueryVehicleGraphLocationOnlyObjectsQuery, QueryVehicleGraphLocationOnlyObjectsQueryVariables>, "query">): QueryVehicleGraphLocationOnlyObjectsResultEx {
-      const query:QueryVehicleGraphLocationOnlyObjectsResult = useQuery<QueryVehicleGraphLocationOnlyObjectsQuery, QueryVehicleGraphLocationOnlyObjectsQueryVariables>(QueryVehicleGraphLocationOnlyObjectsDocument, options);
-      return { ...query, objects: query?.data?.vehicle || [] };
+      const _query:QueryVehicleGraphLocationOnlyObjectsResult = useQuery<QueryVehicleGraphLocationOnlyObjectsQuery, QueryVehicleGraphLocationOnlyObjectsQueryVariables>(QueryVehicleGraphLocationOnlyObjectsDocument, options);
+
+      const typedSubscribeToMore:QueryVehicleGraphLocationOnlyObjectsSubScribeToMore = (options) => { _query.subscribeToMore({document: QueryVehicleGraphLocationOnlyObjectsDocument, ...options });}
+      const { subscribeToMore, ...query } = _query;  
+
+      return { ...query, subscribeToMore:typedSubscribeToMore, objects: query?.data?.vehicle || [] };
     }
     
   
@@ -533,9 +550,16 @@ import { RemoveDogsModelByIdDocument } from '../';
     // Function
     function useQueryVehicleGraphLocationOnlyObjectsLazy(options?: Omit<LazyQueryHookOptions<QueryVehicleGraphLocationOnlyObjectsQuery, QueryVehicleGraphLocationOnlyObjectsQueryVariables>, "query">): QueryVehicleGraphLocationOnlyObjectsLazyReturn {
       const lazyQuery: QueryVehicleGraphLocationOnlyObjectsLazyFn = useLazyQuery<QueryVehicleGraphLocationOnlyObjectsQuery, QueryVehicleGraphLocationOnlyObjectsQueryVariables>(QueryVehicleGraphLocationOnlyObjectsDocument, options);
+      
+      // Setting up typed version of lazyQuery
       const pickObjects: PickQueryVehicleGraphLocationOnlyObjectsFn = (query: QueryVehicleGraphLocationOnlyObjectsQuery | null | undefined) => { return query?.vehicle || []; };
       const wrappedLazyQuery: QueryVehicleGraphLocationOnlyObjectsWrappedLazyFn = (options) => { return lazyQuery[0]( options ); };
-      return [wrappedLazyQuery, { ...lazyQuery[1], objects: pickObjects(lazyQuery[1].data) }] as [typeof wrappedLazyQuery, typeof lazyQuery[1] & { objects: ReturnType<typeof pickObjects> }];
+      
+      // Switching out SubcribeToMore with typed version
+      const typedSubcribeToMore:QueryVehicleGraphLocationOnlyObjectsSubScribeToMore = (options) => { lazyQuery[1].subscribeToMore({document: QueryVehicleGraphLocationOnlyObjectsDocument, ...options });}
+      const { subscribeToMore, ...lazyQueryResult } = lazyQuery[1];  
+      
+      return [wrappedLazyQuery, { ...lazyQueryResult, subscribeToMore:typedSubcribeToMore, objects: pickObjects(lazyQuery[1].data) }];
     }
   
      
@@ -715,22 +739,23 @@ import { RemoveDogsModelByIdDocument } from '../';
     }
   
 
-    /*
-     * VehicleGraphLocationOnly FRAGMENT HOOKS OBJECT
-     */
+    // VehicleGraphLocationOnly Fragment Helper Object
+    //------------------------------------------------
 
     export const VehicleGraphLocationOnlyFragmentGQLHooks = {
       useQueryById: useQueryVehicleGraphLocationOnlyById,
       useQueryByIdLazy: useQueryVehicleGraphLocationOnlyByIdLazy,
       useQueryObjects: useQueryVehicleGraphLocationOnlyObjects,
       useQueryObjectsLazy: useQueryVehicleGraphLocationOnlyObjectsLazy,
+      useSubscriptionById: useSubscribeToVehicleGraphLocationOnlyById,
+      useSubscriptionObjects: useSubscribeToVehicleGraphLocationOnlyObjects,
       useInsert: useInsertVehicleGraphLocationOnly,
       useInsertWithOnConflict: useInsertVehicleGraphLocationOnlyWithOnConflict,
       useInsertObjects: useInsertVehicleGraphLocationOnlyObjects,
       useUpdateById: useUpdateVehicleGraphLocationOnlyById,
       useUpdateObjects: useUpdateVehicleGraphLocationOnlyObjects,
     }
-  
+    
 
     // dogs REACT
     //------------------------------------------------
@@ -747,15 +772,15 @@ import { RemoveDogsModelByIdDocument } from '../';
     // Types
     type QueryDogModelByIdResult = QueryResult<QueryDogModelByIdQuery, QueryDogModelByIdQueryVariables>;
     type QueryDogModelByIdSubScribeToMore = (options?: Omit<SubscribeToMoreOptions<QueryDogModelByIdQuery, QueryDogModelByIdQueryVariables, QueryDogModelByIdQuery>, 'document' | 'variables'> | undefined) => void
-    export type QueryDogModelByIdResultEx = Omit<QueryDogModelByIdResult & DogModelByIdHookResultEx, 'subscribeToMore'> & { subscribeToMore:QueryDogModelByIdSubScribeToMore };
+    export type QueryDogModelByIdResultEx = Omit<QueryDogModelByIdResult, 'subscribeToMore'> & { subscribeToMore:QueryDogModelByIdSubScribeToMore } & DogModelByIdHookResultEx;
 
     // Function
     function useQueryDogModelById({ dogsId, options }: { dogsId: string; options?: Omit<QueryHookOptions<QueryDogModelByIdQuery, QueryDogModelByIdQueryVariables>, "query" | "variables">; }): QueryDogModelByIdResultEx {
       const _query: QueryDogModelByIdResult = useQuery<QueryDogModelByIdQuery, QueryDogModelByIdQueryVariables>(QueryDogModelByIdDocument, { variables: { dogsId }, ...options });
       
-      const subScribeToMoreOverride:QueryDogModelByIdSubScribeToMore = (options) => { _query.subscribeToMore({document: QueryDogModelByIdDocument, variables: { dogsId } as QueryDogModelByIdQueryVariables, ...options });}
+      const typedSubscribeToMore:QueryDogModelByIdSubScribeToMore = (options) => { _query.subscribeToMore({document: QueryDogModelByIdDocument, variables: { dogsId } as QueryDogModelByIdQueryVariables, ...options });}
       const { subscribeToMore, ...query } = _query;      
-      return { ...query, subscribeToMore:subScribeToMoreOverride, dogModel: query?.data?.dogs_by_pk };
+      return { ...query, subscribeToMore:typedSubscribeToMore, dogModel: query?.data?.dogs_by_pk };
     }
     
 
@@ -791,12 +816,17 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     // Types
     export type QueryDogModelObjectsResult = QueryResult<QueryDogModelObjectsQuery, QueryDogModelObjectsQueryVariables>;
-    export type QueryDogModelObjectsResultEx = QueryDogModelObjectsResult & DogModelObjectsHookResultEx;
+    type QueryDogModelObjectsSubScribeToMore = (options?: Omit<SubscribeToMoreOptions<QueryDogModelObjectsQuery, QueryDogModelObjectsQueryVariables, QueryDogModelObjectsQuery>, 'document' | 'variables'> | undefined) => void
+    export type QueryDogModelObjectsResultEx = Omit<QueryDogModelObjectsResult, 'subscribeToMore'> & { subscribeToMore:QueryDogModelObjectsSubScribeToMore } & DogModelObjectsHookResultEx;
 
     // Function
     function useQueryDogModelObjects(options: Omit<QueryHookOptions<QueryDogModelObjectsQuery, QueryDogModelObjectsQueryVariables>, "query">): QueryDogModelObjectsResultEx {
-      const query:QueryDogModelObjectsResult = useQuery<QueryDogModelObjectsQuery, QueryDogModelObjectsQueryVariables>(QueryDogModelObjectsDocument, options);
-      return { ...query, objects: query?.data?.dogs || [] };
+      const _query:QueryDogModelObjectsResult = useQuery<QueryDogModelObjectsQuery, QueryDogModelObjectsQueryVariables>(QueryDogModelObjectsDocument, options);
+
+      const typedSubscribeToMore:QueryDogModelObjectsSubScribeToMore = (options) => { _query.subscribeToMore({document: QueryDogModelObjectsDocument, ...options });}
+      const { subscribeToMore, ...query } = _query;  
+
+      return { ...query, subscribeToMore:typedSubscribeToMore, objects: query?.data?.dogs || [] };
     }
     
   
@@ -813,9 +843,16 @@ import { RemoveDogsModelByIdDocument } from '../';
     // Function
     function useQueryDogModelObjectsLazy(options?: Omit<LazyQueryHookOptions<QueryDogModelObjectsQuery, QueryDogModelObjectsQueryVariables>, "query">): QueryDogModelObjectsLazyReturn {
       const lazyQuery: QueryDogModelObjectsLazyFn = useLazyQuery<QueryDogModelObjectsQuery, QueryDogModelObjectsQueryVariables>(QueryDogModelObjectsDocument, options);
+      
+      // Setting up typed version of lazyQuery
       const pickObjects: PickQueryDogModelObjectsFn = (query: QueryDogModelObjectsQuery | null | undefined) => { return query?.dogs || []; };
       const wrappedLazyQuery: QueryDogModelObjectsWrappedLazyFn = (options) => { return lazyQuery[0]( options ); };
-      return [wrappedLazyQuery, { ...lazyQuery[1], objects: pickObjects(lazyQuery[1].data) }] as [typeof wrappedLazyQuery, typeof lazyQuery[1] & { objects: ReturnType<typeof pickObjects> }];
+      
+      // Switching out SubcribeToMore with typed version
+      const typedSubcribeToMore:QueryDogModelObjectsSubScribeToMore = (options) => { lazyQuery[1].subscribeToMore({document: QueryDogModelObjectsDocument, ...options });}
+      const { subscribeToMore, ...lazyQueryResult } = lazyQuery[1];  
+      
+      return [wrappedLazyQuery, { ...lazyQueryResult, subscribeToMore:typedSubcribeToMore, objects: pickObjects(lazyQuery[1].data) }];
     }
   
      
@@ -1061,26 +1098,26 @@ import { RemoveDogsModelByIdDocument } from '../';
     }
   
 
-    /*
-     * DogModel FRAGMENT HOOKS OBJECT
-     */
+    // DogModel Fragment Helper Object
+    //------------------------------------------------
 
     export const DogModelFragmentGQLHooks = {
       useQueryById: useQueryDogModelById,
       useQueryByIdLazy: useQueryDogModelByIdLazy,
       useQueryObjects: useQueryDogModelObjects,
       useQueryObjectsLazy: useQueryDogModelObjectsLazy,
+      useSubscriptionById: useSubscribeToDogModelById,
+      useSubscriptionObjects: useSubscribeToDogModelObjects,
       useInsert: useInsertDogModel,
       useInsertWithOnConflict: useInsertDogModelWithOnConflict,
       useInsertObjects: useInsertDogModelObjects,
       useUpdateById: useUpdateDogModelById,
       useUpdateObjects: useUpdateDogModelObjects,
     }
-  
+    
 
-    /*
-    * dogs MODEL HOOKS OBJECT
-    */
+    // dogs MODEL HOOKS OBJECT
+    //------------------------------------------------
 
     export const DogsModelGQLHooks = {
       useRemoveById: useRemoveDogsModelById,

@@ -69,9 +69,10 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
     fragmentDefinitionNodes: documentFragments,
     schemaTypeMap: typeMap,
     trimString: config.trimString,
+    withQueries: config.withQueries,
+    withSubscriptions: config.withSubscriptions,
     withUpdates: config.withUpdates,
     withInserts: config.withInserts,
-    withQueries: config.withQueries,
     withDeletes: config.withDeletes
   });
 
@@ -130,9 +131,10 @@ function injectEntitySharedTypeScriptPost(
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
     typescriptCodegenOutputPath: config.typescriptCodegenOutputPath,
-    withUpdates: config.withUpdates,
-    withInserts: config.withInserts,
     withQueries: config.withQueries,
+    withSubscriptions: config.withSubscriptions,
+    withInserts: config.withInserts,
+    withUpdates: config.withUpdates,
     withDeletes: config.withDeletes
   });
 }

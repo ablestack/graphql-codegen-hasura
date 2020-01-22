@@ -53,15 +53,15 @@ function injectQueryReact({ contentManager, entityName, fragmentName, trimString
     // Types
     type ${queryByIdName}Result = QueryResult<${queryByIdName}Query, ${queryByIdName}QueryVariables>;
     type ${queryByIdName}SubScribeToMore = (options?: Omit<SubscribeToMoreOptions<${queryByIdName}Query, ${queryByIdName}QueryVariables, ${queryByIdName}Query>, 'document' | 'variables'> | undefined) => void
-    export type ${queryByIdName}ResultEx = Omit<${queryByIdName}Result & ${fragmentName}ByIdHookResultEx, 'subscribeToMore'> & { subscribeToMore:${queryByIdName}SubScribeToMore };
+    export type ${queryByIdName}ResultEx = Omit<${queryByIdName}Result, 'subscribeToMore'> & { subscribeToMore:${queryByIdName}SubScribeToMore } & ${fragmentName}ByIdHookResultEx;
 
     // Function
     function use${queryByIdName}({ ${entityShortCamelCaseName}Id, options }: { ${entityShortCamelCaseName}Id: string; options?: Omit<QueryHookOptions<${queryByIdName}Query, ${queryByIdName}QueryVariables>, "query" | "variables">; }): ${queryByIdName}ResultEx {
       const _query: ${queryByIdName}Result = useQuery<${queryByIdName}Query, ${queryByIdName}QueryVariables>(${queryByIdName}Document, { variables: { ${entityShortCamelCaseName}Id }, ...options });
       
-      const subScribeToMoreOverride:${queryByIdName}SubScribeToMore = (options) => { _query.subscribeToMore({document: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id } as ${queryByIdName}QueryVariables, ...options });}
+      const typedSubscribeToMore:${queryByIdName}SubScribeToMore = (options) => { _query.subscribeToMore({document: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id } as ${queryByIdName}QueryVariables, ...options });}
       const { subscribeToMore, ...query } = _query;      
-      return { ...query, subscribeToMore:subScribeToMoreOverride, ${fragmentNameCamelCase}: query?.data?.${entityName}_by_pk };
+      return { ...query, subscribeToMore:typedSubscribeToMore, ${fragmentNameCamelCase}: query?.data?.${entityName}_by_pk };
     }
     `);
         contentManager.addContent(`
@@ -98,12 +98,17 @@ function injectQueryReact({ contentManager, entityName, fragmentName, trimString
 
     // Types
     export type ${queryObjectsName}Result = QueryResult<${queryObjectsName}Query, ${queryObjectsName}QueryVariables>;
-    export type ${queryObjectsName}ResultEx = ${queryObjectsName}Result & ${fragmentName}ObjectsHookResultEx;
+    type ${queryObjectsName}SubScribeToMore = (options?: Omit<SubscribeToMoreOptions<${queryObjectsName}Query, ${queryObjectsName}QueryVariables, ${queryObjectsName}Query>, 'document' | 'variables'> | undefined) => void
+    export type ${queryObjectsName}ResultEx = Omit<${queryObjectsName}Result, 'subscribeToMore'> & { subscribeToMore:${queryObjectsName}SubScribeToMore } & ${fragmentName}ObjectsHookResultEx;
 
     // Function
     function use${queryObjectsName}(options: Omit<QueryHookOptions<${queryObjectsName}Query, ${queryObjectsName}QueryVariables>, "query">): ${queryObjectsName}ResultEx {
-      const query:${queryObjectsName}Result = useQuery<${queryObjectsName}Query, ${queryObjectsName}QueryVariables>(${queryObjectsName}Document, options);
-      return { ...query, objects: query?.data?.${entityName} || [] };
+      const _query:${queryObjectsName}Result = useQuery<${queryObjectsName}Query, ${queryObjectsName}QueryVariables>(${queryObjectsName}Document, options);
+
+      const typedSubscribeToMore:${queryObjectsName}SubScribeToMore = (options) => { _query.subscribeToMore({document: ${queryObjectsName}Document, ...options });}
+      const { subscribeToMore, ...query } = _query;  
+
+      return { ...query, subscribeToMore:typedSubscribeToMore, objects: query?.data?.${entityName} || [] };
     }
     `);
     contentManager.addContent(`  
@@ -120,9 +125,16 @@ function injectQueryReact({ contentManager, entityName, fragmentName, trimString
     // Function
     function use${queryObjectsName}Lazy(options?: Omit<LazyQueryHookOptions<${queryObjectsName}Query, ${queryObjectsName}QueryVariables>, "query">): ${queryObjectsName}LazyReturn {
       const lazyQuery: ${queryObjectsName}LazyFn = useLazyQuery<${queryObjectsName}Query, ${queryObjectsName}QueryVariables>(${queryObjectsName}Document, options);
+      
+      // Setting up typed version of lazyQuery
       const pickObjects: Pick${queryObjectsName}Fn = (query: ${queryObjectsName}Query | null | undefined) => { return query?.${entityName} || []; };
       const wrappedLazyQuery: ${queryObjectsName}WrappedLazyFn = (options) => { return lazyQuery[0]( options ); };
-      return [wrappedLazyQuery, { ...lazyQuery[1], objects: pickObjects(lazyQuery[1].data) }] as [typeof wrappedLazyQuery, typeof lazyQuery[1] & { objects: ReturnType<typeof pickObjects> }];
+      
+      // Switching out SubcribeToMore with typed version
+      const typedSubcribeToMore:${queryObjectsName}SubScribeToMore = (options) => { lazyQuery[1].subscribeToMore({document: ${queryObjectsName}Document, ...options });}
+      const { subscribeToMore, ...lazyQueryResult } = lazyQuery[1];  
+      
+      return [wrappedLazyQuery, { ...lazyQueryResult, subscribeToMore:typedSubcribeToMore, objects: pickObjects(lazyQuery[1].data) }];
     }
   `);
     if (primaryKeyIdField)
@@ -453,45 +465,61 @@ function injectDeleteReact({ contentManager, entityName, fragmentName, trimStrin
 exports.injectDeleteReact = injectDeleteReact;
 // ---------------------------------
 //
-function injectSharedReactPost({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, withQueries, withInserts, withUpdates, withDeletes }) {
+function injectSharedReactPost({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, withQueries, withSubscriptions, withInserts, withUpdates, withDeletes }) {
     const entityModelName = _1.makeModelName(entityName, trimString);
     const queryByIdName = `Query${fragmentName}ById`;
     const queryObjectsName = `Query${fragmentName}Objects`;
-    (withQueries || withInserts || withUpdates) &&
-        contentManager.addContent(`
-    /*
-     * ${fragmentName} FRAGMENT HOOKS OBJECT
-     */
+    const subscribeByIdName = `SubscribeTo${fragmentName}ById`;
+    const subscribeByObjectsName = `SubscribeTo${fragmentName}Objects`;
+    if (withQueries || withInserts || withUpdates || withSubscriptions) {
+        let fragmentHooksObject = `
+    // ${fragmentName} Fragment Helper Object
+    //------------------------------------------------
 
-    export const ${fragmentName}FragmentGQLHooks = {
-      ${withQueries && `useQueryById: use${queryByIdName}`},
-      ${withQueries && `useQueryByIdLazy: use${queryByIdName}Lazy`},
-      ${withQueries && `useQueryObjects: use${queryObjectsName}`},
-      ${withQueries && `useQueryObjectsLazy: use${queryObjectsName}Lazy`},
-      ${withInserts && `useInsert: useInsert${fragmentName}`},
-      ${withInserts && `useInsertWithOnConflict: useInsert${fragmentName}WithOnConflict`},
-      ${withInserts && `useInsertObjects: useInsert${fragmentName}Objects`},
-      ${withUpdates && `useUpdateById: useUpdate${fragmentName}ById`},
-      ${withUpdates && `useUpdateObjects: useUpdate${fragmentName}Objects`},
+    export const ${fragmentName}FragmentGQLHooks = {\n`;
+        if (withQueries)
+            fragmentHooksObject += `      useQueryById: use${queryByIdName},\n`;
+        if (withQueries)
+            fragmentHooksObject += `      useQueryByIdLazy: use${queryByIdName}Lazy,\n`;
+        if (withQueries)
+            fragmentHooksObject += `      useQueryObjects: use${queryObjectsName},\n`;
+        if (withQueries)
+            fragmentHooksObject += `      useQueryObjectsLazy: use${queryObjectsName}Lazy,\n`;
+        if (withSubscriptions)
+            fragmentHooksObject += `      useSubscriptionById: use${subscribeByIdName},\n`;
+        if (withSubscriptions)
+            fragmentHooksObject += `      useSubscriptionObjects: use${subscribeByObjectsName},\n`;
+        if (withInserts)
+            fragmentHooksObject += `      useInsert: useInsert${fragmentName},\n`;
+        if (withInserts)
+            fragmentHooksObject += `      useInsertWithOnConflict: useInsert${fragmentName}WithOnConflict,\n`;
+        if (withInserts)
+            fragmentHooksObject += `      useInsertObjects: useInsert${fragmentName}Objects,\n`;
+        if (withUpdates)
+            fragmentHooksObject += `      useUpdateById: useUpdate${fragmentName}ById,\n`;
+        if (withUpdates)
+            fragmentHooksObject += `      useUpdateObjects: useUpdate${fragmentName}Objects,\n`;
+        fragmentHooksObject += `    }
+    `;
+        contentManager.addContent(fragmentHooksObject);
     }
-  `);
     if (withDeletes) {
-        contentManager.addContent(`
-    /*
-    * ${entityName} MODEL HOOKS OBJECT
-    */
+        let entityHooksObject = `
+    // ${entityName} MODEL HOOKS OBJECT
+    //------------------------------------------------
 
     export const ${entityModelName}GQLHooks = {
-      ${withDeletes && `useRemoveById: useRemove${entityModelName}ById`},
-      ${withDeletes && `useRemoveObjects: useRemove${entityModelName}Objects`}
+      useRemoveById: useRemove${entityModelName}ById,
+      useRemoveObjects: useRemove${entityModelName}Objects
     }
-  `);
+  `;
+        contentManager.addContent(entityHooksObject);
     }
 }
 exports.injectSharedReactPost = injectSharedReactPost;
 // ---------------------------------
 //
-function injectGlobalReactCodePost({ contentManager, fragmentDefinitionNodes, schemaTypeMap, trimString, withQueries, withInserts, withUpdates, withDeletes }) {
+function injectGlobalReactCodePost({ contentManager, fragmentDefinitionNodes, schemaTypeMap, trimString, withQueries, withSubscriptions, withInserts, withUpdates, withDeletes }) {
     const uniqueModelNamesFromFragments = utils_1.getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString }).map(entityName => `${_1.makeModelName(entityName, trimString)}`);
     contentManager.addContent(`
     /*

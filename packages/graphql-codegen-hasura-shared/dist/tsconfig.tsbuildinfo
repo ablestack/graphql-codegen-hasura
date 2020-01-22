@@ -638,8 +638,8 @@
         "signature": "1d09eea9de5f88446d5e6d4a42bd3e728a0f0b9e32b285e856711edd19ca22a6"
       },
       "../src/reactinjectors.ts": {
-        "version": "4046b4ea504410c24ce64dae173d741e44e729945d90d2cfc4e1b835b32f44bc",
-        "signature": "5f65124e487fa308bebd07bde5c0ca367d359b07e72f0b6801b13d603d01f01d"
+        "version": "9cf3d077583be2e5347e6efba16c50d15b8655449cbed50924504b3c5c4179d0",
+        "signature": "17bacbe75aa6f6558ff58c9584e21488d19d6ae3a677d2d543b6e7e0df58770f"
       },
       "../src/index.ts": {
         "version": "482f70b8779284bf2891532bbc24e63d44e2f06e360531891e6373ca9424f1a0",

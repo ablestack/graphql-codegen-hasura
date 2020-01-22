@@ -54,7 +54,7 @@ export declare function injectDeleteReact({ contentManager, entityName, fragment
     primaryKeyIdField: FieldDefinitionNode;
     typescriptCodegenOutputPath: string;
 }): void;
-export declare function injectSharedReactPost({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, withQueries, withInserts, withUpdates, withDeletes }: {
+export declare function injectSharedReactPost({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, withQueries, withSubscriptions, withInserts, withUpdates, withDeletes }: {
     contentManager: ContentManager;
     entityName: string;
     fragmentName: string;
@@ -62,16 +62,18 @@ export declare function injectSharedReactPost({ contentManager, entityName, frag
     primaryKeyIdField: FieldDefinitionNode;
     typescriptCodegenOutputPath: string;
     withQueries?: boolean;
+    withSubscriptions?: boolean;
     withInserts?: boolean;
     withUpdates?: boolean;
     withDeletes?: boolean;
 }): void;
-export declare function injectGlobalReactCodePost({ contentManager, fragmentDefinitionNodes, schemaTypeMap, trimString, withQueries, withInserts, withUpdates, withDeletes }: {
+export declare function injectGlobalReactCodePost({ contentManager, fragmentDefinitionNodes, schemaTypeMap, trimString, withQueries, withSubscriptions, withInserts, withUpdates, withDeletes }: {
     contentManager: ContentManager;
     fragmentDefinitionNodes: FragmentDefinitionNode[];
     schemaTypeMap: TypeMap;
     trimString?: string;
     withQueries?: boolean;
+    withSubscriptions?: boolean;
     withInserts?: boolean;
     withUpdates?: boolean;
     withDeletes?: boolean;
