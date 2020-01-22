@@ -174,11 +174,11 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     // Subscription Fetch ById Helper
     //
-    export type SubscribeToVehicleGraphByIdSubscriptionResult = FetchResult<SubscribeToVehicleGraphByIdSubscription, Record<string, any>, Record<string, any>>;
-    export type SubscribeToVehicleGraphByIdSubscriptionResultEx = FetchResult<SubscribeToVehicleGraphByIdSubscription & VehicleGraphByIdHelperResultEx, Record<string, any>, Record<string, any>>;
+    export type SubscribeToVehicleGraphByIdSubscriptionFetchResult = FetchResult<SubscribeToVehicleGraphByIdSubscription, Record<string, any>, Record<string, any>>;
+    export type SubscribeToVehicleGraphByIdSubscriptionFetchResultEx = FetchResult<SubscribeToVehicleGraphByIdSubscription & VehicleGraphByIdHelperResultEx, Record<string, any>, Record<string, any>>;
     
-    async function subscribeToVehicleGraphById({ apolloClient, vehicleId, options }: { apolloClient: ApolloClient<object>, vehicleId:string, options: Omit<SubscriptionOptions<SubscribeToVehicleGraphByIdSubscriptionVariables>, 'query' | 'variables'> }): Promise<Observable<SubscribeToVehicleGraphByIdSubscriptionResultEx>> {
-      const subscription:Observable<SubscribeToVehicleGraphByIdSubscriptionResult> = apolloClient.subscribe<SubscribeToVehicleGraphByIdSubscription>({ query: SubscribeToVehicleGraphByIdDocument, variables: { vehicleId }, ...options });
+    async function subscribeToVehicleGraphById({ apolloClient, vehicleId, options }: { apolloClient: ApolloClient<object>, vehicleId:string, options: Omit<SubscriptionOptions<SubscribeToVehicleGraphByIdSubscriptionVariables>, 'query' | 'variables'> }): Promise<Observable<SubscribeToVehicleGraphByIdSubscriptionFetchResultEx>> {
+      const subscription:Observable<SubscribeToVehicleGraphByIdSubscriptionFetchResult> = apolloClient.subscribe<SubscribeToVehicleGraphByIdSubscription>({ query: SubscribeToVehicleGraphByIdDocument, variables: { vehicleId }, ...options });
       
       return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, vehicleGraph:value?.data?.vehicle_by_pk || [] }  as SubscribeToVehicleGraphByIdSubscriptionResultEx }) ;
     }
@@ -186,11 +186,11 @@ import { RemoveDogsModelByIdDocument } from '../';
 
       // Subscription Fetch Objects Helper
       //
-      export type SubscribeToVehicleGraphObjectsSubscriptionResult = FetchResult<SubscribeToVehicleGraphObjectsSubscription, Record<string, any>, Record<string, any>>;
-      export type SubscribeToVehicleGraphObjectsSubscriptionResultEx = FetchResult<SubscribeToVehicleGraphObjectsSubscription & VehicleGraphObjectsHelperResultEx, Record<string, any>, Record<string, any>>;
+      export type SubscribeToVehicleGraphObjectsSubscriptionFetchResult = FetchResult<SubscribeToVehicleGraphObjectsSubscription, Record<string, any>, Record<string, any>>;
+      export type SubscribeToVehicleGraphObjectsSubscriptionFetchResultEx = FetchResult<SubscribeToVehicleGraphObjectsSubscription & VehicleGraphObjectsHelperResultEx, Record<string, any>, Record<string, any>>;
 
-      async function subscribeToVehicleGraphObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<SubscriptionOptions<SubscribeToVehicleGraphObjectsSubscriptionVariables>, 'subscription'> }): Promise<Observable<SubscribeToVehicleGraphObjectsSubscriptionResultEx>> {
-        const subscription:Observable<SubscribeToVehicleGraphObjectsSubscriptionResult> = apolloClient.subscribe<SubscribeToVehicleGraphObjectsSubscription>({ query: SubscribeToVehicleGraphObjectsDocument, ...options });
+      async function subscribeToVehicleGraphObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<SubscriptionOptions<SubscribeToVehicleGraphObjectsSubscriptionVariables>, 'subscription'> }): Promise<Observable<SubscribeToVehicleGraphObjectsSubscriptionFetchResultEx>> {
+        const subscription:Observable<SubscribeToVehicleGraphObjectsSubscriptionFetchResult> = apolloClient.subscribe<SubscribeToVehicleGraphObjectsSubscription>({ query: SubscribeToVehicleGraphObjectsDocument, ...options });
         
         return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, objects: value?.data?.vehicle || [] }  as SubscribeToVehicleGraphObjectsSubscriptionResultEx }) ;
       }
@@ -404,11 +404,11 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     // Subscription Fetch ById Helper
     //
-    export type SubscribeToVehicleGraphLocationOnlyByIdSubscriptionResult = FetchResult<SubscribeToVehicleGraphLocationOnlyByIdSubscription, Record<string, any>, Record<string, any>>;
-    export type SubscribeToVehicleGraphLocationOnlyByIdSubscriptionResultEx = FetchResult<SubscribeToVehicleGraphLocationOnlyByIdSubscription & VehicleGraphLocationOnlyByIdHelperResultEx, Record<string, any>, Record<string, any>>;
+    export type SubscribeToVehicleGraphLocationOnlyByIdSubscriptionFetchResult = FetchResult<SubscribeToVehicleGraphLocationOnlyByIdSubscription, Record<string, any>, Record<string, any>>;
+    export type SubscribeToVehicleGraphLocationOnlyByIdSubscriptionFetchResultEx = FetchResult<SubscribeToVehicleGraphLocationOnlyByIdSubscription & VehicleGraphLocationOnlyByIdHelperResultEx, Record<string, any>, Record<string, any>>;
     
-    async function subscribeToVehicleGraphLocationOnlyById({ apolloClient, vehicleId, options }: { apolloClient: ApolloClient<object>, vehicleId:string, options: Omit<SubscriptionOptions<SubscribeToVehicleGraphLocationOnlyByIdSubscriptionVariables>, 'query' | 'variables'> }): Promise<Observable<SubscribeToVehicleGraphLocationOnlyByIdSubscriptionResultEx>> {
-      const subscription:Observable<SubscribeToVehicleGraphLocationOnlyByIdSubscriptionResult> = apolloClient.subscribe<SubscribeToVehicleGraphLocationOnlyByIdSubscription>({ query: SubscribeToVehicleGraphLocationOnlyByIdDocument, variables: { vehicleId }, ...options });
+    async function subscribeToVehicleGraphLocationOnlyById({ apolloClient, vehicleId, options }: { apolloClient: ApolloClient<object>, vehicleId:string, options: Omit<SubscriptionOptions<SubscribeToVehicleGraphLocationOnlyByIdSubscriptionVariables>, 'query' | 'variables'> }): Promise<Observable<SubscribeToVehicleGraphLocationOnlyByIdSubscriptionFetchResultEx>> {
+      const subscription:Observable<SubscribeToVehicleGraphLocationOnlyByIdSubscriptionFetchResult> = apolloClient.subscribe<SubscribeToVehicleGraphLocationOnlyByIdSubscription>({ query: SubscribeToVehicleGraphLocationOnlyByIdDocument, variables: { vehicleId }, ...options });
       
       return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, vehicleGraphLocationOnly:value?.data?.vehicle_by_pk || [] }  as SubscribeToVehicleGraphLocationOnlyByIdSubscriptionResultEx }) ;
     }
@@ -416,11 +416,11 @@ import { RemoveDogsModelByIdDocument } from '../';
 
       // Subscription Fetch Objects Helper
       //
-      export type SubscribeToVehicleGraphLocationOnlyObjectsSubscriptionResult = FetchResult<SubscribeToVehicleGraphLocationOnlyObjectsSubscription, Record<string, any>, Record<string, any>>;
-      export type SubscribeToVehicleGraphLocationOnlyObjectsSubscriptionResultEx = FetchResult<SubscribeToVehicleGraphLocationOnlyObjectsSubscription & VehicleGraphLocationOnlyObjectsHelperResultEx, Record<string, any>, Record<string, any>>;
+      export type SubscribeToVehicleGraphLocationOnlyObjectsSubscriptionFetchResult = FetchResult<SubscribeToVehicleGraphLocationOnlyObjectsSubscription, Record<string, any>, Record<string, any>>;
+      export type SubscribeToVehicleGraphLocationOnlyObjectsSubscriptionFetchResultEx = FetchResult<SubscribeToVehicleGraphLocationOnlyObjectsSubscription & VehicleGraphLocationOnlyObjectsHelperResultEx, Record<string, any>, Record<string, any>>;
 
-      async function subscribeToVehicleGraphLocationOnlyObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<SubscriptionOptions<SubscribeToVehicleGraphLocationOnlyObjectsSubscriptionVariables>, 'subscription'> }): Promise<Observable<SubscribeToVehicleGraphLocationOnlyObjectsSubscriptionResultEx>> {
-        const subscription:Observable<SubscribeToVehicleGraphLocationOnlyObjectsSubscriptionResult> = apolloClient.subscribe<SubscribeToVehicleGraphLocationOnlyObjectsSubscription>({ query: SubscribeToVehicleGraphLocationOnlyObjectsDocument, ...options });
+      async function subscribeToVehicleGraphLocationOnlyObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<SubscriptionOptions<SubscribeToVehicleGraphLocationOnlyObjectsSubscriptionVariables>, 'subscription'> }): Promise<Observable<SubscribeToVehicleGraphLocationOnlyObjectsSubscriptionFetchResultEx>> {
+        const subscription:Observable<SubscribeToVehicleGraphLocationOnlyObjectsSubscriptionFetchResult> = apolloClient.subscribe<SubscribeToVehicleGraphLocationOnlyObjectsSubscription>({ query: SubscribeToVehicleGraphLocationOnlyObjectsDocument, ...options });
         
         return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, objects: value?.data?.vehicle || [] }  as SubscribeToVehicleGraphLocationOnlyObjectsSubscriptionResultEx }) ;
       }
@@ -597,11 +597,11 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     // Subscription Fetch ById Helper
     //
-    export type SubscribeToDogModelByIdSubscriptionResult = FetchResult<SubscribeToDogModelByIdSubscription, Record<string, any>, Record<string, any>>;
-    export type SubscribeToDogModelByIdSubscriptionResultEx = FetchResult<SubscribeToDogModelByIdSubscription & DogModelByIdHelperResultEx, Record<string, any>, Record<string, any>>;
+    export type SubscribeToDogModelByIdSubscriptionFetchResult = FetchResult<SubscribeToDogModelByIdSubscription, Record<string, any>, Record<string, any>>;
+    export type SubscribeToDogModelByIdSubscriptionFetchResultEx = FetchResult<SubscribeToDogModelByIdSubscription & DogModelByIdHelperResultEx, Record<string, any>, Record<string, any>>;
     
-    async function subscribeToDogModelById({ apolloClient, dogsId, options }: { apolloClient: ApolloClient<object>, dogsId:string, options: Omit<SubscriptionOptions<SubscribeToDogModelByIdSubscriptionVariables>, 'query' | 'variables'> }): Promise<Observable<SubscribeToDogModelByIdSubscriptionResultEx>> {
-      const subscription:Observable<SubscribeToDogModelByIdSubscriptionResult> = apolloClient.subscribe<SubscribeToDogModelByIdSubscription>({ query: SubscribeToDogModelByIdDocument, variables: { dogsId }, ...options });
+    async function subscribeToDogModelById({ apolloClient, dogsId, options }: { apolloClient: ApolloClient<object>, dogsId:string, options: Omit<SubscriptionOptions<SubscribeToDogModelByIdSubscriptionVariables>, 'query' | 'variables'> }): Promise<Observable<SubscribeToDogModelByIdSubscriptionFetchResultEx>> {
+      const subscription:Observable<SubscribeToDogModelByIdSubscriptionFetchResult> = apolloClient.subscribe<SubscribeToDogModelByIdSubscription>({ query: SubscribeToDogModelByIdDocument, variables: { dogsId }, ...options });
       
       return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, dogModel:value?.data?.dogs_by_pk || [] }  as SubscribeToDogModelByIdSubscriptionResultEx }) ;
     }
@@ -609,11 +609,11 @@ import { RemoveDogsModelByIdDocument } from '../';
 
       // Subscription Fetch Objects Helper
       //
-      export type SubscribeToDogModelObjectsSubscriptionResult = FetchResult<SubscribeToDogModelObjectsSubscription, Record<string, any>, Record<string, any>>;
-      export type SubscribeToDogModelObjectsSubscriptionResultEx = FetchResult<SubscribeToDogModelObjectsSubscription & DogModelObjectsHelperResultEx, Record<string, any>, Record<string, any>>;
+      export type SubscribeToDogModelObjectsSubscriptionFetchResult = FetchResult<SubscribeToDogModelObjectsSubscription, Record<string, any>, Record<string, any>>;
+      export type SubscribeToDogModelObjectsSubscriptionFetchResultEx = FetchResult<SubscribeToDogModelObjectsSubscription & DogModelObjectsHelperResultEx, Record<string, any>, Record<string, any>>;
 
-      async function subscribeToDogModelObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<SubscriptionOptions<SubscribeToDogModelObjectsSubscriptionVariables>, 'subscription'> }): Promise<Observable<SubscribeToDogModelObjectsSubscriptionResultEx>> {
-        const subscription:Observable<SubscribeToDogModelObjectsSubscriptionResult> = apolloClient.subscribe<SubscribeToDogModelObjectsSubscription>({ query: SubscribeToDogModelObjectsDocument, ...options });
+      async function subscribeToDogModelObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<SubscriptionOptions<SubscribeToDogModelObjectsSubscriptionVariables>, 'subscription'> }): Promise<Observable<SubscribeToDogModelObjectsSubscriptionFetchResultEx>> {
+        const subscription:Observable<SubscribeToDogModelObjectsSubscriptionFetchResult> = apolloClient.subscribe<SubscribeToDogModelObjectsSubscription>({ query: SubscribeToDogModelObjectsDocument, ...options });
         
         return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, objects: value?.data?.dogs || [] }  as SubscribeToDogModelObjectsSubscriptionResultEx }) ;
       }
