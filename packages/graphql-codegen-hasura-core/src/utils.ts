@@ -29,7 +29,7 @@ export function generateOptimisticResponseForMutation<T>({
  *
  * @param param0
  */
-export function generateUpdateFunctionForMutation<T>({ operationType, entityName, entityId }: { operationType: "delete"; entityName: string; entityId: string }) {
+export function generateUpdateFunctionForMutation<T>({ operationType, entityName, entityId }: { operationType: "delete"; entityName: string; entityId: string | number }) {
   return (cache: any, result: any) => {
     cache.evict(defaultDataIdFromObject({ __typename: entityName, id: entityId }));
   };
