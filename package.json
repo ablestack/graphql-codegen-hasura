@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "graphql-codegen-hasura",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "A collection of codgen plugins to support Hasura/Apollo GraphQL development",
   "author": "ahrnee",
   "license": "MIT",
@@ -13,7 +13,7 @@
     "bootstrap": "lerna bootstrap",
     "build": "tsc --build --verbose",
     "rebuild": "tsc --build --force --verbose",
-    "publish": "lerna publish"
+    "lpub": "lerna publish --forcePublish"
   },
   "devDependencies": {
     "lerna": "^3.20.0",
