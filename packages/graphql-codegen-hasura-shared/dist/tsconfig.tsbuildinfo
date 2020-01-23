@@ -634,11 +634,11 @@
         "signature": "16172fabdd337c5efa670da193f5bdc05135ae501c7b22fb0ce52c0675bcc677"
       },
       "../src/tshelperinjectors.ts": {
-        "version": "f827a1d4a9c981c5a3db6091fd41bd66e2cf31faa17c8a99174f355a737059b3",
+        "version": "ebada0412e3edace550d7d45b50dfa267e8385b94cd4f95f4681b4a802d168de",
         "signature": "1d09eea9de5f88446d5e6d4a42bd3e728a0f0b9e32b285e856711edd19ca22a6"
       },
       "../src/reactinjectors.ts": {
-        "version": "9cf3d077583be2e5347e6efba16c50d15b8655449cbed50924504b3c5c4179d0",
+        "version": "1ea00d3112209e91ca591946729bf8eb56a59ff998aa6e316c908e649e4c0a55",
         "signature": "17bacbe75aa6f6558ff58c9584e21488d19d6ae3a677d2d543b6e7e0df58770f"
       },
       "../src/index.ts": {
@@ -4548,7 +4548,6 @@
       "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/index.d.ts",
       "../src/utils.ts",
       "../src/gqlinjectors.ts",
-      "../src/reactinjectors.ts",
       "../src/index.ts",
       "../src/configinjectors.ts",
       "../src/sharedinjectors.ts",
@@ -4600,7 +4599,8 @@
       "../../../node_modules/@types/node/ts3.2/index.d.ts",
       "../../../node_modules/@types/minimatch/index.d.ts",
       "../../../node_modules/@types/glob/index.d.ts",
-      "../src/tshelperinjectors.ts"
+      "../src/tshelperinjectors.ts",
+      "../src/reactinjectors.ts"
     ]
   },
   "version": "3.7.4"

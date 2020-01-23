@@ -87,6 +87,7 @@ export function injectQueryReact({
   const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(fragmentName);
   const queryByIdName = `Query${fragmentName}ById`;
   const queryObjectsName = `Query${fragmentName}Objects`;
+  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
 
   if (primaryKeyIdField) {
     contentManager.addContent(`
@@ -100,7 +101,7 @@ export function injectQueryReact({
     export type ${queryByIdName}ResultEx = Omit<${queryByIdName}Result, 'subscribeToMore'> & { subscribeToMore:${queryByIdName}SubScribeToMore } & ${fragmentName}ByIdHookResultEx;
 
     // Function
-    function use${queryByIdName}({ ${entityShortCamelCaseName}Id, options }: { ${entityShortCamelCaseName}Id: string; options?: Omit<QueryHookOptions<${queryByIdName}Query, ${queryByIdName}QueryVariables>, "query" | "variables">; }): ${queryByIdName}ResultEx {
+    function use${queryByIdName}({ ${entityShortCamelCaseName}Id, options }: { ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}; options?: Omit<QueryHookOptions<${queryByIdName}Query, ${queryByIdName}QueryVariables>, "query" | "variables">; }): ${queryByIdName}ResultEx {
       const _query: ${queryByIdName}Result = useQuery<${queryByIdName}Query, ${queryByIdName}QueryVariables>(${queryByIdName}Document, { variables: { ${entityShortCamelCaseName}Id }, ...options });
       
       const typedSubscribeToMore:${queryByIdName}SubScribeToMore = (options) => { _query.subscribeToMore({document: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id } as ${queryByIdName}QueryVariables, ...options });}
@@ -121,7 +122,7 @@ export function injectQueryReact({
     export type ${queryByIdName}LazyReturn = [${queryByIdName}WrappedLazyFn, ${queryByIdName}ResultEx];
 
     // Function
-    function use${queryByIdName}Lazy({ ${entityShortCamelCaseName}Id, options }: { ${entityShortCamelCaseName}Id: string; options?: Omit<QueryHookOptions<${queryByIdName}Query, ${queryByIdName}QueryVariables>, "query" | "variables">; }): ${queryByIdName}LazyReturn {
+    function use${queryByIdName}Lazy({ ${entityShortCamelCaseName}Id, options }: { ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}; options?: Omit<QueryHookOptions<${queryByIdName}Query, ${queryByIdName}QueryVariables>, "query" | "variables">; }): ${queryByIdName}LazyReturn {
       const lazyQuery: ${queryByIdName}LazyFn = useLazyQuery<${queryByIdName}Query, ${queryByIdName}QueryVariables>(${queryByIdName}Document, options);
       
       // Setting up typed version of lazyQuery
@@ -216,6 +217,7 @@ export function injectSubscriptionReact({
   const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(fragmentName);
   const subscriptionByIdName = `SubscribeTo${fragmentName}ById`;
   const subscriptionByObjectsName = `SubscribeTo${fragmentName}Objects`;
+  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
 
   if (primaryKeyIdField) {
     contentManager.addContent(`     
@@ -228,7 +230,7 @@ export function injectSubscriptionReact({
     export type ${subscriptionByIdName}ResultEx = ${subscriptionByIdName}Result & ${fragmentName}ByIdHookResultEx;
 
     // Function
-    function use${subscriptionByIdName}({ ${entityShortCamelCaseName}Id, options }: { ${entityShortCamelCaseName}Id: string; options?: Omit<SubscriptionHookOptions<${subscriptionByIdName}Subscription, ${subscriptionByIdName}SubscriptionVariables>, "query" | "variables">; }): ${subscriptionByIdName}ResultEx {
+    function use${subscriptionByIdName}({ ${entityShortCamelCaseName}Id, options }: { ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}; options?: Omit<SubscriptionHookOptions<${subscriptionByIdName}Subscription, ${subscriptionByIdName}SubscriptionVariables>, "query" | "variables">; }): ${subscriptionByIdName}ResultEx {
       const subscription: ${subscriptionByIdName}Result = useSubscription<${subscriptionByIdName}Subscription, ${subscriptionByIdName}SubscriptionVariables>(${subscriptionByIdName}Document, { variables: { ${entityShortCamelCaseName}Id }, ...options });
       return { ...subscription, ${fragmentNameCamelCase}: subscription?.data?.${entityName}_by_pk };
     }
@@ -413,7 +415,7 @@ export function injectUpdateReact({
 
     type PickUpdate${fragmentName}ByIdFn = (mutation: Update${fragmentName}ByIdMutation | null | undefined) => ${fragmentName}Fragment | null | undefined;
     type Update${fragmentName}ByIdLazyMutationFn = MutationTuple<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>;
-    type Update${fragmentName}ByIdWrappedLazyMutationFn = ({ ${entityShortCamelCaseName}Id, set, autoOptimisticResponse, options }: { ${entityShortCamelCaseName}Id: string; set: ${entityPascalName}_Set_Input; autoOptimisticResponse?: boolean; options?: Omit<MutationFunctionOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>, "variables">; }) => Promise<Update${fragmentName}ByIdMutationResultEx>;
+    type Update${fragmentName}ByIdWrappedLazyMutationFn = ({ ${entityShortCamelCaseName}Id, set, autoOptimisticResponse, options }: { ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}; set: ${entityPascalName}_Set_Input; autoOptimisticResponse?: boolean; options?: Omit<MutationFunctionOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>, "variables">; }) => Promise<Update${fragmentName}ByIdMutationResultEx>;
     export type Update${fragmentName}ByIdLazyMutationReturn = [Update${fragmentName}ByIdWrappedLazyMutationFn, Update${fragmentName}ByIdMutationResultEx];
 
     function useUpdate${fragmentName}ById(options?: Omit<MutationHookOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>, "mutation" | "variables">): Update${fragmentName}ByIdLazyMutationReturn {
@@ -510,7 +512,7 @@ export function injectDeleteReact({
     // Function
     type PickRemove${entityModelName}Fn = (mutation: Remove${entityModelName}ByIdMutation | null | undefined) => number;
     type Remove${entityModelName}LazyMutationFn = MutationTuple<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>;
-    type Remove${entityModelName}WrappedLazyMutationFn = ({ ${entityShortCamelCaseName}Id, autoOptimisticResponse, options }: { ${entityShortCamelCaseName}Id: string; autoOptimisticResponse?:boolean, options?: Omit<MutationFunctionOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, "variables">; }) => Promise<Remove${entityModelName}ByIdMutationResultEx>;
+    type Remove${entityModelName}WrappedLazyMutationFn = ({ ${entityShortCamelCaseName}Id, autoOptimisticResponse, options }: { ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}; autoOptimisticResponse?:boolean, options?: Omit<MutationFunctionOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, "variables">; }) => Promise<Remove${entityModelName}ByIdMutationResultEx>;
     export type Remove${entityModelName}LazyMutationReturn = [Remove${entityModelName}WrappedLazyMutationFn, Remove${entityModelName}ByIdMutationResultEx];
 
     function useRemove${entityModelName}ById(options?: Omit<MutationHookOptions<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>, "mutation" | "variables">) {
