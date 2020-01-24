@@ -40,16 +40,12 @@ export function makeImportStatement(importName: string, importPath: string) {
   return `import { ${importName} } from '${importPath}';`;
 }
 
-export function makeFragmentName(typename: string, trimString: string = undefined) {
-  return `${makeModelName(typename, trimString)}Fields`;
-}
-
 export function makeFragmentTypeScriptTypeName(fragmentName: string) {
-  return `${fragmentName}Fragment`;
+  return `${makePascalCase(fragmentName)}Fragment`;
 }
 
 export function makeFragmentDocName(fragmentName: string) {
-  return `${fragmentName}FragmentDoc`;
+  return `${makePascalCase(fragmentName)}FragmentDoc`;
 }
 
 export function getIdPostGresFieldType(field: FieldDefinitionNode) {

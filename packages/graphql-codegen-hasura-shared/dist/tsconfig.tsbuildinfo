@@ -626,19 +626,19 @@
         "signature": "d2fd0ac736563f8d3db1d338b00ca85bcd8dd5b1c8f9a23603006e9d927a1367"
       },
       "../src/utils.ts": {
-        "version": "a136b0266de073eb5dc9194d3ad507506c86e0d9e53a3825c6c940be413e41b4",
-        "signature": "7f7da0caeecf5fa2ef3068f04f3bb58fcc1a00a90f5427756781bdd56a8e230f"
+        "version": "24b0c696fbedef4ee0acf34c8c940a51594077cf576a7bb19da10e242a47f516",
+        "signature": "4e742d0f3c494a0436022bd3e2348ec3f457e3f863fe44948254f12f853faeee"
       },
       "../src/gqlinjectors.ts": {
-        "version": "fa1fbf3d2a27ac644e84b256cda5cd9cddb399973ac5b970973b56331a339a19",
+        "version": "debe2f1ecf53a8b303e9701b6b08d79ed4a4d2ab86dd1e45db51ba5894336d59",
         "signature": "16172fabdd337c5efa670da193f5bdc05135ae501c7b22fb0ce52c0675bcc677"
       },
       "../src/tshelperinjectors.ts": {
-        "version": "ebada0412e3edace550d7d45b50dfa267e8385b94cd4f95f4681b4a802d168de",
+        "version": "bce04a594702bdd240972951b429c1547b361f7b451eb6065cd4b6e9a2b431d8",
         "signature": "1d09eea9de5f88446d5e6d4a42bd3e728a0f0b9e32b285e856711edd19ca22a6"
       },
       "../src/reactinjectors.ts": {
-        "version": "1ea00d3112209e91ca591946729bf8eb56a59ff998aa6e316c908e649e4c0a55",
+        "version": "27bd9010a9e8fe4f2f309b81b142d3fce4fa4e39df7de1eb492128f4d97e4857",
         "signature": "17bacbe75aa6f6558ff58c9584e21488d19d6ae3a677d2d543b6e7e0df58770f"
       },
       "../src/index.ts": {
@@ -4546,8 +4546,9 @@
       "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-processor/pre-resolve-types.d.ts",
       "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/optimize-operations.d.ts",
       "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/index.d.ts",
-      "../src/utils.ts",
       "../src/gqlinjectors.ts",
+      "../src/tshelperinjectors.ts",
+      "../src/reactinjectors.ts",
       "../src/index.ts",
       "../src/configinjectors.ts",
       "../src/sharedinjectors.ts",
@@ -4599,8 +4600,7 @@
       "../../../node_modules/@types/node/ts3.2/index.d.ts",
       "../../../node_modules/@types/minimatch/index.d.ts",
       "../../../node_modules/@types/glob/index.d.ts",
-      "../src/tshelperinjectors.ts",
-      "../src/reactinjectors.ts"
+      "../src/utils.ts"
     ]
   },
   "version": "3.7.4"

@@ -36,16 +36,12 @@ function makeImportStatement(importName, importPath) {
     return `import { ${importName} } from '${importPath}';`;
 }
 exports.makeImportStatement = makeImportStatement;
-function makeFragmentName(typename, trimString = undefined) {
-    return `${makeModelName(typename, trimString)}Fields`;
-}
-exports.makeFragmentName = makeFragmentName;
 function makeFragmentTypeScriptTypeName(fragmentName) {
-    return `${fragmentName}Fragment`;
+    return `${makePascalCase(fragmentName)}Fragment`;
 }
 exports.makeFragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName;
 function makeFragmentDocName(fragmentName) {
-    return `${fragmentName}FragmentDoc`;
+    return `${makePascalCase(fragmentName)}FragmentDoc`;
 }
 exports.makeFragmentDocName = makeFragmentDocName;
 function getIdPostGresFieldType(field) {

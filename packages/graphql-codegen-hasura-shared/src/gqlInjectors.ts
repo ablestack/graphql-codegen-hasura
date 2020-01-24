@@ -109,6 +109,7 @@ function makeFetchByIdGQL({
   trimString?: string;
   primaryKeyIdField?: FieldDefinitionNode | null;
 }) {
+  const fragmentNamePascalCase = makePascalCase(fragmentName);
   const shortName = makeShortName(entityName, trimString);
   const entityShortCamelName = makeCamelCase(shortName);
   const fragmentDocName = makeFragmentDocName(fragmentName);
@@ -117,7 +118,7 @@ function makeFetchByIdGQL({
   const fetchTypeVerbUpperCase = camelToSnakeUpperCase(fetchCamelCaseTypeVerb);
 
   return `const ${fetchTypeVerbUpperCase}_${fragmentName.toUpperCase()}_BYID = gql\`
-  ${fetchType} ${fetchCamelCaseTypeVerb}${fragmentName}ById($${entityShortCamelName}Id: ${primaryKeyIdPostGresFieldType}!) {
+  ${fetchType} ${fetchCamelCaseTypeVerb}${fragmentNamePascalCase}ById($${entityShortCamelName}Id: ${primaryKeyIdPostGresFieldType}!) {
     ${entityName}_by_pk(id: $${entityShortCamelName}Id) {
       ...${fragmentName}
     }
@@ -138,6 +139,7 @@ function makeFetchObjectsGQL({
   trimString?: string;
   primaryKeyIdField?: FieldDefinitionNode | null;
 }) {
+  const fragmentNamePascalCase = makePascalCase(fragmentName);
   const shortName = makeShortName(entityName, trimString);
   const entityShortCamelName = makeCamelCase(shortName);
   const fragmentDocName = makeFragmentDocName(fragmentName);
@@ -146,7 +148,7 @@ function makeFetchObjectsGQL({
   const fetchTypeVerbUpperCase = camelToSnakeUpperCase(fetchCamelCaseTypeVerb);
 
   return `const ${fetchTypeVerbUpperCase}_${fragmentName.toUpperCase()}_OBJECTS = gql\`
-  ${fetchType} ${fetchCamelCaseTypeVerb}${fragmentName}Objects(
+  ${fetchType} ${fetchCamelCaseTypeVerb}${fragmentNamePascalCase}Objects(
     $distinct_on: [${entityName}_select_column!]
     $where: ${entityName}_bool_exp
     $limit: Int
@@ -176,6 +178,7 @@ export function injectInsertGql({
   trimString?: string;
   primaryKeyIdField: FieldDefinitionNode;
 }) {
+  const fragmentNamePascalCase = makePascalCase(fragmentName);
   const fragmentDocName = makeFragmentDocName(fragmentName);
 
   contentManager.addContent(`
@@ -184,7 +187,7 @@ export function injectInsertGql({
     //
 
     const INSERT_${fragmentName.toUpperCase()} = gql\`
-      mutation insert${fragmentName}($objects: [${entityName}_insert_input!]!) {
+      mutation insert${fragmentNamePascalCase}($objects: [${entityName}_insert_input!]!) {
         insert_${entityName}(objects: $objects) {
           affected_rows
           returning {
@@ -201,7 +204,7 @@ export function injectInsertGql({
     //
 
     const INSERT_${fragmentName.toUpperCase()}_WITH_ONCONFLICT = gql\`
-      mutation insert${fragmentName}WithOnConflict($objects: [${entityName}_insert_input!]!, $onConflict: ${entityName}_on_conflict) {
+      mutation insert${fragmentNamePascalCase}WithOnConflict($objects: [${entityName}_insert_input!]!, $onConflict: ${entityName}_on_conflict) {
         insert_${entityName}(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {
@@ -228,6 +231,7 @@ export function injectUpdateGql({
   trimString?: string;
   primaryKeyIdField: FieldDefinitionNode;
 }) {
+  const fragmentNamePascalCase = makePascalCase(fragmentName);
   const primaryKeyIdPostGresFieldType = getIdPostGresFieldType(primaryKeyIdField);
   const fragmentDocName = makeFragmentDocName(fragmentName);
 
@@ -237,7 +241,7 @@ export function injectUpdateGql({
     //
 
     const UPDATE_${fragmentName.toUpperCase()}_BYID = gql\`
-      mutation update${fragmentName}ById($id: ${primaryKeyIdPostGresFieldType}, $set: ${entityName}_set_input) {
+      mutation update${fragmentNamePascalCase}ById($id: ${primaryKeyIdPostGresFieldType}, $set: ${entityName}_set_input) {
         update_${entityName}(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
           returning {
@@ -254,7 +258,7 @@ export function injectUpdateGql({
     //
 
     const UPDATE_${fragmentName.toUpperCase()}S = gql\`
-      mutation update${fragmentName}($set: ${entityName}_set_input, $where:${entityName}_bool_exp!) {
+      mutation update${fragmentNamePascalCase}($set: ${entityName}_set_input, $where:${entityName}_bool_exp!) {
         update_${entityName}(_set: $set, where: $where) {
           affected_rows
           returning {

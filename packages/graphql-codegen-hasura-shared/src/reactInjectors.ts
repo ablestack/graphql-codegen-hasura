@@ -43,6 +43,7 @@ export function injectSharedReactPre({
   primaryKeyIdField: FieldDefinitionNode;
   typescriptCodegenOutputPath: string;
 }) {
+  const fragmentNamePascalCase = makePascalCase(fragmentName);
   const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
   const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(fragmentName);
@@ -51,8 +52,8 @@ export function injectSharedReactPre({
     // ${entityName} REACT
     //------------------------------------------------
 
-    export type ${fragmentName}ByIdHookResultEx = { ${fragmentNameCamelCase}:${fragmentTypeScriptTypeName} | null | undefined };
-    export type ${fragmentName}ObjectsHookResultEx = { objects:${fragmentTypeScriptTypeName}[] };
+    export type ${fragmentNamePascalCase}ByIdHookResultEx = { ${fragmentNameCamelCase}:${fragmentTypeScriptTypeName} | null | undefined };
+    export type ${fragmentNamePascalCase}ObjectsHookResultEx = { objects:${fragmentTypeScriptTypeName}[] };
 
   `);
 
@@ -81,12 +82,13 @@ export function injectQueryReact({
   primaryKeyIdField?: FieldDefinitionNode | null;
   typescriptCodegenOutputPath: string;
 }) {
+  const fragmentNamePascalCase = makePascalCase(fragmentName);
   const entityShortName = makeShortName(entityName, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
   const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(fragmentName);
-  const queryByIdName = `Query${fragmentName}ById`;
-  const queryObjectsName = `Query${fragmentName}Objects`;
+  const queryByIdName = `Query${fragmentNamePascalCase}ById`;
+  const queryObjectsName = `Query${fragmentNamePascalCase}Objects`;
   const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
 
   if (primaryKeyIdField) {
@@ -98,7 +100,7 @@ export function injectQueryReact({
     // Types
     type ${queryByIdName}Result = QueryResult<${queryByIdName}Query, ${queryByIdName}QueryVariables>;
     type ${queryByIdName}SubScribeToMore = (options?: Omit<SubscribeToMoreOptions<${queryByIdName}Query, ${queryByIdName}QueryVariables, ${queryByIdName}Query>, 'document' | 'variables'> | undefined) => void
-    export type ${queryByIdName}ResultEx = Omit<${queryByIdName}Result, 'subscribeToMore'> & { subscribeToMore:${queryByIdName}SubScribeToMore } & ${fragmentName}ByIdHookResultEx;
+    export type ${queryByIdName}ResultEx = Omit<${queryByIdName}Result, 'subscribeToMore'> & { subscribeToMore:${queryByIdName}SubScribeToMore } & ${fragmentNamePascalCase}ByIdHookResultEx;
 
     // Function
     function use${queryByIdName}({ ${entityShortCamelCaseName}Id, options }: { ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}; options?: Omit<QueryHookOptions<${queryByIdName}Query, ${queryByIdName}QueryVariables>, "query" | "variables">; }): ${queryByIdName}ResultEx {
@@ -116,7 +118,7 @@ export function injectQueryReact({
      */
     
     // Types
-    type Pick${queryByIdName}Fn = (query: ${queryByIdName}Query | null | undefined) =>${fragmentName}Fragment | null | undefined;
+    type Pick${queryByIdName}Fn = (query: ${queryByIdName}Query | null | undefined) =>${fragmentNamePascalCase}Fragment | null | undefined;
     type ${queryByIdName}LazyFn = [(options?: QueryLazyOptions<${queryByIdName}QueryVariables> | undefined) => void, ${queryByIdName}Result]
     type ${queryByIdName}WrappedLazyFn = (options: Omit<QueryLazyOptions<${queryByIdName}QueryVariables>, "variables">) => void;
     export type ${queryByIdName}LazyReturn = [${queryByIdName}WrappedLazyFn, ${queryByIdName}ResultEx];
@@ -146,7 +148,7 @@ export function injectQueryReact({
     // Types
     export type ${queryObjectsName}Result = QueryResult<${queryObjectsName}Query, ${queryObjectsName}QueryVariables>;
     type ${queryObjectsName}SubScribeToMore = (options?: Omit<SubscribeToMoreOptions<${queryObjectsName}Query, ${queryObjectsName}QueryVariables, ${queryObjectsName}Query>, 'document' | 'variables'> | undefined) => void
-    export type ${queryObjectsName}ResultEx = Omit<${queryObjectsName}Result, 'subscribeToMore'> & { subscribeToMore:${queryObjectsName}SubScribeToMore } & ${fragmentName}ObjectsHookResultEx;
+    export type ${queryObjectsName}ResultEx = Omit<${queryObjectsName}Result, 'subscribeToMore'> & { subscribeToMore:${queryObjectsName}SubScribeToMore } & ${fragmentNamePascalCase}ObjectsHookResultEx;
 
     // Function
     function use${queryObjectsName}(options: Omit<QueryHookOptions<${queryObjectsName}Query, ${queryObjectsName}QueryVariables>, "query">): ${queryObjectsName}ResultEx {
@@ -165,7 +167,7 @@ export function injectQueryReact({
      */
 
     // Types
-    type Pick${queryObjectsName}Fn = (query: ${queryObjectsName}Query | null | undefined) => ${fragmentName}Fragment[];
+    type Pick${queryObjectsName}Fn = (query: ${queryObjectsName}Query | null | undefined) => ${fragmentNamePascalCase}Fragment[];
     type ${queryObjectsName}LazyFn = [(options?: QueryLazyOptions<${queryObjectsName}QueryVariables> | undefined) => void, ${queryObjectsName}Result]
     type ${queryObjectsName}WrappedLazyFn = (options?: QueryLazyOptions<${queryObjectsName}QueryVariables>) => void;
     export type ${queryObjectsName}LazyReturn = [${queryObjectsName}WrappedLazyFn, ${queryObjectsName}ResultEx];
@@ -211,12 +213,13 @@ export function injectSubscriptionReact({
   primaryKeyIdField?: FieldDefinitionNode | null;
   typescriptCodegenOutputPath: string;
 }) {
+  const fragmentNamePascalCase = makePascalCase(fragmentName);
   const entityShortName = makeShortName(entityName, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
   const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(fragmentName);
-  const subscriptionByIdName = `SubscribeTo${fragmentName}ById`;
-  const subscriptionByObjectsName = `SubscribeTo${fragmentName}Objects`;
+  const subscriptionByIdName = `SubscribeTo${fragmentNamePascalCase}ById`;
+  const subscriptionByObjectsName = `SubscribeTo${fragmentNamePascalCase}Objects`;
   const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
 
   if (primaryKeyIdField) {
@@ -227,7 +230,7 @@ export function injectSubscriptionReact({
 
     // Types
     type ${subscriptionByIdName}Result = { variables: ${subscriptionByIdName}SubscriptionVariables; loading: boolean; data?: ${subscriptionByIdName}Subscription; error?: ApolloError | undefined; };
-    export type ${subscriptionByIdName}ResultEx = ${subscriptionByIdName}Result & ${fragmentName}ByIdHookResultEx;
+    export type ${subscriptionByIdName}ResultEx = ${subscriptionByIdName}Result & ${fragmentNamePascalCase}ByIdHookResultEx;
 
     // Function
     function use${subscriptionByIdName}({ ${entityShortCamelCaseName}Id, options }: { ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}; options?: Omit<SubscriptionHookOptions<${subscriptionByIdName}Subscription, ${subscriptionByIdName}SubscriptionVariables>, "query" | "variables">; }): ${subscriptionByIdName}ResultEx {
@@ -244,7 +247,7 @@ export function injectSubscriptionReact({
 
     // Types
     export type ${subscriptionByObjectsName}Result = { variables: ${subscriptionByObjectsName}SubscriptionVariables; loading: boolean; data?: ${subscriptionByObjectsName}Subscription; error?: ApolloError | undefined; };
-    export type ${subscriptionByObjectsName}ResultEx = ${subscriptionByObjectsName}Result & ${fragmentName}ObjectsHookResultEx;
+    export type ${subscriptionByObjectsName}ResultEx = ${subscriptionByObjectsName}Result & ${fragmentNamePascalCase}ObjectsHookResultEx;
 
     // Function
     function use${subscriptionByObjectsName}(options: Omit<SubscriptionHookOptions<${subscriptionByObjectsName}Subscription, ${subscriptionByObjectsName}SubscriptionVariables>, "query">): ${subscriptionByObjectsName}ResultEx {
@@ -278,6 +281,7 @@ export function injectInsertReact({
   primaryKeyIdField: FieldDefinitionNode;
   typescriptCodegenOutputPath: string;
 }) {
+  const fragmentNamePascalCase = makePascalCase(fragmentName);
   const entityPascalName = makePascalCase(entityName);
   const entityShortName = makeShortName(entityName, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
@@ -290,32 +294,32 @@ export function injectInsertReact({
      */
 
     // Types
-    type Insert${fragmentName}MutationResult = FetchResult<Insert${fragmentName}Mutation, Record<string, any>, Record<string, any>>;
-    export type Insert${fragmentName}MutationResultEx = Insert${fragmentName}MutationResult & ${fragmentName}ByIdHookResultEx;
+    type Insert${fragmentNamePascalCase}MutationResult = FetchResult<Insert${fragmentNamePascalCase}Mutation, Record<string, any>, Record<string, any>>;
+    export type Insert${fragmentNamePascalCase}MutationResultEx = Insert${fragmentNamePascalCase}MutationResult & ${fragmentNamePascalCase}ByIdHookResultEx;
 
-    type PickInsert${fragmentName}Fn = (mutation: Insert${fragmentName}Mutation | null | undefined) => ${fragmentName}Fragment | null | undefined;
-    type Insert${fragmentName}LazyMutationFn = MutationTuple<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>;
-    type Insert${fragmentName}WrappedLazyMutationFn = ({ ${entityShortCamelCaseName}, autoOptimisticResponse, options }: { ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input; autoOptimisticResponse?:boolean, options?: Omit<MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, "variables">; }) => Promise<Insert${fragmentName}MutationResultEx>;
-    export type Insert${fragmentName}LazyMutationReturn = [Insert${fragmentName}WrappedLazyMutationFn, Insert${fragmentName}MutationResultEx];
+    type PickInsert${fragmentNamePascalCase}Fn = (mutation: Insert${fragmentNamePascalCase}Mutation | null | undefined) => ${fragmentNamePascalCase}Fragment | null | undefined;
+    type Insert${fragmentNamePascalCase}LazyMutationFn = MutationTuple<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables>;
+    type Insert${fragmentNamePascalCase}WrappedLazyMutationFn = ({ ${entityShortCamelCaseName}, autoOptimisticResponse, options }: { ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input; autoOptimisticResponse?:boolean, options?: Omit<MutationFunctionOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables>, "variables">; }) => Promise<Insert${fragmentNamePascalCase}MutationResultEx>;
+    export type Insert${fragmentNamePascalCase}LazyMutationReturn = [Insert${fragmentNamePascalCase}WrappedLazyMutationFn, Insert${fragmentNamePascalCase}MutationResultEx];
 
     // Function
-    function useInsert${fragmentName}(options?: Omit<MutationHookOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, "mutation" | "variables">): Insert${fragmentName}LazyMutationReturn {
-      const lazyMutation: Insert${fragmentName}LazyMutationFn = useMutation<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>(Insert${fragmentName}Document, options);
-      const pick${fragmentName}: PickInsert${fragmentName}Fn = (mutation) => { return mutation?.insert_${entityName}?.returning && mutation?.insert_${entityName}?.returning[0]; };
+    function useInsert${fragmentNamePascalCase}(options?: Omit<MutationHookOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables>, "mutation" | "variables">): Insert${fragmentNamePascalCase}LazyMutationReturn {
+      const lazyMutation: Insert${fragmentNamePascalCase}LazyMutationFn = useMutation<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables>(Insert${fragmentNamePascalCase}Document, options);
+      const pick${fragmentNamePascalCase}: PickInsert${fragmentNamePascalCase}Fn = (mutation) => { return mutation?.insert_${entityName}?.returning && mutation?.insert_${entityName}?.returning[0]; };
 
-      const wrappedLazyMutation: Insert${fragmentName}WrappedLazyMutationFn = async ({ ${entityShortCamelCaseName}, autoOptimisticResponse, options }) => {
-        const mutationOptions:MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables> = { variables: { objects: [${entityShortCamelCaseName}] }, ...options };
+      const wrappedLazyMutation: Insert${fragmentNamePascalCase}WrappedLazyMutationFn = async ({ ${entityShortCamelCaseName}, autoOptimisticResponse, options }) => {
+        const mutationOptions:MutationFunctionOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables> = { variables: { objects: [${entityShortCamelCaseName}] }, ...options };
         if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
           if(!${entityShortCamelCaseName}.id) throw new Error(\`if autoOptimisticResponse = true, id must be set in object '${entityShortCamelCaseName}'\`);
-          mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Insert${fragmentName}Mutation>({ operationType: 'insert', entityName:'${entityShortCamelCaseName}', objects:[${entityShortCamelCaseName} as ${entityPascalName}_Insert_Input & ObjectWithId] 
+          mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Insert${fragmentNamePascalCase}Mutation>({ operationType: 'insert', entityName:'${entityShortCamelCaseName}', objects:[${entityShortCamelCaseName} as ${entityPascalName}_Insert_Input & ObjectWithId] 
         }); }
 
         const fetchResult = await lazyMutation[0](mutationOptions);
         
-        return { ...fetchResult, ${fragmentNameCamelCase}: pick${fragmentName}(fetchResult.data) };
+        return { ...fetchResult, ${fragmentNameCamelCase}: pick${fragmentNamePascalCase}(fetchResult.data) };
       };
 
-      return [wrappedLazyMutation, { ...lazyMutation[1], ${fragmentNameCamelCase}: pick${fragmentName}(lazyMutation[1].data) }];
+      return [wrappedLazyMutation, { ...lazyMutation[1], ${fragmentNameCamelCase}: pick${fragmentNamePascalCase}(lazyMutation[1].data) }];
     }
   `);
 
@@ -324,48 +328,48 @@ export function injectInsertReact({
     //
 
     // Types
-    type Insert${fragmentName}WithOnConflictLazyMutationFn = MutationTuple<Insert${fragmentName}Mutation, Insert${fragmentName}WithOnConflictMutationVariables>;
-    type Insert${fragmentName}WithOnConflictWrappedLazyMutationFn = ({ ${entityShortCamelCaseName}, onConflict, autoOptimisticResponse, options }: { ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input; onConflict: ${entityPascalName}_On_Conflict, autoOptimisticResponse?:boolean; options?: Omit<MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}WithOnConflictMutationVariables>, "variables">; }) => Promise<Insert${fragmentName}MutationResultEx>;
-    export type Insert${fragmentName}WithOnConflictLazyMutationReturn = [Insert${fragmentName}WithOnConflictWrappedLazyMutationFn, Insert${fragmentName}MutationResultEx];
+    type Insert${fragmentNamePascalCase}WithOnConflictLazyMutationFn = MutationTuple<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables>;
+    type Insert${fragmentNamePascalCase}WithOnConflictWrappedLazyMutationFn = ({ ${entityShortCamelCaseName}, onConflict, autoOptimisticResponse, options }: { ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input; onConflict: ${entityPascalName}_On_Conflict, autoOptimisticResponse?:boolean; options?: Omit<MutationFunctionOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables>, "variables">; }) => Promise<Insert${fragmentNamePascalCase}MutationResultEx>;
+    export type Insert${fragmentNamePascalCase}WithOnConflictLazyMutationReturn = [Insert${fragmentNamePascalCase}WithOnConflictWrappedLazyMutationFn, Insert${fragmentNamePascalCase}MutationResultEx];
 
     // Function
-    function useInsert${fragmentName}WithOnConflict( options?: Omit<MutationHookOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, "mutation" | "variables"> ): Insert${fragmentName}WithOnConflictLazyMutationReturn {
-      const lazyMutation: Insert${fragmentName}WithOnConflictLazyMutationFn = useMutation<Insert${fragmentName}Mutation, Insert${fragmentName}WithOnConflictMutationVariables>(Insert${fragmentName}WithOnConflictDocument, options);
-      const pick${fragmentName}: PickInsert${fragmentName}Fn = (mutation: Insert${fragmentName}Mutation | null | undefined) => { return mutation?.insert_${entityName}?.returning && mutation.insert_${entityName}.returning[0]; };
+    function useInsert${fragmentNamePascalCase}WithOnConflict( options?: Omit<MutationHookOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables>, "mutation" | "variables"> ): Insert${fragmentNamePascalCase}WithOnConflictLazyMutationReturn {
+      const lazyMutation: Insert${fragmentNamePascalCase}WithOnConflictLazyMutationFn = useMutation<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables>(Insert${fragmentNamePascalCase}WithOnConflictDocument, options);
+      const pick${fragmentNamePascalCase}: PickInsert${fragmentNamePascalCase}Fn = (mutation: Insert${fragmentNamePascalCase}Mutation | null | undefined) => { return mutation?.insert_${entityName}?.returning && mutation.insert_${entityName}.returning[0]; };
 
-      const wrappedLazyMutation:Insert${fragmentName}WithOnConflictWrappedLazyMutationFn = async ({ ${entityShortCamelCaseName}, onConflict, autoOptimisticResponse, options }) => {
-        const mutationOptions:MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}WithOnConflictMutationVariables> = { variables: { objects: [${entityShortCamelCaseName}], onConflict }, ...options };
+      const wrappedLazyMutation:Insert${fragmentNamePascalCase}WithOnConflictWrappedLazyMutationFn = async ({ ${entityShortCamelCaseName}, onConflict, autoOptimisticResponse, options }) => {
+        const mutationOptions:MutationFunctionOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables> = { variables: { objects: [${entityShortCamelCaseName}], onConflict }, ...options };
         if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
           if(!${entityShortCamelCaseName}.id) throw new Error(\`if autoOptimisticResponse = true, id must be set in object '${entityShortCamelCaseName}'\`);
-          mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Insert${fragmentName}Mutation>({ operationType: 'insert', entityName:'${entityShortCamelCaseName}', objects:[${entityShortCamelCaseName} as ${entityPascalName}_Insert_Input & ObjectWithId] }); 
+          mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Insert${fragmentNamePascalCase}Mutation>({ operationType: 'insert', entityName:'${entityShortCamelCaseName}', objects:[${entityShortCamelCaseName} as ${entityPascalName}_Insert_Input & ObjectWithId] }); 
         }
 
         const fetchResult = await lazyMutation[0](mutationOptions);
         
-        return { ...fetchResult, ${fragmentNameCamelCase}: pick${fragmentName}(fetchResult.data) };
+        return { ...fetchResult, ${fragmentNameCamelCase}: pick${fragmentNamePascalCase}(fetchResult.data) };
       };
 
-      return [wrappedLazyMutation, { ...lazyMutation[1], ${fragmentNameCamelCase}: pick${fragmentName}(lazyMutation[1].data) }];
+      return [wrappedLazyMutation, { ...lazyMutation[1], ${fragmentNameCamelCase}: pick${fragmentNamePascalCase}(lazyMutation[1].data) }];
     }
   `);
 
   contentManager.addContent(`
     // Types
-    type Insert${fragmentName}ObjectsMutationResult = FetchResult<Insert${fragmentName}Mutation, Record<string, any>, Record<string, any>>;
-    export type Insert${fragmentName}ObjectsMutationResultEx = Insert${fragmentName}MutationResult & ${fragmentName}ObjectsHookResultEx;
+    type Insert${fragmentNamePascalCase}ObjectsMutationResult = FetchResult<Insert${fragmentNamePascalCase}Mutation, Record<string, any>, Record<string, any>>;
+    export type Insert${fragmentNamePascalCase}ObjectsMutationResultEx = Insert${fragmentNamePascalCase}MutationResult & ${fragmentNamePascalCase}ObjectsHookResultEx;
 
-    type PickInsert${fragmentName}ObjectsFn = (mutation: Insert${fragmentName}Mutation | null | undefined) => ${fragmentName}Fragment[];
-    type Insert${fragmentName}ObjectsLazyMutationFn = MutationTuple<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>;
-    type Insert${fragmentName}ObjectsWrappedLazyMutationFn = (options?: MutationFunctionOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>) => Promise<Insert${fragmentName}ObjectsMutationResultEx>;
-    export type Insert${fragmentName}ObjectsLazyMutationReturn = [Insert${fragmentName}ObjectsWrappedLazyMutationFn, Insert${fragmentName}ObjectsMutationResultEx];
+    type PickInsert${fragmentNamePascalCase}ObjectsFn = (mutation: Insert${fragmentNamePascalCase}Mutation | null | undefined) => ${fragmentNamePascalCase}Fragment[];
+    type Insert${fragmentNamePascalCase}ObjectsLazyMutationFn = MutationTuple<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables>;
+    type Insert${fragmentNamePascalCase}ObjectsWrappedLazyMutationFn = (options?: MutationFunctionOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables>) => Promise<Insert${fragmentNamePascalCase}ObjectsMutationResultEx>;
+    export type Insert${fragmentNamePascalCase}ObjectsLazyMutationReturn = [Insert${fragmentNamePascalCase}ObjectsWrappedLazyMutationFn, Insert${fragmentNamePascalCase}ObjectsMutationResultEx];
 
     // Function
-    function useInsert${fragmentName}Objects(options?: Omit<MutationHookOptions<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>, "mutation">): Insert${fragmentName}ObjectsLazyMutationReturn {
-      const lazyMutation: Insert${fragmentName}ObjectsLazyMutationFn = useMutation<Insert${fragmentName}Mutation, Insert${fragmentName}MutationVariables>(Insert${fragmentName}Document, options);
-      const pickObjects: PickInsert${fragmentName}ObjectsFn = (mutation: Insert${fragmentName}Mutation | null | undefined) => { return mutation?.insert_${entityName}?.returning || []; };
+    function useInsert${fragmentNamePascalCase}Objects(options?: Omit<MutationHookOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables>, "mutation">): Insert${fragmentNamePascalCase}ObjectsLazyMutationReturn {
+      const lazyMutation: Insert${fragmentNamePascalCase}ObjectsLazyMutationFn = useMutation<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables>(Insert${fragmentNamePascalCase}Document, options);
+      const pickObjects: PickInsert${fragmentNamePascalCase}ObjectsFn = (mutation: Insert${fragmentNamePascalCase}Mutation | null | undefined) => { return mutation?.insert_${entityName}?.returning || []; };
 
-      const wrappedLazyMutation: Insert${fragmentName}ObjectsWrappedLazyMutationFn = async ( options ) => {
-        const fetchResult: Insert${fragmentName}ObjectsMutationResult = await lazyMutation[0](options);
+      const wrappedLazyMutation: Insert${fragmentNamePascalCase}ObjectsWrappedLazyMutationFn = async ( options ) => {
+        const fetchResult: Insert${fragmentNamePascalCase}ObjectsMutationResult = await lazyMutation[0](options);
         return { ...fetchResult, objects: pickObjects(fetchResult.data) };
       };
 
@@ -375,11 +379,11 @@ export function injectInsertReact({
 
   contentManager.addImport(makeImportStatement(`${entityPascalName}_Insert_Input`, typescriptCodegenOutputPath));
   contentManager.addImport(makeImportStatement(`${entityPascalName}_On_Conflict`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Insert${fragmentName}Mutation`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Insert${fragmentName}MutationVariables`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Insert${fragmentName}WithOnConflictMutationVariables`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Insert${fragmentName}Document`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Insert${fragmentName}WithOnConflictDocument`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}Mutation`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}MutationVariables`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}WithOnConflictMutationVariables`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}Document`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}WithOnConflictDocument`, typescriptCodegenOutputPath));
 }
 
 // ---------------------------------
@@ -399,6 +403,7 @@ export function injectUpdateReact({
   primaryKeyIdField: FieldDefinitionNode;
   typescriptCodegenOutputPath: string;
 }) {
+  const fragmentNamePascalCase = makePascalCase(fragmentName);
   const entityPascalName = makePascalCase(entityName);
   const entityShortName = makeShortName(entityName, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
@@ -410,30 +415,30 @@ export function injectUpdateReact({
      *  Update Hooks
      */
     
-    type Update${fragmentName}ByIdMutationResult = FetchResult<Update${fragmentName}ByIdMutation, Record<string, any>, Record<string, any>>;
-    export type Update${fragmentName}ByIdMutationResultEx = Update${fragmentName}ByIdMutationResult & ${fragmentName}ByIdHookResultEx;
+    type Update${fragmentNamePascalCase}ByIdMutationResult = FetchResult<Update${fragmentNamePascalCase}ByIdMutation, Record<string, any>, Record<string, any>>;
+    export type Update${fragmentNamePascalCase}ByIdMutationResultEx = Update${fragmentNamePascalCase}ByIdMutationResult & ${fragmentNamePascalCase}ByIdHookResultEx;
 
-    type PickUpdate${fragmentName}ByIdFn = (mutation: Update${fragmentName}ByIdMutation | null | undefined) => ${fragmentName}Fragment | null | undefined;
-    type Update${fragmentName}ByIdLazyMutationFn = MutationTuple<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>;
-    type Update${fragmentName}ByIdWrappedLazyMutationFn = ({ ${entityShortCamelCaseName}Id, set, autoOptimisticResponse, options }: { ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}; set: ${entityPascalName}_Set_Input; autoOptimisticResponse?: boolean; options?: Omit<MutationFunctionOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>, "variables">; }) => Promise<Update${fragmentName}ByIdMutationResultEx>;
-    export type Update${fragmentName}ByIdLazyMutationReturn = [Update${fragmentName}ByIdWrappedLazyMutationFn, Update${fragmentName}ByIdMutationResultEx];
+    type PickUpdate${fragmentNamePascalCase}ByIdFn = (mutation: Update${fragmentNamePascalCase}ByIdMutation | null | undefined) => ${fragmentNamePascalCase}Fragment | null | undefined;
+    type Update${fragmentNamePascalCase}ByIdLazyMutationFn = MutationTuple<Update${fragmentNamePascalCase}ByIdMutation, Update${fragmentNamePascalCase}ByIdMutationVariables>;
+    type Update${fragmentNamePascalCase}ByIdWrappedLazyMutationFn = ({ ${entityShortCamelCaseName}Id, set, autoOptimisticResponse, options }: { ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}; set: ${entityPascalName}_Set_Input; autoOptimisticResponse?: boolean; options?: Omit<MutationFunctionOptions<Update${fragmentNamePascalCase}ByIdMutation, Update${fragmentNamePascalCase}ByIdMutationVariables>, "variables">; }) => Promise<Update${fragmentNamePascalCase}ByIdMutationResultEx>;
+    export type Update${fragmentNamePascalCase}ByIdLazyMutationReturn = [Update${fragmentNamePascalCase}ByIdWrappedLazyMutationFn, Update${fragmentNamePascalCase}ByIdMutationResultEx];
 
-    function useUpdate${fragmentName}ById(options?: Omit<MutationHookOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>, "mutation" | "variables">): Update${fragmentName}ByIdLazyMutationReturn {
-      const lazyMutation: Update${fragmentName}ByIdLazyMutationFn = useMutation<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables>(Update${fragmentName}ByIdDocument, options);
+    function useUpdate${fragmentNamePascalCase}ById(options?: Omit<MutationHookOptions<Update${fragmentNamePascalCase}ByIdMutation, Update${fragmentNamePascalCase}ByIdMutationVariables>, "mutation" | "variables">): Update${fragmentNamePascalCase}ByIdLazyMutationReturn {
+      const lazyMutation: Update${fragmentNamePascalCase}ByIdLazyMutationFn = useMutation<Update${fragmentNamePascalCase}ByIdMutation, Update${fragmentNamePascalCase}ByIdMutationVariables>(Update${fragmentNamePascalCase}ByIdDocument, options);
 
-      const pick${fragmentName}: PickUpdate${fragmentName}ByIdFn = (mutation) => { return mutation?.update_${entityName}?.returning && mutation.update_${entityName}!.returning[0]; };
+      const pick${fragmentNamePascalCase}: PickUpdate${fragmentNamePascalCase}ByIdFn = (mutation) => { return mutation?.update_${entityName}?.returning && mutation.update_${entityName}!.returning[0]; };
 
-      const wrappedLazyMutation: Update${fragmentName}ByIdWrappedLazyMutationFn = async ({ ${entityShortCamelCaseName}Id, set, autoOptimisticResponse, options }) => {
-        const mutationOptions: MutationFunctionOptions<Update${fragmentName}ByIdMutation, Update${fragmentName}ByIdMutationVariables> = { variables: { id: ${entityShortCamelCaseName}Id, set }, ...options };
+      const wrappedLazyMutation: Update${fragmentNamePascalCase}ByIdWrappedLazyMutationFn = async ({ ${entityShortCamelCaseName}Id, set, autoOptimisticResponse, options }) => {
+        const mutationOptions: MutationFunctionOptions<Update${fragmentNamePascalCase}ByIdMutation, Update${fragmentNamePascalCase}ByIdMutationVariables> = { variables: { id: ${entityShortCamelCaseName}Id, set }, ...options };
         if (autoOptimisticResponse && (!options || !options.optimisticResponse)) {
-          mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Update${fragmentName}ByIdMutation>({ operationType: 'update', entityName:'${entityName}', objects:[{ id:${entityShortCamelCaseName}Id, ...set }] });
+          mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Update${fragmentNamePascalCase}ByIdMutation>({ operationType: 'update', entityName:'${entityName}', objects:[{ id:${entityShortCamelCaseName}Id, ...set }] });
         }
 
-        const fetchResult: Update${fragmentName}ByIdMutationResult = await lazyMutation[0]({ variables: { id: ${entityShortCamelCaseName}Id, set }, ...mutationOptions });
-        return { ...fetchResult, ${fragmentNameCamelCase}: pick${fragmentName}(fetchResult.data) };
+        const fetchResult: Update${fragmentNamePascalCase}ByIdMutationResult = await lazyMutation[0]({ variables: { id: ${entityShortCamelCaseName}Id, set }, ...mutationOptions });
+        return { ...fetchResult, ${fragmentNameCamelCase}: pick${fragmentNamePascalCase}(fetchResult.data) };
       };
 
-      return [wrappedLazyMutation, { ...lazyMutation[1], ${fragmentNameCamelCase}: pick${fragmentName}(lazyMutation[1].data) }];
+      return [wrappedLazyMutation, { ...lazyMutation[1], ${fragmentNameCamelCase}: pick${fragmentNamePascalCase}(lazyMutation[1].data) }];
     }
   `);
 
@@ -442,24 +447,24 @@ export function injectUpdateReact({
     //
 
     // Types
-    type Update${fragmentName}ObjectsMutationResult = FetchResult<Update${fragmentName}Mutation, Record<string, any>, Record<string, any>>;
-    export type Update${fragmentName}ObjectsMutationResultEx = Update${fragmentName}ObjectsMutationResult & ${fragmentName}ObjectsHookResultEx;
+    type Update${fragmentNamePascalCase}ObjectsMutationResult = FetchResult<Update${fragmentNamePascalCase}Mutation, Record<string, any>, Record<string, any>>;
+    export type Update${fragmentNamePascalCase}ObjectsMutationResultEx = Update${fragmentNamePascalCase}ObjectsMutationResult & ${fragmentNamePascalCase}ObjectsHookResultEx;
 
     // Function
-    type PickUpdate${fragmentName}ObjectsFn = (mutation: Update${fragmentName}Mutation | null | undefined) => ${fragmentName}Fragment[];
-    type Update${fragmentName}ObjectsLazyMutationFn = MutationTuple<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>;
-    type Update${fragmentName}ObjectsWrappedLazyMutationFn = (options?: MutationFunctionOptions<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>) => Promise<Update${fragmentName}ObjectsMutationResultEx>;
-    export type Update${fragmentName}ObjectsLazyMutationReturn = [Update${fragmentName}ObjectsWrappedLazyMutationFn, Update${fragmentName}ObjectsMutationResultEx];
+    type PickUpdate${fragmentNamePascalCase}ObjectsFn = (mutation: Update${fragmentNamePascalCase}Mutation | null | undefined) => ${fragmentNamePascalCase}Fragment[];
+    type Update${fragmentNamePascalCase}ObjectsLazyMutationFn = MutationTuple<Update${fragmentNamePascalCase}Mutation, Update${fragmentNamePascalCase}MutationVariables>;
+    type Update${fragmentNamePascalCase}ObjectsWrappedLazyMutationFn = (options?: MutationFunctionOptions<Update${fragmentNamePascalCase}Mutation, Update${fragmentNamePascalCase}MutationVariables>) => Promise<Update${fragmentNamePascalCase}ObjectsMutationResultEx>;
+    export type Update${fragmentNamePascalCase}ObjectsLazyMutationReturn = [Update${fragmentNamePascalCase}ObjectsWrappedLazyMutationFn, Update${fragmentNamePascalCase}ObjectsMutationResultEx];
 
-    function useUpdate${fragmentName}Objects(options?: Omit<MutationHookOptions<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>, "mutation">): Update${fragmentName}ObjectsLazyMutationReturn {
-      const lazyMutation: Update${fragmentName}ObjectsLazyMutationFn = useMutation<Update${fragmentName}Mutation, Update${fragmentName}MutationVariables>(Update${fragmentName}Document, options);
+    function useUpdate${fragmentNamePascalCase}Objects(options?: Omit<MutationHookOptions<Update${fragmentNamePascalCase}Mutation, Update${fragmentNamePascalCase}MutationVariables>, "mutation">): Update${fragmentNamePascalCase}ObjectsLazyMutationReturn {
+      const lazyMutation: Update${fragmentNamePascalCase}ObjectsLazyMutationFn = useMutation<Update${fragmentNamePascalCase}Mutation, Update${fragmentNamePascalCase}MutationVariables>(Update${fragmentNamePascalCase}Document, options);
 
-      const pickObjects: PickUpdate${fragmentName}ObjectsFn = (mutation: Update${fragmentName}Mutation | null | undefined) => {
+      const pickObjects: PickUpdate${fragmentNamePascalCase}ObjectsFn = (mutation: Update${fragmentNamePascalCase}Mutation | null | undefined) => {
         return mutation?.update_${entityName}?.returning || [];
       };
 
-      const wrappedLazyMutation: Update${fragmentName}ObjectsWrappedLazyMutationFn = async (options) => {
-        const fetchResult: Update${fragmentName}ObjectsMutationResult = await lazyMutation[0](options);
+      const wrappedLazyMutation: Update${fragmentNamePascalCase}ObjectsWrappedLazyMutationFn = async (options) => {
+        const fetchResult: Update${fragmentNamePascalCase}ObjectsMutationResult = await lazyMutation[0](options);
         return { ...fetchResult, objects: pickObjects(fetchResult.data) };
       };
 
@@ -468,12 +473,12 @@ export function injectUpdateReact({
   `);
 
   contentManager.addImport(makeImportStatement(`${entityPascalName}_Set_Input`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Update${fragmentName}ByIdMutation`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Update${fragmentName}ByIdMutationVariables`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Update${fragmentName}ByIdDocument`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Update${fragmentName}Mutation`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Update${fragmentName}MutationVariables`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Update${fragmentName}Document`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`Update${fragmentNamePascalCase}ByIdMutation`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`Update${fragmentNamePascalCase}ByIdMutationVariables`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`Update${fragmentNamePascalCase}ByIdDocument`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`Update${fragmentNamePascalCase}Mutation`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`Update${fragmentNamePascalCase}MutationVariables`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`Update${fragmentNamePascalCase}Document`, typescriptCodegenOutputPath));
 }
 
 // ---------------------------------
@@ -493,6 +498,7 @@ export function injectDeleteReact({
   primaryKeyIdField: FieldDefinitionNode;
   typescriptCodegenOutputPath: string;
 }) {
+  const fragmentNamePascalCase = makePascalCase(fragmentName);
   const entityShortName = makeShortName(entityName, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const entityModelName = makeModelName(entityName, trimString);
@@ -603,18 +609,19 @@ export function injectSharedReactPost({
   withUpdates?: boolean;
   withDeletes?: boolean;
 }) {
+  const fragmentNamePascalCase = makePascalCase(fragmentName);
   const entityModelName = makeModelName(entityName, trimString);
-  const queryByIdName = `Query${fragmentName}ById`;
-  const queryObjectsName = `Query${fragmentName}Objects`;
-  const subscribeByIdName = `SubscribeTo${fragmentName}ById`;
-  const subscribeByObjectsName = `SubscribeTo${fragmentName}Objects`;
+  const queryByIdName = `Query${fragmentNamePascalCase}ById`;
+  const queryObjectsName = `Query${fragmentNamePascalCase}Objects`;
+  const subscribeByIdName = `SubscribeTo${fragmentNamePascalCase}ById`;
+  const subscribeByObjectsName = `SubscribeTo${fragmentNamePascalCase}Objects`;
 
   if (withQueries || withInserts || withUpdates || withSubscriptions) {
     let fragmentHooksObject = `
-    // ${fragmentName} Fragment Helper Object
+    // ${fragmentNamePascalCase} Fragment Helper Object
     //------------------------------------------------
 
-    export const ${fragmentName}FragmentGQLHooks = {\n`;
+    export const ${fragmentNamePascalCase}FragmentGQLHooks = {\n`;
 
     if (withQueries) fragmentHooksObject += `      useQueryById: use${queryByIdName},\n`;
     if (withQueries) fragmentHooksObject += `      useQueryByIdLazy: use${queryByIdName}Lazy,\n`;
@@ -622,11 +629,11 @@ export function injectSharedReactPost({
     if (withQueries) fragmentHooksObject += `      useQueryObjectsLazy: use${queryObjectsName}Lazy,\n`;
     if (withSubscriptions) fragmentHooksObject += `      useSubscriptionById: use${subscribeByIdName},\n`;
     if (withSubscriptions) fragmentHooksObject += `      useSubscriptionObjects: use${subscribeByObjectsName},\n`;
-    if (withInserts) fragmentHooksObject += `      useInsert: useInsert${fragmentName},\n`;
-    if (withInserts) fragmentHooksObject += `      useInsertWithOnConflict: useInsert${fragmentName}WithOnConflict,\n`;
-    if (withInserts) fragmentHooksObject += `      useInsertObjects: useInsert${fragmentName}Objects,\n`;
-    if (withUpdates) fragmentHooksObject += `      useUpdateById: useUpdate${fragmentName}ById,\n`;
-    if (withUpdates) fragmentHooksObject += `      useUpdateObjects: useUpdate${fragmentName}Objects,\n`;
+    if (withInserts) fragmentHooksObject += `      useInsert: useInsert${fragmentNamePascalCase},\n`;
+    if (withInserts) fragmentHooksObject += `      useInsertWithOnConflict: useInsert${fragmentNamePascalCase}WithOnConflict,\n`;
+    if (withInserts) fragmentHooksObject += `      useInsertObjects: useInsert${fragmentNamePascalCase}Objects,\n`;
+    if (withUpdates) fragmentHooksObject += `      useUpdateById: useUpdate${fragmentNamePascalCase}ById,\n`;
+    if (withUpdates) fragmentHooksObject += `      useUpdateObjects: useUpdate${fragmentNamePascalCase}Objects,\n`;
 
     fragmentHooksObject += `    }
     `;

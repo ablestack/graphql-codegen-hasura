@@ -61,6 +61,7 @@ function injectFetchAsSubscriptionGql({ contentManager, entityName, fragmentName
 }
 exports.injectFetchAsSubscriptionGql = injectFetchAsSubscriptionGql;
 function makeFetchByIdGQL({ fetchType, entityName, fragmentName, trimString, primaryKeyIdField }) {
+    const fragmentNamePascalCase = utils_1.makePascalCase(fragmentName);
     const shortName = utils_1.makeShortName(entityName, trimString);
     const entityShortCamelName = utils_1.makeCamelCase(shortName);
     const fragmentDocName = _1.makeFragmentDocName(fragmentName);
@@ -68,7 +69,7 @@ function makeFetchByIdGQL({ fetchType, entityName, fragmentName, trimString, pri
     const fetchCamelCaseTypeVerb = fetchType === "query" ? "query" : "subscribeTo";
     const fetchTypeVerbUpperCase = utils_1.camelToSnakeUpperCase(fetchCamelCaseTypeVerb);
     return `const ${fetchTypeVerbUpperCase}_${fragmentName.toUpperCase()}_BYID = gql\`
-  ${fetchType} ${fetchCamelCaseTypeVerb}${fragmentName}ById($${entityShortCamelName}Id: ${primaryKeyIdPostGresFieldType}!) {
+  ${fetchType} ${fetchCamelCaseTypeVerb}${fragmentNamePascalCase}ById($${entityShortCamelName}Id: ${primaryKeyIdPostGresFieldType}!) {
     ${entityName}_by_pk(id: $${entityShortCamelName}Id) {
       ...${fragmentName}
     }
@@ -76,6 +77,7 @@ function makeFetchByIdGQL({ fetchType, entityName, fragmentName, trimString, pri
   \${${fragmentDocName}}\`;`;
 }
 function makeFetchObjectsGQL({ fetchType, entityName, fragmentName, trimString, primaryKeyIdField }) {
+    const fragmentNamePascalCase = utils_1.makePascalCase(fragmentName);
     const shortName = utils_1.makeShortName(entityName, trimString);
     const entityShortCamelName = utils_1.makeCamelCase(shortName);
     const fragmentDocName = _1.makeFragmentDocName(fragmentName);
@@ -83,7 +85,7 @@ function makeFetchObjectsGQL({ fetchType, entityName, fragmentName, trimString, 
     const fetchCamelCaseTypeVerb = fetchType === "query" ? "query" : "subscribeTo";
     const fetchTypeVerbUpperCase = utils_1.camelToSnakeUpperCase(fetchCamelCaseTypeVerb);
     return `const ${fetchTypeVerbUpperCase}_${fragmentName.toUpperCase()}_OBJECTS = gql\`
-  ${fetchType} ${fetchCamelCaseTypeVerb}${fragmentName}Objects(
+  ${fetchType} ${fetchCamelCaseTypeVerb}${fragmentNamePascalCase}Objects(
     $distinct_on: [${entityName}_select_column!]
     $where: ${entityName}_bool_exp
     $limit: Int
@@ -100,6 +102,7 @@ function makeFetchObjectsGQL({ fetchType, entityName, fragmentName, trimString, 
 // ---------------------------------
 //
 function injectInsertGql({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField }) {
+    const fragmentNamePascalCase = utils_1.makePascalCase(fragmentName);
     const fragmentDocName = _1.makeFragmentDocName(fragmentName);
     contentManager.addContent(`
 
@@ -107,7 +110,7 @@ function injectInsertGql({ contentManager, entityName, fragmentName, trimString,
     //
 
     const INSERT_${fragmentName.toUpperCase()} = gql\`
-      mutation insert${fragmentName}($objects: [${entityName}_insert_input!]!) {
+      mutation insert${fragmentNamePascalCase}($objects: [${entityName}_insert_input!]!) {
         insert_${entityName}(objects: $objects) {
           affected_rows
           returning {
@@ -123,7 +126,7 @@ function injectInsertGql({ contentManager, entityName, fragmentName, trimString,
     //
 
     const INSERT_${fragmentName.toUpperCase()}_WITH_ONCONFLICT = gql\`
-      mutation insert${fragmentName}WithOnConflict($objects: [${entityName}_insert_input!]!, $onConflict: ${entityName}_on_conflict) {
+      mutation insert${fragmentNamePascalCase}WithOnConflict($objects: [${entityName}_insert_input!]!, $onConflict: ${entityName}_on_conflict) {
         insert_${entityName}(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {
@@ -138,6 +141,7 @@ exports.injectInsertGql = injectInsertGql;
 // ---------------------------------
 //
 function injectUpdateGql({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField }) {
+    const fragmentNamePascalCase = utils_1.makePascalCase(fragmentName);
     const primaryKeyIdPostGresFieldType = _1.getIdPostGresFieldType(primaryKeyIdField);
     const fragmentDocName = _1.makeFragmentDocName(fragmentName);
     contentManager.addContent(`
@@ -146,7 +150,7 @@ function injectUpdateGql({ contentManager, entityName, fragmentName, trimString,
     //
 
     const UPDATE_${fragmentName.toUpperCase()}_BYID = gql\`
-      mutation update${fragmentName}ById($id: ${primaryKeyIdPostGresFieldType}, $set: ${entityName}_set_input) {
+      mutation update${fragmentNamePascalCase}ById($id: ${primaryKeyIdPostGresFieldType}, $set: ${entityName}_set_input) {
         update_${entityName}(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
           returning {
@@ -162,7 +166,7 @@ function injectUpdateGql({ contentManager, entityName, fragmentName, trimString,
     //
 
     const UPDATE_${fragmentName.toUpperCase()}S = gql\`
-      mutation update${fragmentName}($set: ${entityName}_set_input, $where:${entityName}_bool_exp!) {
+      mutation update${fragmentNamePascalCase}($set: ${entityName}_set_input, $where:${entityName}_bool_exp!) {
         update_${entityName}(_set: $set, where: $where) {
           affected_rows
           returning {

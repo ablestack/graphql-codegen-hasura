@@ -9,7 +9,6 @@ export declare function camelToSnakeUpperCase(str: string): string;
 export declare function makeShortName(typename: string, trimString?: string): string;
 export declare function makeModelName(typename: string, trimString?: string): string;
 export declare function makeImportStatement(importName: string, importPath: string): string;
-export declare function makeFragmentName(typename: string, trimString?: string): string;
 export declare function makeFragmentTypeScriptTypeName(fragmentName: string): string;
 export declare function makeFragmentDocName(fragmentName: string): string;
 export declare function getIdPostGresFieldType(field: FieldDefinitionNode): any;
