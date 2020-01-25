@@ -1,6 +1,11 @@
 # Overview
 
-graphql-codegen-hasura is a collection of code generator plugins for [graphql-code-generator](https://graphql-code-generator.com/). These plugins are designed to automate coding tasks around the development of a strongly typed client for a [Hasura](https://hasura.io/) backend. The majority of the code generated is strongly-typed wrappers for [Apollo GraphQL](https://www.apollographql.com/), in addition to a number of convenience features.
+graphql-codegen-hasura is a collection of code generator plugins for [graphql-code-generator](https://graphql-code-generator.com/). These plugins are designed to automate coding tasks around the development of a strongly typed client for a [Hasura](https://hasura.io/) backend. The majority of the code generated is strongly-typed wrappers for [Apollo GraphQL](https://www.apollographql.com/), in addition to a number of convenience features, including:
+
+- Strongly typed wrappers for all the Hasura/ApolloGrapqh methods (works great with code suggestion/auto-completion)
+- Auto optimistic caching option provided for all Inserts, Updates, and Deletes
+- Query and subscription results provide entity parameter directly on results object (instead of having to pick out of deeply nested result field)
+- Automatically calls cache.evit on entity deletion
 
 ## Status: \*BETA\*
 
@@ -14,7 +19,7 @@ These plugins follow a **Fragment First** approach to Hasura client code generat
 2. The plugins scans the target source code for gql Fragments
 3. The plugins generate CRUD and config gql and TypeScript code based on the located fragments
 
-## In Short
+## Example
 
 **You Define A Fragment Like So:**
 
@@ -27,15 +32,19 @@ export const DogFragmentDoc = gql`
 `;
 ```
 
-And the graphql-codegen-hasura plugins will generate a 'GQLHooks' and 'GQLHelper' object which you can then use to make CRUD calls to your API, as follows:
+The graphql-codegen-hasura plugins can then generate a 'GQLHooks' and 'GQLHelper' object which you can then use to make CRUD calls to your API.
+All the generated methods are strongly typed counterparts for methods on the AplloGraphQL client (with some augmentations).
+
+- See [ApolloGraphQL Documentation](https://www.apollographql.com/docs/react/) for specifics on the underlying client operations
+- See [ApolloGraphQL Documentation](https://www.apollographql.com/docs/react/) for specifics on the underlying backend operations
+- See below for specific augmentations and convenience features provided by the generated code
+
+### GQLHelper Generated Code
 
 ```TypeScript
-
-//
 // GQLHelper Object - Available Methods
-//
 
-GQLHelper.Fragments.Dog.queryById               // Query By Id
+GQLHelper.Fragments.Dog.queryById               // Query By id
 GQLHelper.Fragments.Dog.queryObjects            // Query
 GQLHelper.Fragments.Dog.subscribeToById         // Subscribe by ID
 GQLHelper.Fragments.Dog.subscribeToObjects      // Subscribe
@@ -46,20 +55,21 @@ GQLHelper.Fragments.Dog.insertObjects           // Insert one or multiple entiti
 GQLHelper.Fragments.Dog.updateById              // Update by ID
 GQLHelper.Fragments.Dog.updateObjects           // Update one or multiple entities
 
-GQLHelper.Fragments.Dog.watchQueryById          // Subscribe to observable query updates byId
-GQLHelper.Fragments.Dog.watchQueryObjects       // Subscribe to observable query updates
+GQLHelper.Fragments.Dog.watchQueryById          // Subscribe to observable by id
+GQLHelper.Fragments.Dog.watchQueryObjects       // Subscribe to observable
 
 GQLHelper.Fragments.Dog.clientReadFragmentById  // Read fragment from cache
-GQLHelper.Fragments.Dog.clientWriteFragmentById // Write fragment to cache (and broadcast updates to watched queries)
-GQLHelper.Fragments.Dog.cacheWriteFragmentById  // Quietly write fragment to cache (don't broadcast updates to watched queries)
+GQLHelper.Fragments.Dog.clientWriteFragmentById // Write fragment to cache (and broadcast)
+GQLHelper.Fragments.Dog.cacheWriteFragmentById  // Write fragment to cache (no broadcast)
 GQLHelper.Fragments.Dog.clientReadQueryById     // Read query from cache
-GQLHelper.Fragments.Dog.clientWriteQueryById    // Write query to cache (and broadcast updates to watched queries)
-GQLHelper.Fragments.Dog.cacheWriteQueryById     // Quietly write query to cache (don't broadcast updates to watched queries)
+GQLHelper.Fragments.Dog.clientWriteQueryById    // Write query to cache (and broadcast)
+GQLHelper.Fragments.Dog.cacheWriteQueryById     // Quietly write query to cache (no broadcast)
 
-//
-// Usage Example
-//
+```
 
+### GQLHelper Usage Example
+
+```TypeScript
 // QueryById
 GQLHelper.Fragments.Dog.queryById({ apolloClient, dogsId });
 
@@ -70,10 +80,7 @@ GQLHelper.Fragments.Dog.queryByObjects({ apolloClient, options: { variables: { w
 GQLHelper.Fragments.Dog.insert({ apolloClient, dog: newDog);
 
 // ... ETC. All the methods follow a the same pattern, and all allow the standard ApolloClient options objects to be populated and passed through.
-
 ```
-
-All the generated methods are strongly typed counterparts for methods on the AplloGraphQL client (with some augmentations). See [ApolloGraphQL Documentation](https://www.apollographql.com/docs/react/) for specifics on the underlying operations.
 
 ## Apollo Version
 
