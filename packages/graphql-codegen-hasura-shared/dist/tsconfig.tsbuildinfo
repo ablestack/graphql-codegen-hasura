@@ -634,7 +634,7 @@
         "signature": "16172fabdd337c5efa670da193f5bdc05135ae501c7b22fb0ce52c0675bcc677"
       },
       "../src/tshelperinjectors.ts": {
-        "version": "bce04a594702bdd240972951b429c1547b361f7b451eb6065cd4b6e9a2b431d8",
+        "version": "e565a23f7d14a07098bbaaf7011906965a0d509fef3397279c0c98d67060e841",
         "signature": "1d09eea9de5f88446d5e6d4a42bd3e728a0f0b9e32b285e856711edd19ca22a6"
       },
       "../src/reactinjectors.ts": {
@@ -4546,8 +4546,8 @@
       "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-processor/pre-resolve-types.d.ts",
       "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/optimize-operations.d.ts",
       "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/index.d.ts",
+      "../src/utils.ts",
       "../src/gqlinjectors.ts",
-      "../src/tshelperinjectors.ts",
       "../src/reactinjectors.ts",
       "../src/index.ts",
       "../src/configinjectors.ts",
@@ -4600,7 +4600,7 @@
       "../../../node_modules/@types/node/ts3.2/index.d.ts",
       "../../../node_modules/@types/minimatch/index.d.ts",
       "../../../node_modules/@types/glob/index.d.ts",
-      "../src/utils.ts"
+      "../src/tshelperinjectors.ts"
     ]
   },
   "version": "3.7.4"

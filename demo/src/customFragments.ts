@@ -1,7 +1,7 @@
 import gql from "graphql-tag";
 
-export const VehicleGraphFragmentDoc = gql`
-  fragment VehicleGraph on vehicle {
+export const VehicleFragmentDoc = gql`
+  fragment Vehicle on vehicle {
     id
     name
     locations {
@@ -10,8 +10,8 @@ export const VehicleGraphFragmentDoc = gql`
   }
 `;
 
-export const VehicleGraphLocationOnlyFragmentDoc = gql`
-  fragment VehicleGraphLocationOnly on vehicle {
+export const VehicleLocationOnlyFragmentDoc = gql`
+  fragment VehicleLocationOnly on vehicle {
     id
     locations {
       location
@@ -19,8 +19,8 @@ export const VehicleGraphLocationOnlyFragmentDoc = gql`
   }
 `;
 
-export const DogModelFragmentDoc = gql`
-  fragment DogModel on dogs {
+export const DogFragmentDoc = gql`
+  fragment Dog on dogs {
     breed
     id
   }

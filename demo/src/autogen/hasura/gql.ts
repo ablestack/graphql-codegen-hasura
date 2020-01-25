@@ -1,29 +1,29 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import gql from 'graphql-tag';
-import { VehicleGraphFragmentDoc } from '../';
-import { VehicleGraphLocationOnlyFragmentDoc } from '../';
-import { DogModelFragmentDoc } from '../';
+import { VehicleFragmentDoc } from '../';
+import { VehicleLocationOnlyFragmentDoc } from '../';
+import { DogFragmentDoc } from '../';
 
-    // VehicleGraph GQL
+    // Vehicle GQL
     //------------------------------------------------ 
   
 
 
     // Query: FetchById
     //
-    const QUERY_VEHICLEGRAPH_BYID = gql`
-  query queryVehicleGraphById($vehicleId: String!) {
+    const QUERY_VEHICLE_BYID = gql`
+  query queryVehicleById($vehicleId: String!) {
     vehicle_by_pk(id: $vehicleId) {
-      ...VehicleGraph
+      ...Vehicle
     }
   }
-  ${VehicleGraphFragmentDoc}`;
+  ${VehicleFragmentDoc}`;
 
 
     // Query: Fetch
     //
-    const QUERY_VEHICLEGRAPH_OBJECTS = gql`
-  query queryVehicleGraphObjects(
+    const QUERY_VEHICLE_OBJECTS = gql`
+  query queryVehicleObjects(
     $distinct_on: [vehicle_select_column!]
     $where: vehicle_bool_exp
     $limit: Int
@@ -31,28 +31,28 @@ import { DogModelFragmentDoc } from '../';
     $order_by: [vehicle_order_by!]
   ) {
     vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-      ...VehicleGraph
+      ...Vehicle
     }
   }
-  ${VehicleGraphFragmentDoc}
+  ${VehicleFragmentDoc}
   `;
 
 
     // Subscription: FetchById
     //
-    const SUBSCRIBE_TO_VEHICLEGRAPH_BYID = gql`
-  subscription subscribeToVehicleGraphById($vehicleId: String!) {
+    const SUBSCRIBE_TO_VEHICLE_BYID = gql`
+  subscription subscribeToVehicleById($vehicleId: String!) {
     vehicle_by_pk(id: $vehicleId) {
-      ...VehicleGraph
+      ...Vehicle
     }
   }
-  ${VehicleGraphFragmentDoc}`;
+  ${VehicleFragmentDoc}`;
 
 
     // Subscription: Fetch
     //
-    const SUBSCRIBE_TO_VEHICLEGRAPH_OBJECTS = gql`
-  subscription subscribeToVehicleGraphObjects(
+    const SUBSCRIBE_TO_VEHICLE_OBJECTS = gql`
+  subscription subscribeToVehicleObjects(
     $distinct_on: [vehicle_select_column!]
     $where: vehicle_bool_exp
     $limit: Int
@@ -60,74 +60,74 @@ import { DogModelFragmentDoc } from '../';
     $order_by: [vehicle_order_by!]
   ) {
     vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-      ...VehicleGraph
+      ...Vehicle
     }
   }
-  ${VehicleGraphFragmentDoc}
+  ${VehicleFragmentDoc}
   `;
 
 
     // Mutation: Insert
     //
 
-    const INSERT_VEHICLEGRAPH = gql`
-      mutation insertVehicleGraph($objects: [vehicle_insert_input!]!) {
+    const INSERT_VEHICLE = gql`
+      mutation insertVehicle($objects: [vehicle_insert_input!]!) {
         insert_vehicle(objects: $objects) {
           affected_rows
           returning {
-            ...VehicleGraph
+            ...Vehicle
           }
         }
       }
-      ${VehicleGraphFragmentDoc}
+      ${VehicleFragmentDoc}
     `;
 
 
     // Mutation: Insert
     //
 
-    const INSERT_VEHICLEGRAPH_WITH_ONCONFLICT = gql`
-      mutation insertVehicleGraphWithOnConflict($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
+    const INSERT_VEHICLE_WITH_ONCONFLICT = gql`
+      mutation insertVehicleWithOnConflict($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
         insert_vehicle(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {
-            ...VehicleGraph
+            ...Vehicle
           }
         }
       }
-      ${VehicleGraphFragmentDoc}
+      ${VehicleFragmentDoc}
     `;
 
 
     // Mutation: Update by Id
     //
 
-    const UPDATE_VEHICLEGRAPH_BYID = gql`
-      mutation updateVehicleGraphById($id: String, $set: vehicle_set_input) {
+    const UPDATE_VEHICLE_BYID = gql`
+      mutation updateVehicleById($id: String, $set: vehicle_set_input) {
         update_vehicle(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
           returning {
-            ...VehicleGraph
+            ...Vehicle
           }
         }
       }
-      ${VehicleGraphFragmentDoc}
+      ${VehicleFragmentDoc}
     `;
 
 
     // Mutation: Update
     //
 
-    const UPDATE_VEHICLEGRAPHS = gql`
-      mutation updateVehicleGraph($set: vehicle_set_input, $where:vehicle_bool_exp!) {
+    const UPDATE_VEHICLES = gql`
+      mutation updateVehicle($set: vehicle_set_input, $where:vehicle_bool_exp!) {
         update_vehicle(_set: $set, where: $where) {
           affected_rows
           returning {
-            ...VehicleGraph
+            ...Vehicle
           }
         }
       }
-      ${VehicleGraphFragmentDoc}
+      ${VehicleFragmentDoc}
     `;
 
 
@@ -154,26 +154,26 @@ import { DogModelFragmentDoc } from '../';
       }
     `;
 
-    // VehicleGraphLocationOnly GQL
+    // VehicleLocationOnly GQL
     //------------------------------------------------ 
   
 
 
     // Query: FetchById
     //
-    const QUERY_VEHICLEGRAPHLOCATIONONLY_BYID = gql`
-  query queryVehicleGraphLocationOnlyById($vehicleId: String!) {
+    const QUERY_VEHICLELOCATIONONLY_BYID = gql`
+  query queryVehicleLocationOnlyById($vehicleId: String!) {
     vehicle_by_pk(id: $vehicleId) {
-      ...VehicleGraphLocationOnly
+      ...VehicleLocationOnly
     }
   }
-  ${VehicleGraphLocationOnlyFragmentDoc}`;
+  ${VehicleLocationOnlyFragmentDoc}`;
 
 
     // Query: Fetch
     //
-    const QUERY_VEHICLEGRAPHLOCATIONONLY_OBJECTS = gql`
-  query queryVehicleGraphLocationOnlyObjects(
+    const QUERY_VEHICLELOCATIONONLY_OBJECTS = gql`
+  query queryVehicleLocationOnlyObjects(
     $distinct_on: [vehicle_select_column!]
     $where: vehicle_bool_exp
     $limit: Int
@@ -181,28 +181,28 @@ import { DogModelFragmentDoc } from '../';
     $order_by: [vehicle_order_by!]
   ) {
     vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-      ...VehicleGraphLocationOnly
+      ...VehicleLocationOnly
     }
   }
-  ${VehicleGraphLocationOnlyFragmentDoc}
+  ${VehicleLocationOnlyFragmentDoc}
   `;
 
 
     // Subscription: FetchById
     //
-    const SUBSCRIBE_TO_VEHICLEGRAPHLOCATIONONLY_BYID = gql`
-  subscription subscribeToVehicleGraphLocationOnlyById($vehicleId: String!) {
+    const SUBSCRIBE_TO_VEHICLELOCATIONONLY_BYID = gql`
+  subscription subscribeToVehicleLocationOnlyById($vehicleId: String!) {
     vehicle_by_pk(id: $vehicleId) {
-      ...VehicleGraphLocationOnly
+      ...VehicleLocationOnly
     }
   }
-  ${VehicleGraphLocationOnlyFragmentDoc}`;
+  ${VehicleLocationOnlyFragmentDoc}`;
 
 
     // Subscription: Fetch
     //
-    const SUBSCRIBE_TO_VEHICLEGRAPHLOCATIONONLY_OBJECTS = gql`
-  subscription subscribeToVehicleGraphLocationOnlyObjects(
+    const SUBSCRIBE_TO_VEHICLELOCATIONONLY_OBJECTS = gql`
+  subscription subscribeToVehicleLocationOnlyObjects(
     $distinct_on: [vehicle_select_column!]
     $where: vehicle_bool_exp
     $limit: Int
@@ -210,96 +210,96 @@ import { DogModelFragmentDoc } from '../';
     $order_by: [vehicle_order_by!]
   ) {
     vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-      ...VehicleGraphLocationOnly
+      ...VehicleLocationOnly
     }
   }
-  ${VehicleGraphLocationOnlyFragmentDoc}
+  ${VehicleLocationOnlyFragmentDoc}
   `;
 
 
     // Mutation: Insert
     //
 
-    const INSERT_VEHICLEGRAPHLOCATIONONLY = gql`
-      mutation insertVehicleGraphLocationOnly($objects: [vehicle_insert_input!]!) {
+    const INSERT_VEHICLELOCATIONONLY = gql`
+      mutation insertVehicleLocationOnly($objects: [vehicle_insert_input!]!) {
         insert_vehicle(objects: $objects) {
           affected_rows
           returning {
-            ...VehicleGraphLocationOnly
+            ...VehicleLocationOnly
           }
         }
       }
-      ${VehicleGraphLocationOnlyFragmentDoc}
+      ${VehicleLocationOnlyFragmentDoc}
     `;
 
 
     // Mutation: Insert
     //
 
-    const INSERT_VEHICLEGRAPHLOCATIONONLY_WITH_ONCONFLICT = gql`
-      mutation insertVehicleGraphLocationOnlyWithOnConflict($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
+    const INSERT_VEHICLELOCATIONONLY_WITH_ONCONFLICT = gql`
+      mutation insertVehicleLocationOnlyWithOnConflict($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
         insert_vehicle(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {
-            ...VehicleGraphLocationOnly
+            ...VehicleLocationOnly
           }
         }
       }
-      ${VehicleGraphLocationOnlyFragmentDoc}
+      ${VehicleLocationOnlyFragmentDoc}
     `;
 
 
     // Mutation: Update by Id
     //
 
-    const UPDATE_VEHICLEGRAPHLOCATIONONLY_BYID = gql`
-      mutation updateVehicleGraphLocationOnlyById($id: String, $set: vehicle_set_input) {
+    const UPDATE_VEHICLELOCATIONONLY_BYID = gql`
+      mutation updateVehicleLocationOnlyById($id: String, $set: vehicle_set_input) {
         update_vehicle(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
           returning {
-            ...VehicleGraphLocationOnly
+            ...VehicleLocationOnly
           }
         }
       }
-      ${VehicleGraphLocationOnlyFragmentDoc}
+      ${VehicleLocationOnlyFragmentDoc}
     `;
 
 
     // Mutation: Update
     //
 
-    const UPDATE_VEHICLEGRAPHLOCATIONONLYS = gql`
-      mutation updateVehicleGraphLocationOnly($set: vehicle_set_input, $where:vehicle_bool_exp!) {
+    const UPDATE_VEHICLELOCATIONONLYS = gql`
+      mutation updateVehicleLocationOnly($set: vehicle_set_input, $where:vehicle_bool_exp!) {
         update_vehicle(_set: $set, where: $where) {
           affected_rows
           returning {
-            ...VehicleGraphLocationOnly
+            ...VehicleLocationOnly
           }
         }
       }
-      ${VehicleGraphLocationOnlyFragmentDoc}
+      ${VehicleLocationOnlyFragmentDoc}
     `;
 
-    // DogModel GQL
+    // Dog GQL
     //------------------------------------------------ 
   
 
 
     // Query: FetchById
     //
-    const QUERY_DOGMODEL_BYID = gql`
-  query queryDogModelById($dogsId: uuid!) {
+    const QUERY_DOG_BYID = gql`
+  query queryDogById($dogsId: uuid!) {
     dogs_by_pk(id: $dogsId) {
-      ...DogModel
+      ...Dog
     }
   }
-  ${DogModelFragmentDoc}`;
+  ${DogFragmentDoc}`;
 
 
     // Query: Fetch
     //
-    const QUERY_DOGMODEL_OBJECTS = gql`
-  query queryDogModelObjects(
+    const QUERY_DOG_OBJECTS = gql`
+  query queryDogObjects(
     $distinct_on: [dogs_select_column!]
     $where: dogs_bool_exp
     $limit: Int
@@ -307,28 +307,28 @@ import { DogModelFragmentDoc } from '../';
     $order_by: [dogs_order_by!]
   ) {
     dogs(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-      ...DogModel
+      ...Dog
     }
   }
-  ${DogModelFragmentDoc}
+  ${DogFragmentDoc}
   `;
 
 
     // Subscription: FetchById
     //
-    const SUBSCRIBE_TO_DOGMODEL_BYID = gql`
-  subscription subscribeToDogModelById($dogsId: uuid!) {
+    const SUBSCRIBE_TO_DOG_BYID = gql`
+  subscription subscribeToDogById($dogsId: uuid!) {
     dogs_by_pk(id: $dogsId) {
-      ...DogModel
+      ...Dog
     }
   }
-  ${DogModelFragmentDoc}`;
+  ${DogFragmentDoc}`;
 
 
     // Subscription: Fetch
     //
-    const SUBSCRIBE_TO_DOGMODEL_OBJECTS = gql`
-  subscription subscribeToDogModelObjects(
+    const SUBSCRIBE_TO_DOG_OBJECTS = gql`
+  subscription subscribeToDogObjects(
     $distinct_on: [dogs_select_column!]
     $where: dogs_bool_exp
     $limit: Int
@@ -336,74 +336,74 @@ import { DogModelFragmentDoc } from '../';
     $order_by: [dogs_order_by!]
   ) {
     dogs(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-      ...DogModel
+      ...Dog
     }
   }
-  ${DogModelFragmentDoc}
+  ${DogFragmentDoc}
   `;
 
 
     // Mutation: Insert
     //
 
-    const INSERT_DOGMODEL = gql`
-      mutation insertDogModel($objects: [dogs_insert_input!]!) {
+    const INSERT_DOG = gql`
+      mutation insertDog($objects: [dogs_insert_input!]!) {
         insert_dogs(objects: $objects) {
           affected_rows
           returning {
-            ...DogModel
+            ...Dog
           }
         }
       }
-      ${DogModelFragmentDoc}
+      ${DogFragmentDoc}
     `;
 
 
     // Mutation: Insert
     //
 
-    const INSERT_DOGMODEL_WITH_ONCONFLICT = gql`
-      mutation insertDogModelWithOnConflict($objects: [dogs_insert_input!]!, $onConflict: dogs_on_conflict) {
+    const INSERT_DOG_WITH_ONCONFLICT = gql`
+      mutation insertDogWithOnConflict($objects: [dogs_insert_input!]!, $onConflict: dogs_on_conflict) {
         insert_dogs(objects: $objects, on_conflict: $onConflict) {
           affected_rows
           returning {
-            ...DogModel
+            ...Dog
           }
         }
       }
-      ${DogModelFragmentDoc}
+      ${DogFragmentDoc}
     `;
 
 
     // Mutation: Update by Id
     //
 
-    const UPDATE_DOGMODEL_BYID = gql`
-      mutation updateDogModelById($id: uuid, $set: dogs_set_input) {
+    const UPDATE_DOG_BYID = gql`
+      mutation updateDogById($id: uuid, $set: dogs_set_input) {
         update_dogs(_set: $set, where: { id: { _eq: $id } }) {
           affected_rows
           returning {
-            ...DogModel
+            ...Dog
           }
         }
       }
-      ${DogModelFragmentDoc}
+      ${DogFragmentDoc}
     `;
 
 
     // Mutation: Update
     //
 
-    const UPDATE_DOGMODELS = gql`
-      mutation updateDogModel($set: dogs_set_input, $where:dogs_bool_exp!) {
+    const UPDATE_DOGS = gql`
+      mutation updateDog($set: dogs_set_input, $where:dogs_bool_exp!) {
         update_dogs(_set: $set, where: $where) {
           affected_rows
           returning {
-            ...DogModel
+            ...Dog
           }
         }
       }
-      ${DogModelFragmentDoc}
+      ${DogFragmentDoc}
     `;
 
 
