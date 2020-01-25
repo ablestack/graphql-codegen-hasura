@@ -2,7 +2,7 @@
 
 graphql-codegen-hasura is a collection of code generator plugins for [graphql-code-generator](https://graphql-code-generator.com/). These plugins are designed to automate coding tasks around the development of a strongly typed client for a [Hasura](https://hasura.io/) backend. The majority of the code generated is strongly-typed wrappers for [Apollo GraphQL](https://www.apollographql.com/), in addition to a number of convenience features, including:
 
-- Strongly typed wrappers for all the Hasura/ApolloGrapqh methods (works great with code suggestion/auto-completion)
+- Strongly typed wrappers for all the Hasura/ApolloGrapqh methods (works great with code suggestion/auto-completion), organized into combined "GQLHelper" and "GQLHook" objects
 - Auto optimistic caching option provided for all Inserts, Updates, and Deletes
 - Query and subscription results provide entity parameter directly on results object (instead of having to pick out of deeply nested result field)
 - Automatically calls cache.evit on entity deletion
