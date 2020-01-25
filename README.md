@@ -35,35 +35,43 @@ export const DogFragmentDoc = gql`
 The graphql-codegen-hasura plugins can then generate a 'GQLHooks' and 'GQLHelper' object which you can then use to make CRUD calls to your API.
 All the generated methods are strongly typed counterparts for methods on the AplloGraphQL client (with some augmentations).
 
-- See [ApolloGraphQL Documentation](https://www.apollographql.com/docs/react/) for specifics on the underlying client operations
-- See [ApolloGraphQL Documentation](https://www.apollographql.com/docs/react/) for specifics on the underlying backend operations
-- See below for specific augmentations and convenience features provided by the generated code
-
 ### GQLHelper Generated Code
 
 ```TypeScript
 // GQLHelper Object - Available Methods
 
-GQLHelper.Fragments.Dog.queryById               // Query By id
-GQLHelper.Fragments.Dog.queryObjects            // Query
-GQLHelper.Fragments.Dog.subscribeToById         // Subscribe by ID
-GQLHelper.Fragments.Dog.subscribeToObjects      // Subscribe
+// Query
+GQLHelper.Fragments.Dog.queryById(/* params */)               // Query By id
+GQLHelper.Fragments.Dog.queryObjects(/* params */)            // Query
 
-GQLHelper.Fragments.Dog.insert                  // Insert single entity
-GQLHelper.Fragments.Dog.insertWithOnConflict    // Insert with strongly types onconflict options
-GQLHelper.Fragments.Dog.insertObjects           // Insert one or multiple entities
-GQLHelper.Fragments.Dog.updateById              // Update by ID
-GQLHelper.Fragments.Dog.updateObjects           // Update one or multiple entities
+// Subscribe
+GQLHelper.Fragments.Dog.subscribeToById(/* params */)         // Subscribe by id
+GQLHelper.Fragments.Dog.subscribeToObjects(/* params */)      // Subscribe
 
-GQLHelper.Fragments.Dog.watchQueryById          // Subscribe to observable by id
-GQLHelper.Fragments.Dog.watchQueryObjects       // Subscribe to observable
+// Insert
+GQLHelper.Fragments.Dog.insert(/* params */)                  // Insert single entity
+GQLHelper.Fragments.Dog.insertWithOnConflict(/* params */)    // Insert with strongly types onconflict options
+GQLHelper.Fragments.Dog.insertObjects(/* params */)           // Insert one or multiple entities
 
-GQLHelper.Fragments.Dog.clientReadFragmentById  // Read fragment from cache
-GQLHelper.Fragments.Dog.clientWriteFragmentById // Write fragment to cache (and broadcast)
-GQLHelper.Fragments.Dog.cacheWriteFragmentById  // Write fragment to cache (no broadcast)
-GQLHelper.Fragments.Dog.clientReadQueryById     // Read query from cache
-GQLHelper.Fragments.Dog.clientWriteQueryById    // Write query to cache (and broadcast)
-GQLHelper.Fragments.Dog.cacheWriteQueryById     // Quietly write query to cache (no broadcast)
+// Update
+GQLHelper.Fragments.Dog.updateById(/* params */)              // Update by id
+GQLHelper.Fragments.Dog.updateObjects(/* params */)           // Update one or multiple entities
+
+// Delete
+GQLHelper.Models.Dog.removeById(/* params */)                 // Delete entity by id
+GQLHelper.Models.Dog.removeObjects(/* params */)              // Delete one or multiple entities
+
+// Watch
+GQLHelper.Fragments.Dog.watchQueryById(/* params */)          // Subscribe to observable by id
+GQLHelper.Fragments.Dog.watchQueryObjects(/* params */)       // Subscribe to observable
+
+// Cache Read/Write
+GQLHelper.Fragments.Dog.clientReadFragmentById(/* params */)  // Read fragment from cache
+GQLHelper.Fragments.Dog.clientReadQueryById(/* params */)     // Read query from cache
+GQLHelper.Fragments.Dog.clientWriteFragmentById(/* params */) // Write fragment to cache (and broadcast)
+GQLHelper.Fragments.Dog.cacheWriteFragmentById(/* params */)  // Write fragment to cache (no broadcast)
+GQLHelper.Fragments.Dog.clientWriteQueryById(/* params */)    // Write query to cache (and broadcast)
+GQLHelper.Fragments.Dog.cacheWriteQueryById(/* params */)     // Write query to cache (no broadcast)
 
 ```
 
@@ -81,6 +89,58 @@ GQLHelper.Fragments.Dog.insert({ apolloClient, dog: newDog);
 
 // ... ETC. All the methods follow a the same pattern, and all allow the standard ApolloClient options objects to be populated and passed through.
 ```
+
+### GQLHooks Generated Code
+
+```TypeScript
+// GQLHooks Object - Available Methods
+
+// Query
+GQLHelper.Fragments.Dog.useQueryById(/* params */)            // Hook to query by id
+GQLHelper.Fragments.Dog.useQueryByIdLazy(/* params */)        // Hook to query by id - lazy execution
+GQLHelper.Fragments.Dog.useQueryObjects(/* params */)         // Hook to query one or multiple entities
+GQLHelper.Fragments.Dog.useQueryObjectsLazy(/* params */)     // Hook to query one or multiple entities - lazy execution
+
+// Subscribe
+GQLHelper.Fragments.Dog.useSubscribeToById(/* params */)      // Hook to subscribe by id
+GQLHelper.Fragments.Dog.useSubscribeToObjects(/* params */)   // Hook to subscribe to one or multiple entities
+
+// Insert
+GQLHelper.Fragments.Dog.useInsert(/* params */)               // Hook to insert single entity
+GQLHelper.Fragments.Dog.useInsertWithOnConflict(/* params */) // Hook to insert with strongly types onconflict options
+GQLHelper.Fragments.Dog.useInsertObjects(/* params */)        // Hook to insert one or multiple entities
+
+// Update
+GQLHelper.Fragments.Dog.useUpdateById(/* params */)           // Hook to update by id
+GQLHelper.Fragments.Dog.useUpdateObjects(/* params */)        // Hook to update one or multiple entities
+
+// Delete
+GQLHelper.Models.Dog.useRemoveById(/* params */)              // Hook to delete entity by id
+GQLHelper.Models.Dog.useRemoveObjects(/* params */)           // Hook to delete one or multiple entities
+```
+
+### GQLHooks Usage Example
+
+```TypeScript
+// QueryById
+{ dog, loading, errors } = await GQLHelper.Fragments.Dog.queryById({ apolloClient, dogsId });
+
+// Query Collection
+{ objects, loading, errors } = await GQLHelper.Fragments.Dog.useQueryByObjects({ apolloClient, options: { variables: { where: { breed: { _eq: 'scottie' } } } });
+
+// Insert Mutation
+const [addDog] = GQLHelper.Fragments.Dog.insert({ apolloClient, dog: newDog);
+addDog({ type:'scottie' });
+
+
+// ... ETC. All the methods follow a the same pattern, and all allow the standard ApolloClient options objects to be populated and passed through.
+```
+
+### Further Information
+
+- See [ApolloGraphQL Documentation](https://www.apollographql.com/docs/react/) for specifics on the underlying client operations
+- See [ApolloGraphQL Documentation](https://www.apollographql.com/docs/react/) for specifics on the underlying backend operations
+- See below and [demo project](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for further details
 
 ## Apollo Version
 

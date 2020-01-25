@@ -574,7 +574,7 @@ export function injectGlobalHelperCodePost({
   withDeletes?: boolean;
 }) {
   const uniqueModelNamesFromFragments = getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString }).map(
-    entityName => `${makeModelName(entityName, trimString)}`
+    entityName => `${makeShortName(entityName, trimString)}`
   );
 
   contentManager.addContent(`

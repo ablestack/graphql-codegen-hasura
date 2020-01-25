@@ -627,8 +627,8 @@ export function injectSharedReactPost({
     if (withQueries) fragmentHooksObject += `      useQueryByIdLazy: use${queryByIdName}Lazy,\n`;
     if (withQueries) fragmentHooksObject += `      useQueryObjects: use${queryObjectsName},\n`;
     if (withQueries) fragmentHooksObject += `      useQueryObjectsLazy: use${queryObjectsName}Lazy,\n`;
-    if (withSubscriptions) fragmentHooksObject += `      useSubscriptionById: use${subscribeByIdName},\n`;
-    if (withSubscriptions) fragmentHooksObject += `      useSubscriptionObjects: use${subscribeByObjectsName},\n`;
+    if (withSubscriptions) fragmentHooksObject += `      useSubscribeToById: use${subscribeByIdName},\n`;
+    if (withSubscriptions) fragmentHooksObject += `      useSubscribeToObjects: use${subscribeByObjectsName},\n`;
     if (withInserts) fragmentHooksObject += `      useInsert: useInsert${fragmentNamePascalCase},\n`;
     if (withInserts) fragmentHooksObject += `      useInsertWithOnConflict: useInsert${fragmentNamePascalCase}WithOnConflict,\n`;
     if (withInserts) fragmentHooksObject += `      useInsertObjects: useInsert${fragmentNamePascalCase}Objects,\n`;
@@ -679,7 +679,7 @@ export function injectGlobalReactCodePost({
   withDeletes?: boolean;
 }) {
   const uniqueModelNamesFromFragments = getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString }).map(
-    entityName => `${makeModelName(entityName, trimString)}`
+    entityName => `${makeShortName(entityName, trimString)}`
   );
 
   contentManager.addContent(`
