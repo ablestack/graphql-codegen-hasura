@@ -96,40 +96,40 @@ GQLHelper.Fragments.Dog.insert({ apolloClient, dog: newDog);
 // GQLHooks Object - Available Methods
 
 // Query
-GQLHelper.Fragments.Dog.useQueryById(/* params */)            // Hook to query by id
-GQLHelper.Fragments.Dog.useQueryByIdLazy(/* params */)        // Hook to query by id - lazy execution
-GQLHelper.Fragments.Dog.useQueryObjects(/* params */)         // Hook to query one or multiple entities
-GQLHelper.Fragments.Dog.useQueryObjectsLazy(/* params */)     // Hook to query one or multiple entities - lazy execution
+GQLHooks.Fragments.Dog.useQueryById(/* params */)            // Hook to query by id
+GQLHooks.Fragments.Dog.useQueryByIdLazy(/* params */)        // Hook to query by id - lazy execution
+GQLHooks.Fragments.Dog.useQueryObjects(/* params */)         // Hook to query one or multiple entities
+GQLHooks.Fragments.Dog.useQueryObjectsLazy(/* params */)     // Hook to query one or multiple entities - lazy execution
 
 // Subscribe
-GQLHelper.Fragments.Dog.useSubscribeToById(/* params */)      // Hook to subscribe by id
-GQLHelper.Fragments.Dog.useSubscribeToObjects(/* params */)   // Hook to subscribe to one or multiple entities
+GQLHooks.Fragments.Dog.useSubscribeToById(/* params */)      // Hook to subscribe by id
+GQLHooks.Fragments.Dog.useSubscribeToObjects(/* params */)   // Hook to subscribe to one or multiple entities
 
 // Insert
-GQLHelper.Fragments.Dog.useInsert(/* params */)               // Hook to insert single entity
-GQLHelper.Fragments.Dog.useInsertWithOnConflict(/* params */) // Hook to insert with strongly types onconflict options
-GQLHelper.Fragments.Dog.useInsertObjects(/* params */)        // Hook to insert one or multiple entities
+GQLHooks.Fragments.Dog.useInsert(/* params */)               // Hook to insert single entity
+GQLHooks.Fragments.Dog.useInsertWithOnConflict(/* params */) // Hook to insert with strongly types onconflict options
+GQLHooks.Fragments.Dog.useInsertObjects(/* params */)        // Hook to insert one or multiple entities
 
 // Update
-GQLHelper.Fragments.Dog.useUpdateById(/* params */)           // Hook to update by id
-GQLHelper.Fragments.Dog.useUpdateObjects(/* params */)        // Hook to update one or multiple entities
+GQLHooks.Fragments.Dog.useUpdateById(/* params */)           // Hook to update by id
+GQLHooks.Fragments.Dog.useUpdateObjects(/* params */)        // Hook to update one or multiple entities
 
 // Delete
-GQLHelper.Models.Dog.useRemoveById(/* params */)              // Hook to delete entity by id
-GQLHelper.Models.Dog.useRemoveObjects(/* params */)           // Hook to delete one or multiple entities
+GQLHooks.Models.Dog.useRemoveById(/* params */)              // Hook to delete entity by id
+GQLHooks.Models.Dog.useRemoveObjects(/* params */)           // Hook to delete one or multiple entities
 ```
 
 ### GQLHooks Usage Example
 
 ```TypeScript
 // QueryById
-{ dog, loading, errors } = await GQLHelper.Fragments.Dog.queryById({ apolloClient, dogsId });
+{ dog, loading, errors } = await GQLHooks.Fragments.Dog.queryById({ apolloClient, dogsId });
 
 // Query Collection
-{ objects, loading, errors } = await GQLHelper.Fragments.Dog.useQueryByObjects({ apolloClient, options: { variables: { where: { breed: { _eq: 'scottie' } } } });
+{ objects, loading, errors } = await GQLHooks.Fragments.Dog.useQueryByObjects({ apolloClient, options: { variables: { where: { breed: { _eq: 'scottie' } } } });
 
 // Insert Mutation
-const [addDog] = GQLHelper.Fragments.Dog.insert({ apolloClient, dog: newDog);
+const [addDog] = GQLHooks.Fragments.Dog.insert({ apolloClient, dog: newDog);
 addDog({ type:'scottie' });
 
 
