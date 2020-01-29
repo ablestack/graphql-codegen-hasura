@@ -702,7 +702,7 @@ export function injectGlobalReactCodePost({
       ${
         withDeletes
           ? `Models: {
-        ${uniqueModelNamesFromFragments.map(modelName => `${modelName}: ${modelName}GQLHooks`).join(",\n        ")}
+        ${uniqueModelNamesFromFragments.map(modelName => `${modelName}: ${modelName}ModelGQLHooks`).join(",\n        ")}
       }`
           : ""
       }

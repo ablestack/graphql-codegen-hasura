@@ -445,8 +445,8 @@ import { RemoveDogsModelByIdDocument } from '../';
       useQueryByIdLazy: useQueryVehicleByIdLazy,
       useQueryObjects: useQueryVehicleObjects,
       useQueryObjectsLazy: useQueryVehicleObjectsLazy,
-      useSubscriptionById: useSubscribeToVehicleById,
-      useSubscriptionObjects: useSubscribeToVehicleObjects,
+      useSubscribeToById: useSubscribeToVehicleById,
+      useSubscribeToObjects: useSubscribeToVehicleObjects,
       useInsert: useInsertVehicle,
       useInsertWithOnConflict: useInsertVehicleWithOnConflict,
       useInsertObjects: useInsertVehicleObjects,
@@ -747,8 +747,8 @@ import { RemoveDogsModelByIdDocument } from '../';
       useQueryByIdLazy: useQueryVehicleLocationOnlyByIdLazy,
       useQueryObjects: useQueryVehicleLocationOnlyObjects,
       useQueryObjectsLazy: useQueryVehicleLocationOnlyObjectsLazy,
-      useSubscriptionById: useSubscribeToVehicleLocationOnlyById,
-      useSubscriptionObjects: useSubscribeToVehicleLocationOnlyObjects,
+      useSubscribeToById: useSubscribeToVehicleLocationOnlyById,
+      useSubscribeToObjects: useSubscribeToVehicleLocationOnlyObjects,
       useInsert: useInsertVehicleLocationOnly,
       useInsertWithOnConflict: useInsertVehicleLocationOnlyWithOnConflict,
       useInsertObjects: useInsertVehicleLocationOnlyObjects,
@@ -1106,8 +1106,8 @@ import { RemoveDogsModelByIdDocument } from '../';
       useQueryByIdLazy: useQueryDogByIdLazy,
       useQueryObjects: useQueryDogObjects,
       useQueryObjectsLazy: useQueryDogObjectsLazy,
-      useSubscriptionById: useSubscribeToDogById,
-      useSubscriptionObjects: useSubscribeToDogObjects,
+      useSubscribeToById: useSubscribeToDogById,
+      useSubscribeToObjects: useSubscribeToDogObjects,
       useInsert: useInsertDog,
       useInsertWithOnConflict: useInsertDogWithOnConflict,
       useInsertObjects: useInsertDogObjects,
@@ -1135,8 +1135,8 @@ import { RemoveDogsModelByIdDocument } from '../';
         Dog: DogFragmentGQLHooks
       },
       Models: {
-        VehicleModel: VehicleModelGQLHooks,
-        DogsModel: DogsModelGQLHooks
+        Vehicle: VehicleModelGQLHooks,
+        Dogs: DogsModelGQLHooks
       }
     }
   

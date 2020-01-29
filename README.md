@@ -35,7 +35,7 @@ export const DogFragmentDoc = gql`
 The graphql-codegen-hasura plugins can then generate a 'GQLHooks' and 'GQLHelper' object which you can then use to make CRUD calls to your API.
 All the generated methods are strongly typed counterparts for methods on the AplloGraphQL client (with some augmentations).
 
-### GQLHelper Generated Code
+### GQLHelper Generated Methods
 
 ```TypeScript
 // GQLHelper Object - Available Methods
@@ -90,7 +90,7 @@ GQLHelper.Fragments.Dog.insert({ apolloClient, dog: newDog);
 // ... ETC. All the methods follow a the same pattern, and all allow the standard ApolloClient options objects to be populated and passed through.
 ```
 
-### GQLHooks Generated Code
+### GQLHooks Generated Methods
 
 ```TypeScript
 // GQLHooks Object - Available Methods
@@ -310,9 +310,11 @@ The demo project is simply:
 
 ## Motivation
 
-[Hasura](https://hasura.io/) is a fantastic tool for the rapid development of a GraphQL backend. [Apollo GraphQL](https://www.apollographql.com/) is a suite of GraphQL tooling, including a great Client. [graphql-code-generator](https://graphql-code-generator.com/) is a very helpful code generation tool and library, to automate the generation of much of the boilerplate code required to use GraphQL. However, there still remained quite a bit of boiler plate code to be written.
+[Hasura](https://hasura.io/) is a fantastic tool for the rapid development of a GraphQL backend.
+[Apollo GraphQL](https://www.apollographql.com/) is a suite of GraphQL tooling, including a great Client.
+[graphql-code-generator](https://graphql-code-generator.com/) is a very helpful code generation tool and library, to automate the generation of much of the boilerplate code required to use GraphQL. However, there still remained quite a bit of boiler plate code to be written.
 
-The consistency and predictability of the [Hasura](https://hasura.io/) GQL backend implementation, provided an opportunity to automate much of the remaining code for standard single-table mutations and queries, and multi-table helper code. This plugin is an attempt to help do this.
+The consistency and predictability of the [Hasura](https://hasura.io/) GQL backend implementation, provides an opportunity to automate much of the remaining code for standard single-table mutations and queries, and multi-table helper code. These plugins are designed to provide this.
 
 ## Disclaimers & Known Issues
 
@@ -320,7 +322,7 @@ This code was initially developed for use in a single separate commercial projec
 
 Known Issues Include:
 
-- None at present
+- Does not support entities with multi-field primary keys
 
 ## Refinements and Enhancements Needed
 

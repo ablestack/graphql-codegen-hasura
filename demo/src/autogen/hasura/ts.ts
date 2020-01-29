@@ -761,8 +761,8 @@ import { RemoveDogsModelByIdDocument } from '../';
         Dog: DogFragmentGQLHelper
       },
       Models: {
-        VehicleModel: VehicleModelGQLHelper,
-        DogsModel: DogsModelGQLHelper
+        Vehicle: VehicleModelGQLHelper,
+        Dogs: DogsModelGQLHelper
       }
     }
   

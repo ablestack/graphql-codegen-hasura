@@ -417,7 +417,7 @@ exports.injectSharedHelpersPost = injectSharedHelpersPost;
 // ---------------------------------
 //
 function injectGlobalHelperCodePost({ contentManager, fragmentDefinitionNodes, schemaTypeMap, trimString, withClientAndCacheHelpers, withQueries, withInserts, withUpdates, withDeletes }) {
-    const uniqueModelNamesFromFragments = utils_1.getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString }).map(entityName => `${_1.makeModelName(entityName, trimString)}`);
+    const uniqueModelNamesFromFragments = utils_1.getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString }).map(entityName => `${_1.makeShortName(entityName, trimString)}`);
     contentManager.addContent(`
     // COMBINED HELPER OBJECT
     //------------------------------------------------
@@ -431,7 +431,7 @@ function injectGlobalHelperCodePost({ contentManager, fragmentDefinitionNodes, s
         : ""}
       ${withDeletes
         ? `Models: {
-        ${uniqueModelNamesFromFragments.map(modelName => `${modelName}: ${modelName}GQLHelper`).join(",\n        ")}
+        ${uniqueModelNamesFromFragments.map(modelName => `${modelName}: ${modelName}ModelGQLHelper`).join(",\n        ")}
       }`
         : ""}
     }

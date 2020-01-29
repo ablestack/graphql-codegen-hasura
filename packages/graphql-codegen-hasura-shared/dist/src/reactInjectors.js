@@ -495,9 +495,9 @@ function injectSharedReactPost({ contentManager, entityName, fragmentName, trimS
         if (withQueries)
             fragmentHooksObject += `      useQueryObjectsLazy: use${queryObjectsName}Lazy,\n`;
         if (withSubscriptions)
-            fragmentHooksObject += `      useSubscriptionById: use${subscribeByIdName},\n`;
+            fragmentHooksObject += `      useSubscribeToById: use${subscribeByIdName},\n`;
         if (withSubscriptions)
-            fragmentHooksObject += `      useSubscriptionObjects: use${subscribeByObjectsName},\n`;
+            fragmentHooksObject += `      useSubscribeToObjects: use${subscribeByObjectsName},\n`;
         if (withInserts)
             fragmentHooksObject += `      useInsert: useInsert${fragmentNamePascalCase},\n`;
         if (withInserts)
@@ -529,7 +529,7 @@ exports.injectSharedReactPost = injectSharedReactPost;
 // ---------------------------------
 //
 function injectGlobalReactCodePost({ contentManager, fragmentDefinitionNodes, schemaTypeMap, trimString, withQueries, withSubscriptions, withInserts, withUpdates, withDeletes }) {
-    const uniqueModelNamesFromFragments = utils_1.getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString }).map(entityName => `${_1.makeModelName(entityName, trimString)}`);
+    const uniqueModelNamesFromFragments = utils_1.getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString }).map(entityName => `${_1.makeShortName(entityName, trimString)}`);
     contentManager.addContent(`
     /*
      * COMBINED HOOKS OBJECT
@@ -544,7 +544,7 @@ function injectGlobalReactCodePost({ contentManager, fragmentDefinitionNodes, sc
         : ""}
       ${withDeletes
         ? `Models: {
-        ${uniqueModelNamesFromFragments.map(modelName => `${modelName}: ${modelName}GQLHooks`).join(",\n        ")}
+        ${uniqueModelNamesFromFragments.map(modelName => `${modelName}: ${modelName}ModelGQLHooks`).join(",\n        ")}
       }`
         : ""}
     }
