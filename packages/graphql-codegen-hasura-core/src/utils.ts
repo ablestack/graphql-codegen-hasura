@@ -56,7 +56,7 @@ export function IS_OBJECT_WITH_ID(o: any) {
 export function IS_INSERT_INPUT_OBJECT(o: any) {
   if (!IS_NON_NULL_OBJECT(o)) return false;
 
-  return o.data && IS_OBJECT_WITH_ID(o.data);
+  return o.data;
 }
 
 export function convertApolloObjectToRefObj(o: any) {
@@ -74,10 +74,10 @@ export function convertObjectWithIdToRefObj(o: any, typename: string) {
 }
 
 export function convertObjectWithIdArrayToRefObj(o: any[], typename: string) {
-  return o.map(arrayItem => convertObjectWithIdToRefObj(o, typename));
+  return o.map(arrayItem => convertObjectWithIdToRefObj(arrayItem, typename));
 }
 
-function convertToRef(o: any, typename: string) {
+function convertToRef(o: any, typename: string, recursiveInsertInputTypeTest: boolean = true) {
   if (!IS_NON_NULL_OBJECT(o)) return null;
 
   if (Array.isArray(o)) {
@@ -90,8 +90,8 @@ function convertToRef(o: any, typename: string) {
   }
 
   //if here, might be a InsertInput object, which has the payload in a property named data
-  if (IS_INSERT_INPUT_OBJECT(o)) {
-    return convertToRef(o.data, typename);
+  if (recursiveInsertInputTypeTest && IS_INSERT_INPUT_OBJECT(o)) {
+    return convertToRef(o.data, typename, false);
   }
 
   // if non of the above, return null
@@ -103,7 +103,7 @@ function convertToRef(o: any, typename: string) {
 export function convertInsertInputToShallowPartialFragment({ insertInputType, refTypeMap }: { insertInputType: object; refTypeMap?: RefTypeMap }) {
   const fragment: any = {};
 
-  // Loop object and build up a fragment appropriate for a cache-add
+  //Loop object and build up a fragment appropriate for a cache-add
   for (const [insertInputKey, insertInputValue] of Object.entries(insertInputType)) {
     //Add scalar values
     if (IS_JAVASCRIPT_SCALAR_EQUIVALENT(insertInputValue)) {
@@ -118,7 +118,6 @@ export function convertInsertInputToShallowPartialFragment({ insertInputType, re
         continue;
       }
     }
-
-    return fragment;
   }
+  return fragment;
 }
