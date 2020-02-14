@@ -5,12 +5,17 @@ const utils_1 = require("./utils");
 // ---------------------------------
 //
 function injectGlobalHelperCodePre({ contentManager, typescriptCodegenOutputPath, withUpdates }) {
-    contentManager.addImport(`import { generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, convertInsertInputToShallowPartialFragment, ObjectWithId, RefTypeMap } from 'graphql-codegen-hasura-core'`);
+    contentManager.addImport(`import { generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, convertInsertInputToShallowPartialFragment, ObjectWithId, RefTypeMap, getLogLevel } from 'graphql-codegen-hasura-core'`);
     contentManager.addImport(`import { ApolloClient, ApolloQueryResult, defaultDataIdFromObject, FetchResult, MutationOptions, ObservableQuery, QueryOptions, SubscriptionOptions, Observable } from '@apollo/client'`);
     contentManager.addContent(`
     // GLOBAL TYPES
     //------------------------------------------------
     export type RemoveEntitiesQueryHelperResultEx = { affected_rows:number };
+
+    //
+    // GLOBAL VALUES
+    const logLevel = getLogLevel();
+
   `);
 }
 exports.injectGlobalHelperCodePre = injectGlobalHelperCodePre;
@@ -66,11 +71,13 @@ function injectClientAndCacheHelpers({ contentManager, entityNamedType, fragment
 
       function clientShallowInsert${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityShortCamelCaseName}, refTypeMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, refTypeMap?: RefTypeMap }): void {
         const ${fragmentNameCamelCase}Partial = convertInsertInputToShallowPartialFragment({ insertInputType:${entityShortCamelCaseName}, refTypeMap });
+        if(logLevel >= 2) console.log(' --> clientShallowInsert${fragmentNamePascalCase}ById - ${fragmentNameCamelCase}Partial:', ${fragmentNameCamelCase}Partial);
         return apolloClient.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
       }
 
       function cacheShallowInsert${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityShortCamelCaseName}, refTypeMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, refTypeMap?: RefTypeMap }): void {
         const ${fragmentNameCamelCase}Partial = convertInsertInputToShallowPartialFragment({ insertInputType:${entityShortCamelCaseName}, refTypeMap });
+        if(logLevel >= 2) console.log(' --> cacheShallowInsert${fragmentNamePascalCase}ById - ${fragmentNameCamelCase}Partial:', ${fragmentNameCamelCase}Partial);
         return apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
       }
 
@@ -382,7 +389,7 @@ function injectSharedHelpersPost({ contentManager, entityNamedType, fragmentName
         if (withClientAndCacheHelpers)
             fragmentHelperObject += `      clientShallowWriteById: clientShallowInsert${fragmentNamePascalCase}ById,\n`;
         if (withClientAndCacheHelpers)
-            fragmentHelperObject += `      cacheShallowWriteById: clientShallowInsert${fragmentNamePascalCase}ById,\n`;
+            fragmentHelperObject += `      cacheShallowWriteById: cacheShallowInsert${fragmentNamePascalCase}ById,\n`;
         if (withClientAndCacheHelpers)
             fragmentHelperObject += `      clientReadQueryById: clientReadQuery${fragmentNamePascalCase}ById,\n`;
         if (withClientAndCacheHelpers)

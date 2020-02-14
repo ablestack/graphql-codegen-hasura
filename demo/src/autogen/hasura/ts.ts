@@ -1,4 +1,4 @@
-import { generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, convertInsertInputToShallowPartialFragment, ObjectWithId, RefTypeMap } from 'graphql-codegen-hasura-core'
+import { generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, convertInsertInputToShallowPartialFragment, ObjectWithId, RefTypeMap, getLogLevel } from 'graphql-codegen-hasura-core'
 import { ApolloClient, ApolloQueryResult, defaultDataIdFromObject, FetchResult, MutationOptions, ObservableQuery, QueryOptions, SubscriptionOptions, Observable } from '@apollo/client'
 import { VehicleFragment } from '../';
 import { VehicleFragmentDoc } from '../';
@@ -97,6 +97,11 @@ import { RemoveDogsModelByIdDocument } from '../';
     // GLOBAL TYPES
     //------------------------------------------------
     export type RemoveEntitiesQueryHelperResultEx = { affected_rows:number };
+
+    //
+    // GLOBAL VALUES
+    const logLevel = getLogLevel();
+
   
 
     // vehicle HELPERS
@@ -123,11 +128,13 @@ import { RemoveDogsModelByIdDocument } from '../';
 
       function clientShallowInsertVehicleById({ apolloClient, vehicleId, vehicle, refTypeMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: Vehicle_Insert_Input, refTypeMap?: RefTypeMap }): void {
         const vehiclePartial = convertInsertInputToShallowPartialFragment({ insertInputType:vehicle, refTypeMap });
+        if(logLevel >= 2) console.log(' --> clientShallowInsertVehicleById - vehiclePartial:', vehiclePartial);
         return apolloClient.writeFragment<Partial<VehicleFragment> | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ ...vehiclePartial, id:vehicleId, __typename: 'vehicle' }), data: { ...vehiclePartial, __typename: 'vehicle' } });
       }
 
       function cacheShallowInsertVehicleById({ apolloClient, vehicleId, vehicle, refTypeMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: Vehicle_Insert_Input, refTypeMap?: RefTypeMap }): void {
         const vehiclePartial = convertInsertInputToShallowPartialFragment({ insertInputType:vehicle, refTypeMap });
+        if(logLevel >= 2) console.log(' --> cacheShallowInsertVehicleById - vehiclePartial:', vehiclePartial);
         return apolloClient.cache.writeFragment<Partial<VehicleFragment> | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ ...vehiclePartial, id:vehicleId, __typename: 'vehicle' }), data: { ...vehiclePartial, __typename: 'vehicle' } });
       }
 
@@ -314,7 +321,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       clientWriteFragmentById: clientWriteFragmentVehicleById,
       cacheWriteFragmentById: cacheWriteFragmentVehicleById,
       clientShallowWriteById: clientShallowInsertVehicleById,
-      cacheShallowWriteById: clientShallowInsertVehicleById,
+      cacheShallowWriteById: cacheShallowInsertVehicleById,
       clientReadQueryById: clientReadQueryVehicleById,
       clientWriteQueryById: clientWriteQueryVehicleById,
       cacheWriteQueryById: cacheWriteQueryVehicleById,
@@ -365,11 +372,13 @@ import { RemoveDogsModelByIdDocument } from '../';
 
       function clientShallowInsertVehicleLocationOnlyById({ apolloClient, vehicleId, vehicle, refTypeMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: Vehicle_Insert_Input, refTypeMap?: RefTypeMap }): void {
         const vehicleLocationOnlyPartial = convertInsertInputToShallowPartialFragment({ insertInputType:vehicle, refTypeMap });
+        if(logLevel >= 2) console.log(' --> clientShallowInsertVehicleLocationOnlyById - vehicleLocationOnlyPartial:', vehicleLocationOnlyPartial);
         return apolloClient.writeFragment<Partial<VehicleLocationOnlyFragment> | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ ...vehicleLocationOnlyPartial, id:vehicleId, __typename: 'vehicle' }), data: { ...vehicleLocationOnlyPartial, __typename: 'vehicle' } });
       }
 
       function cacheShallowInsertVehicleLocationOnlyById({ apolloClient, vehicleId, vehicle, refTypeMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: Vehicle_Insert_Input, refTypeMap?: RefTypeMap }): void {
         const vehicleLocationOnlyPartial = convertInsertInputToShallowPartialFragment({ insertInputType:vehicle, refTypeMap });
+        if(logLevel >= 2) console.log(' --> cacheShallowInsertVehicleLocationOnlyById - vehicleLocationOnlyPartial:', vehicleLocationOnlyPartial);
         return apolloClient.cache.writeFragment<Partial<VehicleLocationOnlyFragment> | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ ...vehicleLocationOnlyPartial, id:vehicleId, __typename: 'vehicle' }), data: { ...vehicleLocationOnlyPartial, __typename: 'vehicle' } });
       }
 
@@ -528,7 +537,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       clientWriteFragmentById: clientWriteFragmentVehicleLocationOnlyById,
       cacheWriteFragmentById: cacheWriteFragmentVehicleLocationOnlyById,
       clientShallowWriteById: clientShallowInsertVehicleLocationOnlyById,
-      cacheShallowWriteById: clientShallowInsertVehicleLocationOnlyById,
+      cacheShallowWriteById: cacheShallowInsertVehicleLocationOnlyById,
       clientReadQueryById: clientReadQueryVehicleLocationOnlyById,
       clientWriteQueryById: clientWriteQueryVehicleLocationOnlyById,
       cacheWriteQueryById: cacheWriteQueryVehicleLocationOnlyById,
@@ -570,11 +579,13 @@ import { RemoveDogsModelByIdDocument } from '../';
 
       function clientShallowInsertDogById({ apolloClient, dogsId, dogs, refTypeMap }: { apolloClient: ApolloClient<object>, dogsId: string, dogs: Dogs_Insert_Input, refTypeMap?: RefTypeMap }): void {
         const dogPartial = convertInsertInputToShallowPartialFragment({ insertInputType:dogs, refTypeMap });
+        if(logLevel >= 2) console.log(' --> clientShallowInsertDogById - dogPartial:', dogPartial);
         return apolloClient.writeFragment<Partial<DogFragment> | null>({ fragment: DogFragmentDoc, fragmentName:'Dog', id: defaultDataIdFromObject({ ...dogPartial, id:dogsId, __typename: 'dogs' }), data: { ...dogPartial, __typename: 'dogs' } });
       }
 
       function cacheShallowInsertDogById({ apolloClient, dogsId, dogs, refTypeMap }: { apolloClient: ApolloClient<object>, dogsId: string, dogs: Dogs_Insert_Input, refTypeMap?: RefTypeMap }): void {
         const dogPartial = convertInsertInputToShallowPartialFragment({ insertInputType:dogs, refTypeMap });
+        if(logLevel >= 2) console.log(' --> cacheShallowInsertDogById - dogPartial:', dogPartial);
         return apolloClient.cache.writeFragment<Partial<DogFragment> | null>({ fragment: DogFragmentDoc, fragmentName:'Dog', id: defaultDataIdFromObject({ ...dogPartial, id:dogsId, __typename: 'dogs' }), data: { ...dogPartial, __typename: 'dogs' } });
       }
 
@@ -761,7 +772,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       clientWriteFragmentById: clientWriteFragmentDogById,
       cacheWriteFragmentById: cacheWriteFragmentDogById,
       clientShallowWriteById: clientShallowInsertDogById,
-      cacheShallowWriteById: clientShallowInsertDogById,
+      cacheShallowWriteById: cacheShallowInsertDogById,
       clientReadQueryById: clientReadQueryDogById,
       clientWriteQueryById: clientWriteQueryDogById,
       cacheWriteQueryById: cacheWriteQueryDogById,
