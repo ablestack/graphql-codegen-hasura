@@ -5,7 +5,7 @@ const utils_1 = require("./utils");
 // ---------------------------------
 //
 function injectGlobalHelperCodePre({ contentManager, typescriptCodegenOutputPath, withUpdates }) {
-    contentManager.addImport(`import { generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, ObjectWithId } from 'graphql-codegen-hasura-core'`);
+    contentManager.addImport(`import { generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, convertInsertInputToShallowPartialFragment, ObjectWithId } from 'graphql-codegen-hasura-core'`);
     contentManager.addImport(`import { ApolloClient, ApolloQueryResult, defaultDataIdFromObject, FetchResult, MutationOptions, ObservableQuery, QueryOptions, SubscriptionOptions, Observable } from '@apollo/client'`);
     contentManager.addContent(`
     // GLOBAL TYPES
@@ -27,7 +27,7 @@ function injectSharedHelpersPre({ contentManager, entityNamedType, fragmentName,
 
     export type ${fragmentNamePascalCase}ByIdHelperResultEx = { ${fragmentNameCamelCase}:${fragmentTypeScriptTypeName} | null | undefined };
     export type ${fragmentNamePascalCase}ObjectsHelperResultEx = { objects:${fragmentTypeScriptTypeName}[] };
-  
+    
   `);
     if (!primaryKeyIdTypeScriptFieldType.isNative) {
         const typeImport = _1.makeImportStatement(`${primaryKeyIdTypeScriptFieldType.typeName}`, typescriptCodegenOutputPath);
@@ -47,9 +47,10 @@ function injectClientAndCacheHelpers({ contentManager, entityNamedType, fragment
     const fragmentDocName = utils_1.makeFragmentDocName(fragmentName);
     const primaryKeyIdTypeScriptFieldType = _1.getIdTypeScriptFieldType(primaryKeyIdField);
     const queryByIdName = `Query${fragmentNamePascalCase}ById`;
+    const entityPascalName = utils_1.makePascalCase(entityNamedType.name);
     if (primaryKeyIdField) {
         contentManager.addContent(`
-      // Direct Client & Cache Helpers
+      // Direct Client & Cache Fragment Helpers
       //
       function clientReadFragment${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id}: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName} }): ${fragmentTypeScriptTypeName} | null | undefined {
         return apolloClient.readFragment<${fragmentTypeScriptTypeName} | null | undefined>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ __typename: '${entityNamedType.name}', id:${entityShortCamelCaseName}Id }) });
@@ -60,6 +61,16 @@ function injectClientAndCacheHelpers({ contentManager, entityNamedType, fragment
       }
   
       function cacheWriteFragment${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}Partial }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> | null }): void {
+        return apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
+      }
+
+      function clientShallowInsert${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityNamedType.name} }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityNamedType.name}: ${entityPascalName}_Insert_Input }): void {
+        const ${fragmentNameCamelCase}Partial = convertInsertInputToShallowPartialFragment(${entityNamedType.name});
+        return apolloClient.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
+      }
+
+      function cacheShallowInsert${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityNamedType.name} }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityNamedType.name}: ${entityPascalName}_Insert_Input }): void {
+        const ${fragmentNameCamelCase}Partial = convertInsertInputToShallowPartialFragment(${entityNamedType.name});
         return apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
       }
 
@@ -369,6 +380,10 @@ function injectSharedHelpersPost({ contentManager, entityNamedType, fragmentName
         if (withClientAndCacheHelpers)
             fragmentHelperObject += `      cacheWriteFragmentById: cacheWriteFragment${fragmentNamePascalCase}ById,\n`;
         if (withClientAndCacheHelpers)
+            fragmentHelperObject += `      clientShallowWriteById: clientShallowInsert${fragmentNamePascalCase}ById,\n`;
+        if (withClientAndCacheHelpers)
+            fragmentHelperObject += `      cacheShallowWriteById: clientShallowInsert${fragmentNamePascalCase}ById,\n`;
+        if (withClientAndCacheHelpers)
             fragmentHelperObject += `      clientReadQueryById: clientReadQuery${fragmentNamePascalCase}ById,\n`;
         if (withClientAndCacheHelpers)
             fragmentHelperObject += `      clientWriteQueryById: clientWriteQuery${fragmentNamePascalCase}ById,\n`;
@@ -407,7 +422,7 @@ function injectSharedHelpersPost({ contentManager, entityNamedType, fragmentName
 
     export const ${entityModelName}GQLHelper = {
       removeById: remove${entityModelName}ById,
-      removeObjects: remove${entityModelName}Objects
+      removeObjects: remove${entityModelName}Objects,
     }
   `;
         contentManager.addContent(entityHelperObject);

@@ -634,7 +634,7 @@
         "signature": "16172fabdd337c5efa670da193f5bdc05135ae501c7b22fb0ce52c0675bcc677"
       },
       "../src/tshelperinjectors.ts": {
-        "version": "042ffed3dead0626aa43f6aaa96cbb073c6f7629431126f355336b81f2c4d6b3",
+        "version": "aea38eef94f0e2c3cae7f0c149e2f0323c7afe805c500fa32476898bfa462949",
         "signature": "a5d7c7f06e29248ef9754542f51d894b95d4d97dd1b22969f7e917f64805176c"
       },
       "../src/reactinjectors.ts": {
@@ -4547,6 +4547,11 @@
       "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/optimize-operations.d.ts",
       "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/index.d.ts",
       "../src/utils.ts",
+      "../src/gqlinjectors.ts",
+      "../src/reactinjectors.ts",
+      "../src/index.ts",
+      "../src/configinjectors.ts",
+      "../src/sharedinjectors.ts",
       "../../../node_modules/@types/events/index.d.ts",
       "../../../node_modules/@types/node/globals.d.ts",
       "../../../node_modules/@types/node/assert.d.ts",
@@ -4595,12 +4600,7 @@
       "../../../node_modules/@types/node/ts3.2/index.d.ts",
       "../../../node_modules/@types/minimatch/index.d.ts",
       "../../../node_modules/@types/glob/index.d.ts",
-      "../src/tshelperinjectors.ts",
-      "../src/index.ts",
-      "../src/gqlinjectors.ts",
-      "../src/reactinjectors.ts",
-      "../src/configinjectors.ts",
-      "../src/sharedinjectors.ts"
+      "../src/tshelperinjectors.ts"
     ]
   },
   "version": "3.7.4"
