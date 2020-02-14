@@ -1,4 +1,5 @@
 import { defaultDataIdFromObject } from "@apollo/client";
+import { RefObj, RefTypeMap } from ".";
 
 // Optimistic response generation utility method
 //
@@ -44,6 +45,20 @@ export function IS_APOLLO_OBJECT(o: any) {
   return o && o.id && o.__typename;
 }
 
+export function IS_NON_NULL_OBJECT(o: any) {
+  return typeof o === "object" && o !== null;
+}
+
+export function IS_OBJECT_WITH_ID(o: any) {
+  return IS_NON_NULL_OBJECT(o) && o.id;
+}
+
+export function IS_INSERT_INPUT_OBJECT(o: any) {
+  if (!IS_NON_NULL_OBJECT(o)) return false;
+
+  return o.data && IS_OBJECT_WITH_ID(o.data);
+}
+
 export function convertApolloObjectToRefObj(o: any) {
   if (!IS_APOLLO_OBJECT(o)) throw new Error(`Provided object was not of type ApolloObject (with id & _typename properties): ${JSON.stringify(o)}`);
   return { id: o.id, __typename: o.__typeName };
@@ -53,36 +68,57 @@ export function convertApolloObjectArrayToRefObj(o: any[]) {
   return o.map(arrayItem => convertApolloObjectToRefObj(o));
 }
 
-export function convertInsertInputToShallowPartialFragment(insertInputObject: object) {
+export function convertObjectWithIdToRefObj(o: any, typename: string) {
+  if (!IS_OBJECT_WITH_ID(o)) throw new Error(`Provided object was not of type ObjectWithId: ${JSON.stringify(o)}`);
+  return { id: o.id, __typename: typename };
+}
+
+export function convertObjectWithIdArrayToRefObj(o: any[], typename: string) {
+  return o.map(arrayItem => convertObjectWithIdToRefObj(o, typename));
+}
+
+function convertToRef(o: any, typename: string) {
+  if (!IS_NON_NULL_OBJECT(o)) return null;
+
+  if (Array.isArray(o)) {
+    if (o.length === 0 || !o[0] || !IS_OBJECT_WITH_ID(o[0])) return null;
+    return convertObjectWithIdArrayToRefObj(o, typename);
+  }
+
+  if (IS_OBJECT_WITH_ID(o)) {
+    return convertObjectWithIdToRefObj(o, typename);
+  }
+
+  //if here, might be a InsertInput object, which has the payload in a property named data
+  if (IS_INSERT_INPUT_OBJECT(o)) {
+    return convertToRef(o.data, typename);
+  }
+
+  // if non of the above, return null
+  return null;
+}
+
+// childRefsObjs: { [key: string]: RefObj | RefObj[] }
+
+export function convertInsertInputToShallowPartialFragment({ insertInputType, refTypeMap }: { insertInputType: object; refTypeMap?: RefTypeMap }) {
   const fragment: any = {};
 
   // Loop object and build up a fragment appropriate for a cache-add
-  for (const [insertInputKey, insertInputValue] of Object.entries(insertInputObject)) {
+  for (const [insertInputKey, insertInputValue] of Object.entries(insertInputType)) {
     //Add scalar values
     if (IS_JAVASCRIPT_SCALAR_EQUIVALENT(insertInputValue)) {
       fragment[insertInputKey] = insertInputValue;
       continue;
     }
 
-    //Add id and type for referenced objects
-    if (IS_APOLLO_OBJECT(insertInputValue)) {
-      fragment[insertInputKey] = convertApolloObjectToRefObj(insertInputValue);
-      continue;
+    if (IS_NON_NULL_OBJECT(insertInputValue) && refTypeMap && refTypeMap[insertInputKey]) {
+      const ref = convertToRef(insertInputValue, refTypeMap[insertInputKey]);
+      if (ref) {
+        fragment[insertInputKey] = ref;
+        continue;
+      }
     }
 
-    //Add id and type for referenced objects arrays
-    if (Array.isArray(insertInputValue)) {
-      const innerArray: any[] = [];
-      for (const arrayVal of insertInputValue) {
-        if (IS_APOLLO_OBJECT(arrayVal)) {
-          innerArray.push(convertApolloObjectToRefObj(arrayVal));
-        }
-      }
-      if (innerArray.length > 0) {
-        fragment[insertInputKey] = innerArray;
-      }
-      continue;
-    }
+    return fragment;
   }
-  return fragment;
 }

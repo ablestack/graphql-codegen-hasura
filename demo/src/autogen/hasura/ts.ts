@@ -1,4 +1,4 @@
-import { generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, convertInsertInputToShallowPartialFragment, ObjectWithId } from 'graphql-codegen-hasura-core'
+import { generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, convertInsertInputToShallowPartialFragment, ObjectWithId, RefTypeMap } from 'graphql-codegen-hasura-core'
 import { ApolloClient, ApolloQueryResult, defaultDataIdFromObject, FetchResult, MutationOptions, ObservableQuery, QueryOptions, SubscriptionOptions, Observable } from '@apollo/client'
 import { VehicleFragment } from '../';
 import { VehicleFragmentDoc } from '../';
@@ -121,13 +121,13 @@ import { RemoveDogsModelByIdDocument } from '../';
         return apolloClient.cache.writeFragment<Partial<VehicleFragment> | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ ...vehiclePartial, id:vehicleId, __typename: 'vehicle' }), data: { ...vehiclePartial, __typename: 'vehicle' } });
       }
 
-      function clientShallowInsertVehicleById({ apolloClient, vehicleId, vehicle }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: Vehicle_Insert_Input }): void {
-        const vehiclePartial = convertInsertInputToShallowPartialFragment(vehicle);
+      function clientShallowInsertVehicleById({ apolloClient, vehicleId, vehicle, refTypeMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: Vehicle_Insert_Input, refTypeMap?: RefTypeMap }): void {
+        const vehiclePartial = convertInsertInputToShallowPartialFragment({ insertInputType:vehicle, refTypeMap });
         return apolloClient.writeFragment<Partial<VehicleFragment> | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ ...vehiclePartial, id:vehicleId, __typename: 'vehicle' }), data: { ...vehiclePartial, __typename: 'vehicle' } });
       }
 
-      function cacheShallowInsertVehicleById({ apolloClient, vehicleId, vehicle }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: Vehicle_Insert_Input }): void {
-        const vehiclePartial = convertInsertInputToShallowPartialFragment(vehicle);
+      function cacheShallowInsertVehicleById({ apolloClient, vehicleId, vehicle, refTypeMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: Vehicle_Insert_Input, refTypeMap?: RefTypeMap }): void {
+        const vehiclePartial = convertInsertInputToShallowPartialFragment({ insertInputType:vehicle, refTypeMap });
         return apolloClient.cache.writeFragment<Partial<VehicleFragment> | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ ...vehiclePartial, id:vehicleId, __typename: 'vehicle' }), data: { ...vehiclePartial, __typename: 'vehicle' } });
       }
 
@@ -363,13 +363,13 @@ import { RemoveDogsModelByIdDocument } from '../';
         return apolloClient.cache.writeFragment<Partial<VehicleLocationOnlyFragment> | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ ...vehicleLocationOnlyPartial, id:vehicleId, __typename: 'vehicle' }), data: { ...vehicleLocationOnlyPartial, __typename: 'vehicle' } });
       }
 
-      function clientShallowInsertVehicleLocationOnlyById({ apolloClient, vehicleId, vehicle }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: Vehicle_Insert_Input }): void {
-        const vehicleLocationOnlyPartial = convertInsertInputToShallowPartialFragment(vehicle);
+      function clientShallowInsertVehicleLocationOnlyById({ apolloClient, vehicleId, vehicle, refTypeMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: Vehicle_Insert_Input, refTypeMap?: RefTypeMap }): void {
+        const vehicleLocationOnlyPartial = convertInsertInputToShallowPartialFragment({ insertInputType:vehicle, refTypeMap });
         return apolloClient.writeFragment<Partial<VehicleLocationOnlyFragment> | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ ...vehicleLocationOnlyPartial, id:vehicleId, __typename: 'vehicle' }), data: { ...vehicleLocationOnlyPartial, __typename: 'vehicle' } });
       }
 
-      function cacheShallowInsertVehicleLocationOnlyById({ apolloClient, vehicleId, vehicle }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: Vehicle_Insert_Input }): void {
-        const vehicleLocationOnlyPartial = convertInsertInputToShallowPartialFragment(vehicle);
+      function cacheShallowInsertVehicleLocationOnlyById({ apolloClient, vehicleId, vehicle, refTypeMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: Vehicle_Insert_Input, refTypeMap?: RefTypeMap }): void {
+        const vehicleLocationOnlyPartial = convertInsertInputToShallowPartialFragment({ insertInputType:vehicle, refTypeMap });
         return apolloClient.cache.writeFragment<Partial<VehicleLocationOnlyFragment> | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ ...vehicleLocationOnlyPartial, id:vehicleId, __typename: 'vehicle' }), data: { ...vehicleLocationOnlyPartial, __typename: 'vehicle' } });
       }
 
@@ -568,13 +568,13 @@ import { RemoveDogsModelByIdDocument } from '../';
         return apolloClient.cache.writeFragment<Partial<DogFragment> | null>({ fragment: DogFragmentDoc, fragmentName:'Dog', id: defaultDataIdFromObject({ ...dogPartial, id:dogsId, __typename: 'dogs' }), data: { ...dogPartial, __typename: 'dogs' } });
       }
 
-      function clientShallowInsertDogById({ apolloClient, dogsId, dogs }: { apolloClient: ApolloClient<object>, dogsId: string, dogs: Dogs_Insert_Input }): void {
-        const dogPartial = convertInsertInputToShallowPartialFragment(dogs);
+      function clientShallowInsertDogById({ apolloClient, dogsId, dogs, refTypeMap }: { apolloClient: ApolloClient<object>, dogsId: string, dogs: Dogs_Insert_Input, refTypeMap?: RefTypeMap }): void {
+        const dogPartial = convertInsertInputToShallowPartialFragment({ insertInputType:dogs, refTypeMap });
         return apolloClient.writeFragment<Partial<DogFragment> | null>({ fragment: DogFragmentDoc, fragmentName:'Dog', id: defaultDataIdFromObject({ ...dogPartial, id:dogsId, __typename: 'dogs' }), data: { ...dogPartial, __typename: 'dogs' } });
       }
 
-      function cacheShallowInsertDogById({ apolloClient, dogsId, dogs }: { apolloClient: ApolloClient<object>, dogsId: string, dogs: Dogs_Insert_Input }): void {
-        const dogPartial = convertInsertInputToShallowPartialFragment(dogs);
+      function cacheShallowInsertDogById({ apolloClient, dogsId, dogs, refTypeMap }: { apolloClient: ApolloClient<object>, dogsId: string, dogs: Dogs_Insert_Input, refTypeMap?: RefTypeMap }): void {
+        const dogPartial = convertInsertInputToShallowPartialFragment({ insertInputType:dogs, refTypeMap });
         return apolloClient.cache.writeFragment<Partial<DogFragment> | null>({ fragment: DogFragmentDoc, fragmentName:'Dog', id: defaultDataIdFromObject({ ...dogPartial, id:dogsId, __typename: 'dogs' }), data: { ...dogPartial, __typename: 'dogs' } });
       }
 
