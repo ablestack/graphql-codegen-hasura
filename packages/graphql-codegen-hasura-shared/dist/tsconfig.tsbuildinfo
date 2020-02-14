@@ -634,7 +634,7 @@
         "signature": "16172fabdd337c5efa670da193f5bdc05135ae501c7b22fb0ce52c0675bcc677"
       },
       "../src/tshelperinjectors.ts": {
-        "version": "9c62a11ba3016abcee0ab8b1fd18898aab574532d0808777bce0ab5b8528c4fe",
+        "version": "39c81c72ce1e24de2028b50a9c9379d0ad08d78749a9611e3b717827ed8c8d44",
         "signature": "a5d7c7f06e29248ef9754542f51d894b95d4d97dd1b22969f7e917f64805176c"
       },
       "../src/reactinjectors.ts": {

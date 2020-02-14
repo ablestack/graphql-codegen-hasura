@@ -64,13 +64,13 @@ function injectClientAndCacheHelpers({ contentManager, entityNamedType, fragment
         return apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
       }
 
-      function clientShallowInsert${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityNamedType.name} }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input }): void {
-        const ${fragmentNameCamelCase}Partial = convertInsertInputToShallowPartialFragment(${entityNamedType.name});
+      function clientShallowInsert${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityShortCamelCaseName} }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input }): void {
+        const ${fragmentNameCamelCase}Partial = convertInsertInputToShallowPartialFragment(${entityShortCamelCaseName});
         return apolloClient.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
       }
 
-      function cacheShallowInsert${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityNamedType.name} }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input }): void {
-        const ${fragmentNameCamelCase}Partial = convertInsertInputToShallowPartialFragment(${entityNamedType.name});
+      function cacheShallowInsert${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityShortCamelCaseName} }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input }): void {
+        const ${fragmentNameCamelCase}Partial = convertInsertInputToShallowPartialFragment(${entityShortCamelCaseName});
         return apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
       }
 
