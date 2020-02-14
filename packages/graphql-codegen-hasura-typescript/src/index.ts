@@ -97,14 +97,14 @@ function injectEntitySharedTypeScriptPre(
 ) {
   const fragmentName = fragmentDefinitionNode.name.value;
   const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
-  const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+  const entityNamedType = schemaTypeMap[fragmentTableName];
 
-  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(entityNamedType);
   if (!relatedTablePrimaryKeyIdField) return;
 
   injectSharedHelpersPre({
     contentManager,
-    entityName: relatedTableNamedType.name,
+    entityNamedType,
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
@@ -123,14 +123,14 @@ function injectEntitySharedTypeScriptPost(
 ) {
   const fragmentName = fragmentDefinitionNode.name.value;
   const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
-  const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+  const entityNamedType = schemaTypeMap[fragmentTableName];
 
-  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(entityNamedType);
   if (!relatedTablePrimaryKeyIdField) return;
 
   injectSharedHelpersPost({
     contentManager,
-    entityName: relatedTableNamedType.name,
+    entityNamedType,
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
@@ -155,13 +155,13 @@ function injectClientAndCacheTypeScript(
 ) {
   const fragmentName = fragmentDefinitionNode.name.value;
   const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
-  const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+  const entityNamedType = schemaTypeMap[fragmentTableName];
 
-  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(entityNamedType);
 
   injectClientAndCacheHelpers({
     contentManager,
-    entityName: relatedTableNamedType.name,
+    entityNamedType,
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
@@ -175,13 +175,13 @@ function injectClientAndCacheTypeScript(
 function injectEntityQueryTypeScript(fragmentDefinitionNode: FragmentDefinitionNode, schemaTypeMap: TypeMap, contentManager: ContentManager, config: CstmHasuraCrudPluginConfig) {
   const fragmentName = fragmentDefinitionNode.name.value;
   const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
-  const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+  const entityNamedType = schemaTypeMap[fragmentTableName];
 
-  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(entityNamedType);
 
   injectQueryHelpers({
     contentManager,
-    entityName: relatedTableNamedType.name,
+    entityNamedType,
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
@@ -200,13 +200,13 @@ function injectEntitySubscriptionTypeScript(
 ) {
   const fragmentName = fragmentDefinitionNode.name.value;
   const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
-  const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+  const entityNamedType = schemaTypeMap[fragmentTableName];
 
-  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(entityNamedType);
 
   injectSubscriptionHelpers({
     contentManager,
-    entityName: relatedTableNamedType.name,
+    entityNamedType,
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
@@ -225,14 +225,14 @@ function injectEntityInsertMutationTypeScript(
 ) {
   const fragmentName = fragmentDefinitionNode.name.value;
   const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
-  const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+  const entityNamedType = schemaTypeMap[fragmentTableName];
 
-  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(entityNamedType);
   if (!relatedTablePrimaryKeyIdField) return;
 
   injectInsertHelpers({
     contentManager,
-    entityName: relatedTableNamedType.name,
+    entityNamedType,
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
@@ -250,14 +250,14 @@ function injectEntityUpdateMutationTypeScript(
 ) {
   const fragmentName = fragmentDefinitionNode.name.value;
   const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
-  const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+  const entityNamedType = schemaTypeMap[fragmentTableName];
 
-  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(entityNamedType);
   if (!relatedTablePrimaryKeyIdField) return;
 
   injectUpdateHelpers({
     contentManager,
-    entityName: relatedTableNamedType.name,
+    entityNamedType,
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
@@ -276,14 +276,14 @@ function injectEntityDeleteMutationTypeScript(
 ) {
   const fragmentName = fragmentDefinitionNode.name.value;
   const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
-  const relatedTableNamedType = schemaTypeMap[fragmentTableName];
+  const entityNamedType = schemaTypeMap[fragmentTableName];
 
-  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
+  const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(entityNamedType);
   if (!relatedTablePrimaryKeyIdField) return;
 
   injectDeleteHelpers({
     contentManager,
-    entityName: relatedTableNamedType.name,
+    entityNamedType,
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,

@@ -1,4 +1,4 @@
-import { FieldDefinitionNode, FragmentDefinitionNode } from "graphql";
+import { FieldDefinitionNode, FragmentDefinitionNode, GraphQLNamedType } from "graphql";
 import { ContentManager, getIdTypeScriptFieldType, makeImportStatement, makeModelName, makeShortName } from ".";
 import { makeCamelCase, makeFragmentTypeScriptTypeName, makePascalCase, makeFragmentDocName, getUniqueEntitiesFromFragmentDefinitions } from "./utils";
 import { TypeMap } from "graphql/type/schema";
@@ -30,14 +30,14 @@ export function injectGlobalHelperCodePre({
 //
 export function injectSharedHelpersPre({
   contentManager,
-  entityName,
+  entityNamedType,
   fragmentName,
   trimString,
   primaryKeyIdField,
   typescriptCodegenOutputPath
 }: {
   contentManager: ContentManager;
-  entityName: string;
+  entityNamedType: GraphQLNamedType;
   fragmentName: string;
   trimString?: string;
   primaryKeyIdField: FieldDefinitionNode;
@@ -49,7 +49,7 @@ export function injectSharedHelpersPre({
   const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(fragmentName);
 
   contentManager.addContent(`
-    // ${entityName} HELPERS
+    // ${entityNamedType.name} HELPERS
     //------------------------------------------------
 
     export type ${fragmentNamePascalCase}ByIdHelperResultEx = { ${fragmentNameCamelCase}:${fragmentTypeScriptTypeName} | null | undefined };
@@ -69,20 +69,20 @@ export function injectSharedHelpersPre({
 //
 export function injectClientAndCacheHelpers({
   contentManager,
-  entityName,
+  entityNamedType,
   fragmentName,
   trimString,
   primaryKeyIdField,
   typescriptCodegenOutputPath
 }: {
   contentManager: ContentManager;
-  entityName: string;
+  entityNamedType: GraphQLNamedType;
   fragmentName: string;
   trimString?: string;
   primaryKeyIdField?: FieldDefinitionNode | null;
   typescriptCodegenOutputPath: string;
 }) {
-  const entityShortName = makeShortName(entityName, trimString);
+  const entityShortName = makeShortName(entityNamedType.name, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const fragmentNamePascalCase = makePascalCase(fragmentName);
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
@@ -96,15 +96,15 @@ export function injectClientAndCacheHelpers({
       // Direct Client & Cache Helpers
       //
       function clientReadFragment${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id}: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName} }): ${fragmentTypeScriptTypeName} | null | undefined {
-        return apolloClient.readFragment<${fragmentTypeScriptTypeName} | null | undefined>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ __typename: '${entityName}', id:${entityShortCamelCaseName}Id }) });
+        return apolloClient.readFragment<${fragmentTypeScriptTypeName} | null | undefined>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ __typename: '${entityNamedType.name}', id:${entityShortCamelCaseName}Id }) });
       }
   
       function clientWriteFragment${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}Partial }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> | null }): void {
-        return apolloClient.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityName}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityName}' } });
+        return apolloClient.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
       }
   
       function cacheWriteFragment${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}Partial }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> | null }): void {
-        return apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityName}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityName}' } });
+        return apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
       }
 
       function clientReadQuery${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id}: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName} }): ${fragmentNamePascalCase}Fragment | null | undefined {
@@ -112,11 +112,11 @@ export function injectClientAndCacheHelpers({
       }
 
       function clientWriteQuery${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase} }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}: ${fragmentNamePascalCase}Fragment | null }): void {
-        return apolloClient.writeQuery<${fragmentNamePascalCase}Fragment | null>({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, data: (${fragmentNameCamelCase} ? { ...${fragmentNameCamelCase}, __typename: '${entityName}' } : null) });
+        return apolloClient.writeQuery<${fragmentNamePascalCase}Fragment | null>({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, data: (${fragmentNameCamelCase} ? { ...${fragmentNameCamelCase}, __typename: '${entityNamedType.name}' } : null) });
       }
 
       function cacheWriteQuery${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase} }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}: ${fragmentNamePascalCase}Fragment | null }): void {
-        return apolloClient.cache.writeQuery<${fragmentNamePascalCase}Fragment | null>({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, data: (${fragmentNameCamelCase} ? { ...${fragmentNameCamelCase}, __typename: '${entityName}' } : null) });
+        return apolloClient.cache.writeQuery<${fragmentNamePascalCase}Fragment | null>({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, data: (${fragmentNameCamelCase} ? { ...${fragmentNameCamelCase}, __typename: '${entityNamedType.name}' } : null) });
       }
     `);
 
@@ -131,14 +131,14 @@ export function injectClientAndCacheHelpers({
 //
 export function injectQueryHelpers({
   contentManager,
-  entityName,
+  entityNamedType,
   fragmentName,
   trimString,
   primaryKeyIdField,
   typescriptCodegenOutputPath
 }: {
   contentManager: ContentManager;
-  entityName: string;
+  entityNamedType: GraphQLNamedType;
   fragmentName: string;
   trimString?: string;
   primaryKeyIdField?: FieldDefinitionNode | null;
@@ -148,7 +148,7 @@ export function injectQueryHelpers({
   const queryByIdName = `Query${fragmentNamePascalCase}ById`;
   const queryObjectsName = `Query${fragmentNamePascalCase}Objects`;
 
-  const entityShortName = makeShortName(entityName, trimString);
+  const entityShortName = makeShortName(entityNamedType.name, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
   const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(fragmentName);
@@ -166,7 +166,7 @@ export function injectQueryHelpers({
       async function ${queryByIdNameCamelCase}({ apolloClient, ${entityShortCamelCaseName}Id, options }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, options?: Omit<QueryOptions<${queryByIdName}QueryVariables>, 'query' | 'variables'> }): Promise<${queryByIdName}ApolloQueryHelperResultEx> {
         const query: ${queryByIdName}ApolloQueryResult = await apolloClient.query<${queryByIdName}Query>({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, ...options });
         
-        return { ...query, ${fragmentNameCamelCase}: query?.data?.${entityName}_by_pk }
+        return { ...query, ${fragmentNameCamelCase}: query?.data?.${entityNamedType.name}_by_pk }
       }
 
       // Query Watch ById Helper
@@ -187,7 +187,7 @@ export function injectQueryHelpers({
       async function ${queryObjectsNameCamelCase}({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<${queryObjectsName}QueryVariables>, 'query'> }): Promise<${queryObjectsName}ObjectsApolloQueryResultEx> {
         const query: ${queryObjectsName}ObjectsApolloQueryResult = await apolloClient.query<${queryObjectsName}Query>({ query: ${queryObjectsName}Document, ...options });
         
-        return { ...query, objects: query?.data?.${entityName} || [] }
+        return { ...query, objects: query?.data?.${entityNamedType.name} || [] }
       }
 
       // Query Watch Objects Helper
@@ -210,14 +210,14 @@ export function injectQueryHelpers({
 //
 export function injectSubscriptionHelpers({
   contentManager,
-  entityName,
+  entityNamedType,
   fragmentName,
   trimString,
   primaryKeyIdField,
   typescriptCodegenOutputPath
 }: {
   contentManager: ContentManager;
-  entityName: string;
+  entityNamedType: GraphQLNamedType;
   fragmentName: string;
   trimString?: string;
   primaryKeyIdField?: FieldDefinitionNode | null;
@@ -227,7 +227,7 @@ export function injectSubscriptionHelpers({
   const subscribeByIdName = `SubscribeTo${fragmentNamePascalCase}ById`;
   const subscribeObjectsName = `SubscribeTo${fragmentNamePascalCase}Objects`;
 
-  const entityShortName = makeShortName(entityName, trimString);
+  const entityShortName = makeShortName(entityNamedType.name, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
   const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(fragmentName);
@@ -245,7 +245,7 @@ export function injectSubscriptionHelpers({
     async function ${subscribeByIdNameCamelCase}({ apolloClient, ${entityShortCamelCaseName}Id, options }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id:${primaryKeyIdTypeScriptFieldType.typeName}, options?: Omit<SubscriptionOptions<${subscribeByIdName}SubscriptionVariables>, 'query' | 'variables'> }): Promise<Observable<${subscribeByIdName}SubscriptionFetchResultEx>> {
       const subscription:Observable<${subscribeByIdName}SubscriptionFetchResult> = apolloClient.subscribe<${subscribeByIdName}Subscription>({ query: ${subscribeByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, ...options });
       
-      return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, ${fragmentNameCamelCase}:value?.data?.${entityName}_by_pk || [] }  as ${subscribeByIdName}SubscriptionFetchResultEx }) ;
+      return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, ${fragmentNameCamelCase}:value?.data?.${entityNamedType.name}_by_pk || [] }  as ${subscribeByIdName}SubscriptionFetchResultEx }) ;
     }
     `);
   }
@@ -259,7 +259,7 @@ export function injectSubscriptionHelpers({
       async function ${subscribeObjectsNameCamelCase}({ apolloClient, options }: { apolloClient: ApolloClient<object>, options?: Omit<SubscriptionOptions<${subscribeObjectsName}SubscriptionVariables>, 'query'> }): Promise<Observable<${subscribeObjectsName}SubscriptionFetchResultEx>> {
         const subscription:Observable<${subscribeObjectsName}SubscriptionFetchResult> = apolloClient.subscribe<${subscribeObjectsName}Subscription>({ query: ${subscribeObjectsName}Document, ...options });
         
-        return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, objects: value?.data?.${entityName} || [] }  as ${subscribeObjectsName}SubscriptionFetchResultEx }) ;
+        return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, objects: value?.data?.${entityNamedType.name} || [] }  as ${subscribeObjectsName}SubscriptionFetchResultEx }) ;
       }
     `);
 
@@ -275,22 +275,22 @@ export function injectSubscriptionHelpers({
 //
 export function injectInsertHelpers({
   contentManager,
-  entityName,
+  entityNamedType,
   fragmentName,
   trimString,
   primaryKeyIdField,
   typescriptCodegenOutputPath
 }: {
   contentManager: ContentManager;
-  entityName: string;
+  entityNamedType: GraphQLNamedType;
   fragmentName: string;
   trimString?: string;
   primaryKeyIdField: FieldDefinitionNode;
   typescriptCodegenOutputPath: string;
 }) {
   const fragmentNamePascalCase = makePascalCase(fragmentName);
-  const entityPascalName = makePascalCase(entityName);
-  const entityShortName = makeShortName(entityName, trimString);
+  const entityPascalName = makePascalCase(entityNamedType.name);
+  const entityShortName = makeShortName(entityNamedType.name, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
   const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
@@ -305,24 +305,24 @@ export function injectInsertHelpers({
       const mutationOptions:MutationOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables> = { mutation: Insert${fragmentNamePascalCase}Document, variables: { objects: [${entityShortCamelCaseName}] }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
         if(!${entityShortCamelCaseName}.id) throw new Error(\`if autoOptimisticResponse = true, id must be set in object '${entityShortCamelCaseName}'\`); 
-        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Insert${fragmentNamePascalCase}Mutation>({ operationType: 'insert', entityName:'${entityName}', objects:[${entityShortCamelCaseName} as ${entityPascalName}_Insert_Input & ObjectWithId] }); 
+        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Insert${fragmentNamePascalCase}Mutation>({ operationType: 'insert', entityName:'${entityNamedType.name}', objects:[${entityShortCamelCaseName} as ${entityPascalName}_Insert_Input & ObjectWithId] }); 
       }
       
       const mutation:Insert${fragmentNamePascalCase}FetchResult = await apolloClient.mutate<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables>(mutationOptions);
         
-      return { ...mutation, ${fragmentNameCamelCase}: mutation?.data?.insert_${entityName}?.returning && mutation.data.insert_${entityName}.returning[0] };
+      return { ...mutation, ${fragmentNameCamelCase}: mutation?.data?.insert_${entityNamedType.name}?.returning && mutation.data.insert_${entityNamedType.name}.returning[0] };
     }
 
     async function insert${fragmentNamePascalCase}WithOnConflict({ apolloClient, ${entityShortCamelCaseName}, onConflict, autoOptimisticResponse, options } :{ apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, onConflict: ${entityPascalName}_On_Conflict, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables>, 'mutation' | 'variables'> }): Promise<Insert${fragmentNamePascalCase}FetchHelperResultEx> {
       const mutationOptions:MutationOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables> = { mutation: Insert${fragmentNamePascalCase}Document, variables: { objects: [${entityShortCamelCaseName}], onConflict }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
         if(!${entityShortCamelCaseName}.id) throw new Error(\`if autoOptimisticResponse = true, id must be set in object '${entityShortCamelCaseName}'\`); 
-        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Insert${fragmentNamePascalCase}Mutation>({ operationType: 'insert', entityName:'${entityName}', objects:[${entityShortCamelCaseName} as ${entityPascalName}_Insert_Input & ObjectWithId] }); 
+        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Insert${fragmentNamePascalCase}Mutation>({ operationType: 'insert', entityName:'${entityNamedType.name}', objects:[${entityShortCamelCaseName} as ${entityPascalName}_Insert_Input & ObjectWithId] }); 
       }
       
       const mutation:Insert${fragmentNamePascalCase}FetchResult = await apolloClient.mutate<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables>(mutationOptions);
         
-      return { ...mutation, ${fragmentNameCamelCase}: mutation?.data?.insert_${entityName}?.returning && mutation.data.insert_${entityName}.returning[0] };
+      return { ...mutation, ${fragmentNameCamelCase}: mutation?.data?.insert_${entityNamedType.name}?.returning && mutation.data.insert_${entityNamedType.name}.returning[0] };
     }
 
 
@@ -338,7 +338,7 @@ export function injectInsertHelpers({
     async function insert${fragmentNamePascalCase}Objects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables>, 'mutation'> }): Promise<Insert${fragmentNamePascalCase}ObjectsHelperResultEx> {
       const mutation: Insert${fragmentNamePascalCase}ObjectsFetchResult = await apolloClient.mutate<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables>({ mutation: Insert${fragmentNamePascalCase}Document, ...options });
        
-      return { ...mutation, objects: mutation?.data?.insert_${entityName}?.returning || [] };
+      return { ...mutation, objects: mutation?.data?.insert_${entityNamedType.name}?.returning || [] };
     }
   `);
 
@@ -355,22 +355,22 @@ export function injectInsertHelpers({
 //
 export function injectUpdateHelpers({
   contentManager,
-  entityName,
+  entityNamedType,
   fragmentName,
   trimString,
   primaryKeyIdField,
   typescriptCodegenOutputPath
 }: {
   contentManager: ContentManager;
-  entityName: string;
+  entityNamedType: GraphQLNamedType;
   fragmentName: string;
   trimString?: string;
   primaryKeyIdField: FieldDefinitionNode;
   typescriptCodegenOutputPath: string;
 }) {
   const fragmentNamePascalCase = makePascalCase(fragmentName);
-  const entityPascalName = makePascalCase(entityName);
-  const entityShortName = makeShortName(entityName, trimString);
+  const entityPascalName = makePascalCase(entityNamedType.name);
+  const entityShortName = makeShortName(entityNamedType.name, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
@@ -383,11 +383,11 @@ export function injectUpdateHelpers({
 
     async function update${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, set, autoOptimisticResponse, options }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, set: ${entityPascalName}_Set_Input, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<Update${fragmentNamePascalCase}ByIdMutation, Update${fragmentNamePascalCase}ByIdMutationVariables>, 'mutation'> }): Promise<Update${fragmentNamePascalCase}ByIdHelperResultEx> {
       const mutationOptions:MutationOptions<Update${fragmentNamePascalCase}ByIdMutation, Update${fragmentNamePascalCase}ByIdMutationVariables> = { mutation: Update${fragmentNamePascalCase}ByIdDocument, variables: { id:${entityShortCamelCaseName}Id, set }, ...options };
-      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Update${fragmentNamePascalCase}ByIdMutation>({ operationType: 'update', entityName:'${entityName}', objects:[{ id:${entityShortCamelCaseName}Id, ...set }] }); }
+      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Update${fragmentNamePascalCase}ByIdMutation>({ operationType: 'update', entityName:'${entityNamedType.name}', objects:[{ id:${entityShortCamelCaseName}Id, ...set }] }); }
 
       const mutation:Update${fragmentNamePascalCase}ByIdQueryResult = await apolloClient.mutate<Update${fragmentNamePascalCase}ByIdMutation, Update${fragmentNamePascalCase}ByIdMutationVariables>(mutationOptions);
         
-      return { ...mutation, ${fragmentNameCamelCase}: mutation?.data?.update_${entityName}?.returning && mutation.data.update_${entityName}.returning[0] };
+      return { ...mutation, ${fragmentNameCamelCase}: mutation?.data?.update_${entityNamedType.name}?.returning && mutation.data.update_${entityNamedType.name}.returning[0] };
     }
   `);
 
@@ -400,7 +400,7 @@ export function injectUpdateHelpers({
     async function update${fragmentNamePascalCase}Objects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<Update${fragmentNamePascalCase}Mutation, Update${fragmentNamePascalCase}MutationVariables>, 'mutation'> }): Promise<Update${fragmentNamePascalCase}ObjectsHelperResultEx> {  
       const mutation:Update${fragmentNamePascalCase}ObjectsFetchResult = await apolloClient.mutate<Update${fragmentNamePascalCase}Mutation, Update${fragmentNamePascalCase}MutationVariables>({ mutation: Update${fragmentNamePascalCase}Document, ...options } );
         
-      return { ...mutation, objects:mutation?.data?.update_${entityName}?.returning || [] };
+      return { ...mutation, objects:mutation?.data?.update_${entityNamedType.name}?.returning || [] };
     }
   `);
 
@@ -417,22 +417,22 @@ export function injectUpdateHelpers({
 //
 export function injectDeleteHelpers({
   contentManager,
-  entityName,
+  entityNamedType,
   fragmentName,
   trimString,
   primaryKeyIdField,
   typescriptCodegenOutputPath
 }: {
   contentManager: ContentManager;
-  entityName: string;
+  entityNamedType: GraphQLNamedType;
   fragmentName: string;
   trimString?: string;
   primaryKeyIdField: FieldDefinitionNode;
   typescriptCodegenOutputPath: string;
 }) {
-  const entityShortName = makeShortName(entityName, trimString);
+  const entityShortName = makeShortName(entityNamedType.name, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
-  const entityModelName = makeModelName(entityName, trimString);
+  const entityModelName = makeModelName(entityNamedType.name, trimString);
   const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
 
@@ -451,7 +451,7 @@ export function injectDeleteHelpers({
       
       const mutation:Remove${entityModelName}ByIdQueryResult = await apolloClient.mutate<Remove${entityModelName}ByIdMutation, Remove${entityModelName}ByIdMutationVariables>(mutationOptions);
     
-      return { ...mutation, affected_rows: mutation?.data?.delete_${entityName}?.affected_rows || 0 };
+      return { ...mutation, affected_rows: mutation?.data?.delete_${entityNamedType.name}?.affected_rows || 0 };
     }
   `);
 
@@ -462,7 +462,7 @@ export function injectDeleteHelpers({
     async function remove${entityModelName}Objects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>, 'mutation'> }): Promise<Remove${entityModelName}ObjectsQueryHelperResultEx> {  
         const mutation:Remove${entityModelName}ByIdQueryResult = await apolloClient.mutate<Remove${entityModelName}Mutation, Remove${entityModelName}MutationVariables>({ mutation: Remove${entityModelName}Document, ...options } );
           
-        return { ...mutation, affected_rows: mutation?.data?.delete_${entityName}?.affected_rows || 0 };
+        return { ...mutation, affected_rows: mutation?.data?.delete_${entityNamedType.name}?.affected_rows || 0 };
       }
   `);
 
@@ -478,7 +478,7 @@ export function injectDeleteHelpers({
 //
 export function injectSharedHelpersPost({
   contentManager,
-  entityName,
+  entityNamedType,
   fragmentName,
   trimString,
   primaryKeyIdField,
@@ -491,7 +491,7 @@ export function injectSharedHelpersPost({
   withDeletes
 }: {
   contentManager: ContentManager;
-  entityName: string;
+  entityNamedType: GraphQLNamedType;
   fragmentName: string;
   trimString?: string;
   primaryKeyIdField: FieldDefinitionNode;
@@ -504,7 +504,7 @@ export function injectSharedHelpersPost({
   withDeletes?: boolean;
 }) {
   const fragmentNamePascalCase = makePascalCase(fragmentName);
-  const entityModelName = makeModelName(entityName, trimString);
+  const entityModelName = makeModelName(entityNamedType.name, trimString);
 
   if (withClientAndCacheHelpers || withQueries || withInserts || withUpdates || withSubscriptions) {
     let fragmentHelperObject = `
@@ -537,7 +537,7 @@ export function injectSharedHelpersPost({
 
   if (withDeletes) {
     let entityHelperObject = `
-    // ${entityName} Entity Helper Object
+    // ${entityNamedType.name} Entity Helper Object
     //------------------------------------------------
 
     export const ${entityModelName}GQLHelper = {

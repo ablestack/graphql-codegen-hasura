@@ -147,6 +147,7 @@ export type AnswerFilterSetType = {
   question?: Maybe<Scalars['ID']>,
   questions?: Maybe<Array<Maybe<Scalars['ID']>>>,
   search?: Maybe<Scalars['String']>,
+  visibleInContext?: Maybe<Scalars['Boolean']>,
 };
 
 export enum AnswerHierarchyMode {
@@ -161,6 +162,7 @@ export enum AnswerLookupMode {
   Gte = 'GTE',
   Icontains = 'ICONTAINS',
   Intersects = 'INTERSECTS',
+  Isnull = 'ISNULL',
   Lt = 'LT',
   Lte = 'LTE',
   Startswith = 'STARTSWITH'
@@ -250,10 +252,13 @@ export type Case = Node & {
 export type CaseWorkItemsArgs = {
   addressedGroups?: Maybe<Array<Maybe<Scalars['String']>>>,
   after?: Maybe<Scalars['String']>,
+  assignedUsers?: Maybe<Array<Maybe<Scalars['String']>>>,
   before?: Maybe<Scalars['String']>,
   case?: Maybe<Scalars['ID']>,
   caseDocumentHasAnswer?: Maybe<Array<Maybe<HasAnswerFilterType>>>,
   caseMetaValue?: Maybe<Array<Maybe<JsonValueFilterType>>>,
+  closedAt?: Maybe<Scalars['DateTime']>,
+  createdAt?: Maybe<Scalars['DateTime']>,
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   documentHasAnswer?: Maybe<Array<Maybe<HasAnswerFilterType>>>,
@@ -262,6 +267,7 @@ export type CaseWorkItemsArgs = {
   last?: Maybe<Scalars['Int']>,
   metaHasKey?: Maybe<Scalars['String']>,
   metaValue?: Maybe<Array<Maybe<JsonValueFilterType>>>,
+  modifiedAt?: Maybe<Scalars['DateTime']>,
   order?: Maybe<Array<Maybe<WorkItemOrderSetType>>>,
   orderBy?: Maybe<Array<Maybe<WorkItemOrdering>>>,
   status?: Maybe<WorkItemStatusArgument>,
@@ -617,7 +623,7 @@ export type DateAnswer = Node & Answer & {
   meta: Scalars['GenericScalar'],
   modifiedAt: Scalars['DateTime'],
   question: Question,
-  value: Scalars['Date'],
+  value?: Maybe<Scalars['Date']>,
 };
 
 export type DateQuestion = Node & Question & {
@@ -691,7 +697,8 @@ export type DocumentAnswersArgs = {
   orderBy?: Maybe<Array<Maybe<AnswerOrdering>>>,
   question?: Maybe<Scalars['ID']>,
   questions?: Maybe<Array<Maybe<Scalars['ID']>>>,
-  search?: Maybe<Scalars['String']>
+  search?: Maybe<Scalars['String']>,
+  visibleInContext?: Maybe<Scalars['Boolean']>
 };
 
 export type DocumentConnection = {
@@ -1027,6 +1034,44 @@ export type DynamicMultipleChoiceQuestionOptionsArgs = {
   last?: Maybe<Scalars['Int']>
 };
 
+export type DynamicOption = Node & {
+   __typename?: 'DynamicOption',
+  createdAt: Scalars['DateTime'],
+  createdByGroup?: Maybe<Scalars['String']>,
+  createdByUser?: Maybe<Scalars['String']>,
+  document: Document,
+  /** The ID of the object. */
+  id: Scalars['ID'],
+  label: Scalars['String'],
+  modifiedAt: Scalars['DateTime'],
+  question: StaticQuestion,
+  slug: Scalars['String'],
+};
+
+export type DynamicOptionConnection = {
+   __typename?: 'DynamicOptionConnection',
+  /** Contains the nodes in this connection. */
+  edges: Array<Maybe<DynamicOptionEdge>>,
+  /** Pagination data for this connection. */
+  pageInfo: PageInfo,
+  totalCount?: Maybe<Scalars['Int']>,
+};
+
+/** A Relay edge containing a `DynamicOption` and its cursor. */
+export type DynamicOptionEdge = {
+   __typename?: 'DynamicOptionEdge',
+  /** A cursor for use in pagination */
+  cursor: Scalars['String'],
+  /** The item at the end of the edge */
+  node?: Maybe<DynamicOption>,
+};
+
+export type DynamicOptionFilterSetType = {
+  document?: Maybe<Scalars['ID']>,
+  invert?: Maybe<Scalars['Boolean']>,
+  question?: Maybe<Scalars['ID']>,
+};
+
 export type File = Node & {
    __typename?: 'File',
   answer?: Maybe<FileAnswer>,
@@ -1106,7 +1151,7 @@ export type FloatAnswer = Node & Answer & {
   meta: Scalars['GenericScalar'],
   modifiedAt: Scalars['DateTime'],
   question: Question,
-  value: Scalars['Float'],
+  value?: Maybe<Scalars['Float']>,
 };
 
 export type FloatQuestion = Node & Question & {
@@ -1373,12 +1418,16 @@ export type FormQuestionFormsArgs = {
 
 
 
-/** Lookup type to search document structures. */
+/** 
+ * Lookup type to search document structures.
+ * 
+ * When using lookup `ISNULL`, the provided `value` will be ignored.
+ **/
 export type HasAnswerFilterType = {
   hierarchy?: Maybe<AnswerHierarchyMode>,
   lookup?: Maybe<AnswerLookupMode>,
-  question: Scalars['String'],
-  value: Scalars['GenericScalar'],
+  question: Scalars['ID'],
+  value?: Maybe<Scalars['GenericScalar']>,
 };
 
 /** expression to compare columns of type integer. All fields are combined with logical 'AND'. */
@@ -1404,7 +1453,7 @@ export type IntegerAnswer = Node & Answer & {
   meta: Scalars['GenericScalar'],
   modifiedAt: Scalars['DateTime'],
   question: Question,
-  value: Scalars['Int'],
+  value?: Maybe<Scalars['Int']>,
 };
 
 export type IntegerQuestion = Node & Question & {
@@ -1502,7 +1551,7 @@ export type ListAnswer = Node & Answer & {
   meta: Scalars['GenericScalar'],
   modifiedAt: Scalars['DateTime'],
   question: Question,
-  value: Array<Maybe<Scalars['String']>>,
+  value?: Maybe<Array<Maybe<Scalars['String']>>>,
 };
 
 export type MultipleChoiceQuestion = Node & Question & {
@@ -1609,6 +1658,7 @@ export type Mutation = {
   saveTextareaQuestion?: Maybe<SaveTextareaQuestionPayload>,
   saveWorkItem?: Maybe<SaveWorkItemPayload>,
   saveWorkflow?: Maybe<SaveWorkflowPayload>,
+  skipWorkItem?: Maybe<SkipWorkItemPayload>,
   startCase?: Maybe<StartCasePayload>,
 };
 
@@ -1823,6 +1873,11 @@ export type MutationSaveWorkflowArgs = {
 };
 
 
+export type MutationSkipWorkItemArgs = {
+  input: SkipWorkItemInput
+};
+
+
 export type MutationStartCaseArgs = {
   input: StartCaseInput
 };
@@ -1901,6 +1956,7 @@ export type Mutation_Root = {
   saveTextareaQuestion?: Maybe<SaveTextareaQuestionPayload>,
   saveWorkItem?: Maybe<SaveWorkItemPayload>,
   saveWorkflow?: Maybe<SaveWorkflowPayload>,
+  skipWorkItem?: Maybe<SkipWorkItemPayload>,
   startCase?: Maybe<StartCasePayload>,
   /** update data of the table: "dogs" */
   update_dogs?: Maybe<Dogs_Mutation_Response>,
@@ -2259,6 +2315,12 @@ export type Mutation_RootSaveWorkItemArgs = {
 /** mutation root */
 export type Mutation_RootSaveWorkflowArgs = {
   input: SaveWorkflowInput
+};
+
+
+/** mutation root */
+export type Mutation_RootSkipWorkItemArgs = {
+  input: SkipWorkItemInput
 };
 
 
@@ -2981,6 +3043,7 @@ export type Query = {
   allForms?: Maybe<FormConnection>,
   allQuestions?: Maybe<QuestionConnection>,
   allTasks?: Maybe<TaskConnection>,
+  allUsedDynamicOptions?: Maybe<DynamicOptionConnection>,
   allWorkItems?: Maybe<WorkItemConnection>,
   allWorkflows?: Maybe<WorkflowConnection>,
   dataSource?: Maybe<DataSourceDataConnection>,
@@ -3115,13 +3178,29 @@ export type QueryAllTasksArgs = {
 };
 
 
+export type QueryAllUsedDynamicOptionsArgs = {
+  after?: Maybe<Scalars['String']>,
+  before?: Maybe<Scalars['String']>,
+  createdByGroup?: Maybe<Scalars['String']>,
+  createdByUser?: Maybe<Scalars['String']>,
+  document?: Maybe<Scalars['ID']>,
+  filter?: Maybe<Array<Maybe<DynamicOptionFilterSetType>>>,
+  first?: Maybe<Scalars['Int']>,
+  last?: Maybe<Scalars['Int']>,
+  question?: Maybe<Scalars['ID']>
+};
+
+
 export type QueryAllWorkItemsArgs = {
   addressedGroups?: Maybe<Array<Maybe<Scalars['String']>>>,
   after?: Maybe<Scalars['String']>,
+  assignedUsers?: Maybe<Array<Maybe<Scalars['String']>>>,
   before?: Maybe<Scalars['String']>,
   case?: Maybe<Scalars['ID']>,
   caseDocumentHasAnswer?: Maybe<Array<Maybe<HasAnswerFilterType>>>,
   caseMetaValue?: Maybe<Array<Maybe<JsonValueFilterType>>>,
+  closedAt?: Maybe<Scalars['DateTime']>,
+  createdAt?: Maybe<Scalars['DateTime']>,
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   documentHasAnswer?: Maybe<Array<Maybe<HasAnswerFilterType>>>,
@@ -3130,6 +3209,7 @@ export type QueryAllWorkItemsArgs = {
   last?: Maybe<Scalars['Int']>,
   metaHasKey?: Maybe<Scalars['String']>,
   metaValue?: Maybe<Array<Maybe<JsonValueFilterType>>>,
+  modifiedAt?: Maybe<Scalars['DateTime']>,
   order?: Maybe<Array<Maybe<WorkItemOrderSetType>>>,
   orderBy?: Maybe<Array<Maybe<WorkItemOrdering>>>,
   status?: Maybe<WorkItemStatusArgument>,
@@ -3163,7 +3243,7 @@ export type QueryDataSourceArgs = {
   before?: Maybe<Scalars['String']>,
   first?: Maybe<Scalars['Int']>,
   last?: Maybe<Scalars['Int']>,
-  name?: Maybe<Scalars['String']>
+  name: Scalars['String']
 };
 
 
@@ -3190,6 +3270,7 @@ export type Query_Root = {
   allForms?: Maybe<FormConnection>,
   allQuestions?: Maybe<QuestionConnection>,
   allTasks?: Maybe<TaskConnection>,
+  allUsedDynamicOptions?: Maybe<DynamicOptionConnection>,
   allWorkItems?: Maybe<WorkItemConnection>,
   allWorkflows?: Maybe<WorkflowConnection>,
   dataSource?: Maybe<DataSourceDataConnection>,
@@ -3375,13 +3456,30 @@ export type Query_RootAllTasksArgs = {
 
 
 /** query root */
+export type Query_RootAllUsedDynamicOptionsArgs = {
+  after?: Maybe<Scalars['String']>,
+  before?: Maybe<Scalars['String']>,
+  createdByGroup?: Maybe<Scalars['String']>,
+  createdByUser?: Maybe<Scalars['String']>,
+  document?: Maybe<Scalars['ID']>,
+  filter?: Maybe<Array<Maybe<DynamicOptionFilterSetType>>>,
+  first?: Maybe<Scalars['Int']>,
+  last?: Maybe<Scalars['Int']>,
+  question?: Maybe<Scalars['ID']>
+};
+
+
+/** query root */
 export type Query_RootAllWorkItemsArgs = {
   addressedGroups?: Maybe<Array<Maybe<Scalars['String']>>>,
   after?: Maybe<Scalars['String']>,
+  assignedUsers?: Maybe<Array<Maybe<Scalars['String']>>>,
   before?: Maybe<Scalars['String']>,
   case?: Maybe<Scalars['ID']>,
   caseDocumentHasAnswer?: Maybe<Array<Maybe<HasAnswerFilterType>>>,
   caseMetaValue?: Maybe<Array<Maybe<JsonValueFilterType>>>,
+  closedAt?: Maybe<Scalars['DateTime']>,
+  createdAt?: Maybe<Scalars['DateTime']>,
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   documentHasAnswer?: Maybe<Array<Maybe<HasAnswerFilterType>>>,
@@ -3390,6 +3488,7 @@ export type Query_RootAllWorkItemsArgs = {
   last?: Maybe<Scalars['Int']>,
   metaHasKey?: Maybe<Scalars['String']>,
   metaValue?: Maybe<Array<Maybe<JsonValueFilterType>>>,
+  modifiedAt?: Maybe<Scalars['DateTime']>,
   order?: Maybe<Array<Maybe<WorkItemOrderSetType>>>,
   orderBy?: Maybe<Array<Maybe<WorkItemOrdering>>>,
   status?: Maybe<WorkItemStatusArgument>,
@@ -3425,7 +3524,7 @@ export type Query_RootDataSourceArgs = {
   before?: Maybe<Scalars['String']>,
   first?: Maybe<Scalars['Int']>,
   last?: Maybe<Scalars['Int']>,
-  name?: Maybe<Scalars['String']>
+  name: Scalars['String']
 };
 
 
@@ -3893,7 +3992,7 @@ export type SaveDocumentDateAnswerInput = {
   document: Scalars['ID'],
   meta?: Maybe<Scalars['JSONString']>,
   question: Scalars['ID'],
-  value: Scalars['Date'],
+  value?: Maybe<Scalars['Date']>,
 };
 
 export type SaveDocumentDateAnswerPayload = {
@@ -3907,7 +4006,7 @@ export type SaveDocumentFileAnswerInput = {
   document: Scalars['ID'],
   meta?: Maybe<Scalars['JSONString']>,
   question: Scalars['ID'],
-  value: Scalars['String'],
+  value?: Maybe<Scalars['String']>,
   valueId?: Maybe<Scalars['ID']>,
 };
 
@@ -3922,7 +4021,7 @@ export type SaveDocumentFloatAnswerInput = {
   document: Scalars['ID'],
   meta?: Maybe<Scalars['JSONString']>,
   question: Scalars['ID'],
-  value: Scalars['Float'],
+  value?: Maybe<Scalars['Float']>,
 };
 
 export type SaveDocumentFloatAnswerPayload = {
@@ -3943,7 +4042,7 @@ export type SaveDocumentIntegerAnswerInput = {
   document: Scalars['ID'],
   meta?: Maybe<Scalars['JSONString']>,
   question: Scalars['ID'],
-  value: Scalars['Int'],
+  value?: Maybe<Scalars['Int']>,
 };
 
 export type SaveDocumentIntegerAnswerPayload = {
@@ -3957,7 +4056,7 @@ export type SaveDocumentListAnswerInput = {
   document: Scalars['ID'],
   meta?: Maybe<Scalars['JSONString']>,
   question: Scalars['ID'],
-  value: Array<Maybe<Scalars['String']>>,
+  value?: Maybe<Array<Maybe<Scalars['String']>>>,
 };
 
 export type SaveDocumentListAnswerPayload = {
@@ -3977,7 +4076,7 @@ export type SaveDocumentStringAnswerInput = {
   document: Scalars['ID'],
   meta?: Maybe<Scalars['JSONString']>,
   question: Scalars['ID'],
-  value: Scalars['String'],
+  value?: Maybe<Scalars['String']>,
 };
 
 export type SaveDocumentStringAnswerPayload = {
@@ -3992,7 +4091,7 @@ export type SaveDocumentTableAnswerInput = {
   meta?: Maybe<Scalars['JSONString']>,
   question: Scalars['ID'],
   /** List of document IDs representing the rows in the table. */
-  value: Array<Maybe<Scalars['ID']>>,
+  value?: Maybe<Array<Maybe<Scalars['ID']>>>,
 };
 
 export type SaveDocumentTableAnswerPayload = {
@@ -4301,7 +4400,7 @@ export type SaveWorkItemPayload = {
 /** Lookup type to search in answers. */
 export type SearchAnswersFilterType = {
   lookup?: Maybe<SearchLookupMode>,
-  questions?: Maybe<Array<Maybe<Scalars['String']>>>,
+  questions?: Maybe<Array<Maybe<Scalars['ID']>>>,
   value: Scalars['GenericScalar'],
 };
 
@@ -4329,6 +4428,17 @@ export type SimpleTask = Node & Task & {
   name: Scalars['String'],
   slug: Scalars['String'],
   type: TaskType,
+};
+
+export type SkipWorkItemInput = {
+  clientMutationId?: Maybe<Scalars['String']>,
+  id: Scalars['ID'],
+};
+
+export type SkipWorkItemPayload = {
+   __typename?: 'SkipWorkItemPayload',
+  clientMutationId?: Maybe<Scalars['String']>,
+  workItem?: Maybe<WorkItem>,
 };
 
 export enum SortableAnswerAttributes {
@@ -4417,11 +4527,15 @@ export enum SortableWorkflowAttributes {
 
 export enum SortableWorkItemAttributes {
   AllowAllForms = 'ALLOW_ALL_FORMS',
+  ClosedAt = 'CLOSED_AT',
+  CreatedAt = 'CREATED_AT',
   CreatedByGroup = 'CREATED_BY_GROUP',
   CreatedByUser = 'CREATED_BY_USER',
+  Deadline = 'DEADLINE',
   Description = 'DESCRIPTION',
   IsArchived = 'IS_ARCHIVED',
   IsPublished = 'IS_PUBLISHED',
+  ModifiedAt = 'MODIFIED_AT',
   Name = 'NAME',
   Slug = 'SLUG',
   Status = 'STATUS'
@@ -4490,7 +4604,9 @@ export enum Status {
   /** Task is done. */
   Completed = 'COMPLETED',
   /** Task is ready to be processed. */
-  Ready = 'READY'
+  Ready = 'READY',
+  /** Task is skipped. */
+  Skipped = 'SKIPPED'
 }
 
 export type StringAnswer = Node & Answer & {
@@ -4503,7 +4619,7 @@ export type StringAnswer = Node & Answer & {
   meta: Scalars['GenericScalar'],
   modifiedAt: Scalars['DateTime'],
   question: Question,
-  value: Scalars['String'],
+  value?: Maybe<Scalars['String']>,
 };
 
 /** subscription root */
@@ -4746,7 +4862,7 @@ export type TableAnswer = Node & Answer & {
   meta: Scalars['GenericScalar'],
   modifiedAt: Scalars['DateTime'],
   question: Question,
-  value: Array<Maybe<Document>>,
+  value?: Maybe<Array<Maybe<Document>>>,
 };
 
 export type TableQuestion = Node & Question & {
@@ -5939,15 +6055,19 @@ export type WorkItemEdge = {
 
 export type WorkItemFilterSetType = {
   addressedGroups?: Maybe<Array<Maybe<Scalars['String']>>>,
+  assignedUsers?: Maybe<Array<Maybe<Scalars['String']>>>,
   case?: Maybe<Scalars['ID']>,
   caseDocumentHasAnswer?: Maybe<Array<Maybe<HasAnswerFilterType>>>,
   caseMetaValue?: Maybe<Array<Maybe<JsonValueFilterType>>>,
+  closedAt?: Maybe<Scalars['DateTime']>,
+  createdAt?: Maybe<Scalars['DateTime']>,
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   documentHasAnswer?: Maybe<Array<Maybe<HasAnswerFilterType>>>,
   invert?: Maybe<Scalars['Boolean']>,
   metaHasKey?: Maybe<Scalars['String']>,
   metaValue?: Maybe<Array<Maybe<JsonValueFilterType>>>,
+  modifiedAt?: Maybe<Scalars['DateTime']>,
   orderBy?: Maybe<Array<Maybe<WorkItemOrdering>>>,
   status?: Maybe<Status>,
   task?: Maybe<Scalars['ID']>,
@@ -5997,7 +6117,9 @@ export enum WorkItemStatus {
   /** Task is done. */
   Completed = 'COMPLETED',
   /** Task is ready to be processed. */
-  Ready = 'READY'
+  Ready = 'READY',
+  /** Task is skipped. */
+  Skipped = 'SKIPPED'
 }
 
 /** An enumeration. */
@@ -6007,7 +6129,9 @@ export enum WorkItemStatusArgument {
   /** Task is done. */
   Completed = 'COMPLETED',
   /** Task is ready to be processed. */
-  Ready = 'READY'
+  Ready = 'READY',
+  /** Task is skipped. */
+  Skipped = 'SKIPPED'
 }
 
 export type QueryVehicleByIdQueryVariables = {
