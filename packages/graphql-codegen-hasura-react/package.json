@@ -1,6 +1,6 @@
 {
   "name": "graphql-codegen-hasura-react",
-  "version": "4.1.0-alpha.4",
+  "version": "4.1.0-alpha.5",
   "description": "GraphQL Code Generator plugin for generating a CRUD TypeScript for Hasura from Documents",
   "author": "ahrnee <ahrndee@gmail.com>",
   "license": "MIT",
@@ -25,7 +25,7 @@
     "@graphql-codegen/typescript": "^1.8.3",
     "@graphql-codegen/visitor-plugin-common": "1.8.3",
     "graphql": "^14.5.8",
-    "graphql-codegen-hasura-shared": "^4.1.0-alpha.4",
+    "graphql-codegen-hasura-shared": "^4.1.0-alpha.5",
     "path": "^0.12.7",
     "react": "^16.12.0",
     "tslib": "1.10.0",
