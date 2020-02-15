@@ -68,39 +68,47 @@ export function convertApolloObjectArrayToRefObj(o: any[]) {
   return o.map(arrayItem => convertApolloObjectToRefObj(o));
 }
 
-export function convertObjectWithIdToRefObj(o: any, typename: string) {
+export function recursiveConvertObjectWithIdToFragmentLikeObject({ o, typename, refTypeMap }: { o: any; typename: string; refTypeMap?: RefTypeMap }) {
   if (!IS_OBJECT_WITH_ID(o)) throw new Error(`Provided object was not of type ObjectWithId: ${JSON.stringify(o)}`);
-  return { id: o.id, __typename: typename };
+  return { ...convertInsertInputToPartialFragmentResursive({ insertInputType: o, refTypeMap }), __typename: typename };
 }
 
-export function convertObjectWithIdArrayToRefObj(o: any[], typename: string) {
-  return o.map(arrayItem => convertObjectWithIdToRefObj(arrayItem, typename));
+export function convertObjectWithIdArrayToFragmentLikeArray({ o, typename, refTypeMap }: { o: any[]; typename: string; refTypeMap?: RefTypeMap }) {
+  return o.map(arrayItem => recursiveConvertObjectWithIdToFragmentLikeObject({ o: arrayItem, typename, refTypeMap }));
 }
 
-function convertToRef(o: any, typename: string, recursiveInsertInputTypeTest: boolean = true) {
+function recursiveConvertToFragmentLikeObject({
+  o,
+  typename,
+  refTypeMap,
+  recursiveInsertInputTypeTest = true
+}: {
+  o: any;
+  typename: string;
+  refTypeMap?: RefTypeMap;
+  recursiveInsertInputTypeTest?: boolean;
+}) {
   if (!IS_NON_NULL_OBJECT(o)) return null;
 
   if (Array.isArray(o)) {
     if (o.length === 0 || !o[0] || !IS_OBJECT_WITH_ID(o[0])) return null;
-    return convertObjectWithIdArrayToRefObj(o, typename);
+    return convertObjectWithIdArrayToFragmentLikeArray({ o, typename, refTypeMap });
   }
 
   if (IS_OBJECT_WITH_ID(o)) {
-    return convertObjectWithIdToRefObj(o, typename);
+    return recursiveConvertObjectWithIdToFragmentLikeObject({ o, typename, refTypeMap });
   }
 
   //if here, might be a InsertInput object, which has the payload in a property named data
   if (recursiveInsertInputTypeTest && IS_INSERT_INPUT_OBJECT(o)) {
-    return convertToRef(o.data, typename, false);
+    return recursiveConvertToFragmentLikeObject({ o: o.data, typename, refTypeMap, recursiveInsertInputTypeTest: false });
   }
 
   // if non of the above, return null
   return null;
 }
 
-// childRefsObjs: { [key: string]: RefObj | RefObj[] }
-
-export function convertInsertInputToShallowPartialFragment({ insertInputType, refTypeMap }: { insertInputType: object; refTypeMap?: RefTypeMap }) {
+export function convertInsertInputToPartialFragmentResursive({ insertInputType, refTypeMap }: { insertInputType: object; refTypeMap?: RefTypeMap }) {
   const fragment: any = {};
 
   //Loop object and build up a fragment appropriate for a cache-add
@@ -112,7 +120,7 @@ export function convertInsertInputToShallowPartialFragment({ insertInputType, re
     }
 
     if (IS_NON_NULL_OBJECT(insertInputValue) && refTypeMap && refTypeMap[insertInputKey]) {
-      const ref = convertToRef(insertInputValue, refTypeMap[insertInputKey]);
+      const ref = recursiveConvertToFragmentLikeObject({ o: insertInputValue, typename: refTypeMap[insertInputKey], refTypeMap });
       if (ref) {
         fragment[insertInputKey] = ref;
         continue;
