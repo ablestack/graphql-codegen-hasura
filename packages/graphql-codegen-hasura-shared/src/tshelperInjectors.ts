@@ -115,15 +115,15 @@ export function injectClientAndCacheHelpers({
         return apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
       }
 
-      function clientRecursiveInsert${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityShortCamelCaseName}, refTypeMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, refTypeMap?: RefTypeMap }): void {
+      function clientDeepInsert${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityShortCamelCaseName}, refTypeMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, refTypeMap?: RefTypeMap }): void {
         const ${fragmentNameCamelCase}Partial = convertInsertInputToPartialFragmentResursive({ insertInputType:${entityShortCamelCaseName}, refTypeMap });
-        if(logLevel >= 2) console.log(' --> clientRecursiveInsert${fragmentNamePascalCase}ById - ${fragmentNameCamelCase}Partial:', ${fragmentNameCamelCase}Partial);
+        if(logLevel >= 2) console.log(' --> clientDeepInsert${fragmentNamePascalCase}ById - ${fragmentNameCamelCase}Partial:', ${fragmentNameCamelCase}Partial);
         return apolloClient.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
       }
 
-      function cacheRecursiveInsert${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityShortCamelCaseName}, refTypeMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, refTypeMap?: RefTypeMap }): void {
+      function cacheDeepInsert${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityShortCamelCaseName}, refTypeMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, refTypeMap?: RefTypeMap }): void {
         const ${fragmentNameCamelCase}Partial = convertInsertInputToPartialFragmentResursive({ insertInputType:${entityShortCamelCaseName}, refTypeMap });
-        if(logLevel >= 2) console.log(' --> cacheRecursiveInsert${fragmentNamePascalCase}ById - ${fragmentNameCamelCase}Partial:', ${fragmentNameCamelCase}Partial);
+        if(logLevel >= 2) console.log(' --> cacheDeepInsert${fragmentNamePascalCase}ById - ${fragmentNameCamelCase}Partial:', ${fragmentNameCamelCase}Partial);
         return apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
       }
 
@@ -535,8 +535,8 @@ export function injectSharedHelpersPost({
     if (withClientAndCacheHelpers) fragmentHelperObject += `      clientReadFragmentById: clientReadFragment${fragmentNamePascalCase}ById,\n`;
     if (withClientAndCacheHelpers) fragmentHelperObject += `      clientWriteFragmentById: clientWriteFragment${fragmentNamePascalCase}ById,\n`;
     if (withClientAndCacheHelpers) fragmentHelperObject += `      cacheWriteFragmentById: cacheWriteFragment${fragmentNamePascalCase}ById,\n`;
-    if (withClientAndCacheHelpers) fragmentHelperObject += `      clientRecursiveWriteById: clientRecursiveInsert${fragmentNamePascalCase}ById,\n`;
-    if (withClientAndCacheHelpers) fragmentHelperObject += `      cacheRecursiveWriteById: cacheRecursiveInsert${fragmentNamePascalCase}ById,\n`;
+    if (withClientAndCacheHelpers) fragmentHelperObject += `      clientDeepWriteById: clientDeepInsert${fragmentNamePascalCase}ById,\n`;
+    if (withClientAndCacheHelpers) fragmentHelperObject += `      cacheDeepWriteById: cacheDeepInsert${fragmentNamePascalCase}ById,\n`;
     if (withClientAndCacheHelpers) fragmentHelperObject += `      clientReadQueryById: clientReadQuery${fragmentNamePascalCase}ById,\n`;
     if (withClientAndCacheHelpers) fragmentHelperObject += `      clientWriteQueryById: clientWriteQuery${fragmentNamePascalCase}ById,\n`;
     if (withClientAndCacheHelpers) fragmentHelperObject += `      cacheWriteQueryById: cacheWriteQuery${fragmentNamePascalCase}ById,\n`;
