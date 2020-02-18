@@ -304,6 +304,7 @@ export type CaseFilterSetType = {
   orderByQuestionAnswerValue?: Maybe<Scalars['String']>,
   searchAnswers?: Maybe<Array<Maybe<SearchAnswersFilterType>>>,
   status?: Maybe<Array<Maybe<CaseStatusArgument>>>,
+  workItemDocumentHasAnswer?: Maybe<Array<Maybe<HasAnswerFilterType>>>,
   workflow?: Maybe<Scalars['ID']>,
 };
 
@@ -3070,6 +3071,7 @@ export type QueryAllCasesArgs = {
   orderByQuestionAnswerValue?: Maybe<Scalars['String']>,
   searchAnswers?: Maybe<Array<Maybe<SearchAnswersFilterType>>>,
   status?: Maybe<Array<Maybe<CaseStatusArgument>>>,
+  workItemDocumentHasAnswer?: Maybe<Array<Maybe<HasAnswerFilterType>>>,
   workflow?: Maybe<Scalars['ID']>
 };
 
@@ -3341,6 +3343,7 @@ export type Query_RootAllCasesArgs = {
   orderByQuestionAnswerValue?: Maybe<Scalars['String']>,
   searchAnswers?: Maybe<Array<Maybe<SearchAnswersFilterType>>>,
   status?: Maybe<Array<Maybe<CaseStatusArgument>>>,
+  workItemDocumentHasAnswer?: Maybe<Array<Maybe<HasAnswerFilterType>>>,
   workflow?: Maybe<Scalars['ID']>
 };
 
@@ -4567,7 +4570,10 @@ export type StaticQuestion = Node & Question & {
   infoText?: Maybe<Scalars['String']>,
   isArchived: Scalars['Boolean'],
   isHidden: Scalars['QuestionJexl'],
-  /** Required expression is only evaluated when question is not hidden. */
+  /** 
+ * Required expression is only evaluated when question is not hidden. This should
+   * not be used for `StaticQuestion`, because it can never be satisfied.
+ **/
   isRequired: Scalars['QuestionJexl'],
   label: Scalars['String'],
   meta: Scalars['GenericScalar'],

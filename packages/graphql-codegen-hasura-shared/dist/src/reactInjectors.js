@@ -6,7 +6,7 @@ const utils_1 = require("./utils");
 //
 function injectGlobalReactCodePre({ contentManager, typescriptCodegenOutputPath, withUpdates }) {
     contentManager.addImport(`import { ObjectWithId, generateOptimisticResponseForMutation, generateUpdateFunctionForMutation } from 'graphql-codegen-hasura-core'`);
-    contentManager.addImport(`import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation, QueryLazyOptions, MutationFunctionOptions, QueryResult, MutationTuple, FetchResult, SubscriptionResult, SubscriptionHookOptions, useSubscription, ApolloError, SubscribeToMoreOptions } from '@apollo/client';`);
+    contentManager.addImport(`import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation, QueryLazyOptions, MutationFunctionOptions, LazyQueryResult, MutationTuple, FetchResult, SubscriptionResult, SubscriptionHookOptions, useSubscription, ApolloError, SubscribeToMoreOptions } from '@apollo/client';`);
     contentManager.addContent(`
     // GLOBAL TYPES
     //------------------------------------------------
@@ -54,7 +54,7 @@ function injectQueryReact({ contentManager, entityName, fragmentName, trimString
      */
 
     // Types
-    type ${queryByIdName}Result = QueryResult<${queryByIdName}Query, ${queryByIdName}QueryVariables>;
+    type ${queryByIdName}Result = LazyQueryResult<${queryByIdName}Query, ${queryByIdName}QueryVariables>;
     type ${queryByIdName}SubScribeToMore = (options?: Omit<SubscribeToMoreOptions<${queryByIdName}Query, ${queryByIdName}QueryVariables, ${queryByIdName}Query>, 'document' | 'variables'> | undefined) => void
     export type ${queryByIdName}ResultEx = Omit<${queryByIdName}Result, 'subscribeToMore'> & { subscribeToMore:${queryByIdName}SubScribeToMore } & ${fragmentNamePascalCase}ByIdHookResultEx;
 
@@ -87,7 +87,7 @@ function injectQueryReact({ contentManager, entityName, fragmentName, trimString
       const wrappedLazyQuery: ${queryByIdName}WrappedLazyFn = (options) => { return lazyQuery[0](options); };
       
       // Switching out SubcribeToMore with typed version
-      const typedSubcribeToMore:${queryByIdName}SubScribeToMore = (options) => { lazyQuery[1].subscribeToMore({document: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id } as ${queryByIdName}QueryVariables, ...options });}
+      const typedSubcribeToMore:${queryByIdName}SubScribeToMore = (options) => { lazyQuery[1].subscribeToMore && lazyQuery[1].subscribeToMore({document: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id } as ${queryByIdName}QueryVariables, ...options });}
       const { subscribeToMore, ...lazyQueryResult } = lazyQuery[1];  
 
       return [wrappedLazyQuery, { ...lazyQueryResult, subscribeToMore:typedSubcribeToMore, ${fragmentNameCamelCase}: pick${queryByIdName}(lazyQuery[1].data) }];
@@ -100,7 +100,7 @@ function injectQueryReact({ contentManager, entityName, fragmentName, trimString
      */
 
     // Types
-    export type ${queryObjectsName}Result = QueryResult<${queryObjectsName}Query, ${queryObjectsName}QueryVariables>;
+    export type ${queryObjectsName}Result = LazyQueryResult<${queryObjectsName}Query, ${queryObjectsName}QueryVariables>;
     type ${queryObjectsName}SubScribeToMore = (options?: Omit<SubscribeToMoreOptions<${queryObjectsName}Query, ${queryObjectsName}QueryVariables, ${queryObjectsName}Query>, 'document' | 'variables'> | undefined) => void
     export type ${queryObjectsName}ResultEx = Omit<${queryObjectsName}Result, 'subscribeToMore'> & { subscribeToMore:${queryObjectsName}SubScribeToMore } & ${fragmentNamePascalCase}ObjectsHookResultEx;
 
@@ -134,7 +134,7 @@ function injectQueryReact({ contentManager, entityName, fragmentName, trimString
       const wrappedLazyQuery: ${queryObjectsName}WrappedLazyFn = (options) => { return lazyQuery[0]( options ); };
       
       // Switching out SubcribeToMore with typed version
-      const typedSubcribeToMore:${queryObjectsName}SubScribeToMore = (options) => { lazyQuery[1].subscribeToMore({document: ${queryObjectsName}Document, ...options });}
+      const typedSubcribeToMore:${queryObjectsName}SubScribeToMore = (options) => { lazyQuery[1].subscribeToMore && lazyQuery[1].subscribeToMore({document: ${queryObjectsName}Document, ...options });}
       const { subscribeToMore, ...lazyQueryResult } = lazyQuery[1];  
       
       return [wrappedLazyQuery, { ...lazyQueryResult, subscribeToMore:typedSubcribeToMore, objects: pickObjects(lazyQuery[1].data) }];

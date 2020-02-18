@@ -21,7 +21,7 @@
     "graphql-tag": "^2.0.0"
   },
   "dependencies": {
-    "@apollo/client": "^3.0.0-beta.24",
+    "@apollo/client": "^3.0.0-beta.35",
     "@apollo/react-hooks": "^3.2.0-beta.0",
     "@types/react": "16.9.13",
     "react": "^16.12.0",

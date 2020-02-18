@@ -208,6 +208,20 @@
                 "defaultValue": null
               },
               {
+                "name": "workItemDocumentHasAnswer",
+                "description": "",
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "HasAnswerFilterType",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              },
+              {
                 "name": "workflow",
                 "description": "",
                 "type": {
@@ -3494,6 +3508,20 @@
               "ofType": {
                 "kind": "ENUM",
                 "name": "CaseStatusArgument",
+                "ofType": null
+              }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "workItemDocumentHasAnswer",
+            "description": "",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "INPUT_OBJECT",
+                "name": "HasAnswerFilterType",
                 "ofType": null
               }
             },
@@ -11260,7 +11288,7 @@
           },
           {
             "name": "isRequired",
-            "description": "Required expression is only evaluated when question is not hidden.",
+            "description": "Required expression is only evaluated when question is not hidden. This should\nnot be used for `StaticQuestion`, because it can never be satisfied.",
             "args": [],
             "type": {
               "kind": "NON_NULL",
@@ -36981,6 +37009,20 @@
                   "ofType": {
                     "kind": "ENUM",
                     "name": "CaseStatusArgument",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "workItemDocumentHasAnswer",
+                "description": "",
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "INPUT_OBJECT",
+                    "name": "HasAnswerFilterType",
                     "ofType": null
                   }
                 },

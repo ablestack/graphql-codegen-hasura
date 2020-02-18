@@ -1,5 +1,5 @@
 import { ObjectWithId, generateOptimisticResponseForMutation, generateUpdateFunctionForMutation } from 'graphql-codegen-hasura-core'
-import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation, QueryLazyOptions, MutationFunctionOptions, QueryResult, MutationTuple, FetchResult, SubscriptionResult, SubscriptionHookOptions, useSubscription, ApolloError, SubscribeToMoreOptions } from '@apollo/client';
+import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation, QueryLazyOptions, MutationFunctionOptions, LazyQueryResult, MutationTuple, FetchResult, SubscriptionResult, SubscriptionHookOptions, useSubscription, ApolloError, SubscribeToMoreOptions } from '@apollo/client';
 import { VehicleFragment } from '../';
 import { QueryVehicleByIdQuery } from '../';
 import { QueryVehicleByIdQueryVariables } from '../';
@@ -109,7 +109,7 @@ import { RemoveDogsModelByIdDocument } from '../';
      */
 
     // Types
-    type QueryVehicleByIdResult = QueryResult<QueryVehicleByIdQuery, QueryVehicleByIdQueryVariables>;
+    type QueryVehicleByIdResult = LazyQueryResult<QueryVehicleByIdQuery, QueryVehicleByIdQueryVariables>;
     type QueryVehicleByIdSubScribeToMore = (options?: Omit<SubscribeToMoreOptions<QueryVehicleByIdQuery, QueryVehicleByIdQueryVariables, QueryVehicleByIdQuery>, 'document' | 'variables'> | undefined) => void
     export type QueryVehicleByIdResultEx = Omit<QueryVehicleByIdResult, 'subscribeToMore'> & { subscribeToMore:QueryVehicleByIdSubScribeToMore } & VehicleByIdHookResultEx;
 
@@ -142,7 +142,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       const wrappedLazyQuery: QueryVehicleByIdWrappedLazyFn = (options) => { return lazyQuery[0](options); };
       
       // Switching out SubcribeToMore with typed version
-      const typedSubcribeToMore:QueryVehicleByIdSubScribeToMore = (options) => { lazyQuery[1].subscribeToMore({document: QueryVehicleByIdDocument, variables: { vehicleId } as QueryVehicleByIdQueryVariables, ...options });}
+      const typedSubcribeToMore:QueryVehicleByIdSubScribeToMore = (options) => { lazyQuery[1].subscribeToMore && lazyQuery[1].subscribeToMore({document: QueryVehicleByIdDocument, variables: { vehicleId } as QueryVehicleByIdQueryVariables, ...options });}
       const { subscribeToMore, ...lazyQueryResult } = lazyQuery[1];  
 
       return [wrappedLazyQuery, { ...lazyQueryResult, subscribeToMore:typedSubcribeToMore, vehicle: pickQueryVehicleById(lazyQuery[1].data) }];
@@ -154,7 +154,7 @@ import { RemoveDogsModelByIdDocument } from '../';
      */
 
     // Types
-    export type QueryVehicleObjectsResult = QueryResult<QueryVehicleObjectsQuery, QueryVehicleObjectsQueryVariables>;
+    export type QueryVehicleObjectsResult = LazyQueryResult<QueryVehicleObjectsQuery, QueryVehicleObjectsQueryVariables>;
     type QueryVehicleObjectsSubScribeToMore = (options?: Omit<SubscribeToMoreOptions<QueryVehicleObjectsQuery, QueryVehicleObjectsQueryVariables, QueryVehicleObjectsQuery>, 'document' | 'variables'> | undefined) => void
     export type QueryVehicleObjectsResultEx = Omit<QueryVehicleObjectsResult, 'subscribeToMore'> & { subscribeToMore:QueryVehicleObjectsSubScribeToMore } & VehicleObjectsHookResultEx;
 
@@ -188,7 +188,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       const wrappedLazyQuery: QueryVehicleObjectsWrappedLazyFn = (options) => { return lazyQuery[0]( options ); };
       
       // Switching out SubcribeToMore with typed version
-      const typedSubcribeToMore:QueryVehicleObjectsSubScribeToMore = (options) => { lazyQuery[1].subscribeToMore({document: QueryVehicleObjectsDocument, ...options });}
+      const typedSubcribeToMore:QueryVehicleObjectsSubScribeToMore = (options) => { lazyQuery[1].subscribeToMore && lazyQuery[1].subscribeToMore({document: QueryVehicleObjectsDocument, ...options });}
       const { subscribeToMore, ...lazyQueryResult } = lazyQuery[1];  
       
       return [wrappedLazyQuery, { ...lazyQueryResult, subscribeToMore:typedSubcribeToMore, objects: pickObjects(lazyQuery[1].data) }];
@@ -477,7 +477,7 @@ import { RemoveDogsModelByIdDocument } from '../';
      */
 
     // Types
-    type QueryVehicleLocationOnlyByIdResult = QueryResult<QueryVehicleLocationOnlyByIdQuery, QueryVehicleLocationOnlyByIdQueryVariables>;
+    type QueryVehicleLocationOnlyByIdResult = LazyQueryResult<QueryVehicleLocationOnlyByIdQuery, QueryVehicleLocationOnlyByIdQueryVariables>;
     type QueryVehicleLocationOnlyByIdSubScribeToMore = (options?: Omit<SubscribeToMoreOptions<QueryVehicleLocationOnlyByIdQuery, QueryVehicleLocationOnlyByIdQueryVariables, QueryVehicleLocationOnlyByIdQuery>, 'document' | 'variables'> | undefined) => void
     export type QueryVehicleLocationOnlyByIdResultEx = Omit<QueryVehicleLocationOnlyByIdResult, 'subscribeToMore'> & { subscribeToMore:QueryVehicleLocationOnlyByIdSubScribeToMore } & VehicleLocationOnlyByIdHookResultEx;
 
@@ -510,7 +510,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       const wrappedLazyQuery: QueryVehicleLocationOnlyByIdWrappedLazyFn = (options) => { return lazyQuery[0](options); };
       
       // Switching out SubcribeToMore with typed version
-      const typedSubcribeToMore:QueryVehicleLocationOnlyByIdSubScribeToMore = (options) => { lazyQuery[1].subscribeToMore({document: QueryVehicleLocationOnlyByIdDocument, variables: { vehicleId } as QueryVehicleLocationOnlyByIdQueryVariables, ...options });}
+      const typedSubcribeToMore:QueryVehicleLocationOnlyByIdSubScribeToMore = (options) => { lazyQuery[1].subscribeToMore && lazyQuery[1].subscribeToMore({document: QueryVehicleLocationOnlyByIdDocument, variables: { vehicleId } as QueryVehicleLocationOnlyByIdQueryVariables, ...options });}
       const { subscribeToMore, ...lazyQueryResult } = lazyQuery[1];  
 
       return [wrappedLazyQuery, { ...lazyQueryResult, subscribeToMore:typedSubcribeToMore, vehicleLocationOnly: pickQueryVehicleLocationOnlyById(lazyQuery[1].data) }];
@@ -522,7 +522,7 @@ import { RemoveDogsModelByIdDocument } from '../';
      */
 
     // Types
-    export type QueryVehicleLocationOnlyObjectsResult = QueryResult<QueryVehicleLocationOnlyObjectsQuery, QueryVehicleLocationOnlyObjectsQueryVariables>;
+    export type QueryVehicleLocationOnlyObjectsResult = LazyQueryResult<QueryVehicleLocationOnlyObjectsQuery, QueryVehicleLocationOnlyObjectsQueryVariables>;
     type QueryVehicleLocationOnlyObjectsSubScribeToMore = (options?: Omit<SubscribeToMoreOptions<QueryVehicleLocationOnlyObjectsQuery, QueryVehicleLocationOnlyObjectsQueryVariables, QueryVehicleLocationOnlyObjectsQuery>, 'document' | 'variables'> | undefined) => void
     export type QueryVehicleLocationOnlyObjectsResultEx = Omit<QueryVehicleLocationOnlyObjectsResult, 'subscribeToMore'> & { subscribeToMore:QueryVehicleLocationOnlyObjectsSubScribeToMore } & VehicleLocationOnlyObjectsHookResultEx;
 
@@ -556,7 +556,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       const wrappedLazyQuery: QueryVehicleLocationOnlyObjectsWrappedLazyFn = (options) => { return lazyQuery[0]( options ); };
       
       // Switching out SubcribeToMore with typed version
-      const typedSubcribeToMore:QueryVehicleLocationOnlyObjectsSubScribeToMore = (options) => { lazyQuery[1].subscribeToMore({document: QueryVehicleLocationOnlyObjectsDocument, ...options });}
+      const typedSubcribeToMore:QueryVehicleLocationOnlyObjectsSubScribeToMore = (options) => { lazyQuery[1].subscribeToMore && lazyQuery[1].subscribeToMore({document: QueryVehicleLocationOnlyObjectsDocument, ...options });}
       const { subscribeToMore, ...lazyQueryResult } = lazyQuery[1];  
       
       return [wrappedLazyQuery, { ...lazyQueryResult, subscribeToMore:typedSubcribeToMore, objects: pickObjects(lazyQuery[1].data) }];
@@ -770,7 +770,7 @@ import { RemoveDogsModelByIdDocument } from '../';
      */
 
     // Types
-    type QueryDogByIdResult = QueryResult<QueryDogByIdQuery, QueryDogByIdQueryVariables>;
+    type QueryDogByIdResult = LazyQueryResult<QueryDogByIdQuery, QueryDogByIdQueryVariables>;
     type QueryDogByIdSubScribeToMore = (options?: Omit<SubscribeToMoreOptions<QueryDogByIdQuery, QueryDogByIdQueryVariables, QueryDogByIdQuery>, 'document' | 'variables'> | undefined) => void
     export type QueryDogByIdResultEx = Omit<QueryDogByIdResult, 'subscribeToMore'> & { subscribeToMore:QueryDogByIdSubScribeToMore } & DogByIdHookResultEx;
 
@@ -803,7 +803,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       const wrappedLazyQuery: QueryDogByIdWrappedLazyFn = (options) => { return lazyQuery[0](options); };
       
       // Switching out SubcribeToMore with typed version
-      const typedSubcribeToMore:QueryDogByIdSubScribeToMore = (options) => { lazyQuery[1].subscribeToMore({document: QueryDogByIdDocument, variables: { dogsId } as QueryDogByIdQueryVariables, ...options });}
+      const typedSubcribeToMore:QueryDogByIdSubScribeToMore = (options) => { lazyQuery[1].subscribeToMore && lazyQuery[1].subscribeToMore({document: QueryDogByIdDocument, variables: { dogsId } as QueryDogByIdQueryVariables, ...options });}
       const { subscribeToMore, ...lazyQueryResult } = lazyQuery[1];  
 
       return [wrappedLazyQuery, { ...lazyQueryResult, subscribeToMore:typedSubcribeToMore, dog: pickQueryDogById(lazyQuery[1].data) }];
@@ -815,7 +815,7 @@ import { RemoveDogsModelByIdDocument } from '../';
      */
 
     // Types
-    export type QueryDogObjectsResult = QueryResult<QueryDogObjectsQuery, QueryDogObjectsQueryVariables>;
+    export type QueryDogObjectsResult = LazyQueryResult<QueryDogObjectsQuery, QueryDogObjectsQueryVariables>;
     type QueryDogObjectsSubScribeToMore = (options?: Omit<SubscribeToMoreOptions<QueryDogObjectsQuery, QueryDogObjectsQueryVariables, QueryDogObjectsQuery>, 'document' | 'variables'> | undefined) => void
     export type QueryDogObjectsResultEx = Omit<QueryDogObjectsResult, 'subscribeToMore'> & { subscribeToMore:QueryDogObjectsSubScribeToMore } & DogObjectsHookResultEx;
 
@@ -849,7 +849,7 @@ import { RemoveDogsModelByIdDocument } from '../';
       const wrappedLazyQuery: QueryDogObjectsWrappedLazyFn = (options) => { return lazyQuery[0]( options ); };
       
       // Switching out SubcribeToMore with typed version
-      const typedSubcribeToMore:QueryDogObjectsSubScribeToMore = (options) => { lazyQuery[1].subscribeToMore({document: QueryDogObjectsDocument, ...options });}
+      const typedSubcribeToMore:QueryDogObjectsSubScribeToMore = (options) => { lazyQuery[1].subscribeToMore && lazyQuery[1].subscribeToMore({document: QueryDogObjectsDocument, ...options });}
       const { subscribeToMore, ...lazyQueryResult } = lazyQuery[1];  
       
       return [wrappedLazyQuery, { ...lazyQueryResult, subscribeToMore:typedSubcribeToMore, objects: pickObjects(lazyQuery[1].data) }];
