@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import * as ApolloReactCommon from '@apollo/react-common';
+import * as ApolloReactCommon from '@apollo/client';
 export type Maybe<T> = T | null;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -8,57 +8,10 @@ export type Scalars = {
   Boolean: boolean,
   Int: number,
   Float: number,
-  /** 
- * The `GenericScalar` scalar type represents a generic
-   * GraphQL scalar value that could be:
-   * String, Boolean, Int, Float, List or Object.
- **/
   GenericScalar: any,
-  /** 
- * The `DateTime` scalar type represents a DateTime
-   * value as specified by
-   * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
- **/
   DateTime: Date,
-  /** 
- * Question jexl expression returning boolean.
-   * 
-   * Following transform can be used:
-   * * answer - access answer of document by question slug
-   * * mapby - map list by key. Helpful to work with table answers
-   *   whereas an answer is a list of dicts.
-   * 
-   * Following context is available:
-   * * form - access form of document
-   * 
-   * Examples:
-   * * 'answer' == 'question-slug'|answer
-   * * 'answer' in 'list-question-slug'|answer
-   * * 'answer' in 'table-question-slug'|answer|mapby('column-question')
-   * * 'form-slug' == form
- **/
   QuestionJexl: any,
-  /** 
- * Group jexl represents a jexl expression returning group names.
-   * 
-   * Following transforms can be used:
-   * * groups - return list of group names
-   * 
-   * Examples:
-   * * ['group-name1', 'group-name2']|groups
- **/
   GroupJexl: any,
-  /** 
- * Flow jexl represents a jexl expression returning task slugs.
-   * 
-   * Following transforms can be used:
-   * * task - return single task
-   * * tasks - return multiple tasks
-   * 
-   * Examples:
-   * * 'task-slug'|task
-   * * ['task-slug1', 'task-slug2']|tasks
- **/
   FlowJexl: any,
   uuid: any,
   jsonb: any,
@@ -66,20 +19,8 @@ export type Scalars = {
   polygon: any,
   timestamptz: any,
   date: any,
-  /** 
- * Allows use of a JSON String for input / output from the GraphQL schema.
-   * 
-   * Use of this type is *not recommended* as you lose the benefits of having a defined, static
-   * schema (one of the key benefits of GraphQL).
- **/
   JSONString: any,
-  /** 
- * The `Date` scalar type represents a Date
-   * value as specified by
-   * [iso8601](https://en.wikipedia.org/wiki/ISO_8601).
- **/
   Date: any,
-  /** The `Upload` scalar type represents a file upload. */
   Upload: any,
 };
 
@@ -89,7 +30,6 @@ export type AddFormQuestionInput = {
   question: Scalars['ID'],
 };
 
-/** Add question at the end of form. */
 export type AddFormQuestionPayload = {
    __typename?: 'AddFormQuestionPayload',
   clientMutationId?: Maybe<Scalars['String']>,
@@ -121,19 +61,14 @@ export type Answer = {
 
 export type AnswerConnection = {
    __typename?: 'AnswerConnection',
-  /** Contains the nodes in this connection. */
   edges: Array<Maybe<AnswerEdge>>,
-  /** Pagination data for this connection. */
   pageInfo: PageInfo,
   totalCount?: Maybe<Scalars['Int']>,
 };
 
-/** A Relay edge containing a `Answer` and its cursor. */
 export type AnswerEdge = {
    __typename?: 'AnswerEdge',
-  /** A cursor for use in pagination */
   cursor: Scalars['String'],
-  /** The item at the end of the edge */
   node?: Maybe<Answer>,
 };
 
@@ -168,23 +103,14 @@ export enum AnswerLookupMode {
   Startswith = 'STARTSWITH'
 }
 
-/** An enumeration. */
 export enum AnswerOrdering {
-  /** Created at */
   CreatedAtAsc = 'CREATED_AT_ASC',
-  /** Created at (descending) */
   CreatedAtDesc = 'CREATED_AT_DESC',
-  /** Created by group */
   CreatedByGroupAsc = 'CREATED_BY_GROUP_ASC',
-  /** Created by group (descending) */
   CreatedByGroupDesc = 'CREATED_BY_GROUP_DESC',
-  /** Created by user */
   CreatedByUserAsc = 'CREATED_BY_USER_ASC',
-  /** Created by user (descending) */
   CreatedByUserDesc = 'CREATED_BY_USER_DESC',
-  /** Modified at */
   ModifiedAtAsc = 'MODIFIED_AT_ASC',
-  /** Modified at (descending) */
   ModifiedAtDesc = 'MODIFIED_AT_DESC'
 }
 
@@ -199,7 +125,6 @@ export enum AscDesc {
   Desc = 'DESC'
 }
 
-/** expression to compare columns of type boolean. All fields are combined with logical 'AND'. */
 export type Boolean_Comparison_Exp = {
   _eq?: Maybe<Scalars['Boolean']>,
   _gt?: Maybe<Scalars['Boolean']>,
@@ -230,7 +155,6 @@ export type CancelCasePayload = {
 
 export type Case = Node & {
    __typename?: 'Case',
-  /** Time when case has either been canceled or completed */
   closedAt?: Maybe<Scalars['DateTime']>,
   closedByGroup?: Maybe<Scalars['String']>,
   closedByUser?: Maybe<Scalars['String']>,
@@ -238,7 +162,6 @@ export type Case = Node & {
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   document?: Maybe<Document>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   meta?: Maybe<Scalars['GenericScalar']>,
   modifiedAt: Scalars['DateTime'],
@@ -276,19 +199,14 @@ export type CaseWorkItemsArgs = {
 
 export type CaseConnection = {
    __typename?: 'CaseConnection',
-  /** Contains the nodes in this connection. */
   edges: Array<Maybe<CaseEdge>>,
-  /** Pagination data for this connection. */
   pageInfo: PageInfo,
   totalCount?: Maybe<Scalars['Int']>,
 };
 
-/** A Relay edge containing a `Case` and its cursor. */
 export type CaseEdge = {
    __typename?: 'CaseEdge',
-  /** A cursor for use in pagination */
   cursor: Scalars['String'],
-  /** The item at the end of the edge */
   node?: Maybe<Case>,
 };
 
@@ -308,27 +226,16 @@ export type CaseFilterSetType = {
   workflow?: Maybe<Scalars['ID']>,
 };
 
-/** An enumeration. */
 export enum CaseOrdering {
-  /** Created at */
   CreatedAtAsc = 'CREATED_AT_ASC',
-  /** Created at (descending) */
   CreatedAtDesc = 'CREATED_AT_DESC',
-  /** Created by group */
   CreatedByGroupAsc = 'CREATED_BY_GROUP_ASC',
-  /** Created by group (descending) */
   CreatedByGroupDesc = 'CREATED_BY_GROUP_DESC',
-  /** Created by user */
   CreatedByUserAsc = 'CREATED_BY_USER_ASC',
-  /** Created by user (descending) */
   CreatedByUserDesc = 'CREATED_BY_USER_DESC',
-  /** Modified at */
   ModifiedAtAsc = 'MODIFIED_AT_ASC',
-  /** Modified at (descending) */
   ModifiedAtDesc = 'MODIFIED_AT_DESC',
-  /** Status */
   StatusAsc = 'STATUS_ASC',
-  /** Status (descending) */
   StatusDesc = 'STATUS_DESC'
 }
 
@@ -339,23 +246,15 @@ export type CaseOrderSetType = {
   meta?: Maybe<Scalars['String']>,
 };
 
-/** An enumeration. */
 export enum CaseStatus {
-  /** Case is cancelled. */
   Canceled = 'CANCELED',
-  /** Case is done. */
   Completed = 'COMPLETED',
-  /** Case is running and work items need to be completed. */
   Running = 'RUNNING'
 }
 
-/** An enumeration. */
 export enum CaseStatusArgument {
-  /** Case is cancelled. */
   Canceled = 'CANCELED',
-  /** Case is done. */
   Completed = 'COMPLETED',
-  /** Case is running and work items need to be completed. */
   Running = 'RUNNING'
 }
 
@@ -365,12 +264,10 @@ export type ChoiceQuestion = Node & Question & {
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   forms?: Maybe<FormConnection>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   infoText?: Maybe<Scalars['String']>,
   isArchived: Scalars['Boolean'],
   isHidden: Scalars['QuestionJexl'],
-  /** Required expression is only evaluated when question is not hidden. */
   isRequired: Scalars['QuestionJexl'],
   label: Scalars['String'],
   meta: Scalars['GenericScalar'],
@@ -418,7 +315,6 @@ export type ChoiceQuestionOptionsArgs = {
 };
 
 
-/** expression to compare columns of type circle. All fields are combined with logical 'AND'. */
 export type Circle_Comparison_Exp = {
   _eq?: Maybe<Scalars['circle']>,
   _gt?: Maybe<Scalars['circle']>,
@@ -439,11 +335,9 @@ export type CompleteTaskFormTask = Node & Task & {
   createdByUser?: Maybe<Scalars['String']>,
   description?: Maybe<Scalars['String']>,
   form: Form,
-  /** The ID of the object. */
   id: Scalars['ID'],
   isArchived: Scalars['Boolean'],
   isMultipleInstance: Scalars['Boolean'],
-  /** Time in seconds task may take to be processed. */
   leadTime?: Maybe<Scalars['Int']>,
   meta: Scalars['GenericScalar'],
   modifiedAt: Scalars['DateTime'],
@@ -459,11 +353,9 @@ export type CompleteWorkflowFormTask = Node & Task & {
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   description?: Maybe<Scalars['String']>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   isArchived: Scalars['Boolean'],
   isMultipleInstance: Scalars['Boolean'],
-  /** Time in seconds task may take to be processed. */
   leadTime?: Maybe<Scalars['Int']>,
   meta: Scalars['GenericScalar'],
   modifiedAt: Scalars['DateTime'],
@@ -483,11 +375,8 @@ export type CompleteWorkItemPayload = {
   workItem?: Maybe<WorkItem>,
 };
 
-/** conflict action */
 export enum Conflict_Action {
-  /** ignore the insert on this row */
   Ignore = 'ignore',
-  /** update the row with the given values */
   Update = 'update'
 }
 
@@ -533,9 +422,7 @@ export type CopyQuestionPayload = {
 };
 
 export type CreateWorkItemInput = {
-  /** Offer work item to be processed by a group of users, such are not committed to process it though. */
   addressedGroups?: Maybe<Array<Maybe<Scalars['String']>>>,
-  /** Users responsible to undertake given work item. */
   assignedUsers?: Maybe<Array<Maybe<Scalars['String']>>>,
   case: Scalars['ID'],
   clientMutationId?: Maybe<Scalars['String']>,
@@ -558,9 +445,7 @@ export type DataSource = {
 
 export type DataSourceConnection = {
    __typename?: 'DataSourceConnection',
-  /** Contains the nodes in this connection. */
   edges: Array<Maybe<DataSourceEdge>>,
-  /** Pagination data for this connection. */
   pageInfo: PageInfo,
   totalCount?: Maybe<Scalars['Int']>,
 };
@@ -573,34 +458,25 @@ export type DataSourceData = {
 
 export type DataSourceDataConnection = {
    __typename?: 'DataSourceDataConnection',
-  /** Contains the nodes in this connection. */
   edges: Array<Maybe<DataSourceDataEdge>>,
-  /** Pagination data for this connection. */
   pageInfo: PageInfo,
   totalCount?: Maybe<Scalars['Int']>,
 };
 
-/** A Relay edge containing a `DataSourceData` and its cursor. */
 export type DataSourceDataEdge = {
    __typename?: 'DataSourceDataEdge',
-  /** A cursor for use in pagination */
   cursor: Scalars['String'],
-  /** The item at the end of the edge */
   node?: Maybe<DataSourceData>,
 };
 
-/** A Relay edge containing a `DataSource` and its cursor. */
 export type DataSourceEdge = {
    __typename?: 'DataSourceEdge',
-  /** A cursor for use in pagination */
   cursor: Scalars['String'],
-  /** The item at the end of the edge */
   node?: Maybe<DataSource>,
 };
 
 
 
-/** expression to compare columns of type date. All fields are combined with logical 'AND'. */
 export type Date_Comparison_Exp = {
   _eq?: Maybe<Scalars['date']>,
   _gt?: Maybe<Scalars['date']>,
@@ -619,7 +495,6 @@ export type DateAnswer = Node & Answer & {
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   date?: Maybe<Scalars['Date']>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   meta: Scalars['GenericScalar'],
   modifiedAt: Scalars['DateTime'],
@@ -633,12 +508,10 @@ export type DateQuestion = Node & Question & {
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   forms?: Maybe<FormConnection>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   infoText?: Maybe<Scalars['String']>,
   isArchived: Scalars['Boolean'],
   isHidden: Scalars['QuestionJexl'],
-  /** Required expression is only evaluated when question is not hidden. */
   isRequired: Scalars['QuestionJexl'],
   label: Scalars['String'],
   meta: Scalars['GenericScalar'],
@@ -676,7 +549,6 @@ export type Document = Node & {
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   form: Form,
-  /** The ID of the object. */
   id: Scalars['ID'],
   meta?: Maybe<Scalars['GenericScalar']>,
   modifiedAt: Scalars['DateTime'],
@@ -704,19 +576,14 @@ export type DocumentAnswersArgs = {
 
 export type DocumentConnection = {
    __typename?: 'DocumentConnection',
-  /** Contains the nodes in this connection. */
   edges: Array<Maybe<DocumentEdge>>,
-  /** Pagination data for this connection. */
   pageInfo: PageInfo,
   totalCount?: Maybe<Scalars['Int']>,
 };
 
-/** A Relay edge containing a `Document` and its cursor. */
 export type DocumentEdge = {
    __typename?: 'DocumentEdge',
-  /** A cursor for use in pagination */
   cursor: Scalars['String'],
-  /** The item at the end of the edge */
   node?: Maybe<Document>,
 };
 
@@ -736,23 +603,14 @@ export type DocumentFilterSetType = {
   searchAnswers?: Maybe<Array<Maybe<SearchAnswersFilterType>>>,
 };
 
-/** An enumeration. */
 export enum DocumentOrdering {
-  /** Created at */
   CreatedAtAsc = 'CREATED_AT_ASC',
-  /** Created at (descending) */
   CreatedAtDesc = 'CREATED_AT_DESC',
-  /** Created by group */
   CreatedByGroupAsc = 'CREATED_BY_GROUP_ASC',
-  /** Created by group (descending) */
   CreatedByGroupDesc = 'CREATED_BY_GROUP_DESC',
-  /** Created by user */
   CreatedByUserAsc = 'CREATED_BY_USER_ASC',
-  /** Created by user (descending) */
   CreatedByUserDesc = 'CREATED_BY_USER_DESC',
-  /** Modified at */
   ModifiedAtAsc = 'MODIFIED_AT_ASC',
-  /** Modified at (descending) */
   ModifiedAtDesc = 'MODIFIED_AT_DESC'
 }
 
@@ -765,23 +623,17 @@ export type DocumentOrderSetType = {
 
 export type DocumentValidityConnection = {
    __typename?: 'DocumentValidityConnection',
-  /** Contains the nodes in this connection. */
   edges: Array<Maybe<DocumentValidityEdge>>,
-  /** Pagination data for this connection. */
   pageInfo: PageInfo,
   totalCount?: Maybe<Scalars['Int']>,
 };
 
-/** A Relay edge containing a `DocumentValidity` and its cursor. */
 export type DocumentValidityEdge = {
    __typename?: 'DocumentValidityEdge',
-  /** A cursor for use in pagination */
   cursor: Scalars['String'],
-  /** The item at the end of the edge */
   node?: Maybe<ValidationResult>,
 };
 
-/** columns and relationships of "dogs" */
 export type Dogs = {
    __typename?: 'dogs',
   breed: Scalars['String'],
@@ -790,14 +642,12 @@ export type Dogs = {
   shovel_faced: Scalars['Boolean'],
 };
 
-/** aggregated selection of "dogs" */
 export type Dogs_Aggregate = {
    __typename?: 'dogs_aggregate',
   aggregate?: Maybe<Dogs_Aggregate_Fields>,
   nodes: Array<Dogs>,
 };
 
-/** aggregate fields of "dogs" */
 export type Dogs_Aggregate_Fields = {
    __typename?: 'dogs_aggregate_fields',
   count?: Maybe<Scalars['Int']>,
@@ -806,26 +656,22 @@ export type Dogs_Aggregate_Fields = {
 };
 
 
-/** aggregate fields of "dogs" */
 export type Dogs_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Dogs_Select_Column>>,
   distinct?: Maybe<Scalars['Boolean']>
 };
 
-/** order by aggregate values of table "dogs" */
 export type Dogs_Aggregate_Order_By = {
   count?: Maybe<Order_By>,
   max?: Maybe<Dogs_Max_Order_By>,
   min?: Maybe<Dogs_Min_Order_By>,
 };
 
-/** input type for inserting array relation for remote table "dogs" */
 export type Dogs_Arr_Rel_Insert_Input = {
   data: Array<Dogs_Insert_Input>,
   on_conflict?: Maybe<Dogs_On_Conflict>,
 };
 
-/** Boolean expression to filter rows from the table "dogs". All fields are combined with a logical 'AND'. */
 export type Dogs_Bool_Exp = {
   _and?: Maybe<Array<Maybe<Dogs_Bool_Exp>>>,
   _not?: Maybe<Dogs_Bool_Exp>,
@@ -836,15 +682,11 @@ export type Dogs_Bool_Exp = {
   shovel_faced?: Maybe<Boolean_Comparison_Exp>,
 };
 
-/** unique or primary key constraints on table "dogs" */
 export enum Dogs_Constraint {
-  /** unique or primary key constraint */
   DogsBreedKey = 'dogs_breed_key',
-  /** unique or primary key constraint */
   DogsPkey = 'dogs_pkey'
 }
 
-/** input type for inserting data into table "dogs" */
 export type Dogs_Insert_Input = {
   breed?: Maybe<Scalars['String']>,
   id?: Maybe<Scalars['uuid']>,
@@ -852,50 +694,40 @@ export type Dogs_Insert_Input = {
   shovel_faced?: Maybe<Scalars['Boolean']>,
 };
 
-/** aggregate max on columns */
 export type Dogs_Max_Fields = {
    __typename?: 'dogs_max_fields',
   breed?: Maybe<Scalars['String']>,
 };
 
-/** order by max() on columns of table "dogs" */
 export type Dogs_Max_Order_By = {
   breed?: Maybe<Order_By>,
 };
 
-/** aggregate min on columns */
 export type Dogs_Min_Fields = {
    __typename?: 'dogs_min_fields',
   breed?: Maybe<Scalars['String']>,
 };
 
-/** order by min() on columns of table "dogs" */
 export type Dogs_Min_Order_By = {
   breed?: Maybe<Order_By>,
 };
 
-/** response of any mutation on the table "dogs" */
 export type Dogs_Mutation_Response = {
    __typename?: 'dogs_mutation_response',
-  /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'],
-  /** data of the affected rows by the mutation */
   returning: Array<Dogs>,
 };
 
-/** input type for inserting object relation for remote table "dogs" */
 export type Dogs_Obj_Rel_Insert_Input = {
   data: Dogs_Insert_Input,
   on_conflict?: Maybe<Dogs_On_Conflict>,
 };
 
-/** on conflict condition type for table "dogs" */
 export type Dogs_On_Conflict = {
   constraint: Dogs_Constraint,
   update_columns: Array<Dogs_Update_Column>,
 };
 
-/** ordering options when selecting data from "dogs" */
 export type Dogs_Order_By = {
   breed?: Maybe<Order_By>,
   id?: Maybe<Order_By>,
@@ -903,19 +735,13 @@ export type Dogs_Order_By = {
   shovel_faced?: Maybe<Order_By>,
 };
 
-/** select columns of table "dogs" */
 export enum Dogs_Select_Column {
-  /** column name */
   Breed = 'breed',
-  /** column name */
   Id = 'id',
-  /** column name */
   Pretentious = 'pretentious',
-  /** column name */
   ShovelFaced = 'shovel_faced'
 }
 
-/** input type for updating data in table "dogs" */
 export type Dogs_Set_Input = {
   breed?: Maybe<Scalars['String']>,
   id?: Maybe<Scalars['uuid']>,
@@ -923,15 +749,10 @@ export type Dogs_Set_Input = {
   shovel_faced?: Maybe<Scalars['Boolean']>,
 };
 
-/** update columns of table "dogs" */
 export enum Dogs_Update_Column {
-  /** column name */
   Breed = 'breed',
-  /** column name */
   Id = 'id',
-  /** column name */
   Pretentious = 'pretentious',
-  /** column name */
   ShovelFaced = 'shovel_faced'
 }
 
@@ -942,12 +763,10 @@ export type DynamicChoiceQuestion = Node & Question & {
   createdByUser?: Maybe<Scalars['String']>,
   dataSource: Scalars['String'],
   forms?: Maybe<FormConnection>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   infoText?: Maybe<Scalars['String']>,
   isArchived: Scalars['Boolean'],
   isHidden: Scalars['QuestionJexl'],
-  /** Required expression is only evaluated when question is not hidden. */
   isRequired: Scalars['QuestionJexl'],
   label: Scalars['String'],
   meta: Scalars['GenericScalar'],
@@ -992,12 +811,10 @@ export type DynamicMultipleChoiceQuestion = Node & Question & {
   createdByUser?: Maybe<Scalars['String']>,
   dataSource: Scalars['String'],
   forms?: Maybe<FormConnection>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   infoText?: Maybe<Scalars['String']>,
   isArchived: Scalars['Boolean'],
   isHidden: Scalars['QuestionJexl'],
-  /** Required expression is only evaluated when question is not hidden. */
   isRequired: Scalars['QuestionJexl'],
   label: Scalars['String'],
   meta: Scalars['GenericScalar'],
@@ -1041,7 +858,6 @@ export type DynamicOption = Node & {
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   document: Document,
-  /** The ID of the object. */
   id: Scalars['ID'],
   label: Scalars['String'],
   modifiedAt: Scalars['DateTime'],
@@ -1051,19 +867,14 @@ export type DynamicOption = Node & {
 
 export type DynamicOptionConnection = {
    __typename?: 'DynamicOptionConnection',
-  /** Contains the nodes in this connection. */
   edges: Array<Maybe<DynamicOptionEdge>>,
-  /** Pagination data for this connection. */
   pageInfo: PageInfo,
   totalCount?: Maybe<Scalars['Int']>,
 };
 
-/** A Relay edge containing a `DynamicOption` and its cursor. */
 export type DynamicOptionEdge = {
    __typename?: 'DynamicOptionEdge',
-  /** A cursor for use in pagination */
   cursor: Scalars['String'],
-  /** The item at the end of the edge */
   node?: Maybe<DynamicOption>,
 };
 
@@ -1080,7 +891,6 @@ export type File = Node & {
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   downloadUrl?: Maybe<Scalars['String']>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   metadata?: Maybe<Scalars['GenericScalar']>,
   modifiedAt: Scalars['DateTime'],
@@ -1094,7 +904,6 @@ export type FileAnswer = Node & Answer & {
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   file?: Maybe<File>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   meta: Scalars['GenericScalar'],
   modifiedAt: Scalars['DateTime'],
@@ -1108,12 +917,10 @@ export type FileQuestion = Node & Question & {
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   forms?: Maybe<FormConnection>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   infoText?: Maybe<Scalars['String']>,
   isArchived: Scalars['Boolean'],
   isHidden: Scalars['QuestionJexl'],
-  /** Required expression is only evaluated when question is not hidden. */
   isRequired: Scalars['QuestionJexl'],
   label: Scalars['String'],
   meta: Scalars['GenericScalar'],
@@ -1147,7 +954,6 @@ export type FloatAnswer = Node & Answer & {
   createdAt: Scalars['DateTime'],
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   meta: Scalars['GenericScalar'],
   modifiedAt: Scalars['DateTime'],
@@ -1161,12 +967,10 @@ export type FloatQuestion = Node & Question & {
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   forms?: Maybe<FormConnection>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   infoText?: Maybe<Scalars['String']>,
   isArchived: Scalars['Boolean'],
   isHidden: Scalars['QuestionJexl'],
-  /** Required expression is only evaluated when question is not hidden. */
   isRequired: Scalars['QuestionJexl'],
   label: Scalars['String'],
   maxValue?: Maybe<Scalars['Float']>,
@@ -1203,7 +1007,6 @@ export type Flow = Node & {
   createdAt: Scalars['DateTime'],
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   modifiedAt: Scalars['DateTime'],
   next: Scalars['FlowJexl'],
@@ -1212,19 +1015,14 @@ export type Flow = Node & {
 
 export type FlowConnection = {
    __typename?: 'FlowConnection',
-  /** Contains the nodes in this connection. */
   edges: Array<Maybe<FlowEdge>>,
-  /** Pagination data for this connection. */
   pageInfo: PageInfo,
   totalCount?: Maybe<Scalars['Int']>,
 };
 
-/** A Relay edge containing a `Flow` and its cursor. */
 export type FlowEdge = {
    __typename?: 'FlowEdge',
-  /** A cursor for use in pagination */
   cursor: Scalars['String'],
-  /** The item at the end of the edge */
   node?: Maybe<Flow>,
 };
 
@@ -1243,7 +1041,6 @@ export type Form = Node & {
   createdByUser?: Maybe<Scalars['String']>,
   description?: Maybe<Scalars['String']>,
   documents: DocumentConnection,
-  /** The ID of the object. */
   id: Scalars['ID'],
   isArchived: Scalars['Boolean'],
   isPublished: Scalars['Boolean'],
@@ -1252,7 +1049,6 @@ export type Form = Node & {
   name: Scalars['String'],
   questions?: Maybe<QuestionConnection>,
   slug: Scalars['String'],
-  /** Reference this form has been copied from */
   source?: Maybe<Form>,
 };
 
@@ -1295,37 +1091,27 @@ export type FormatValidator = {
 
 export type FormatValidatorConnection = {
    __typename?: 'FormatValidatorConnection',
-  /** Contains the nodes in this connection. */
   edges: Array<Maybe<FormatValidatorEdge>>,
-  /** Pagination data for this connection. */
   pageInfo: PageInfo,
   totalCount?: Maybe<Scalars['Int']>,
 };
 
-/** A Relay edge containing a `FormatValidator` and its cursor. */
 export type FormatValidatorEdge = {
    __typename?: 'FormatValidatorEdge',
-  /** A cursor for use in pagination */
   cursor: Scalars['String'],
-  /** The item at the end of the edge */
   node?: Maybe<FormatValidator>,
 };
 
 export type FormConnection = {
    __typename?: 'FormConnection',
-  /** Contains the nodes in this connection. */
   edges: Array<Maybe<FormEdge>>,
-  /** Pagination data for this connection. */
   pageInfo: PageInfo,
   totalCount?: Maybe<Scalars['Int']>,
 };
 
-/** A Relay edge containing a `Form` and its cursor. */
 export type FormEdge = {
    __typename?: 'FormEdge',
-  /** A cursor for use in pagination */
   cursor: Scalars['String'],
-  /** The item at the end of the edge */
   node?: Maybe<Form>,
 };
 
@@ -1345,27 +1131,16 @@ export type FormFilterSetType = {
   slugs?: Maybe<Array<Maybe<Scalars['String']>>>,
 };
 
-/** An enumeration. */
 export enum FormOrdering {
-  /** Created at */
   CreatedAtAsc = 'CREATED_AT_ASC',
-  /** Created at (descending) */
   CreatedAtDesc = 'CREATED_AT_DESC',
-  /** Created by group */
   CreatedByGroupAsc = 'CREATED_BY_GROUP_ASC',
-  /** Created by group (descending) */
   CreatedByGroupDesc = 'CREATED_BY_GROUP_DESC',
-  /** Created by user */
   CreatedByUserAsc = 'CREATED_BY_USER_ASC',
-  /** Created by user (descending) */
   CreatedByUserDesc = 'CREATED_BY_USER_DESC',
-  /** Modified at */
   ModifiedAtAsc = 'MODIFIED_AT_ASC',
-  /** Modified at (descending) */
   ModifiedAtDesc = 'MODIFIED_AT_DESC',
-  /** Name */
   NameAsc = 'NAME_ASC',
-  /** Name (descending) */
   NameDesc = 'NAME_DESC'
 }
 
@@ -1381,19 +1156,16 @@ export type FormQuestion = Node & Question & {
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   forms?: Maybe<FormConnection>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   infoText?: Maybe<Scalars['String']>,
   isArchived: Scalars['Boolean'],
   isHidden: Scalars['QuestionJexl'],
-  /** Required expression is only evaluated when question is not hidden. */
   isRequired: Scalars['QuestionJexl'],
   label: Scalars['String'],
   meta: Scalars['GenericScalar'],
   modifiedAt: Scalars['DateTime'],
   slug: Scalars['String'],
   source?: Maybe<Question>,
-  /** Form referenced in a FormQuestion */
   subForm?: Maybe<Form>,
 };
 
@@ -1419,11 +1191,6 @@ export type FormQuestionFormsArgs = {
 
 
 
-/** 
- * Lookup type to search document structures.
- * 
- * When using lookup `ISNULL`, the provided `value` will be ignored.
- **/
 export type HasAnswerFilterType = {
   hierarchy?: Maybe<AnswerHierarchyMode>,
   lookup?: Maybe<AnswerLookupMode>,
@@ -1431,7 +1198,6 @@ export type HasAnswerFilterType = {
   value?: Maybe<Scalars['GenericScalar']>,
 };
 
-/** expression to compare columns of type integer. All fields are combined with logical 'AND'. */
 export type Integer_Comparison_Exp = {
   _eq?: Maybe<Scalars['Int']>,
   _gt?: Maybe<Scalars['Int']>,
@@ -1449,7 +1215,6 @@ export type IntegerAnswer = Node & Answer & {
   createdAt: Scalars['DateTime'],
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   meta: Scalars['GenericScalar'],
   modifiedAt: Scalars['DateTime'],
@@ -1463,12 +1228,10 @@ export type IntegerQuestion = Node & Question & {
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   forms?: Maybe<FormConnection>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   infoText?: Maybe<Scalars['String']>,
   isArchived: Scalars['Boolean'],
   isHidden: Scalars['QuestionJexl'],
-  /** Required expression is only evaluated when question is not hidden. */
   isRequired: Scalars['QuestionJexl'],
   label: Scalars['String'],
   maxValue?: Maybe<Scalars['Int']>,
@@ -1501,20 +1264,14 @@ export type IntegerQuestionFormsArgs = {
 };
 
 
-/** expression to compare columns of type jsonb. All fields are combined with logical 'AND'. */
 export type Jsonb_Comparison_Exp = {
-  /** is the column contained in the given json value */
   _contained_in?: Maybe<Scalars['jsonb']>,
-  /** does the column contain the given json value at the top level */
   _contains?: Maybe<Scalars['jsonb']>,
   _eq?: Maybe<Scalars['jsonb']>,
   _gt?: Maybe<Scalars['jsonb']>,
   _gte?: Maybe<Scalars['jsonb']>,
-  /** does the string exist as a top-level key in the column */
   _has_key?: Maybe<Scalars['String']>,
-  /** do all of these strings exist as top-level keys in the column */
   _has_keys_all?: Maybe<Array<Scalars['String']>>,
-  /** do any of these strings exist as top-level keys in the column */
   _has_keys_any?: Maybe<Array<Scalars['String']>>,
   _in?: Maybe<Array<Maybe<Scalars['jsonb']>>>,
   _is_null?: Maybe<Scalars['Boolean']>,
@@ -1547,7 +1304,6 @@ export type ListAnswer = Node & Answer & {
   createdAt: Scalars['DateTime'],
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   meta: Scalars['GenericScalar'],
   modifiedAt: Scalars['DateTime'],
@@ -1561,12 +1317,10 @@ export type MultipleChoiceQuestion = Node & Question & {
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   forms?: Maybe<FormConnection>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   infoText?: Maybe<Scalars['String']>,
   isArchived: Scalars['Boolean'],
   isHidden: Scalars['QuestionJexl'],
-  /** Required expression is only evaluated when question is not hidden. */
   isRequired: Scalars['QuestionJexl'],
   label: Scalars['String'],
   meta: Scalars['GenericScalar'],
@@ -1616,7 +1370,6 @@ export type MultipleChoiceQuestionOptionsArgs = {
 
 export type Mutation = {
    __typename?: 'Mutation',
-  /** Add question at the end of form. */
   addFormQuestion?: Maybe<AddFormQuestionPayload>,
   addWorkflowFlow?: Maybe<AddWorkflowFlowPayload>,
   cancelCase?: Maybe<CancelCasePayload>,
@@ -1883,10 +1636,8 @@ export type MutationStartCaseArgs = {
   input: StartCaseInput
 };
 
-/** mutation root */
 export type Mutation_Root = {
    __typename?: 'mutation_root',
-  /** Add question at the end of form. */
   addFormQuestion?: Maybe<AddFormQuestionPayload>,
   addWorkflowFlow?: Maybe<AddWorkflowFlowPayload>,
   cancelCase?: Maybe<CancelCasePayload>,
@@ -1895,33 +1646,19 @@ export type Mutation_Root = {
   copyOption?: Maybe<CopyOptionPayload>,
   copyQuestion?: Maybe<CopyQuestionPayload>,
   createWorkItem?: Maybe<CreateWorkItemPayload>,
-  /** delete data from the table: "dogs" */
   delete_dogs?: Maybe<Dogs_Mutation_Response>,
-  /** delete data from the table: "observation" */
   delete_observation?: Maybe<Observation_Mutation_Response>,
-  /** delete data from the table: "p" */
   delete_p?: Maybe<P_Mutation_Response>,
-  /** delete data from the table: "patient" */
   delete_patient?: Maybe<Patient_Mutation_Response>,
-  /** delete data from the table: "users" */
   delete_users?: Maybe<Users_Mutation_Response>,
-  /** delete data from the table: "vehicle" */
   delete_vehicle?: Maybe<Vehicle_Mutation_Response>,
-  /** delete data from the table: "vehicle_location" */
   delete_vehicle_location?: Maybe<Vehicle_Location_Mutation_Response>,
-  /** insert data into the table: "dogs" */
   insert_dogs?: Maybe<Dogs_Mutation_Response>,
-  /** insert data into the table: "observation" */
   insert_observation?: Maybe<Observation_Mutation_Response>,
-  /** insert data into the table: "p" */
   insert_p?: Maybe<P_Mutation_Response>,
-  /** insert data into the table: "patient" */
   insert_patient?: Maybe<Patient_Mutation_Response>,
-  /** insert data into the table: "users" */
   insert_users?: Maybe<Users_Mutation_Response>,
-  /** insert data into the table: "vehicle" */
   insert_vehicle?: Maybe<Vehicle_Mutation_Response>,
-  /** insert data into the table: "vehicle_location" */
   insert_vehicle_location?: Maybe<Vehicle_Location_Mutation_Response>,
   removeAnswer?: Maybe<RemoveAnswerPayload>,
   removeDocument?: Maybe<RemoveDocumentPayload>,
@@ -1959,386 +1696,319 @@ export type Mutation_Root = {
   saveWorkflow?: Maybe<SaveWorkflowPayload>,
   skipWorkItem?: Maybe<SkipWorkItemPayload>,
   startCase?: Maybe<StartCasePayload>,
-  /** update data of the table: "dogs" */
   update_dogs?: Maybe<Dogs_Mutation_Response>,
-  /** update data of the table: "observation" */
   update_observation?: Maybe<Observation_Mutation_Response>,
-  /** update data of the table: "p" */
   update_p?: Maybe<P_Mutation_Response>,
-  /** update data of the table: "patient" */
   update_patient?: Maybe<Patient_Mutation_Response>,
-  /** update data of the table: "users" */
   update_users?: Maybe<Users_Mutation_Response>,
-  /** update data of the table: "vehicle" */
   update_vehicle?: Maybe<Vehicle_Mutation_Response>,
-  /** update data of the table: "vehicle_location" */
   update_vehicle_location?: Maybe<Vehicle_Location_Mutation_Response>,
 };
 
 
-/** mutation root */
 export type Mutation_RootAddFormQuestionArgs = {
   input: AddFormQuestionInput
 };
 
 
-/** mutation root */
 export type Mutation_RootAddWorkflowFlowArgs = {
   input: AddWorkflowFlowInput
 };
 
 
-/** mutation root */
 export type Mutation_RootCancelCaseArgs = {
   input: CancelCaseInput
 };
 
 
-/** mutation root */
 export type Mutation_RootCompleteWorkItemArgs = {
   input: CompleteWorkItemInput
 };
 
 
-/** mutation root */
 export type Mutation_RootCopyFormArgs = {
   input: CopyFormInput
 };
 
 
-/** mutation root */
 export type Mutation_RootCopyOptionArgs = {
   input: CopyOptionInput
 };
 
 
-/** mutation root */
 export type Mutation_RootCopyQuestionArgs = {
   input: CopyQuestionInput
 };
 
 
-/** mutation root */
 export type Mutation_RootCreateWorkItemArgs = {
   input: CreateWorkItemInput
 };
 
 
-/** mutation root */
 export type Mutation_RootDelete_DogsArgs = {
   where: Dogs_Bool_Exp
 };
 
 
-/** mutation root */
 export type Mutation_RootDelete_ObservationArgs = {
   where: Observation_Bool_Exp
 };
 
 
-/** mutation root */
 export type Mutation_RootDelete_PArgs = {
   where: P_Bool_Exp
 };
 
 
-/** mutation root */
 export type Mutation_RootDelete_PatientArgs = {
   where: Patient_Bool_Exp
 };
 
 
-/** mutation root */
 export type Mutation_RootDelete_UsersArgs = {
   where: Users_Bool_Exp
 };
 
 
-/** mutation root */
 export type Mutation_RootDelete_VehicleArgs = {
   where: Vehicle_Bool_Exp
 };
 
 
-/** mutation root */
 export type Mutation_RootDelete_Vehicle_LocationArgs = {
   where: Vehicle_Location_Bool_Exp
 };
 
 
-/** mutation root */
 export type Mutation_RootInsert_DogsArgs = {
   objects: Array<Dogs_Insert_Input>,
   on_conflict?: Maybe<Dogs_On_Conflict>
 };
 
 
-/** mutation root */
 export type Mutation_RootInsert_ObservationArgs = {
   objects: Array<Observation_Insert_Input>,
   on_conflict?: Maybe<Observation_On_Conflict>
 };
 
 
-/** mutation root */
 export type Mutation_RootInsert_PArgs = {
   objects: Array<P_Insert_Input>,
   on_conflict?: Maybe<P_On_Conflict>
 };
 
 
-/** mutation root */
 export type Mutation_RootInsert_PatientArgs = {
   objects: Array<Patient_Insert_Input>,
   on_conflict?: Maybe<Patient_On_Conflict>
 };
 
 
-/** mutation root */
 export type Mutation_RootInsert_UsersArgs = {
   objects: Array<Users_Insert_Input>,
   on_conflict?: Maybe<Users_On_Conflict>
 };
 
 
-/** mutation root */
 export type Mutation_RootInsert_VehicleArgs = {
   objects: Array<Vehicle_Insert_Input>,
   on_conflict?: Maybe<Vehicle_On_Conflict>
 };
 
 
-/** mutation root */
 export type Mutation_RootInsert_Vehicle_LocationArgs = {
   objects: Array<Vehicle_Location_Insert_Input>,
   on_conflict?: Maybe<Vehicle_Location_On_Conflict>
 };
 
 
-/** mutation root */
 export type Mutation_RootRemoveAnswerArgs = {
   input: RemoveAnswerInput
 };
 
 
-/** mutation root */
 export type Mutation_RootRemoveDocumentArgs = {
   input: RemoveDocumentInput
 };
 
 
-/** mutation root */
 export type Mutation_RootRemoveFlowArgs = {
   input: RemoveFlowInput
 };
 
 
-/** mutation root */
 export type Mutation_RootRemoveFormQuestionArgs = {
   input: RemoveFormQuestionInput
 };
 
 
-/** mutation root */
 export type Mutation_RootReorderFormQuestionsArgs = {
   input: ReorderFormQuestionsInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveCaseArgs = {
   input: SaveCaseInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveChoiceQuestionArgs = {
   input: SaveChoiceQuestionInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveCompleteTaskFormTaskArgs = {
   input: SaveCompleteTaskFormTaskInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveCompleteWorkflowFormTaskArgs = {
   input: SaveCompleteWorkflowFormTaskInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveDateQuestionArgs = {
   input: SaveDateQuestionInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveDocumentArgs = {
   input: SaveDocumentInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveDocumentDateAnswerArgs = {
   input: SaveDocumentDateAnswerInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveDocumentFileAnswerArgs = {
   input: SaveDocumentFileAnswerInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveDocumentFloatAnswerArgs = {
   input: SaveDocumentFloatAnswerInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveDocumentIntegerAnswerArgs = {
   input: SaveDocumentIntegerAnswerInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveDocumentListAnswerArgs = {
   input: SaveDocumentListAnswerInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveDocumentStringAnswerArgs = {
   input: SaveDocumentStringAnswerInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveDocumentTableAnswerArgs = {
   input: SaveDocumentTableAnswerInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveDynamicChoiceQuestionArgs = {
   input: SaveDynamicChoiceQuestionInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveDynamicMultipleChoiceQuestionArgs = {
   input: SaveDynamicMultipleChoiceQuestionInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveFileQuestionArgs = {
   input: SaveFileQuestionInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveFloatQuestionArgs = {
   input: SaveFloatQuestionInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveFormArgs = {
   input: SaveFormInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveFormQuestionArgs = {
   input: SaveFormQuestionInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveIntegerQuestionArgs = {
   input: SaveIntegerQuestionInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveMultipleChoiceQuestionArgs = {
   input: SaveMultipleChoiceQuestionInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveOptionArgs = {
   input: SaveOptionInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveSimpleTaskArgs = {
   input: SaveSimpleTaskInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveStaticQuestionArgs = {
   input: SaveStaticQuestionInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveTableQuestionArgs = {
   input: SaveTableQuestionInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveTextQuestionArgs = {
   input: SaveTextQuestionInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveTextareaQuestionArgs = {
   input: SaveTextareaQuestionInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveWorkItemArgs = {
   input: SaveWorkItemInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSaveWorkflowArgs = {
   input: SaveWorkflowInput
 };
 
 
-/** mutation root */
 export type Mutation_RootSkipWorkItemArgs = {
   input: SkipWorkItemInput
 };
 
 
-/** mutation root */
 export type Mutation_RootStartCaseArgs = {
   input: StartCaseInput
 };
 
 
-/** mutation root */
 export type Mutation_RootUpdate_DogsArgs = {
   _set?: Maybe<Dogs_Set_Input>,
   where: Dogs_Bool_Exp
 };
 
 
-/** mutation root */
 export type Mutation_RootUpdate_ObservationArgs = {
   _append?: Maybe<Observation_Append_Input>,
   _delete_at_path?: Maybe<Observation_Delete_At_Path_Input>,
@@ -2350,7 +2020,6 @@ export type Mutation_RootUpdate_ObservationArgs = {
 };
 
 
-/** mutation root */
 export type Mutation_RootUpdate_PArgs = {
   _inc?: Maybe<P_Inc_Input>,
   _set?: Maybe<P_Set_Input>,
@@ -2358,7 +2027,6 @@ export type Mutation_RootUpdate_PArgs = {
 };
 
 
-/** mutation root */
 export type Mutation_RootUpdate_PatientArgs = {
   _append?: Maybe<Patient_Append_Input>,
   _delete_at_path?: Maybe<Patient_Delete_At_Path_Input>,
@@ -2370,7 +2038,6 @@ export type Mutation_RootUpdate_PatientArgs = {
 };
 
 
-/** mutation root */
 export type Mutation_RootUpdate_UsersArgs = {
   _inc?: Maybe<Users_Inc_Input>,
   _set?: Maybe<Users_Set_Input>,
@@ -2378,27 +2045,22 @@ export type Mutation_RootUpdate_UsersArgs = {
 };
 
 
-/** mutation root */
 export type Mutation_RootUpdate_VehicleArgs = {
   _set?: Maybe<Vehicle_Set_Input>,
   where: Vehicle_Bool_Exp
 };
 
 
-/** mutation root */
 export type Mutation_RootUpdate_Vehicle_LocationArgs = {
   _inc?: Maybe<Vehicle_Location_Inc_Input>,
   _set?: Maybe<Vehicle_Location_Set_Input>,
   where: Vehicle_Location_Bool_Exp
 };
 
-/** An object with an ID */
 export type Node = {
-  /** The ID of the object. */
   id: Scalars['ID'],
 };
 
-/** columns and relationships of "observation" */
 export type Observation = {
    __typename?: 'observation',
   id: Scalars['uuid'],
@@ -2406,48 +2068,40 @@ export type Observation = {
 };
 
 
-/** columns and relationships of "observation" */
 export type ObservationResourceArgs = {
   path?: Maybe<Scalars['String']>
 };
 
-/** aggregated selection of "observation" */
 export type Observation_Aggregate = {
    __typename?: 'observation_aggregate',
   aggregate?: Maybe<Observation_Aggregate_Fields>,
   nodes: Array<Observation>,
 };
 
-/** aggregate fields of "observation" */
 export type Observation_Aggregate_Fields = {
    __typename?: 'observation_aggregate_fields',
   count?: Maybe<Scalars['Int']>,
 };
 
 
-/** aggregate fields of "observation" */
 export type Observation_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Observation_Select_Column>>,
   distinct?: Maybe<Scalars['Boolean']>
 };
 
-/** order by aggregate values of table "observation" */
 export type Observation_Aggregate_Order_By = {
   count?: Maybe<Order_By>,
 };
 
-/** append existing jsonb value of filtered columns with new jsonb value */
 export type Observation_Append_Input = {
   resource?: Maybe<Scalars['jsonb']>,
 };
 
-/** input type for inserting array relation for remote table "observation" */
 export type Observation_Arr_Rel_Insert_Input = {
   data: Array<Observation_Insert_Input>,
   on_conflict?: Maybe<Observation_On_Conflict>,
 };
 
-/** Boolean expression to filter rows from the table "observation". All fields are combined with a logical 'AND'. */
 export type Observation_Bool_Exp = {
   _and?: Maybe<Array<Maybe<Observation_Bool_Exp>>>,
   _not?: Maybe<Observation_Bool_Exp>,
@@ -2456,87 +2110,64 @@ export type Observation_Bool_Exp = {
   resource?: Maybe<Jsonb_Comparison_Exp>,
 };
 
-/** unique or primary key constraints on table "observation" */
 export enum Observation_Constraint {
-  /** unique or primary key constraint */
   ObservationPkey = 'observation_pkey'
 }
 
-/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 export type Observation_Delete_At_Path_Input = {
   resource?: Maybe<Array<Maybe<Scalars['String']>>>,
 };
 
-/** 
- * delete the array element with specified index (negative integers count from the
- * end). throws an error if top level container is not an array
- **/
 export type Observation_Delete_Elem_Input = {
   resource?: Maybe<Scalars['Int']>,
 };
 
-/** delete key/value pair or string element. key/value pairs are matched based on their key value */
 export type Observation_Delete_Key_Input = {
   resource?: Maybe<Scalars['String']>,
 };
 
-/** input type for inserting data into table "observation" */
 export type Observation_Insert_Input = {
   id?: Maybe<Scalars['uuid']>,
   resource?: Maybe<Scalars['jsonb']>,
 };
 
-/** response of any mutation on the table "observation" */
 export type Observation_Mutation_Response = {
    __typename?: 'observation_mutation_response',
-  /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'],
-  /** data of the affected rows by the mutation */
   returning: Array<Observation>,
 };
 
-/** input type for inserting object relation for remote table "observation" */
 export type Observation_Obj_Rel_Insert_Input = {
   data: Observation_Insert_Input,
   on_conflict?: Maybe<Observation_On_Conflict>,
 };
 
-/** on conflict condition type for table "observation" */
 export type Observation_On_Conflict = {
   constraint: Observation_Constraint,
   update_columns: Array<Observation_Update_Column>,
 };
 
-/** ordering options when selecting data from "observation" */
 export type Observation_Order_By = {
   id?: Maybe<Order_By>,
   resource?: Maybe<Order_By>,
 };
 
-/** prepend existing jsonb value of filtered columns with new jsonb value */
 export type Observation_Prepend_Input = {
   resource?: Maybe<Scalars['jsonb']>,
 };
 
-/** select columns of table "observation" */
 export enum Observation_Select_Column {
-  /** column name */
   Id = 'id',
-  /** column name */
   Resource = 'resource'
 }
 
-/** input type for updating data in table "observation" */
 export type Observation_Set_Input = {
   id?: Maybe<Scalars['uuid']>,
   resource?: Maybe<Scalars['jsonb']>,
 };
 
-/** update columns of table "observation" */
 export enum Observation_Update_Column {
-  /** column name */
   Id = 'id',
-  /** column name */
   Resource = 'resource'
 }
 
@@ -2545,76 +2176,50 @@ export type Option = Node & {
   createdAt: Scalars['DateTime'],
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   isArchived: Scalars['Boolean'],
   label: Scalars['String'],
   meta?: Maybe<Scalars['GenericScalar']>,
   modifiedAt: Scalars['DateTime'],
   slug: Scalars['String'],
-  /** Reference this option has been copied from */
   source?: Maybe<Option>,
 };
 
 export type OptionConnection = {
    __typename?: 'OptionConnection',
-  /** Contains the nodes in this connection. */
   edges: Array<Maybe<OptionEdge>>,
-  /** Pagination data for this connection. */
   pageInfo: PageInfo,
   totalCount?: Maybe<Scalars['Int']>,
 };
 
-/** A Relay edge containing a `Option` and its cursor. */
 export type OptionEdge = {
    __typename?: 'OptionEdge',
-  /** A cursor for use in pagination */
   cursor: Scalars['String'],
-  /** The item at the end of the edge */
   node?: Maybe<Option>,
 };
 
-/** An enumeration. */
 export enum OptionOrdering {
-  /** Created at */
   CreatedAtAsc = 'CREATED_AT_ASC',
-  /** Created at (descending) */
   CreatedAtDesc = 'CREATED_AT_DESC',
-  /** Created by group */
   CreatedByGroupAsc = 'CREATED_BY_GROUP_ASC',
-  /** Created by group (descending) */
   CreatedByGroupDesc = 'CREATED_BY_GROUP_DESC',
-  /** Created by user */
   CreatedByUserAsc = 'CREATED_BY_USER_ASC',
-  /** Created by user (descending) */
   CreatedByUserDesc = 'CREATED_BY_USER_DESC',
-  /** Label */
   LabelAsc = 'LABEL_ASC',
-  /** Label (descending) */
   LabelDesc = 'LABEL_DESC',
-  /** Modified at */
   ModifiedAtAsc = 'MODIFIED_AT_ASC',
-  /** Modified at (descending) */
   ModifiedAtDesc = 'MODIFIED_AT_DESC'
 }
 
-/** column ordering options */
 export enum Order_By {
-  /** in the ascending order, nulls last */
   Asc = 'asc',
-  /** in the ascending order, nulls first */
   AscNullsFirst = 'asc_nulls_first',
-  /** in the ascending order, nulls last */
   AscNullsLast = 'asc_nulls_last',
-  /** in the descending order, nulls first */
   Desc = 'desc',
-  /** in the descending order, nulls first */
   DescNullsFirst = 'desc_nulls_first',
-  /** in the descending order, nulls last */
   DescNullsLast = 'desc_nulls_last'
 }
 
-/** columns and relationships of "p" */
 export type P = {
    __typename?: 'p',
   circle: Scalars['circle'],
@@ -2622,14 +2227,12 @@ export type P = {
   poly: Scalars['polygon'],
 };
 
-/** aggregated selection of "p" */
 export type P_Aggregate = {
    __typename?: 'p_aggregate',
   aggregate?: Maybe<P_Aggregate_Fields>,
   nodes: Array<P>,
 };
 
-/** aggregate fields of "p" */
 export type P_Aggregate_Fields = {
    __typename?: 'p_aggregate_fields',
   avg?: Maybe<P_Avg_Fields>,
@@ -2646,13 +2249,11 @@ export type P_Aggregate_Fields = {
 };
 
 
-/** aggregate fields of "p" */
 export type P_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<P_Select_Column>>,
   distinct?: Maybe<Scalars['Boolean']>
 };
 
-/** order by aggregate values of table "p" */
 export type P_Aggregate_Order_By = {
   avg?: Maybe<P_Avg_Order_By>,
   count?: Maybe<Order_By>,
@@ -2667,24 +2268,20 @@ export type P_Aggregate_Order_By = {
   variance?: Maybe<P_Variance_Order_By>,
 };
 
-/** input type for inserting array relation for remote table "p" */
 export type P_Arr_Rel_Insert_Input = {
   data: Array<P_Insert_Input>,
   on_conflict?: Maybe<P_On_Conflict>,
 };
 
-/** aggregate avg on columns */
 export type P_Avg_Fields = {
    __typename?: 'p_avg_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by avg() on columns of table "p" */
 export type P_Avg_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** Boolean expression to filter rows from the table "p". All fields are combined with a logical 'AND'. */
 export type P_Bool_Exp = {
   _and?: Maybe<Array<Maybe<P_Bool_Exp>>>,
   _not?: Maybe<P_Bool_Exp>,
@@ -2694,192 +2291,149 @@ export type P_Bool_Exp = {
   poly?: Maybe<Polygon_Comparison_Exp>,
 };
 
-/** unique or primary key constraints on table "p" */
 export enum P_Constraint {
-  /** unique or primary key constraint */
   PPkey = 'p_pkey'
 }
 
-/** input type for incrementing integer columne in table "p" */
 export type P_Inc_Input = {
   id?: Maybe<Scalars['Int']>,
 };
 
-/** input type for inserting data into table "p" */
 export type P_Insert_Input = {
   circle?: Maybe<Scalars['circle']>,
   id?: Maybe<Scalars['Int']>,
   poly?: Maybe<Scalars['polygon']>,
 };
 
-/** aggregate max on columns */
 export type P_Max_Fields = {
    __typename?: 'p_max_fields',
   id?: Maybe<Scalars['Int']>,
 };
 
-/** order by max() on columns of table "p" */
 export type P_Max_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** aggregate min on columns */
 export type P_Min_Fields = {
    __typename?: 'p_min_fields',
   id?: Maybe<Scalars['Int']>,
 };
 
-/** order by min() on columns of table "p" */
 export type P_Min_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** response of any mutation on the table "p" */
 export type P_Mutation_Response = {
    __typename?: 'p_mutation_response',
-  /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'],
-  /** data of the affected rows by the mutation */
   returning: Array<P>,
 };
 
-/** input type for inserting object relation for remote table "p" */
 export type P_Obj_Rel_Insert_Input = {
   data: P_Insert_Input,
   on_conflict?: Maybe<P_On_Conflict>,
 };
 
-/** on conflict condition type for table "p" */
 export type P_On_Conflict = {
   constraint: P_Constraint,
   update_columns: Array<P_Update_Column>,
 };
 
-/** ordering options when selecting data from "p" */
 export type P_Order_By = {
   circle?: Maybe<Order_By>,
   id?: Maybe<Order_By>,
   poly?: Maybe<Order_By>,
 };
 
-/** select columns of table "p" */
 export enum P_Select_Column {
-  /** column name */
   Circle = 'circle',
-  /** column name */
   Id = 'id',
-  /** column name */
   Poly = 'poly'
 }
 
-/** input type for updating data in table "p" */
 export type P_Set_Input = {
   circle?: Maybe<Scalars['circle']>,
   id?: Maybe<Scalars['Int']>,
   poly?: Maybe<Scalars['polygon']>,
 };
 
-/** aggregate stddev on columns */
 export type P_Stddev_Fields = {
    __typename?: 'p_stddev_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by stddev() on columns of table "p" */
 export type P_Stddev_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** aggregate stddev_pop on columns */
 export type P_Stddev_Pop_Fields = {
    __typename?: 'p_stddev_pop_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by stddev_pop() on columns of table "p" */
 export type P_Stddev_Pop_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** aggregate stddev_samp on columns */
 export type P_Stddev_Samp_Fields = {
    __typename?: 'p_stddev_samp_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by stddev_samp() on columns of table "p" */
 export type P_Stddev_Samp_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** aggregate sum on columns */
 export type P_Sum_Fields = {
    __typename?: 'p_sum_fields',
   id?: Maybe<Scalars['Int']>,
 };
 
-/** order by sum() on columns of table "p" */
 export type P_Sum_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** update columns of table "p" */
 export enum P_Update_Column {
-  /** column name */
   Circle = 'circle',
-  /** column name */
   Id = 'id',
-  /** column name */
   Poly = 'poly'
 }
 
-/** aggregate var_pop on columns */
 export type P_Var_Pop_Fields = {
    __typename?: 'p_var_pop_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by var_pop() on columns of table "p" */
 export type P_Var_Pop_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** aggregate var_samp on columns */
 export type P_Var_Samp_Fields = {
    __typename?: 'p_var_samp_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by var_samp() on columns of table "p" */
 export type P_Var_Samp_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** aggregate variance on columns */
 export type P_Variance_Fields = {
    __typename?: 'p_variance_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by variance() on columns of table "p" */
 export type P_Variance_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** The Relay compliant `PageInfo` type, containing data necessary to paginate this connection. */
 export type PageInfo = {
    __typename?: 'PageInfo',
-  /** When paginating forwards, the cursor to continue. */
   endCursor?: Maybe<Scalars['String']>,
-  /** When paginating forwards, are there more items? */
   hasNextPage: Scalars['Boolean'],
-  /** When paginating backwards, are there more items? */
   hasPreviousPage: Scalars['Boolean'],
-  /** When paginating backwards, the cursor to continue. */
   startCursor?: Maybe<Scalars['String']>,
 };
 
-/** columns and relationships of "patient" */
 export type Patient = {
    __typename?: 'patient',
   id: Scalars['uuid'],
@@ -2887,48 +2441,40 @@ export type Patient = {
 };
 
 
-/** columns and relationships of "patient" */
 export type PatientResourceArgs = {
   path?: Maybe<Scalars['String']>
 };
 
-/** aggregated selection of "patient" */
 export type Patient_Aggregate = {
    __typename?: 'patient_aggregate',
   aggregate?: Maybe<Patient_Aggregate_Fields>,
   nodes: Array<Patient>,
 };
 
-/** aggregate fields of "patient" */
 export type Patient_Aggregate_Fields = {
    __typename?: 'patient_aggregate_fields',
   count?: Maybe<Scalars['Int']>,
 };
 
 
-/** aggregate fields of "patient" */
 export type Patient_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Patient_Select_Column>>,
   distinct?: Maybe<Scalars['Boolean']>
 };
 
-/** order by aggregate values of table "patient" */
 export type Patient_Aggregate_Order_By = {
   count?: Maybe<Order_By>,
 };
 
-/** append existing jsonb value of filtered columns with new jsonb value */
 export type Patient_Append_Input = {
   resource?: Maybe<Scalars['jsonb']>,
 };
 
-/** input type for inserting array relation for remote table "patient" */
 export type Patient_Arr_Rel_Insert_Input = {
   data: Array<Patient_Insert_Input>,
   on_conflict?: Maybe<Patient_On_Conflict>,
 };
 
-/** Boolean expression to filter rows from the table "patient". All fields are combined with a logical 'AND'. */
 export type Patient_Bool_Exp = {
   _and?: Maybe<Array<Maybe<Patient_Bool_Exp>>>,
   _not?: Maybe<Patient_Bool_Exp>,
@@ -2937,92 +2483,68 @@ export type Patient_Bool_Exp = {
   resource?: Maybe<Jsonb_Comparison_Exp>,
 };
 
-/** unique or primary key constraints on table "patient" */
 export enum Patient_Constraint {
-  /** unique or primary key constraint */
   PatientPkey = 'patient_pkey'
 }
 
-/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
 export type Patient_Delete_At_Path_Input = {
   resource?: Maybe<Array<Maybe<Scalars['String']>>>,
 };
 
-/** 
- * delete the array element with specified index (negative integers count from the
- * end). throws an error if top level container is not an array
- **/
 export type Patient_Delete_Elem_Input = {
   resource?: Maybe<Scalars['Int']>,
 };
 
-/** delete key/value pair or string element. key/value pairs are matched based on their key value */
 export type Patient_Delete_Key_Input = {
   resource?: Maybe<Scalars['String']>,
 };
 
-/** input type for inserting data into table "patient" */
 export type Patient_Insert_Input = {
   id?: Maybe<Scalars['uuid']>,
   resource?: Maybe<Scalars['jsonb']>,
 };
 
-/** response of any mutation on the table "patient" */
 export type Patient_Mutation_Response = {
    __typename?: 'patient_mutation_response',
-  /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'],
-  /** data of the affected rows by the mutation */
   returning: Array<Patient>,
 };
 
-/** input type for inserting object relation for remote table "patient" */
 export type Patient_Obj_Rel_Insert_Input = {
   data: Patient_Insert_Input,
   on_conflict?: Maybe<Patient_On_Conflict>,
 };
 
-/** on conflict condition type for table "patient" */
 export type Patient_On_Conflict = {
   constraint: Patient_Constraint,
   update_columns: Array<Patient_Update_Column>,
 };
 
-/** ordering options when selecting data from "patient" */
 export type Patient_Order_By = {
   id?: Maybe<Order_By>,
   resource?: Maybe<Order_By>,
 };
 
-/** prepend existing jsonb value of filtered columns with new jsonb value */
 export type Patient_Prepend_Input = {
   resource?: Maybe<Scalars['jsonb']>,
 };
 
-/** select columns of table "patient" */
 export enum Patient_Select_Column {
-  /** column name */
   Id = 'id',
-  /** column name */
   Resource = 'resource'
 }
 
-/** input type for updating data in table "patient" */
 export type Patient_Set_Input = {
   id?: Maybe<Scalars['uuid']>,
   resource?: Maybe<Scalars['jsonb']>,
 };
 
-/** update columns of table "patient" */
 export enum Patient_Update_Column {
-  /** column name */
   Id = 'id',
-  /** column name */
   Resource = 'resource'
 }
 
 
-/** expression to compare columns of type polygon. All fields are combined with logical 'AND'. */
 export type Polygon_Comparison_Exp = {
   _eq?: Maybe<Scalars['polygon']>,
   _gt?: Maybe<Scalars['polygon']>,
@@ -3049,7 +2571,6 @@ export type Query = {
   allWorkflows?: Maybe<WorkflowConnection>,
   dataSource?: Maybe<DataSourceDataConnection>,
   documentValidity?: Maybe<DocumentValidityConnection>,
-  /** The ID of the object */
   node?: Maybe<Node>,
 };
 
@@ -3262,7 +2783,6 @@ export type QueryNodeArgs = {
   id: Scalars['ID']
 };
 
-/** query root */
 export type Query_Root = {
    __typename?: 'query_root',
   allCases?: Maybe<CaseConnection>,
@@ -3277,55 +2797,32 @@ export type Query_Root = {
   allWorkflows?: Maybe<WorkflowConnection>,
   dataSource?: Maybe<DataSourceDataConnection>,
   documentValidity?: Maybe<DocumentValidityConnection>,
-  /** fetch data from the table: "dogs" */
   dogs: Array<Dogs>,
-  /** fetch aggregated fields from the table: "dogs" */
   dogs_aggregate: Dogs_Aggregate,
-  /** fetch data from the table: "dogs" using primary key columns */
   dogs_by_pk?: Maybe<Dogs>,
   hello?: Maybe<Scalars['String']>,
-  /** The ID of the object */
   node?: Maybe<Node>,
-  /** fetch data from the table: "observation" */
   observation: Array<Observation>,
-  /** fetch aggregated fields from the table: "observation" */
   observation_aggregate: Observation_Aggregate,
-  /** fetch data from the table: "observation" using primary key columns */
   observation_by_pk?: Maybe<Observation>,
-  /** fetch data from the table: "p" */
   p: Array<P>,
-  /** fetch aggregated fields from the table: "p" */
   p_aggregate: P_Aggregate,
-  /** fetch data from the table: "p" using primary key columns */
   p_by_pk?: Maybe<P>,
-  /** fetch data from the table: "patient" */
   patient: Array<Patient>,
-  /** fetch aggregated fields from the table: "patient" */
   patient_aggregate: Patient_Aggregate,
-  /** fetch data from the table: "patient" using primary key columns */
   patient_by_pk?: Maybe<Patient>,
-  /** fetch data from the table: "users" */
   users: Array<Users>,
-  /** fetch aggregated fields from the table: "users" */
   users_aggregate: Users_Aggregate,
-  /** fetch data from the table: "users" using primary key columns */
   users_by_pk?: Maybe<Users>,
-  /** fetch data from the table: "vehicle" */
   vehicle: Array<Vehicle>,
-  /** fetch aggregated fields from the table: "vehicle" */
   vehicle_aggregate: Vehicle_Aggregate,
-  /** fetch data from the table: "vehicle" using primary key columns */
   vehicle_by_pk?: Maybe<Vehicle>,
-  /** fetch data from the table: "vehicle_location" */
   vehicle_location: Array<Vehicle_Location>,
-  /** fetch aggregated fields from the table: "vehicle_location" */
   vehicle_location_aggregate: Vehicle_Location_Aggregate,
-  /** fetch data from the table: "vehicle_location" using primary key columns */
   vehicle_location_by_pk?: Maybe<Vehicle_Location>,
 };
 
 
-/** query root */
 export type Query_RootAllCasesArgs = {
   after?: Maybe<Scalars['String']>,
   before?: Maybe<Scalars['String']>,
@@ -3348,7 +2845,6 @@ export type Query_RootAllCasesArgs = {
 };
 
 
-/** query root */
 export type Query_RootAllDataSourcesArgs = {
   after?: Maybe<Scalars['String']>,
   before?: Maybe<Scalars['String']>,
@@ -3357,7 +2853,6 @@ export type Query_RootAllDataSourcesArgs = {
 };
 
 
-/** query root */
 export type Query_RootAllDocumentsArgs = {
   after?: Maybe<Scalars['String']>,
   before?: Maybe<Scalars['String']>,
@@ -3380,7 +2875,6 @@ export type Query_RootAllDocumentsArgs = {
 };
 
 
-/** query root */
 export type Query_RootAllFormatValidatorsArgs = {
   after?: Maybe<Scalars['String']>,
   before?: Maybe<Scalars['String']>,
@@ -3389,7 +2883,6 @@ export type Query_RootAllFormatValidatorsArgs = {
 };
 
 
-/** query root */
 export type Query_RootAllFormsArgs = {
   after?: Maybe<Scalars['String']>,
   before?: Maybe<Scalars['String']>,
@@ -3412,7 +2905,6 @@ export type Query_RootAllFormsArgs = {
 };
 
 
-/** query root */
 export type Query_RootAllQuestionsArgs = {
   after?: Maybe<Scalars['String']>,
   before?: Maybe<Scalars['String']>,
@@ -3436,7 +2928,6 @@ export type Query_RootAllQuestionsArgs = {
 };
 
 
-/** query root */
 export type Query_RootAllTasksArgs = {
   after?: Maybe<Scalars['String']>,
   before?: Maybe<Scalars['String']>,
@@ -3458,7 +2949,6 @@ export type Query_RootAllTasksArgs = {
 };
 
 
-/** query root */
 export type Query_RootAllUsedDynamicOptionsArgs = {
   after?: Maybe<Scalars['String']>,
   before?: Maybe<Scalars['String']>,
@@ -3472,7 +2962,6 @@ export type Query_RootAllUsedDynamicOptionsArgs = {
 };
 
 
-/** query root */
 export type Query_RootAllWorkItemsArgs = {
   addressedGroups?: Maybe<Array<Maybe<Scalars['String']>>>,
   after?: Maybe<Scalars['String']>,
@@ -3499,7 +2988,6 @@ export type Query_RootAllWorkItemsArgs = {
 };
 
 
-/** query root */
 export type Query_RootAllWorkflowsArgs = {
   after?: Maybe<Scalars['String']>,
   before?: Maybe<Scalars['String']>,
@@ -3521,7 +3009,6 @@ export type Query_RootAllWorkflowsArgs = {
 };
 
 
-/** query root */
 export type Query_RootDataSourceArgs = {
   after?: Maybe<Scalars['String']>,
   before?: Maybe<Scalars['String']>,
@@ -3531,7 +3018,6 @@ export type Query_RootDataSourceArgs = {
 };
 
 
-/** query root */
 export type Query_RootDocumentValidityArgs = {
   after?: Maybe<Scalars['String']>,
   before?: Maybe<Scalars['String']>,
@@ -3541,7 +3027,6 @@ export type Query_RootDocumentValidityArgs = {
 };
 
 
-/** query root */
 export type Query_RootDogsArgs = {
   distinct_on?: Maybe<Array<Dogs_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -3551,7 +3036,6 @@ export type Query_RootDogsArgs = {
 };
 
 
-/** query root */
 export type Query_RootDogs_AggregateArgs = {
   distinct_on?: Maybe<Array<Dogs_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -3561,19 +3045,16 @@ export type Query_RootDogs_AggregateArgs = {
 };
 
 
-/** query root */
 export type Query_RootDogs_By_PkArgs = {
   id: Scalars['uuid']
 };
 
 
-/** query root */
 export type Query_RootNodeArgs = {
   id: Scalars['ID']
 };
 
 
-/** query root */
 export type Query_RootObservationArgs = {
   distinct_on?: Maybe<Array<Observation_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -3583,7 +3064,6 @@ export type Query_RootObservationArgs = {
 };
 
 
-/** query root */
 export type Query_RootObservation_AggregateArgs = {
   distinct_on?: Maybe<Array<Observation_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -3593,13 +3073,11 @@ export type Query_RootObservation_AggregateArgs = {
 };
 
 
-/** query root */
 export type Query_RootObservation_By_PkArgs = {
   id: Scalars['uuid']
 };
 
 
-/** query root */
 export type Query_RootPArgs = {
   distinct_on?: Maybe<Array<P_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -3609,7 +3087,6 @@ export type Query_RootPArgs = {
 };
 
 
-/** query root */
 export type Query_RootP_AggregateArgs = {
   distinct_on?: Maybe<Array<P_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -3619,13 +3096,11 @@ export type Query_RootP_AggregateArgs = {
 };
 
 
-/** query root */
 export type Query_RootP_By_PkArgs = {
   id: Scalars['Int']
 };
 
 
-/** query root */
 export type Query_RootPatientArgs = {
   distinct_on?: Maybe<Array<Patient_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -3635,7 +3110,6 @@ export type Query_RootPatientArgs = {
 };
 
 
-/** query root */
 export type Query_RootPatient_AggregateArgs = {
   distinct_on?: Maybe<Array<Patient_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -3645,13 +3119,11 @@ export type Query_RootPatient_AggregateArgs = {
 };
 
 
-/** query root */
 export type Query_RootPatient_By_PkArgs = {
   id: Scalars['uuid']
 };
 
 
-/** query root */
 export type Query_RootUsersArgs = {
   distinct_on?: Maybe<Array<Users_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -3661,7 +3133,6 @@ export type Query_RootUsersArgs = {
 };
 
 
-/** query root */
 export type Query_RootUsers_AggregateArgs = {
   distinct_on?: Maybe<Array<Users_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -3671,13 +3142,11 @@ export type Query_RootUsers_AggregateArgs = {
 };
 
 
-/** query root */
 export type Query_RootUsers_By_PkArgs = {
   id: Scalars['Int']
 };
 
 
-/** query root */
 export type Query_RootVehicleArgs = {
   distinct_on?: Maybe<Array<Vehicle_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -3687,7 +3156,6 @@ export type Query_RootVehicleArgs = {
 };
 
 
-/** query root */
 export type Query_RootVehicle_AggregateArgs = {
   distinct_on?: Maybe<Array<Vehicle_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -3697,13 +3165,11 @@ export type Query_RootVehicle_AggregateArgs = {
 };
 
 
-/** query root */
 export type Query_RootVehicle_By_PkArgs = {
   id: Scalars['String']
 };
 
 
-/** query root */
 export type Query_RootVehicle_LocationArgs = {
   distinct_on?: Maybe<Array<Vehicle_Location_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -3713,7 +3179,6 @@ export type Query_RootVehicle_LocationArgs = {
 };
 
 
-/** query root */
 export type Query_RootVehicle_Location_AggregateArgs = {
   distinct_on?: Maybe<Array<Vehicle_Location_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -3723,7 +3188,6 @@ export type Query_RootVehicle_Location_AggregateArgs = {
 };
 
 
-/** query root */
 export type Query_RootVehicle_Location_By_PkArgs = {
   id: Scalars['Int']
 };
@@ -3737,7 +3201,6 @@ export type Question = {
   infoText?: Maybe<Scalars['String']>,
   isArchived: Scalars['Boolean'],
   isHidden: Scalars['QuestionJexl'],
-  /** Required expression is only evaluated when question is not hidden. */
   isRequired: Scalars['QuestionJexl'],
   label: Scalars['String'],
   meta: Scalars['GenericScalar'],
@@ -3768,19 +3231,14 @@ export type QuestionFormsArgs = {
 
 export type QuestionConnection = {
    __typename?: 'QuestionConnection',
-  /** Contains the nodes in this connection. */
   edges: Array<Maybe<QuestionEdge>>,
-  /** Pagination data for this connection. */
   pageInfo: PageInfo,
   totalCount?: Maybe<Scalars['Int']>,
 };
 
-/** A Relay edge containing a `Question` and its cursor. */
 export type QuestionEdge = {
    __typename?: 'QuestionEdge',
-  /** A cursor for use in pagination */
   cursor: Scalars['String'],
-  /** The item at the end of the edge */
   node?: Maybe<Question>,
 };
 
@@ -3802,27 +3260,16 @@ export type QuestionFilterSetType = {
 };
 
 
-/** An enumeration. */
 export enum QuestionOrdering {
-  /** Created at */
   CreatedAtAsc = 'CREATED_AT_ASC',
-  /** Created at (descending) */
   CreatedAtDesc = 'CREATED_AT_DESC',
-  /** Created by group */
   CreatedByGroupAsc = 'CREATED_BY_GROUP_ASC',
-  /** Created by group (descending) */
   CreatedByGroupDesc = 'CREATED_BY_GROUP_DESC',
-  /** Created by user */
   CreatedByUserAsc = 'CREATED_BY_USER_ASC',
-  /** Created by user (descending) */
   CreatedByUserDesc = 'CREATED_BY_USER_DESC',
-  /** Label */
   LabelAsc = 'LABEL_ASC',
-  /** Label (descending) */
   LabelDesc = 'LABEL_DESC',
-  /** Modified at */
   ModifiedAtAsc = 'MODIFIED_AT_ASC',
-  /** Modified at (descending) */
   ModifiedAtDesc = 'MODIFIED_AT_DESC'
 }
 
@@ -3923,19 +3370,12 @@ export type SaveChoiceQuestionPayload = {
 };
 
 export type SaveCompleteTaskFormTaskInput = {
-  /** Group jexl returning what group(s) derived work items will be addressed to. */
   addressGroups?: Maybe<Scalars['GroupJexl']>,
   clientMutationId?: Maybe<Scalars['String']>,
   description?: Maybe<Scalars['String']>,
   form: Scalars['ID'],
   isArchived?: Maybe<Scalars['Boolean']>,
-  /** 
- * Allows creating multiple work items for this task using the `CreateWorkItem`
-   * mutation. If true, one work item will be created for each entry in
-   * `address_groups`.
- **/
   isMultipleInstance?: Maybe<Scalars['Boolean']>,
-  /** Time in seconds task may take to be processed. */
   leadTime?: Maybe<Scalars['Int']>,
   meta?: Maybe<Scalars['JSONString']>,
   name: Scalars['String'],
@@ -3949,18 +3389,11 @@ export type SaveCompleteTaskFormTaskPayload = {
 };
 
 export type SaveCompleteWorkflowFormTaskInput = {
-  /** Group jexl returning what group(s) derived work items will be addressed to. */
   addressGroups?: Maybe<Scalars['GroupJexl']>,
   clientMutationId?: Maybe<Scalars['String']>,
   description?: Maybe<Scalars['String']>,
   isArchived?: Maybe<Scalars['Boolean']>,
-  /** 
- * Allows creating multiple work items for this task using the `CreateWorkItem`
-   * mutation. If true, one work item will be created for each entry in
-   * `address_groups`.
- **/
   isMultipleInstance?: Maybe<Scalars['Boolean']>,
-  /** Time in seconds task may take to be processed. */
   leadTime?: Maybe<Scalars['Int']>,
   meta?: Maybe<Scalars['JSONString']>,
   name: Scalars['String'],
@@ -4093,7 +3526,6 @@ export type SaveDocumentTableAnswerInput = {
   document: Scalars['ID'],
   meta?: Maybe<Scalars['JSONString']>,
   question: Scalars['ID'],
-  /** List of document IDs representing the rows in the table. */
   value?: Maybe<Array<Maybe<Scalars['ID']>>>,
 };
 
@@ -4263,18 +3695,11 @@ export type SaveOptionPayload = {
 };
 
 export type SaveSimpleTaskInput = {
-  /** Group jexl returning what group(s) derived work items will be addressed to. */
   addressGroups?: Maybe<Scalars['GroupJexl']>,
   clientMutationId?: Maybe<Scalars['String']>,
   description?: Maybe<Scalars['String']>,
   isArchived?: Maybe<Scalars['Boolean']>,
-  /** 
- * Allows creating multiple work items for this task using the `CreateWorkItem`
-   * mutation. If true, one work item will be created for each entry in
-   * `address_groups`.
- **/
   isMultipleInstance?: Maybe<Scalars['Boolean']>,
-  /** Time in seconds task may take to be processed. */
   leadTime?: Maybe<Scalars['Int']>,
   meta?: Maybe<Scalars['JSONString']>,
   name: Scalars['String'],
@@ -4312,7 +3737,6 @@ export type SaveTableQuestionInput = {
   isRequired?: Maybe<Scalars['QuestionJexl']>,
   label: Scalars['String'],
   meta?: Maybe<Scalars['JSONString']>,
-  /** Form that represents rows of a TableQuestion */
   rowForm: Scalars['ID'],
   slug: Scalars['String'],
 };
@@ -4364,9 +3788,7 @@ export type SaveTextQuestionPayload = {
 };
 
 export type SaveWorkflowInput = {
-  /** Allow workflow to be started with any form */
   allowAllForms?: Maybe<Scalars['Boolean']>,
-  /** List of forms which are allowed to start workflow with */
   allowForms?: Maybe<Array<Maybe<Scalars['ID']>>>,
   clientMutationId?: Maybe<Scalars['String']>,
   description?: Maybe<Scalars['String']>,
@@ -4375,7 +3797,6 @@ export type SaveWorkflowInput = {
   meta?: Maybe<Scalars['JSONString']>,
   name: Scalars['String'],
   slug: Scalars['String'],
-  /** Starting task(s) of the workflow. */
   startTasks: Array<Maybe<Scalars['ID']>>,
 };
 
@@ -4386,7 +3807,6 @@ export type SaveWorkflowPayload = {
 };
 
 export type SaveWorkItemInput = {
-  /** Users responsible to undertake given work item. */
   assignedUsers?: Maybe<Array<Maybe<Scalars['String']>>>,
   clientMutationId?: Maybe<Scalars['String']>,
   deadline?: Maybe<Scalars['DateTime']>,
@@ -4400,7 +3820,6 @@ export type SaveWorkItemPayload = {
   workItem?: Maybe<WorkItem>,
 };
 
-/** Lookup type to search in answers. */
 export type SearchAnswersFilterType = {
   lookup?: Maybe<SearchLookupMode>,
   questions?: Maybe<Array<Maybe<Scalars['ID']>>>,
@@ -4420,11 +3839,9 @@ export type SimpleTask = Node & Task & {
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   description?: Maybe<Scalars['String']>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   isArchived: Scalars['Boolean'],
   isMultipleInstance: Scalars['Boolean'],
-  /** Time in seconds task may take to be processed. */
   leadTime?: Maybe<Scalars['Int']>,
   meta: Scalars['GenericScalar'],
   modifiedAt: Scalars['DateTime'],
@@ -4565,15 +3982,10 @@ export type StaticQuestion = Node & Question & {
   createdByUser?: Maybe<Scalars['String']>,
   dataSource?: Maybe<Scalars['String']>,
   forms?: Maybe<FormConnection>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   infoText?: Maybe<Scalars['String']>,
   isArchived: Scalars['Boolean'],
   isHidden: Scalars['QuestionJexl'],
-  /** 
- * Required expression is only evaluated when question is not hidden. This should
-   * not be used for `StaticQuestion`, because it can never be satisfied.
- **/
   isRequired: Scalars['QuestionJexl'],
   label: Scalars['String'],
   meta: Scalars['GenericScalar'],
@@ -4603,15 +4015,10 @@ export type StaticQuestionFormsArgs = {
   slugs?: Maybe<Array<Maybe<Scalars['String']>>>
 };
 
-/** An enumeration. */
 export enum Status {
-  /** Task is cancelled. */
   Canceled = 'CANCELED',
-  /** Task is done. */
   Completed = 'COMPLETED',
-  /** Task is ready to be processed. */
   Ready = 'READY',
-  /** Task is skipped. */
   Skipped = 'SKIPPED'
 }
 
@@ -4620,7 +4027,6 @@ export type StringAnswer = Node & Answer & {
   createdAt: Scalars['DateTime'],
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   meta: Scalars['GenericScalar'],
   modifiedAt: Scalars['DateTime'],
@@ -4628,55 +4034,32 @@ export type StringAnswer = Node & Answer & {
   value?: Maybe<Scalars['String']>,
 };
 
-/** subscription root */
 export type Subscription_Root = {
    __typename?: 'subscription_root',
-  /** fetch data from the table: "dogs" */
   dogs: Array<Dogs>,
-  /** fetch aggregated fields from the table: "dogs" */
   dogs_aggregate: Dogs_Aggregate,
-  /** fetch data from the table: "dogs" using primary key columns */
   dogs_by_pk?: Maybe<Dogs>,
-  /** fetch data from the table: "observation" */
   observation: Array<Observation>,
-  /** fetch aggregated fields from the table: "observation" */
   observation_aggregate: Observation_Aggregate,
-  /** fetch data from the table: "observation" using primary key columns */
   observation_by_pk?: Maybe<Observation>,
-  /** fetch data from the table: "p" */
   p: Array<P>,
-  /** fetch aggregated fields from the table: "p" */
   p_aggregate: P_Aggregate,
-  /** fetch data from the table: "p" using primary key columns */
   p_by_pk?: Maybe<P>,
-  /** fetch data from the table: "patient" */
   patient: Array<Patient>,
-  /** fetch aggregated fields from the table: "patient" */
   patient_aggregate: Patient_Aggregate,
-  /** fetch data from the table: "patient" using primary key columns */
   patient_by_pk?: Maybe<Patient>,
-  /** fetch data from the table: "users" */
   users: Array<Users>,
-  /** fetch aggregated fields from the table: "users" */
   users_aggregate: Users_Aggregate,
-  /** fetch data from the table: "users" using primary key columns */
   users_by_pk?: Maybe<Users>,
-  /** fetch data from the table: "vehicle" */
   vehicle: Array<Vehicle>,
-  /** fetch aggregated fields from the table: "vehicle" */
   vehicle_aggregate: Vehicle_Aggregate,
-  /** fetch data from the table: "vehicle" using primary key columns */
   vehicle_by_pk?: Maybe<Vehicle>,
-  /** fetch data from the table: "vehicle_location" */
   vehicle_location: Array<Vehicle_Location>,
-  /** fetch aggregated fields from the table: "vehicle_location" */
   vehicle_location_aggregate: Vehicle_Location_Aggregate,
-  /** fetch data from the table: "vehicle_location" using primary key columns */
   vehicle_location_by_pk?: Maybe<Vehicle_Location>,
 };
 
 
-/** subscription root */
 export type Subscription_RootDogsArgs = {
   distinct_on?: Maybe<Array<Dogs_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -4686,7 +4069,6 @@ export type Subscription_RootDogsArgs = {
 };
 
 
-/** subscription root */
 export type Subscription_RootDogs_AggregateArgs = {
   distinct_on?: Maybe<Array<Dogs_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -4696,13 +4078,11 @@ export type Subscription_RootDogs_AggregateArgs = {
 };
 
 
-/** subscription root */
 export type Subscription_RootDogs_By_PkArgs = {
   id: Scalars['uuid']
 };
 
 
-/** subscription root */
 export type Subscription_RootObservationArgs = {
   distinct_on?: Maybe<Array<Observation_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -4712,7 +4092,6 @@ export type Subscription_RootObservationArgs = {
 };
 
 
-/** subscription root */
 export type Subscription_RootObservation_AggregateArgs = {
   distinct_on?: Maybe<Array<Observation_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -4722,13 +4101,11 @@ export type Subscription_RootObservation_AggregateArgs = {
 };
 
 
-/** subscription root */
 export type Subscription_RootObservation_By_PkArgs = {
   id: Scalars['uuid']
 };
 
 
-/** subscription root */
 export type Subscription_RootPArgs = {
   distinct_on?: Maybe<Array<P_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -4738,7 +4115,6 @@ export type Subscription_RootPArgs = {
 };
 
 
-/** subscription root */
 export type Subscription_RootP_AggregateArgs = {
   distinct_on?: Maybe<Array<P_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -4748,13 +4124,11 @@ export type Subscription_RootP_AggregateArgs = {
 };
 
 
-/** subscription root */
 export type Subscription_RootP_By_PkArgs = {
   id: Scalars['Int']
 };
 
 
-/** subscription root */
 export type Subscription_RootPatientArgs = {
   distinct_on?: Maybe<Array<Patient_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -4764,7 +4138,6 @@ export type Subscription_RootPatientArgs = {
 };
 
 
-/** subscription root */
 export type Subscription_RootPatient_AggregateArgs = {
   distinct_on?: Maybe<Array<Patient_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -4774,13 +4147,11 @@ export type Subscription_RootPatient_AggregateArgs = {
 };
 
 
-/** subscription root */
 export type Subscription_RootPatient_By_PkArgs = {
   id: Scalars['uuid']
 };
 
 
-/** subscription root */
 export type Subscription_RootUsersArgs = {
   distinct_on?: Maybe<Array<Users_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -4790,7 +4161,6 @@ export type Subscription_RootUsersArgs = {
 };
 
 
-/** subscription root */
 export type Subscription_RootUsers_AggregateArgs = {
   distinct_on?: Maybe<Array<Users_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -4800,13 +4170,11 @@ export type Subscription_RootUsers_AggregateArgs = {
 };
 
 
-/** subscription root */
 export type Subscription_RootUsers_By_PkArgs = {
   id: Scalars['Int']
 };
 
 
-/** subscription root */
 export type Subscription_RootVehicleArgs = {
   distinct_on?: Maybe<Array<Vehicle_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -4816,7 +4184,6 @@ export type Subscription_RootVehicleArgs = {
 };
 
 
-/** subscription root */
 export type Subscription_RootVehicle_AggregateArgs = {
   distinct_on?: Maybe<Array<Vehicle_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -4826,13 +4193,11 @@ export type Subscription_RootVehicle_AggregateArgs = {
 };
 
 
-/** subscription root */
 export type Subscription_RootVehicle_By_PkArgs = {
   id: Scalars['String']
 };
 
 
-/** subscription root */
 export type Subscription_RootVehicle_LocationArgs = {
   distinct_on?: Maybe<Array<Vehicle_Location_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -4842,7 +4207,6 @@ export type Subscription_RootVehicle_LocationArgs = {
 };
 
 
-/** subscription root */
 export type Subscription_RootVehicle_Location_AggregateArgs = {
   distinct_on?: Maybe<Array<Vehicle_Location_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -4852,7 +4216,6 @@ export type Subscription_RootVehicle_Location_AggregateArgs = {
 };
 
 
-/** subscription root */
 export type Subscription_RootVehicle_Location_By_PkArgs = {
   id: Scalars['Int']
 };
@@ -4863,7 +4226,6 @@ export type TableAnswer = Node & Answer & {
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   document: Document,
-  /** The ID of the object. */
   id: Scalars['ID'],
   meta: Scalars['GenericScalar'],
   modifiedAt: Scalars['DateTime'],
@@ -4877,17 +4239,14 @@ export type TableQuestion = Node & Question & {
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   forms?: Maybe<FormConnection>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   infoText?: Maybe<Scalars['String']>,
   isArchived: Scalars['Boolean'],
   isHidden: Scalars['QuestionJexl'],
-  /** Required expression is only evaluated when question is not hidden. */
   isRequired: Scalars['QuestionJexl'],
   label: Scalars['String'],
   meta: Scalars['GenericScalar'],
   modifiedAt: Scalars['DateTime'],
-  /** Form that represents rows of a TableQuestion */
   rowForm?: Maybe<Form>,
   slug: Scalars['String'],
   source?: Maybe<Question>,
@@ -4930,19 +4289,14 @@ export type Task = {
 
 export type TaskConnection = {
    __typename?: 'TaskConnection',
-  /** Contains the nodes in this connection. */
   edges: Array<Maybe<TaskEdge>>,
-  /** Pagination data for this connection. */
   pageInfo: PageInfo,
   totalCount?: Maybe<Scalars['Int']>,
 };
 
-/** A Relay edge containing a `Task` and its cursor. */
 export type TaskEdge = {
    __typename?: 'TaskEdge',
-  /** A cursor for use in pagination */
   cursor: Scalars['String'],
-  /** The item at the end of the edge */
   node?: Maybe<Task>,
 };
 
@@ -4961,35 +4315,20 @@ export type TaskFilterSetType = {
   type?: Maybe<Type>,
 };
 
-/** An enumeration. */
 export enum TaskOrdering {
-  /** Created at */
   CreatedAtAsc = 'CREATED_AT_ASC',
-  /** Created at (descending) */
   CreatedAtDesc = 'CREATED_AT_DESC',
-  /** Created by group */
   CreatedByGroupAsc = 'CREATED_BY_GROUP_ASC',
-  /** Created by group (descending) */
   CreatedByGroupDesc = 'CREATED_BY_GROUP_DESC',
-  /** Created by user */
   CreatedByUserAsc = 'CREATED_BY_USER_ASC',
-  /** Created by user (descending) */
   CreatedByUserDesc = 'CREATED_BY_USER_DESC',
-  /** Description */
   DescriptionAsc = 'DESCRIPTION_ASC',
-  /** Description (descending) */
   DescriptionDesc = 'DESCRIPTION_DESC',
-  /** Modified at */
   ModifiedAtAsc = 'MODIFIED_AT_ASC',
-  /** Modified at (descending) */
   ModifiedAtDesc = 'MODIFIED_AT_DESC',
-  /** Name */
   NameAsc = 'NAME_ASC',
-  /** Name (descending) */
   NameDesc = 'NAME_DESC',
-  /** Type */
   TypeAsc = 'TYPE_ASC',
-  /** Type (descending) */
   TypeDesc = 'TYPE_DESC'
 }
 
@@ -4999,27 +4338,18 @@ export type TaskOrderSetType = {
   meta?: Maybe<Scalars['String']>,
 };
 
-/** An enumeration. */
 export enum TaskType {
-  /** Task to complete a defined task form. */
   CompleteTaskForm = 'COMPLETE_TASK_FORM',
-  /** Task to complete a defined workflow form. */
   CompleteWorkflowForm = 'COMPLETE_WORKFLOW_FORM',
-  /** Task which can simply be marked as completed. */
   Simple = 'SIMPLE'
 }
 
-/** An enumeration. */
 export enum TaskTypeArgument {
-  /** Task to complete a defined task form. */
   CompleteTaskForm = 'COMPLETE_TASK_FORM',
-  /** Task to complete a defined workflow form. */
   CompleteWorkflowForm = 'COMPLETE_WORKFLOW_FORM',
-  /** Task which can simply be marked as completed. */
   Simple = 'SIMPLE'
 }
 
-/** expression to compare columns of type text. All fields are combined with logical 'AND'. */
 export type Text_Comparison_Exp = {
   _eq?: Maybe<Scalars['String']>,
   _gt?: Maybe<Scalars['String']>,
@@ -5045,12 +4375,10 @@ export type TextareaQuestion = Node & Question & {
   createdByUser?: Maybe<Scalars['String']>,
   formatValidators?: Maybe<FormatValidatorConnection>,
   forms?: Maybe<FormConnection>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   infoText?: Maybe<Scalars['String']>,
   isArchived: Scalars['Boolean'],
   isHidden: Scalars['QuestionJexl'],
-  /** Required expression is only evaluated when question is not hidden. */
   isRequired: Scalars['QuestionJexl'],
   label: Scalars['String'],
   maxLength?: Maybe<Scalars['Int']>,
@@ -5096,12 +4424,10 @@ export type TextQuestion = Node & Question & {
   createdByUser?: Maybe<Scalars['String']>,
   formatValidators?: Maybe<FormatValidatorConnection>,
   forms?: Maybe<FormConnection>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   infoText?: Maybe<Scalars['String']>,
   isArchived: Scalars['Boolean'],
   isHidden: Scalars['QuestionJexl'],
-  /** Required expression is only evaluated when question is not hidden. */
   isRequired: Scalars['QuestionJexl'],
   label: Scalars['String'],
   maxLength?: Maybe<Scalars['Int']>,
@@ -5141,7 +4467,6 @@ export type TextQuestionFormsArgs = {
 };
 
 
-/** expression to compare columns of type timestamptz. All fields are combined with logical 'AND'. */
 export type Timestamptz_Comparison_Exp = {
   _eq?: Maybe<Scalars['timestamptz']>,
   _gt?: Maybe<Scalars['timestamptz']>,
@@ -5154,18 +4479,13 @@ export type Timestamptz_Comparison_Exp = {
   _nin?: Maybe<Array<Maybe<Scalars['timestamptz']>>>,
 };
 
-/** An enumeration. */
 export enum Type {
-  /** Task to complete a defined task form. */
   CompleteTaskForm = 'COMPLETE_TASK_FORM',
-  /** Task to complete a defined workflow form. */
   CompleteWorkflowForm = 'COMPLETE_WORKFLOW_FORM',
-  /** Task which can simply be marked as completed. */
   Simple = 'SIMPLE'
 }
 
 
-/** columns and relationships of "users" */
 export type Users = {
    __typename?: 'users',
   active?: Maybe<Scalars['Boolean']>,
@@ -5174,14 +4494,12 @@ export type Users = {
   name: Scalars['String'],
 };
 
-/** aggregated selection of "users" */
 export type Users_Aggregate = {
    __typename?: 'users_aggregate',
   aggregate?: Maybe<Users_Aggregate_Fields>,
   nodes: Array<Users>,
 };
 
-/** aggregate fields of "users" */
 export type Users_Aggregate_Fields = {
    __typename?: 'users_aggregate_fields',
   avg?: Maybe<Users_Avg_Fields>,
@@ -5198,13 +4516,11 @@ export type Users_Aggregate_Fields = {
 };
 
 
-/** aggregate fields of "users" */
 export type Users_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Users_Select_Column>>,
   distinct?: Maybe<Scalars['Boolean']>
 };
 
-/** order by aggregate values of table "users" */
 export type Users_Aggregate_Order_By = {
   avg?: Maybe<Users_Avg_Order_By>,
   count?: Maybe<Order_By>,
@@ -5219,24 +4535,20 @@ export type Users_Aggregate_Order_By = {
   variance?: Maybe<Users_Variance_Order_By>,
 };
 
-/** input type for inserting array relation for remote table "users" */
 export type Users_Arr_Rel_Insert_Input = {
   data: Array<Users_Insert_Input>,
   on_conflict?: Maybe<Users_On_Conflict>,
 };
 
-/** aggregate avg on columns */
 export type Users_Avg_Fields = {
    __typename?: 'users_avg_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by avg() on columns of table "users" */
 export type Users_Avg_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** Boolean expression to filter rows from the table "users". All fields are combined with a logical 'AND'. */
 export type Users_Bool_Exp = {
   _and?: Maybe<Array<Maybe<Users_Bool_Exp>>>,
   _not?: Maybe<Users_Bool_Exp>,
@@ -5247,18 +4559,14 @@ export type Users_Bool_Exp = {
   name?: Maybe<Text_Comparison_Exp>,
 };
 
-/** unique or primary key constraints on table "users" */
 export enum Users_Constraint {
-  /** unique or primary key constraint */
   UsersPkey = 'users_pkey'
 }
 
-/** input type for incrementing integer columne in table "users" */
 export type Users_Inc_Input = {
   id?: Maybe<Scalars['Int']>,
 };
 
-/** input type for inserting data into table "users" */
 export type Users_Insert_Input = {
   active?: Maybe<Scalars['Boolean']>,
   created_at?: Maybe<Scalars['timestamptz']>,
@@ -5266,7 +4574,6 @@ export type Users_Insert_Input = {
   name?: Maybe<Scalars['String']>,
 };
 
-/** aggregate max on columns */
 export type Users_Max_Fields = {
    __typename?: 'users_max_fields',
   created_at?: Maybe<Scalars['timestamptz']>,
@@ -5274,14 +4581,12 @@ export type Users_Max_Fields = {
   name?: Maybe<Scalars['String']>,
 };
 
-/** order by max() on columns of table "users" */
 export type Users_Max_Order_By = {
   created_at?: Maybe<Order_By>,
   id?: Maybe<Order_By>,
   name?: Maybe<Order_By>,
 };
 
-/** aggregate min on columns */
 export type Users_Min_Fields = {
    __typename?: 'users_min_fields',
   created_at?: Maybe<Scalars['timestamptz']>,
@@ -5289,35 +4594,28 @@ export type Users_Min_Fields = {
   name?: Maybe<Scalars['String']>,
 };
 
-/** order by min() on columns of table "users" */
 export type Users_Min_Order_By = {
   created_at?: Maybe<Order_By>,
   id?: Maybe<Order_By>,
   name?: Maybe<Order_By>,
 };
 
-/** response of any mutation on the table "users" */
 export type Users_Mutation_Response = {
    __typename?: 'users_mutation_response',
-  /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'],
-  /** data of the affected rows by the mutation */
   returning: Array<Users>,
 };
 
-/** input type for inserting object relation for remote table "users" */
 export type Users_Obj_Rel_Insert_Input = {
   data: Users_Insert_Input,
   on_conflict?: Maybe<Users_On_Conflict>,
 };
 
-/** on conflict condition type for table "users" */
 export type Users_On_Conflict = {
   constraint: Users_Constraint,
   update_columns: Array<Users_Update_Column>,
 };
 
-/** ordering options when selecting data from "users" */
 export type Users_Order_By = {
   active?: Maybe<Order_By>,
   created_at?: Maybe<Order_By>,
@@ -5325,19 +4623,13 @@ export type Users_Order_By = {
   name?: Maybe<Order_By>,
 };
 
-/** select columns of table "users" */
 export enum Users_Select_Column {
-  /** column name */
   Active = 'active',
-  /** column name */
   CreatedAt = 'created_at',
-  /** column name */
   Id = 'id',
-  /** column name */
   Name = 'name'
 }
 
-/** input type for updating data in table "users" */
 export type Users_Set_Input = {
   active?: Maybe<Scalars['Boolean']>,
   created_at?: Maybe<Scalars['timestamptz']>,
@@ -5345,97 +4637,77 @@ export type Users_Set_Input = {
   name?: Maybe<Scalars['String']>,
 };
 
-/** aggregate stddev on columns */
 export type Users_Stddev_Fields = {
    __typename?: 'users_stddev_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by stddev() on columns of table "users" */
 export type Users_Stddev_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** aggregate stddev_pop on columns */
 export type Users_Stddev_Pop_Fields = {
    __typename?: 'users_stddev_pop_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by stddev_pop() on columns of table "users" */
 export type Users_Stddev_Pop_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** aggregate stddev_samp on columns */
 export type Users_Stddev_Samp_Fields = {
    __typename?: 'users_stddev_samp_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by stddev_samp() on columns of table "users" */
 export type Users_Stddev_Samp_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** aggregate sum on columns */
 export type Users_Sum_Fields = {
    __typename?: 'users_sum_fields',
   id?: Maybe<Scalars['Int']>,
 };
 
-/** order by sum() on columns of table "users" */
 export type Users_Sum_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** update columns of table "users" */
 export enum Users_Update_Column {
-  /** column name */
   Active = 'active',
-  /** column name */
   CreatedAt = 'created_at',
-  /** column name */
   Id = 'id',
-  /** column name */
   Name = 'name'
 }
 
-/** aggregate var_pop on columns */
 export type Users_Var_Pop_Fields = {
    __typename?: 'users_var_pop_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by var_pop() on columns of table "users" */
 export type Users_Var_Pop_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** aggregate var_samp on columns */
 export type Users_Var_Samp_Fields = {
    __typename?: 'users_var_samp_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by var_samp() on columns of table "users" */
 export type Users_Var_Samp_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** aggregate variance on columns */
 export type Users_Variance_Fields = {
    __typename?: 'users_variance_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by variance() on columns of table "users" */
 export type Users_Variance_Order_By = {
   id?: Maybe<Order_By>,
 };
 
 
-/** expression to compare columns of type uuid. All fields are combined with logical 'AND'. */
 export type Uuid_Comparison_Exp = {
   _eq?: Maybe<Scalars['uuid']>,
   _gt?: Maybe<Scalars['uuid']>,
@@ -5461,19 +4733,15 @@ export type ValidationResult = {
   isValid?: Maybe<Scalars['Boolean']>,
 };
 
-/** columns and relationships of "vehicle" */
 export type Vehicle = {
    __typename?: 'vehicle',
   id: Scalars['String'],
-  /** An array relationship */
   locations: Array<Vehicle_Location>,
-  /** An aggregated array relationship */
   locations_aggregate: Vehicle_Location_Aggregate,
   name: Scalars['String'],
 };
 
 
-/** columns and relationships of "vehicle" */
 export type VehicleLocationsArgs = {
   distinct_on?: Maybe<Array<Vehicle_Location_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -5483,7 +4751,6 @@ export type VehicleLocationsArgs = {
 };
 
 
-/** columns and relationships of "vehicle" */
 export type VehicleLocations_AggregateArgs = {
   distinct_on?: Maybe<Array<Vehicle_Location_Select_Column>>,
   limit?: Maybe<Scalars['Int']>,
@@ -5492,14 +4759,12 @@ export type VehicleLocations_AggregateArgs = {
   where?: Maybe<Vehicle_Location_Bool_Exp>
 };
 
-/** aggregated selection of "vehicle" */
 export type Vehicle_Aggregate = {
    __typename?: 'vehicle_aggregate',
   aggregate?: Maybe<Vehicle_Aggregate_Fields>,
   nodes: Array<Vehicle>,
 };
 
-/** aggregate fields of "vehicle" */
 export type Vehicle_Aggregate_Fields = {
    __typename?: 'vehicle_aggregate_fields',
   count?: Maybe<Scalars['Int']>,
@@ -5508,26 +4773,22 @@ export type Vehicle_Aggregate_Fields = {
 };
 
 
-/** aggregate fields of "vehicle" */
 export type Vehicle_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Vehicle_Select_Column>>,
   distinct?: Maybe<Scalars['Boolean']>
 };
 
-/** order by aggregate values of table "vehicle" */
 export type Vehicle_Aggregate_Order_By = {
   count?: Maybe<Order_By>,
   max?: Maybe<Vehicle_Max_Order_By>,
   min?: Maybe<Vehicle_Min_Order_By>,
 };
 
-/** input type for inserting array relation for remote table "vehicle" */
 export type Vehicle_Arr_Rel_Insert_Input = {
   data: Array<Vehicle_Insert_Input>,
   on_conflict?: Maybe<Vehicle_On_Conflict>,
 };
 
-/** Boolean expression to filter rows from the table "vehicle". All fields are combined with a logical 'AND'. */
 export type Vehicle_Bool_Exp = {
   _and?: Maybe<Array<Maybe<Vehicle_Bool_Exp>>>,
   _not?: Maybe<Vehicle_Bool_Exp>,
@@ -5537,38 +4798,31 @@ export type Vehicle_Bool_Exp = {
   name?: Maybe<Text_Comparison_Exp>,
 };
 
-/** unique or primary key constraints on table "vehicle" */
 export enum Vehicle_Constraint {
-  /** unique or primary key constraint */
   VehiclePkey = 'vehicle_pkey'
 }
 
-/** input type for inserting data into table "vehicle" */
 export type Vehicle_Insert_Input = {
   id?: Maybe<Scalars['String']>,
   locations?: Maybe<Vehicle_Location_Arr_Rel_Insert_Input>,
   name?: Maybe<Scalars['String']>,
 };
 
-/** columns and relationships of "vehicle_location" */
 export type Vehicle_Location = {
    __typename?: 'vehicle_location',
   id: Scalars['Int'],
   location: Scalars['String'],
   timestamp: Scalars['date'],
-  /** An object relationship */
   vehicle: Vehicle,
   vehicle_id: Scalars['String'],
 };
 
-/** aggregated selection of "vehicle_location" */
 export type Vehicle_Location_Aggregate = {
    __typename?: 'vehicle_location_aggregate',
   aggregate?: Maybe<Vehicle_Location_Aggregate_Fields>,
   nodes: Array<Vehicle_Location>,
 };
 
-/** aggregate fields of "vehicle_location" */
 export type Vehicle_Location_Aggregate_Fields = {
    __typename?: 'vehicle_location_aggregate_fields',
   avg?: Maybe<Vehicle_Location_Avg_Fields>,
@@ -5585,13 +4839,11 @@ export type Vehicle_Location_Aggregate_Fields = {
 };
 
 
-/** aggregate fields of "vehicle_location" */
 export type Vehicle_Location_Aggregate_FieldsCountArgs = {
   columns?: Maybe<Array<Vehicle_Location_Select_Column>>,
   distinct?: Maybe<Scalars['Boolean']>
 };
 
-/** order by aggregate values of table "vehicle_location" */
 export type Vehicle_Location_Aggregate_Order_By = {
   avg?: Maybe<Vehicle_Location_Avg_Order_By>,
   count?: Maybe<Order_By>,
@@ -5606,24 +4858,20 @@ export type Vehicle_Location_Aggregate_Order_By = {
   variance?: Maybe<Vehicle_Location_Variance_Order_By>,
 };
 
-/** input type for inserting array relation for remote table "vehicle_location" */
 export type Vehicle_Location_Arr_Rel_Insert_Input = {
   data: Array<Vehicle_Location_Insert_Input>,
   on_conflict?: Maybe<Vehicle_Location_On_Conflict>,
 };
 
-/** aggregate avg on columns */
 export type Vehicle_Location_Avg_Fields = {
    __typename?: 'vehicle_location_avg_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by avg() on columns of table "vehicle_location" */
 export type Vehicle_Location_Avg_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** Boolean expression to filter rows from the table "vehicle_location". All fields are combined with a logical 'AND'. */
 export type Vehicle_Location_Bool_Exp = {
   _and?: Maybe<Array<Maybe<Vehicle_Location_Bool_Exp>>>,
   _not?: Maybe<Vehicle_Location_Bool_Exp>,
@@ -5635,18 +4883,14 @@ export type Vehicle_Location_Bool_Exp = {
   vehicle_id?: Maybe<Text_Comparison_Exp>,
 };
 
-/** unique or primary key constraints on table "vehicle_location" */
 export enum Vehicle_Location_Constraint {
-  /** unique or primary key constraint */
   VehicleLocationPkey = 'vehicle_location_pkey'
 }
 
-/** input type for incrementing integer columne in table "vehicle_location" */
 export type Vehicle_Location_Inc_Input = {
   id?: Maybe<Scalars['Int']>,
 };
 
-/** input type for inserting data into table "vehicle_location" */
 export type Vehicle_Location_Insert_Input = {
   id?: Maybe<Scalars['Int']>,
   location?: Maybe<Scalars['String']>,
@@ -5655,7 +4899,6 @@ export type Vehicle_Location_Insert_Input = {
   vehicle_id?: Maybe<Scalars['String']>,
 };
 
-/** aggregate max on columns */
 export type Vehicle_Location_Max_Fields = {
    __typename?: 'vehicle_location_max_fields',
   id?: Maybe<Scalars['Int']>,
@@ -5664,7 +4907,6 @@ export type Vehicle_Location_Max_Fields = {
   vehicle_id?: Maybe<Scalars['String']>,
 };
 
-/** order by max() on columns of table "vehicle_location" */
 export type Vehicle_Location_Max_Order_By = {
   id?: Maybe<Order_By>,
   location?: Maybe<Order_By>,
@@ -5672,7 +4914,6 @@ export type Vehicle_Location_Max_Order_By = {
   vehicle_id?: Maybe<Order_By>,
 };
 
-/** aggregate min on columns */
 export type Vehicle_Location_Min_Fields = {
    __typename?: 'vehicle_location_min_fields',
   id?: Maybe<Scalars['Int']>,
@@ -5681,7 +4922,6 @@ export type Vehicle_Location_Min_Fields = {
   vehicle_id?: Maybe<Scalars['String']>,
 };
 
-/** order by min() on columns of table "vehicle_location" */
 export type Vehicle_Location_Min_Order_By = {
   id?: Maybe<Order_By>,
   location?: Maybe<Order_By>,
@@ -5689,28 +4929,22 @@ export type Vehicle_Location_Min_Order_By = {
   vehicle_id?: Maybe<Order_By>,
 };
 
-/** response of any mutation on the table "vehicle_location" */
 export type Vehicle_Location_Mutation_Response = {
    __typename?: 'vehicle_location_mutation_response',
-  /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'],
-  /** data of the affected rows by the mutation */
   returning: Array<Vehicle_Location>,
 };
 
-/** input type for inserting object relation for remote table "vehicle_location" */
 export type Vehicle_Location_Obj_Rel_Insert_Input = {
   data: Vehicle_Location_Insert_Input,
   on_conflict?: Maybe<Vehicle_Location_On_Conflict>,
 };
 
-/** on conflict condition type for table "vehicle_location" */
 export type Vehicle_Location_On_Conflict = {
   constraint: Vehicle_Location_Constraint,
   update_columns: Array<Vehicle_Location_Update_Column>,
 };
 
-/** ordering options when selecting data from "vehicle_location" */
 export type Vehicle_Location_Order_By = {
   id?: Maybe<Order_By>,
   location?: Maybe<Order_By>,
@@ -5719,19 +4953,13 @@ export type Vehicle_Location_Order_By = {
   vehicle_id?: Maybe<Order_By>,
 };
 
-/** select columns of table "vehicle_location" */
 export enum Vehicle_Location_Select_Column {
-  /** column name */
   Id = 'id',
-  /** column name */
   Location = 'location',
-  /** column name */
   Timestamp = 'timestamp',
-  /** column name */
   VehicleId = 'vehicle_id'
 }
 
-/** input type for updating data in table "vehicle_location" */
 export type Vehicle_Location_Set_Input = {
   id?: Maybe<Scalars['Int']>,
   location?: Maybe<Scalars['String']>,
@@ -5739,183 +4967,144 @@ export type Vehicle_Location_Set_Input = {
   vehicle_id?: Maybe<Scalars['String']>,
 };
 
-/** aggregate stddev on columns */
 export type Vehicle_Location_Stddev_Fields = {
    __typename?: 'vehicle_location_stddev_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by stddev() on columns of table "vehicle_location" */
 export type Vehicle_Location_Stddev_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** aggregate stddev_pop on columns */
 export type Vehicle_Location_Stddev_Pop_Fields = {
    __typename?: 'vehicle_location_stddev_pop_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by stddev_pop() on columns of table "vehicle_location" */
 export type Vehicle_Location_Stddev_Pop_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** aggregate stddev_samp on columns */
 export type Vehicle_Location_Stddev_Samp_Fields = {
    __typename?: 'vehicle_location_stddev_samp_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by stddev_samp() on columns of table "vehicle_location" */
 export type Vehicle_Location_Stddev_Samp_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** aggregate sum on columns */
 export type Vehicle_Location_Sum_Fields = {
    __typename?: 'vehicle_location_sum_fields',
   id?: Maybe<Scalars['Int']>,
 };
 
-/** order by sum() on columns of table "vehicle_location" */
 export type Vehicle_Location_Sum_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** update columns of table "vehicle_location" */
 export enum Vehicle_Location_Update_Column {
-  /** column name */
   Id = 'id',
-  /** column name */
   Location = 'location',
-  /** column name */
   Timestamp = 'timestamp',
-  /** column name */
   VehicleId = 'vehicle_id'
 }
 
-/** aggregate var_pop on columns */
 export type Vehicle_Location_Var_Pop_Fields = {
    __typename?: 'vehicle_location_var_pop_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by var_pop() on columns of table "vehicle_location" */
 export type Vehicle_Location_Var_Pop_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** aggregate var_samp on columns */
 export type Vehicle_Location_Var_Samp_Fields = {
    __typename?: 'vehicle_location_var_samp_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by var_samp() on columns of table "vehicle_location" */
 export type Vehicle_Location_Var_Samp_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** aggregate variance on columns */
 export type Vehicle_Location_Variance_Fields = {
    __typename?: 'vehicle_location_variance_fields',
   id?: Maybe<Scalars['Float']>,
 };
 
-/** order by variance() on columns of table "vehicle_location" */
 export type Vehicle_Location_Variance_Order_By = {
   id?: Maybe<Order_By>,
 };
 
-/** aggregate max on columns */
 export type Vehicle_Max_Fields = {
    __typename?: 'vehicle_max_fields',
   id?: Maybe<Scalars['String']>,
   name?: Maybe<Scalars['String']>,
 };
 
-/** order by max() on columns of table "vehicle" */
 export type Vehicle_Max_Order_By = {
   id?: Maybe<Order_By>,
   name?: Maybe<Order_By>,
 };
 
-/** aggregate min on columns */
 export type Vehicle_Min_Fields = {
    __typename?: 'vehicle_min_fields',
   id?: Maybe<Scalars['String']>,
   name?: Maybe<Scalars['String']>,
 };
 
-/** order by min() on columns of table "vehicle" */
 export type Vehicle_Min_Order_By = {
   id?: Maybe<Order_By>,
   name?: Maybe<Order_By>,
 };
 
-/** response of any mutation on the table "vehicle" */
 export type Vehicle_Mutation_Response = {
    __typename?: 'vehicle_mutation_response',
-  /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'],
-  /** data of the affected rows by the mutation */
   returning: Array<Vehicle>,
 };
 
-/** input type for inserting object relation for remote table "vehicle" */
 export type Vehicle_Obj_Rel_Insert_Input = {
   data: Vehicle_Insert_Input,
   on_conflict?: Maybe<Vehicle_On_Conflict>,
 };
 
-/** on conflict condition type for table "vehicle" */
 export type Vehicle_On_Conflict = {
   constraint: Vehicle_Constraint,
   update_columns: Array<Vehicle_Update_Column>,
 };
 
-/** ordering options when selecting data from "vehicle" */
 export type Vehicle_Order_By = {
   id?: Maybe<Order_By>,
   locations_aggregate?: Maybe<Vehicle_Location_Aggregate_Order_By>,
   name?: Maybe<Order_By>,
 };
 
-/** select columns of table "vehicle" */
 export enum Vehicle_Select_Column {
-  /** column name */
   Id = 'id',
-  /** column name */
   Name = 'name'
 }
 
-/** input type for updating data in table "vehicle" */
 export type Vehicle_Set_Input = {
   id?: Maybe<Scalars['String']>,
   name?: Maybe<Scalars['String']>,
 };
 
-/** update columns of table "vehicle" */
 export enum Vehicle_Update_Column {
-  /** column name */
   Id = 'id',
-  /** column name */
   Name = 'name'
 }
 
 export type Workflow = Node & {
    __typename?: 'Workflow',
-  /** Allow workflow to be started with any form */
   allowAllForms: Scalars['Boolean'],
-  /** List of forms which are allowed to start workflow with */
   allowForms: FormConnection,
   createdAt: Scalars['DateTime'],
   createdByGroup?: Maybe<Scalars['String']>,
   createdByUser?: Maybe<Scalars['String']>,
   description?: Maybe<Scalars['String']>,
   flows?: Maybe<FlowConnection>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   isArchived: Scalars['Boolean'],
   isPublished: Scalars['Boolean'],
@@ -5924,7 +5113,6 @@ export type Workflow = Node & {
   name: Scalars['String'],
   slug: Scalars['String'],
   startTasks: Array<Maybe<Task>>,
-  /** List of tasks referenced in workflow */
   tasks: Array<Maybe<Task>>,
 };
 
@@ -5950,19 +5138,14 @@ export type WorkflowFlowsArgs = {
 
 export type WorkflowConnection = {
    __typename?: 'WorkflowConnection',
-  /** Contains the nodes in this connection. */
   edges: Array<Maybe<WorkflowEdge>>,
-  /** Pagination data for this connection. */
   pageInfo: PageInfo,
   totalCount?: Maybe<Scalars['Int']>,
 };
 
-/** A Relay edge containing a `Workflow` and its cursor. */
 export type WorkflowEdge = {
    __typename?: 'WorkflowEdge',
-  /** A cursor for use in pagination */
   cursor: Scalars['String'],
-  /** The item at the end of the edge */
   node?: Maybe<Workflow>,
 };
 
@@ -5981,31 +5164,18 @@ export type WorkflowFilterSetType = {
   slug?: Maybe<Scalars['String']>,
 };
 
-/** An enumeration. */
 export enum WorkflowOrdering {
-  /** Created at */
   CreatedAtAsc = 'CREATED_AT_ASC',
-  /** Created at (descending) */
   CreatedAtDesc = 'CREATED_AT_DESC',
-  /** Created by group */
   CreatedByGroupAsc = 'CREATED_BY_GROUP_ASC',
-  /** Created by group (descending) */
   CreatedByGroupDesc = 'CREATED_BY_GROUP_DESC',
-  /** Created by user */
   CreatedByUserAsc = 'CREATED_BY_USER_ASC',
-  /** Created by user (descending) */
   CreatedByUserDesc = 'CREATED_BY_USER_DESC',
-  /** Description */
   DescriptionAsc = 'DESCRIPTION_ASC',
-  /** Description (descending) */
   DescriptionDesc = 'DESCRIPTION_DESC',
-  /** Modified at */
   ModifiedAtAsc = 'MODIFIED_AT_ASC',
-  /** Modified at (descending) */
   ModifiedAtDesc = 'MODIFIED_AT_DESC',
-  /** Name */
   NameAsc = 'NAME_ASC',
-  /** Name (descending) */
   NameDesc = 'NAME_DESC'
 }
 
@@ -6017,14 +5187,10 @@ export type WorkflowOrderSetType = {
 
 export type WorkItem = Node & {
    __typename?: 'WorkItem',
-  /** Offer work item to be processed by a group of users, such are not committed to process it though. */
   addressedGroups: Array<Maybe<Scalars['String']>>,
-  /** Users responsible to undertake given work item. */
   assignedUsers: Array<Maybe<Scalars['String']>>,
   case: Case,
-  /** Defines case of a sub-workflow */
   childCase?: Maybe<Case>,
-  /** Time when work item has either been canceled or completed */
   closedAt?: Maybe<Scalars['DateTime']>,
   closedByGroup?: Maybe<Scalars['String']>,
   closedByUser?: Maybe<Scalars['String']>,
@@ -6033,7 +5199,6 @@ export type WorkItem = Node & {
   createdByUser?: Maybe<Scalars['String']>,
   deadline?: Maybe<Scalars['DateTime']>,
   document?: Maybe<Document>,
-  /** The ID of the object. */
   id: Scalars['ID'],
   meta?: Maybe<Scalars['GenericScalar']>,
   modifiedAt: Scalars['DateTime'],
@@ -6043,19 +5208,14 @@ export type WorkItem = Node & {
 
 export type WorkItemConnection = {
    __typename?: 'WorkItemConnection',
-  /** Contains the nodes in this connection. */
   edges: Array<Maybe<WorkItemEdge>>,
-  /** Pagination data for this connection. */
   pageInfo: PageInfo,
   totalCount?: Maybe<Scalars['Int']>,
 };
 
-/** A Relay edge containing a `WorkItem` and its cursor. */
 export type WorkItemEdge = {
    __typename?: 'WorkItemEdge',
-  /** A cursor for use in pagination */
   cursor: Scalars['String'],
-  /** The item at the end of the edge */
   node?: Maybe<WorkItem>,
 };
 
@@ -6079,31 +5239,18 @@ export type WorkItemFilterSetType = {
   task?: Maybe<Scalars['ID']>,
 };
 
-/** An enumeration. */
 export enum WorkItemOrdering {
-  /** Created at */
   CreatedAtAsc = 'CREATED_AT_ASC',
-  /** Created at (descending) */
   CreatedAtDesc = 'CREATED_AT_DESC',
-  /** Created by group */
   CreatedByGroupAsc = 'CREATED_BY_GROUP_ASC',
-  /** Created by group (descending) */
   CreatedByGroupDesc = 'CREATED_BY_GROUP_DESC',
-  /** Created by user */
   CreatedByUserAsc = 'CREATED_BY_USER_ASC',
-  /** Created by user (descending) */
   CreatedByUserDesc = 'CREATED_BY_USER_DESC',
-  /** Deadline */
   DeadlineAsc = 'DEADLINE_ASC',
-  /** Deadline (descending) */
   DeadlineDesc = 'DEADLINE_DESC',
-  /** Modified at */
   ModifiedAtAsc = 'MODIFIED_AT_ASC',
-  /** Modified at (descending) */
   ModifiedAtDesc = 'MODIFIED_AT_DESC',
-  /** Status */
   StatusAsc = 'STATUS_ASC',
-  /** Status (descending) */
   StatusDesc = 'STATUS_DESC'
 }
 
@@ -6116,27 +5263,17 @@ export type WorkItemOrderSetType = {
   meta?: Maybe<Scalars['String']>,
 };
 
-/** An enumeration. */
 export enum WorkItemStatus {
-  /** Task is cancelled. */
   Canceled = 'CANCELED',
-  /** Task is done. */
   Completed = 'COMPLETED',
-  /** Task is ready to be processed. */
   Ready = 'READY',
-  /** Task is skipped. */
   Skipped = 'SKIPPED'
 }
 
-/** An enumeration. */
 export enum WorkItemStatusArgument {
-  /** Task is cancelled. */
   Canceled = 'CANCELED',
-  /** Task is done. */
   Completed = 'COMPLETED',
-  /** Task is ready to be processed. */
   Ready = 'READY',
-  /** Task is skipped. */
   Skipped = 'SKIPPED'
 }
 

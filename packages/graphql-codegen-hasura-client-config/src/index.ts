@@ -48,8 +48,8 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   const typeMap = schema.getTypeMap();
 
   // find fragment documents
-  const documentFragments = documents.flatMap(document => {
-    return document.content.definitions.filter(definition => definition.kind === "FragmentDefinition");
+  const documentFragments = documents.flatMap(documentItem => {
+    return documentItem.document.definitions.filter(definition => definition.kind === "FragmentDefinition");
   }) as FragmentDefinitionNode[];
 
   // iterate and generate

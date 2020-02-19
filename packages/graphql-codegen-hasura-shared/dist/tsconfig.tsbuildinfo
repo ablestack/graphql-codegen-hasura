@@ -533,101 +533,57 @@
         "version": "0b07a966c0d51189213583bca1a598c0a74e35deafbe7b84f77f7289bbc1c8c5",
         "signature": "5ad5afa73827f2b380d08edff9ffe37701048d98edff60e2c2104d782fd95a5f"
       },
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/utils.d.ts": {
-        "version": "1a4fc5132ea63b89611efbe2ac7486735d6077c6a6625d12447064072dc1bb36",
-        "signature": "1a4fc5132ea63b89611efbe2ac7486735d6077c6a6625d12447064072dc1bb36"
+      "../node_modules/no-case/dist/index.d.ts": {
+        "version": "b4e123af1af6049685c93073a15868b50aebdad666d422edc72fa2b585fa8a37",
+        "signature": "b4e123af1af6049685c93073a15868b50aebdad666d422edc72fa2b585fa8a37"
       },
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-visitor.d.ts": {
-        "version": "f37933f8005952b3b6d4341c6d1726b2c35b26986ced5e50e460d884638db2c0",
-        "signature": "f37933f8005952b3b6d4341c6d1726b2c35b26986ced5e50e460d884638db2c0"
+      "../node_modules/pascal-case/dist/index.d.ts": {
+        "version": "f86c04a744ebcede96bac376f9a2c90f2bd3c422740d91dda4ca6233199d4977",
+        "signature": "f86c04a744ebcede96bac376f9a2c90f2bd3c422740d91dda4ca6233199d4977"
       },
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/variables-to-object.d.ts": {
-        "version": "b1f27b73b58e0c0fd20aca13458085f1d3b782077bfb5259d85001cb59d684aa",
-        "signature": "b1f27b73b58e0c0fd20aca13458085f1d3b782077bfb5259d85001cb59d684aa"
+      "../node_modules/camel-case/dist/index.d.ts": {
+        "version": "6ae1bddee5c790439bd992abd063b9b46e0cadd676c2a8562268d1869213ff60",
+        "signature": "6ae1bddee5c790439bd992abd063b9b46e0cadd676c2a8562268d1869213ff60"
       },
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/resolve-external-module-and-fn.d.ts": {
-        "version": "43287b6b69c5c9777fda43760a4260fcf8481f3a9b4477050ced562267aa1c4d",
-        "signature": "43287b6b69c5c9777fda43760a4260fcf8481f3a9b4477050ced562267aa1c4d"
+      "../node_modules/capital-case/dist/index.d.ts": {
+        "version": "606244fc97a6a74b877f2e924ba7e55b233bc6acb57d7bf40ba84a5be2d9adb0",
+        "signature": "606244fc97a6a74b877f2e924ba7e55b233bc6acb57d7bf40ba84a5be2d9adb0"
       },
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/to-pascal-case.d.ts": {
-        "version": "86ef98e3efe6ab59ef7119c9b7d17cd96e6f03ab0e794f12abec7f16ad9f0278",
-        "signature": "86ef98e3efe6ab59ef7119c9b7d17cd96e6f03ab0e794f12abec7f16ad9f0278"
+      "../node_modules/constant-case/dist/index.d.ts": {
+        "version": "4a1cabac71036b8a14f5db1b753b579f0c901c7d7b9227e6872dadf6efb104e8",
+        "signature": "4a1cabac71036b8a14f5db1b753b579f0c901c7d7b9227e6872dadf6efb104e8"
       },
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/types.d.ts": {
-        "version": "ccb205f25589ba1fca0c7859aa49e7cf5bb37990abe5e01519bb61665c225bda",
-        "signature": "ccb205f25589ba1fca0c7859aa49e7cf5bb37990abe5e01519bb61665c225bda"
+      "../node_modules/dot-case/dist/index.d.ts": {
+        "version": "062959a1d825b96639d87be35fe497cbd3f89544bf06fdad577bbfb85fcf604c",
+        "signature": "062959a1d825b96639d87be35fe497cbd3f89544bf06fdad577bbfb85fcf604c"
       },
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/utils.d.ts": {
-        "version": "d2c87150f79a3b560651b01efddd3f757e47baa9d328710ba3480291d0cabaf4",
-        "signature": "d2c87150f79a3b560651b01efddd3f757e47baa9d328710ba3480291d0cabaf4"
+      "../node_modules/header-case/dist/index.d.ts": {
+        "version": "4c3672dc8f4e4fdd3d18525b22b31f1b5481f5a415db96550d3ac5163a6c3dd3",
+        "signature": "4c3672dc8f4e4fdd3d18525b22b31f1b5481f5a415db96550d3ac5163a6c3dd3"
       },
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/helpers.d.ts": {
-        "version": "c40a1a3b868248bbf370316aa72a5a9815d929f0256b678fd93d5270def9188f",
-        "signature": "c40a1a3b868248bbf370316aa72a5a9815d929f0256b678fd93d5270def9188f"
+      "../node_modules/param-case/dist/index.d.ts": {
+        "version": "f9a69ca445010b91fe08f08c06e0f86d79c0d776905f9bdb828477cb2a1eb7fc",
+        "signature": "f9a69ca445010b91fe08f08c06e0f86d79c0d776905f9bdb828477cb2a1eb7fc"
       },
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/federation.d.ts": {
-        "version": "eeba5138c4f1bf01b4ffe16c75e699627c7a72fc5eed9623af6850c93f5eae4f",
-        "signature": "eeba5138c4f1bf01b4ffe16c75e699627c7a72fc5eed9623af6850c93f5eae4f"
+      "../node_modules/path-case/dist/index.d.ts": {
+        "version": "ad7fd0e7ee457d4884b3aaecbcbd2a80b6803407c4ce2540c296170d4c7918ef",
+        "signature": "ad7fd0e7ee457d4884b3aaecbcbd2a80b6803407c4ce2540c296170d4c7918ef"
       },
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/index.d.ts": {
-        "version": "f22424ccc56c163744d5142262dc12314fbc2f1a706d60010fcb03640515452e",
-        "signature": "f22424ccc56c163744d5142262dc12314fbc2f1a706d60010fcb03640515452e"
+      "../node_modules/sentence-case/dist/index.d.ts": {
+        "version": "a50ef21605f41c6acad6c3ef0307e5311b94963c846ca093c764b80cdb5318d6",
+        "signature": "a50ef21605f41c6acad6c3ef0307e5311b94963c846ca093c764b80cdb5318d6"
       },
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-resolvers-visitor.d.ts": {
-        "version": "261d51c3606813379eeabf86bbe8c7da44ab293b94e51b770a1a880ac7e2f378",
-        "signature": "261d51c3606813379eeabf86bbe8c7da44ab293b94e51b770a1a880ac7e2f378"
+      "../node_modules/snake-case/dist/index.d.ts": {
+        "version": "74b4035dd26d09a417c44ca23ab5ee69b173f8c2f6b2e47350ab0795cf2d4a17",
+        "signature": "74b4035dd26d09a417c44ca23ab5ee69b173f8c2f6b2e47350ab0795cf2d4a17"
       },
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/mappers.d.ts": {
-        "version": "e32426cf582baa26fdec67c0f2078cf50482371889dd9958509074295f91fc64",
-        "signature": "e32426cf582baa26fdec67c0f2078cf50482371889dd9958509074295f91fc64"
-      },
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts": {
-        "version": "7c25f7578981f1c69696f51a2115941e40f5d4473d3600d3eeadd1351d5e808d",
-        "signature": "7c25f7578981f1c69696f51a2115941e40f5d4473d3600d3eeadd1351d5e808d"
-      },
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/naming.d.ts": {
-        "version": "793fb626b0863ecc426f856acab816cd43c9bccda409862f6d3f1c614b5cd1c4",
-        "signature": "793fb626b0863ecc426f856acab816cd43c9bccda409862f6d3f1c614b5cd1c4"
-      },
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/scalars.d.ts": {
-        "version": "b82775884b858b0ac1182b3dc2cfcc0d9f4494fd5e783958e5e9821b4709b666",
-        "signature": "b82775884b858b0ac1182b3dc2cfcc0d9f4494fd5e783958e5e9821b4709b666"
-      },
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-types-visitor.d.ts": {
-        "version": "4d8f30abd54f19e91d51d19d6c7d57e1b19a7e8fd03d627d8fd0416d89d2abda",
-        "signature": "4d8f30abd54f19e91d51d19d6c7d57e1b19a7e8fd03d627d8fd0416d89d2abda"
-      },
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-processor/base.d.ts": {
-        "version": "eab59f976a1f53814f2746ea75655f533a4d9162239645305e7a64ab365bbd8a",
-        "signature": "eab59f976a1f53814f2746ea75655f533a4d9162239645305e7a64ab365bbd8a"
-      },
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-to-object.d.ts": {
-        "version": "4d008a38c139af7c25b9c6508f2fed196acaa193224ef75048ae37874af7faf9",
-        "signature": "4d008a38c139af7c25b9c6508f2fed196acaa193224ef75048ae37874af7faf9"
-      },
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-documents-visitor.d.ts": {
-        "version": "92ec7b74494ab3dbc40f58d512217400db8ba851c1cc1023766db9bc533609c5",
-        "signature": "92ec7b74494ab3dbc40f58d512217400db8ba851c1cc1023766db9bc533609c5"
-      },
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/client-side-base-visitor.d.ts": {
-        "version": "35fa84f5d5d2d6a666e7b57a2508033f04b55a8aa9bdc7653a9f8eda02a08c8a",
-        "signature": "35fa84f5d5d2d6a666e7b57a2508033f04b55a8aa9bdc7653a9f8eda02a08c8a"
-      },
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-processor/pre-resolve-types.d.ts": {
-        "version": "1a4e8ec5c594ed1f72762b954d089d0fe95a057f6d45c8057e839d77d998f95e",
-        "signature": "1a4e8ec5c594ed1f72762b954d089d0fe95a057f6d45c8057e839d77d998f95e"
-      },
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/optimize-operations.d.ts": {
-        "version": "d87c0da5e961d5ec6fcd0c637e109877d08212adb792e502cfbd6e03f04e290e",
-        "signature": "d87c0da5e961d5ec6fcd0c637e109877d08212adb792e502cfbd6e03f04e290e"
-      },
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/index.d.ts": {
-        "version": "d2fd0ac736563f8d3db1d338b00ca85bcd8dd5b1c8f9a23603006e9d927a1367",
-        "signature": "d2fd0ac736563f8d3db1d338b00ca85bcd8dd5b1c8f9a23603006e9d927a1367"
+      "../node_modules/change-case/dist/index.d.ts": {
+        "version": "918f86ee2b19cc38cb8b1a4cf8f223eb228aaa39df3604c42f700fac2f0b3ea1",
+        "signature": "918f86ee2b19cc38cb8b1a4cf8f223eb228aaa39df3604c42f700fac2f0b3ea1"
       },
       "../src/utils.ts": {
-        "version": "24b0c696fbedef4ee0acf34c8c940a51594077cf576a7bb19da10e242a47f516",
-        "signature": "4e742d0f3c494a0436022bd3e2348ec3f457e3f863fe44948254f12f853faeee"
+        "version": "a97a85283494046ab87b6d1b7a5ce4be1dabfb14898d68ea68c88365f7ad42de",
+        "signature": "cfd61a59b00b9d940332d4ec7f329e11aaa206329b697f9cae3cf6d43fc6e33c"
       },
       "../src/gqlinjectors.ts": {
         "version": "debe2f1ecf53a8b303e9701b6b08d79ed4a4d2ab86dd1e45db51ba5894336d59",
@@ -1991,213 +1947,94 @@
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/utils.d.ts": [
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
+      "../node_modules/no-case/dist/index.d.ts": [
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-visitor.d.ts": [
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/utils.d.ts",
-        "../node_modules/graphql/index.d.ts",
+      "../node_modules/pascal-case/dist/index.d.ts": [
+        "../node_modules/no-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/variables-to-object.d.ts": [
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-visitor.d.ts",
+      "../node_modules/camel-case/dist/index.d.ts": [
+        "../node_modules/pascal-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/resolve-external-module-and-fn.d.ts": [
+      "../node_modules/capital-case/dist/index.d.ts": [
+        "../node_modules/no-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/to-pascal-case.d.ts": [
+      "../node_modules/constant-case/dist/index.d.ts": [
+        "../node_modules/no-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/types.d.ts": [
-        "../node_modules/graphql/index.d.ts",
+      "../node_modules/dot-case/dist/index.d.ts": [
+        "../node_modules/no-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/utils.d.ts": [
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/types.d.ts",
+      "../node_modules/header-case/dist/index.d.ts": [
+        "../node_modules/capital-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/helpers.d.ts": [
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/types.d.ts",
-        "../node_modules/graphql/index.d.ts",
+      "../node_modules/param-case/dist/index.d.ts": [
+        "../node_modules/dot-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/federation.d.ts": [
-        "../node_modules/graphql/index.d.ts",
+      "../node_modules/path-case/dist/index.d.ts": [
+        "../node_modules/dot-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/index.d.ts": [
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/resolve-external-module-and-fn.d.ts",
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/to-pascal-case.d.ts",
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/types.d.ts",
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/utils.d.ts",
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/helpers.d.ts",
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/federation.d.ts",
+      "../node_modules/sentence-case/dist/index.d.ts": [
+        "../node_modules/no-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-resolvers-visitor.d.ts": [
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-visitor.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/utils.d.ts",
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/variables-to-object.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/mappers.d.ts",
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/index.d.ts",
+      "../node_modules/snake-case/dist/index.d.ts": [
+        "../node_modules/dot-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/mappers.d.ts": [
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-resolvers-visitor.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts": [
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/mappers.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/naming.d.ts": [
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/scalars.d.ts": [
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-types-visitor.d.ts": [
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-visitor.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/utils.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/variables-to-object.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-processor/base.d.ts": [
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-        "../node_modules/graphql/index.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-to-object.d.ts": [
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-visitor.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-documents-visitor.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-processor/base.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-documents-visitor.d.ts": [
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/utils.d.ts",
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-to-object.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/variables-to-object.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-visitor.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-types-visitor.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/client-side-base-visitor.d.ts": [
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/index.d.ts",
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/index.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-processor/pre-resolve-types.d.ts": [
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-processor/base.d.ts",
-        "../node_modules/graphql/index.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/optimize-operations.d.ts": [
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/index.d.ts",
-        "../node_modules/graphql/index.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/index.d.ts": [
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/utils.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/mappers.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/naming.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/scalars.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-visitor.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-types-visitor.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-documents-visitor.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-resolvers-visitor.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/client-side-base-visitor.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/variables-to-object.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-to-object.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-processor/base.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-processor/pre-resolve-types.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/optimize-operations.d.ts",
+      "../node_modules/change-case/dist/index.d.ts": [
+        "../node_modules/camel-case/dist/index.d.ts",
+        "../node_modules/capital-case/dist/index.d.ts",
+        "../node_modules/constant-case/dist/index.d.ts",
+        "../node_modules/dot-case/dist/index.d.ts",
+        "../node_modules/header-case/dist/index.d.ts",
+        "../node_modules/no-case/dist/index.d.ts",
+        "../node_modules/param-case/dist/index.d.ts",
+        "../node_modules/pascal-case/dist/index.d.ts",
+        "../node_modules/path-case/dist/index.d.ts",
+        "../node_modules/sentence-case/dist/index.d.ts",
+        "../node_modules/snake-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
@@ -2205,8 +2042,8 @@
       ],
       "../src/utils.ts": [
         "../node_modules/graphql/index.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/index.d.ts",
         "../node_modules/graphql/type/schema.d.ts",
+        "../node_modules/change-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
@@ -2887,467 +2724,156 @@
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "../node_modules/graphql/index.d.ts": [
+        "../node_modules/graphql/version.d.ts",
+        "../node_modules/graphql/graphql.d.ts",
+        "../node_modules/graphql/type/index.d.ts",
+        "../node_modules/graphql/language/index.d.ts",
+        "../node_modules/graphql/execution/index.d.ts",
+        "../node_modules/graphql/subscription/index.d.ts",
+        "../node_modules/graphql/validation/index.d.ts",
+        "../node_modules/graphql/error/index.d.ts",
+        "../node_modules/graphql/utilities/index.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../src/configinjectors.ts": [
+        "../src/index.ts",
+        "../node_modules/graphql/index.d.ts",
+        "../node_modules/graphql/type/schema.d.ts"
+      ],
+      "../src/index.ts": [
+        "../src/configinjectors.ts",
+        "../src/content-manager.ts",
+        "../src/gqlinjectors.ts",
+        "../src/tshelperinjectors.ts",
+        "../src/reactinjectors.ts",
+        "../src/utils.ts"
+      ],
+      "../src/reactinjectors.ts": [
+        "../src/index.ts",
+        "../node_modules/graphql/index.d.ts",
+        "../node_modules/graphql/type/schema.d.ts"
+      ],
+      "../src/tshelperinjectors.ts": [
+        "../src/index.ts",
+        "../node_modules/graphql/index.d.ts",
+        "../node_modules/graphql/type/schema.d.ts"
+      ],
+      "../src/gqlinjectors.ts": [
+        "../src/index.ts",
+        "../node_modules/graphql/index.d.ts"
+      ],
+      "../src/utils.ts": [
+        "../node_modules/graphql/index.d.ts",
+        "../node_modules/graphql/type/schema.d.ts"
+      ],
       "../node_modules/graphql/tsutils/maybe.d.ts": [
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/language/source.d.ts": [
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/language/tokenkind.d.ts": [
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/language/ast.d.ts": [
-        "../node_modules/graphql/language/source.d.ts",
-        "../node_modules/graphql/language/tokenkind.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/jsutils/promiseorvalue.d.ts": [
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/jsutils/path.d.ts": [
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/type/definition.d.ts": [
-        "../node_modules/graphql/tsutils/maybe.d.ts",
-        "../node_modules/graphql/jsutils/promiseorvalue.d.ts",
-        "../node_modules/graphql/jsutils/path.d.ts",
-        "../node_modules/graphql/language/ast.d.ts",
-        "../node_modules/graphql/type/schema.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/language/directivelocation.d.ts": [
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/type/directives.d.ts": [
-        "../node_modules/graphql/tsutils/maybe.d.ts",
-        "../node_modules/graphql/type/definition.d.ts",
-        "../node_modules/graphql/language/ast.d.ts",
-        "../node_modules/graphql/language/directivelocation.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/type/schema.d.ts": [
+      "../node_modules/graphql/utilities/astfromvalue.d.ts": [
         "../node_modules/graphql/tsutils/maybe.d.ts",
         "../node_modules/graphql/language/ast.d.ts",
-        "../node_modules/graphql/type/directives.d.ts",
         "../node_modules/graphql/type/definition.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/language/location.d.ts": [
-        "../node_modules/graphql/language/source.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/error/graphqlerror.d.ts": [
-        "../node_modules/graphql/tsutils/maybe.d.ts",
-        "../node_modules/graphql/language/ast.d.ts",
-        "../node_modules/graphql/language/source.d.ts",
-        "../node_modules/graphql/language/location.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/error/locatederror.d.ts": [
-        "../node_modules/graphql/language/ast.d.ts",
-        "../node_modules/graphql/error/graphqlerror.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/execution/execute.d.ts": [
-        "../node_modules/graphql/tsutils/maybe.d.ts",
-        "../node_modules/graphql/jsutils/promiseorvalue.d.ts",
-        "../node_modules/graphql/jsutils/path.d.ts",
-        "../node_modules/graphql/error/graphqlerror.d.ts",
-        "../node_modules/graphql/error/locatederror.d.ts",
-        "../node_modules/graphql/language/ast.d.ts",
-        "../node_modules/graphql/type/schema.d.ts",
-        "../node_modules/graphql/type/definition.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/graphql.d.ts": [
-        "../node_modules/graphql/tsutils/maybe.d.ts",
-        "../node_modules/graphql/language/source.d.ts",
-        "../node_modules/graphql/type/schema.d.ts",
-        "../node_modules/graphql/type/definition.d.ts",
-        "../node_modules/graphql/execution/execute.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/type/scalars.d.ts": [
-        "../node_modules/graphql/type/definition.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/type/introspection.d.ts": [
-        "../node_modules/graphql/type/definition.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/type/validate.d.ts": [
-        "../node_modules/graphql/error/graphqlerror.d.ts",
-        "../node_modules/graphql/type/schema.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/type/index.d.ts": [
-        "../node_modules/graphql/jsutils/path.d.ts",
-        "../node_modules/graphql/type/schema.d.ts",
-        "../node_modules/graphql/type/definition.d.ts",
-        "../node_modules/graphql/type/directives.d.ts",
-        "../node_modules/graphql/type/scalars.d.ts",
-        "../node_modules/graphql/type/introspection.d.ts",
-        "../node_modules/graphql/type/validate.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/language/printlocation.d.ts": [
-        "../node_modules/graphql/language/ast.d.ts",
-        "../node_modules/graphql/language/source.d.ts",
-        "../node_modules/graphql/language/location.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/language/kinds.d.ts": [
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/error/syntaxerror.d.ts": [
-        "../node_modules/graphql/language/source.d.ts",
-        "../node_modules/graphql/error/graphqlerror.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/error/formaterror.d.ts": [
-        "../node_modules/graphql/language/location.d.ts",
-        "../node_modules/graphql/error/graphqlerror.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/error/index.d.ts": [
-        "../node_modules/graphql/error/graphqlerror.d.ts",
-        "../node_modules/graphql/error/syntaxerror.d.ts",
-        "../node_modules/graphql/error/locatederror.d.ts",
-        "../node_modules/graphql/error/formaterror.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/language/lexer.d.ts": [
-        "../node_modules/graphql/error/index.d.ts",
-        "../node_modules/graphql/language/ast.d.ts",
-        "../node_modules/graphql/language/source.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/language/parser.d.ts": [
-        "../node_modules/graphql/language/source.d.ts",
-        "../node_modules/graphql/language/lexer.d.ts",
-        "../node_modules/graphql/language/ast.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/language/printer.d.ts": [
-        "../node_modules/graphql/language/ast.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/utilities/typeinfo.d.ts": [
-        "../node_modules/graphql/tsutils/maybe.d.ts",
-        "../node_modules/graphql/language/ast.d.ts",
-        "../node_modules/graphql/type/schema.d.ts",
-        "../node_modules/graphql/type/directives.d.ts",
-        "../node_modules/graphql/type/definition.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/language/visitor.d.ts": [
-        "../node_modules/graphql/tsutils/maybe.d.ts",
+      "../node_modules/graphql/utilities/index.d.ts": [
+        "../node_modules/graphql/utilities/introspectionquery.d.ts",
+        "../node_modules/graphql/utilities/getoperationast.d.ts",
+        "../node_modules/graphql/utilities/getoperationroottype.d.ts",
+        "../node_modules/graphql/utilities/introspectionfromschema.d.ts",
+        "../node_modules/graphql/utilities/buildclientschema.d.ts",
+        "../node_modules/graphql/utilities/buildastschema.d.ts",
+        "../node_modules/graphql/utilities/extendschema.d.ts",
+        "../node_modules/graphql/utilities/lexicographicsortschema.d.ts",
+        "../node_modules/graphql/utilities/schemaprinter.d.ts",
+        "../node_modules/graphql/utilities/typefromast.d.ts",
+        "../node_modules/graphql/utilities/valuefromast.d.ts",
+        "../node_modules/graphql/utilities/valuefromastuntyped.d.ts",
+        "../node_modules/graphql/utilities/astfromvalue.d.ts",
         "../node_modules/graphql/utilities/typeinfo.d.ts",
+        "../node_modules/graphql/utilities/coerceinputvalue.d.ts",
+        "../node_modules/graphql/utilities/coercevalue.d.ts",
+        "../node_modules/graphql/utilities/isvalidjsvalue.d.ts",
+        "../node_modules/graphql/utilities/isvalidliteralvalue.d.ts",
+        "../node_modules/graphql/utilities/concatast.d.ts",
+        "../node_modules/graphql/utilities/separateoperations.d.ts",
+        "../node_modules/graphql/utilities/stripignoredcharacters.d.ts",
+        "../node_modules/graphql/utilities/typecomparators.d.ts",
+        "../node_modules/graphql/utilities/assertvalidname.d.ts",
+        "../node_modules/graphql/utilities/findbreakingchanges.d.ts",
+        "../node_modules/graphql/utilities/finddeprecatedusages.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/utilities/valuefromastuntyped.d.ts": [
+        "../node_modules/graphql/tsutils/maybe.d.ts",
         "../node_modules/graphql/language/ast.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/language/predicates.d.ts": [
+      "../node_modules/graphql/utilities/valuefromast.d.ts": [
+        "../node_modules/graphql/tsutils/maybe.d.ts",
         "../node_modules/graphql/language/ast.d.ts",
+        "../node_modules/graphql/type/definition.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/language/index.d.ts": [
+      "../node_modules/graphql/utilities/buildastschema.d.ts": [
+        "../node_modules/graphql/tsutils/maybe.d.ts",
+        "../node_modules/graphql/language/ast.d.ts",
+        "../node_modules/graphql/type/definition.d.ts",
+        "../node_modules/graphql/type/directives.d.ts",
         "../node_modules/graphql/language/source.d.ts",
-        "../node_modules/graphql/language/location.d.ts",
-        "../node_modules/graphql/language/printlocation.d.ts",
-        "../node_modules/graphql/language/kinds.d.ts",
-        "../node_modules/graphql/language/tokenkind.d.ts",
-        "../node_modules/graphql/language/lexer.d.ts",
+        "../node_modules/graphql/type/schema.d.ts",
         "../node_modules/graphql/language/parser.d.ts",
-        "../node_modules/graphql/language/printer.d.ts",
-        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/language/blockstring.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/utilities/getoperationast.d.ts": [
+        "../node_modules/graphql/tsutils/maybe.d.ts",
         "../node_modules/graphql/language/ast.d.ts",
-        "../node_modules/graphql/language/predicates.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/utilities/introspectionquery.d.ts": [
+        "../node_modules/graphql/tsutils/maybe.d.ts",
         "../node_modules/graphql/language/directivelocation.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/execution/values.d.ts": [
-        "../node_modules/graphql/tsutils/maybe.d.ts",
-        "../node_modules/graphql/error/graphqlerror.d.ts",
-        "../node_modules/graphql/language/ast.d.ts",
-        "../node_modules/graphql/type/directives.d.ts",
+      "../node_modules/graphql/utilities/buildclientschema.d.ts": [
+        "../node_modules/graphql/utilities/introspectionquery.d.ts",
         "../node_modules/graphql/type/schema.d.ts",
-        "../node_modules/graphql/type/definition.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/execution/index.d.ts": [
-        "../node_modules/graphql/jsutils/path.d.ts",
-        "../node_modules/graphql/execution/execute.d.ts",
-        "../node_modules/graphql/execution/values.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/subscription/subscribe.d.ts": [
-        "../node_modules/graphql/tsutils/maybe.d.ts",
-        "../node_modules/graphql/language/ast.d.ts",
-        "../node_modules/graphql/execution/execute.d.ts",
+      "../node_modules/graphql/utilities/introspectionfromschema.d.ts": [
         "../node_modules/graphql/type/schema.d.ts",
-        "../node_modules/graphql/type/definition.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/subscription/index.d.ts": [
-        "../node_modules/graphql/subscription/subscribe.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/validationcontext.d.ts": [
-        "../node_modules/graphql/tsutils/maybe.d.ts",
-        "../node_modules/graphql/error/graphqlerror.d.ts",
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/language/ast.d.ts",
-        "../node_modules/graphql/type/schema.d.ts",
-        "../node_modules/graphql/type/directives.d.ts",
-        "../node_modules/graphql/type/definition.d.ts",
-        "../node_modules/graphql/utilities/typeinfo.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/validate.d.ts": [
-        "../node_modules/graphql/error/graphqlerror.d.ts",
-        "../node_modules/graphql/language/ast.d.ts",
-        "../node_modules/graphql/type/schema.d.ts",
-        "../node_modules/graphql/utilities/typeinfo.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../node_modules/graphql/tsutils/maybe.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/executabledefinitions.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/uniqueoperationnames.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/loneanonymousoperation.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/singlefieldsubscriptions.d.ts": [
-        "../node_modules/graphql/tsutils/maybe.d.ts",
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/knowntypenames.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/fragmentsoncompositetypes.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/variablesareinputtypes.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/scalarleafs.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/fieldsoncorrecttype.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/uniquefragmentnames.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/knownfragmentnames.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/nounusedfragments.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/possiblefragmentspreads.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/nofragmentcycles.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/uniquevariablenames.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/noundefinedvariables.d.ts": [
-        "../node_modules/graphql/tsutils/maybe.d.ts",
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../node_modules/graphql/utilities/introspectionquery.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
@@ -3357,120 +2883,6 @@
         "../node_modules/graphql/tsutils/maybe.d.ts",
         "../node_modules/graphql/language/visitor.d.ts",
         "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/knowndirectives.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/uniquedirectivesperlocation.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/knownargumentnames.d.ts": [
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/uniqueargumentnames.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/valuesofcorrecttype.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/providedrequiredarguments.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/variablesinallowedposition.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/overlappingfieldscanbemerged.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/uniqueinputfieldnames.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/rules/loneschemadefinition.d.ts": [
-        "../node_modules/graphql/language/visitor.d.ts",
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/validation/specifiedrules.d.ts": [
-        "../node_modules/graphql/validation/validationcontext.d.ts",
-        "../node_modules/graphql/validation/rules/executabledefinitions.d.ts",
-        "../node_modules/graphql/validation/rules/uniqueoperationnames.d.ts",
-        "../node_modules/graphql/validation/rules/loneanonymousoperation.d.ts",
-        "../node_modules/graphql/validation/rules/singlefieldsubscriptions.d.ts",
-        "../node_modules/graphql/validation/rules/knowntypenames.d.ts",
-        "../node_modules/graphql/validation/rules/fragmentsoncompositetypes.d.ts",
-        "../node_modules/graphql/validation/rules/variablesareinputtypes.d.ts",
-        "../node_modules/graphql/validation/rules/scalarleafs.d.ts",
-        "../node_modules/graphql/validation/rules/fieldsoncorrecttype.d.ts",
-        "../node_modules/graphql/validation/rules/uniquefragmentnames.d.ts",
-        "../node_modules/graphql/validation/rules/knownfragmentnames.d.ts",
-        "../node_modules/graphql/validation/rules/nounusedfragments.d.ts",
-        "../node_modules/graphql/validation/rules/possiblefragmentspreads.d.ts",
-        "../node_modules/graphql/validation/rules/nofragmentcycles.d.ts",
-        "../node_modules/graphql/validation/rules/uniquevariablenames.d.ts",
-        "../node_modules/graphql/validation/rules/noundefinedvariables.d.ts",
-        "../node_modules/graphql/validation/rules/nounusedvariables.d.ts",
-        "../node_modules/graphql/validation/rules/knowndirectives.d.ts",
-        "../node_modules/graphql/validation/rules/uniquedirectivesperlocation.d.ts",
-        "../node_modules/graphql/validation/rules/knownargumentnames.d.ts",
-        "../node_modules/graphql/validation/rules/uniqueargumentnames.d.ts",
-        "../node_modules/graphql/validation/rules/valuesofcorrecttype.d.ts",
-        "../node_modules/graphql/validation/rules/providedrequiredarguments.d.ts",
-        "../node_modules/graphql/validation/rules/variablesinallowedposition.d.ts",
-        "../node_modules/graphql/validation/rules/overlappingfieldscanbemerged.d.ts",
-        "../node_modules/graphql/validation/rules/uniqueinputfieldnames.d.ts",
-        "../node_modules/graphql/validation/rules/loneschemadefinition.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
@@ -3510,68 +2922,390 @@
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/utilities/introspectionquery.d.ts": [
+      "../node_modules/graphql/validation/specifiedrules.d.ts": [
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../node_modules/graphql/validation/rules/executabledefinitions.d.ts",
+        "../node_modules/graphql/validation/rules/uniqueoperationnames.d.ts",
+        "../node_modules/graphql/validation/rules/loneanonymousoperation.d.ts",
+        "../node_modules/graphql/validation/rules/singlefieldsubscriptions.d.ts",
+        "../node_modules/graphql/validation/rules/knowntypenames.d.ts",
+        "../node_modules/graphql/validation/rules/fragmentsoncompositetypes.d.ts",
+        "../node_modules/graphql/validation/rules/variablesareinputtypes.d.ts",
+        "../node_modules/graphql/validation/rules/scalarleafs.d.ts",
+        "../node_modules/graphql/validation/rules/fieldsoncorrecttype.d.ts",
+        "../node_modules/graphql/validation/rules/uniquefragmentnames.d.ts",
+        "../node_modules/graphql/validation/rules/knownfragmentnames.d.ts",
+        "../node_modules/graphql/validation/rules/nounusedfragments.d.ts",
+        "../node_modules/graphql/validation/rules/possiblefragmentspreads.d.ts",
+        "../node_modules/graphql/validation/rules/nofragmentcycles.d.ts",
+        "../node_modules/graphql/validation/rules/uniquevariablenames.d.ts",
+        "../node_modules/graphql/validation/rules/noundefinedvariables.d.ts",
+        "../node_modules/graphql/validation/rules/nounusedvariables.d.ts",
+        "../node_modules/graphql/validation/rules/knowndirectives.d.ts",
+        "../node_modules/graphql/validation/rules/uniquedirectivesperlocation.d.ts",
+        "../node_modules/graphql/validation/rules/knownargumentnames.d.ts",
+        "../node_modules/graphql/validation/rules/uniqueargumentnames.d.ts",
+        "../node_modules/graphql/validation/rules/valuesofcorrecttype.d.ts",
+        "../node_modules/graphql/validation/rules/providedrequiredarguments.d.ts",
+        "../node_modules/graphql/validation/rules/variablesinallowedposition.d.ts",
+        "../node_modules/graphql/validation/rules/overlappingfieldscanbemerged.d.ts",
+        "../node_modules/graphql/validation/rules/uniqueinputfieldnames.d.ts",
+        "../node_modules/graphql/validation/rules/loneschemadefinition.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/noundefinedvariables.d.ts": [
         "../node_modules/graphql/tsutils/maybe.d.ts",
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/singlefieldsubscriptions.d.ts": [
+        "../node_modules/graphql/tsutils/maybe.d.ts",
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/validate.d.ts": [
+        "../node_modules/graphql/error/graphqlerror.d.ts",
+        "../node_modules/graphql/language/ast.d.ts",
+        "../node_modules/graphql/type/schema.d.ts",
+        "../node_modules/graphql/utilities/typeinfo.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../node_modules/graphql/tsutils/maybe.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/validationcontext.d.ts": [
+        "../node_modules/graphql/tsutils/maybe.d.ts",
+        "../node_modules/graphql/error/graphqlerror.d.ts",
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/language/ast.d.ts",
+        "../node_modules/graphql/type/schema.d.ts",
+        "../node_modules/graphql/type/directives.d.ts",
+        "../node_modules/graphql/type/definition.d.ts",
+        "../node_modules/graphql/utilities/typeinfo.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/loneschemadefinition.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/uniqueinputfieldnames.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/overlappingfieldscanbemerged.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/variablesinallowedposition.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/providedrequiredarguments.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/valuesofcorrecttype.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/uniqueargumentnames.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/knownargumentnames.d.ts": [
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/uniquedirectivesperlocation.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/knowndirectives.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/uniquevariablenames.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/nofragmentcycles.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/possiblefragmentspreads.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/nounusedfragments.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/knownfragmentnames.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/uniquefragmentnames.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/fieldsoncorrecttype.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/scalarleafs.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/variablesareinputtypes.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/fragmentsoncompositetypes.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/knowntypenames.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/loneanonymousoperation.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/uniqueoperationnames.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/validation/rules/executabledefinitions.d.ts": [
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/validation/validationcontext.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/subscription/subscribe.d.ts": [
+        "../node_modules/graphql/tsutils/maybe.d.ts",
+        "../node_modules/graphql/language/ast.d.ts",
+        "../node_modules/graphql/execution/execute.d.ts",
+        "../node_modules/graphql/type/schema.d.ts",
+        "../node_modules/graphql/type/definition.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/subscription/index.d.ts": [
+        "../node_modules/graphql/subscription/subscribe.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/execution/values.d.ts": [
+        "../node_modules/graphql/tsutils/maybe.d.ts",
+        "../node_modules/graphql/error/graphqlerror.d.ts",
+        "../node_modules/graphql/language/ast.d.ts",
+        "../node_modules/graphql/type/directives.d.ts",
+        "../node_modules/graphql/type/schema.d.ts",
+        "../node_modules/graphql/type/definition.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/execution/index.d.ts": [
+        "../node_modules/graphql/jsutils/path.d.ts",
+        "../node_modules/graphql/execution/execute.d.ts",
+        "../node_modules/graphql/execution/values.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/language/visitor.d.ts": [
+        "../node_modules/graphql/tsutils/maybe.d.ts",
+        "../node_modules/graphql/utilities/typeinfo.d.ts",
+        "../node_modules/graphql/language/ast.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/language/index.d.ts": [
+        "../node_modules/graphql/language/source.d.ts",
+        "../node_modules/graphql/language/location.d.ts",
+        "../node_modules/graphql/language/printlocation.d.ts",
+        "../node_modules/graphql/language/kinds.d.ts",
+        "../node_modules/graphql/language/tokenkind.d.ts",
+        "../node_modules/graphql/language/lexer.d.ts",
+        "../node_modules/graphql/language/parser.d.ts",
+        "../node_modules/graphql/language/printer.d.ts",
+        "../node_modules/graphql/language/visitor.d.ts",
+        "../node_modules/graphql/language/ast.d.ts",
+        "../node_modules/graphql/language/predicates.d.ts",
         "../node_modules/graphql/language/directivelocation.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/utilities/getoperationast.d.ts": [
+      "../node_modules/graphql/utilities/typeinfo.d.ts": [
         "../node_modules/graphql/tsutils/maybe.d.ts",
         "../node_modules/graphql/language/ast.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/utilities/getoperationroottype.d.ts": [
-        "../node_modules/graphql/language/ast.d.ts",
         "../node_modules/graphql/type/schema.d.ts",
-        "../node_modules/graphql/type/definition.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/utilities/introspectionfromschema.d.ts": [
-        "../node_modules/graphql/type/schema.d.ts",
-        "../node_modules/graphql/utilities/introspectionquery.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/utilities/buildclientschema.d.ts": [
-        "../node_modules/graphql/utilities/introspectionquery.d.ts",
-        "../node_modules/graphql/type/schema.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/language/blockstring.d.ts": [
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/utilities/buildastschema.d.ts": [
-        "../node_modules/graphql/tsutils/maybe.d.ts",
-        "../node_modules/graphql/language/ast.d.ts",
-        "../node_modules/graphql/type/definition.d.ts",
         "../node_modules/graphql/type/directives.d.ts",
+        "../node_modules/graphql/type/definition.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/graphql.d.ts": [
+        "../node_modules/graphql/tsutils/maybe.d.ts",
         "../node_modules/graphql/language/source.d.ts",
         "../node_modules/graphql/type/schema.d.ts",
-        "../node_modules/graphql/language/parser.d.ts",
-        "../node_modules/graphql/language/blockstring.d.ts",
+        "../node_modules/graphql/type/definition.d.ts",
+        "../node_modules/graphql/execution/execute.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/utilities/extendschema.d.ts": [
+      "../node_modules/graphql/execution/execute.d.ts": [
+        "../node_modules/graphql/tsutils/maybe.d.ts",
+        "../node_modules/graphql/jsutils/promiseorvalue.d.ts",
+        "../node_modules/graphql/jsutils/path.d.ts",
+        "../node_modules/graphql/error/graphqlerror.d.ts",
+        "../node_modules/graphql/error/locatederror.d.ts",
+        "../node_modules/graphql/language/ast.d.ts",
+        "../node_modules/graphql/type/schema.d.ts",
+        "../node_modules/graphql/type/definition.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/error/graphqlerror.d.ts": [
+        "../node_modules/graphql/tsutils/maybe.d.ts",
+        "../node_modules/graphql/language/ast.d.ts",
+        "../node_modules/graphql/language/source.d.ts",
+        "../node_modules/graphql/language/location.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/utilities/finddeprecatedusages.d.ts": [
+        "../node_modules/graphql/error/graphqlerror.d.ts",
         "../node_modules/graphql/language/ast.d.ts",
         "../node_modules/graphql/type/schema.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
@@ -3579,14 +3313,134 @@
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/utilities/lexicographicsortschema.d.ts": [
+      "../node_modules/graphql/utilities/assertvalidname.d.ts": [
+        "../node_modules/graphql/error/graphqlerror.d.ts",
+        "../node_modules/graphql/language/ast.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/utilities/isvalidliteralvalue.d.ts": [
+        "../node_modules/graphql/error/graphqlerror.d.ts",
+        "../node_modules/graphql/language/ast.d.ts",
+        "../node_modules/graphql/type/definition.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/utilities/coercevalue.d.ts": [
+        "../node_modules/graphql/jsutils/path.d.ts",
+        "../node_modules/graphql/error/graphqlerror.d.ts",
+        "../node_modules/graphql/language/ast.d.ts",
+        "../node_modules/graphql/type/definition.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/utilities/coerceinputvalue.d.ts": [
+        "../node_modules/graphql/type/definition.d.ts",
+        "../node_modules/graphql/error/graphqlerror.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/error/index.d.ts": [
+        "../node_modules/graphql/error/graphqlerror.d.ts",
+        "../node_modules/graphql/error/syntaxerror.d.ts",
+        "../node_modules/graphql/error/locatederror.d.ts",
+        "../node_modules/graphql/error/formaterror.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/language/lexer.d.ts": [
+        "../node_modules/graphql/error/index.d.ts",
+        "../node_modules/graphql/language/ast.d.ts",
+        "../node_modules/graphql/language/source.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/language/parser.d.ts": [
+        "../node_modules/graphql/language/source.d.ts",
+        "../node_modules/graphql/language/lexer.d.ts",
+        "../node_modules/graphql/language/ast.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/error/formaterror.d.ts": [
+        "../node_modules/graphql/language/location.d.ts",
+        "../node_modules/graphql/error/graphqlerror.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/error/syntaxerror.d.ts": [
+        "../node_modules/graphql/language/source.d.ts",
+        "../node_modules/graphql/error/graphqlerror.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/type/validate.d.ts": [
+        "../node_modules/graphql/error/graphqlerror.d.ts",
         "../node_modules/graphql/type/schema.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/utilities/schemaprinter.d.ts": [
+      "../node_modules/graphql/type/index.d.ts": [
+        "../node_modules/graphql/jsutils/path.d.ts",
+        "../node_modules/graphql/type/schema.d.ts",
+        "../node_modules/graphql/type/definition.d.ts",
+        "../node_modules/graphql/type/directives.d.ts",
+        "../node_modules/graphql/type/scalars.d.ts",
+        "../node_modules/graphql/type/introspection.d.ts",
+        "../node_modules/graphql/type/validate.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/error/locatederror.d.ts": [
+        "../node_modules/graphql/language/ast.d.ts",
+        "../node_modules/graphql/error/graphqlerror.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/type/schema.d.ts": [
+        "../node_modules/graphql/tsutils/maybe.d.ts",
+        "../node_modules/graphql/language/ast.d.ts",
+        "../node_modules/graphql/type/directives.d.ts",
+        "../node_modules/graphql/type/definition.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/utilities/findbreakingchanges.d.ts": [
+        "../node_modules/graphql/type/directives.d.ts",
+        "../node_modules/graphql/type/schema.d.ts",
+        "../node_modules/graphql/language/directivelocation.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/utilities/typecomparators.d.ts": [
         "../node_modules/graphql/type/schema.d.ts",
         "../node_modules/graphql/type/definition.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
@@ -3603,45 +3457,44 @@
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/utilities/valuefromast.d.ts": [
-        "../node_modules/graphql/tsutils/maybe.d.ts",
-        "../node_modules/graphql/language/ast.d.ts",
+      "../node_modules/graphql/utilities/schemaprinter.d.ts": [
+        "../node_modules/graphql/type/schema.d.ts",
         "../node_modules/graphql/type/definition.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/utilities/valuefromastuntyped.d.ts": [
-        "../node_modules/graphql/tsutils/maybe.d.ts",
-        "../node_modules/graphql/language/ast.d.ts",
+      "../node_modules/graphql/utilities/lexicographicsortschema.d.ts": [
+        "../node_modules/graphql/type/schema.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/utilities/astfromvalue.d.ts": [
-        "../node_modules/graphql/tsutils/maybe.d.ts",
+      "../node_modules/graphql/utilities/extendschema.d.ts": [
         "../node_modules/graphql/language/ast.d.ts",
+        "../node_modules/graphql/type/schema.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/utilities/getoperationroottype.d.ts": [
+        "../node_modules/graphql/language/ast.d.ts",
+        "../node_modules/graphql/type/schema.d.ts",
         "../node_modules/graphql/type/definition.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/utilities/coerceinputvalue.d.ts": [
-        "../node_modules/graphql/type/definition.d.ts",
-        "../node_modules/graphql/error/graphqlerror.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/utilities/coercevalue.d.ts": [
+      "../node_modules/graphql/type/definition.d.ts": [
+        "../node_modules/graphql/tsutils/maybe.d.ts",
+        "../node_modules/graphql/jsutils/promiseorvalue.d.ts",
         "../node_modules/graphql/jsutils/path.d.ts",
-        "../node_modules/graphql/error/graphqlerror.d.ts",
         "../node_modules/graphql/language/ast.d.ts",
-        "../node_modules/graphql/type/definition.d.ts",
+        "../node_modules/graphql/type/schema.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
@@ -3654,24 +3507,31 @@
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/utilities/isvalidliteralvalue.d.ts": [
-        "../node_modules/graphql/error/graphqlerror.d.ts",
-        "../node_modules/graphql/language/ast.d.ts",
+      "../node_modules/graphql/type/introspection.d.ts": [
         "../node_modules/graphql/type/definition.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/utilities/concatast.d.ts": [
-        "../node_modules/graphql/language/ast.d.ts",
+      "../node_modules/graphql/type/scalars.d.ts": [
+        "../node_modules/graphql/type/definition.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/utilities/separateoperations.d.ts": [
+      "../node_modules/graphql/type/directives.d.ts": [
+        "../node_modules/graphql/tsutils/maybe.d.ts",
+        "../node_modules/graphql/type/definition.d.ts",
         "../node_modules/graphql/language/ast.d.ts",
+        "../node_modules/graphql/language/directivelocation.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/language/source.d.ts": [
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
@@ -3684,328 +3544,186 @@
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/utilities/typecomparators.d.ts": [
-        "../node_modules/graphql/type/schema.d.ts",
-        "../node_modules/graphql/type/definition.d.ts",
+      "../node_modules/graphql/language/printlocation.d.ts": [
+        "../node_modules/graphql/language/ast.d.ts",
+        "../node_modules/graphql/language/source.d.ts",
+        "../node_modules/graphql/language/location.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/utilities/assertvalidname.d.ts": [
-        "../node_modules/graphql/error/graphqlerror.d.ts",
+      "../node_modules/graphql/language/location.d.ts": [
+        "../node_modules/graphql/language/source.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/language/ast.d.ts": [
+        "../node_modules/graphql/language/source.d.ts",
+        "../node_modules/graphql/language/tokenkind.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../node_modules/graphql/utilities/separateoperations.d.ts": [
         "../node_modules/graphql/language/ast.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/utilities/findbreakingchanges.d.ts": [
-        "../node_modules/graphql/type/directives.d.ts",
-        "../node_modules/graphql/type/schema.d.ts",
-        "../node_modules/graphql/language/directivelocation.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/graphql/utilities/finddeprecatedusages.d.ts": [
-        "../node_modules/graphql/error/graphqlerror.d.ts",
+      "../node_modules/graphql/utilities/concatast.d.ts": [
         "../node_modules/graphql/language/ast.d.ts",
-        "../node_modules/graphql/type/schema.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/utilities/index.d.ts": [
-        "../node_modules/graphql/utilities/introspectionquery.d.ts",
-        "../node_modules/graphql/utilities/getoperationast.d.ts",
-        "../node_modules/graphql/utilities/getoperationroottype.d.ts",
-        "../node_modules/graphql/utilities/introspectionfromschema.d.ts",
-        "../node_modules/graphql/utilities/buildclientschema.d.ts",
-        "../node_modules/graphql/utilities/buildastschema.d.ts",
-        "../node_modules/graphql/utilities/extendschema.d.ts",
-        "../node_modules/graphql/utilities/lexicographicsortschema.d.ts",
-        "../node_modules/graphql/utilities/schemaprinter.d.ts",
-        "../node_modules/graphql/utilities/typefromast.d.ts",
-        "../node_modules/graphql/utilities/valuefromast.d.ts",
-        "../node_modules/graphql/utilities/valuefromastuntyped.d.ts",
-        "../node_modules/graphql/utilities/astfromvalue.d.ts",
-        "../node_modules/graphql/utilities/typeinfo.d.ts",
-        "../node_modules/graphql/utilities/coerceinputvalue.d.ts",
-        "../node_modules/graphql/utilities/coercevalue.d.ts",
-        "../node_modules/graphql/utilities/isvalidjsvalue.d.ts",
-        "../node_modules/graphql/utilities/isvalidliteralvalue.d.ts",
-        "../node_modules/graphql/utilities/concatast.d.ts",
-        "../node_modules/graphql/utilities/separateoperations.d.ts",
-        "../node_modules/graphql/utilities/stripignoredcharacters.d.ts",
-        "../node_modules/graphql/utilities/typecomparators.d.ts",
-        "../node_modules/graphql/utilities/assertvalidname.d.ts",
-        "../node_modules/graphql/utilities/findbreakingchanges.d.ts",
-        "../node_modules/graphql/utilities/finddeprecatedusages.d.ts",
+      "../node_modules/graphql/language/predicates.d.ts": [
+        "../node_modules/graphql/language/ast.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/graphql/index.d.ts": [
-        "../node_modules/graphql/version.d.ts",
-        "../node_modules/graphql/graphql.d.ts",
-        "../node_modules/graphql/type/index.d.ts",
-        "../node_modules/graphql/language/index.d.ts",
-        "../node_modules/graphql/execution/index.d.ts",
-        "../node_modules/graphql/subscription/index.d.ts",
-        "../node_modules/graphql/validation/index.d.ts",
-        "../node_modules/graphql/error/index.d.ts",
-        "../node_modules/graphql/utilities/index.d.ts",
+      "../node_modules/graphql/language/printer.d.ts": [
+        "../node_modules/graphql/language/ast.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/utils.d.ts": [
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
+      "../node_modules/graphql/language/tokenkind.d.ts": [
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-visitor.d.ts": [
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/utils.d.ts",
-        "../node_modules/graphql/index.d.ts",
+      "../node_modules/graphql/jsutils/promiseorvalue.d.ts": [
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/variables-to-object.d.ts": [
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-visitor.d.ts",
+      "../node_modules/graphql/jsutils/path.d.ts": [
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/resolve-external-module-and-fn.d.ts": [
+      "../node_modules/graphql/language/directivelocation.d.ts": [
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/to-pascal-case.d.ts": [
+      "../node_modules/graphql/language/kinds.d.ts": [
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/types.d.ts": [
-        "../node_modules/graphql/index.d.ts",
+      "../node_modules/graphql/language/blockstring.d.ts": [
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/utils.d.ts": [
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/types.d.ts",
+      "../node_modules/no-case/dist/index.d.ts": [
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/helpers.d.ts": [
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/types.d.ts",
-        "../node_modules/graphql/index.d.ts",
+      "../node_modules/change-case/dist/index.d.ts": [
+        "../node_modules/camel-case/dist/index.d.ts",
+        "../node_modules/capital-case/dist/index.d.ts",
+        "../node_modules/constant-case/dist/index.d.ts",
+        "../node_modules/dot-case/dist/index.d.ts",
+        "../node_modules/header-case/dist/index.d.ts",
+        "../node_modules/no-case/dist/index.d.ts",
+        "../node_modules/param-case/dist/index.d.ts",
+        "../node_modules/pascal-case/dist/index.d.ts",
+        "../node_modules/path-case/dist/index.d.ts",
+        "../node_modules/sentence-case/dist/index.d.ts",
+        "../node_modules/snake-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/federation.d.ts": [
-        "../node_modules/graphql/index.d.ts",
+      "../node_modules/sentence-case/dist/index.d.ts": [
+        "../node_modules/no-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/index.d.ts": [
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/resolve-external-module-and-fn.d.ts",
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/to-pascal-case.d.ts",
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/types.d.ts",
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/utils.d.ts",
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/helpers.d.ts",
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/federation.d.ts",
+      "../node_modules/dot-case/dist/index.d.ts": [
+        "../node_modules/no-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-resolvers-visitor.d.ts": [
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-visitor.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/utils.d.ts",
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/variables-to-object.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/mappers.d.ts",
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/index.d.ts",
+      "../node_modules/snake-case/dist/index.d.ts": [
+        "../node_modules/dot-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/mappers.d.ts": [
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-resolvers-visitor.d.ts",
+      "../node_modules/path-case/dist/index.d.ts": [
+        "../node_modules/dot-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts": [
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/mappers.d.ts",
+      "../node_modules/param-case/dist/index.d.ts": [
+        "../node_modules/dot-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/naming.d.ts": [
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
+      "../node_modules/constant-case/dist/index.d.ts": [
+        "../node_modules/no-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/scalars.d.ts": [
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
+      "../node_modules/capital-case/dist/index.d.ts": [
+        "../node_modules/no-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-types-visitor.d.ts": [
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-visitor.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/utils.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/variables-to-object.d.ts",
+      "../node_modules/header-case/dist/index.d.ts": [
+        "../node_modules/capital-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-processor/base.d.ts": [
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-        "../node_modules/graphql/index.d.ts",
+      "../node_modules/pascal-case/dist/index.d.ts": [
+        "../node_modules/no-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-to-object.d.ts": [
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-visitor.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-documents-visitor.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-processor/base.d.ts",
+      "../node_modules/camel-case/dist/index.d.ts": [
+        "../node_modules/pascal-case/dist/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-documents-visitor.d.ts": [
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/utils.d.ts",
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-to-object.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/variables-to-object.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-visitor.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-types-visitor.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/client-side-base-visitor.d.ts": [
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/index.d.ts",
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/index.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-processor/pre-resolve-types.d.ts": [
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-processor/base.d.ts",
-        "../node_modules/graphql/index.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/optimize-operations.d.ts": [
-        "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/index.d.ts",
-        "../node_modules/graphql/index.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/index.d.ts": [
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/utils.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/mappers.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/naming.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/scalars.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-visitor.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-types-visitor.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-documents-visitor.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-resolvers-visitor.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/client-side-base-visitor.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/variables-to-object.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-to-object.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-processor/base.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-processor/pre-resolve-types.d.ts",
-        "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/optimize-operations.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../src/utils.ts": [
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/graphql/type/schema.d.ts"
-      ],
-      "../src/gqlinjectors.ts": [
-        "../src/index.ts",
-        "../node_modules/graphql/index.d.ts"
-      ],
-      "../src/tshelperinjectors.ts": [
-        "../src/index.ts",
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/graphql/type/schema.d.ts"
-      ],
-      "../src/reactinjectors.ts": [
-        "../src/index.ts",
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/graphql/type/schema.d.ts"
-      ],
-      "../src/index.ts": [
-        "../src/configinjectors.ts",
-        "../src/content-manager.ts",
-        "../src/gqlinjectors.ts",
-        "../src/tshelperinjectors.ts",
-        "../src/reactinjectors.ts",
-        "../src/utils.ts"
-      ],
-      "../src/configinjectors.ts": [
-        "../src/index.ts",
-        "../node_modules/graphql/index.d.ts",
-        "../node_modules/graphql/type/schema.d.ts"
       ],
       "../../../node_modules/@types/events/index.d.ts": [
         "../../../node_modules/@types/node/fs.d.ts",
@@ -4025,7 +3743,75 @@
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "../../../node_modules/@types/node/base.d.ts": [
+        "../../../node_modules/@types/node/globals.d.ts",
+        "../../../node_modules/@types/node/assert.d.ts",
+        "../../../node_modules/@types/node/async_hooks.d.ts",
+        "../../../node_modules/@types/node/buffer.d.ts",
+        "../../../node_modules/@types/node/child_process.d.ts",
+        "../../../node_modules/@types/node/cluster.d.ts",
+        "../../../node_modules/@types/node/console.d.ts",
+        "../../../node_modules/@types/node/constants.d.ts",
+        "../../../node_modules/@types/node/crypto.d.ts",
+        "../../../node_modules/@types/node/dgram.d.ts",
+        "../../../node_modules/@types/node/dns.d.ts",
+        "../../../node_modules/@types/node/domain.d.ts",
+        "../../../node_modules/@types/node/events.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/http.d.ts",
+        "../../../node_modules/@types/node/http2.d.ts",
+        "../../../node_modules/@types/node/https.d.ts",
+        "../../../node_modules/@types/node/inspector.d.ts",
+        "../../../node_modules/@types/node/module.d.ts",
+        "../../../node_modules/@types/node/net.d.ts",
+        "../../../node_modules/@types/node/os.d.ts",
+        "../../../node_modules/@types/node/path.d.ts",
+        "../../../node_modules/@types/node/perf_hooks.d.ts",
+        "../../../node_modules/@types/node/process.d.ts",
+        "../../../node_modules/@types/node/punycode.d.ts",
+        "../../../node_modules/@types/node/querystring.d.ts",
+        "../../../node_modules/@types/node/readline.d.ts",
+        "../../../node_modules/@types/node/repl.d.ts",
+        "../../../node_modules/@types/node/stream.d.ts",
+        "../../../node_modules/@types/node/string_decoder.d.ts",
+        "../../../node_modules/@types/node/timers.d.ts",
+        "../../../node_modules/@types/node/tls.d.ts",
+        "../../../node_modules/@types/node/trace_events.d.ts",
+        "../../../node_modules/@types/node/tty.d.ts",
+        "../../../node_modules/@types/node/url.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/v8.d.ts",
+        "../../../node_modules/@types/node/vm.d.ts",
+        "../../../node_modules/@types/node/worker_threads.d.ts",
+        "../../../node_modules/@types/node/zlib.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/node/ts3.2/index.d.ts": [
+        "../../../node_modules/@types/node/base.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/globals.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts"
+      ],
+      "../../../node_modules/@types/glob/index.d.ts": [
+        "../../../node_modules/@types/node/events.d.ts",
+        "../../../node_modules/@types/minimatch/index.d.ts",
+        "../../../node_modules/@types/node/ts3.2/index.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "../../../node_modules/@types/node/async_hooks.d.ts": [
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/node/perf_hooks.d.ts": [
+        "../../../node_modules/@types/node/async_hooks.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
@@ -4076,6 +3862,38 @@
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
+      "../../../node_modules/@types/node/tls.d.ts": [
+        "../../../node_modules/@types/node/crypto.d.ts",
+        "../../../node_modules/@types/node/dns.d.ts",
+        "../../../node_modules/@types/node/net.d.ts",
+        "../../../node_modules/@types/node/stream.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/node/https.d.ts": [
+        "../../../node_modules/@types/node/tls.d.ts",
+        "../../../node_modules/@types/node/events.d.ts",
+        "../../../node_modules/@types/node/http.d.ts",
+        "../../../node_modules/@types/node/url.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/node/http2.d.ts": [
+        "../../../node_modules/@types/node/events.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/net.d.ts",
+        "../../../node_modules/@types/node/stream.d.ts",
+        "../../../node_modules/@types/node/tls.d.ts",
+        "../../../node_modules/@types/node/url.d.ts",
+        "../../../node_modules/@types/node/http.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
       "../../../node_modules/@types/node/dgram.d.ts": [
         "../../../node_modules/@types/node/net.d.ts",
         "../../../node_modules/@types/node/dns.d.ts",
@@ -4086,6 +3904,39 @@
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
       "../../../node_modules/@types/node/dns.d.ts": [
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/node/net.d.ts": [
+        "../../../node_modules/@types/node/stream.d.ts",
+        "../../../node_modules/@types/node/events.d.ts",
+        "../../../node_modules/@types/node/dns.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/node/tty.d.ts": [
+        "../../../node_modules/@types/node/net.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/node/process.d.ts": [
+        "../../../node_modules/@types/node/tty.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/node/http.d.ts": [
+        "../../../node_modules/@types/node/events.d.ts",
+        "../../../node_modules/@types/node/stream.d.ts",
+        "../../../node_modules/@types/node/url.d.ts",
+        "../../../node_modules/@types/node/net.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
@@ -4104,102 +3955,31 @@
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/@types/node/fs.d.ts": [
-        "../../../node_modules/@types/node/stream.d.ts",
-        "../../../node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/node/url.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/node/http.d.ts": [
+      "../../../node_modules/@types/node/worker_threads.d.ts": [
+        "../../../node_modules/@types/node/vm.d.ts",
         "../../../node_modules/@types/node/events.d.ts",
         "../../../node_modules/@types/node/stream.d.ts",
-        "../../../node_modules/@types/node/url.d.ts",
-        "../../../node_modules/@types/node/net.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/@types/node/http2.d.ts": [
+      "../../../node_modules/@types/node/stream.d.ts": [
         "../../../node_modules/@types/node/events.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/net.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/node/zlib.d.ts": [
         "../../../node_modules/@types/node/stream.d.ts",
-        "../../../node_modules/@types/node/tls.d.ts",
-        "../../../node_modules/@types/node/url.d.ts",
-        "../../../node_modules/@types/node/http.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/node/https.d.ts": [
-        "../../../node_modules/@types/node/tls.d.ts",
-        "../../../node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/node/http.d.ts",
-        "../../../node_modules/@types/node/url.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/@types/node/inspector.d.ts": [
-        "../../../node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/node/module.d.ts": [
-        "../../../node_modules/@types/node/url.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/node/net.d.ts": [
+      "../../../node_modules/@types/node/v8.d.ts": [
         "../../../node_modules/@types/node/stream.d.ts",
-        "../../../node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/node/dns.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/node/os.d.ts": [
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/node/path.d.ts": [
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/node/perf_hooks.d.ts": [
-        "../../../node_modules/@types/node/async_hooks.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/node/process.d.ts": [
-        "../../../node_modules/@types/node/tty.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/node/punycode.d.ts": [
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/node/querystring.d.ts": [
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
@@ -4221,30 +4001,57 @@
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/@types/node/stream.d.ts": [
-        "../../../node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/node/string_decoder.d.ts": [
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/node/timers.d.ts": [
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/node/tls.d.ts": [
-        "../../../node_modules/@types/node/crypto.d.ts",
-        "../../../node_modules/@types/node/dns.d.ts",
-        "../../../node_modules/@types/node/net.d.ts",
+      "../../../node_modules/@types/node/fs.d.ts": [
         "../../../node_modules/@types/node/stream.d.ts",
+        "../../../node_modules/@types/node/events.d.ts",
+        "../../../node_modules/@types/node/url.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/minimatch/index.d.ts": [
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/node/ts3.2/globals.d.ts": [
+        "../../../node_modules/@types/node/globals.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/node/ts3.2/util.d.ts": [
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts"
+      ],
+      "../../../node_modules/@types/node/ts3.2/fs.d.ts": [
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/node/vm.d.ts": [
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/node/util.d.ts": [
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/node/url.d.ts": [
+        "../../../node_modules/@types/node/querystring.d.ts",
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/node/module.d.ts": [
+        "../../../node_modules/@types/node/url.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
@@ -4256,133 +4063,44 @@
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/@types/node/tty.d.ts": [
-        "../../../node_modules/@types/node/net.d.ts",
+      "../../../node_modules/@types/node/timers.d.ts": [
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/@types/node/url.d.ts": [
-        "../../../node_modules/@types/node/querystring.d.ts",
+      "../../../node_modules/@types/node/string_decoder.d.ts": [
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/@types/node/util.d.ts": [
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/node/v8.d.ts": [
-        "../../../node_modules/@types/node/stream.d.ts",
+      "../../../node_modules/@types/node/querystring.d.ts": [
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/@types/node/vm.d.ts": [
+      "../../../node_modules/@types/node/punycode.d.ts": [
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
         "../../../node_modules/@types/node/ts3.2/util.d.ts"
       ],
-      "../../../node_modules/@types/node/worker_threads.d.ts": [
-        "../../../node_modules/@types/node/vm.d.ts",
+      "../../../node_modules/@types/node/path.d.ts": [
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/node/os.d.ts": [
+        "../../../node_modules/@types/node/fs.d.ts",
+        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
+        "../../../node_modules/@types/node/util.d.ts",
+        "../../../node_modules/@types/node/ts3.2/util.d.ts"
+      ],
+      "../../../node_modules/@types/node/inspector.d.ts": [
         "../../../node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/node/stream.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/node/zlib.d.ts": [
-        "../../../node_modules/@types/node/stream.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/node/base.d.ts": [
-        "../../../node_modules/@types/node/globals.d.ts",
-        "../../../node_modules/@types/node/assert.d.ts",
-        "../../../node_modules/@types/node/async_hooks.d.ts",
-        "../../../node_modules/@types/node/buffer.d.ts",
-        "../../../node_modules/@types/node/child_process.d.ts",
-        "../../../node_modules/@types/node/cluster.d.ts",
-        "../../../node_modules/@types/node/console.d.ts",
-        "../../../node_modules/@types/node/constants.d.ts",
-        "../../../node_modules/@types/node/crypto.d.ts",
-        "../../../node_modules/@types/node/dgram.d.ts",
-        "../../../node_modules/@types/node/dns.d.ts",
-        "../../../node_modules/@types/node/domain.d.ts",
-        "../../../node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/http.d.ts",
-        "../../../node_modules/@types/node/http2.d.ts",
-        "../../../node_modules/@types/node/https.d.ts",
-        "../../../node_modules/@types/node/inspector.d.ts",
-        "../../../node_modules/@types/node/module.d.ts",
-        "../../../node_modules/@types/node/net.d.ts",
-        "../../../node_modules/@types/node/os.d.ts",
-        "../../../node_modules/@types/node/path.d.ts",
-        "../../../node_modules/@types/node/perf_hooks.d.ts",
-        "../../../node_modules/@types/node/process.d.ts",
-        "../../../node_modules/@types/node/punycode.d.ts",
-        "../../../node_modules/@types/node/querystring.d.ts",
-        "../../../node_modules/@types/node/readline.d.ts",
-        "../../../node_modules/@types/node/repl.d.ts",
-        "../../../node_modules/@types/node/stream.d.ts",
-        "../../../node_modules/@types/node/string_decoder.d.ts",
-        "../../../node_modules/@types/node/timers.d.ts",
-        "../../../node_modules/@types/node/tls.d.ts",
-        "../../../node_modules/@types/node/trace_events.d.ts",
-        "../../../node_modules/@types/node/tty.d.ts",
-        "../../../node_modules/@types/node/url.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/v8.d.ts",
-        "../../../node_modules/@types/node/vm.d.ts",
-        "../../../node_modules/@types/node/worker_threads.d.ts",
-        "../../../node_modules/@types/node/zlib.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/node/ts3.2/fs.d.ts": [
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/node/ts3.2/util.d.ts": [
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts"
-      ],
-      "../../../node_modules/@types/node/ts3.2/globals.d.ts": [
-        "../../../node_modules/@types/node/globals.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/node/ts3.2/index.d.ts": [
-        "../../../node_modules/@types/node/base.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/globals.d.ts",
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts"
-      ],
-      "../../../node_modules/@types/minimatch/index.d.ts": [
-        "../../../node_modules/@types/node/fs.d.ts",
-        "../../../node_modules/@types/node/ts3.2/fs.d.ts",
-        "../../../node_modules/@types/node/util.d.ts",
-        "../../../node_modules/@types/node/ts3.2/util.d.ts"
-      ],
-      "../../../node_modules/@types/glob/index.d.ts": [
-        "../../../node_modules/@types/node/events.d.ts",
-        "../../../node_modules/@types/minimatch/index.d.ts",
-        "../../../node_modules/@types/node/ts3.2/index.d.ts",
         "../../../node_modules/@types/node/fs.d.ts",
         "../../../node_modules/@types/node/ts3.2/fs.d.ts",
         "../../../node_modules/@types/node/util.d.ts",
@@ -4390,43 +4108,6 @@
       ]
     },
     "semanticDiagnosticsPerFile": [
-      "../../../node_modules/typescript/lib/lib.es5.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2015.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2016.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2017.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2018.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2019.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2020.d.ts",
-      "../../../node_modules/typescript/lib/lib.esnext.d.ts",
-      "../../../node_modules/typescript/lib/lib.dom.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2015.core.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2015.collection.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2015.generator.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2015.iterable.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2015.promise.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2015.proxy.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2015.reflect.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2015.symbol.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2016.array.include.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2017.object.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2017.sharedmemory.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2017.string.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2017.intl.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2017.typedarrays.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2018.asyncgenerator.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2018.asynciterable.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2018.intl.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2018.promise.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2018.regexp.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2019.array.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2019.object.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2019.string.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2019.symbol.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2020.string.d.ts",
-      "../../../node_modules/typescript/lib/lib.es2020.symbol.wellknown.d.ts",
-      "../../../node_modules/typescript/lib/lib.esnext.intl.d.ts",
-      "../../../node_modules/typescript/lib/lib.esnext.bigint.d.ts",
       "../node_modules/tslib/tslib.d.ts",
       "../node_modules/graphql/version.d.ts",
       "../node_modules/graphql/tsutils/maybe.d.ts",
@@ -4523,31 +4204,21 @@
       "../node_modules/graphql/utilities/index.d.ts",
       "../node_modules/graphql/index.d.ts",
       "../src/content-manager.ts",
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/utils.d.ts",
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-visitor.d.ts",
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/variables-to-object.d.ts",
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/resolve-external-module-and-fn.d.ts",
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/to-pascal-case.d.ts",
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/types.d.ts",
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/utils.d.ts",
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/helpers.d.ts",
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/federation.d.ts",
-      "../node_modules/@graphql-codegen/plugin-helpers/dist/esnext/index.d.ts",
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-resolvers-visitor.d.ts",
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/mappers.d.ts",
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/types.d.ts",
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/naming.d.ts",
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/scalars.d.ts",
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-types-visitor.d.ts",
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-processor/base.d.ts",
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-to-object.d.ts",
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/base-documents-visitor.d.ts",
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/client-side-base-visitor.d.ts",
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/selection-set-processor/pre-resolve-types.d.ts",
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/optimize-operations.d.ts",
-      "../node_modules/@graphql-codegen/visitor-plugin-common/dist/esnext/index.d.ts",
+      "../node_modules/no-case/dist/index.d.ts",
+      "../node_modules/pascal-case/dist/index.d.ts",
+      "../node_modules/camel-case/dist/index.d.ts",
+      "../node_modules/capital-case/dist/index.d.ts",
+      "../node_modules/constant-case/dist/index.d.ts",
+      "../node_modules/dot-case/dist/index.d.ts",
+      "../node_modules/header-case/dist/index.d.ts",
+      "../node_modules/param-case/dist/index.d.ts",
+      "../node_modules/path-case/dist/index.d.ts",
+      "../node_modules/sentence-case/dist/index.d.ts",
+      "../node_modules/snake-case/dist/index.d.ts",
+      "../node_modules/change-case/dist/index.d.ts",
       "../src/utils.ts",
       "../src/gqlinjectors.ts",
+      "../src/tshelperinjectors.ts",
       "../src/reactinjectors.ts",
       "../src/index.ts",
       "../src/configinjectors.ts",
@@ -4600,7 +4271,43 @@
       "../../../node_modules/@types/node/ts3.2/index.d.ts",
       "../../../node_modules/@types/minimatch/index.d.ts",
       "../../../node_modules/@types/glob/index.d.ts",
-      "../src/tshelperinjectors.ts"
+      "../../../node_modules/typescript/lib/lib.es2015.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2016.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2017.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2018.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2019.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2020.d.ts",
+      "../../../node_modules/typescript/lib/lib.esnext.d.ts",
+      "../../../node_modules/typescript/lib/lib.esnext.bigint.d.ts",
+      "../../../node_modules/typescript/lib/lib.esnext.intl.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2020.symbol.wellknown.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2020.string.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2019.symbol.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2019.string.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2019.object.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2019.array.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2018.regexp.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2018.promise.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2018.intl.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2018.asynciterable.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2018.asyncgenerator.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2017.typedarrays.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2017.intl.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2017.string.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2017.sharedmemory.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2017.object.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2016.array.include.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.symbol.wellknown.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.symbol.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.reflect.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.proxy.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.promise.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.iterable.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.generator.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.collection.d.ts",
+      "../../../node_modules/typescript/lib/lib.es2015.core.d.ts",
+      "../../../node_modules/typescript/lib/lib.dom.d.ts",
+      "../../../node_modules/typescript/lib/lib.es5.d.ts"
     ]
   },
   "version": "3.7.4"

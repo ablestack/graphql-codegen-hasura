@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const visitor_plugin_common_1 = require("@graphql-codegen/visitor-plugin-common");
+const change_case_1 = require("change-case");
 exports.TABLE_TYPE_FILTER = (t) => {
     return t.description.includes("columns and relationships of");
 };
@@ -15,8 +15,18 @@ function makeCamelCase(typename) {
     return customCamelize(typename);
 }
 exports.makeCamelCase = makeCamelCase;
-function makePascalCase(typename) {
-    return visitor_plugin_common_1.toPascalCase(typename);
+function convertNameParts(str, func, removeUnderscore = false) {
+    if (removeUnderscore) {
+        return func(str);
+    }
+    return str
+        .split("_")
+        .map(s => func(s))
+        .join("_");
+}
+exports.convertNameParts = convertNameParts;
+function makePascalCase(str, transformUnderscore = false) {
+    return convertNameParts(str, change_case_1.pascalCase, transformUnderscore);
 }
 exports.makePascalCase = makePascalCase;
 function camelToSnakeUpperCase(str) {
@@ -25,7 +35,7 @@ function camelToSnakeUpperCase(str) {
 }
 exports.camelToSnakeUpperCase = camelToSnakeUpperCase;
 function makeShortName(typename, trimString = undefined) {
-    return `${visitor_plugin_common_1.toPascalCase(trimString ? typename.replace(trimString, "") : typename)}`;
+    return `${makePascalCase(trimString ? typename.replace(trimString, "") : typename)}`;
 }
 exports.makeShortName = makeShortName;
 function makeModelName(typename, trimString = undefined) {
@@ -52,7 +62,7 @@ exports.getIdPostGresFieldType = getIdPostGresFieldType;
 function getIdTypeScriptFieldType(field) {
     const postGresIdFieldType = getIdPostGresFieldType(field);
     if (postGresIdFieldType.endsWith("_enum")) {
-        return { typeName: visitor_plugin_common_1.toPascalCase(postGresIdFieldType), isNative: false };
+        return { typeName: makePascalCase(postGresIdFieldType), isNative: false };
     }
     else if (postGresIdFieldType.toLowerCase() === "int") {
         return { typeName: "number", isNative: true };

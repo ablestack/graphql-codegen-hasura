@@ -20,10 +20,10 @@
     "graphql-tag": "^2.0.0"
   },
   "devDependencies": {
-    "@graphql-codegen/core": "^1.8.3",
-    "@graphql-codegen/plugin-helpers": "1.8.3",
-    "@graphql-codegen/typescript": "^1.8.3",
-    "@graphql-codegen/visitor-plugin-common": "1.8.3",
+    "@graphql-codegen/core": "^1.12.2",
+    "@graphql-codegen/plugin-helpers": "1.12.2",
+    "@graphql-codegen/typescript": "^1.12.2",
+    "@graphql-codegen/visitor-plugin-common": "1.12.2",
     "graphql": "^14.5.8",
     "path": "^0.12.7",
     "tslib": "1.10.0",

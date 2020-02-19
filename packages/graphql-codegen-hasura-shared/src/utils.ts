@@ -1,7 +1,7 @@
 import { GraphQLNamedType, FieldDefinitionNode, ObjectTypeDefinitionNode, FragmentDefinitionNode } from "graphql";
 import _ from "lodash";
-import { toPascalCase } from "@graphql-codegen/visitor-plugin-common";
 import { TypeMap } from "graphql/type/schema";
+import { pascalCase } from "change-case";
 
 export const TABLE_TYPE_FILTER = (t: GraphQLNamedType) => {
   return t.description.includes("columns and relationships of");
@@ -19,8 +19,19 @@ export function makeCamelCase(typename: string) {
   return customCamelize(typename);
 }
 
-export function makePascalCase(typename: string) {
-  return toPascalCase(typename);
+export function convertNameParts(str: string, func: (str: string) => string, removeUnderscore = false): string {
+  if (removeUnderscore) {
+    return func(str);
+  }
+
+  return str
+    .split("_")
+    .map(s => func(s))
+    .join("_");
+}
+
+export function makePascalCase(str: string, transformUnderscore = false): string {
+  return convertNameParts(str, pascalCase, transformUnderscore);
 }
 
 export function camelToSnakeUpperCase(str: string) {
@@ -29,7 +40,7 @@ export function camelToSnakeUpperCase(str: string) {
 }
 
 export function makeShortName(typename: string, trimString: string = undefined) {
-  return `${toPascalCase(trimString ? typename.replace(trimString, "") : typename)}`;
+  return `${makePascalCase(trimString ? typename.replace(trimString, "") : typename)}`;
 }
 
 export function makeModelName(typename: string, trimString: string = undefined) {
@@ -56,7 +67,7 @@ export function getIdPostGresFieldType(field: FieldDefinitionNode) {
 export function getIdTypeScriptFieldType(field: FieldDefinitionNode): { typeName: string; isNative: boolean } {
   const postGresIdFieldType = getIdPostGresFieldType(field);
   if (postGresIdFieldType.endsWith("_enum")) {
-    return { typeName: toPascalCase(postGresIdFieldType), isNative: false };
+    return { typeName: makePascalCase(postGresIdFieldType), isNative: false };
   } else if (postGresIdFieldType.toLowerCase() === "int") {
     return { typeName: "number", isNative: true };
   } else {
