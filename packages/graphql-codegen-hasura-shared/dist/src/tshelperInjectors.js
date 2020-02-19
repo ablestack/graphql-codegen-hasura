@@ -99,11 +99,11 @@ function injectClientAndCacheHelpers({ contentManager, entityNamedType, fragment
     }
 
     function clientWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:${entityPascalName}[] }): void {
-      return apolloClient.writeQuery<${entityPascalName}[] | null>({ query: ${queryObjectsName}Document, variables, data  });
+      return apolloClient.writeQuery<{${entityPascalName}:${entityPascalName}[]}>({ query: ${queryObjectsName}Document, variables, data: { ${entityPascalName}:data } });
     }
 
     function cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:${entityPascalName}[] }): void {
-      return apolloClient.cache.writeQuery<${entityPascalName}[] | null>({ query: ${queryObjectsName}Document, variables, data  });
+      return apolloClient.cache.writeQuery<{${entityPascalName}:${entityPascalName}[]}>({ query: ${queryObjectsName}Document, variables, data: { ${entityPascalName}:data } });
     }
     `);
         //
