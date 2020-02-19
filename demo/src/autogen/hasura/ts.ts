@@ -1,6 +1,7 @@
 import { generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, convertInsertInputToPartialFragmentResursive, ObjectWithId, RefTypeMap, getLogLevel } from 'graphql-codegen-hasura-core'
-import { ApolloClient, ApolloQueryResult, defaultDataIdFromObject, FetchResult, MutationOptions, ObservableQuery, QueryOptions, SubscriptionOptions, Observable } from '@apollo/client'
+import { ApolloClient, ApolloQueryResult, defaultDataIdFromObject, FetchResult, MutationOptions, ObservableQuery, QueryOptions, SubscriptionOptions, Observable, DataProxy } from '@apollo/client'
 import { VehicleFragment } from '../';
+import { Vehicle } from '../';
 import { VehicleFragmentDoc } from '../';
 import { QueryVehicleByIdQuery } from '../';
 import { QueryVehicleByIdDocument } from '../';
@@ -60,6 +61,7 @@ import { UpdateVehicleLocationOnlyMutation } from '../';
 import { UpdateVehicleLocationOnlyMutationVariables } from '../';
 import { UpdateVehicleLocationOnlyDocument } from '../';
 import { DogFragment } from '../';
+import { Dogs } from '../';
 import { DogFragmentDoc } from '../';
 import { QueryDogByIdQuery } from '../';
 import { QueryDogByIdDocument } from '../';
@@ -148,6 +150,18 @@ import { RemoveDogsModelByIdDocument } from '../';
 
       function cacheWriteQueryVehicleById({ apolloClient, vehicleId, vehicle }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: VehicleFragment | null }): void {
         return apolloClient.cache.writeQuery<VehicleFragment | null>({ query: QueryVehicleByIdDocument, variables: { vehicleId }, data: (vehicle ? { ...vehicle, __typename: 'vehicle' } : null) });
+      }
+
+      function clientReadQueryVehicleObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<DataProxy.Query<QueryVehicleObjectsQueryVariables>, 'id'> }): Vehicle[] | null | undefined {
+        return apolloClient.readQuery<Vehicle[] | null >({ query: QueryVehicleByIdDocument, ...options  });
+      }
+
+      function clientWriteQueryVehicleObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<DataProxy.WriteQueryOptions<Vehicle[], QueryVehicleObjectsQueryVariables>, 'id'> }): void {
+        return apolloClient.writeQuery<Vehicle[] | null>({ query: QueryVehicleByIdDocument, variables: options.variables, data: options.data  });
+      }
+
+      function cacheWriteQueryVehicleObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<DataProxy.WriteQueryOptions<Vehicle[], QueryVehicleObjectsQueryVariables>, 'id'> }): void {
+        return apolloClient.cache.writeQuery<Vehicle[] | null>({ query: QueryVehicleByIdDocument, variables: options.variables, data: options.data  });
       }
     
 
@@ -325,6 +339,9 @@ import { RemoveDogsModelByIdDocument } from '../';
       clientReadQueryById: clientReadQueryVehicleById,
       clientWriteQueryById: clientWriteQueryVehicleById,
       cacheWriteQueryById: cacheWriteQueryVehicleById,
+      clientReadQueryObjects: clientReadQueryVehicleObjects,
+      clientWriteQueryObjects: clientWriteQueryVehicleObjects,
+      cacheWriteQueryObjects: cacheWriteQueryVehicleObjects,
       queryById: queryVehicleById,
       queryObjects: queryVehicleObjects,
       watchQueryById: watchQueryVehicleById,
@@ -392,6 +409,18 @@ import { RemoveDogsModelByIdDocument } from '../';
 
       function cacheWriteQueryVehicleLocationOnlyById({ apolloClient, vehicleId, vehicleLocationOnly }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicleLocationOnly: VehicleLocationOnlyFragment | null }): void {
         return apolloClient.cache.writeQuery<VehicleLocationOnlyFragment | null>({ query: QueryVehicleLocationOnlyByIdDocument, variables: { vehicleId }, data: (vehicleLocationOnly ? { ...vehicleLocationOnly, __typename: 'vehicle' } : null) });
+      }
+
+      function clientReadQueryVehicleLocationOnlyObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<DataProxy.Query<QueryVehicleLocationOnlyObjectsQueryVariables>, 'id'> }): Vehicle[] | null | undefined {
+        return apolloClient.readQuery<Vehicle[] | null >({ query: QueryVehicleLocationOnlyByIdDocument, ...options  });
+      }
+
+      function clientWriteQueryVehicleLocationOnlyObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<DataProxy.WriteQueryOptions<Vehicle[], QueryVehicleLocationOnlyObjectsQueryVariables>, 'id'> }): void {
+        return apolloClient.writeQuery<Vehicle[] | null>({ query: QueryVehicleLocationOnlyByIdDocument, variables: options.variables, data: options.data  });
+      }
+
+      function cacheWriteQueryVehicleLocationOnlyObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<DataProxy.WriteQueryOptions<Vehicle[], QueryVehicleLocationOnlyObjectsQueryVariables>, 'id'> }): void {
+        return apolloClient.cache.writeQuery<Vehicle[] | null>({ query: QueryVehicleLocationOnlyByIdDocument, variables: options.variables, data: options.data  });
       }
     
 
@@ -541,6 +570,9 @@ import { RemoveDogsModelByIdDocument } from '../';
       clientReadQueryById: clientReadQueryVehicleLocationOnlyById,
       clientWriteQueryById: clientWriteQueryVehicleLocationOnlyById,
       cacheWriteQueryById: cacheWriteQueryVehicleLocationOnlyById,
+      clientReadQueryObjects: clientReadQueryVehicleLocationOnlyObjects,
+      clientWriteQueryObjects: clientWriteQueryVehicleLocationOnlyObjects,
+      cacheWriteQueryObjects: cacheWriteQueryVehicleLocationOnlyObjects,
       queryById: queryVehicleLocationOnlyById,
       queryObjects: queryVehicleLocationOnlyObjects,
       watchQueryById: watchQueryVehicleLocationOnlyById,
@@ -599,6 +631,18 @@ import { RemoveDogsModelByIdDocument } from '../';
 
       function cacheWriteQueryDogById({ apolloClient, dogsId, dog }: { apolloClient: ApolloClient<object>, dogsId: string, dog: DogFragment | null }): void {
         return apolloClient.cache.writeQuery<DogFragment | null>({ query: QueryDogByIdDocument, variables: { dogsId }, data: (dog ? { ...dog, __typename: 'dogs' } : null) });
+      }
+
+      function clientReadQueryDogObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<DataProxy.Query<QueryDogObjectsQueryVariables>, 'id'> }): Dogs[] | null | undefined {
+        return apolloClient.readQuery<Dogs[] | null >({ query: QueryDogByIdDocument, ...options  });
+      }
+
+      function clientWriteQueryDogObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<DataProxy.WriteQueryOptions<Dogs[], QueryDogObjectsQueryVariables>, 'id'> }): void {
+        return apolloClient.writeQuery<Dogs[] | null>({ query: QueryDogByIdDocument, variables: options.variables, data: options.data  });
+      }
+
+      function cacheWriteQueryDogObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<DataProxy.WriteQueryOptions<Dogs[], QueryDogObjectsQueryVariables>, 'id'> }): void {
+        return apolloClient.cache.writeQuery<Dogs[] | null>({ query: QueryDogByIdDocument, variables: options.variables, data: options.data  });
       }
     
 
@@ -776,6 +820,9 @@ import { RemoveDogsModelByIdDocument } from '../';
       clientReadQueryById: clientReadQueryDogById,
       clientWriteQueryById: clientWriteQueryDogById,
       cacheWriteQueryById: cacheWriteQueryDogById,
+      clientReadQueryObjects: clientReadQueryDogObjects,
+      clientWriteQueryObjects: clientWriteQueryDogObjects,
+      cacheWriteQueryObjects: cacheWriteQueryDogObjects,
       queryById: queryDogById,
       queryObjects: queryDogObjects,
       watchQueryById: watchQueryDogById,

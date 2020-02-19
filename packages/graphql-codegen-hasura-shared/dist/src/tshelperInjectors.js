@@ -6,7 +6,7 @@ const utils_1 = require("./utils");
 //
 function injectGlobalHelperCodePre({ contentManager, typescriptCodegenOutputPath, withUpdates }) {
     contentManager.addImport(`import { generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, convertInsertInputToPartialFragmentResursive, ObjectWithId, RefTypeMap, getLogLevel } from 'graphql-codegen-hasura-core'`);
-    contentManager.addImport(`import { ApolloClient, ApolloQueryResult, defaultDataIdFromObject, FetchResult, MutationOptions, ObservableQuery, QueryOptions, SubscriptionOptions, Observable } from '@apollo/client'`);
+    contentManager.addImport(`import { ApolloClient, ApolloQueryResult, defaultDataIdFromObject, FetchResult, MutationOptions, ObservableQuery, QueryOptions, SubscriptionOptions, Observable, DataProxy } from '@apollo/client'`);
     contentManager.addContent(`
     // GLOBAL TYPES
     //------------------------------------------------
@@ -92,7 +92,20 @@ function injectClientAndCacheHelpers({ contentManager, entityNamedType, fragment
       function cacheWriteQuery${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase} }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}: ${fragmentNamePascalCase}Fragment | null }): void {
         return apolloClient.cache.writeQuery<${fragmentNamePascalCase}Fragment | null>({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, data: (${fragmentNameCamelCase} ? { ...${fragmentNameCamelCase}, __typename: '${entityNamedType.name}' } : null) });
       }
+
+      function clientReadQuery${fragmentNamePascalCase}Objects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<DataProxy.Query<Query${fragmentNamePascalCase}ObjectsQueryVariables>, 'id'> }): ${entityPascalName}[] | null | undefined {
+        return apolloClient.readQuery<${entityPascalName}[] | null >({ query: Query${fragmentNamePascalCase}ByIdDocument, ...options  });
+      }
+
+      function clientWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<DataProxy.WriteQueryOptions<${entityPascalName}[], Query${fragmentNamePascalCase}ObjectsQueryVariables>, 'id'> }): void {
+        return apolloClient.writeQuery<${entityPascalName}[] | null>({ query: Query${fragmentNamePascalCase}ByIdDocument, variables: options.variables, data: options.data  });
+      }
+
+      function cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<DataProxy.WriteQueryOptions<${entityPascalName}[], Query${fragmentNamePascalCase}ObjectsQueryVariables>, 'id'> }): void {
+        return apolloClient.cache.writeQuery<${entityPascalName}[] | null>({ query: Query${fragmentNamePascalCase}ByIdDocument, variables: options.variables, data: options.data  });
+      }
     `);
+        contentManager.addImport(_1.makeImportStatement(entityPascalName, typescriptCodegenOutputPath));
         contentManager.addImport(_1.makeImportStatement(fragmentDocName, typescriptCodegenOutputPath));
         if (primaryKeyIdField)
             contentManager.addImport(_1.makeImportStatement(`${queryByIdName}Query`, typescriptCodegenOutputPath));
@@ -396,6 +409,12 @@ function injectSharedHelpersPost({ contentManager, entityNamedType, fragmentName
             fragmentHelperObject += `      clientWriteQueryById: clientWriteQuery${fragmentNamePascalCase}ById,\n`;
         if (withClientAndCacheHelpers)
             fragmentHelperObject += `      cacheWriteQueryById: cacheWriteQuery${fragmentNamePascalCase}ById,\n`;
+        if (withClientAndCacheHelpers)
+            fragmentHelperObject += `      clientReadQueryObjects: clientReadQuery${fragmentNamePascalCase}Objects,\n`;
+        if (withClientAndCacheHelpers)
+            fragmentHelperObject += `      clientWriteQueryObjects: clientWriteQuery${fragmentNamePascalCase}Objects,\n`;
+        if (withClientAndCacheHelpers)
+            fragmentHelperObject += `      cacheWriteQueryObjects: cacheWriteQuery${fragmentNamePascalCase}Objects,\n`;
         if (withQueries)
             fragmentHelperObject += `      queryById: query${fragmentNamePascalCase}ById,\n`;
         if (withQueries)

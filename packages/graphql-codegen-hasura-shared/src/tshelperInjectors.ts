@@ -18,7 +18,7 @@ export function injectGlobalHelperCodePre({
     `import { generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, convertInsertInputToPartialFragmentResursive, ObjectWithId, RefTypeMap, getLogLevel } from 'graphql-codegen-hasura-core'`
   );
   contentManager.addImport(
-    `import { ApolloClient, ApolloQueryResult, defaultDataIdFromObject, FetchResult, MutationOptions, ObservableQuery, QueryOptions, SubscriptionOptions, Observable } from '@apollo/client'`
+    `import { ApolloClient, ApolloQueryResult, defaultDataIdFromObject, FetchResult, MutationOptions, ObservableQuery, QueryOptions, SubscriptionOptions, Observable, DataProxy } from '@apollo/client'`
   );
 
   contentManager.addContent(`
@@ -138,8 +138,21 @@ export function injectClientAndCacheHelpers({
       function cacheWriteQuery${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase} }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}: ${fragmentNamePascalCase}Fragment | null }): void {
         return apolloClient.cache.writeQuery<${fragmentNamePascalCase}Fragment | null>({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, data: (${fragmentNameCamelCase} ? { ...${fragmentNameCamelCase}, __typename: '${entityNamedType.name}' } : null) });
       }
+
+      function clientReadQuery${fragmentNamePascalCase}Objects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<DataProxy.Query<Query${fragmentNamePascalCase}ObjectsQueryVariables>, 'id'> }): ${entityPascalName}[] | null | undefined {
+        return apolloClient.readQuery<${entityPascalName}[] | null >({ query: Query${fragmentNamePascalCase}ByIdDocument, ...options  });
+      }
+
+      function clientWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<DataProxy.WriteQueryOptions<${entityPascalName}[], Query${fragmentNamePascalCase}ObjectsQueryVariables>, 'id'> }): void {
+        return apolloClient.writeQuery<${entityPascalName}[] | null>({ query: Query${fragmentNamePascalCase}ByIdDocument, variables: options.variables, data: options.data  });
+      }
+
+      function cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<DataProxy.WriteQueryOptions<${entityPascalName}[], Query${fragmentNamePascalCase}ObjectsQueryVariables>, 'id'> }): void {
+        return apolloClient.cache.writeQuery<${entityPascalName}[] | null>({ query: Query${fragmentNamePascalCase}ByIdDocument, variables: options.variables, data: options.data  });
+      }
     `);
 
+    contentManager.addImport(makeImportStatement(entityPascalName, typescriptCodegenOutputPath));
     contentManager.addImport(makeImportStatement(fragmentDocName, typescriptCodegenOutputPath));
     if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${queryByIdName}Query`, typescriptCodegenOutputPath));
     if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${queryByIdName}Document`, typescriptCodegenOutputPath));
@@ -540,6 +553,9 @@ export function injectSharedHelpersPost({
     if (withClientAndCacheHelpers) fragmentHelperObject += `      clientReadQueryById: clientReadQuery${fragmentNamePascalCase}ById,\n`;
     if (withClientAndCacheHelpers) fragmentHelperObject += `      clientWriteQueryById: clientWriteQuery${fragmentNamePascalCase}ById,\n`;
     if (withClientAndCacheHelpers) fragmentHelperObject += `      cacheWriteQueryById: cacheWriteQuery${fragmentNamePascalCase}ById,\n`;
+    if (withClientAndCacheHelpers) fragmentHelperObject += `      clientReadQueryObjects: clientReadQuery${fragmentNamePascalCase}Objects,\n`;
+    if (withClientAndCacheHelpers) fragmentHelperObject += `      clientWriteQueryObjects: clientWriteQuery${fragmentNamePascalCase}Objects,\n`;
+    if (withClientAndCacheHelpers) fragmentHelperObject += `      cacheWriteQueryObjects: cacheWriteQuery${fragmentNamePascalCase}Objects,\n`;
     if (withQueries) fragmentHelperObject += `      queryById: query${fragmentNamePascalCase}ById,\n`;
     if (withQueries) fragmentHelperObject += `      queryObjects: query${fragmentNamePascalCase}Objects,\n`;
     if (withQueries) fragmentHelperObject += `      watchQueryById: watchQuery${fragmentNamePascalCase}ById,\n`;
