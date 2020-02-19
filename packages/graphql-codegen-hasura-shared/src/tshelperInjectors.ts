@@ -96,8 +96,8 @@ export function injectClientAndCacheHelpers({
   const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(fragmentName);
   const fragmentDocName = makeFragmentDocName(fragmentName);
   const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
-  const queryByIdName = `Query${fragmentNamePascalCase}ById`;
   const entityPascalName = makePascalCase(entityNamedType.name);
+  const queryByIdName = `Query${fragmentNamePascalCase}ById`;
   const queryObjectsName = `Query${fragmentNamePascalCase}Objects`;
 
   if (primaryKeyIdField) {
@@ -141,15 +141,15 @@ export function injectClientAndCacheHelpers({
       }
 
       function clientReadQuery${fragmentNamePascalCase}Objects({ apolloClient, variables }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables }): ${entityPascalName}[] | null | undefined {
-        return apolloClient.readQuery<${entityPascalName}[] | null >({ query: Query${fragmentNamePascalCase}ByIdDocument, variables });
+        return apolloClient.readQuery<${entityPascalName}[] | null >({ query: Query${queryObjectsName}Document, variables });
       }
 
       function clientWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:${entityPascalName}[] }): void {
-        return apolloClient.writeQuery<${entityPascalName}[] | null>({ query: Query${fragmentNamePascalCase}ByIdDocument, variables, data  });
+        return apolloClient.writeQuery<${entityPascalName}[] | null>({ query: Query${queryObjectsName}Document, variables, data  });
       }
 
       function cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:${entityPascalName}[] }): void {
-        return apolloClient.cache.writeQuery<${entityPascalName}[] | null>({ query: Query${fragmentNamePascalCase}ByIdDocument, variables, data  });
+        return apolloClient.cache.writeQuery<${entityPascalName}[] | null>({ query: Query${queryObjectsName}Document, variables, data  });
       }
     `);
 
