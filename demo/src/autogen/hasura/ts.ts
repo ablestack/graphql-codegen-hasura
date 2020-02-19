@@ -153,15 +153,15 @@ import { RemoveDogsModelByIdDocument } from '../';
       }
 
       function clientReadQueryVehicleObjects({ apolloClient, variables }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables }): Vehicle[] | null | undefined {
-        return apolloClient.readQuery<Vehicle[] | null >({ query: QueryVehicleByIdDocument, variables });
+        return apolloClient.readQuery<Vehicle[] | null >({ query: QueryVehicleObjectsDocument, variables });
       }
 
       function clientWriteQueryVehicleObjects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables, data:Vehicle[] }): void {
-        return apolloClient.writeQuery<Vehicle[] | null>({ query: QueryVehicleByIdDocument, variables, data  });
+        return apolloClient.writeQuery<Vehicle[] | null>({ query: QueryVehicleObjectsDocument, variables, data  });
       }
 
       function cacheWriteQueryVehicleObjects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables, data:Vehicle[] }): void {
-        return apolloClient.cache.writeQuery<Vehicle[] | null>({ query: QueryVehicleByIdDocument, variables, data  });
+        return apolloClient.cache.writeQuery<Vehicle[] | null>({ query: QueryVehicleObjectsDocument, variables, data  });
       }
     
 
@@ -412,15 +412,15 @@ import { RemoveDogsModelByIdDocument } from '../';
       }
 
       function clientReadQueryVehicleLocationOnlyObjects({ apolloClient, variables }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables }): Vehicle[] | null | undefined {
-        return apolloClient.readQuery<Vehicle[] | null >({ query: QueryVehicleLocationOnlyByIdDocument, variables });
+        return apolloClient.readQuery<Vehicle[] | null >({ query: QueryVehicleLocationOnlyObjectsDocument, variables });
       }
 
       function clientWriteQueryVehicleLocationOnlyObjects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, data:Vehicle[] }): void {
-        return apolloClient.writeQuery<Vehicle[] | null>({ query: QueryVehicleLocationOnlyByIdDocument, variables, data  });
+        return apolloClient.writeQuery<Vehicle[] | null>({ query: QueryVehicleLocationOnlyObjectsDocument, variables, data  });
       }
 
       function cacheWriteQueryVehicleLocationOnlyObjects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, data:Vehicle[] }): void {
-        return apolloClient.cache.writeQuery<Vehicle[] | null>({ query: QueryVehicleLocationOnlyByIdDocument, variables, data  });
+        return apolloClient.cache.writeQuery<Vehicle[] | null>({ query: QueryVehicleLocationOnlyObjectsDocument, variables, data  });
       }
     
 
@@ -634,15 +634,15 @@ import { RemoveDogsModelByIdDocument } from '../';
       }
 
       function clientReadQueryDogObjects({ apolloClient, variables }: { apolloClient: ApolloClient<object>, variables: QueryDogObjectsQueryVariables }): Dogs[] | null | undefined {
-        return apolloClient.readQuery<Dogs[] | null >({ query: QueryDogByIdDocument, variables });
+        return apolloClient.readQuery<Dogs[] | null >({ query: QueryDogObjectsDocument, variables });
       }
 
       function clientWriteQueryDogObjects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: QueryDogObjectsQueryVariables, data:Dogs[] }): void {
-        return apolloClient.writeQuery<Dogs[] | null>({ query: QueryDogByIdDocument, variables, data  });
+        return apolloClient.writeQuery<Dogs[] | null>({ query: QueryDogObjectsDocument, variables, data  });
       }
 
       function cacheWriteQueryDogObjects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: QueryDogObjectsQueryVariables, data:Dogs[] }): void {
-        return apolloClient.cache.writeQuery<Dogs[] | null>({ query: QueryDogByIdDocument, variables, data  });
+        return apolloClient.cache.writeQuery<Dogs[] | null>({ query: QueryDogObjectsDocument, variables, data  });
       }
     
 

@@ -141,15 +141,15 @@ export function injectClientAndCacheHelpers({
       }
 
       function clientReadQuery${fragmentNamePascalCase}Objects({ apolloClient, variables }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables }): ${entityPascalName}[] | null | undefined {
-        return apolloClient.readQuery<${entityPascalName}[] | null >({ query: Query${queryObjectsName}Document, variables });
+        return apolloClient.readQuery<${entityPascalName}[] | null >({ query: ${queryObjectsName}Document, variables });
       }
 
       function clientWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:${entityPascalName}[] }): void {
-        return apolloClient.writeQuery<${entityPascalName}[] | null>({ query: Query${queryObjectsName}Document, variables, data  });
+        return apolloClient.writeQuery<${entityPascalName}[] | null>({ query: ${queryObjectsName}Document, variables, data  });
       }
 
       function cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:${entityPascalName}[] }): void {
-        return apolloClient.cache.writeQuery<${entityPascalName}[] | null>({ query: Query${queryObjectsName}Document, variables, data  });
+        return apolloClient.cache.writeQuery<${entityPascalName}[] | null>({ query: ${queryObjectsName}Document, variables, data  });
       }
     `);
 

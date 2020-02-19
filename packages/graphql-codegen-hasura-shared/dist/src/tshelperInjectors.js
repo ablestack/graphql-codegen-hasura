@@ -51,8 +51,8 @@ function injectClientAndCacheHelpers({ contentManager, entityNamedType, fragment
     const fragmentTypeScriptTypeName = utils_1.makeFragmentTypeScriptTypeName(fragmentName);
     const fragmentDocName = utils_1.makeFragmentDocName(fragmentName);
     const primaryKeyIdTypeScriptFieldType = _1.getIdTypeScriptFieldType(primaryKeyIdField);
-    const queryByIdName = `Query${fragmentNamePascalCase}ById`;
     const entityPascalName = utils_1.makePascalCase(entityNamedType.name);
+    const queryByIdName = `Query${fragmentNamePascalCase}ById`;
     const queryObjectsName = `Query${fragmentNamePascalCase}Objects`;
     if (primaryKeyIdField) {
         contentManager.addContent(`
@@ -95,15 +95,15 @@ function injectClientAndCacheHelpers({ contentManager, entityNamedType, fragment
       }
 
       function clientReadQuery${fragmentNamePascalCase}Objects({ apolloClient, variables }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables }): ${entityPascalName}[] | null | undefined {
-        return apolloClient.readQuery<${entityPascalName}[] | null >({ query: Query${fragmentNamePascalCase}ByIdDocument, variables });
+        return apolloClient.readQuery<${entityPascalName}[] | null >({ query: ${queryObjectsName}Document, variables });
       }
 
       function clientWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:${entityPascalName}[] }): void {
-        return apolloClient.writeQuery<${entityPascalName}[] | null>({ query: Query${fragmentNamePascalCase}ByIdDocument, variables, data  });
+        return apolloClient.writeQuery<${entityPascalName}[] | null>({ query: ${queryObjectsName}Document, variables, data  });
       }
 
       function cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:${entityPascalName}[] }): void {
-        return apolloClient.cache.writeQuery<${entityPascalName}[] | null>({ query: Query${fragmentNamePascalCase}ByIdDocument, variables, data  });
+        return apolloClient.cache.writeQuery<${entityPascalName}[] | null>({ query: ${queryObjectsName}Document, variables, data  });
       }
     `);
         contentManager.addImport(_1.makeImportStatement(entityPascalName, typescriptCodegenOutputPath));
