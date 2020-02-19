@@ -16,10 +16,11 @@ export function generateOptimisticResponseForMutation<T>({
     __typename: "mutation_root",
     [`${operationType}_${entityName}`]: {
       affected_rows: objects.length,
-      returning: objects.map(entity => {
-        return { ...entity, __typename: entityName };
+      returning: objects.map(o => {
+        if (operationType === "insert") return convertInsertInputToPartialFragmentResursive({ insertInputType: o });
+        else return { ...o, __typename: entityName };
       }),
-      __typename: `\${entityName}_mutation_response`
+      __typename: `${entityName}_mutation_response`
     }
   } as unknown) as T;
 
@@ -68,6 +69,18 @@ export function convertApolloObjectArrayToRefObj(o: any[]) {
   return o.map(arrayItem => convertApolloObjectToRefObj(o));
 }
 
+export function ensureTypenameOnFragment(o: any, typename: string) {
+  if (!IS_OBJECT_WITH_ID(o)) throw new Error(`Provided object was not of type ObjectWithId: ${JSON.stringify(o)}`);
+  return { ...o, __typename: typename };
+}
+
+export function ensureTypenameOnFragments(o: any[], typename: string) {
+  return o.map(arrayItem => ensureTypenameOnFragment(o, typename));
+}
+
+//
+// Series of functions for helping handle translations between input objects and fragments
+//
 export function recursiveConvertObjectWithIdToFragmentLikeObject({ o, typename, refTypeMap }: { o: any; typename: string; refTypeMap?: RefTypeMap }) {
   if (!IS_OBJECT_WITH_ID(o)) throw new Error(`Provided object was not of type ObjectWithId: ${JSON.stringify(o)}`);
   return { ...convertInsertInputToPartialFragmentResursive({ insertInputType: o, refTypeMap }), __typename: typename };
