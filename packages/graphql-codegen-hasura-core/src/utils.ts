@@ -1,5 +1,5 @@
 import { defaultDataIdFromObject } from "@apollo/client";
-import { RefObj, RefTypeMap } from ".";
+import { RefTypeMap, NestedRefString } from ".";
 
 // Optimistic response generation utility method
 //
@@ -81,12 +81,12 @@ export function ensureTypenameOnFragments(o: any[], typename: string) {
 //
 // Series of functions for helping handle translations between input objects and fragments
 //
-export function recursiveConvertObjectWithIdToFragmentLikeObject({ o, typename, refTypeMap }: { o: any; typename: string; refTypeMap?: RefTypeMap }) {
+export function recursiveConvertObjectWithIdToFragmentLikeObject({ o, typename, refTypeMap }: { o: any; typename: string; refTypeMap?: RefTypeMap<string> }) {
   if (!IS_OBJECT_WITH_ID(o)) throw new Error(`Provided object was not of type ObjectWithId: ${JSON.stringify(o)}`);
   return { ...convertInsertInputToPartialFragmentResursive({ insertInputType: o, refTypeMap }), __typename: typename };
 }
 
-export function convertObjectWithIdArrayToFragmentLikeArray({ o, typename, refTypeMap }: { o: any[]; typename: string; refTypeMap?: RefTypeMap }) {
+export function convertObjectWithIdArrayToFragmentLikeArray({ o, typename, refTypeMap }: { o: any[]; typename: string; refTypeMap?: RefTypeMap<string> }) {
   return o.map(arrayItem => recursiveConvertObjectWithIdToFragmentLikeObject({ o: arrayItem, typename, refTypeMap }));
 }
 
@@ -121,13 +121,13 @@ function recursiveConvertToFragmentLikeObject({
   return null;
 }
 
-export function convertInsertInputToPartialFragmentResursive({ insertInputType, refTypeMap }: { insertInputType: object; refTypeMap?: RefTypeMap }) {
+export function convertInsertInputToPartialFragmentResursive({ insertInputType, refTypeMap }: { insertInputType: object; refTypeMap?: RefTypeMap<string> }) {
   const fragment: any = {};
 
   //Loop object and build up a fragment appropriate for a cache-add
   for (const [insertInputKey, insertInputValue] of Object.entries(insertInputType)) {
     //Add scalar values
-    if (IS_JAVASCRIPT_SCALAR_EQUIVALENT(insertInputValue)) {
+    if (IS_JAVASCRIPT_SCALAR_EQUIVALENT(insertInputValue) || (refTypeMap && refTypeMap[insertInputKey] === NestedRefString)) {
       fragment[insertInputKey] = insertInputValue;
       continue;
     }
