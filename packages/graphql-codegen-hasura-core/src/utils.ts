@@ -1,5 +1,5 @@
 import { defaultDataIdFromObject } from "@apollo/client";
-import { RefTypeMap, NestedRefString } from ".";
+import { RefTypeMap, NestedRef } from ".";
 
 // Optimistic response generation utility method
 //
@@ -127,7 +127,7 @@ export function convertInsertInputToPartialFragmentResursive({ insertInputType, 
   //Loop object and build up a fragment appropriate for a cache-add
   for (const [insertInputKey, insertInputValue] of Object.entries(insertInputType)) {
     //Add scalar values
-    if (IS_JAVASCRIPT_SCALAR_EQUIVALENT(insertInputValue) || (refTypeMap && refTypeMap[insertInputKey] === NestedRefString)) {
+    if (IS_JAVASCRIPT_SCALAR_EQUIVALENT(insertInputValue) || (refTypeMap && refTypeMap[insertInputKey] === NestedRef)) {
       fragment[insertInputKey] = insertInputValue;
       continue;
     }
