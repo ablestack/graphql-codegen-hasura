@@ -1,5 +1,5 @@
 import { defaultDataIdFromObject } from "@apollo/client";
-import { RefTypeMap, NestedRef } from ".";
+import { RefTypeMap } from ".";
 
 // Optimistic response generation utility method
 //
@@ -60,6 +60,12 @@ export function IS_INSERT_INPUT_OBJECT(o: any) {
   return o.data;
 }
 
+export function GET_INSERT_INPUT_DATA(o: any) {
+  if (!IS_NON_NULL_OBJECT(o)) throw new Error(`Provided object was not of type InsertInput (with data property): ${JSON.stringify(o)}`);
+
+  return o.data;
+}
+
 export function convertApolloObjectToRefObj(o: any) {
   if (!IS_APOLLO_OBJECT(o)) throw new Error(`Provided object was not of type ApolloObject (with id & _typename properties): ${JSON.stringify(o)}`);
   return { id: o.id, __typename: o.__typeName };
@@ -70,7 +76,7 @@ export function convertApolloObjectArrayToRefObj(o: any[]) {
 }
 
 export function ensureTypenameOnFragment(o: any, typename: string) {
-  if (!IS_OBJECT_WITH_ID(o)) throw new Error(`Provided object was not of type ObjectWithId: ${JSON.stringify(o)}`);
+  if (!IS_OBJECT_WITH_ID(o)) throw new Error(`Provided object was not of type ObjWithId: ${JSON.stringify(o)}`);
   return { ...o, __typename: typename };
 }
 
@@ -81,64 +87,82 @@ export function ensureTypenameOnFragments(o: any[], typename: string) {
 //
 // Series of functions for helping handle translations between input objects and fragments
 //
-export function recursiveConvertObjectWithIdToFragmentLikeObject({ o, typename, refTypeMap }: { o: any; typename: string; refTypeMap?: RefTypeMap<string> }) {
-  if (!IS_OBJECT_WITH_ID(o)) throw new Error(`Provided object was not of type ObjectWithId: ${JSON.stringify(o)}`);
-  return { ...convertInsertInputToPartialFragmentResursive({ insertInputType: o, refTypeMap }), __typename: typename };
+export function addTypenameToObjWithId({ o, typename }: { o: any; typename: string }) {
+  if (!IS_OBJECT_WITH_ID(o)) throw new Error(`Provided object was not of type ObjWithId: ${JSON.stringify(o)}`);
+  return { ...o, __typename: typename };
 }
 
-export function convertObjectWithIdArrayToFragmentLikeArray({ o, typename, refTypeMap }: { o: any[]; typename: string; refTypeMap?: RefTypeMap<string> }) {
-  return o.map(arrayItem => recursiveConvertObjectWithIdToFragmentLikeObject({ o: arrayItem, typename, refTypeMap }));
+/**
+ *
+ */
+export function addTypenameToObjWithIdArray({ o, typename }: { o: any[]; typename: string }) {
+  return o.map(arrayItem => addTypenameToObjWithId({ o: arrayItem, typename }));
 }
 
-function recursiveConvertToFragmentLikeObject({
-  o,
-  typename,
-  refTypeMap,
-  recursiveInsertInputTypeTest = true
-}: {
-  o: any;
-  typename: string;
-  refTypeMap?: RefTypeMap;
-  recursiveInsertInputTypeTest?: boolean;
-}) {
+//
+// Series of functions for helping handle translations between input objects and fragments
+//
+function convertObjWithIdToFragmentR({ o, propertyKey, refTypeMap }: { o: any; propertyKey: string; refTypeMap?: RefTypeMap<string> }) {
+  if (!IS_OBJECT_WITH_ID(o)) throw new Error(`Provided object was not of type ObjWithId: ${JSON.stringify(o)}`);
+  let convertedObject = convertInsertInputToPartialFragmentResursive({ insertInputType: o, refTypeMap });
+  if (refTypeMap && refTypeMap[propertyKey]) convertedObject = addTypenameToObjWithId({ o: convertedObject, typename: refTypeMap[propertyKey] });
+  return convertedObject;
+}
+
+/**
+ *
+ */
+function convertObjWithIdArrayToFragmentArrayR({ o, propertyKey, refTypeMap }: { o: any[]; propertyKey: string; refTypeMap?: RefTypeMap<string> }) {
+  return o.map(arrayItem => convertObjWithIdToFragmentR({ o: arrayItem, propertyKey, refTypeMap }));
+}
+
+/**
+ *
+ */
+function convertObjectToFragmentR({ o, propertyKey, refTypeMap }: { o: any; propertyKey: string; refTypeMap?: RefTypeMap<string> }) {
   if (!IS_NON_NULL_OBJECT(o)) return null;
 
   if (Array.isArray(o)) {
     if (o.length === 0 || !o[0] || !IS_OBJECT_WITH_ID(o[0])) return null;
-    return convertObjectWithIdArrayToFragmentLikeArray({ o, typename, refTypeMap });
+    return convertObjWithIdArrayToFragmentArrayR({ o, propertyKey, refTypeMap });
   }
 
   if (IS_OBJECT_WITH_ID(o)) {
-    return recursiveConvertObjectWithIdToFragmentLikeObject({ o, typename, refTypeMap });
+    return convertObjWithIdToFragmentR({ o, propertyKey, refTypeMap });
   }
 
-  //if here, might be a InsertInput object, which has the payload in a property named data
-  if (recursiveInsertInputTypeTest && IS_INSERT_INPUT_OBJECT(o)) {
-    return recursiveConvertToFragmentLikeObject({ o: o.data, typename, refTypeMap, recursiveInsertInputTypeTest: false });
+  if (IS_INSERT_INPUT_OBJECT(o) && refTypeMap[propertyKey]) {
+    return convertObjectToFragmentR({ o: o.data, propertyKey, refTypeMap });
   }
 
   // if non of the above, return null
   return null;
 }
 
+/*
+ *
+ */
 export function convertInsertInputToPartialFragmentResursive({ insertInputType, refTypeMap }: { insertInputType: object; refTypeMap?: RefTypeMap<string> }) {
   const fragment: any = {};
 
   //Loop object and build up a fragment appropriate for a cache-add
   for (const [insertInputKey, insertInputValue] of Object.entries(insertInputType)) {
     //Add scalar values
-    if (IS_JAVASCRIPT_SCALAR_EQUIVALENT(insertInputValue) || (refTypeMap && refTypeMap[insertInputKey] === NestedRef)) {
+    if (IS_JAVASCRIPT_SCALAR_EQUIVALENT(insertInputValue)) {
       fragment[insertInputKey] = insertInputValue;
       continue;
     }
 
-    if (IS_NON_NULL_OBJECT(insertInputValue) && refTypeMap && refTypeMap[insertInputKey]) {
-      const ref = recursiveConvertToFragmentLikeObject({ o: insertInputValue, typename: refTypeMap[insertInputKey], refTypeMap });
+    // if non-null object AND no flag to explicity ignore field
+    if (IS_NON_NULL_OBJECT(insertInputValue) && (!refTypeMap || !refTypeMap[insertInputKey] || refTypeMap[insertInputKey] !== "IGNORE_FIELD")) {
+      const ref = convertObjectToFragmentR({ o: insertInputValue, propertyKey: insertInputKey, refTypeMap });
+
       if (ref) {
         fragment[insertInputKey] = ref;
         continue;
       }
     }
   }
+
   return fragment;
 }

@@ -16,12 +16,29 @@ test("convertInsertInputToPartialFragmentResursive - refType object should retur
 /*
  *
  */
-test("convertInsertInputToPartialFragmentResursive - refType array should return as expected", () => {
+test("convertInsertInputToPartialFragmentResursive - plain array should return as expected (no typename)", () => {
+  const foo = { id: 1, bar: [{ id: 2 }, { id: 3 }] };
+
+  const fragment = convertInsertInputToPartialFragmentResursive({ insertInputType: foo });
+
+  console.log(" --> fragment 2.0", fragment);
+
+  expect(fragment).toMatchObject({
+    id: 1,
+    bar: [{ id: 2 }, { id: 3 }]
+  });
+  expect(fragment.bar[0]._typename).toBeUndefined();
+});
+
+/*
+ *
+ */
+test("convertInsertInputToPartialFragmentResursive - plain array should return as expected (with typename)", () => {
   const foo = { id: 1, bar: [{ id: 2 }, { id: 3 }] };
 
   const fragment = convertInsertInputToPartialFragmentResursive({ insertInputType: foo, refTypeMap: { bar: "Bar" } });
 
-  console.log(" --> fragment 2", fragment);
+  console.log(" --> fragment 2.1", fragment);
 
   expect(fragment).toMatchObject({
     id: 1,
@@ -30,6 +47,17 @@ test("convertInsertInputToPartialFragmentResursive - refType array should return
       { id: 3, __typename: "Bar" }
     ]
   });
+});
+
+test("convertInsertInputToPartialFragmentResursive - plain array should be omitted", () => {
+  const foo = { id: 1, bar: [{ id: 2 }, { id: 3 }] };
+
+  const fragment = convertInsertInputToPartialFragmentResursive({ insertInputType: foo, refTypeMap: { bar: "IGNORE_FIELD" } });
+
+  console.log(" --> fragment 2.2", fragment);
+
+  expect(fragment).toMatchObject({ id: 1 });
+  expect(fragment.bar).toBeUndefined();
 });
 
 /*
@@ -78,16 +106,17 @@ test("convertInsertInputToPartialFragmentResursive - insertInput recursive array
     }
   };
 
-  const fragmentRecursive = convertInsertInputToPartialFragmentResursive({ insertInputType: foo, refTypeMap: { bar: "Bar", baz: "Baz" } });
-  console.log(" --> fragment 5", JSON.stringify(fragmentRecursive, null, 2));
-
-  expect(fragmentRecursive).toMatchObject({
+  const expected = {
     id: 1,
     bar: [
-      { id: 2, __typename: "Bar" },
-      { id: 3, __typename: "Bar", baz: [{ id: 4, name: "foo bar baz 4", __typename: "Baz" }] }
+      { id: 2, name: "foo bar 2", __typename: "Bar" },
+      { id: 3, name: "foo bar 3", __typename: "Bar", baz: [{ id: 4, name: "foo bar baz 4", __typename: "Baz" }] }
     ]
-  });
+  };
+
+  const fragmentRecursive = convertInsertInputToPartialFragmentResursive({ insertInputType: foo, refTypeMap: { bar: "Bar", baz: "Baz" } });
+
+  expect(fragmentRecursive).toMatchObject(expected);
 });
 
 test("convertInsertInputToPartialFragmentResursive - insertInput recursive (deeper definition missing) should return as expected", () => {
@@ -101,15 +130,16 @@ test("convertInsertInputToPartialFragmentResursive - insertInput recursive (deep
     }
   };
 
-  const fragmentRecursive = convertInsertInputToPartialFragmentResursive({ insertInputType: foo, refTypeMap: { bar: "Bar" } });
-  console.log(" --> fragment 5", JSON.stringify(fragmentRecursive, null, 2));
-
-  expect(fragmentRecursive).toMatchObject({
+  const expected = {
     id: 1,
     bar: [
-      { id: 2, __typename: "Bar" },
-      { id: 3, __typename: "Bar" }
+      { id: 2, name: "foo bar 2", __typename: "Bar" },
+      { id: 3, name: "foo bar 3", __typename: "Bar" }
     ]
-  });
+  };
+
+  const fragmentRecursive = convertInsertInputToPartialFragmentResursive({ insertInputType: foo, refTypeMap: { bar: "Bar" } });
+
+  expect(fragmentRecursive).toMatchObject(expected);
   expect(fragmentRecursive.bar[1].baz).toBeUndefined();
 });
