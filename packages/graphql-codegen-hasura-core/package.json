@@ -13,6 +13,11 @@
     "prepublishOnly": "rm -f dist/src/package.json dist/src/README.md  && cp package.json README.md dist/src/",
     "test": "jest"
   },
+  "jest": {
+    "testMatch": [
+      "**/?(*.)+(spec|test).[t]s?(x)"
+    ]
+  },
   "publishConfig": {
     "access": "public",
     "directory": "dist/src"

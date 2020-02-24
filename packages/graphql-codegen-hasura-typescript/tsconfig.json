@@ -4,6 +4,6 @@
     "outDir": "dist",
   },
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "tests", "dist", "src/**/*.test.ts"],
+    "exclude": ["node_modules", "tests", "dist"],
   "references": [{ "path": "../graphql-codegen-hasura-shared" }]
 }

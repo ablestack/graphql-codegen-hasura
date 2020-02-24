@@ -119,7 +119,7 @@ function convertObjWithIdArrayToFragmentArrayR({ o, propertyKey, fieldMap }: { o
 /**
  *
  */
-function convertObjectToFragmentR({ o, propertyKey, fieldMap }: { o: any; propertyKey: string; fieldMap?: FieldMap<string> }) {
+function convertObjectToFragmentCompatibleR({ o, propertyKey, fieldMap }: { o: any; propertyKey: string; fieldMap?: FieldMap<string> }) {
   if (!IS_NON_NULL_OBJECT(o)) return null;
 
   if (Array.isArray(o)) {
@@ -132,11 +132,15 @@ function convertObjectToFragmentR({ o, propertyKey, fieldMap }: { o: any; proper
   }
 
   if (IS_INSERT_INPUT_OBJECT(o) && fieldMap[propertyKey]) {
-    return convertObjectToFragmentR({ o: o.data, propertyKey, fieldMap });
+    return convertObjectToFragmentCompatibleR({ o: o.data, propertyKey, fieldMap });
   }
 
-  // if non of the above, return null
-  return null;
+  // if non of the above, return original object
+  return o;
+}
+
+function ignoreField(insertInputKey: string, fieldMap: FieldMap<string>) {
+  return fieldMap && fieldMap[insertInputKey] && fieldMap[insertInputKey] === "IGNORE_FIELD";
 }
 
 /*
@@ -153,9 +157,9 @@ export function convertInsertInputToPartialFragmentResursive({ insertInput, fiel
       continue;
     }
 
-    // if non-null object AND no flag to explicity ignore field
-    if (IS_NON_NULL_OBJECT(insertInputValue) && (!fieldMap || !fieldMap[insertInputKey] || fieldMap[insertInputKey] !== "IGNORE_FIELD")) {
-      const ref = convertObjectToFragmentR({ o: insertInputValue, propertyKey: insertInputKey, fieldMap });
+    // if insertInput OR objectWithId AND no flag to explicity ignore field
+    if (IS_NON_NULL_OBJECT(insertInputValue) && !ignoreField(insertInputKey, fieldMap)) {
+      const ref = convertObjectToFragmentCompatibleR({ o: insertInputValue, propertyKey: insertInputKey, fieldMap });
 
       if (ref) {
         fragment[insertInputKey] = ref;
