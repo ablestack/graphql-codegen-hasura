@@ -1,5 +1,5 @@
 import { defaultDataIdFromObject } from "@apollo/client";
-import { RefTypeMap } from ".";
+import { FieldMap } from ".";
 
 // Optimistic response generation utility method
 //
@@ -17,7 +17,7 @@ export function generateOptimisticResponseForMutation<T>({
     [`${operationType}_${entityName}`]: {
       affected_rows: objects.length,
       returning: objects.map(o => {
-        if (operationType === "insert") return convertInsertInputToPartialFragmentResursive({ insertInputType: o });
+        if (operationType === "insert") return convertInsertInputToPartialFragmentResursive({ insertInput: o });
         else return { ...o, __typename: entityName };
       }),
       __typename: `${entityName}_mutation_response`
@@ -102,37 +102,37 @@ export function addTypenameToObjWithIdArray({ o, typename }: { o: any[]; typenam
 //
 // Series of functions for helping handle translations between input objects and fragments
 //
-function convertObjWithIdToFragmentR({ o, propertyKey, refTypeMap }: { o: any; propertyKey: string; refTypeMap?: RefTypeMap<string> }) {
+function convertObjWithIdToFragmentR({ o, propertyKey, fieldMap }: { o: any; propertyKey: string; fieldMap?: FieldMap<string> }) {
   if (!IS_OBJECT_WITH_ID(o)) throw new Error(`Provided object was not of type ObjWithId: ${JSON.stringify(o)}`);
-  let convertedObject = convertInsertInputToPartialFragmentResursive({ insertInputType: o, refTypeMap });
-  if (refTypeMap && refTypeMap[propertyKey]) convertedObject = addTypenameToObjWithId({ o: convertedObject, typename: refTypeMap[propertyKey] });
+  let convertedObject = convertInsertInputToPartialFragmentResursive({ insertInput: o, fieldMap });
+  if (fieldMap && fieldMap[propertyKey]) convertedObject = addTypenameToObjWithId({ o: convertedObject, typename: fieldMap[propertyKey] });
   return convertedObject;
 }
 
 /**
  *
  */
-function convertObjWithIdArrayToFragmentArrayR({ o, propertyKey, refTypeMap }: { o: any[]; propertyKey: string; refTypeMap?: RefTypeMap<string> }) {
-  return o.map(arrayItem => convertObjWithIdToFragmentR({ o: arrayItem, propertyKey, refTypeMap }));
+function convertObjWithIdArrayToFragmentArrayR({ o, propertyKey, fieldMap }: { o: any[]; propertyKey: string; fieldMap?: FieldMap<string> }) {
+  return o.map(arrayItem => convertObjWithIdToFragmentR({ o: arrayItem, propertyKey, fieldMap }));
 }
 
 /**
  *
  */
-function convertObjectToFragmentR({ o, propertyKey, refTypeMap }: { o: any; propertyKey: string; refTypeMap?: RefTypeMap<string> }) {
+function convertObjectToFragmentR({ o, propertyKey, fieldMap }: { o: any; propertyKey: string; fieldMap?: FieldMap<string> }) {
   if (!IS_NON_NULL_OBJECT(o)) return null;
 
   if (Array.isArray(o)) {
     if (o.length === 0 || !o[0] || !IS_OBJECT_WITH_ID(o[0])) return null;
-    return convertObjWithIdArrayToFragmentArrayR({ o, propertyKey, refTypeMap });
+    return convertObjWithIdArrayToFragmentArrayR({ o, propertyKey, fieldMap });
   }
 
   if (IS_OBJECT_WITH_ID(o)) {
-    return convertObjWithIdToFragmentR({ o, propertyKey, refTypeMap });
+    return convertObjWithIdToFragmentR({ o, propertyKey, fieldMap });
   }
 
-  if (IS_INSERT_INPUT_OBJECT(o) && refTypeMap[propertyKey]) {
-    return convertObjectToFragmentR({ o: o.data, propertyKey, refTypeMap });
+  if (IS_INSERT_INPUT_OBJECT(o) && fieldMap[propertyKey]) {
+    return convertObjectToFragmentR({ o: o.data, propertyKey, fieldMap });
   }
 
   // if non of the above, return null
@@ -142,11 +142,11 @@ function convertObjectToFragmentR({ o, propertyKey, refTypeMap }: { o: any; prop
 /*
  *
  */
-export function convertInsertInputToPartialFragmentResursive({ insertInputType, refTypeMap }: { insertInputType: object; refTypeMap?: RefTypeMap<string> }) {
+export function convertInsertInputToPartialFragmentResursive({ insertInput, fieldMap }: { insertInput: object; fieldMap?: FieldMap<string> }) {
   const fragment: any = {};
 
   //Loop object and build up a fragment appropriate for a cache-add
-  for (const [insertInputKey, insertInputValue] of Object.entries(insertInputType)) {
+  for (const [insertInputKey, insertInputValue] of Object.entries(insertInput)) {
     //Add scalar values
     if (IS_JAVASCRIPT_SCALAR_EQUIVALENT(insertInputValue)) {
       fragment[insertInputKey] = insertInputValue;
@@ -154,8 +154,8 @@ export function convertInsertInputToPartialFragmentResursive({ insertInputType, 
     }
 
     // if non-null object AND no flag to explicity ignore field
-    if (IS_NON_NULL_OBJECT(insertInputValue) && (!refTypeMap || !refTypeMap[insertInputKey] || refTypeMap[insertInputKey] !== "IGNORE_FIELD")) {
-      const ref = convertObjectToFragmentR({ o: insertInputValue, propertyKey: insertInputKey, refTypeMap });
+    if (IS_NON_NULL_OBJECT(insertInputValue) && (!fieldMap || !fieldMap[insertInputKey] || fieldMap[insertInputKey] !== "IGNORE_FIELD")) {
+      const ref = convertObjectToFragmentR({ o: insertInputValue, propertyKey: insertInputKey, fieldMap });
 
       if (ref) {
         fragment[insertInputKey] = ref;

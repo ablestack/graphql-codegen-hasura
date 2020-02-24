@@ -5,7 +5,7 @@ const utils_1 = require("./utils");
 // ---------------------------------
 //
 function injectGlobalHelperCodePre({ contentManager, typescriptCodegenOutputPath, withUpdates }) {
-    contentManager.addImport(`import { generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, convertInsertInputToPartialFragmentResursive, ObjectWithId, RefTypeMap, getLogLevel, ensureTypenameOnFragment, ensureTypenameOnFragments } from 'graphql-codegen-hasura-core'`);
+    contentManager.addImport(`import { generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, convertInsertInputToPartialFragmentResursive, ObjectWithId, FieldMap, getLogLevel, ensureTypenameOnFragment, ensureTypenameOnFragments } from 'graphql-codegen-hasura-core'`);
     contentManager.addImport(`import { ApolloClient, ApolloQueryResult, defaultDataIdFromObject, FetchResult, MutationOptions, ObservableQuery, QueryOptions, SubscriptionOptions, Observable, DataProxy } from '@apollo/client'`);
     contentManager.addContent(`
     // GLOBAL TYPES
@@ -70,14 +70,14 @@ function injectClientAndCacheHelpers({ contentManager, entityNamedType, fragment
       return apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
     }
 
-    function clientDeepInsert${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityShortCamelCaseName}, refTypeMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, refTypeMap?: RefTypeMap<string> }): void {
-      const ${fragmentNameCamelCase}Partial = convertInsertInputToPartialFragmentResursive({ insertInputType:${entityShortCamelCaseName}, refTypeMap });
+    function clientDeepInsert${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityShortCamelCaseName}, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, fieldMap?: FieldMap<string> }): void {
+      const ${fragmentNameCamelCase}Partial = convertInsertInputToPartialFragmentResursive({ insertInputType:${entityShortCamelCaseName}, fieldMap });
       if(logLevel >= 2) console.log(' --> clientDeepInsert${fragmentNamePascalCase}ById - ${fragmentNameCamelCase}Partial:', ${fragmentNameCamelCase}Partial);
       return apolloClient.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
     }
 
-    function cacheDeepInsert${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityShortCamelCaseName}, refTypeMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, refTypeMap?: RefTypeMap<string> }): void {
-      const ${fragmentNameCamelCase}Partial = convertInsertInputToPartialFragmentResursive({ insertInputType:${entityShortCamelCaseName}, refTypeMap });
+    function cacheDeepInsert${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityShortCamelCaseName}, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, fieldMap?: FieldMap<string> }): void {
+      const ${fragmentNameCamelCase}Partial = convertInsertInputToPartialFragmentResursive({ insertInputType:${entityShortCamelCaseName}, fieldMap });
       if(logLevel >= 2) console.log(' --> cacheDeepInsert${fragmentNamePascalCase}ById - ${fragmentNameCamelCase}Partial:', ${fragmentNameCamelCase}Partial);
       return apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
     }
@@ -104,6 +104,22 @@ function injectClientAndCacheHelpers({ contentManager, entityNamedType, fragment
 
     function cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:${entityPascalName}[] }): void {
       return apolloClient.cache.writeQuery<{${entityPascalName}:${entityPascalName}[]}>({ query: ${queryObjectsName}Document, variables, data: { ${entityPascalName}:data } });
+    }
+
+    function clientWriteQuery${fragmentNamePascalCase}Insert({ apolloClient, variables, ${entityShortCamelCaseName}, fieldMap }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, ${entityShortCamelCaseName}:${entityPascalName}_Insert_Input, fieldMap?: FieldMap<string> }): void {
+      const currentObjects = clientReadQuery${fragmentNamePascalCase}Objects({ apolloClient, variables }) || [];
+      
+      const objectsWithInserted = [ ...currentObjects, { ...convertInsertInputToPartialFragmentResursive({ insertInput: ${entityShortCamelCaseName} }), __typename: '${entityNamedType.name}' }];
+
+      return clientWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data: objectsWithInserted });
+    }
+
+    function cacheWriteQuery${fragmentNamePascalCase}Insert({ apolloClient, variables, ${entityShortCamelCaseName}, fieldMap }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, ${entityShortCamelCaseName}:${entityPascalName}_Insert_Input, fieldMap?: FieldMap<string> }): void {
+      const currentObjects = clientReadQuery${fragmentNamePascalCase}Objects({ apolloClient, variables }) || [];
+      
+      const objectsWithInserted = [ ...currentObjects, { ...convertInsertInputToPartialFragmentResursive({ insertInput: ${entityShortCamelCaseName} }), __typename: '${entityNamedType.name}' }];
+
+      return cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data: objectsWithInserted });
     }
     `);
         //
@@ -433,6 +449,10 @@ function injectSharedHelpersPost({ contentManager, entityNamedType, fragmentName
             fragmentHelperObject += `      clientWriteQueryObjects: clientWriteQuery${fragmentNamePascalCase}Objects,\n`;
         if (withClientAndCacheHelpers)
             fragmentHelperObject += `      cacheWriteQueryObjects: cacheWriteQuery${fragmentNamePascalCase}Objects,\n`;
+        if (withClientAndCacheHelpers)
+            fragmentHelperObject += `      clientWriteQueryInsert: clientWriteQuery${fragmentNamePascalCase}Insert,\n`;
+        if (withClientAndCacheHelpers)
+            fragmentHelperObject += `      cacheWriteQueryInsert: cacheWriteQuery${fragmentNamePascalCase}Insert,\n`;
         if (withQueries)
             fragmentHelperObject += `      queryById: query${fragmentNamePascalCase}ById,\n`;
         if (withQueries)

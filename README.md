@@ -68,10 +68,18 @@ GQLHelper.Fragments.Dog.watchQueryObjects(/* params */)       // Subscribe to ob
 // Cache Read/Write
 GQLHelper.Fragments.Dog.clientReadFragmentById(/* params */)  // Read fragment from cache
 GQLHelper.Fragments.Dog.clientReadQueryById(/* params */)     // Read query from cache
+
 GQLHelper.Fragments.Dog.clientWriteFragmentById(/* params */) // Write fragment to cache (and broadcast)
 GQLHelper.Fragments.Dog.cacheWriteFragmentById(/* params */)  // Write fragment to cache (no broadcast)
+
 GQLHelper.Fragments.Dog.clientWriteQueryById(/* params */)    // Write query to cache (and broadcast)
 GQLHelper.Fragments.Dog.cacheWriteQueryById(/* params */)     // Write query to cache (no broadcast)
+
+GQLHelper.Fragments.Dog.clientWriteQueryObjects(/* params */)    // Write query to cache (and broadcast)
+GQLHelper.Fragments.Dog.cacheWriteQueryObjects(/* params */)     // Write query to cache (no broadcast)
+
+GQLHelper.Fragments.Dog.clientWriteQueryInsert(/* params */)    // Convert an 'InsertInput' object to a Fragment type, and add to the the cached results of a query (and broadcast)
+GQLHelper.Fragments.Dog.cacheWriteQueryInsert(/* params */)     // Convert an 'InsertInput' object to a Fragment type, and add to the the cached results of a query (and broadcast)
 
 ```
 
