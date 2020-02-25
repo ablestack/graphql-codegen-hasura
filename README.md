@@ -78,8 +78,10 @@ GQLHelper.Fragments.Dog.cacheWriteQueryById(/* params */)     // Write query to 
 GQLHelper.Fragments.Dog.clientWriteQueryObjects(/* params */)    // Write query to cache (and broadcast)
 GQLHelper.Fragments.Dog.cacheWriteQueryObjects(/* params */)     // Write query to cache (no broadcast)
 
-GQLHelper.Fragments.Dog.clientWriteQueryInsert(/* params */)    // Convert an 'InsertInput' object to a Fragment type, and add to the the cached results of a query (and broadcast)
-GQLHelper.Fragments.Dog.cacheWriteQueryInsert(/* params */)     // Convert an 'InsertInput' object to a Fragment type, and add to the the cached results of a query (and broadcast)
+GQLHelper.Fragments.Dog.clientWriteQueryInsert(/* params */)    // ** Convert an 'InsertInput' object to a Fragment type, and add to the the cached results of a query (and broadcast)
+GQLHelper.Fragments.Dog.cacheWriteQueryInsert(/* params */)     // ** Convert an 'InsertInput' object to a Fragment type, and add to the the cached results of a query (and broadcast)
+
+// ** See packages/graphql-codegen-hasura-core/src/utils.test.ts for example usage of clientWriteQueryInsert. The "fieldMap" parameter could be automated, but is non-trivial dev. So, for future version or community pull request.
 
 ```
 
@@ -336,6 +338,7 @@ Known Issues Include:
 
 There are many refinements and enhancements that would be beneficial, and contributions to that end are encouraged. Notable examples include:
 
+- Automatically generate fieldMap property for clientWriteInsertQuery method (see packages/graphql-codegen-hasura-core/src/utils.test.ts for examples of this method)
 - Add automated tests
 - Add validation (especially for checking for package prerequisites). See [these docs](https://graphql-code-generator.com/docs/custom-codegen/validate-configuration)
 - Rewrite the plugins to use the graphql-code-generator [recommended Visitor pattern](https://graphql-code-generator.com/docs/custom-codegen/using-visitor)
