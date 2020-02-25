@@ -169,3 +169,113 @@ test("convertInsertInputToPartialFragmentResursive - insertInput recursive (deep
   expect(fragmentRecursive).toMatchObject(expected);
   expect(fragmentRecursive.bar[1].baz).toBeUndefined();
 });
+
+test("convertInsertInputToPartialFragmentResursive - deep nested realworld example", () => {
+  const realWorldExample = {
+    id: "00000000-0000-0000-0000-00000000",
+    title: "Title",
+    type: "Type",
+    nested1: {
+      data: [
+        {
+          id: "10000000-0000-0000-0000-00000000",
+          title: "Title",
+          type: "Type",
+          nested2: {
+            data: {
+              id: "20000000-0000-0000-0000-00000000",
+              nested3A: {
+                data: {
+                  id: "30000000-0000-0000-0000-00000000",
+                  nested4: {
+                    data: [
+                      {
+                        id: "40000000-0000-0000-0000-00000000",
+                        title: "Test",
+                        index: 0
+                      }
+                    ]
+                  }
+                }
+              },
+              nested3B: {
+                data: {
+                  id: "50000000-0000-0000-0000-00000000",
+                  nested4: {
+                    data: [
+                      {
+                        id: "60000000-0000-0000-0000-00000000",
+                        title: "Test",
+                        index: 0
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    related_id: "70000000-0000-0000-0000-00000000",
+    relatedObject: {
+      data: {
+        id: "80000000-0000-0000-0000-00000000"
+      }
+    }
+  };
+
+  const expected = {
+    id: "00000000-0000-0000-0000-00000000",
+    title: "Title",
+    type: "Type",
+    nested1: [
+      {
+        __typename: "nested1",
+        id: "10000000-0000-0000-0000-00000000",
+        title: "Title",
+        type: "Type",
+        nested2: {
+          __typename: "nested2",
+          id: "20000000-0000-0000-0000-00000000",
+          nested3A: {
+            __typename: "nested3",
+            id: "30000000-0000-0000-0000-00000000",
+            nested4: [
+              {
+                __typename: "nested4",
+                id: "40000000-0000-0000-0000-00000000",
+                title: "Test",
+                index: 0
+              }
+            ]
+          },
+          nested3B: {
+            __typename: "nested3",
+            id: "50000000-0000-0000-0000-00000000",
+            nested4: [
+              {
+                __typename: "nested4",
+                id: "60000000-0000-0000-0000-00000000",
+                title: "Test",
+                index: 0
+              }
+            ]
+          }
+        }
+      }
+    ],
+    related_id: "70000000-0000-0000-0000-00000000",
+    relatedObject: {
+      __typename: "relatedObject",
+      id: "80000000-0000-0000-0000-00000000"
+    }
+  };
+
+  const fragmentRecursive = convertInsertInputToPartialFragmentResursive({
+    insertInput: realWorldExample,
+    fieldMap: { nested1: "nested1", nested2: "nested2", nested3A: "nested3", nested3B: "nested3", nested4: "nested4", relatedObject: "relatedObject" }
+  });
+
+  expect(fragmentRecursive).toMatchObject(expected);
+});
