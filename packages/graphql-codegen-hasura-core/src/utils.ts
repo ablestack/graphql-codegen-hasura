@@ -98,6 +98,19 @@ export function stripInsertInputClientFields({ input }: { input: object }) {
   //Loop object and build up a fragment appropriate for a cache-add
   for (const [key, value] of Object.entries(input)) {
     if (!IS_INSERT_INPUT_CLIENT_FIELDNAME({ fieldname: key })) {
+      // HANDLE ARRAYS
+      if (Array.isArray(value)) {
+        o[key] = value.map(arrayItem => stripInsertInputClientFields({ input: arrayItem }));
+        continue;
+      }
+
+      // HANDLE OBJECTS
+      if (IS_NON_NULL_OBJECT(value)) {
+        o[key] = stripInsertInputClientFields({ input: value });
+        continue;
+      }
+
+      // DEFAULT
       o[key] = value;
     }
   }

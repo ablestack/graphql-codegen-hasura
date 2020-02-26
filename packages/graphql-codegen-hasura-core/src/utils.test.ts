@@ -1,4 +1,4 @@
-import { convertObjectToGraph } from ".";
+import { convertObjectToGraph, stripInsertInputClientFields } from ".";
 
 /*
  *
@@ -271,4 +271,33 @@ test("convertToGraph - deep nested realworld example", () => {
   console.log(" --> fragmentRecursive", JSON.stringify(fragmentRecursive, null, 2));
 
   expect(fragmentRecursive).toMatchObject(expected);
+});
+
+test("stripInsertInputClientFields - object should return as expected", () => {
+  const foo = {
+    id: 1,
+    ___clientField: true,
+    bar: { id: 2, ___clientField: true },
+    baz: [
+      { id: 3, name: "foo baz 3", __typename: "Baz", ___clientField: true },
+      { id: 4, name: "foo baz 4", __typename: "Baz", ___clientField: true }
+    ]
+  };
+
+  const expected = {
+    id: 1,
+    bar: { id: 2 },
+    baz: [
+      { id: 3, name: "foo baz 3", __typename: "Baz" },
+      { id: 4, name: "foo baz 4", __typename: "Baz" }
+    ]
+  };
+
+  const result = stripInsertInputClientFields({ input: foo });
+
+  expect(result).toMatchObject(expected);
+  expect(result.___clientField).toBeUndefined();
+  expect(result.bar.___clientField).toBeUndefined();
+  expect(result.baz[0].___clientField).toBeUndefined();
+  expect(result.baz[1].___clientField).toBeUndefined();
 });
