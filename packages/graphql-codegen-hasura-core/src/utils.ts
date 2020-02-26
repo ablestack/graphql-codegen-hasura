@@ -1,5 +1,5 @@
 import { defaultDataIdFromObject } from "@apollo/client";
-import { FieldMap } from ".";
+import { FieldMap, INSERT_INPUT_CLIENT_FIELD_INDICATOR as INSERT_INPUT_CLIENT_FIELDNAME_PREFIX } from ".";
 
 // Optimistic response generation utility method
 //
@@ -60,6 +60,10 @@ export function IS_INSERT_INPUT_OBJECT(object: any) {
   return object.data;
 }
 
+export function IS_INSERT_INPUT_CLIENT_FIELDNAME({ fieldname }: { fieldname: string }) {
+  return fieldname.startsWith(INSERT_INPUT_CLIENT_FIELDNAME_PREFIX);
+}
+
 export function GET_INSERT_INPUT_DATA(object: any) {
   if (!IS_NON_NULL_OBJECT(object)) throw new Error(`Provided object was not of type InsertInput (with data property): ${JSON.stringify(object)}`);
 
@@ -87,6 +91,20 @@ export function ensureTypenameOnFragments(object: any[], typename: string) {
 //
 // Series of functions for helping handle translations between input objects and fragments
 //
+
+export function stripInsertInputClientFields({ input }: { input: object }) {
+  const o: any = {};
+
+  //Loop object and build up a fragment appropriate for a cache-add
+  for (const [key, value] of Object.entries(input)) {
+    if (!IS_INSERT_INPUT_CLIENT_FIELDNAME({ fieldname: key })) {
+      o[key] = value;
+    }
+  }
+
+  return o;
+}
+
 export function addTypenameToObjWithId({ object, typename }: { object: any; typename: string }) {
   if (!IS_OBJECT_WITH_ID(object)) throw new Error(`Provided object was not of type ObjWithId: ${JSON.stringify(object)}`);
   return { ...object, __typename: typename };
@@ -106,17 +124,26 @@ function ignoreField({ key, fieldMap }: { key?: string; fieldMap: FieldMap<strin
 /*
  *
  */
+export function convertInsertInputClientFieldnameToGraphFieldname({ fieldname }: { fieldname: string }) {
+  if (!IS_INSERT_INPUT_CLIENT_FIELDNAME({ fieldname })) return fieldname;
+  return fieldname.replace(INSERT_INPUT_CLIENT_FIELDNAME_PREFIX, "");
+}
+
+/*
+ *
+ */
 export function convertObjectToGraph({ input, fieldMap }: { input: object; fieldMap?: FieldMap<string> }) {
-  const fragment: any = {};
+  const o: any = {};
 
   //Loop object and build up a fragment appropriate for a cache-add
   for (const [key, value] of Object.entries(input)) {
     if (!ignoreField({ key: key, fieldMap })) {
-      fragment[key] = _convertToGraph({ value, key, fieldMap });
+      const convertedKey = convertInsertInputClientFieldnameToGraphFieldname({ fieldname: key });
+      o[convertedKey] = _convertToGraph({ value, key: convertedKey, fieldMap });
     }
   }
 
-  return fragment;
+  return o;
 }
 
 /**

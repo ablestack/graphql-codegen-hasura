@@ -3,8 +3,16 @@ import { convertObjectToGraph } from ".";
 /*
  *
  */
-test("convertToGraph - refType object should return as expected", () => {
+test("convertToGraph - object should return as expected", () => {
   const foo = { id: 1, bar: { id: 2, name: "foo bar" } };
+
+  const fragment = convertObjectToGraph({ input: foo, fieldMap: { bar: "Bar" } });
+
+  expect(fragment).toMatchObject({ id: 1, bar: { id: 2, name: "foo bar", __typename: "Bar" } });
+});
+
+test("convertToGraph - object with client fields should return as expected", () => {
+  const foo = { id: 1, ___bar: { id: 2, name: "foo bar" } };
 
   const fragment = convertObjectToGraph({ input: foo, fieldMap: { bar: "Bar" } });
 
@@ -165,6 +173,7 @@ test("convertToGraph - deep nested realworld example", () => {
     id: "00000000-0000-0000-0000-00000000",
     title: "Title",
     type: "Type",
+    ___topLevelClientField: true,
     nested1: {
       data: [
         {
@@ -182,7 +191,8 @@ test("convertToGraph - deep nested realworld example", () => {
                       {
                         id: "40000000-0000-0000-0000-00000000",
                         title: "Test",
-                        index: 0
+                        index: 0,
+                        ___deepClientFieldInArray: true
                       }
                     ]
                   }
@@ -191,6 +201,7 @@ test("convertToGraph - deep nested realworld example", () => {
               nested3B: {
                 data: {
                   id: "50000000-0000-0000-0000-00000000",
+                  ___deepClientField: true,
                   nested4: {
                     data: []
                   }
@@ -213,6 +224,7 @@ test("convertToGraph - deep nested realworld example", () => {
     id: "00000000-0000-0000-0000-00000000",
     title: "Title",
     type: "Type",
+    topLevelClientField: true,
     nested1: [
       {
         __typename: "nested1",
@@ -229,6 +241,7 @@ test("convertToGraph - deep nested realworld example", () => {
               {
                 __typename: "nested4",
                 id: "40000000-0000-0000-0000-00000000",
+                deepClientFieldInArray: true,
                 title: "Test",
                 index: 0
               }
@@ -237,6 +250,7 @@ test("convertToGraph - deep nested realworld example", () => {
           nested3B: {
             __typename: "nested3",
             id: "50000000-0000-0000-0000-00000000",
+            deepClientField: true,
             nested4: []
           }
         }

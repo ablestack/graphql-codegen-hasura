@@ -14,7 +14,9 @@ export function injectGlobalReactCodePre({
   typescriptCodegenOutputPath: string;
   withUpdates: boolean;
 }) {
-  contentManager.addImport(`import { ObjectWithId, generateOptimisticResponseForMutation, generateUpdateFunctionForMutation } from 'graphql-codegen-hasura-core'`);
+  contentManager.addImport(
+    `import { ObjectWithId, generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, stripInsertInputClientFields } from 'graphql-codegen-hasura-core'`
+  );
   contentManager.addImport(
     `import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation, QueryLazyOptions, MutationFunctionOptions, LazyQueryResult, MutationTuple, FetchResult, SubscriptionResult, SubscriptionHookOptions, useSubscription, ApolloError, SubscribeToMoreOptions } from '@apollo/client';`
   );
@@ -308,10 +310,11 @@ export function injectInsertReact({
       const pick${fragmentNamePascalCase}: PickInsert${fragmentNamePascalCase}Fn = (mutation) => { return mutation?.insert_${entityName}?.returning && mutation?.insert_${entityName}?.returning[0]; };
 
       const wrappedLazyMutation: Insert${fragmentNamePascalCase}WrappedLazyMutationFn = async ({ ${entityShortCamelCaseName}, autoOptimisticResponse, options }) => {
-        const mutationOptions:MutationFunctionOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables> = { variables: { objects: [${entityShortCamelCaseName}] }, ...options };
+        const objectForInsert = stripInsertInputClientFields({ input: ${entityShortCamelCaseName} });
+        const mutationOptions:MutationFunctionOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables> = { variables: { objects: [objectForInsert] }, ...options };
         if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
-          if(!${entityShortCamelCaseName}.id) throw new Error(\`if autoOptimisticResponse = true, id must be set in object '${entityShortCamelCaseName}'\`);
-          mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Insert${fragmentNamePascalCase}Mutation>({ operationType: 'insert', entityName:'${entityShortCamelCaseName}', objects:[${entityShortCamelCaseName} as ${entityPascalName}_Insert_Input & ObjectWithId] 
+          if(!objectForInsert.id) throw new Error(\`if autoOptimisticResponse = true, id must be set in object '${entityShortCamelCaseName}'\`);
+          mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Insert${fragmentNamePascalCase}Mutation>({ operationType: 'insert', entityName:'${entityShortCamelCaseName}', objects:[objectForInsert as ${entityPascalName}_Insert_Input & ObjectWithId] 
         }); }
 
         const fetchResult = await lazyMutation[0](mutationOptions);
@@ -338,10 +341,11 @@ export function injectInsertReact({
       const pick${fragmentNamePascalCase}: PickInsert${fragmentNamePascalCase}Fn = (mutation: Insert${fragmentNamePascalCase}Mutation | null | undefined) => { return mutation?.insert_${entityName}?.returning && mutation.insert_${entityName}.returning[0]; };
 
       const wrappedLazyMutation:Insert${fragmentNamePascalCase}WithOnConflictWrappedLazyMutationFn = async ({ ${entityShortCamelCaseName}, onConflict, autoOptimisticResponse, options }) => {
-        const mutationOptions:MutationFunctionOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables> = { variables: { objects: [${entityShortCamelCaseName}], onConflict }, ...options };
+        const objectForInsert = stripInsertInputClientFields({ input: ${entityShortCamelCaseName} });
+        const mutationOptions:MutationFunctionOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables> = { variables: { objects: [objectForInsert], onConflict }, ...options };
         if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
-          if(!${entityShortCamelCaseName}.id) throw new Error(\`if autoOptimisticResponse = true, id must be set in object '${entityShortCamelCaseName}'\`);
-          mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Insert${fragmentNamePascalCase}Mutation>({ operationType: 'insert', entityName:'${entityShortCamelCaseName}', objects:[${entityShortCamelCaseName} as ${entityPascalName}_Insert_Input & ObjectWithId] }); 
+          if(!objectForInsert.id) throw new Error(\`if autoOptimisticResponse = true, id must be set in object '${entityShortCamelCaseName}'\`);
+          mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Insert${fragmentNamePascalCase}Mutation>({ operationType: 'insert', entityName:'${entityShortCamelCaseName}', objects:[objectForInsert as ${entityPascalName}_Insert_Input & ObjectWithId] }); 
         }
 
         const fetchResult = await lazyMutation[0](mutationOptions);
@@ -369,6 +373,7 @@ export function injectInsertReact({
       const pickObjects: PickInsert${fragmentNamePascalCase}ObjectsFn = (mutation: Insert${fragmentNamePascalCase}Mutation | null | undefined) => { return mutation?.insert_${entityName}?.returning || []; };
 
       const wrappedLazyMutation: Insert${fragmentNamePascalCase}ObjectsWrappedLazyMutationFn = async ( options ) => {
+        if(options && options.variables && options.variables.objects) options.variables.objects = options.variables.objects.map(objectItem => stripInsertInputClientFields({input: objectItem}));
         const fetchResult: Insert${fragmentNamePascalCase}ObjectsMutationResult = await lazyMutation[0](options);
         return { ...fetchResult, objects: pickObjects(fetchResult.data) };
       };
