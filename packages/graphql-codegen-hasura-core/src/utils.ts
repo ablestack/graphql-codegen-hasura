@@ -16,9 +16,9 @@ export function generateOptimisticResponseForMutation<T>({
     __typename: "mutation_root",
     [`${operationType}_${entityName}`]: {
       affected_rows: objects.length,
-      returning: objects.map(o => {
-        if (operationType === "insert") return convertInsertInputToPartialFragmentResursive({ insertInput: o });
-        else return { ...o, __typename: entityName };
+      returning: objects.map(object => {
+        if (operationType === "insert") return convertObjectToGraph({ input: object });
+        else return { ...object, __typename: entityName };
       }),
       __typename: `${entityName}_mutation_response`
     }
@@ -42,131 +42,112 @@ export function IS_JAVASCRIPT_SCALAR_EQUIVALENT(arg: any, includeNull: boolean =
   return (includeNull && arg === null) || (type != "object" && type != "function");
 }
 
-export function IS_APOLLO_OBJECT(o: any) {
-  return o && o.id && o.__typename;
+export function IS_APOLLO_OBJECT(object: any) {
+  return object && object.id && object.__typename;
 }
 
-export function IS_NON_NULL_OBJECT(o: any) {
-  return typeof o === "object" && o !== null;
+export function IS_NON_NULL_OBJECT(object: any) {
+  return typeof object === "object" && object !== null;
 }
 
-export function IS_OBJECT_WITH_ID(o: any) {
-  return IS_NON_NULL_OBJECT(o) && o.id;
+export function IS_OBJECT_WITH_ID(object: any) {
+  return IS_NON_NULL_OBJECT(object) && object.id;
 }
 
-export function IS_INSERT_INPUT_OBJECT(o: any) {
-  if (!IS_NON_NULL_OBJECT(o)) return false;
+export function IS_INSERT_INPUT_OBJECT(object: any) {
+  if (!IS_NON_NULL_OBJECT(object)) return false;
 
-  return o.data;
+  return object.data;
 }
 
-export function GET_INSERT_INPUT_DATA(o: any) {
-  if (!IS_NON_NULL_OBJECT(o)) throw new Error(`Provided object was not of type InsertInput (with data property): ${JSON.stringify(o)}`);
+export function GET_INSERT_INPUT_DATA(object: any) {
+  if (!IS_NON_NULL_OBJECT(object)) throw new Error(`Provided object was not of type InsertInput (with data property): ${JSON.stringify(object)}`);
 
-  return o.data;
+  return object.data;
 }
 
-export function convertApolloObjectToRefObj(o: any) {
-  if (!IS_APOLLO_OBJECT(o)) throw new Error(`Provided object was not of type ApolloObject (with id & _typename properties): ${JSON.stringify(o)}`);
-  return { id: o.id, __typename: o.__typeName };
+export function convertApolloObjectToRefObj(object: any) {
+  if (!IS_APOLLO_OBJECT(object)) throw new Error(`Provided object was not of type ApolloObject (with id & _typename properties): ${JSON.stringify(object)}`);
+  return { id: object.id, __typename: object.__typeName };
 }
 
-export function convertApolloObjectArrayToRefObj(o: any[]) {
-  return o.map(arrayItem => convertApolloObjectToRefObj(o));
+export function convertApolloObjectArrayToRefObj(object: any[]) {
+  return object.map(arrayItem => convertApolloObjectToRefObj(object));
 }
 
-export function ensureTypenameOnFragment(o: any, typename: string) {
-  if (!IS_OBJECT_WITH_ID(o)) throw new Error(`Provided object was not of type ObjWithId: ${JSON.stringify(o)}`);
-  return { ...o, __typename: typename };
+export function ensureTypenameOnFragment(object: any, typename: string) {
+  if (!IS_OBJECT_WITH_ID(object)) throw new Error(`Provided object was not of type ObjWithId: ${JSON.stringify(object)}`);
+  return { ...object, __typename: typename };
 }
 
-export function ensureTypenameOnFragments(o: any[], typename: string) {
-  return o.map(arrayItem => ensureTypenameOnFragment(o, typename));
-}
-
-//
-// Series of functions for helping handle translations between input objects and fragments
-//
-export function addTypenameToObjWithId({ o, typename }: { o: any; typename: string }) {
-  if (!IS_OBJECT_WITH_ID(o)) throw new Error(`Provided object was not of type ObjWithId: ${JSON.stringify(o)}`);
-  return { ...o, __typename: typename };
-}
-
-/**
- *
- */
-export function addTypenameToObjWithIdArray({ o, typename }: { o: any[]; typename: string }) {
-  return o.map(arrayItem => addTypenameToObjWithId({ o: arrayItem, typename }));
+export function ensureTypenameOnFragments(object: any[], typename: string) {
+  return object.map(arrayItem => ensureTypenameOnFragment(object, typename));
 }
 
 //
 // Series of functions for helping handle translations between input objects and fragments
 //
-function convertObjWithIdToFragmentR({ o, propertyKey, fieldMap }: { o: any; propertyKey: string; fieldMap?: FieldMap<string> }) {
-  if (!IS_OBJECT_WITH_ID(o)) throw new Error(`Provided object was not of type ObjWithId: ${JSON.stringify(o)}`);
-  let convertedObject = convertInsertInputToPartialFragmentResursive({ insertInput: o, fieldMap });
-  if (fieldMap && fieldMap[propertyKey]) convertedObject = addTypenameToObjWithId({ o: convertedObject, typename: fieldMap[propertyKey] });
-  return convertedObject;
+export function addTypenameToObjWithId({ object, typename }: { object: any; typename: string }) {
+  if (!IS_OBJECT_WITH_ID(object)) throw new Error(`Provided object was not of type ObjWithId: ${JSON.stringify(object)}`);
+  return { ...object, __typename: typename };
 }
 
 /**
  *
  */
-function convertObjWithIdArrayToFragmentArrayR({ o, propertyKey, fieldMap }: { o: any[]; propertyKey: string; fieldMap?: FieldMap<string> }) {
-  return o.map(arrayItem => convertObjWithIdToFragmentR({ o: arrayItem, propertyKey, fieldMap }));
+export function addTypenameToObjWithIdArray({ object, typename }: { object: any[]; typename: string }) {
+  return object.map(arrayItem => addTypenameToObjWithId({ object: arrayItem, typename }));
 }
 
-/**
- *
- */
-function convertObjectToFragmentCompatibleR({ o, propertyKey, fieldMap }: { o: any; propertyKey: string; fieldMap?: FieldMap<string> }) {
-  if (!IS_NON_NULL_OBJECT(o)) return null;
-
-  if (Array.isArray(o)) {
-    if (o.length === 0 || !o[0] || !IS_OBJECT_WITH_ID(o[0])) return null;
-    return convertObjWithIdArrayToFragmentArrayR({ o, propertyKey, fieldMap });
-  }
-
-  if (IS_OBJECT_WITH_ID(o)) {
-    return convertObjWithIdToFragmentR({ o, propertyKey, fieldMap });
-  }
-
-  if (IS_INSERT_INPUT_OBJECT(o) && fieldMap[propertyKey]) {
-    return convertObjectToFragmentCompatibleR({ o: o.data, propertyKey, fieldMap });
-  }
-
-  // if non of the above, return original object
-  return o;
-}
-
-function ignoreField(insertInputKey: string, fieldMap: FieldMap<string>) {
-  return fieldMap && fieldMap[insertInputKey] && fieldMap[insertInputKey] === "IGNORE_FIELD";
+function ignoreField({ key, fieldMap }: { key?: string; fieldMap: FieldMap<string> }) {
+  return fieldMap && fieldMap[key] && fieldMap[key] === "IGNORE_FIELD";
 }
 
 /*
  *
  */
-export function convertInsertInputToPartialFragmentResursive({ insertInput, fieldMap }: { insertInput: object; fieldMap?: FieldMap<string> }) {
+export function convertObjectToGraph({ input, fieldMap }: { input: object; fieldMap?: FieldMap<string> }) {
   const fragment: any = {};
 
   //Loop object and build up a fragment appropriate for a cache-add
-  for (const [insertInputKey, insertInputValue] of Object.entries(insertInput)) {
-    //Add scalar values
-    if (IS_JAVASCRIPT_SCALAR_EQUIVALENT(insertInputValue)) {
-      fragment[insertInputKey] = insertInputValue;
-      continue;
-    }
-
-    // if insertInput OR objectWithId AND no flag to explicity ignore field
-    if (IS_NON_NULL_OBJECT(insertInputValue) && !ignoreField(insertInputKey, fieldMap)) {
-      const ref = convertObjectToFragmentCompatibleR({ o: insertInputValue, propertyKey: insertInputKey, fieldMap });
-
-      if (ref) {
-        fragment[insertInputKey] = ref;
-        continue;
-      }
+  for (const [key, value] of Object.entries(input)) {
+    if (!ignoreField({ key: key, fieldMap })) {
+      fragment[key] = _convertToGraph({ value, key, fieldMap });
     }
   }
 
   return fragment;
+}
+
+/**
+ *
+ */
+function _convertToGraph({ value, key, fieldMap }: { value: any; key?: string; fieldMap?: FieldMap<string> }) {
+  if (value === null || value === undefined) return null;
+
+  if (IS_JAVASCRIPT_SCALAR_EQUIVALENT(value)) {
+    return value;
+  }
+
+  if (Array.isArray(value)) {
+    if (value.length <= 0) return [];
+    return value.map(arrayItem => _convertToGraph({ value: arrayItem, key, fieldMap }));
+  }
+
+  if (IS_INSERT_INPUT_OBJECT(value) && key && fieldMap[key]) {
+    return _convertToGraph({ value: value.data, key, fieldMap });
+  }
+
+  if (IS_NON_NULL_OBJECT(value)) {
+    let object = convertObjectToGraph({ input: value, fieldMap });
+    if (fieldMap && key && fieldMap[key] && IS_OBJECT_WITH_ID(value)) object = addTypenameToObjWithId({ object, typename: fieldMap[key] });
+    return object;
+  }
+
+  // Escape hatch. Should not get through to this point - but if we do, return null
+  return null;
+}
+
+export function convertToGraph({ input, fieldMap }: { input: any; fieldMap?: FieldMap<string> }) {
+  return _convertToGraph({ value: input, fieldMap });
 }

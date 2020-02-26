@@ -1,14 +1,12 @@
-import { convertInsertInputToPartialFragmentResursive } from ".";
+import { convertObjectToGraph } from ".";
 
 /*
  *
  */
-test("convertInsertInputToPartialFragmentResursive - refType object should return as expected", () => {
+test("convertToGraph - refType object should return as expected", () => {
   const foo = { id: 1, bar: { id: 2, name: "foo bar" } };
 
-  const fragment = convertInsertInputToPartialFragmentResursive({ insertInput: foo, fieldMap: { bar: "Bar" } });
-
-  console.log(" --> fragment 1 ", fragment);
+  const fragment = convertObjectToGraph({ input: foo, fieldMap: { bar: "Bar" } });
 
   expect(fragment).toMatchObject({ id: 1, bar: { id: 2, name: "foo bar", __typename: "Bar" } });
 });
@@ -16,12 +14,12 @@ test("convertInsertInputToPartialFragmentResursive - refType object should retur
 /*
  *
  */
-test("convertInsertInputToPartialFragmentResursive - plain array should return as expected (no typename)", () => {
+test("convertToGraph - plain array should return as expected (no typename)", () => {
   const foo = { id: 1, bar: [{ id: 2 }, { id: 3 }] };
 
-  const fragment = convertInsertInputToPartialFragmentResursive({ insertInput: foo });
+  const fragment = convertObjectToGraph({ input: foo });
 
-  console.log(" --> fragment 2.0", fragment);
+  console.log(" ---------> ", fragment);
 
   expect(fragment).toMatchObject({
     id: 1,
@@ -33,12 +31,10 @@ test("convertInsertInputToPartialFragmentResursive - plain array should return a
 /*
  *
  */
-test("convertInsertInputToPartialFragmentResursive - plain array should return as expected (with typename)", () => {
+test("convertToGraph - plain array should return as expected (with typename)", () => {
   const foo = { id: 1, bar: [{ id: 2 }, { id: 3 }] };
 
-  const fragment = convertInsertInputToPartialFragmentResursive({ insertInput: foo, fieldMap: { bar: "Bar" } });
-
-  console.log(" --> fragment 2.1", fragment);
+  const fragment = convertObjectToGraph({ input: foo, fieldMap: { bar: "Bar" } });
 
   expect(fragment).toMatchObject({
     id: 1,
@@ -49,12 +45,10 @@ test("convertInsertInputToPartialFragmentResursive - plain array should return a
   });
 });
 
-test("convertInsertInputToPartialFragmentResursive - plain array should be omitted", () => {
+test("convertToGraph - plain array should be omitted", () => {
   const foo = { id: 1, bar: [{ id: 2 }, { id: 3 }] };
 
-  const fragment = convertInsertInputToPartialFragmentResursive({ insertInput: foo, fieldMap: { bar: "IGNORE_FIELD" } });
-
-  console.log(" --> fragment 2.2", fragment);
+  const fragment = convertObjectToGraph({ input: foo, fieldMap: { bar: "IGNORE_FIELD" } });
 
   expect(fragment).toMatchObject({ id: 1 });
   expect(fragment.bar).toBeUndefined();
@@ -63,12 +57,10 @@ test("convertInsertInputToPartialFragmentResursive - plain array should be omitt
 /*
  *
  */
-test("convertInsertInputToPartialFragmentResursive - insertInput object should return as expected", () => {
+test("convertToGraph - insertInput object should return as expected", () => {
   const foo = { id: 1, bar: { data: { id: 2 } } };
 
-  const fragment = convertInsertInputToPartialFragmentResursive({ insertInput: foo, fieldMap: { bar: "Bar" } });
-
-  console.log(" --> fragment 3", fragment);
+  const fragment = convertObjectToGraph({ input: foo, fieldMap: { bar: "Bar" } });
 
   expect(fragment).toMatchObject({ id: 1, bar: { id: 2, __typename: "Bar" } });
 });
@@ -76,12 +68,10 @@ test("convertInsertInputToPartialFragmentResursive - insertInput object should r
 /*
  *
  */
-test("convertInsertInputToPartialFragmentResursive - insertInput array should return as expected", () => {
+test("convertToGraph - insertInput array should return as expected", () => {
   const foo = { id: 1, bar: { data: [{ id: 2 }, { id: 3 }] } };
 
-  const fragment = convertInsertInputToPartialFragmentResursive({ insertInput: foo, fieldMap: { bar: "Bar" } });
-
-  console.log(" --> fragment 4", fragment);
+  const fragment = convertObjectToGraph({ input: foo, fieldMap: { bar: "Bar" } });
 
   expect(fragment).toMatchObject({
     id: 1,
@@ -95,7 +85,7 @@ test("convertInsertInputToPartialFragmentResursive - insertInput array should re
 /*
  *
  */
-test("convertInsertInputToPartialFragmentResursive - insertInput recursive array should return as expected", () => {
+test("convertToGraph - insertInput recursive array should return as expected", () => {
   const foo = {
     id: 1,
     bar: {
@@ -114,12 +104,12 @@ test("convertInsertInputToPartialFragmentResursive - insertInput recursive array
     ]
   };
 
-  const fragmentRecursive = convertInsertInputToPartialFragmentResursive({ insertInput: foo, fieldMap: { bar: "Bar", baz: "Baz" } });
+  const fragmentRecursive = convertObjectToGraph({ input: foo, fieldMap: { bar: "Bar", baz: "Baz" } });
 
   expect(fragmentRecursive).toMatchObject(expected);
 });
 
-test("convertInsertInputToPartialFragmentResursive - insertInput recursive (deeper definition copied as-is) should return as expected", () => {
+test("convertToGraph - insertInput recursive (deeper definition copied as-is) should return as expected", () => {
   const foo = {
     id: 1,
     bar: {
@@ -138,14 +128,14 @@ test("convertInsertInputToPartialFragmentResursive - insertInput recursive (deep
     ]
   };
 
-  const fragmentRecursive = convertInsertInputToPartialFragmentResursive({ insertInput: foo, fieldMap: { bar: "Bar" } });
+  const fragmentRecursive = convertObjectToGraph({ input: foo, fieldMap: { bar: "Bar" } });
 
   expect(fragmentRecursive).toMatchObject(expected);
   expect(fragmentRecursive.bar[1].baz).toBeDefined();
   expect(fragmentRecursive.bar[1].baz.__typename).toBeUndefined();
 });
 
-test("convertInsertInputToPartialFragmentResursive - insertInput recursive (deeper definition missing) should return as expected", () => {
+test("convertToGraph - insertInput recursive (deeper definition missing) should return as expected", () => {
   const foo = {
     id: 1,
     bar: {
@@ -164,13 +154,13 @@ test("convertInsertInputToPartialFragmentResursive - insertInput recursive (deep
     ]
   };
 
-  const fragmentRecursive = convertInsertInputToPartialFragmentResursive({ insertInput: foo, fieldMap: { bar: "Bar", baz: "IGNORE_FIELD" } });
+  const fragmentRecursive = convertObjectToGraph({ input: foo, fieldMap: { bar: "Bar", baz: "IGNORE_FIELD" } });
 
   expect(fragmentRecursive).toMatchObject(expected);
   expect(fragmentRecursive.bar[1].baz).toBeUndefined();
 });
 
-test("convertInsertInputToPartialFragmentResursive - deep nested realworld example", () => {
+test("convertToGraph - deep nested realworld example", () => {
   const realWorldExample = {
     id: "00000000-0000-0000-0000-00000000",
     title: "Title",
@@ -202,13 +192,7 @@ test("convertInsertInputToPartialFragmentResursive - deep nested realworld examp
                 data: {
                   id: "50000000-0000-0000-0000-00000000",
                   nested4: {
-                    data: [
-                      {
-                        id: "60000000-0000-0000-0000-00000000",
-                        title: "Test",
-                        index: 0
-                      }
-                    ]
+                    data: []
                   }
                 }
               }
@@ -253,14 +237,7 @@ test("convertInsertInputToPartialFragmentResursive - deep nested realworld examp
           nested3B: {
             __typename: "nested3",
             id: "50000000-0000-0000-0000-00000000",
-            nested4: [
-              {
-                __typename: "nested4",
-                id: "60000000-0000-0000-0000-00000000",
-                title: "Test",
-                index: 0
-              }
-            ]
+            nested4: []
           }
         }
       }
@@ -272,10 +249,12 @@ test("convertInsertInputToPartialFragmentResursive - deep nested realworld examp
     }
   };
 
-  const fragmentRecursive = convertInsertInputToPartialFragmentResursive({
-    insertInput: realWorldExample,
+  const fragmentRecursive = convertObjectToGraph({
+    input: realWorldExample,
     fieldMap: { nested1: "nested1", nested2: "nested2", nested3A: "nested3", nested3B: "nested3", nested4: "nested4", relatedObject: "relatedObject" }
   });
+
+  console.log(" --> fragmentRecursive", JSON.stringify(fragmentRecursive, null, 2));
 
   expect(fragmentRecursive).toMatchObject(expected);
 });

@@ -15,7 +15,7 @@ export function injectGlobalHelperCodePre({
   withUpdates: boolean;
 }) {
   contentManager.addImport(
-    `import { generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, convertInsertInputToPartialFragmentResursive, ObjectWithId, FieldMap, getLogLevel, ensureTypenameOnFragment, ensureTypenameOnFragments } from 'graphql-codegen-hasura-core'`
+    `import { generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, convertToGraph, ObjectWithId, FieldMap, getLogLevel, ensureTypenameOnFragment, ensureTypenameOnFragments } from 'graphql-codegen-hasura-core'`
   );
   contentManager.addImport(
     `import { ApolloClient, ApolloQueryResult, defaultDataIdFromObject, FetchResult, MutationOptions, ObservableQuery, QueryOptions, SubscriptionOptions, Observable, DataProxy } from '@apollo/client'`
@@ -117,13 +117,13 @@ export function injectClientAndCacheHelpers({
     }
 
     function clientDeepInsert${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityShortCamelCaseName}, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, fieldMap?: FieldMap<string> }): void {
-      const ${fragmentNameCamelCase}Partial = convertInsertInputToPartialFragmentResursive({ insertInput:${entityShortCamelCaseName}, fieldMap });
+      const ${fragmentNameCamelCase}Partial = convertToGraph({ input:${entityShortCamelCaseName}, fieldMap });
       if(logLevel >= 2) console.log(' --> clientDeepInsert${fragmentNamePascalCase}ById - ${fragmentNameCamelCase}Partial:', ${fragmentNameCamelCase}Partial);
       return apolloClient.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
     }
 
     function cacheDeepInsert${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityShortCamelCaseName}, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, fieldMap?: FieldMap<string> }): void {
-      const ${fragmentNameCamelCase}Partial = convertInsertInputToPartialFragmentResursive({ insertInput:${entityShortCamelCaseName}, fieldMap });
+      const ${fragmentNameCamelCase}Partial = convertToGraph({ input:${entityShortCamelCaseName}, fieldMap });
       if(logLevel >= 2) console.log(' --> cacheDeepInsert${fragmentNamePascalCase}ById - ${fragmentNameCamelCase}Partial:', ${fragmentNameCamelCase}Partial);
       return apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
     }
@@ -154,14 +154,14 @@ export function injectClientAndCacheHelpers({
 
     function clientWriteQuery${fragmentNamePascalCase}Insert({ apolloClient, variables, ${entityShortCamelCaseName}, fieldMap }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, ${entityShortCamelCaseName}:${entityPascalName}_Insert_Input, fieldMap?: FieldMap<string> }): void {
       const currentObjects = clientReadQuery${fragmentNamePascalCase}Objects({ apolloClient, variables }) || [];
-      const objectsWithInserted = [ ...currentObjects, { ...convertInsertInputToPartialFragmentResursive({ insertInput: ${entityShortCamelCaseName}, fieldMap }), __typename: '${entityNamedType.name}' }];
+      const objectsWithInserted = [ ...currentObjects, { ...convertToGraph({ input: ${entityShortCamelCaseName}, fieldMap }), __typename: '${entityNamedType.name}' }];
       if(logLevel >= 2) console.log(' --> clientWriteQuery${fragmentNamePascalCase}Insert - objectsWithInserted:', objectsWithInserted);
       return clientWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data: objectsWithInserted });
     }
 
     function cacheWriteQuery${fragmentNamePascalCase}Insert({ apolloClient, variables, ${entityShortCamelCaseName}, fieldMap }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, ${entityShortCamelCaseName}:${entityPascalName}_Insert_Input, fieldMap?: FieldMap<string> }): void {
       const currentObjects = clientReadQuery${fragmentNamePascalCase}Objects({ apolloClient, variables }) || [];
-      const objectsWithInserted = [ ...currentObjects, { ...convertInsertInputToPartialFragmentResursive({ insertInput: ${entityShortCamelCaseName}, fieldMap }), __typename: '${entityNamedType.name}' }];
+      const objectsWithInserted = [ ...currentObjects, { ...convertToGraph({ input: ${entityShortCamelCaseName}, fieldMap }), __typename: '${entityNamedType.name}' }];
       if(logLevel >= 2) console.log(' --> cacheWriteQuery${fragmentNamePascalCase}Insert - objectsWithInserted:', objectsWithInserted);
       return cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data: objectsWithInserted });
     }
