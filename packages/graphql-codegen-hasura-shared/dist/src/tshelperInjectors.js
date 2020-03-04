@@ -62,27 +62,18 @@ function injectClientAndCacheHelpers({ contentManager, entityNamedType, fragment
       return apolloClient.readFragment<${fragmentTypeScriptTypeName} | null | undefined>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ __typename: '${entityNamedType.name}', id:${entityShortCamelCaseName}Id }) });
     }
 
-    function clientWriteFragment${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}Partial, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> | null, fieldMap?: FieldMap<string> }): void {
+    function clientWriteFragment${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}Partial, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> | ${entityPascalName}_Insert_Input  | null, fieldMap?: FieldMap<string> }): Partial<${fragmentTypeScriptTypeName}> {
       const parsedFragment = convertToGraph({ input:${fragmentNameCamelCase}Partial, typename:'${entityNamedType.name}', fieldMap });
-      return apolloClient.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...parsedFragment, id:${entityShortCamelCaseName}Id }), data: parsedFragment });
+      if(logLevel >= 2) console.log(' --> cacheWriteFragment${fragmentNamePascalCase}ById - ${fragmentNameCamelCase}Partial:', ${fragmentNameCamelCase}Partial);
+      apolloClient.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...parsedFragment, id:${entityShortCamelCaseName}Id }), data: parsedFragment });
+      return parsedFragment;
     }
 
-    function cacheWriteFragment${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}Partial, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> | null, fieldMap?: FieldMap<string> }): void {
+    function cacheWriteFragment${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}Partial, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> | ${entityPascalName}_Insert_Input  | null, fieldMap?: FieldMap<string> }): Partial<${fragmentTypeScriptTypeName}> {
       const parsedFragment = convertToGraph({ input:${fragmentNameCamelCase}Partial, typename:'${entityNamedType.name}', fieldMap });
-      return apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...parsedFragment, id:${entityShortCamelCaseName}Id }), data: parsedFragment });
-    }
-
-    function clientWriteFragment${fragmentNamePascalCase}InsertById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityShortCamelCaseName}, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, fieldMap?: FieldMap<string> }): void {
-      const ${fragmentNameCamelCase}Partial = convertToGraph({ input:${entityShortCamelCaseName}, typename:'${entityNamedType.name}', fieldMap });
-      if(logLevel >= 2) console.log(' --> clientWriteFragment${fragmentNamePascalCase}InsertById - ${fragmentNameCamelCase}Partial:', ${fragmentNameCamelCase}Partial);
-      apolloClient.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: ${fragmentNameCamelCase}Partial });
-      return ${fragmentNameCamelCase}Partial;
-    }
-
-    function cacheWriteFragment${fragmentNamePascalCase}InsertById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityShortCamelCaseName}, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, fieldMap?: FieldMap<string> }): void {
-      const ${fragmentNameCamelCase}Partial = convertToGraph({ input:${entityShortCamelCaseName}, typename:'${entityNamedType.name}', fieldMap });
-      if(logLevel >= 2) console.log(' --> clientWriteFragment${fragmentNamePascalCase}InsertById - ${fragmentNameCamelCase}Partial:', ${fragmentNameCamelCase}Partial);
-      return apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: ${fragmentNameCamelCase}Partial });
+      if(logLevel >= 2) console.log(' --> cacheWriteFragment${fragmentNamePascalCase}ById - ${fragmentNameCamelCase}Partial:', ${fragmentNameCamelCase}Partial);
+      apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...parsedFragment, id:${entityShortCamelCaseName}Id }), data: parsedFragment });
+      return parsedFragment;
     }
 
     function clientReadQuery${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id}: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName} }): ${fragmentNamePascalCase}Fragment | null | undefined {
@@ -104,13 +95,13 @@ function injectClientAndCacheHelpers({ contentManager, entityNamedType, fragment
     }
 
     function clientWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:${entityPascalName}[], fieldMap?: FieldMap<string> }): void {
-      const ${fragmentNameCamelCase}Partial = convertToGraph({ input:data, typename:'${entityNamedType.name}', fieldMap });
-      return apolloClient.writeQuery<{${entityPascalName}:${entityPascalName}[]}>({ query: ${queryObjectsName}Document, variables, data: { ${entityPascalName}:data } });
+      const objects = convertToGraph({ input:data, typename:'${entityNamedType.name}', fieldMap });
+      return apolloClient.writeQuery<{${entityPascalName}:${entityPascalName}[]}>({ query: ${queryObjectsName}Document, variables, data: { ${entityPascalName}:objects } });
     }
 
     function cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:${entityPascalName}[], fieldMap?: FieldMap<string> }): void {
-      const ${fragmentNameCamelCase}Partial = convertToGraph({ input:data, typename:'${entityNamedType.name}', fieldMap });
-      return apolloClient.cache.writeQuery<{${entityPascalName}:${entityPascalName}[]}>({ query: ${queryObjectsName}Document, variables, data: { ${entityPascalName}:data } });
+      const objects = convertToGraph({ input:data, typename:'${entityNamedType.name}', fieldMap });
+      return apolloClient.cache.writeQuery<{${entityPascalName}:${entityPascalName}[]}>({ query: ${queryObjectsName}Document, variables, data: { ${entityPascalName}:objects } });
     }
 
     function clientWriteQuery${fragmentNamePascalCase}Insert({ apolloClient, variables, ${entityShortCamelCaseName}, fieldMap }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, ${entityShortCamelCaseName}:${entityPascalName}_Insert_Input, fieldMap?: FieldMap<string> }): void {
@@ -454,10 +445,6 @@ function injectSharedHelpersPost({ contentManager, entityNamedType, fragmentName
             fragmentHelperObject += `      clientWriteFragmentById: clientWriteFragment${fragmentNamePascalCase}ById,\n`;
         if (withClientAndCacheHelpers)
             fragmentHelperObject += `      cacheWriteFragmentById: cacheWriteFragment${fragmentNamePascalCase}ById,\n`;
-        if (withClientAndCacheHelpers)
-            fragmentHelperObject += `      clientWriteFragmentInsertById: clientWriteFragment${fragmentNamePascalCase}InsertById,\n`;
-        if (withClientAndCacheHelpers)
-            fragmentHelperObject += `      cacheWriteFragmentInsertById: cacheWriteFragment${fragmentNamePascalCase}InsertById,\n`;
         if (withClientAndCacheHelpers)
             fragmentHelperObject += `      clientReadQueryById: clientReadQuery${fragmentNamePascalCase}ById,\n`;
         if (withClientAndCacheHelpers)
