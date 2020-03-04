@@ -590,7 +590,7 @@
         "signature": "16172fabdd337c5efa670da193f5bdc05135ae501c7b22fb0ce52c0675bcc677"
       },
       "../src/tshelperinjectors.ts": {
-        "version": "4d893506627120bdf308920b26850e72ad2579f58bf7ed795cc245e2be7e2892",
+        "version": "f139b5a0ef5ae7ea6a96fd101c235c3fba66b29d773b2f1c782a5a7131216b7b",
         "signature": "a5d7c7f06e29248ef9754542f51d894b95d4d97dd1b22969f7e917f64805176c"
       },
       "../src/reactinjectors.ts": {
@@ -4255,7 +4255,7 @@
       "../node_modules/change-case/dist/index.d.ts",
       "../src/utils.ts",
       "../src/gqlinjectors.ts",
-      "../src/tshelperinjectors.ts",
+      "../src/reactinjectors.ts",
       "../src/index.ts",
       "../src/configinjectors.ts",
       "../src/sharedinjectors.ts",
@@ -4307,7 +4307,7 @@
       "../../../node_modules/@types/node/ts3.2/index.d.ts",
       "../../../node_modules/@types/minimatch/index.d.ts",
       "../../../node_modules/@types/glob/index.d.ts",
-      "../src/reactinjectors.ts"
+      "../src/tshelperinjectors.ts"
     ]
   },
   "version": "3.7.4"

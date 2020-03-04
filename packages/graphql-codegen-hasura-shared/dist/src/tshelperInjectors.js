@@ -62,63 +62,84 @@ function injectClientAndCacheHelpers({ contentManager, entityNamedType, fragment
       return apolloClient.readFragment<${fragmentTypeScriptTypeName} | null | undefined>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ __typename: '${entityNamedType.name}', id:${entityShortCamelCaseName}Id }) });
     }
 
-    function clientWriteFragment${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}Partial }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> | null }): void {
-      return apolloClient.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
+    function clientWriteFragment${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}Partial, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> | null, fieldMap?: FieldMap<string> }): void {
+      const parsedFragment = convertToGraph({ input:${fragmentNameCamelCase}Partial, typename:'${entityNamedType.name}', fieldMap });
+      return apolloClient.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...parsedFragment, id:${entityShortCamelCaseName}Id }), data: parsedFragment });
     }
 
-    function cacheWriteFragment${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}Partial }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> | null }): void {
-      return apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
+    function cacheWriteFragment${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}Partial, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> | null, fieldMap?: FieldMap<string> }): void {
+      const parsedFragment = convertToGraph({ input:${fragmentNameCamelCase}Partial, typename:'${entityNamedType.name}', fieldMap });
+      return apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...parsedFragment, id:${entityShortCamelCaseName}Id }), data: parsedFragment });
     }
 
-    function clientDeepInsert${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityShortCamelCaseName}, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, fieldMap?: FieldMap<string> }): void {
-      const ${fragmentNameCamelCase}Partial = convertToGraph({ input:${entityShortCamelCaseName}, fieldMap });
-      if(logLevel >= 2) console.log(' --> clientDeepInsert${fragmentNamePascalCase}ById - ${fragmentNameCamelCase}Partial:', ${fragmentNameCamelCase}Partial);
-      return apolloClient.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
+    function clientWriteFragment${fragmentNamePascalCase}InsertById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityShortCamelCaseName}, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, fieldMap?: FieldMap<string> }): void {
+      const ${fragmentNameCamelCase}Partial = convertToGraph({ input:${entityShortCamelCaseName}, typename:'${entityNamedType.name}', fieldMap });
+      if(logLevel >= 2) console.log(' --> clientWriteFragment${fragmentNamePascalCase}InsertById - ${fragmentNameCamelCase}Partial:', ${fragmentNameCamelCase}Partial);
+      apolloClient.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: ${fragmentNameCamelCase}Partial });
+      return ${fragmentNameCamelCase}Partial;
     }
 
-    function cacheDeepInsert${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityShortCamelCaseName}, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, fieldMap?: FieldMap<string> }): void {
-      const ${fragmentNameCamelCase}Partial = convertToGraph({ input:${entityShortCamelCaseName}, fieldMap });
-      if(logLevel >= 2) console.log(' --> cacheDeepInsert${fragmentNamePascalCase}ById - ${fragmentNameCamelCase}Partial:', ${fragmentNameCamelCase}Partial);
-      return apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
+    function cacheWriteFragment${fragmentNamePascalCase}InsertById({ apolloClient, ${entityShortCamelCaseName}Id, ${entityShortCamelCaseName}, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: string, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, fieldMap?: FieldMap<string> }): void {
+      const ${fragmentNameCamelCase}Partial = convertToGraph({ input:${entityShortCamelCaseName}, typename:'${entityNamedType.name}', fieldMap });
+      if(logLevel >= 2) console.log(' --> clientWriteFragment${fragmentNamePascalCase}InsertById - ${fragmentNameCamelCase}Partial:', ${fragmentNameCamelCase}Partial);
+      return apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...${fragmentNameCamelCase}Partial, id:${entityShortCamelCaseName}Id, __typename: '${entityNamedType.name}' }), data: ${fragmentNameCamelCase}Partial });
     }
 
     function clientReadQuery${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id}: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName} }): ${fragmentNamePascalCase}Fragment | null | undefined {
       return apolloClient.readQuery<${fragmentNamePascalCase}Fragment | null >({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }  });
     }
 
-    function clientWriteQuery${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase} }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}: ${fragmentNamePascalCase}Fragment | null }): void {
-      return apolloClient.writeQuery<${fragmentNamePascalCase}Fragment | null>({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, data: (${fragmentNameCamelCase} ? { ...${fragmentNameCamelCase}, __typename: '${entityNamedType.name}' } : null) });
+    function clientWriteQuery${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}: ${fragmentNamePascalCase}Fragment | null, fieldMap?: FieldMap<string> }): void {
+      const ${fragmentNameCamelCase}Partial = convertToGraph({ input:${fragmentNameCamelCase}, typename:'${entityNamedType.name}', fieldMap });
+      return apolloClient.writeQuery<${fragmentNamePascalCase}Fragment | null>({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, data: (${fragmentNameCamelCase} ? ${fragmentNameCamelCase}Partial : null) });
     }
 
-    function cacheWriteQuery${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase} }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}: ${fragmentNamePascalCase}Fragment | null }): void {
-      return apolloClient.cache.writeQuery<${fragmentNamePascalCase}Fragment | null>({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, data: (${fragmentNameCamelCase} ? { ...${fragmentNameCamelCase}, __typename: '${entityNamedType.name}' } : null) });
+    function cacheWriteQuery${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}: ${fragmentNamePascalCase}Fragment | null, fieldMap?: FieldMap<string> }): void {
+      const ${fragmentNameCamelCase}Partial = convertToGraph({ input:${fragmentNameCamelCase}, typename:'${entityNamedType.name}', fieldMap });
+      return apolloClient.cache.writeQuery<${fragmentNamePascalCase}Fragment | null>({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, data: (${fragmentNameCamelCase} ? ${fragmentNameCamelCase}Partial : null) });
     }
     
     function clientReadQuery${fragmentNamePascalCase}Objects({ apolloClient, variables }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables }): ${entityPascalName}[] | null | undefined {
       return apolloClient.readQuery<{${entityPascalName}:${entityPascalName}[] | null}>({ query: ${queryObjectsName}Document, variables })?.${entityPascalName} || [];
     }
 
-    function clientWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:${entityPascalName}[] }): void {
+    function clientWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:${entityPascalName}[], fieldMap?: FieldMap<string> }): void {
+      const ${fragmentNameCamelCase}Partial = convertToGraph({ input:data, typename:'${entityNamedType.name}', fieldMap });
       return apolloClient.writeQuery<{${entityPascalName}:${entityPascalName}[]}>({ query: ${queryObjectsName}Document, variables, data: { ${entityPascalName}:data } });
     }
 
-    function cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:${entityPascalName}[] }): void {
+    function cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:${entityPascalName}[], fieldMap?: FieldMap<string> }): void {
+      const ${fragmentNameCamelCase}Partial = convertToGraph({ input:data, typename:'${entityNamedType.name}', fieldMap });
       return apolloClient.cache.writeQuery<{${entityPascalName}:${entityPascalName}[]}>({ query: ${queryObjectsName}Document, variables, data: { ${entityPascalName}:data } });
     }
 
     function clientWriteQuery${fragmentNamePascalCase}Insert({ apolloClient, variables, ${entityShortCamelCaseName}, fieldMap }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, ${entityShortCamelCaseName}:${entityPascalName}_Insert_Input, fieldMap?: FieldMap<string> }): void {
       const currentObjects = clientReadQuery${fragmentNamePascalCase}Objects({ apolloClient, variables }) || [];
-      const objectsWithInserted = [ ...currentObjects, { ...convertToGraph({ input: ${entityShortCamelCaseName}, fieldMap }), __typename: '${entityNamedType.name}' }];
+      const objectsWithInserted = [ ...currentObjects, convertToGraph({ input: ${entityShortCamelCaseName}, typename:'${entityNamedType.name}', fieldMap })];
       if(logLevel >= 2) console.log(' --> clientWriteQuery${fragmentNamePascalCase}Insert - objectsWithInserted:', objectsWithInserted);
       return clientWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data: objectsWithInserted });
     }
 
     function cacheWriteQuery${fragmentNamePascalCase}Insert({ apolloClient, variables, ${entityShortCamelCaseName}, fieldMap }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, ${entityShortCamelCaseName}:${entityPascalName}_Insert_Input, fieldMap?: FieldMap<string> }): void {
       const currentObjects = clientReadQuery${fragmentNamePascalCase}Objects({ apolloClient, variables }) || [];
-      const objectsWithInserted = [ ...currentObjects, { ...convertToGraph({ input: ${entityShortCamelCaseName}, fieldMap }), __typename: '${entityNamedType.name}' }];
+      const objectsWithInserted = [ ...currentObjects, convertToGraph({ input: ${entityShortCamelCaseName}, typename:'${entityNamedType.name}', fieldMap })];
       if(logLevel >= 2) console.log(' --> cacheWriteQuery${fragmentNamePascalCase}Insert - objectsWithInserted:', objectsWithInserted);
       return cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data: objectsWithInserted });
     }
+
+    function clientWriteQuery${fragmentNamePascalCase}Remove({ apolloClient, variables, ${entityShortCamelCaseName}Id }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName} }): void {
+      const currentObjects = clientReadQuery${fragmentNamePascalCase}Objects({ apolloClient, variables }) || [];
+      const objectsWithRemoved = currentObjects.filter(objectItem => objectItem.id !== ${entityShortCamelCaseName}Id) || [];
+      if(logLevel >= 2) console.log(' --> clientWriteQuery${fragmentNamePascalCase}Remove - objectsWithRemoved:', objectsWithRemoved);
+      return clientWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data: objectsWithRemoved });
+    }
+
+    function cacheWriteQuery${fragmentNamePascalCase}Remove({ apolloClient, variables, ${entityShortCamelCaseName}Id }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName} }): void {
+      const currentObjects = clientReadQuery${fragmentNamePascalCase}Objects({ apolloClient, variables }) || [];
+      const objectsWithRemoved = currentObjects.filter(objectItem => objectItem.id !== ${entityShortCamelCaseName}Id) || [];
+      if(logLevel >= 2) console.log(' --> clientWriteQuery${fragmentNamePascalCase}Remove - objectsWithRemoved:', objectsWithRemoved);
+      return cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data: objectsWithRemoved });
+    };
     `);
         //
         // In Progress
@@ -434,9 +455,9 @@ function injectSharedHelpersPost({ contentManager, entityNamedType, fragmentName
         if (withClientAndCacheHelpers)
             fragmentHelperObject += `      cacheWriteFragmentById: cacheWriteFragment${fragmentNamePascalCase}ById,\n`;
         if (withClientAndCacheHelpers)
-            fragmentHelperObject += `      clientDeepWriteById: clientDeepInsert${fragmentNamePascalCase}ById,\n`;
+            fragmentHelperObject += `      clientWriteFragmentInsertById: clientWriteFragment${fragmentNamePascalCase}InsertById,\n`;
         if (withClientAndCacheHelpers)
-            fragmentHelperObject += `      cacheDeepWriteById: cacheDeepInsert${fragmentNamePascalCase}ById,\n`;
+            fragmentHelperObject += `      cacheWriteFragmentInsertById: cacheWriteFragment${fragmentNamePascalCase}InsertById,\n`;
         if (withClientAndCacheHelpers)
             fragmentHelperObject += `      clientReadQueryById: clientReadQuery${fragmentNamePascalCase}ById,\n`;
         if (withClientAndCacheHelpers)
@@ -453,6 +474,10 @@ function injectSharedHelpersPost({ contentManager, entityNamedType, fragmentName
             fragmentHelperObject += `      clientWriteQueryInsert: clientWriteQuery${fragmentNamePascalCase}Insert,\n`;
         if (withClientAndCacheHelpers)
             fragmentHelperObject += `      cacheWriteQueryInsert: cacheWriteQuery${fragmentNamePascalCase}Insert,\n`;
+        if (withClientAndCacheHelpers)
+            fragmentHelperObject += `      clientWriteQueryRemove: clientWriteQuery${fragmentNamePascalCase}Remove,\n`;
+        if (withClientAndCacheHelpers)
+            fragmentHelperObject += `      cacheWriteQueryRemove: cacheWriteQuery${fragmentNamePascalCase}Remove,\n`;
         if (withQueries)
             fragmentHelperObject += `      queryById: query${fragmentNamePascalCase}ById,\n`;
         if (withQueries)

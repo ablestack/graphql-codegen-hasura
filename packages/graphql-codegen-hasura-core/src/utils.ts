@@ -188,6 +188,11 @@ function _convertToGraph({ value, key, fieldMap }: { value: any; key?: string; f
   return null;
 }
 
-export function convertToGraph({ input, fieldMap }: { input: any; fieldMap?: FieldMap<string> }) {
-  return _convertToGraph({ value: input, fieldMap });
+export function convertToGraph({ input, typename, fieldMap }: { input: any; typename: string; fieldMap?: FieldMap<string> }) {
+  let _fieldMap = fieldMap;
+  if (typename) {
+    if (!_fieldMap) _fieldMap = {};
+    _fieldMap["___root"] = typename;
+  }
+  return _convertToGraph({ value: input, key: "___root", fieldMap: _fieldMap });
 }

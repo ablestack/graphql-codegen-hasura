@@ -120,63 +120,84 @@ import { RemoveDogsModelByIdDocument } from '../';
       return apolloClient.readFragment<VehicleFragment | null | undefined>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ __typename: 'vehicle', id:vehicleId }) });
     }
 
-    function clientWriteFragmentVehicleById({ apolloClient, vehicleId, vehiclePartial }: { apolloClient: ApolloClient<object>, vehicleId: string, vehiclePartial: Partial<VehicleFragment> | null }): void {
-      return apolloClient.writeFragment<Partial<VehicleFragment> | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ ...vehiclePartial, id:vehicleId, __typename: 'vehicle' }), data: { ...vehiclePartial, __typename: 'vehicle' } });
+    function clientWriteFragmentVehicleById({ apolloClient, vehicleId, vehiclePartial, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehiclePartial: Partial<VehicleFragment> | null, fieldMap?: FieldMap<string> }): void {
+      const parsedFragment = convertToGraph({ input:vehiclePartial, typename:'vehicle', fieldMap });
+      return apolloClient.writeFragment<Partial<VehicleFragment> | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ ...parsedFragment, id:vehicleId }), data: parsedFragment });
     }
 
-    function cacheWriteFragmentVehicleById({ apolloClient, vehicleId, vehiclePartial }: { apolloClient: ApolloClient<object>, vehicleId: string, vehiclePartial: Partial<VehicleFragment> | null }): void {
-      return apolloClient.cache.writeFragment<Partial<VehicleFragment> | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ ...vehiclePartial, id:vehicleId, __typename: 'vehicle' }), data: { ...vehiclePartial, __typename: 'vehicle' } });
+    function cacheWriteFragmentVehicleById({ apolloClient, vehicleId, vehiclePartial, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehiclePartial: Partial<VehicleFragment> | null, fieldMap?: FieldMap<string> }): void {
+      const parsedFragment = convertToGraph({ input:vehiclePartial, typename:'vehicle', fieldMap });
+      return apolloClient.cache.writeFragment<Partial<VehicleFragment> | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ ...parsedFragment, id:vehicleId }), data: parsedFragment });
     }
 
-    function clientDeepInsertVehicleById({ apolloClient, vehicleId, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: Vehicle_Insert_Input, fieldMap?: FieldMap<string> }): void {
-      const vehiclePartial = convertToGraph({ input:vehicle, fieldMap });
-      if(logLevel >= 2) console.log(' --> clientDeepInsertVehicleById - vehiclePartial:', vehiclePartial);
-      return apolloClient.writeFragment<Partial<VehicleFragment> | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ ...vehiclePartial, id:vehicleId, __typename: 'vehicle' }), data: { ...vehiclePartial, __typename: 'vehicle' } });
+    function clientWriteFragmentVehicleInsertById({ apolloClient, vehicleId, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: Vehicle_Insert_Input, fieldMap?: FieldMap<string> }): void {
+      const vehiclePartial = convertToGraph({ input:vehicle, typename:'vehicle', fieldMap });
+      if(logLevel >= 2) console.log(' --> clientWriteFragmentVehicleInsertById - vehiclePartial:', vehiclePartial);
+      apolloClient.writeFragment<Partial<VehicleFragment> | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ ...vehiclePartial, id:vehicleId, __typename: 'vehicle' }), data: vehiclePartial });
+      return vehiclePartial;
     }
 
-    function cacheDeepInsertVehicleById({ apolloClient, vehicleId, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: Vehicle_Insert_Input, fieldMap?: FieldMap<string> }): void {
-      const vehiclePartial = convertToGraph({ input:vehicle, fieldMap });
-      if(logLevel >= 2) console.log(' --> cacheDeepInsertVehicleById - vehiclePartial:', vehiclePartial);
-      return apolloClient.cache.writeFragment<Partial<VehicleFragment> | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ ...vehiclePartial, id:vehicleId, __typename: 'vehicle' }), data: { ...vehiclePartial, __typename: 'vehicle' } });
+    function cacheWriteFragmentVehicleInsertById({ apolloClient, vehicleId, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: Vehicle_Insert_Input, fieldMap?: FieldMap<string> }): void {
+      const vehiclePartial = convertToGraph({ input:vehicle, typename:'vehicle', fieldMap });
+      if(logLevel >= 2) console.log(' --> clientWriteFragmentVehicleInsertById - vehiclePartial:', vehiclePartial);
+      return apolloClient.cache.writeFragment<Partial<VehicleFragment> | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ ...vehiclePartial, id:vehicleId, __typename: 'vehicle' }), data: vehiclePartial });
     }
 
     function clientReadQueryVehicleById({ apolloClient, vehicleId}: { apolloClient: ApolloClient<object>, vehicleId: string }): VehicleFragment | null | undefined {
       return apolloClient.readQuery<VehicleFragment | null >({ query: QueryVehicleByIdDocument, variables: { vehicleId }  });
     }
 
-    function clientWriteQueryVehicleById({ apolloClient, vehicleId, vehicle }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: VehicleFragment | null }): void {
-      return apolloClient.writeQuery<VehicleFragment | null>({ query: QueryVehicleByIdDocument, variables: { vehicleId }, data: (vehicle ? { ...vehicle, __typename: 'vehicle' } : null) });
+    function clientWriteQueryVehicleById({ apolloClient, vehicleId, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: VehicleFragment | null, fieldMap?: FieldMap<string> }): void {
+      const vehiclePartial = convertToGraph({ input:vehicle, typename:'vehicle', fieldMap });
+      return apolloClient.writeQuery<VehicleFragment | null>({ query: QueryVehicleByIdDocument, variables: { vehicleId }, data: (vehicle ? vehiclePartial : null) });
     }
 
-    function cacheWriteQueryVehicleById({ apolloClient, vehicleId, vehicle }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: VehicleFragment | null }): void {
-      return apolloClient.cache.writeQuery<VehicleFragment | null>({ query: QueryVehicleByIdDocument, variables: { vehicleId }, data: (vehicle ? { ...vehicle, __typename: 'vehicle' } : null) });
+    function cacheWriteQueryVehicleById({ apolloClient, vehicleId, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: VehicleFragment | null, fieldMap?: FieldMap<string> }): void {
+      const vehiclePartial = convertToGraph({ input:vehicle, typename:'vehicle', fieldMap });
+      return apolloClient.cache.writeQuery<VehicleFragment | null>({ query: QueryVehicleByIdDocument, variables: { vehicleId }, data: (vehicle ? vehiclePartial : null) });
     }
     
     function clientReadQueryVehicleObjects({ apolloClient, variables }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables }): Vehicle[] | null | undefined {
       return apolloClient.readQuery<{Vehicle:Vehicle[] | null}>({ query: QueryVehicleObjectsDocument, variables })?.Vehicle || [];
     }
 
-    function clientWriteQueryVehicleObjects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables, data:Vehicle[] }): void {
+    function clientWriteQueryVehicleObjects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables, data:Vehicle[], fieldMap?: FieldMap<string> }): void {
+      const vehiclePartial = convertToGraph({ input:data, typename:'vehicle', fieldMap });
       return apolloClient.writeQuery<{Vehicle:Vehicle[]}>({ query: QueryVehicleObjectsDocument, variables, data: { Vehicle:data } });
     }
 
-    function cacheWriteQueryVehicleObjects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables, data:Vehicle[] }): void {
+    function cacheWriteQueryVehicleObjects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables, data:Vehicle[], fieldMap?: FieldMap<string> }): void {
+      const vehiclePartial = convertToGraph({ input:data, typename:'vehicle', fieldMap });
       return apolloClient.cache.writeQuery<{Vehicle:Vehicle[]}>({ query: QueryVehicleObjectsDocument, variables, data: { Vehicle:data } });
     }
 
     function clientWriteQueryVehicleInsert({ apolloClient, variables, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables, vehicle:Vehicle_Insert_Input, fieldMap?: FieldMap<string> }): void {
       const currentObjects = clientReadQueryVehicleObjects({ apolloClient, variables }) || [];
-      const objectsWithInserted = [ ...currentObjects, { ...convertToGraph({ input: vehicle, fieldMap }), __typename: 'vehicle' }];
+      const objectsWithInserted = [ ...currentObjects, convertToGraph({ input: vehicle, typename:'vehicle', fieldMap })];
       if(logLevel >= 2) console.log(' --> clientWriteQueryVehicleInsert - objectsWithInserted:', objectsWithInserted);
       return clientWriteQueryVehicleObjects({ apolloClient, variables, data: objectsWithInserted });
     }
 
     function cacheWriteQueryVehicleInsert({ apolloClient, variables, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables, vehicle:Vehicle_Insert_Input, fieldMap?: FieldMap<string> }): void {
       const currentObjects = clientReadQueryVehicleObjects({ apolloClient, variables }) || [];
-      const objectsWithInserted = [ ...currentObjects, { ...convertToGraph({ input: vehicle, fieldMap }), __typename: 'vehicle' }];
+      const objectsWithInserted = [ ...currentObjects, convertToGraph({ input: vehicle, typename:'vehicle', fieldMap })];
       if(logLevel >= 2) console.log(' --> cacheWriteQueryVehicleInsert - objectsWithInserted:', objectsWithInserted);
       return cacheWriteQueryVehicleObjects({ apolloClient, variables, data: objectsWithInserted });
     }
+
+    function clientWriteQueryVehicleRemove({ apolloClient, variables, vehicleId }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables, vehicleId: string }): void {
+      const currentObjects = clientReadQueryVehicleObjects({ apolloClient, variables }) || [];
+      const objectsWithRemoved = currentObjects.filter(objectItem => objectItem.id !== vehicleId) || [];
+      if(logLevel >= 2) console.log(' --> clientWriteQueryVehicleRemove - objectsWithRemoved:', objectsWithRemoved);
+      return clientWriteQueryVehicleObjects({ apolloClient, variables, data: objectsWithRemoved });
+    }
+
+    function cacheWriteQueryVehicleRemove({ apolloClient, variables, vehicleId }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables, vehicleId: string }): void {
+      const currentObjects = clientReadQueryVehicleObjects({ apolloClient, variables }) || [];
+      const objectsWithRemoved = currentObjects.filter(objectItem => objectItem.id !== vehicleId) || [];
+      if(logLevel >= 2) console.log(' --> clientWriteQueryVehicleRemove - objectsWithRemoved:', objectsWithRemoved);
+      return cacheWriteQueryVehicleObjects({ apolloClient, variables, data: objectsWithRemoved });
+    };
     
 
       // Query Fetch Helper
@@ -358,8 +379,8 @@ import { RemoveDogsModelByIdDocument } from '../';
       clientReadFragmentById: clientReadFragmentVehicleById,
       clientWriteFragmentById: clientWriteFragmentVehicleById,
       cacheWriteFragmentById: cacheWriteFragmentVehicleById,
-      clientDeepWriteById: clientDeepInsertVehicleById,
-      cacheDeepWriteById: cacheDeepInsertVehicleById,
+      clientWriteFragmentInsertById: clientWriteFragmentVehicleInsertById,
+      cacheWriteFragmentInsertById: cacheWriteFragmentVehicleInsertById,
       clientReadQueryById: clientReadQueryVehicleById,
       clientWriteQueryById: clientWriteQueryVehicleById,
       cacheWriteQueryById: cacheWriteQueryVehicleById,
@@ -368,6 +389,8 @@ import { RemoveDogsModelByIdDocument } from '../';
       cacheWriteQueryObjects: cacheWriteQueryVehicleObjects,
       clientWriteQueryInsert: clientWriteQueryVehicleInsert,
       cacheWriteQueryInsert: cacheWriteQueryVehicleInsert,
+      clientWriteQueryRemove: clientWriteQueryVehicleRemove,
+      cacheWriteQueryRemove: cacheWriteQueryVehicleRemove,
       queryById: queryVehicleById,
       queryObjects: queryVehicleObjects,
       watchQueryById: watchQueryVehicleById,
@@ -405,63 +428,84 @@ import { RemoveDogsModelByIdDocument } from '../';
       return apolloClient.readFragment<VehicleLocationOnlyFragment | null | undefined>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ __typename: 'vehicle', id:vehicleId }) });
     }
 
-    function clientWriteFragmentVehicleLocationOnlyById({ apolloClient, vehicleId, vehicleLocationOnlyPartial }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicleLocationOnlyPartial: Partial<VehicleLocationOnlyFragment> | null }): void {
-      return apolloClient.writeFragment<Partial<VehicleLocationOnlyFragment> | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ ...vehicleLocationOnlyPartial, id:vehicleId, __typename: 'vehicle' }), data: { ...vehicleLocationOnlyPartial, __typename: 'vehicle' } });
+    function clientWriteFragmentVehicleLocationOnlyById({ apolloClient, vehicleId, vehicleLocationOnlyPartial, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicleLocationOnlyPartial: Partial<VehicleLocationOnlyFragment> | null, fieldMap?: FieldMap<string> }): void {
+      const parsedFragment = convertToGraph({ input:vehicleLocationOnlyPartial, typename:'vehicle', fieldMap });
+      return apolloClient.writeFragment<Partial<VehicleLocationOnlyFragment> | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ ...parsedFragment, id:vehicleId }), data: parsedFragment });
     }
 
-    function cacheWriteFragmentVehicleLocationOnlyById({ apolloClient, vehicleId, vehicleLocationOnlyPartial }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicleLocationOnlyPartial: Partial<VehicleLocationOnlyFragment> | null }): void {
-      return apolloClient.cache.writeFragment<Partial<VehicleLocationOnlyFragment> | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ ...vehicleLocationOnlyPartial, id:vehicleId, __typename: 'vehicle' }), data: { ...vehicleLocationOnlyPartial, __typename: 'vehicle' } });
+    function cacheWriteFragmentVehicleLocationOnlyById({ apolloClient, vehicleId, vehicleLocationOnlyPartial, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicleLocationOnlyPartial: Partial<VehicleLocationOnlyFragment> | null, fieldMap?: FieldMap<string> }): void {
+      const parsedFragment = convertToGraph({ input:vehicleLocationOnlyPartial, typename:'vehicle', fieldMap });
+      return apolloClient.cache.writeFragment<Partial<VehicleLocationOnlyFragment> | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ ...parsedFragment, id:vehicleId }), data: parsedFragment });
     }
 
-    function clientDeepInsertVehicleLocationOnlyById({ apolloClient, vehicleId, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: Vehicle_Insert_Input, fieldMap?: FieldMap<string> }): void {
-      const vehicleLocationOnlyPartial = convertToGraph({ input:vehicle, fieldMap });
-      if(logLevel >= 2) console.log(' --> clientDeepInsertVehicleLocationOnlyById - vehicleLocationOnlyPartial:', vehicleLocationOnlyPartial);
-      return apolloClient.writeFragment<Partial<VehicleLocationOnlyFragment> | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ ...vehicleLocationOnlyPartial, id:vehicleId, __typename: 'vehicle' }), data: { ...vehicleLocationOnlyPartial, __typename: 'vehicle' } });
+    function clientWriteFragmentVehicleLocationOnlyInsertById({ apolloClient, vehicleId, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: Vehicle_Insert_Input, fieldMap?: FieldMap<string> }): void {
+      const vehicleLocationOnlyPartial = convertToGraph({ input:vehicle, typename:'vehicle', fieldMap });
+      if(logLevel >= 2) console.log(' --> clientWriteFragmentVehicleLocationOnlyInsertById - vehicleLocationOnlyPartial:', vehicleLocationOnlyPartial);
+      apolloClient.writeFragment<Partial<VehicleLocationOnlyFragment> | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ ...vehicleLocationOnlyPartial, id:vehicleId, __typename: 'vehicle' }), data: vehicleLocationOnlyPartial });
+      return vehicleLocationOnlyPartial;
     }
 
-    function cacheDeepInsertVehicleLocationOnlyById({ apolloClient, vehicleId, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: Vehicle_Insert_Input, fieldMap?: FieldMap<string> }): void {
-      const vehicleLocationOnlyPartial = convertToGraph({ input:vehicle, fieldMap });
-      if(logLevel >= 2) console.log(' --> cacheDeepInsertVehicleLocationOnlyById - vehicleLocationOnlyPartial:', vehicleLocationOnlyPartial);
-      return apolloClient.cache.writeFragment<Partial<VehicleLocationOnlyFragment> | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ ...vehicleLocationOnlyPartial, id:vehicleId, __typename: 'vehicle' }), data: { ...vehicleLocationOnlyPartial, __typename: 'vehicle' } });
+    function cacheWriteFragmentVehicleLocationOnlyInsertById({ apolloClient, vehicleId, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: Vehicle_Insert_Input, fieldMap?: FieldMap<string> }): void {
+      const vehicleLocationOnlyPartial = convertToGraph({ input:vehicle, typename:'vehicle', fieldMap });
+      if(logLevel >= 2) console.log(' --> clientWriteFragmentVehicleLocationOnlyInsertById - vehicleLocationOnlyPartial:', vehicleLocationOnlyPartial);
+      return apolloClient.cache.writeFragment<Partial<VehicleLocationOnlyFragment> | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ ...vehicleLocationOnlyPartial, id:vehicleId, __typename: 'vehicle' }), data: vehicleLocationOnlyPartial });
     }
 
     function clientReadQueryVehicleLocationOnlyById({ apolloClient, vehicleId}: { apolloClient: ApolloClient<object>, vehicleId: string }): VehicleLocationOnlyFragment | null | undefined {
       return apolloClient.readQuery<VehicleLocationOnlyFragment | null >({ query: QueryVehicleLocationOnlyByIdDocument, variables: { vehicleId }  });
     }
 
-    function clientWriteQueryVehicleLocationOnlyById({ apolloClient, vehicleId, vehicleLocationOnly }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicleLocationOnly: VehicleLocationOnlyFragment | null }): void {
-      return apolloClient.writeQuery<VehicleLocationOnlyFragment | null>({ query: QueryVehicleLocationOnlyByIdDocument, variables: { vehicleId }, data: (vehicleLocationOnly ? { ...vehicleLocationOnly, __typename: 'vehicle' } : null) });
+    function clientWriteQueryVehicleLocationOnlyById({ apolloClient, vehicleId, vehicleLocationOnly, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicleLocationOnly: VehicleLocationOnlyFragment | null, fieldMap?: FieldMap<string> }): void {
+      const vehicleLocationOnlyPartial = convertToGraph({ input:vehicleLocationOnly, typename:'vehicle', fieldMap });
+      return apolloClient.writeQuery<VehicleLocationOnlyFragment | null>({ query: QueryVehicleLocationOnlyByIdDocument, variables: { vehicleId }, data: (vehicleLocationOnly ? vehicleLocationOnlyPartial : null) });
     }
 
-    function cacheWriteQueryVehicleLocationOnlyById({ apolloClient, vehicleId, vehicleLocationOnly }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicleLocationOnly: VehicleLocationOnlyFragment | null }): void {
-      return apolloClient.cache.writeQuery<VehicleLocationOnlyFragment | null>({ query: QueryVehicleLocationOnlyByIdDocument, variables: { vehicleId }, data: (vehicleLocationOnly ? { ...vehicleLocationOnly, __typename: 'vehicle' } : null) });
+    function cacheWriteQueryVehicleLocationOnlyById({ apolloClient, vehicleId, vehicleLocationOnly, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicleLocationOnly: VehicleLocationOnlyFragment | null, fieldMap?: FieldMap<string> }): void {
+      const vehicleLocationOnlyPartial = convertToGraph({ input:vehicleLocationOnly, typename:'vehicle', fieldMap });
+      return apolloClient.cache.writeQuery<VehicleLocationOnlyFragment | null>({ query: QueryVehicleLocationOnlyByIdDocument, variables: { vehicleId }, data: (vehicleLocationOnly ? vehicleLocationOnlyPartial : null) });
     }
     
     function clientReadQueryVehicleLocationOnlyObjects({ apolloClient, variables }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables }): Vehicle[] | null | undefined {
       return apolloClient.readQuery<{Vehicle:Vehicle[] | null}>({ query: QueryVehicleLocationOnlyObjectsDocument, variables })?.Vehicle || [];
     }
 
-    function clientWriteQueryVehicleLocationOnlyObjects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, data:Vehicle[] }): void {
+    function clientWriteQueryVehicleLocationOnlyObjects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, data:Vehicle[], fieldMap?: FieldMap<string> }): void {
+      const vehicleLocationOnlyPartial = convertToGraph({ input:data, typename:'vehicle', fieldMap });
       return apolloClient.writeQuery<{Vehicle:Vehicle[]}>({ query: QueryVehicleLocationOnlyObjectsDocument, variables, data: { Vehicle:data } });
     }
 
-    function cacheWriteQueryVehicleLocationOnlyObjects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, data:Vehicle[] }): void {
+    function cacheWriteQueryVehicleLocationOnlyObjects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, data:Vehicle[], fieldMap?: FieldMap<string> }): void {
+      const vehicleLocationOnlyPartial = convertToGraph({ input:data, typename:'vehicle', fieldMap });
       return apolloClient.cache.writeQuery<{Vehicle:Vehicle[]}>({ query: QueryVehicleLocationOnlyObjectsDocument, variables, data: { Vehicle:data } });
     }
 
     function clientWriteQueryVehicleLocationOnlyInsert({ apolloClient, variables, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, vehicle:Vehicle_Insert_Input, fieldMap?: FieldMap<string> }): void {
       const currentObjects = clientReadQueryVehicleLocationOnlyObjects({ apolloClient, variables }) || [];
-      const objectsWithInserted = [ ...currentObjects, { ...convertToGraph({ input: vehicle, fieldMap }), __typename: 'vehicle' }];
+      const objectsWithInserted = [ ...currentObjects, convertToGraph({ input: vehicle, typename:'vehicle', fieldMap })];
       if(logLevel >= 2) console.log(' --> clientWriteQueryVehicleLocationOnlyInsert - objectsWithInserted:', objectsWithInserted);
       return clientWriteQueryVehicleLocationOnlyObjects({ apolloClient, variables, data: objectsWithInserted });
     }
 
     function cacheWriteQueryVehicleLocationOnlyInsert({ apolloClient, variables, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, vehicle:Vehicle_Insert_Input, fieldMap?: FieldMap<string> }): void {
       const currentObjects = clientReadQueryVehicleLocationOnlyObjects({ apolloClient, variables }) || [];
-      const objectsWithInserted = [ ...currentObjects, { ...convertToGraph({ input: vehicle, fieldMap }), __typename: 'vehicle' }];
+      const objectsWithInserted = [ ...currentObjects, convertToGraph({ input: vehicle, typename:'vehicle', fieldMap })];
       if(logLevel >= 2) console.log(' --> cacheWriteQueryVehicleLocationOnlyInsert - objectsWithInserted:', objectsWithInserted);
       return cacheWriteQueryVehicleLocationOnlyObjects({ apolloClient, variables, data: objectsWithInserted });
     }
+
+    function clientWriteQueryVehicleLocationOnlyRemove({ apolloClient, variables, vehicleId }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, vehicleId: string }): void {
+      const currentObjects = clientReadQueryVehicleLocationOnlyObjects({ apolloClient, variables }) || [];
+      const objectsWithRemoved = currentObjects.filter(objectItem => objectItem.id !== vehicleId) || [];
+      if(logLevel >= 2) console.log(' --> clientWriteQueryVehicleLocationOnlyRemove - objectsWithRemoved:', objectsWithRemoved);
+      return clientWriteQueryVehicleLocationOnlyObjects({ apolloClient, variables, data: objectsWithRemoved });
+    }
+
+    function cacheWriteQueryVehicleLocationOnlyRemove({ apolloClient, variables, vehicleId }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, vehicleId: string }): void {
+      const currentObjects = clientReadQueryVehicleLocationOnlyObjects({ apolloClient, variables }) || [];
+      const objectsWithRemoved = currentObjects.filter(objectItem => objectItem.id !== vehicleId) || [];
+      if(logLevel >= 2) console.log(' --> clientWriteQueryVehicleLocationOnlyRemove - objectsWithRemoved:', objectsWithRemoved);
+      return cacheWriteQueryVehicleLocationOnlyObjects({ apolloClient, variables, data: objectsWithRemoved });
+    };
     
 
       // Query Fetch Helper
@@ -612,8 +656,8 @@ import { RemoveDogsModelByIdDocument } from '../';
       clientReadFragmentById: clientReadFragmentVehicleLocationOnlyById,
       clientWriteFragmentById: clientWriteFragmentVehicleLocationOnlyById,
       cacheWriteFragmentById: cacheWriteFragmentVehicleLocationOnlyById,
-      clientDeepWriteById: clientDeepInsertVehicleLocationOnlyById,
-      cacheDeepWriteById: cacheDeepInsertVehicleLocationOnlyById,
+      clientWriteFragmentInsertById: clientWriteFragmentVehicleLocationOnlyInsertById,
+      cacheWriteFragmentInsertById: cacheWriteFragmentVehicleLocationOnlyInsertById,
       clientReadQueryById: clientReadQueryVehicleLocationOnlyById,
       clientWriteQueryById: clientWriteQueryVehicleLocationOnlyById,
       cacheWriteQueryById: cacheWriteQueryVehicleLocationOnlyById,
@@ -622,6 +666,8 @@ import { RemoveDogsModelByIdDocument } from '../';
       cacheWriteQueryObjects: cacheWriteQueryVehicleLocationOnlyObjects,
       clientWriteQueryInsert: clientWriteQueryVehicleLocationOnlyInsert,
       cacheWriteQueryInsert: cacheWriteQueryVehicleLocationOnlyInsert,
+      clientWriteQueryRemove: clientWriteQueryVehicleLocationOnlyRemove,
+      cacheWriteQueryRemove: cacheWriteQueryVehicleLocationOnlyRemove,
       queryById: queryVehicleLocationOnlyById,
       queryObjects: queryVehicleLocationOnlyObjects,
       watchQueryById: watchQueryVehicleLocationOnlyById,
@@ -650,63 +696,84 @@ import { RemoveDogsModelByIdDocument } from '../';
       return apolloClient.readFragment<DogFragment | null | undefined>({ fragment: DogFragmentDoc, fragmentName:'Dog', id: defaultDataIdFromObject({ __typename: 'dogs', id:dogsId }) });
     }
 
-    function clientWriteFragmentDogById({ apolloClient, dogsId, dogPartial }: { apolloClient: ApolloClient<object>, dogsId: string, dogPartial: Partial<DogFragment> | null }): void {
-      return apolloClient.writeFragment<Partial<DogFragment> | null>({ fragment: DogFragmentDoc, fragmentName:'Dog', id: defaultDataIdFromObject({ ...dogPartial, id:dogsId, __typename: 'dogs' }), data: { ...dogPartial, __typename: 'dogs' } });
+    function clientWriteFragmentDogById({ apolloClient, dogsId, dogPartial, fieldMap }: { apolloClient: ApolloClient<object>, dogsId: string, dogPartial: Partial<DogFragment> | null, fieldMap?: FieldMap<string> }): void {
+      const parsedFragment = convertToGraph({ input:dogPartial, typename:'dogs', fieldMap });
+      return apolloClient.writeFragment<Partial<DogFragment> | null>({ fragment: DogFragmentDoc, fragmentName:'Dog', id: defaultDataIdFromObject({ ...parsedFragment, id:dogsId }), data: parsedFragment });
     }
 
-    function cacheWriteFragmentDogById({ apolloClient, dogsId, dogPartial }: { apolloClient: ApolloClient<object>, dogsId: string, dogPartial: Partial<DogFragment> | null }): void {
-      return apolloClient.cache.writeFragment<Partial<DogFragment> | null>({ fragment: DogFragmentDoc, fragmentName:'Dog', id: defaultDataIdFromObject({ ...dogPartial, id:dogsId, __typename: 'dogs' }), data: { ...dogPartial, __typename: 'dogs' } });
+    function cacheWriteFragmentDogById({ apolloClient, dogsId, dogPartial, fieldMap }: { apolloClient: ApolloClient<object>, dogsId: string, dogPartial: Partial<DogFragment> | null, fieldMap?: FieldMap<string> }): void {
+      const parsedFragment = convertToGraph({ input:dogPartial, typename:'dogs', fieldMap });
+      return apolloClient.cache.writeFragment<Partial<DogFragment> | null>({ fragment: DogFragmentDoc, fragmentName:'Dog', id: defaultDataIdFromObject({ ...parsedFragment, id:dogsId }), data: parsedFragment });
     }
 
-    function clientDeepInsertDogById({ apolloClient, dogsId, dogs, fieldMap }: { apolloClient: ApolloClient<object>, dogsId: string, dogs: Dogs_Insert_Input, fieldMap?: FieldMap<string> }): void {
-      const dogPartial = convertToGraph({ input:dogs, fieldMap });
-      if(logLevel >= 2) console.log(' --> clientDeepInsertDogById - dogPartial:', dogPartial);
-      return apolloClient.writeFragment<Partial<DogFragment> | null>({ fragment: DogFragmentDoc, fragmentName:'Dog', id: defaultDataIdFromObject({ ...dogPartial, id:dogsId, __typename: 'dogs' }), data: { ...dogPartial, __typename: 'dogs' } });
+    function clientWriteFragmentDogInsertById({ apolloClient, dogsId, dogs, fieldMap }: { apolloClient: ApolloClient<object>, dogsId: string, dogs: Dogs_Insert_Input, fieldMap?: FieldMap<string> }): void {
+      const dogPartial = convertToGraph({ input:dogs, typename:'dogs', fieldMap });
+      if(logLevel >= 2) console.log(' --> clientWriteFragmentDogInsertById - dogPartial:', dogPartial);
+      apolloClient.writeFragment<Partial<DogFragment> | null>({ fragment: DogFragmentDoc, fragmentName:'Dog', id: defaultDataIdFromObject({ ...dogPartial, id:dogsId, __typename: 'dogs' }), data: dogPartial });
+      return dogPartial;
     }
 
-    function cacheDeepInsertDogById({ apolloClient, dogsId, dogs, fieldMap }: { apolloClient: ApolloClient<object>, dogsId: string, dogs: Dogs_Insert_Input, fieldMap?: FieldMap<string> }): void {
-      const dogPartial = convertToGraph({ input:dogs, fieldMap });
-      if(logLevel >= 2) console.log(' --> cacheDeepInsertDogById - dogPartial:', dogPartial);
-      return apolloClient.cache.writeFragment<Partial<DogFragment> | null>({ fragment: DogFragmentDoc, fragmentName:'Dog', id: defaultDataIdFromObject({ ...dogPartial, id:dogsId, __typename: 'dogs' }), data: { ...dogPartial, __typename: 'dogs' } });
+    function cacheWriteFragmentDogInsertById({ apolloClient, dogsId, dogs, fieldMap }: { apolloClient: ApolloClient<object>, dogsId: string, dogs: Dogs_Insert_Input, fieldMap?: FieldMap<string> }): void {
+      const dogPartial = convertToGraph({ input:dogs, typename:'dogs', fieldMap });
+      if(logLevel >= 2) console.log(' --> clientWriteFragmentDogInsertById - dogPartial:', dogPartial);
+      return apolloClient.cache.writeFragment<Partial<DogFragment> | null>({ fragment: DogFragmentDoc, fragmentName:'Dog', id: defaultDataIdFromObject({ ...dogPartial, id:dogsId, __typename: 'dogs' }), data: dogPartial });
     }
 
     function clientReadQueryDogById({ apolloClient, dogsId}: { apolloClient: ApolloClient<object>, dogsId: string }): DogFragment | null | undefined {
       return apolloClient.readQuery<DogFragment | null >({ query: QueryDogByIdDocument, variables: { dogsId }  });
     }
 
-    function clientWriteQueryDogById({ apolloClient, dogsId, dog }: { apolloClient: ApolloClient<object>, dogsId: string, dog: DogFragment | null }): void {
-      return apolloClient.writeQuery<DogFragment | null>({ query: QueryDogByIdDocument, variables: { dogsId }, data: (dog ? { ...dog, __typename: 'dogs' } : null) });
+    function clientWriteQueryDogById({ apolloClient, dogsId, dog, fieldMap }: { apolloClient: ApolloClient<object>, dogsId: string, dog: DogFragment | null, fieldMap?: FieldMap<string> }): void {
+      const dogPartial = convertToGraph({ input:dog, typename:'dogs', fieldMap });
+      return apolloClient.writeQuery<DogFragment | null>({ query: QueryDogByIdDocument, variables: { dogsId }, data: (dog ? dogPartial : null) });
     }
 
-    function cacheWriteQueryDogById({ apolloClient, dogsId, dog }: { apolloClient: ApolloClient<object>, dogsId: string, dog: DogFragment | null }): void {
-      return apolloClient.cache.writeQuery<DogFragment | null>({ query: QueryDogByIdDocument, variables: { dogsId }, data: (dog ? { ...dog, __typename: 'dogs' } : null) });
+    function cacheWriteQueryDogById({ apolloClient, dogsId, dog, fieldMap }: { apolloClient: ApolloClient<object>, dogsId: string, dog: DogFragment | null, fieldMap?: FieldMap<string> }): void {
+      const dogPartial = convertToGraph({ input:dog, typename:'dogs', fieldMap });
+      return apolloClient.cache.writeQuery<DogFragment | null>({ query: QueryDogByIdDocument, variables: { dogsId }, data: (dog ? dogPartial : null) });
     }
     
     function clientReadQueryDogObjects({ apolloClient, variables }: { apolloClient: ApolloClient<object>, variables: QueryDogObjectsQueryVariables }): Dogs[] | null | undefined {
       return apolloClient.readQuery<{Dogs:Dogs[] | null}>({ query: QueryDogObjectsDocument, variables })?.Dogs || [];
     }
 
-    function clientWriteQueryDogObjects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: QueryDogObjectsQueryVariables, data:Dogs[] }): void {
+    function clientWriteQueryDogObjects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryDogObjectsQueryVariables, data:Dogs[], fieldMap?: FieldMap<string> }): void {
+      const dogPartial = convertToGraph({ input:data, typename:'dogs', fieldMap });
       return apolloClient.writeQuery<{Dogs:Dogs[]}>({ query: QueryDogObjectsDocument, variables, data: { Dogs:data } });
     }
 
-    function cacheWriteQueryDogObjects({ apolloClient, variables, data }: { apolloClient: ApolloClient<object>, variables: QueryDogObjectsQueryVariables, data:Dogs[] }): void {
+    function cacheWriteQueryDogObjects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryDogObjectsQueryVariables, data:Dogs[], fieldMap?: FieldMap<string> }): void {
+      const dogPartial = convertToGraph({ input:data, typename:'dogs', fieldMap });
       return apolloClient.cache.writeQuery<{Dogs:Dogs[]}>({ query: QueryDogObjectsDocument, variables, data: { Dogs:data } });
     }
 
     function clientWriteQueryDogInsert({ apolloClient, variables, dogs, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryDogObjectsQueryVariables, dogs:Dogs_Insert_Input, fieldMap?: FieldMap<string> }): void {
       const currentObjects = clientReadQueryDogObjects({ apolloClient, variables }) || [];
-      const objectsWithInserted = [ ...currentObjects, { ...convertToGraph({ input: dogs, fieldMap }), __typename: 'dogs' }];
+      const objectsWithInserted = [ ...currentObjects, convertToGraph({ input: dogs, typename:'dogs', fieldMap })];
       if(logLevel >= 2) console.log(' --> clientWriteQueryDogInsert - objectsWithInserted:', objectsWithInserted);
       return clientWriteQueryDogObjects({ apolloClient, variables, data: objectsWithInserted });
     }
 
     function cacheWriteQueryDogInsert({ apolloClient, variables, dogs, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryDogObjectsQueryVariables, dogs:Dogs_Insert_Input, fieldMap?: FieldMap<string> }): void {
       const currentObjects = clientReadQueryDogObjects({ apolloClient, variables }) || [];
-      const objectsWithInserted = [ ...currentObjects, { ...convertToGraph({ input: dogs, fieldMap }), __typename: 'dogs' }];
+      const objectsWithInserted = [ ...currentObjects, convertToGraph({ input: dogs, typename:'dogs', fieldMap })];
       if(logLevel >= 2) console.log(' --> cacheWriteQueryDogInsert - objectsWithInserted:', objectsWithInserted);
       return cacheWriteQueryDogObjects({ apolloClient, variables, data: objectsWithInserted });
     }
+
+    function clientWriteQueryDogRemove({ apolloClient, variables, dogsId }: { apolloClient: ApolloClient<object>, variables: QueryDogObjectsQueryVariables, dogsId: string }): void {
+      const currentObjects = clientReadQueryDogObjects({ apolloClient, variables }) || [];
+      const objectsWithRemoved = currentObjects.filter(objectItem => objectItem.id !== dogsId) || [];
+      if(logLevel >= 2) console.log(' --> clientWriteQueryDogRemove - objectsWithRemoved:', objectsWithRemoved);
+      return clientWriteQueryDogObjects({ apolloClient, variables, data: objectsWithRemoved });
+    }
+
+    function cacheWriteQueryDogRemove({ apolloClient, variables, dogsId }: { apolloClient: ApolloClient<object>, variables: QueryDogObjectsQueryVariables, dogsId: string }): void {
+      const currentObjects = clientReadQueryDogObjects({ apolloClient, variables }) || [];
+      const objectsWithRemoved = currentObjects.filter(objectItem => objectItem.id !== dogsId) || [];
+      if(logLevel >= 2) console.log(' --> clientWriteQueryDogRemove - objectsWithRemoved:', objectsWithRemoved);
+      return cacheWriteQueryDogObjects({ apolloClient, variables, data: objectsWithRemoved });
+    };
     
 
       // Query Fetch Helper
@@ -888,8 +955,8 @@ import { RemoveDogsModelByIdDocument } from '../';
       clientReadFragmentById: clientReadFragmentDogById,
       clientWriteFragmentById: clientWriteFragmentDogById,
       cacheWriteFragmentById: cacheWriteFragmentDogById,
-      clientDeepWriteById: clientDeepInsertDogById,
-      cacheDeepWriteById: cacheDeepInsertDogById,
+      clientWriteFragmentInsertById: clientWriteFragmentDogInsertById,
+      cacheWriteFragmentInsertById: cacheWriteFragmentDogInsertById,
       clientReadQueryById: clientReadQueryDogById,
       clientWriteQueryById: clientWriteQueryDogById,
       cacheWriteQueryById: cacheWriteQueryDogById,
@@ -898,6 +965,8 @@ import { RemoveDogsModelByIdDocument } from '../';
       cacheWriteQueryObjects: cacheWriteQueryDogObjects,
       clientWriteQueryInsert: clientWriteQueryDogInsert,
       cacheWriteQueryInsert: cacheWriteQueryDogInsert,
+      clientWriteQueryRemove: clientWriteQueryDogRemove,
+      cacheWriteQueryRemove: cacheWriteQueryDogRemove,
       queryById: queryDogById,
       queryObjects: queryDogObjects,
       watchQueryById: watchQueryDogById,
