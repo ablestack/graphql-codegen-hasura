@@ -122,7 +122,7 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     function clientWriteFragmentVehicleById({ apolloClient, vehicleId, vehiclePartial, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehiclePartial: Partial<VehicleFragment> | Vehicle_Insert_Input | null, fieldMap?: FieldMap<string> }): Partial<VehicleFragment> {
       const parsedFragment = convertToGraph({ input:vehiclePartial, typename:'vehicle', fieldMap });
-      if(logLevel >= 2) console.log(' --> cacheWriteFragmentVehicleById - parsedFragment:', parsedFragment);
+      if(logLevel >= 2) console.log(' --> clientWriteFragmentVehicleById - parsedFragment:', parsedFragment);
       apolloClient.writeFragment<Partial<VehicleFragment> | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ ...parsedFragment, id:vehicleId }), data: parsedFragment });
       return parsedFragment;
     }
@@ -186,7 +186,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     function cacheWriteQueryVehicleRemove({ apolloClient, variables, vehicleId }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables, vehicleId: string }): void {
       const currentObjects = clientReadQueryVehicleObjects({ apolloClient, variables }) || [];
       const objectsWithRemoved = currentObjects.filter(objectItem => objectItem.id !== vehicleId) || [];
-      if(logLevel >= 2) console.log(' --> clientWriteQueryVehicleRemove - objectsWithRemoved:', objectsWithRemoved);
+      if(logLevel >= 2) console.log(' --> cacheWriteQueryVehicleRemove - objectsWithRemoved:', objectsWithRemoved);
       return cacheWriteQueryVehicleObjects({ apolloClient, variables, data: objectsWithRemoved });
     };
     
@@ -419,7 +419,7 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     function clientWriteFragmentVehicleLocationOnlyById({ apolloClient, vehicleId, vehicleLocationOnlyPartial, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicleLocationOnlyPartial: Partial<VehicleLocationOnlyFragment> | Vehicle_Insert_Input | null, fieldMap?: FieldMap<string> }): Partial<VehicleLocationOnlyFragment> {
       const parsedFragment = convertToGraph({ input:vehicleLocationOnlyPartial, typename:'vehicle', fieldMap });
-      if(logLevel >= 2) console.log(' --> cacheWriteFragmentVehicleLocationOnlyById - parsedFragment:', parsedFragment);
+      if(logLevel >= 2) console.log(' --> clientWriteFragmentVehicleLocationOnlyById - parsedFragment:', parsedFragment);
       apolloClient.writeFragment<Partial<VehicleLocationOnlyFragment> | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ ...parsedFragment, id:vehicleId }), data: parsedFragment });
       return parsedFragment;
     }
@@ -483,7 +483,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     function cacheWriteQueryVehicleLocationOnlyRemove({ apolloClient, variables, vehicleId }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, vehicleId: string }): void {
       const currentObjects = clientReadQueryVehicleLocationOnlyObjects({ apolloClient, variables }) || [];
       const objectsWithRemoved = currentObjects.filter(objectItem => objectItem.id !== vehicleId) || [];
-      if(logLevel >= 2) console.log(' --> clientWriteQueryVehicleLocationOnlyRemove - objectsWithRemoved:', objectsWithRemoved);
+      if(logLevel >= 2) console.log(' --> cacheWriteQueryVehicleLocationOnlyRemove - objectsWithRemoved:', objectsWithRemoved);
       return cacheWriteQueryVehicleLocationOnlyObjects({ apolloClient, variables, data: objectsWithRemoved });
     };
     
@@ -676,7 +676,7 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     function clientWriteFragmentDogById({ apolloClient, dogsId, dogPartial, fieldMap }: { apolloClient: ApolloClient<object>, dogsId: string, dogPartial: Partial<DogFragment> | Dogs_Insert_Input | null, fieldMap?: FieldMap<string> }): Partial<DogFragment> {
       const parsedFragment = convertToGraph({ input:dogPartial, typename:'dogs', fieldMap });
-      if(logLevel >= 2) console.log(' --> cacheWriteFragmentDogById - parsedFragment:', parsedFragment);
+      if(logLevel >= 2) console.log(' --> clientWriteFragmentDogById - parsedFragment:', parsedFragment);
       apolloClient.writeFragment<Partial<DogFragment> | null>({ fragment: DogFragmentDoc, fragmentName:'Dog', id: defaultDataIdFromObject({ ...parsedFragment, id:dogsId }), data: parsedFragment });
       return parsedFragment;
     }
@@ -740,7 +740,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     function cacheWriteQueryDogRemove({ apolloClient, variables, dogsId }: { apolloClient: ApolloClient<object>, variables: QueryDogObjectsQueryVariables, dogsId: string }): void {
       const currentObjects = clientReadQueryDogObjects({ apolloClient, variables }) || [];
       const objectsWithRemoved = currentObjects.filter(objectItem => objectItem.id !== dogsId) || [];
-      if(logLevel >= 2) console.log(' --> clientWriteQueryDogRemove - objectsWithRemoved:', objectsWithRemoved);
+      if(logLevel >= 2) console.log(' --> cacheWriteQueryDogRemove - objectsWithRemoved:', objectsWithRemoved);
       return cacheWriteQueryDogObjects({ apolloClient, variables, data: objectsWithRemoved });
     };
     

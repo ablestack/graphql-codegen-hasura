@@ -118,16 +118,16 @@ export function stripInsertInputClientFields({ input }: { input: object }) {
   return o;
 }
 
-export function addTypenameToObjWithId({ object, typename }: { object: any; typename: string }) {
-  if (!IS_OBJECT_WITH_ID(object)) throw new Error(`Provided object was not of type ObjWithId: ${JSON.stringify(object)}`);
+export function addTypenameToObj({ object, typename }: { object: any; typename: string }) {
+  if (!IS_NON_NULL_OBJECT(object)) return object;
   return { ...object, __typename: typename };
 }
 
 /**
  *
  */
-export function addTypenameToObjWithIdArray({ object, typename }: { object: any[]; typename: string }) {
-  return object.map(arrayItem => addTypenameToObjWithId({ object: arrayItem, typename }));
+export function addTypenameToObjArray({ object, typename }: { object: any[]; typename: string }) {
+  return object.map(arrayItem => addTypenameToObj({ object: arrayItem, typename }));
 }
 
 function ignoreField({ key, fieldMap }: { key?: string; fieldMap: FieldMap<string> }) {
@@ -180,7 +180,7 @@ function _convertToGraph({ value, key, fieldMap }: { value: any; key?: string; f
 
   if (IS_NON_NULL_OBJECT(value)) {
     let object = convertObjectToGraph({ input: value, fieldMap });
-    if (fieldMap && key && fieldMap[key] && IS_OBJECT_WITH_ID(value)) object = addTypenameToObjWithId({ object, typename: fieldMap[key] });
+    if (fieldMap && key && fieldMap[key]) object = addTypenameToObj({ object, typename: fieldMap[key] });
     return object;
   }
 

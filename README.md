@@ -148,17 +148,23 @@ addDog({ type:'scottie' });
 
 ### Notes on 'WriteQuery' methods
 
-All client/cache `WriteQuery` and `WriteFragment` methods accept Hasura "Insert" object graphs as well as the expected Fragment graphs.
+All client/cache `WriteQuery` and `WriteFragment` methods accept Hasura `<TypeName>_Insert_Input` object graphs as well as the expected Fragment graphs.
 
 Some usage notes:
 
-The optional **fieldMap parameter** allows typenames to be specified for child relationships (and automatically added during the conversion). It also allows for specific fields to be ignored. This can be automated in the future, but is non-trivial dev. So, for future version or community pull request.
+**fieldMap Parameter**  
+This parameter is options. It allows typenames to be specified for child relationships (and automatically added during the conversion). It also allows for specific fields to be ignored. This can be automated in the future, but is non-trivial dev. So, for future version or community pull request.
 
-**Client fields** can be added via in "Insert" object, by prefixing them with a triple underscore (\_\_\_).
+**Client Fields**  
+Client (@client) fields can be added via in `<TypeName>_Insert_Input` object, by prefixing them with a triple underscore (\_\_\_).
 This is converted to the fieldname (without prefix) for cache adds. Client fields are removed completely for api inserts (useInsert* and insert* methods).
 This is kind of hacky, and there is probably a much better way to achieve this. \#futureDev
 
-For **Example Usage** see packages/graphql-codegen-hasura-core/src/utils.test.ts for example usage
+**\<TypeName\>\_Insert_Input Types**  
+All of the client* and cache* methods accept both `Fragment` and `<TypeName>_Insert_Input` graphs. However, when adding `<TypeName>_Insert_Input` graphs to child properties of an object (for example - adding a new object to a child array field), the `<TypeName>_Insert_Input` will need to be cast to the fragment type. However, it will still be converted appropriately at runtime.
+
+**Example Usage**  
+See packages/graphql-codegen-hasura-core/src/utils.test.ts for example usage
 
 ### Further Information
 

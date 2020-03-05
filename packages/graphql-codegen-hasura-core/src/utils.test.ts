@@ -19,6 +19,14 @@ test("convertToGraph - object with root typename should return as expected", () 
   expect(fragment).toMatchObject({ id: 1, __typename: "Foo", bar: { id: 2, name: "foo bar", __typename: "Bar" } });
 });
 
+test("convertToGraph - object with root typename but no Id should return as expected", () => {
+  const foo = { bar: { id: 2, name: "foo bar" } };
+
+  const fragment = convertToGraph({ input: foo, fieldMap: { bar: "Bar" }, typename: "Foo" });
+
+  expect(fragment).toMatchObject({ __typename: "Foo", bar: { id: 2, name: "foo bar", __typename: "Bar" } });
+});
+
 test("convertToGraph - object with client fields should return as expected", () => {
   const foo = { id: 1, ___bar: { id: 2, name: "foo bar" } };
 
