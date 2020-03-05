@@ -122,14 +122,14 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     function clientWriteFragmentVehicleById({ apolloClient, vehicleId, vehiclePartial, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehiclePartial: Partial<VehicleFragment> | Vehicle_Insert_Input | null, fieldMap?: FieldMap<string> }): Partial<VehicleFragment> {
       const parsedFragment = convertToGraph({ input:vehiclePartial, typename:'vehicle', fieldMap });
-      if(logLevel >= 2) console.log(' --> cacheWriteFragmentVehicleById - vehiclePartial:', vehiclePartial);
+      if(logLevel >= 2) console.log(' --> cacheWriteFragmentVehicleById - parsedFragment:', parsedFragment);
       apolloClient.writeFragment<Partial<VehicleFragment> | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ ...parsedFragment, id:vehicleId }), data: parsedFragment });
       return parsedFragment;
     }
 
     function cacheWriteFragmentVehicleById({ apolloClient, vehicleId, vehiclePartial, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehiclePartial: Partial<VehicleFragment> | Vehicle_Insert_Input | null, fieldMap?: FieldMap<string> }): Partial<VehicleFragment> {
       const parsedFragment = convertToGraph({ input:vehiclePartial, typename:'vehicle', fieldMap });
-      if(logLevel >= 2) console.log(' --> cacheWriteFragmentVehicleById - vehiclePartial:', vehiclePartial);
+      if(logLevel >= 2) console.log(' --> cacheWriteFragmentVehicleById - parsedFragment:', parsedFragment);
       apolloClient.cache.writeFragment<Partial<VehicleFragment> | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ ...parsedFragment, id:vehicleId }), data: parsedFragment });
       return parsedFragment;
     }
@@ -419,14 +419,14 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     function clientWriteFragmentVehicleLocationOnlyById({ apolloClient, vehicleId, vehicleLocationOnlyPartial, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicleLocationOnlyPartial: Partial<VehicleLocationOnlyFragment> | Vehicle_Insert_Input | null, fieldMap?: FieldMap<string> }): Partial<VehicleLocationOnlyFragment> {
       const parsedFragment = convertToGraph({ input:vehicleLocationOnlyPartial, typename:'vehicle', fieldMap });
-      if(logLevel >= 2) console.log(' --> cacheWriteFragmentVehicleLocationOnlyById - vehicleLocationOnlyPartial:', vehicleLocationOnlyPartial);
+      if(logLevel >= 2) console.log(' --> cacheWriteFragmentVehicleLocationOnlyById - parsedFragment:', parsedFragment);
       apolloClient.writeFragment<Partial<VehicleLocationOnlyFragment> | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ ...parsedFragment, id:vehicleId }), data: parsedFragment });
       return parsedFragment;
     }
 
     function cacheWriteFragmentVehicleLocationOnlyById({ apolloClient, vehicleId, vehicleLocationOnlyPartial, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicleLocationOnlyPartial: Partial<VehicleLocationOnlyFragment> | Vehicle_Insert_Input | null, fieldMap?: FieldMap<string> }): Partial<VehicleLocationOnlyFragment> {
       const parsedFragment = convertToGraph({ input:vehicleLocationOnlyPartial, typename:'vehicle', fieldMap });
-      if(logLevel >= 2) console.log(' --> cacheWriteFragmentVehicleLocationOnlyById - vehicleLocationOnlyPartial:', vehicleLocationOnlyPartial);
+      if(logLevel >= 2) console.log(' --> cacheWriteFragmentVehicleLocationOnlyById - parsedFragment:', parsedFragment);
       apolloClient.cache.writeFragment<Partial<VehicleLocationOnlyFragment> | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ ...parsedFragment, id:vehicleId }), data: parsedFragment });
       return parsedFragment;
     }
@@ -676,14 +676,14 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     function clientWriteFragmentDogById({ apolloClient, dogsId, dogPartial, fieldMap }: { apolloClient: ApolloClient<object>, dogsId: string, dogPartial: Partial<DogFragment> | Dogs_Insert_Input | null, fieldMap?: FieldMap<string> }): Partial<DogFragment> {
       const parsedFragment = convertToGraph({ input:dogPartial, typename:'dogs', fieldMap });
-      if(logLevel >= 2) console.log(' --> cacheWriteFragmentDogById - dogPartial:', dogPartial);
+      if(logLevel >= 2) console.log(' --> cacheWriteFragmentDogById - parsedFragment:', parsedFragment);
       apolloClient.writeFragment<Partial<DogFragment> | null>({ fragment: DogFragmentDoc, fragmentName:'Dog', id: defaultDataIdFromObject({ ...parsedFragment, id:dogsId }), data: parsedFragment });
       return parsedFragment;
     }
 
     function cacheWriteFragmentDogById({ apolloClient, dogsId, dogPartial, fieldMap }: { apolloClient: ApolloClient<object>, dogsId: string, dogPartial: Partial<DogFragment> | Dogs_Insert_Input | null, fieldMap?: FieldMap<string> }): Partial<DogFragment> {
       const parsedFragment = convertToGraph({ input:dogPartial, typename:'dogs', fieldMap });
-      if(logLevel >= 2) console.log(' --> cacheWriteFragmentDogById - dogPartial:', dogPartial);
+      if(logLevel >= 2) console.log(' --> cacheWriteFragmentDogById - parsedFragment:', parsedFragment);
       apolloClient.cache.writeFragment<Partial<DogFragment> | null>({ fragment: DogFragmentDoc, fragmentName:'Dog', id: defaultDataIdFromObject({ ...parsedFragment, id:dogsId }), data: parsedFragment });
       return parsedFragment;
     }

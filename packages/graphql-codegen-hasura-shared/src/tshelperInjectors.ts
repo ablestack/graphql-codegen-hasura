@@ -110,14 +110,14 @@ export function injectClientAndCacheHelpers({
 
     function clientWriteFragment${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}Partial, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> | ${entityPascalName}_Insert_Input | null, fieldMap?: FieldMap<string> }): Partial<${fragmentTypeScriptTypeName}> {
       const parsedFragment = convertToGraph({ input:${fragmentNameCamelCase}Partial, typename:'${entityNamedType.name}', fieldMap });
-      if(logLevel >= 2) console.log(' --> cacheWriteFragment${fragmentNamePascalCase}ById - ${fragmentNameCamelCase}Partial:', ${fragmentNameCamelCase}Partial);
+      if(logLevel >= 2) console.log(' --> cacheWriteFragment${fragmentNamePascalCase}ById - parsedFragment:', parsedFragment);
       apolloClient.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...parsedFragment, id:${entityShortCamelCaseName}Id }), data: parsedFragment });
       return parsedFragment;
     }
 
     function cacheWriteFragment${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}Partial, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> | ${entityPascalName}_Insert_Input | null, fieldMap?: FieldMap<string> }): Partial<${fragmentTypeScriptTypeName}> {
       const parsedFragment = convertToGraph({ input:${fragmentNameCamelCase}Partial, typename:'${entityNamedType.name}', fieldMap });
-      if(logLevel >= 2) console.log(' --> cacheWriteFragment${fragmentNamePascalCase}ById - ${fragmentNameCamelCase}Partial:', ${fragmentNameCamelCase}Partial);
+      if(logLevel >= 2) console.log(' --> cacheWriteFragment${fragmentNamePascalCase}ById - parsedFragment:', parsedFragment);
       apolloClient.cache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...parsedFragment, id:${entityShortCamelCaseName}Id }), data: parsedFragment });
       return parsedFragment;
     }
