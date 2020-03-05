@@ -6,6 +6,8 @@ graphql-codegen-hasura is a collection of code generator plugins for [graphql-co
 - Auto optimistic caching option provided for all Inserts, Updates, and Deletes
 - Query and subscription results provide entity parameter directly on results object (instead of having to pick out of deeply nested result field)
 - Automatically calls cache.evit on entity deletion
+- Automatically adds \_\_typename fields on cache inserts
+- Will automatically convert Hasura input graphs to fragment graphs when inserting into local cache with cache* and client* methods
 
 ## Status: \*BETA\*
 
@@ -144,15 +146,17 @@ addDog({ type:'scottie' });
 // ... ETC. All the methods follow a the same pattern, and all allow the standard ApolloClient options objects to be populated and passed through.
 ```
 
-### Notes on 'WriteQueryInsert' methods
+### Notes on 'WriteQuery' methods
 
-These methods are to automate the conversion of a Hasura "Insert" object to a Fragment that can be added to cache.
+All client/cache `WriteQuery` and `WriteFragment` methods accept Hasura "Insert" object graphs as well as the expected Fragment graphs.
+
+Some usage notes:
+
+The optional **fieldMap parameter** allows typenames to be specified for child relationships (and automatically added during the conversion). It also allows for specific fields to be ignored. This can be automated in the future, but is non-trivial dev. So, for future version or community pull request.
 
 **Client fields** can be added via in "Insert" object, by prefixing them with a triple underscore (\_\_\_).
 This is converted to the fieldname (without prefix) for cache adds. Client fields are removed completely for api inserts (useInsert* and insert* methods).
 This is kind of hacky, and there is probably a much better way to achieve this. \#futureDev
-
-The **fieldMap parameter** can be automated in the future, but is non-trivial dev. So, for future version or community pull request.
 
 For **Example Usage** see packages/graphql-codegen-hasura-core/src/utils.test.ts for example usage
 
