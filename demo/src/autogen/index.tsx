@@ -14,10 +14,10 @@ export type Scalars = {
   GroupJexl: any,
   FlowJexl: any,
   uuid: any,
+  timestamptz: any,
   jsonb: any,
   circle: any,
   polygon: any,
-  timestamptz: any,
   date: any,
   JSONString: any,
   Date: any,
@@ -637,7 +637,10 @@ export type DocumentValidityEdge = {
 export type Dogs = {
    __typename?: 'dogs',
   breed: Scalars['String'],
+  can_attack?: Maybe<Scalars['Boolean']>,
   id: Scalars['uuid'],
+  owner?: Maybe<Users>,
+  owner_id?: Maybe<Scalars['Int']>,
   pretentious: Scalars['Boolean'],
   shovel_faced: Scalars['Boolean'],
 };
@@ -650,9 +653,17 @@ export type Dogs_Aggregate = {
 
 export type Dogs_Aggregate_Fields = {
    __typename?: 'dogs_aggregate_fields',
+  avg?: Maybe<Dogs_Avg_Fields>,
   count?: Maybe<Scalars['Int']>,
   max?: Maybe<Dogs_Max_Fields>,
   min?: Maybe<Dogs_Min_Fields>,
+  stddev?: Maybe<Dogs_Stddev_Fields>,
+  stddev_pop?: Maybe<Dogs_Stddev_Pop_Fields>,
+  stddev_samp?: Maybe<Dogs_Stddev_Samp_Fields>,
+  sum?: Maybe<Dogs_Sum_Fields>,
+  var_pop?: Maybe<Dogs_Var_Pop_Fields>,
+  var_samp?: Maybe<Dogs_Var_Samp_Fields>,
+  variance?: Maybe<Dogs_Variance_Fields>,
 };
 
 
@@ -662,9 +673,17 @@ export type Dogs_Aggregate_FieldsCountArgs = {
 };
 
 export type Dogs_Aggregate_Order_By = {
+  avg?: Maybe<Dogs_Avg_Order_By>,
   count?: Maybe<Order_By>,
   max?: Maybe<Dogs_Max_Order_By>,
   min?: Maybe<Dogs_Min_Order_By>,
+  stddev?: Maybe<Dogs_Stddev_Order_By>,
+  stddev_pop?: Maybe<Dogs_Stddev_Pop_Order_By>,
+  stddev_samp?: Maybe<Dogs_Stddev_Samp_Order_By>,
+  sum?: Maybe<Dogs_Sum_Order_By>,
+  var_pop?: Maybe<Dogs_Var_Pop_Order_By>,
+  var_samp?: Maybe<Dogs_Var_Samp_Order_By>,
+  variance?: Maybe<Dogs_Variance_Order_By>,
 };
 
 export type Dogs_Arr_Rel_Insert_Input = {
@@ -672,12 +691,24 @@ export type Dogs_Arr_Rel_Insert_Input = {
   on_conflict?: Maybe<Dogs_On_Conflict>,
 };
 
+export type Dogs_Avg_Fields = {
+   __typename?: 'dogs_avg_fields',
+  owner_id?: Maybe<Scalars['Float']>,
+};
+
+export type Dogs_Avg_Order_By = {
+  owner_id?: Maybe<Order_By>,
+};
+
 export type Dogs_Bool_Exp = {
   _and?: Maybe<Array<Maybe<Dogs_Bool_Exp>>>,
   _not?: Maybe<Dogs_Bool_Exp>,
   _or?: Maybe<Array<Maybe<Dogs_Bool_Exp>>>,
   breed?: Maybe<Text_Comparison_Exp>,
+  can_attack?: Maybe<Boolean_Comparison_Exp>,
   id?: Maybe<Uuid_Comparison_Exp>,
+  owner?: Maybe<Users_Bool_Exp>,
+  owner_id?: Maybe<Integer_Comparison_Exp>,
   pretentious?: Maybe<Boolean_Comparison_Exp>,
   shovel_faced?: Maybe<Boolean_Comparison_Exp>,
 };
@@ -687,9 +718,16 @@ export enum Dogs_Constraint {
   DogsPkey = 'dogs_pkey'
 }
 
+export type Dogs_Inc_Input = {
+  owner_id?: Maybe<Scalars['Int']>,
+};
+
 export type Dogs_Insert_Input = {
   breed?: Maybe<Scalars['String']>,
+  can_attack?: Maybe<Scalars['Boolean']>,
   id?: Maybe<Scalars['uuid']>,
+  owner?: Maybe<Users_Obj_Rel_Insert_Input>,
+  owner_id?: Maybe<Scalars['Int']>,
   pretentious?: Maybe<Scalars['Boolean']>,
   shovel_faced?: Maybe<Scalars['Boolean']>,
 };
@@ -697,19 +735,23 @@ export type Dogs_Insert_Input = {
 export type Dogs_Max_Fields = {
    __typename?: 'dogs_max_fields',
   breed?: Maybe<Scalars['String']>,
+  owner_id?: Maybe<Scalars['Int']>,
 };
 
 export type Dogs_Max_Order_By = {
   breed?: Maybe<Order_By>,
+  owner_id?: Maybe<Order_By>,
 };
 
 export type Dogs_Min_Fields = {
    __typename?: 'dogs_min_fields',
   breed?: Maybe<Scalars['String']>,
+  owner_id?: Maybe<Scalars['Int']>,
 };
 
 export type Dogs_Min_Order_By = {
   breed?: Maybe<Order_By>,
+  owner_id?: Maybe<Order_By>,
 };
 
 export type Dogs_Mutation_Response = {
@@ -730,31 +772,103 @@ export type Dogs_On_Conflict = {
 
 export type Dogs_Order_By = {
   breed?: Maybe<Order_By>,
+  can_attack?: Maybe<Order_By>,
   id?: Maybe<Order_By>,
+  owner?: Maybe<Users_Order_By>,
+  owner_id?: Maybe<Order_By>,
   pretentious?: Maybe<Order_By>,
   shovel_faced?: Maybe<Order_By>,
 };
 
 export enum Dogs_Select_Column {
   Breed = 'breed',
+  CanAttack = 'can_attack',
   Id = 'id',
+  OwnerId = 'owner_id',
   Pretentious = 'pretentious',
   ShovelFaced = 'shovel_faced'
 }
 
 export type Dogs_Set_Input = {
   breed?: Maybe<Scalars['String']>,
+  can_attack?: Maybe<Scalars['Boolean']>,
   id?: Maybe<Scalars['uuid']>,
+  owner_id?: Maybe<Scalars['Int']>,
   pretentious?: Maybe<Scalars['Boolean']>,
   shovel_faced?: Maybe<Scalars['Boolean']>,
 };
 
+export type Dogs_Stddev_Fields = {
+   __typename?: 'dogs_stddev_fields',
+  owner_id?: Maybe<Scalars['Float']>,
+};
+
+export type Dogs_Stddev_Order_By = {
+  owner_id?: Maybe<Order_By>,
+};
+
+export type Dogs_Stddev_Pop_Fields = {
+   __typename?: 'dogs_stddev_pop_fields',
+  owner_id?: Maybe<Scalars['Float']>,
+};
+
+export type Dogs_Stddev_Pop_Order_By = {
+  owner_id?: Maybe<Order_By>,
+};
+
+export type Dogs_Stddev_Samp_Fields = {
+   __typename?: 'dogs_stddev_samp_fields',
+  owner_id?: Maybe<Scalars['Float']>,
+};
+
+export type Dogs_Stddev_Samp_Order_By = {
+  owner_id?: Maybe<Order_By>,
+};
+
+export type Dogs_Sum_Fields = {
+   __typename?: 'dogs_sum_fields',
+  owner_id?: Maybe<Scalars['Int']>,
+};
+
+export type Dogs_Sum_Order_By = {
+  owner_id?: Maybe<Order_By>,
+};
+
 export enum Dogs_Update_Column {
   Breed = 'breed',
+  CanAttack = 'can_attack',
   Id = 'id',
+  OwnerId = 'owner_id',
   Pretentious = 'pretentious',
   ShovelFaced = 'shovel_faced'
 }
+
+export type Dogs_Var_Pop_Fields = {
+   __typename?: 'dogs_var_pop_fields',
+  owner_id?: Maybe<Scalars['Float']>,
+};
+
+export type Dogs_Var_Pop_Order_By = {
+  owner_id?: Maybe<Order_By>,
+};
+
+export type Dogs_Var_Samp_Fields = {
+   __typename?: 'dogs_var_samp_fields',
+  owner_id?: Maybe<Scalars['Float']>,
+};
+
+export type Dogs_Var_Samp_Order_By = {
+  owner_id?: Maybe<Order_By>,
+};
+
+export type Dogs_Variance_Fields = {
+   __typename?: 'dogs_variance_fields',
+  owner_id?: Maybe<Scalars['Float']>,
+};
+
+export type Dogs_Variance_Order_By = {
+  owner_id?: Maybe<Order_By>,
+};
 
 export type DynamicChoiceQuestion = Node & Question & {
    __typename?: 'DynamicChoiceQuestion',
@@ -2004,6 +2118,7 @@ export type Mutation_RootStartCaseArgs = {
 
 
 export type Mutation_RootUpdate_DogsArgs = {
+  _inc?: Maybe<Dogs_Inc_Input>,
   _set?: Maybe<Dogs_Set_Input>,
   where: Dogs_Bool_Exp
 };
@@ -4490,8 +4605,28 @@ export type Users = {
    __typename?: 'users',
   active?: Maybe<Scalars['Boolean']>,
   created_at: Scalars['timestamptz'],
+  dogs: Array<Dogs>,
+  dogs_aggregate: Dogs_Aggregate,
   id: Scalars['Int'],
   name: Scalars['String'],
+};
+
+
+export type UsersDogsArgs = {
+  distinct_on?: Maybe<Array<Dogs_Select_Column>>,
+  limit?: Maybe<Scalars['Int']>,
+  offset?: Maybe<Scalars['Int']>,
+  order_by?: Maybe<Array<Dogs_Order_By>>,
+  where?: Maybe<Dogs_Bool_Exp>
+};
+
+
+export type UsersDogs_AggregateArgs = {
+  distinct_on?: Maybe<Array<Dogs_Select_Column>>,
+  limit?: Maybe<Scalars['Int']>,
+  offset?: Maybe<Scalars['Int']>,
+  order_by?: Maybe<Array<Dogs_Order_By>>,
+  where?: Maybe<Dogs_Bool_Exp>
 };
 
 export type Users_Aggregate = {
@@ -4555,6 +4690,7 @@ export type Users_Bool_Exp = {
   _or?: Maybe<Array<Maybe<Users_Bool_Exp>>>,
   active?: Maybe<Boolean_Comparison_Exp>,
   created_at?: Maybe<Timestamptz_Comparison_Exp>,
+  dogs?: Maybe<Dogs_Bool_Exp>,
   id?: Maybe<Integer_Comparison_Exp>,
   name?: Maybe<Text_Comparison_Exp>,
 };
@@ -4570,6 +4706,7 @@ export type Users_Inc_Input = {
 export type Users_Insert_Input = {
   active?: Maybe<Scalars['Boolean']>,
   created_at?: Maybe<Scalars['timestamptz']>,
+  dogs?: Maybe<Dogs_Arr_Rel_Insert_Input>,
   id?: Maybe<Scalars['Int']>,
   name?: Maybe<Scalars['String']>,
 };
@@ -4619,6 +4756,7 @@ export type Users_On_Conflict = {
 export type Users_Order_By = {
   active?: Maybe<Order_By>,
   created_at?: Maybe<Order_By>,
+  dogs_aggregate?: Maybe<Dogs_Aggregate_Order_By>,
   id?: Maybe<Order_By>,
   name?: Maybe<Order_By>,
 };

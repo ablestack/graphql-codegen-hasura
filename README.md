@@ -184,10 +184,11 @@ To quickly try out the code-generation:
 
 1. Checkout the project to your local computer
 2. Navigate to the demo directory
-3. Run the following command
+3. Run the following commands
 
 ```
-  npm install; npm generate;
+  1. lerna bootstrap
+  2. npm run build-and-generate
 ```
 
 ## The Plugins

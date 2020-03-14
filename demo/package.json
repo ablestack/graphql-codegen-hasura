@@ -3,31 +3,35 @@
   "name": "demo",
   "version": "4.6.0",
   "dependencies": {
-    "@apollo/client": "^3.0.0-beta.35",
+    "@apollo/client": "^3.0.0-beta.41",
     "@apollo/react-hooks": "^3.2.0-beta.1",
     "@types/node": "12.12.14",
     "@types/react": "16.9.13",
     "@types/react-dom": "16.9.4",
     "graphql-codegen-hasura-core": "^4.6.0",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
     "react-scripts": "3.4.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
     "@graphql-codegen/cli": "1.12.2",
     "@graphql-codegen/introspection": "1.12.2",
     "@graphql-codegen/typescript": "1.12.2",
     "@graphql-codegen/typescript-operations": "1.12.2",
     "@graphql-codegen/typescript-react-apollo": "1.12.2",
     "@graphql-codegen/typescript-resolvers": "1.12.2",
-    "@types/jest": "^24.0.23",
+    "@types/jest": "^24.9.1",
+    "babel-jest": "^24.9.0",
     "graphql": "^14.6.0",
     "graphql-codegen-hasura-client-config": "^4.6.0",
     "graphql-codegen-hasura-gql": "^4.6.0",
     "graphql-codegen-hasura-react": "^4.6.0",
     "graphql-codegen-hasura-typescript": "^4.6.0",
-    "jest": "^25.1.0",
-    "typescript": "^3.7.5"
+    "jest": "^24.9.0",
+    "jest-extended": "^0.11.2",
+    "typescript": "^3.8.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -51,6 +55,27 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/path/to/dir/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 90,
+        "lines": 90,
+        "statements": 90
+      }
+    },
+    "coverageReporters": [
+      "text"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/?!(aapi)"
     ]
   }
 }
