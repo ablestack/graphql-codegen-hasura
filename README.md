@@ -4,6 +4,7 @@ graphql-codegen-hasura is a collection of code generator plugins for [graphql-co
 
 - Strongly typed wrappers for all the Hasura/ApolloGrapqh methods (works great with code suggestion/auto-completion), organized into combined "GQLHelper" and "GQLHook" objects
 - Auto optimistic caching option provided for all Inserts, Updates, and Deletes
+  - Automatically populates created_at and updated_at timestamp fields, if provided for insert but left null
 - Query and subscription results provide entity parameter directly on results object (instead of having to pick out of deeply nested result field)
 - Automatically calls cache.evit on entity deletion
 - Automatically adds \_\_typename fields on cache inserts

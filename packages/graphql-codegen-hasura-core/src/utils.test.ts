@@ -19,6 +19,18 @@ test("convertToGraph - object with root typename should return as expected", () 
   expect(fragment).toMatchObject({ id: 1, __typename: "Foo", bar: { id: 2, name: "foo bar", __typename: "Bar" } });
 });
 
+test("convertToGraph - updated_at and created_at fields should populated as expected", () => {
+  const foo = { id: 1, updated_at: null, bar: { id: 2, name: "foo bar", created_at: null } };
+
+  const fragment = convertToGraph({ input: foo, fieldMap: { bar: "Bar" }, typename: "Foo" });
+
+  expect(fragment).toMatchObject({ id: 1, __typename: "Foo", bar: { id: 2, name: "foo bar", __typename: "Bar" } });
+  expect(fragment.updated_at).toBeTruthy();
+  expect(fragment.bar.created_at).toBeTruthy();
+
+  console.log(" --> fragment", JSON.stringify(fragment, null, 2));
+});
+
 test("convertToGraph - object with root typename but no Id should return as expected", () => {
   const foo = { bar: { id: 2, name: "foo bar" } };
 
@@ -285,8 +297,6 @@ test("convertToGraph - deep nested realworld example", () => {
     typename: "root",
     fieldMap: { nested1: "nested1", nested2: "nested2", nested3A: "nested3", nested3B: "nested3", nested4: "nested4", relatedObject: "relatedObject" }
   });
-
-  console.log(" --> fragmentRecursive", JSON.stringify(fragmentRecursive, null, 2));
 
   expect(fragmentRecursive).toMatchObject(expected);
 });

@@ -1,5 +1,6 @@
 import { defaultDataIdFromObject } from "@apollo/client";
 import { FieldMap, INSERT_INPUT_CLIENT_FIELD_INDICATOR as INSERT_INPUT_CLIENT_FIELDNAME_PREFIX } from ".";
+import { PostGresUtils } from "./postgres.utils";
 
 // Optimistic response generation utility method
 //
@@ -163,7 +164,12 @@ export function convertObjectToGraph({ input, fieldMap }: { input: object; field
  *
  */
 function _convertToGraph({ value, key, fieldMap }: { value: any; key?: string; fieldMap?: FieldMap<string> }) {
-  if (value === null || value === undefined) return null;
+  if (value === null || value === undefined) {
+    if (key === "created_at" || key === "updated_at") {
+      return PostGresUtils.getTSWTZ();
+    }
+    return null;
+  }
 
   if (IS_JAVASCRIPT_SCALAR_EQUIVALENT(value)) {
     return value;
