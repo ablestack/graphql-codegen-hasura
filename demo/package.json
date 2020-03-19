@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "demo",
-  "version": "4.6.1",
+  "version": "4.6.2",
   "dependencies": {
     "@apollo/client": "^3.0.0-beta.41",
     "@apollo/react-hooks": "^3.2.0-beta.1",
@@ -25,10 +25,10 @@
     "@types/jest": "^24.9.1",
     "babel-jest": "^24.9.0",
     "graphql": "^14.6.0",
-    "graphql-codegen-hasura-client-config": "^4.6.1",
-    "graphql-codegen-hasura-gql": "^4.6.1",
-    "graphql-codegen-hasura-react": "^4.6.1",
-    "graphql-codegen-hasura-typescript": "^4.6.1",
+    "graphql-codegen-hasura-client-config": "^4.6.2",
+    "graphql-codegen-hasura-gql": "^4.6.2",
+    "graphql-codegen-hasura-react": "^4.6.2",
+    "graphql-codegen-hasura-typescript": "^4.6.2",
     "jest": "^24.9.0",
     "jest-extended": "^0.11.2",
     "typescript": "^3.8.3"
