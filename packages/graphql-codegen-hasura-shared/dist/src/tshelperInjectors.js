@@ -58,6 +58,10 @@ function injectClientAndCacheHelpers({ contentManager, entityNamedType, fragment
         contentManager.addContent(`
     // Direct Client & Cache Fragment Helpers
     //
+    function cacheGetDataIdFor${fragmentNamePascalCase}( ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}): string {
+      return defaultDataIdFromObject({ __typename: '${entityNamedType.name}', id:${entityShortCamelCaseName}Id });
+    }
+
     function clientReadFragment${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id}: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName} }): ${fragmentTypeScriptTypeName} | null | undefined {
       return apolloClient.readFragment<${fragmentTypeScriptTypeName} | null | undefined>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ __typename: '${entityNamedType.name}', id:${entityShortCamelCaseName}Id }) });
     }
@@ -439,6 +443,8 @@ function injectSharedHelpersPost({ contentManager, entityNamedType, fragmentName
     //------------------------------------------------
 
     export const ${fragmentNamePascalCase}FragmentGQLHelper = {\n`;
+        if (withClientAndCacheHelpers)
+            fragmentHelperObject += `      cacheGetDataId: cacheGetDataIdFor${fragmentNamePascalCase},\n`;
         if (withClientAndCacheHelpers)
             fragmentHelperObject += `      clientReadFragmentById: clientReadFragment${fragmentNamePascalCase}ById,\n`;
         if (withClientAndCacheHelpers)

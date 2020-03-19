@@ -116,6 +116,10 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     // Direct Client & Cache Fragment Helpers
     //
+    function cacheGetDataIdForVehicle( vehicleId: string): string {
+      return defaultDataIdFromObject({ __typename: 'vehicle', id:vehicleId });
+    }
+
     function clientReadFragmentVehicleById({ apolloClient, vehicleId}: { apolloClient: ApolloClient<object>, vehicleId: string }): VehicleFragment | null | undefined {
       return apolloClient.readFragment<VehicleFragment | null | undefined>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ __typename: 'vehicle', id:vehicleId }) });
     }
@@ -367,6 +371,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     //------------------------------------------------
 
     export const VehicleFragmentGQLHelper = {
+      cacheGetDataId: cacheGetDataIdForVehicle,
       clientReadFragmentById: clientReadFragmentVehicleById,
       clientWriteFragmentById: clientWriteFragmentVehicleById,
       cacheWriteFragmentById: cacheWriteFragmentVehicleById,
@@ -413,6 +418,10 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     // Direct Client & Cache Fragment Helpers
     //
+    function cacheGetDataIdForVehicleLocationOnly( vehicleId: string): string {
+      return defaultDataIdFromObject({ __typename: 'vehicle', id:vehicleId });
+    }
+
     function clientReadFragmentVehicleLocationOnlyById({ apolloClient, vehicleId}: { apolloClient: ApolloClient<object>, vehicleId: string }): VehicleLocationOnlyFragment | null | undefined {
       return apolloClient.readFragment<VehicleLocationOnlyFragment | null | undefined>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ __typename: 'vehicle', id:vehicleId }) });
     }
@@ -633,6 +642,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     //------------------------------------------------
 
     export const VehicleLocationOnlyFragmentGQLHelper = {
+      cacheGetDataId: cacheGetDataIdForVehicleLocationOnly,
       clientReadFragmentById: clientReadFragmentVehicleLocationOnlyById,
       clientWriteFragmentById: clientWriteFragmentVehicleLocationOnlyById,
       cacheWriteFragmentById: cacheWriteFragmentVehicleLocationOnlyById,
@@ -670,6 +680,10 @@ import { RemoveDogsModelByIdDocument } from '../';
 
     // Direct Client & Cache Fragment Helpers
     //
+    function cacheGetDataIdForDog( dogsId: string): string {
+      return defaultDataIdFromObject({ __typename: 'dogs', id:dogsId });
+    }
+
     function clientReadFragmentDogById({ apolloClient, dogsId}: { apolloClient: ApolloClient<object>, dogsId: string }): DogFragment | null | undefined {
       return apolloClient.readFragment<DogFragment | null | undefined>({ fragment: DogFragmentDoc, fragmentName:'Dog', id: defaultDataIdFromObject({ __typename: 'dogs', id:dogsId }) });
     }
@@ -921,6 +935,7 @@ import { RemoveDogsModelByIdDocument } from '../';
     //------------------------------------------------
 
     export const DogFragmentGQLHelper = {
+      cacheGetDataId: cacheGetDataIdForDog,
       clientReadFragmentById: clientReadFragmentDogById,
       clientWriteFragmentById: clientWriteFragmentDogById,
       cacheWriteFragmentById: cacheWriteFragmentDogById,
