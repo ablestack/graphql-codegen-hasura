@@ -1,5 +1,5 @@
 import { defaultDataIdFromObject } from "@apollo/client";
-import { FieldMap, INSERT_INPUT_CLIENT_FIELD_INDICATOR as INSERT_INPUT_CLIENT_FIELDNAME_PREFIX } from ".";
+import { FieldMap, INSERT_INPUT_CLIENT_FIELDNAME_PREFIX } from ".";
 import { PostGresUtils } from "./postgres.utils";
 
 // Optimistic response generation utility method
@@ -7,18 +7,20 @@ import { PostGresUtils } from "./postgres.utils";
 export function generateOptimisticResponseForMutation<T>({
   operationType,
   entityName,
-  objects
+  objects,
+  fieldMap
 }: {
   operationType: "update" | "insert" | "delete";
   entityName: string;
   objects: { id: any }[];
+  fieldMap?: FieldMap<string>;
 }): T {
   const optimisticResponse = ({
     __typename: "mutation_root",
     [`${operationType}_${entityName}`]: {
       affected_rows: objects.length,
       returning: objects.map(object => {
-        if (operationType === "insert") return convertObjectToGraph({ input: object });
+        if (operationType === "insert") return convertObjectToGraph({ input: object, fieldMap });
         else return { ...object, __typename: entityName };
       }),
       __typename: `${entityName}_mutation_response`
@@ -180,7 +182,7 @@ function _convertToGraph({ value, key, fieldMap }: { value: any; key?: string; f
     return value.map(arrayItem => _convertToGraph({ value: arrayItem, key, fieldMap }));
   }
 
-  if (IS_INSERT_INPUT_OBJECT(value) && key && fieldMap[key]) {
+  if (IS_INSERT_INPUT_OBJECT(value) && key && fieldMap && fieldMap[key]) {
     return _convertToGraph({ value: value.data, key, fieldMap });
   }
 

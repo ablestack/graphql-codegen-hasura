@@ -262,12 +262,12 @@ import { RemoveDogsModelByIdDocument } from '../';
     type InsertVehicleFetchResult = FetchResult<InsertVehicleMutation, Record<string, any>, Record<string, any>>;
     export type InsertVehicleFetchHelperResultEx = InsertVehicleFetchResult & VehicleByIdHelperResultEx;
 
-    async function insertVehicle({ apolloClient, vehicle, autoOptimisticResponse, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<InsertVehicleMutation, InsertVehicleMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleFetchHelperResultEx> {
+    async function insertVehicle({ apolloClient, vehicle, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, autoOptimisticResponse?:boolean, fieldMap?: FieldMap<string>, options?: Omit<MutationOptions<InsertVehicleMutation, InsertVehicleMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleFetchHelperResultEx> {
       const objectForInsert = stripInsertInputClientFields({ input: vehicle });
       const mutationOptions:MutationOptions<InsertVehicleMutation, InsertVehicleMutationVariables> = { mutation: InsertVehicleDocument, variables: { objects: [objectForInsert] }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
         if(!objectForInsert.id) throw new Error(`if autoOptimisticResponse = true, id must be set in object 'vehicle'`); 
-        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertVehicleMutation>({ operationType: 'insert', entityName:'vehicle', objects:[objectForInsert as Vehicle_Insert_Input & ObjectWithId] }); 
+        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertVehicleMutation>({ operationType: 'insert', entityName:'vehicle', objects:[objectForInsert as Vehicle_Insert_Input & ObjectWithId], fieldMap }); 
         if(logLevel >= 2) console.log(' --> insertVehicle - optimisticResponse:', mutationOptions.optimisticResponse);
       }
       
@@ -276,12 +276,12 @@ import { RemoveDogsModelByIdDocument } from '../';
       return { ...mutation, vehicle: mutation?.data?.insert_vehicle?.returning && mutation.data.insert_vehicle.returning[0] };
     }
 
-    async function insertVehicleWithOnConflict({ apolloClient, vehicle, onConflict, autoOptimisticResponse, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, onConflict: Vehicle_On_Conflict, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<InsertVehicleMutation, InsertVehicleMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleFetchHelperResultEx> {
+    async function insertVehicleWithOnConflict({ apolloClient, vehicle, onConflict, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, onConflict: Vehicle_On_Conflict, autoOptimisticResponse?:boolean, fieldMap?: FieldMap<string>, options?: Omit<MutationOptions<InsertVehicleMutation, InsertVehicleMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleFetchHelperResultEx> {
       const objectForInsert = stripInsertInputClientFields({ input: vehicle });
       const mutationOptions:MutationOptions<InsertVehicleMutation, InsertVehicleWithOnConflictMutationVariables> = { mutation: InsertVehicleDocument, variables: { objects: [objectForInsert], onConflict }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
         if(!objectForInsert.id) throw new Error(`if autoOptimisticResponse = true, id must be set in object 'vehicle'`); 
-        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertVehicleMutation>({ operationType: 'insert', entityName:'vehicle', objects:[objectForInsert as Vehicle_Insert_Input & ObjectWithId] }); 
+        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertVehicleMutation>({ operationType: 'insert', entityName:'vehicle', objects:[objectForInsert as Vehicle_Insert_Input & ObjectWithId], fieldMap }); 
         if(logLevel >= 2) console.log(' --> insertVehicleWithOnConflict - optimisticResponse:', mutationOptions.optimisticResponse);
       }
       
@@ -564,12 +564,12 @@ import { RemoveDogsModelByIdDocument } from '../';
     type InsertVehicleLocationOnlyFetchResult = FetchResult<InsertVehicleLocationOnlyMutation, Record<string, any>, Record<string, any>>;
     export type InsertVehicleLocationOnlyFetchHelperResultEx = InsertVehicleLocationOnlyFetchResult & VehicleLocationOnlyByIdHelperResultEx;
 
-    async function insertVehicleLocationOnly({ apolloClient, vehicle, autoOptimisticResponse, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleLocationOnlyFetchHelperResultEx> {
+    async function insertVehicleLocationOnly({ apolloClient, vehicle, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, autoOptimisticResponse?:boolean, fieldMap?: FieldMap<string>, options?: Omit<MutationOptions<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleLocationOnlyFetchHelperResultEx> {
       const objectForInsert = stripInsertInputClientFields({ input: vehicle });
       const mutationOptions:MutationOptions<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyMutationVariables> = { mutation: InsertVehicleLocationOnlyDocument, variables: { objects: [objectForInsert] }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
         if(!objectForInsert.id) throw new Error(`if autoOptimisticResponse = true, id must be set in object 'vehicle'`); 
-        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertVehicleLocationOnlyMutation>({ operationType: 'insert', entityName:'vehicle', objects:[objectForInsert as Vehicle_Insert_Input & ObjectWithId] }); 
+        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertVehicleLocationOnlyMutation>({ operationType: 'insert', entityName:'vehicle', objects:[objectForInsert as Vehicle_Insert_Input & ObjectWithId], fieldMap }); 
         if(logLevel >= 2) console.log(' --> insertVehicleLocationOnly - optimisticResponse:', mutationOptions.optimisticResponse);
       }
       
@@ -578,12 +578,12 @@ import { RemoveDogsModelByIdDocument } from '../';
       return { ...mutation, vehicleLocationOnly: mutation?.data?.insert_vehicle?.returning && mutation.data.insert_vehicle.returning[0] };
     }
 
-    async function insertVehicleLocationOnlyWithOnConflict({ apolloClient, vehicle, onConflict, autoOptimisticResponse, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, onConflict: Vehicle_On_Conflict, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleLocationOnlyFetchHelperResultEx> {
+    async function insertVehicleLocationOnlyWithOnConflict({ apolloClient, vehicle, onConflict, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, onConflict: Vehicle_On_Conflict, autoOptimisticResponse?:boolean, fieldMap?: FieldMap<string>, options?: Omit<MutationOptions<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleLocationOnlyFetchHelperResultEx> {
       const objectForInsert = stripInsertInputClientFields({ input: vehicle });
       const mutationOptions:MutationOptions<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables> = { mutation: InsertVehicleLocationOnlyDocument, variables: { objects: [objectForInsert], onConflict }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
         if(!objectForInsert.id) throw new Error(`if autoOptimisticResponse = true, id must be set in object 'vehicle'`); 
-        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertVehicleLocationOnlyMutation>({ operationType: 'insert', entityName:'vehicle', objects:[objectForInsert as Vehicle_Insert_Input & ObjectWithId] }); 
+        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertVehicleLocationOnlyMutation>({ operationType: 'insert', entityName:'vehicle', objects:[objectForInsert as Vehicle_Insert_Input & ObjectWithId], fieldMap }); 
         if(logLevel >= 2) console.log(' --> insertVehicleLocationOnlyWithOnConflict - optimisticResponse:', mutationOptions.optimisticResponse);
       }
       
@@ -826,12 +826,12 @@ import { RemoveDogsModelByIdDocument } from '../';
     type InsertDogFetchResult = FetchResult<InsertDogMutation, Record<string, any>, Record<string, any>>;
     export type InsertDogFetchHelperResultEx = InsertDogFetchResult & DogByIdHelperResultEx;
 
-    async function insertDog({ apolloClient, dogs, autoOptimisticResponse, options } :{ apolloClient: ApolloClient<object>, dogs: Dogs_Insert_Input, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<InsertDogMutation, InsertDogMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertDogFetchHelperResultEx> {
+    async function insertDog({ apolloClient, dogs, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<object>, dogs: Dogs_Insert_Input, autoOptimisticResponse?:boolean, fieldMap?: FieldMap<string>, options?: Omit<MutationOptions<InsertDogMutation, InsertDogMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertDogFetchHelperResultEx> {
       const objectForInsert = stripInsertInputClientFields({ input: dogs });
       const mutationOptions:MutationOptions<InsertDogMutation, InsertDogMutationVariables> = { mutation: InsertDogDocument, variables: { objects: [objectForInsert] }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
         if(!objectForInsert.id) throw new Error(`if autoOptimisticResponse = true, id must be set in object 'dogs'`); 
-        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertDogMutation>({ operationType: 'insert', entityName:'dogs', objects:[objectForInsert as Dogs_Insert_Input & ObjectWithId] }); 
+        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertDogMutation>({ operationType: 'insert', entityName:'dogs', objects:[objectForInsert as Dogs_Insert_Input & ObjectWithId], fieldMap }); 
         if(logLevel >= 2) console.log(' --> insertDog - optimisticResponse:', mutationOptions.optimisticResponse);
       }
       
@@ -840,12 +840,12 @@ import { RemoveDogsModelByIdDocument } from '../';
       return { ...mutation, dog: mutation?.data?.insert_dogs?.returning && mutation.data.insert_dogs.returning[0] };
     }
 
-    async function insertDogWithOnConflict({ apolloClient, dogs, onConflict, autoOptimisticResponse, options } :{ apolloClient: ApolloClient<object>, dogs: Dogs_Insert_Input, onConflict: Dogs_On_Conflict, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<InsertDogMutation, InsertDogMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertDogFetchHelperResultEx> {
+    async function insertDogWithOnConflict({ apolloClient, dogs, onConflict, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<object>, dogs: Dogs_Insert_Input, onConflict: Dogs_On_Conflict, autoOptimisticResponse?:boolean, fieldMap?: FieldMap<string>, options?: Omit<MutationOptions<InsertDogMutation, InsertDogMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertDogFetchHelperResultEx> {
       const objectForInsert = stripInsertInputClientFields({ input: dogs });
       const mutationOptions:MutationOptions<InsertDogMutation, InsertDogWithOnConflictMutationVariables> = { mutation: InsertDogDocument, variables: { objects: [objectForInsert], onConflict }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
         if(!objectForInsert.id) throw new Error(`if autoOptimisticResponse = true, id must be set in object 'dogs'`); 
-        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertDogMutation>({ operationType: 'insert', entityName:'dogs', objects:[objectForInsert as Dogs_Insert_Input & ObjectWithId] }); 
+        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertDogMutation>({ operationType: 'insert', entityName:'dogs', objects:[objectForInsert as Dogs_Insert_Input & ObjectWithId], fieldMap }); 
         if(logLevel >= 2) console.log(' --> insertDogWithOnConflict - optimisticResponse:', mutationOptions.optimisticResponse);
       }
       
