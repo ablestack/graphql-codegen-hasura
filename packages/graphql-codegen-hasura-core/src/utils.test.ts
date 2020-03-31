@@ -1,4 +1,4 @@
-import { convertToGraph, stripInsertInputClientFields } from ".";
+import { convertToGraph, stripInsertInputClientFields, convertToInsertInput } from ".";
 
 /*
  *
@@ -27,8 +27,6 @@ test("convertToGraph - updated_at and created_at fields should populated as expe
   expect(fragment).toMatchObject({ id: 1, __typename: "Foo", bar: { id: 2, name: "foo bar", __typename: "Bar" } });
   expect(fragment.updated_at).toBeTruthy();
   expect(fragment.bar.created_at).toBeTruthy();
-
-  console.log(" --> fragment", JSON.stringify(fragment, null, 2));
 });
 
 test("convertToGraph - object with root typename but no Id should return as expected", () => {
@@ -54,8 +52,6 @@ test("convertToGraph - plain array should return as expected (no typename)", () 
   const foo = { id: 1, bar: [{ id: 2 }, { id: 3 }] };
 
   const fragment = convertToGraph({ input: foo });
-
-  console.log(" ---------> ", fragment);
 
   expect(fragment).toMatchObject({
     id: 1,
@@ -230,7 +226,7 @@ test("convertToGraph - deep nested realworld example", () => {
                 data: {
                   id: "50000000-0000-0000-0000-00000000",
                   ___deepClientField: true,
-                  nested4: {
+                  nested5: {
                     data: []
                   }
                 }
@@ -280,7 +276,7 @@ test("convertToGraph - deep nested realworld example", () => {
             __typename: "nested3",
             id: "50000000-0000-0000-0000-00000000",
             deepClientField: true,
-            nested4: []
+            nested5: []
           }
         }
       }
@@ -295,7 +291,7 @@ test("convertToGraph - deep nested realworld example", () => {
   const fragmentRecursive = convertToGraph({
     input: realWorldExample,
     typename: "root",
-    fieldMap: { nested1: "nested1", nested2: "nested2", nested3A: "nested3", nested3B: "nested3", nested4: "nested4", relatedObject: "relatedObject" }
+    fieldMap: { nested1: "nested1", nested2: "nested2", nested3A: "nested3", nested3B: "nested3", nested4: "nested4", nested5: "nested5", relatedObject: "relatedObject" }
   });
 
   expect(fragmentRecursive).toMatchObject(expected);
@@ -328,4 +324,113 @@ test("stripInsertInputClientFields - object should return as expected", () => {
   expect(result.bar.___clientField).toBeUndefined();
   expect(result.baz[0].___clientField).toBeUndefined();
   expect(result.baz[1].___clientField).toBeUndefined();
+});
+
+test("convertToInsertInput - deep nested realworld example", () => {
+  const realWorldExample = {
+    __typename: "root",
+    id: "00000000-0000-0000-0000-00000000",
+    title: "Title",
+    type: "Type",
+    topLevelClientField: true,
+    nested1: [
+      {
+        __typename: "nested1",
+        id: "10000000-0000-0000-0000-00000000",
+        title: "Title",
+        type: "Type",
+        nested2: {
+          __typename: "nested2",
+          id: "20000000-0000-0000-0000-00000000",
+          nested3A: {
+            __typename: "nested3",
+            id: "30000000-0000-0000-0000-00000000",
+            nested4: [
+              {
+                __typename: "nested4",
+                id: "40000000-0000-0000-0000-00000000",
+                deepClientFieldInArray: true,
+                title: "Test",
+                index: 0
+              }
+            ]
+          },
+          nested3B: {
+            __typename: "nested3",
+            id: "50000000-0000-0000-0000-00000000",
+            deepClientField: true,
+            nested5: []
+          }
+        }
+      }
+    ],
+    related_id: "70000000-0000-0000-0000-00000000",
+    relatedObject: {
+      __typename: "relatedObject",
+      id: "80000000-0000-0000-0000-00000000"
+    }
+  };
+
+  const expected = {
+    id: "00000000-0000-0000-0000-00000000",
+    title: "Title",
+    type: "Type",
+    topLevelClientField: true,
+    nested1: {
+      data: [
+        {
+          id: "10000000-0000-0000-0000-00000000",
+          title: "Title",
+          type: "Type",
+          nested2: {
+            data: {
+              id: "20000000-0000-0000-0000-00000000",
+              nested3A: {
+                data: {
+                  id: "30000000-0000-0000-0000-00000000",
+                  nested4: {
+                    data: [
+                      {
+                        id: "40000000-0000-0000-0000-00000000",
+                        title: "Test",
+                        index: 0,
+                        deepClientFieldInArray: true
+                      }
+                    ]
+                  }
+                }
+              },
+              nested3B: {
+                data: {
+                  id: "50000000-0000-0000-0000-00000000",
+                  deepClientField: true,
+                  nested5: {
+                    data: []
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    related_id: "70000000-0000-0000-0000-00000000",
+    relatedObject: {
+      data: {
+        id: "80000000-0000-0000-0000-00000000"
+      }
+    }
+  };
+
+  const insertInputRecursive = convertToInsertInput({
+    fragment: realWorldExample,
+    fieldMap: { nested1: "nested1", nested2: "nested2", nested3A: "nested3", nested3B: "nested3", nested4: "nested4", nested5: "nested5", relatedObject: "relatedObject" }
+  });
+
+  console.log(` ------> insertInputRecursive`, JSON.stringify(insertInputRecursive, null, 2));
+  console.log(` ------> expected`, JSON.stringify(expected, null, 2));
+
+  expect(insertInputRecursive).toMatchObject(expected);
+  expect(insertInputRecursive.__typename).toBeUndefined();
+  expect(insertInputRecursive.nested1.data.__typename).toBeUndefined();
 });

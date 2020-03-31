@@ -91,14 +91,15 @@ export function ensureTypenameOnFragments(object: any[], typename: string) {
   return object.map(arrayItem => ensureTypenameOnFragment(object, typename));
 }
 
-//
-// Series of functions for helping handle translations between input objects and fragments
-//
+// -----------------------------------------------------------------------------------------------------------------------
+// Series of functions for helping handle translations between Insert Input Object Graphs and Fragment Object Graphs
+// -- Mainly used when manually adding an Insert Input object to InMemory cache
+// -----------------------------------------------------------------------------------------------------------------------
 
 export function stripInsertInputClientFields({ input }: { input: object }) {
   const o: any = {};
 
-  //Loop object and build up a fragment appropriate for a cache-add
+  //Loop object and transform as needed
   for (const [key, value] of Object.entries(input)) {
     if (!IS_INSERT_INPUT_CLIENT_FIELDNAME({ fieldname: key })) {
       // HANDLE ARRAYS
@@ -151,7 +152,7 @@ export function convertInsertInputClientFieldnameToGraphFieldname({ fieldname }:
 export function convertObjectToGraph({ input, fieldMap }: { input: object; fieldMap?: FieldMap<string> }) {
   const o: any = {};
 
-  //Loop object and build up a fragment appropriate for a cache-add
+  //Loop object and transform as needed
   for (const [key, value] of Object.entries(input)) {
     if (!ignoreField({ key: key, fieldMap })) {
       const convertedKey = convertInsertInputClientFieldnameToGraphFieldname({ fieldname: key });
@@ -203,4 +204,59 @@ export function convertToGraph({ input, typename, fieldMap }: { input: any; type
     _fieldMap["___root"] = typename;
   }
   return _convertToGraph({ value: input, key: "___root", fieldMap: _fieldMap });
+}
+
+// -----------------------------------------------------------------------------------------------------
+// Series of functions for helping handle translations between Fragment Graphs and InsertInput Graphs
+// -- Mainly used when cloning an object graph
+// -----------------------------------------------------------------------------------------------------
+const FRAGMENT_ONLY_FIELDNAMES = ["__typename"];
+function fragmentOnlyField({ key }: { key: string }) {
+  return FRAGMENT_ONLY_FIELDNAMES.find(fofnItem => fofnItem === key);
+}
+
+/*
+ *
+ */
+export function convertObjectToInsertInput({ object, fieldMap }: { object: object; fieldMap?: FieldMap<string> }) {
+  const o: any = {};
+
+  //Loop object and transform as needed
+  for (const [key, value] of Object.entries(object)) {
+    if (!fragmentOnlyField({ key: key }) && !ignoreField({ key: key, fieldMap })) {
+      o[key] = _convertToInsertInput({ value, key, fieldMap });
+    }
+  }
+
+  return o;
+}
+
+function _convertToInsertInput({ value, key, fieldMap }: { value: any; key?: string; fieldMap?: FieldMap<string> }) {
+  if (value === null || value === undefined) return null;
+
+  if (IS_JAVASCRIPT_SCALAR_EQUIVALENT(value)) {
+    return value;
+  }
+
+  if (Array.isArray(value)) {
+    return { data: value.map(arrayItem => _convertToInsertInput({ value: arrayItem, fieldMap })) };
+  }
+
+  if (IS_NON_NULL_OBJECT(value)) {
+    // If specified in FieldMap
+    if (key && fieldMap && fieldMap[key] && !IS_INSERT_INPUT_OBJECT(value)) {
+      // Wrap value in data property
+      return convertObjectToInsertInput({ object: { data: value }, fieldMap });
+    } else {
+      return convertObjectToInsertInput({ object: value, fieldMap });
+    }
+  }
+
+  // Escape hatch. Should not get through to this point - but if we do, return null
+  console.warn(`convertToInsertInput - unknown object type for value:`, { value, key, fieldMap });
+  return null;
+}
+
+export function convertToInsertInput({ fragment, fieldMap }: { fragment: any; fieldMap?: FieldMap<string> }) {
+  return _convertToInsertInput({ value: fragment, fieldMap });
 }
