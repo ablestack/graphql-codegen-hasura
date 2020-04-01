@@ -1,5 +1,5 @@
 import { defaultDataIdFromObject } from "@apollo/client";
-import { FieldMap, INSERT_INPUT_CLIENT_FIELDNAME_PREFIX } from ".";
+import { StrictFieldMap, INSERT_INPUT_CLIENT_FIELDNAME_PREFIX, FieldMap } from ".";
 import { PostGresUtils } from "./postgres.utils";
 
 // Optimistic response generation utility method
@@ -13,7 +13,7 @@ export function generateOptimisticResponseForMutation<T>({
   operationType: "update" | "insert" | "delete";
   entityName: string;
   objects: { id: any }[];
-  fieldMap?: FieldMap<string>;
+  fieldMap?: StrictFieldMap;
 }): T {
   const optimisticResponse = ({
     __typename: "mutation_root",
@@ -91,6 +91,10 @@ export function ensureTypenameOnFragments(object: any[], typename: string) {
   return object.map(arrayItem => ensureTypenameOnFragment(object, typename));
 }
 
+export function makeStrictFieldmap({ typenames, ignore, replace }: FieldMap): StrictFieldMap {
+  return { typenames: typenames || {}, ignore: ignore || {}, replace: replace || {} };
+}
+
 // -----------------------------------------------------------------------------------------------------------------------
 // Series of functions for helping handle translations between Insert Input Object Graphs and Fragment Object Graphs
 // -- Mainly used when manually adding an Insert Input object to InMemory cache
@@ -134,8 +138,8 @@ export function addTypenameToObjArray({ object, typename }: { object: any[]; typ
   return object.map(arrayItem => addTypenameToObj({ object: arrayItem, typename }));
 }
 
-function ignoreField({ key, fieldMap }: { key?: string; fieldMap: FieldMap<string> }) {
-  return fieldMap && fieldMap[key] && fieldMap[key] === "IGNORE_FIELD";
+function ignoreField({ key, fieldMap }: { key?: string; fieldMap: StrictFieldMap }) {
+  return fieldMap && fieldMap.ignore[key];
 }
 
 /*
@@ -149,13 +153,18 @@ export function convertInsertInputClientFieldnameToGraphFieldname({ fieldname }:
 /*
  *
  */
-export function convertObjectToGraph({ input, fieldMap }: { input: object; fieldMap?: FieldMap<string> }) {
+export function convertObjectToGraph({ input, fieldMap }: { input: object; fieldMap?: StrictFieldMap }) {
   const o: any = {};
 
   //Loop object and transform as needed
   for (const [key, value] of Object.entries(input)) {
-    if (!ignoreField({ key: key, fieldMap })) {
-      const convertedKey = convertInsertInputClientFieldnameToGraphFieldname({ fieldname: key });
+    if (ignoreField({ key: key, fieldMap })) {
+      continue;
+    }
+    const convertedKey = convertInsertInputClientFieldnameToGraphFieldname({ fieldname: key });
+    if (fieldMap.replace[key]) {
+      o[convertedKey] = fieldMap.replace[key](value);
+    } else {
       o[convertedKey] = _convertToGraph({ value, key: convertedKey, fieldMap });
     }
   }
@@ -166,7 +175,7 @@ export function convertObjectToGraph({ input, fieldMap }: { input: object; field
 /**
  *
  */
-function _convertToGraph({ value, key, fieldMap }: { value: any; key?: string; fieldMap?: FieldMap<string> }) {
+function _convertToGraph({ value, key, fieldMap }: { value: any; key?: string; fieldMap?: StrictFieldMap }) {
   if (value === null || value === undefined) {
     if (key === "created_at" || key === "updated_at") {
       return PostGresUtils.getTSWTZ();
@@ -183,13 +192,13 @@ function _convertToGraph({ value, key, fieldMap }: { value: any; key?: string; f
     return value.map(arrayItem => _convertToGraph({ value: arrayItem, key, fieldMap }));
   }
 
-  if (IS_INSERT_INPUT_OBJECT(value) && key && fieldMap && fieldMap[key]) {
+  if (IS_INSERT_INPUT_OBJECT(value) && key && fieldMap && fieldMap.typenames[key]) {
     return _convertToGraph({ value: value.data, key, fieldMap });
   }
 
   if (IS_NON_NULL_OBJECT(value)) {
     let object = convertObjectToGraph({ input: value, fieldMap });
-    if (fieldMap && key && fieldMap[key]) object = addTypenameToObj({ object, typename: fieldMap[key] });
+    if (fieldMap && key && fieldMap.typenames[key]) object = addTypenameToObj({ object, typename: fieldMap.typenames[key] });
     return object;
   }
 
@@ -197,11 +206,10 @@ function _convertToGraph({ value, key, fieldMap }: { value: any; key?: string; f
   return null;
 }
 
-export function convertToGraph({ input, typename, fieldMap }: { input: any; typename?: string; fieldMap?: FieldMap<string> }) {
-  let _fieldMap = fieldMap;
+export function convertToGraph({ input, typename, fieldMap }: { input: any; typename?: string; fieldMap?: FieldMap }) {
+  let _fieldMap = makeStrictFieldmap(fieldMap || {});
   if (typename) {
-    if (!_fieldMap) _fieldMap = {};
-    _fieldMap["___root"] = typename;
+    _fieldMap.typenames["___root"] = typename;
   }
   return _convertToGraph({ value: input, key: "___root", fieldMap: _fieldMap });
 }
@@ -218,12 +226,17 @@ function fragmentOnlyField({ key }: { key: string }) {
 /*
  *
  */
-export function convertObjectToInsertInput({ object, fieldMap }: { object: object; fieldMap?: FieldMap<string> }) {
+function convertObjectToInsertInput({ object, fieldMap }: { object: object; fieldMap?: StrictFieldMap }) {
   const o: any = {};
 
   //Loop object and transform as needed
   for (const [key, value] of Object.entries(object)) {
-    if (!fragmentOnlyField({ key: key }) && !ignoreField({ key: key, fieldMap })) {
+    if (fragmentOnlyField({ key: key }) || ignoreField({ key: key, fieldMap })) {
+      continue;
+    }
+    if (fieldMap.replace[key]) {
+      o[key] = fieldMap.replace[key](value);
+    } else {
       o[key] = _convertToInsertInput({ value, key, fieldMap });
     }
   }
@@ -231,7 +244,7 @@ export function convertObjectToInsertInput({ object, fieldMap }: { object: objec
   return o;
 }
 
-function _convertToInsertInput({ value, key, fieldMap }: { value: any; key?: string; fieldMap?: FieldMap<string> }) {
+function _convertToInsertInput({ value, key, fieldMap }: { value: any; key?: string; fieldMap?: StrictFieldMap }) {
   if (value === null || value === undefined) return null;
 
   if (IS_JAVASCRIPT_SCALAR_EQUIVALENT(value)) {
@@ -243,8 +256,8 @@ function _convertToInsertInput({ value, key, fieldMap }: { value: any; key?: str
   }
 
   if (IS_NON_NULL_OBJECT(value)) {
-    // If specified in FieldMap
-    if (key && fieldMap && fieldMap[key] && !IS_INSERT_INPUT_OBJECT(value)) {
+    // If specified in StrictFieldMap
+    if (key && fieldMap && fieldMap.typenames[key] && !IS_INSERT_INPUT_OBJECT(value)) {
       // Wrap value in data property
       return convertObjectToInsertInput({ object: { data: value }, fieldMap });
     } else {
@@ -257,6 +270,6 @@ function _convertToInsertInput({ value, key, fieldMap }: { value: any; key?: str
   return null;
 }
 
-export function convertToInsertInput({ fragment, fieldMap }: { fragment: any; fieldMap?: FieldMap<string> }) {
-  return _convertToInsertInput({ value: fragment, fieldMap });
+export function convertToInsertInput({ fragment, fieldMap }: { fragment: any; fieldMap?: FieldMap }) {
+  return _convertToInsertInput({ value: fragment, fieldMap: makeStrictFieldmap(fieldMap || {}) });
 }

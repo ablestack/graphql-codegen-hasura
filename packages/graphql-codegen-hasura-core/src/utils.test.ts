@@ -6,7 +6,7 @@ import { convertToGraph, stripInsertInputClientFields, convertToInsertInput } fr
 test("convertToGraph - object should return as expected", () => {
   const foo = { id: 1, bar: { id: 2, name: "foo bar" } };
 
-  const fragment = convertToGraph({ input: foo, fieldMap: { bar: "Bar" } });
+  const fragment = convertToGraph({ input: foo, fieldMap: { typenames: { bar: "Bar" } } });
 
   expect(fragment).toMatchObject({ id: 1, bar: { id: 2, name: "foo bar", __typename: "Bar" } });
 });
@@ -14,7 +14,7 @@ test("convertToGraph - object should return as expected", () => {
 test("convertToGraph - object with root typename should return as expected", () => {
   const foo = { id: 1, bar: { id: 2, name: "foo bar" } };
 
-  const fragment = convertToGraph({ input: foo, fieldMap: { bar: "Bar" }, typename: "Foo" });
+  const fragment = convertToGraph({ input: foo, fieldMap: { typenames: { bar: "Bar" } }, typename: "Foo" });
 
   expect(fragment).toMatchObject({ id: 1, __typename: "Foo", bar: { id: 2, name: "foo bar", __typename: "Bar" } });
 });
@@ -22,7 +22,7 @@ test("convertToGraph - object with root typename should return as expected", () 
 test("convertToGraph - updated_at and created_at fields should populated as expected", () => {
   const foo = { id: 1, updated_at: null, bar: { id: 2, name: "foo bar", created_at: null } };
 
-  const fragment = convertToGraph({ input: foo, fieldMap: { bar: "Bar" }, typename: "Foo" });
+  const fragment = convertToGraph({ input: foo, fieldMap: { typenames: { bar: "Bar" } }, typename: "Foo" });
 
   expect(fragment).toMatchObject({ id: 1, __typename: "Foo", bar: { id: 2, name: "foo bar", __typename: "Bar" } });
   expect(fragment.updated_at).toBeTruthy();
@@ -32,7 +32,7 @@ test("convertToGraph - updated_at and created_at fields should populated as expe
 test("convertToGraph - object with root typename but no Id should return as expected", () => {
   const foo = { bar: { id: 2, name: "foo bar" } };
 
-  const fragment = convertToGraph({ input: foo, fieldMap: { bar: "Bar" }, typename: "Foo" });
+  const fragment = convertToGraph({ input: foo, fieldMap: { typenames: { bar: "Bar" } }, typename: "Foo" });
 
   expect(fragment).toMatchObject({ __typename: "Foo", bar: { id: 2, name: "foo bar", __typename: "Bar" } });
 });
@@ -40,7 +40,7 @@ test("convertToGraph - object with root typename but no Id should return as expe
 test("convertToGraph - object with client fields should return as expected", () => {
   const foo = { id: 1, ___bar: { id: 2, name: "foo bar" } };
 
-  const fragment = convertToGraph({ input: foo, fieldMap: { bar: "Bar" } });
+  const fragment = convertToGraph({ input: foo, fieldMap: { typenames: { bar: "Bar" } } });
 
   expect(fragment).toMatchObject({ id: 1, bar: { id: 2, name: "foo bar", __typename: "Bar" } });
 });
@@ -66,7 +66,7 @@ test("convertToGraph - plain array should return as expected (no typename)", () 
 test("convertToGraph - plain array should return as expected (with typename)", () => {
   const foo = { id: 1, bar: [{ id: 2 }, { id: 3 }] };
 
-  const fragment = convertToGraph({ input: foo, fieldMap: { bar: "Bar" } });
+  const fragment = convertToGraph({ input: foo, fieldMap: { typenames: { bar: "Bar" } } });
 
   expect(fragment).toMatchObject({
     id: 1,
@@ -80,7 +80,7 @@ test("convertToGraph - plain array should return as expected (with typename)", (
 test("convertToGraph - plain array should be omitted", () => {
   const foo = { id: 1, bar: [{ id: 2 }, { id: 3 }] };
 
-  const fragment = convertToGraph({ input: foo, fieldMap: { bar: "IGNORE_FIELD" } });
+  const fragment = convertToGraph({ input: foo, fieldMap: { ignore: { bar: true } } });
 
   expect(fragment).toMatchObject({ id: 1 });
   expect(fragment.bar).toBeUndefined();
@@ -92,7 +92,7 @@ test("convertToGraph - plain array should be omitted", () => {
 test("convertToGraph - insertInput object should return as expected", () => {
   const foo = { id: 1, bar: { data: { id: 2 } } };
 
-  const fragment = convertToGraph({ input: foo, fieldMap: { bar: "Bar" } });
+  const fragment = convertToGraph({ input: foo, fieldMap: { typenames: { bar: "Bar" } } });
 
   expect(fragment).toMatchObject({ id: 1, bar: { id: 2, __typename: "Bar" } });
 });
@@ -103,7 +103,7 @@ test("convertToGraph - insertInput object should return as expected", () => {
 test("convertToGraph - insertInput array should return as expected", () => {
   const foo = { id: 1, bar: { data: [{ id: 2 }, { id: 3 }] } };
 
-  const fragment = convertToGraph({ input: foo, fieldMap: { bar: "Bar" } });
+  const fragment = convertToGraph({ input: foo, fieldMap: { typenames: { bar: "Bar" } } });
 
   expect(fragment).toMatchObject({
     id: 1,
@@ -136,7 +136,7 @@ test("convertToGraph - insertInput recursive array should return as expected", (
     ]
   };
 
-  const fragmentRecursive = convertToGraph({ input: foo, fieldMap: { bar: "Bar", baz: "Baz" } });
+  const fragmentRecursive = convertToGraph({ input: foo, fieldMap: { typenames: { bar: "Bar", baz: "Baz" } } });
 
   expect(fragmentRecursive).toMatchObject(expected);
 });
@@ -160,7 +160,7 @@ test("convertToGraph - insertInput recursive (deeper definition copied as-is) sh
     ]
   };
 
-  const fragmentRecursive = convertToGraph({ input: foo, fieldMap: { bar: "Bar" } });
+  const fragmentRecursive = convertToGraph({ input: foo, fieldMap: { typenames: { bar: "Bar" } } });
 
   expect(fragmentRecursive).toMatchObject(expected);
   expect(fragmentRecursive.bar[1].baz).toBeDefined();
@@ -186,7 +186,7 @@ test("convertToGraph - insertInput recursive (deeper definition missing) should 
     ]
   };
 
-  const fragmentRecursive = convertToGraph({ input: foo, fieldMap: { bar: "Bar", baz: "IGNORE_FIELD" } });
+  const fragmentRecursive = convertToGraph({ input: foo, fieldMap: { typenames: { bar: "Bar" }, ignore: { baz: true } } });
 
   expect(fragmentRecursive).toMatchObject(expected);
   expect(fragmentRecursive.bar[1].baz).toBeUndefined();
@@ -291,7 +291,9 @@ test("convertToGraph - deep nested realworld example", () => {
   const fragmentRecursive = convertToGraph({
     input: realWorldExample,
     typename: "root",
-    fieldMap: { nested1: "nested1", nested2: "nested2", nested3A: "nested3", nested3B: "nested3", nested4: "nested4", nested5: "nested5", relatedObject: "relatedObject" }
+    fieldMap: {
+      typenames: { nested1: "nested1", nested2: "nested2", nested3A: "nested3", nested3B: "nested3", nested4: "nested4", nested5: "nested5", relatedObject: "relatedObject" }
+    }
   });
 
   expect(fragmentRecursive).toMatchObject(expected);
@@ -372,26 +374,26 @@ test("convertToInsertInput - deep nested realworld example", () => {
   };
 
   const expected = {
-    id: "00000000-0000-0000-0000-00000000",
+    id: "00000000-0000-0000-0000-00000000B",
     title: "Title",
     type: "Type",
     topLevelClientField: true,
     nested1: {
       data: [
         {
-          id: "10000000-0000-0000-0000-00000000",
+          id: "10000000-0000-0000-0000-00000000B",
           title: "Title",
           type: "Type",
           nested2: {
             data: {
-              id: "20000000-0000-0000-0000-00000000",
+              id: "20000000-0000-0000-0000-00000000B",
               nested3A: {
                 data: {
-                  id: "30000000-0000-0000-0000-00000000",
+                  id: "30000000-0000-0000-0000-00000000B",
                   nested4: {
                     data: [
                       {
-                        id: "40000000-0000-0000-0000-00000000",
+                        id: "40000000-0000-0000-0000-00000000B",
                         title: "Test",
                         index: 0,
                         deepClientFieldInArray: true
@@ -402,7 +404,7 @@ test("convertToInsertInput - deep nested realworld example", () => {
               },
               nested3B: {
                 data: {
-                  id: "50000000-0000-0000-0000-00000000",
+                  id: "50000000-0000-0000-0000-00000000B",
                   deepClientField: true,
                   nested5: {
                     data: []
@@ -414,17 +416,26 @@ test("convertToInsertInput - deep nested realworld example", () => {
         }
       ]
     },
-    related_id: "70000000-0000-0000-0000-00000000",
     relatedObject: {
       data: {
-        id: "80000000-0000-0000-0000-00000000"
+        id: "80000000-0000-0000-0000-00000000B"
       }
     }
   };
 
   const insertInputRecursive = convertToInsertInput({
     fragment: realWorldExample,
-    fieldMap: { nested1: "nested1", nested2: "nested2", nested3A: "nested3", nested3B: "nested3", nested4: "nested4", nested5: "nested5", relatedObject: "relatedObject" }
+    fieldMap: {
+      typenames: { nested1: "nested1", nested2: "nested2", nested3A: "nested3", nested3B: "nested3", nested4: "nested4", nested5: "nested5", relatedObject: "relatedObject" },
+      replace: {
+        id: (originalVal: string) => {
+          return `${originalVal}B`;
+        }
+      },
+      ignore: {
+        related_id: true
+      }
+    }
   });
 
   console.log(` ------> insertInputRecursive`, JSON.stringify(insertInputRecursive, null, 2));
@@ -432,5 +443,6 @@ test("convertToInsertInput - deep nested realworld example", () => {
 
   expect(insertInputRecursive).toMatchObject(expected);
   expect(insertInputRecursive.__typename).toBeUndefined();
+  expect(insertInputRecursive.related_id).toBeUndefined();
   expect(insertInputRecursive.nested1.data.__typename).toBeUndefined();
 });
