@@ -428,7 +428,7 @@ test("convertToInsertInput - deep nested realworld example", () => {
     fieldMap: {
       typenames: { nested1: "nested1", nested2: "nested2", nested3A: "nested3", nested3B: "nested3", nested4: "nested4", nested5: "nested5", relatedObject: "relatedObject" },
       replace: {
-        id: (originalVal: string) => {
+        id: (fieldname: string, originalVal: string) => {
           return `${originalVal}B`;
         }
       },

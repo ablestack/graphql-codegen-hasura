@@ -163,7 +163,7 @@ export function convertObjectToGraph({ input, fieldMap }: { input: object; field
     }
     const convertedKey = convertInsertInputClientFieldnameToGraphFieldname({ fieldname: key });
     if (fieldMap.replace[key]) {
-      o[convertedKey] = fieldMap.replace[key](value);
+      o[convertedKey] = fieldMap.replace[key](key, value);
     } else {
       o[convertedKey] = _convertToGraph({ value, key: convertedKey, fieldMap });
     }
@@ -235,7 +235,7 @@ function convertObjectToInsertInput({ object, fieldMap }: { object: object; fiel
       continue;
     }
     if (fieldMap.replace[key]) {
-      o[key] = fieldMap.replace[key](value);
+      o[key] = fieldMap.replace[key](key, value);
     } else {
       o[key] = _convertToInsertInput({ value, key, fieldMap });
     }
