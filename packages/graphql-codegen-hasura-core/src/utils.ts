@@ -13,14 +13,14 @@ export function generateOptimisticResponseForMutation<T>({
   operationType: "update" | "insert" | "delete";
   entityName: string;
   objects: { id: any }[];
-  fieldMap?: StrictFieldMap;
+  fieldMap?: FieldMap;
 }): T {
   const optimisticResponse = ({
     __typename: "mutation_root",
     [`${operationType}_${entityName}`]: {
       affected_rows: objects.length,
       returning: objects.map(object => {
-        if (operationType === "insert") return convertObjectToGraph({ input: object, fieldMap });
+        if (operationType === "insert") return convertObjectToGraph({ input: object, fieldMap: makeStrictFieldmap(fieldMap) });
         else return { ...object, __typename: entityName };
       }),
       __typename: `${entityName}_mutation_response`
