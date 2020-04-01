@@ -18,10 +18,3 @@ export const VehicleLocationOnlyFragmentDoc = gql`
     }
   }
 `;
-
-export const DogFragmentDoc = gql`
-  fragment Dog on dogs {
-    breed
-    id
-  }
-`;

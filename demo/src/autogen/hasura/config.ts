@@ -3,8 +3,6 @@ import { ApolloCache, NormalizedCacheObject, ApolloClient, StoreObject } from '@
 import { TypePolicies } from '@apollo/client/cache/inmemory/policies';
 import { Vehicle } from '../';
 import { Query_RootVehicleArgs } from '../';
-import { Dogs } from '../';
-import { Query_RootDogsArgs } from '../';
 
     export interface ApolloContext {
       cache: ApolloCache<NormalizedCacheObject>;
@@ -55,51 +53,6 @@ import { Query_RootDogsArgs } from '../';
               keyArgs: ["id"],
               read(existingData, { args, toReference }) {
                 return existingData || toReference({ __typename: 'vehicle', id: args!.id });
-              },
-            }
-          },
-        },
-      };
-  
-
-  // dogs Resolver Types
-  //------------------------------------------------
-
-  /** 
-   *  The dogs Resolver types can be used as follows:
-   * 
-   *  export const DogsResolvers: RootResolver<DogsResolverMap> = {
-   *    dogs: {
-   *      anyFieldName: (dogs, args, context, info) => {
-   *        return dogs.anyFieldName;
-   *      },
-   *     },
-   *  };
-  */
-
-  //------------------------------------------------
-  
-
-  export interface DogsResolverFn<TContext> {
-    (dogs: Partial<Dogs>, args: Query_RootDogsArgs, context: TContext, info: any): any;
-  }
-
-  export interface DogsResolverMap<TContext = ApolloContext> {
-    [field: string]: DogsResolverFn<TContext>;
-  }
-  
-
-    // dogs Type Policy
-    //------------------------------------------------
-  
-
-      export const DogsTypePoliciesConfig: TypePolicies = {
-        Query: {
-          fields: {
-            dogs_by_pk:{
-              keyArgs: ["id"],
-              read(existingData, { args, toReference }) {
-                return existingData || toReference({ __typename: 'dogs', id: args!.id });
               },
             }
           },
