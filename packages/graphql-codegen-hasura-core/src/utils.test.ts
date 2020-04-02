@@ -341,6 +341,7 @@ test("convertToInsertInput - deep nested realworld example", () => {
         id: "10000000-0000-0000-0000-00000000",
         title: "Title",
         type: "Type",
+        clientOnlyField: true,
         nested2: {
           __typename: "nested2",
           id: "20000000-0000-0000-0000-00000000",
@@ -361,7 +362,9 @@ test("convertToInsertInput - deep nested realworld example", () => {
             __typename: "nested3",
             id: "50000000-0000-0000-0000-00000000",
             deepClientField: true,
-            nested5: []
+            nested5: [],
+            created_at: "2020-03-20T12:46:22.558695+00:00",
+            updated_at: "2020-03-20T12:46:22.558695+00:00"
           }
         }
       }
@@ -384,6 +387,7 @@ test("convertToInsertInput - deep nested realworld example", () => {
           id: "10000000-0000-0000-0000-00000000B",
           title: "Title",
           type: "Type",
+          ___clientOnlyField: true,
           nested2: {
             data: {
               id: "20000000-0000-0000-0000-00000000B",
@@ -432,17 +436,22 @@ test("convertToInsertInput - deep nested realworld example", () => {
           return `${originalVal}B`;
         }
       },
+      clientOnly: { clientOnlyField: true },
       ignore: {
         related_id: true
       }
     }
   });
 
-  console.log(` ------> insertInputRecursive`, JSON.stringify(insertInputRecursive, null, 2));
-  console.log(` ------> expected`, JSON.stringify(expected, null, 2));
+  // console.log(` ------> insertInputRecursive`, JSON.stringify(insertInputRecursive, null, 2));
+  // console.log(` ------> expected`, JSON.stringify(expected, null, 2));
 
   expect(insertInputRecursive).toMatchObject(expected);
   expect(insertInputRecursive.__typename).toBeUndefined();
   expect(insertInputRecursive.related_id).toBeUndefined();
-  expect(insertInputRecursive.nested1.data.__typename).toBeUndefined();
+  expect(insertInputRecursive.nested1.data[0]).toBeDefined();
+  expect(insertInputRecursive.nested1.data[0].__typename).toBeUndefined();
+  expect(insertInputRecursive.nested1.data[0].nested2.data.nested3B.data).toBeDefined();
+  expect(insertInputRecursive.nested1.data[0].nested2.data.nested3B.data.created_at).toBeUndefined();
+  expect(insertInputRecursive.nested1.data[0].nested2.data.nested3B.data.updated_at).toBeUndefined();
 });

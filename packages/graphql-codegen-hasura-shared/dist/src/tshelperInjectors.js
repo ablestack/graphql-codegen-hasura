@@ -322,9 +322,17 @@ function injectInsertHelpers({ contentManager, entityNamedType, fragmentName, tr
     type Insert${fragmentNamePascalCase}ObjectsFetchResult = FetchResult<Insert${fragmentNamePascalCase}Mutation, Record<string, any>, Record<string, any>>;
     export type Insert${fragmentNamePascalCase}ObjectsHelperResultEx = Insert${fragmentNamePascalCase}ObjectsFetchResult & ${fragmentNamePascalCase}ObjectsHelperResultEx;
 
-    async function insert${fragmentNamePascalCase}Objects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables>, 'mutation'> }): Promise<Insert${fragmentNamePascalCase}ObjectsHelperResultEx> {
-      const mutation: Insert${fragmentNamePascalCase}ObjectsFetchResult = await apolloClient.mutate<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables>({ mutation: Insert${fragmentNamePascalCase}Document, ...options });
-       
+    async function insert${fragmentNamePascalCase}Objects({ apolloClient, objects, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<object>, objects: ${entityPascalName}_Insert_Input[], autoOptimisticResponse?:boolean, fieldMap?: FieldMap, options?: Omit<MutationOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables>, 'mutation' | 'variables'> }): Promise<Insert${fragmentNamePascalCase}ObjectsHelperResultEx> {
+      const objectsForInsert = objects.map(objectItem => stripInsertInputClientFields({ input: objectItem }));
+      const mutationOptions:MutationOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables> = { mutation: Insert${fragmentNamePascalCase}Document, variables: { objects: objectsForInsert }, ...options };
+      if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
+        if(objectsForInsert.find(objectItem => !objectItem.id)) throw new Error(\`if autoOptimisticResponse = true, ids must be set in objects\`); 
+        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Insert${fragmentNamePascalCase}Mutation>({ operationType: 'insert', entityName:'${entityNamedType.name}', objects:objectsForInsert as (${entityPascalName}_Insert_Input & ObjectWithId)[], fieldMap }); 
+        if(logLevel >= 2) console.log(' --> insert${fragmentNamePascalCase} - optimisticResponse:', mutationOptions.optimisticResponse);
+      }
+      
+      const mutation: Insert${fragmentNamePascalCase}ObjectsFetchResult = await apolloClient.mutate<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables>(mutationOptions);
+        
       return { ...mutation, objects: mutation?.data?.insert_${entityNamedType.name}?.returning || [] };
     }
   `);

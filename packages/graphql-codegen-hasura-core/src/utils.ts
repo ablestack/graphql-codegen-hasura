@@ -1,6 +1,7 @@
 import { defaultDataIdFromObject } from "@apollo/client";
 import { StrictFieldMap, INSERT_INPUT_CLIENT_FIELDNAME_PREFIX, FieldMap } from ".";
 import { PostGresUtils } from "./postgres.utils";
+import { key_created_at, key_updated_at, key_typename } from "./types";
 
 // Optimistic response generation utility method
 //
@@ -91,8 +92,8 @@ export function ensureTypenameOnFragments(object: any[], typename: string) {
   return object.map(arrayItem => ensureTypenameOnFragment(object, typename));
 }
 
-export function makeStrictFieldmap({ typenames, ignore, replace }: FieldMap): StrictFieldMap {
-  return { typenames: typenames || {}, ignore: ignore || {}, replace: replace || {} };
+export function makeStrictFieldmap({ typenames, ignore, clientOnly, replace }: FieldMap): StrictFieldMap {
+  return { typenames: typenames || {}, ignore: ignore || {}, clientOnly: clientOnly || {}, replace: replace || {} };
 }
 
 // -----------------------------------------------------------------------------------------------------------------------
@@ -177,7 +178,7 @@ export function convertObjectToGraph({ input, fieldMap }: { input: object; field
  */
 function _convertToGraph({ value, key, fieldMap }: { value: any; key?: string; fieldMap?: StrictFieldMap }) {
   if (value === null || value === undefined) {
-    if (key === "created_at" || key === "updated_at") {
+    if (key === key_created_at || key === key_updated_at) {
       return PostGresUtils.getTSWTZ();
     }
     return null;
@@ -218,7 +219,7 @@ export function convertToGraph({ input, typename, fieldMap }: { input: any; type
 // Series of functions for helping handle translations between Fragment Graphs and InsertInput Graphs
 // -- Mainly used when cloning an object graph
 // -----------------------------------------------------------------------------------------------------
-const FRAGMENT_ONLY_FIELDNAMES = ["__typename"];
+const FRAGMENT_ONLY_FIELDNAMES = [key_typename, key_created_at, key_updated_at];
 function fragmentOnlyField({ key }: { key: string }) {
   return FRAGMENT_ONLY_FIELDNAMES.find(fofnItem => fofnItem === key);
 }
@@ -236,9 +237,13 @@ function convertObjectToInsertInput({ object, fieldMap }: { object: object; fiel
     }
     if (fieldMap.replace[key]) {
       o[key] = fieldMap.replace[key](key, value);
-    } else {
-      o[key] = _convertToInsertInput({ value, key, fieldMap });
+      continue;
     }
+    if (fieldMap.clientOnly[key]) {
+      o[`${INSERT_INPUT_CLIENT_FIELDNAME_PREFIX}${key}`] = _convertToInsertInput({ value, key, fieldMap });
+      continue;
+    }
+    o[key] = _convertToInsertInput({ value, key, fieldMap });
   }
 
   return o;
