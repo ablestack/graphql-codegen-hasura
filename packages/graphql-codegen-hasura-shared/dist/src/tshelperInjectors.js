@@ -81,38 +81,68 @@ function injectClientAndCacheHelpers({ contentManager, entityNamedType, fragment
     }
 
     function clientReadQuery${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id}: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName} }): ${fragmentNamePascalCase}Fragment | null | undefined {
-      return apolloClient.readQuery<${fragmentNamePascalCase}Fragment | null >({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }  });
+      try {
+        return apolloClient.readQuery<${fragmentNamePascalCase}Fragment | null >({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }  });
+      } catch (error) {
+        //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
+        console.warn('clientReadQuery${fragmentNamePascalCase}ById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
+      }
     }
 
     function clientWriteQuery${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}: ${fragmentNamePascalCase}Fragment | ${entityPascalName}_Insert_Input | null, fieldMap?: FieldMap }): void {
-      const ${fragmentNameCamelCase}Partial = convertToGraph({ input:${fragmentNameCamelCase}, typename:'${entityNamedType.name}', fieldMap });
-      return apolloClient.writeQuery<${fragmentNamePascalCase}Fragment | null>({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, data: (${fragmentNameCamelCase} ? ${fragmentNameCamelCase}Partial : null) });
+      try {
+        const ${fragmentNameCamelCase}Partial = convertToGraph({ input:${fragmentNameCamelCase}, typename:'${entityNamedType.name}', fieldMap });
+        return apolloClient.writeQuery<${fragmentNamePascalCase}Fragment | null>({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, data: (${fragmentNameCamelCase} ? ${fragmentNameCamelCase}Partial : null) });
+      } catch (error) {
+        //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
+        console.warn('clientWriteQuery${fragmentNamePascalCase}ById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
+      }
     }
 
     function cacheWriteQuery${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}: ${fragmentNamePascalCase}Fragment | ${entityPascalName}_Insert_Input | null, fieldMap?: FieldMap }): void {
-      const ${fragmentNameCamelCase}Partial = convertToGraph({ input:${fragmentNameCamelCase}, typename:'${entityNamedType.name}', fieldMap });
-      return apolloClient.cache.writeQuery<${fragmentNamePascalCase}Fragment | null>({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, data: (${fragmentNameCamelCase} ? ${fragmentNameCamelCase}Partial : null) });
+      try {
+        const ${fragmentNameCamelCase}Partial = convertToGraph({ input:${fragmentNameCamelCase}, typename:'${entityNamedType.name}', fieldMap });
+        return apolloClient.cache.writeQuery<${fragmentNamePascalCase}Fragment | null>({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, data: (${fragmentNameCamelCase} ? ${fragmentNameCamelCase}Partial : null) });
+      } catch (error) {
+        //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
+        console.warn('cacheWriteQuery${fragmentNamePascalCase}ById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
+      }
     }
     
     function clientReadQuery${fragmentNamePascalCase}Objects({ apolloClient, variables }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables }): ${entityPascalName}[] | null | undefined {
-      return apolloClient.readQuery<{${entityPascalName}:${entityPascalName}[] | null}>({ query: ${queryObjectsName}Document, variables })?.${entityPascalName} || [];
+      try {
+        return apolloClient.readQuery<{${entityPascalName}:${entityPascalName}[] | null}>({ query: ${queryObjectsName}Document, variables })?.${entityPascalName} || [];
+      } catch (error) {
+        //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
+        console.warn('clientReadQuery${fragmentNamePascalCase}Objects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
+      }
     }
 
     function clientWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:(${entityPascalName} | ${entityPascalName}_Insert_Input)[], fieldMap?: FieldMap }): void {
-      const objects = convertToGraph({ input:data, typename:'${entityNamedType.name}', fieldMap });
-      return apolloClient.writeQuery<{${entityPascalName}:${entityPascalName}[]}>({ query: ${queryObjectsName}Document, variables, data: { ${entityPascalName}:objects } });
+      try {
+        const objects = convertToGraph({ input:data, typename:'${entityNamedType.name}', fieldMap });
+        return apolloClient.writeQuery<{${entityPascalName}:${entityPascalName}[]}>({ query: ${queryObjectsName}Document, variables, data: { ${entityPascalName}:objects } });
+      } catch (error) {
+        //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
+        console.warn('clientWriteQuery${fragmentNamePascalCase}Objects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
+      }
     }
 
     function cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:(${entityPascalName} | ${entityPascalName}_Insert_Input)[], fieldMap?: FieldMap }): void {
-      const objects = convertToGraph({ input:data, typename:'${entityNamedType.name}', fieldMap });
-      return apolloClient.cache.writeQuery<{${entityPascalName}:${entityPascalName}[]}>({ query: ${queryObjectsName}Document, variables, data: { ${entityPascalName}:objects } });
+      try {   
+        const objects = convertToGraph({ input:data, typename:'${entityNamedType.name}', fieldMap });
+        return apolloClient.cache.writeQuery<{${entityPascalName}:${entityPascalName}[]}>({ query: ${queryObjectsName}Document, variables, data: { ${entityPascalName}:objects } });
+      } catch (error) {
+        //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
+        console.warn('cacheWriteQuery${fragmentNamePascalCase}Objects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
+      }
     }
 
     function clientWriteQuery${fragmentNamePascalCase}Insert({ apolloClient, variables, ${entityShortCamelCaseName}, fieldMap }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, ${entityShortCamelCaseName}:${entityPascalName}_Insert_Input, fieldMap?: FieldMap }): void {
       const currentObjects = clientReadQuery${fragmentNamePascalCase}Objects({ apolloClient, variables }) || [];
       const objectsWithInserted = [ ...currentObjects, convertToGraph({ input: ${entityShortCamelCaseName}, typename:'${entityNamedType.name}', fieldMap })];
       if(logLevel >= 2) console.log(' --> clientWriteQuery${fragmentNamePascalCase}Insert - objectsWithInserted:', objectsWithInserted);
-      return clientWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data: objectsWithInserted });
+      return clientWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data: objectsWithInserted });  
     }
 
     function cacheWriteQuery${fragmentNamePascalCase}Insert({ apolloClient, variables, ${entityShortCamelCaseName}, fieldMap }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, ${entityShortCamelCaseName}:${entityPascalName}_Insert_Input, fieldMap?: FieldMap }): void {
