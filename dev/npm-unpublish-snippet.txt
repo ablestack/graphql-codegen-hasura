@@ -1,0 +1,6 @@
+ npm unpublish graphql-codegen-hasura-client-config@<version>
+ npm unpublish graphql-codegen-hasura-core@<version> 
+ npm unpublish graphql-codegen-hasura-gql@<version>
+ npm unpublish graphql-codegen-hasura-react@<version>
+ npm unpublish graphql-codegen-hasura-shared@<version>
+ npm unpublish graphql-codegen-hasura-typescript@<version>
