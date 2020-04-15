@@ -1,12 +1,12 @@
 import { FieldDefinitionNode, FragmentDefinitionNode, GraphQLNamedType } from "graphql";
 import { ContentManager } from ".";
 import { TypeMap } from "graphql/type/schema";
-export declare function injectGlobalHelperCodePre({ contentManager, typescriptCodegenOutputPath, withUpdates }: {
+export declare function injectGlobalHelperCodePre({ contentManager, typescriptCodegenOutputPath, withUpdates, }: {
     contentManager: ContentManager;
     typescriptCodegenOutputPath: string;
     withUpdates: boolean;
 }): void;
-export declare function injectSharedHelpersPre({ contentManager, entityNamedType, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }: {
+export declare function injectSharedHelpersPre({ contentManager, entityNamedType, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }: {
     contentManager: ContentManager;
     entityNamedType: GraphQLNamedType;
     fragmentName: string;
@@ -14,7 +14,7 @@ export declare function injectSharedHelpersPre({ contentManager, entityNamedType
     primaryKeyIdField: FieldDefinitionNode;
     typescriptCodegenOutputPath: string;
 }): void;
-export declare function injectClientAndCacheHelpers({ contentManager, entityNamedType, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }: {
+export declare function injectClientAndCacheHelpers({ contentManager, entityNamedType, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }: {
     contentManager: ContentManager;
     entityNamedType: GraphQLNamedType;
     fragmentName: string;
@@ -22,7 +22,7 @@ export declare function injectClientAndCacheHelpers({ contentManager, entityName
     primaryKeyIdField?: FieldDefinitionNode | null;
     typescriptCodegenOutputPath: string;
 }): void;
-export declare function injectQueryHelpers({ contentManager, entityNamedType, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }: {
+export declare function injectQueryHelpers({ contentManager, entityNamedType, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }: {
     contentManager: ContentManager;
     entityNamedType: GraphQLNamedType;
     fragmentName: string;
@@ -30,7 +30,7 @@ export declare function injectQueryHelpers({ contentManager, entityNamedType, fr
     primaryKeyIdField?: FieldDefinitionNode | null;
     typescriptCodegenOutputPath: string;
 }): void;
-export declare function injectSubscriptionHelpers({ contentManager, entityNamedType, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }: {
+export declare function injectSubscriptionHelpers({ contentManager, entityNamedType, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }: {
     contentManager: ContentManager;
     entityNamedType: GraphQLNamedType;
     fragmentName: string;
@@ -38,7 +38,7 @@ export declare function injectSubscriptionHelpers({ contentManager, entityNamedT
     primaryKeyIdField?: FieldDefinitionNode | null;
     typescriptCodegenOutputPath: string;
 }): void;
-export declare function injectInsertHelpers({ contentManager, entityNamedType, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }: {
+export declare function injectInsertHelpers({ contentManager, entityNamedType, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }: {
     contentManager: ContentManager;
     entityNamedType: GraphQLNamedType;
     fragmentName: string;
@@ -46,7 +46,7 @@ export declare function injectInsertHelpers({ contentManager, entityNamedType, f
     primaryKeyIdField: FieldDefinitionNode;
     typescriptCodegenOutputPath: string;
 }): void;
-export declare function injectUpdateHelpers({ contentManager, entityNamedType, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }: {
+export declare function injectUpdateHelpers({ contentManager, entityNamedType, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }: {
     contentManager: ContentManager;
     entityNamedType: GraphQLNamedType;
     fragmentName: string;
@@ -54,7 +54,7 @@ export declare function injectUpdateHelpers({ contentManager, entityNamedType, f
     primaryKeyIdField: FieldDefinitionNode;
     typescriptCodegenOutputPath: string;
 }): void;
-export declare function injectDeleteHelpers({ contentManager, entityNamedType, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }: {
+export declare function injectDeleteHelpers({ contentManager, entityNamedType, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }: {
     contentManager: ContentManager;
     entityNamedType: GraphQLNamedType;
     fragmentName: string;
@@ -62,7 +62,7 @@ export declare function injectDeleteHelpers({ contentManager, entityNamedType, f
     primaryKeyIdField: FieldDefinitionNode;
     typescriptCodegenOutputPath: string;
 }): void;
-export declare function injectSharedHelpersPost({ contentManager, entityNamedType, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, withClientAndCacheHelpers, withQueries, withSubscriptions, withInserts, withUpdates, withDeletes }: {
+export declare function injectSharedHelpersPost({ contentManager, entityNamedType, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, withClientAndCacheHelpers, withQueries, withSubscriptions, withInserts, withUpdates, withDeletes, }: {
     contentManager: ContentManager;
     entityNamedType: GraphQLNamedType;
     fragmentName: string;
@@ -76,7 +76,7 @@ export declare function injectSharedHelpersPost({ contentManager, entityNamedTyp
     withUpdates?: boolean;
     withDeletes?: boolean;
 }): void;
-export declare function injectGlobalHelperCodePost({ contentManager, fragmentDefinitionNodes, schemaTypeMap, trimString, withClientAndCacheHelpers, withQueries, withInserts, withUpdates, withDeletes }: {
+export declare function injectGlobalHelperCodePost({ contentManager, fragmentDefinitionNodes, schemaTypeMap, trimString, withClientAndCacheHelpers, withQueries, withInserts, withUpdates, withDeletes, }: {
     contentManager: ContentManager;
     fragmentDefinitionNodes: FragmentDefinitionNode[];
     schemaTypeMap: TypeMap;

@@ -18,6 +18,7 @@ import { SubscribeToVehicleObjectsSubscriptionVariables } from '../';
 import { Vehicle_Insert_Input } from '../';
 import { Vehicle_On_Conflict } from '../';
 import { InsertVehicleMutation } from '../';
+import { InsertVehicleWithOnConflictMutation } from '../';
 import { InsertVehicleMutationVariables } from '../';
 import { InsertVehicleWithOnConflictMutationVariables } from '../';
 import { InsertVehicleDocument } from '../';
@@ -50,6 +51,7 @@ import { SubscribeToVehicleLocationOnlyObjectsSubscription } from '../';
 import { SubscribeToVehicleLocationOnlyObjectsDocument } from '../';
 import { SubscribeToVehicleLocationOnlyObjectsSubscriptionVariables } from '../';
 import { InsertVehicleLocationOnlyMutation } from '../';
+import { InsertVehicleLocationOnlyWithOnConflictMutation } from '../';
 import { InsertVehicleLocationOnlyMutationVariables } from '../';
 import { InsertVehicleLocationOnlyWithOnConflictMutationVariables } from '../';
 import { InsertVehicleLocationOnlyDocument } from '../';
@@ -110,6 +112,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('clientReadQueryVehicleById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
+      return undefined;
     }
 
     function clientWriteQueryVehicleById({ apolloClient, vehicleId, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: VehicleFragment | Vehicle_Insert_Input | null, fieldMap?: FieldMap }): void {
@@ -120,6 +123,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('clientWriteQueryVehicleById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
+      return undefined;
     }
 
     function cacheWriteQueryVehicleById({ apolloClient, vehicleId, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: VehicleFragment | Vehicle_Insert_Input | null, fieldMap?: FieldMap }): void {
@@ -130,6 +134,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('cacheWriteQueryVehicleById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
+      return undefined;
     }
     
     function clientReadQueryVehicleObjects({ apolloClient, variables }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables }): Vehicle[] | null | undefined {
@@ -139,6 +144,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('clientReadQueryVehicleObjects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
+      return undefined;
     }
 
     function clientWriteQueryVehicleObjects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables, data:(Vehicle | Vehicle_Insert_Input)[], fieldMap?: FieldMap }): void {
@@ -149,6 +155,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('clientWriteQueryVehicleObjects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
+      return undefined;
     }
 
     function cacheWriteQueryVehicleObjects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables, data:(Vehicle | Vehicle_Insert_Input)[], fieldMap?: FieldMap }): void {
@@ -159,6 +166,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('cacheWriteQueryVehicleObjects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
+      return undefined;
     }
 
     function clientWriteQueryVehicleInsert({ apolloClient, variables, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables, vehicle:Vehicle_Insert_Input, fieldMap?: FieldMap }): void {
@@ -271,16 +279,16 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       return { ...mutation, vehicle: mutation?.data?.insert_vehicle?.returning && mutation.data.insert_vehicle.returning[0] };
     }
 
-    async function insertVehicleWithOnConflict({ apolloClient, vehicle, onConflict, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, onConflict: Vehicle_On_Conflict, autoOptimisticResponse?:boolean, fieldMap?: FieldMap, options?: Omit<MutationOptions<InsertVehicleMutation, InsertVehicleMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleFetchHelperResultEx> {
+    async function insertVehicleWithOnConflict({ apolloClient, vehicle, onConflict, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, onConflict: Vehicle_On_Conflict, autoOptimisticResponse?:boolean, fieldMap?: FieldMap, options?: Omit<MutationOptions<InsertVehicleWithOnConflictMutation, InsertVehicleWithOnConflictMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleFetchHelperResultEx> {
       const objectForInsert = stripInsertInputClientFields({ input: vehicle });
-      const mutationOptions:MutationOptions<InsertVehicleMutation, InsertVehicleWithOnConflictMutationVariables> = { mutation: InsertVehicleDocument, variables: { objects: [objectForInsert], onConflict }, ...options };
+      const mutationOptions:MutationOptions<InsertVehicleWithOnConflictMutation, InsertVehicleWithOnConflictMutationVariables> = { mutation: InsertVehicleWithOnConflictDocument, variables: { objects: [objectForInsert], onConflict }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
         if(!objectForInsert.id) throw new Error(`if autoOptimisticResponse = true, id must be set in object 'vehicle'`); 
-        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertVehicleMutation>({ operationType: 'insert', entityName:'vehicle', objects:[objectForInsert as Vehicle_Insert_Input & ObjectWithId], fieldMap }); 
+        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertVehicleWithOnConflictMutation>({ operationType: 'insert', entityName:'vehicle', objects:[objectForInsert as Vehicle_Insert_Input & ObjectWithId], fieldMap }); 
         if(logLevel >= 2) console.log(' --> insertVehicleWithOnConflict - optimisticResponse:', mutationOptions.optimisticResponse);
       }
       
-      const mutation:InsertVehicleFetchResult = await apolloClient.mutate<InsertVehicleMutation, InsertVehicleWithOnConflictMutationVariables>(mutationOptions);
+      const mutation:InsertVehicleFetchResult = await apolloClient.mutate<InsertVehicleWithOnConflictMutation, InsertVehicleWithOnConflictMutationVariables>(mutationOptions);
         
       return { ...mutation, vehicle: mutation?.data?.insert_vehicle?.returning && mutation.data.insert_vehicle.returning[0] };
     }
@@ -450,6 +458,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('clientReadQueryVehicleLocationOnlyById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
+      return undefined;
     }
 
     function clientWriteQueryVehicleLocationOnlyById({ apolloClient, vehicleId, vehicleLocationOnly, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicleLocationOnly: VehicleLocationOnlyFragment | Vehicle_Insert_Input | null, fieldMap?: FieldMap }): void {
@@ -460,6 +469,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('clientWriteQueryVehicleLocationOnlyById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
+      return undefined;
     }
 
     function cacheWriteQueryVehicleLocationOnlyById({ apolloClient, vehicleId, vehicleLocationOnly, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicleLocationOnly: VehicleLocationOnlyFragment | Vehicle_Insert_Input | null, fieldMap?: FieldMap }): void {
@@ -470,6 +480,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('cacheWriteQueryVehicleLocationOnlyById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
+      return undefined;
     }
     
     function clientReadQueryVehicleLocationOnlyObjects({ apolloClient, variables }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables }): Vehicle[] | null | undefined {
@@ -479,6 +490,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('clientReadQueryVehicleLocationOnlyObjects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
+      return undefined;
     }
 
     function clientWriteQueryVehicleLocationOnlyObjects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, data:(Vehicle | Vehicle_Insert_Input)[], fieldMap?: FieldMap }): void {
@@ -489,6 +501,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('clientWriteQueryVehicleLocationOnlyObjects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
+      return undefined;
     }
 
     function cacheWriteQueryVehicleLocationOnlyObjects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, data:(Vehicle | Vehicle_Insert_Input)[], fieldMap?: FieldMap }): void {
@@ -499,6 +512,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('cacheWriteQueryVehicleLocationOnlyObjects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
+      return undefined;
     }
 
     function clientWriteQueryVehicleLocationOnlyInsert({ apolloClient, variables, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, vehicle:Vehicle_Insert_Input, fieldMap?: FieldMap }): void {
@@ -611,16 +625,16 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       return { ...mutation, vehicleLocationOnly: mutation?.data?.insert_vehicle?.returning && mutation.data.insert_vehicle.returning[0] };
     }
 
-    async function insertVehicleLocationOnlyWithOnConflict({ apolloClient, vehicle, onConflict, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, onConflict: Vehicle_On_Conflict, autoOptimisticResponse?:boolean, fieldMap?: FieldMap, options?: Omit<MutationOptions<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleLocationOnlyFetchHelperResultEx> {
+    async function insertVehicleLocationOnlyWithOnConflict({ apolloClient, vehicle, onConflict, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, onConflict: Vehicle_On_Conflict, autoOptimisticResponse?:boolean, fieldMap?: FieldMap, options?: Omit<MutationOptions<InsertVehicleLocationOnlyWithOnConflictMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleLocationOnlyFetchHelperResultEx> {
       const objectForInsert = stripInsertInputClientFields({ input: vehicle });
-      const mutationOptions:MutationOptions<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables> = { mutation: InsertVehicleLocationOnlyDocument, variables: { objects: [objectForInsert], onConflict }, ...options };
+      const mutationOptions:MutationOptions<InsertVehicleLocationOnlyWithOnConflictMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables> = { mutation: InsertVehicleLocationOnlyWithOnConflictDocument, variables: { objects: [objectForInsert], onConflict }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
         if(!objectForInsert.id) throw new Error(`if autoOptimisticResponse = true, id must be set in object 'vehicle'`); 
-        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertVehicleLocationOnlyMutation>({ operationType: 'insert', entityName:'vehicle', objects:[objectForInsert as Vehicle_Insert_Input & ObjectWithId], fieldMap }); 
+        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertVehicleLocationOnlyWithOnConflictMutation>({ operationType: 'insert', entityName:'vehicle', objects:[objectForInsert as Vehicle_Insert_Input & ObjectWithId], fieldMap }); 
         if(logLevel >= 2) console.log(' --> insertVehicleLocationOnlyWithOnConflict - optimisticResponse:', mutationOptions.optimisticResponse);
       }
       
-      const mutation:InsertVehicleLocationOnlyFetchResult = await apolloClient.mutate<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables>(mutationOptions);
+      const mutation:InsertVehicleLocationOnlyFetchResult = await apolloClient.mutate<InsertVehicleLocationOnlyWithOnConflictMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables>(mutationOptions);
         
       return { ...mutation, vehicleLocationOnly: mutation?.data?.insert_vehicle?.returning && mutation.data.insert_vehicle.returning[0] };
     }

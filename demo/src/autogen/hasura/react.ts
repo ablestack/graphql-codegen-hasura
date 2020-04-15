@@ -16,6 +16,7 @@ import { SubscribeToVehicleObjectsSubscriptionVariables } from '../';
 import { Vehicle_Insert_Input } from '../';
 import { Vehicle_On_Conflict } from '../';
 import { InsertVehicleMutation } from '../';
+import { InsertVehicleWithOnConflictMutation } from '../';
 import { InsertVehicleMutationVariables } from '../';
 import { InsertVehicleWithOnConflictMutationVariables } from '../';
 import { InsertVehicleDocument } from '../';
@@ -47,6 +48,7 @@ import { SubscribeToVehicleLocationOnlyObjectsSubscription } from '../';
 import { SubscribeToVehicleLocationOnlyObjectsDocument } from '../';
 import { SubscribeToVehicleLocationOnlyObjectsSubscriptionVariables } from '../';
 import { InsertVehicleLocationOnlyMutation } from '../';
+import { InsertVehicleLocationOnlyWithOnConflictMutation } from '../';
 import { InsertVehicleLocationOnlyMutationVariables } from '../';
 import { InsertVehicleLocationOnlyWithOnConflictMutationVariables } from '../';
 import { InsertVehicleLocationOnlyDocument } from '../';
@@ -231,21 +233,24 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
     //
 
     // Types
-    type InsertVehicleWithOnConflictLazyMutationFn = MutationTuple<InsertVehicleMutation, InsertVehicleWithOnConflictMutationVariables>;
-    type InsertVehicleWithOnConflictWrappedLazyMutationFn = ({ vehicle, onConflict, autoOptimisticResponse, options }: { vehicle: Vehicle_Insert_Input; onConflict: Vehicle_On_Conflict, autoOptimisticResponse?:boolean; options?: Omit<MutationFunctionOptions<InsertVehicleMutation, InsertVehicleWithOnConflictMutationVariables>, "variables">; }) => Promise<InsertVehicleMutationResultEx>;
-    export type InsertVehicleWithOnConflictLazyMutationReturn = [InsertVehicleWithOnConflictWrappedLazyMutationFn, InsertVehicleMutationResultEx];
+    type InsertVehicleWithOnConflictMutationResult = FetchResult<InsertVehicleWithOnConflictMutation, Record<string, any>, Record<string, any>>;
+    export type InsertVehicleWithOnConflictMutationResultEx = InsertVehicleWithOnConflictMutationResult & VehicleByIdHookResultEx;
+
+    type InsertVehicleWithOnConflictLazyMutationFn = MutationTuple<InsertVehicleWithOnConflictMutation, InsertVehicleWithOnConflictMutationVariables>;
+    type InsertVehicleWithOnConflictWrappedLazyMutationFn = ({ vehicle, onConflict, autoOptimisticResponse, options }: { vehicle: Vehicle_Insert_Input; onConflict: Vehicle_On_Conflict, autoOptimisticResponse?:boolean; options?: Omit<MutationFunctionOptions<InsertVehicleWithOnConflictMutation, InsertVehicleWithOnConflictMutationVariables>, "variables">; }) => Promise<InsertVehicleWithOnConflictMutationResultEx>;
+    export type InsertVehicleWithOnConflictLazyMutationReturn = [InsertVehicleWithOnConflictWrappedLazyMutationFn, InsertVehicleWithOnConflictMutationResultEx];
 
     // Function
-    function useInsertVehicleWithOnConflict( options?: Omit<MutationHookOptions<InsertVehicleMutation, InsertVehicleMutationVariables>, "mutation" | "variables"> ): InsertVehicleWithOnConflictLazyMutationReturn {
-      const lazyMutation: InsertVehicleWithOnConflictLazyMutationFn = useMutation<InsertVehicleMutation, InsertVehicleWithOnConflictMutationVariables>(InsertVehicleWithOnConflictDocument, options);
-      const pickVehicle: PickInsertVehicleFn = (mutation: InsertVehicleMutation | null | undefined) => { return mutation?.insert_vehicle?.returning && mutation.insert_vehicle.returning[0]; };
+    function useInsertVehicleWithOnConflict( options?: Omit<MutationHookOptions<InsertVehicleWithOnConflictMutation, InsertVehicleWithOnConflictMutationVariables>, "mutation" | "variables"> ): InsertVehicleWithOnConflictLazyMutationReturn {
+      const lazyMutation: InsertVehicleWithOnConflictLazyMutationFn = useMutation<InsertVehicleWithOnConflictMutation, InsertVehicleWithOnConflictMutationVariables>(InsertVehicleWithOnConflictDocument, options);
+      const pickVehicle: PickInsertVehicleFn = (mutation: InsertVehicleWithOnConflictMutation | null | undefined) => { return mutation?.insert_vehicle?.returning && mutation.insert_vehicle.returning[0]; };
 
       const wrappedLazyMutation:InsertVehicleWithOnConflictWrappedLazyMutationFn = async ({ vehicle, onConflict, autoOptimisticResponse, options }) => {
         const objectForInsert = stripInsertInputClientFields({ input: vehicle });
-        const mutationOptions:MutationFunctionOptions<InsertVehicleMutation, InsertVehicleWithOnConflictMutationVariables> = { variables: { objects: [objectForInsert], onConflict }, ...options };
+        const mutationOptions:MutationFunctionOptions<InsertVehicleWithOnConflictMutation, InsertVehicleWithOnConflictMutationVariables> = { variables: { objects: [objectForInsert], onConflict }, ...options };
         if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
           if(!objectForInsert.id) throw new Error(`if autoOptimisticResponse = true, id must be set in object 'vehicle'`);
-          mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertVehicleMutation>({ operationType: 'insert', entityName:'vehicle', objects:[objectForInsert as Vehicle_Insert_Input & ObjectWithId] }); 
+          mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertVehicleWithOnConflictMutation>({ operationType: 'insert', entityName:'vehicle', objects:[objectForInsert as Vehicle_Insert_Input & ObjectWithId] }); 
         }
 
         const fetchResult = await lazyMutation[0](mutationOptions);
@@ -602,21 +607,24 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
     //
 
     // Types
-    type InsertVehicleLocationOnlyWithOnConflictLazyMutationFn = MutationTuple<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables>;
-    type InsertVehicleLocationOnlyWithOnConflictWrappedLazyMutationFn = ({ vehicle, onConflict, autoOptimisticResponse, options }: { vehicle: Vehicle_Insert_Input; onConflict: Vehicle_On_Conflict, autoOptimisticResponse?:boolean; options?: Omit<MutationFunctionOptions<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables>, "variables">; }) => Promise<InsertVehicleLocationOnlyMutationResultEx>;
-    export type InsertVehicleLocationOnlyWithOnConflictLazyMutationReturn = [InsertVehicleLocationOnlyWithOnConflictWrappedLazyMutationFn, InsertVehicleLocationOnlyMutationResultEx];
+    type InsertVehicleLocationOnlyWithOnConflictMutationResult = FetchResult<InsertVehicleLocationOnlyWithOnConflictMutation, Record<string, any>, Record<string, any>>;
+    export type InsertVehicleLocationOnlyWithOnConflictMutationResultEx = InsertVehicleLocationOnlyWithOnConflictMutationResult & VehicleLocationOnlyByIdHookResultEx;
+
+    type InsertVehicleLocationOnlyWithOnConflictLazyMutationFn = MutationTuple<InsertVehicleLocationOnlyWithOnConflictMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables>;
+    type InsertVehicleLocationOnlyWithOnConflictWrappedLazyMutationFn = ({ vehicle, onConflict, autoOptimisticResponse, options }: { vehicle: Vehicle_Insert_Input; onConflict: Vehicle_On_Conflict, autoOptimisticResponse?:boolean; options?: Omit<MutationFunctionOptions<InsertVehicleLocationOnlyWithOnConflictMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables>, "variables">; }) => Promise<InsertVehicleLocationOnlyWithOnConflictMutationResultEx>;
+    export type InsertVehicleLocationOnlyWithOnConflictLazyMutationReturn = [InsertVehicleLocationOnlyWithOnConflictWrappedLazyMutationFn, InsertVehicleLocationOnlyWithOnConflictMutationResultEx];
 
     // Function
-    function useInsertVehicleLocationOnlyWithOnConflict( options?: Omit<MutationHookOptions<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyMutationVariables>, "mutation" | "variables"> ): InsertVehicleLocationOnlyWithOnConflictLazyMutationReturn {
-      const lazyMutation: InsertVehicleLocationOnlyWithOnConflictLazyMutationFn = useMutation<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables>(InsertVehicleLocationOnlyWithOnConflictDocument, options);
-      const pickVehicleLocationOnly: PickInsertVehicleLocationOnlyFn = (mutation: InsertVehicleLocationOnlyMutation | null | undefined) => { return mutation?.insert_vehicle?.returning && mutation.insert_vehicle.returning[0]; };
+    function useInsertVehicleLocationOnlyWithOnConflict( options?: Omit<MutationHookOptions<InsertVehicleLocationOnlyWithOnConflictMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables>, "mutation" | "variables"> ): InsertVehicleLocationOnlyWithOnConflictLazyMutationReturn {
+      const lazyMutation: InsertVehicleLocationOnlyWithOnConflictLazyMutationFn = useMutation<InsertVehicleLocationOnlyWithOnConflictMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables>(InsertVehicleLocationOnlyWithOnConflictDocument, options);
+      const pickVehicleLocationOnly: PickInsertVehicleLocationOnlyFn = (mutation: InsertVehicleLocationOnlyWithOnConflictMutation | null | undefined) => { return mutation?.insert_vehicle?.returning && mutation.insert_vehicle.returning[0]; };
 
       const wrappedLazyMutation:InsertVehicleLocationOnlyWithOnConflictWrappedLazyMutationFn = async ({ vehicle, onConflict, autoOptimisticResponse, options }) => {
         const objectForInsert = stripInsertInputClientFields({ input: vehicle });
-        const mutationOptions:MutationFunctionOptions<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables> = { variables: { objects: [objectForInsert], onConflict }, ...options };
+        const mutationOptions:MutationFunctionOptions<InsertVehicleLocationOnlyWithOnConflictMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables> = { variables: { objects: [objectForInsert], onConflict }, ...options };
         if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
           if(!objectForInsert.id) throw new Error(`if autoOptimisticResponse = true, id must be set in object 'vehicle'`);
-          mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertVehicleLocationOnlyMutation>({ operationType: 'insert', entityName:'vehicle', objects:[objectForInsert as Vehicle_Insert_Input & ObjectWithId] }); 
+          mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<InsertVehicleLocationOnlyWithOnConflictMutation>({ operationType: 'insert', entityName:'vehicle', objects:[objectForInsert as Vehicle_Insert_Input & ObjectWithId] }); 
         }
 
         const fetchResult = await lazyMutation[0](mutationOptions);

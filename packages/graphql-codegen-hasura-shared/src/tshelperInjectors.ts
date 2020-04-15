@@ -8,7 +8,7 @@ import { TypeMap } from "graphql/type/schema";
 export function injectGlobalHelperCodePre({
   contentManager,
   typescriptCodegenOutputPath,
-  withUpdates
+  withUpdates,
 }: {
   contentManager: ContentManager;
   typescriptCodegenOutputPath: string;
@@ -41,7 +41,7 @@ export function injectSharedHelpersPre({
   fragmentName,
   trimString,
   primaryKeyIdField,
-  typescriptCodegenOutputPath
+  typescriptCodegenOutputPath,
 }: {
   contentManager: ContentManager;
   entityNamedType: GraphQLNamedType;
@@ -80,7 +80,7 @@ export function injectClientAndCacheHelpers({
   fragmentName,
   trimString,
   primaryKeyIdField,
-  typescriptCodegenOutputPath
+  typescriptCodegenOutputPath,
 }: {
   contentManager: ContentManager;
   entityNamedType: GraphQLNamedType;
@@ -133,6 +133,7 @@ export function injectClientAndCacheHelpers({
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('clientReadQuery${fragmentNamePascalCase}ById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
+      return undefined;
     }
 
     function clientWriteQuery${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}: ${fragmentNamePascalCase}Fragment | ${entityPascalName}_Insert_Input | null, fieldMap?: FieldMap }): void {
@@ -143,6 +144,7 @@ export function injectClientAndCacheHelpers({
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('clientWriteQuery${fragmentNamePascalCase}ById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
+      return undefined;
     }
 
     function cacheWriteQuery${fragmentNamePascalCase}ById({ apolloClient, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}, fieldMap }: { apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}: ${fragmentNamePascalCase}Fragment | ${entityPascalName}_Insert_Input | null, fieldMap?: FieldMap }): void {
@@ -153,6 +155,7 @@ export function injectClientAndCacheHelpers({
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('cacheWriteQuery${fragmentNamePascalCase}ById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
+      return undefined;
     }
     
     function clientReadQuery${fragmentNamePascalCase}Objects({ apolloClient, variables }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables }): ${entityPascalName}[] | null | undefined {
@@ -162,6 +165,7 @@ export function injectClientAndCacheHelpers({
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('clientReadQuery${fragmentNamePascalCase}Objects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
+      return undefined;
     }
 
     function clientWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:(${entityPascalName} | ${entityPascalName}_Insert_Input)[], fieldMap?: FieldMap }): void {
@@ -172,6 +176,7 @@ export function injectClientAndCacheHelpers({
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('clientWriteQuery${fragmentNamePascalCase}Objects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
+      return undefined;
     }
 
     function cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:(${entityPascalName} | ${entityPascalName}_Insert_Input)[], fieldMap?: FieldMap }): void {
@@ -182,6 +187,7 @@ export function injectClientAndCacheHelpers({
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('cacheWriteQuery${fragmentNamePascalCase}Objects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
+      return undefined;
     }
 
     function clientWriteQuery${fragmentNamePascalCase}Insert({ apolloClient, variables, ${entityShortCamelCaseName}, fieldMap }: { apolloClient: ApolloClient<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, ${entityShortCamelCaseName}:${entityPascalName}_Insert_Input, fieldMap?: FieldMap }): void {
@@ -241,7 +247,7 @@ export function injectQueryHelpers({
   fragmentName,
   trimString,
   primaryKeyIdField,
-  typescriptCodegenOutputPath
+  typescriptCodegenOutputPath,
 }: {
   contentManager: ContentManager;
   entityNamedType: GraphQLNamedType;
@@ -320,7 +326,7 @@ export function injectSubscriptionHelpers({
   fragmentName,
   trimString,
   primaryKeyIdField,
-  typescriptCodegenOutputPath
+  typescriptCodegenOutputPath,
 }: {
   contentManager: ContentManager;
   entityNamedType: GraphQLNamedType;
@@ -385,7 +391,7 @@ export function injectInsertHelpers({
   fragmentName,
   trimString,
   primaryKeyIdField,
-  typescriptCodegenOutputPath
+  typescriptCodegenOutputPath,
 }: {
   contentManager: ContentManager;
   entityNamedType: GraphQLNamedType;
@@ -421,16 +427,16 @@ export function injectInsertHelpers({
       return { ...mutation, ${fragmentNameCamelCase}: mutation?.data?.insert_${entityNamedType.name}?.returning && mutation.data.insert_${entityNamedType.name}.returning[0] };
     }
 
-    async function insert${fragmentNamePascalCase}WithOnConflict({ apolloClient, ${entityShortCamelCaseName}, onConflict, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, onConflict: ${entityPascalName}_On_Conflict, autoOptimisticResponse?:boolean, fieldMap?: FieldMap, options?: Omit<MutationOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables>, 'mutation' | 'variables'> }): Promise<Insert${fragmentNamePascalCase}FetchHelperResultEx> {
+    async function insert${fragmentNamePascalCase}WithOnConflict({ apolloClient, ${entityShortCamelCaseName}, onConflict, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<object>, ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input, onConflict: ${entityPascalName}_On_Conflict, autoOptimisticResponse?:boolean, fieldMap?: FieldMap, options?: Omit<MutationOptions<Insert${fragmentNamePascalCase}WithOnConflictMutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables>, 'mutation' | 'variables'> }): Promise<Insert${fragmentNamePascalCase}FetchHelperResultEx> {
       const objectForInsert = stripInsertInputClientFields({ input: ${entityShortCamelCaseName} });
-      const mutationOptions:MutationOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables> = { mutation: Insert${fragmentNamePascalCase}Document, variables: { objects: [objectForInsert], onConflict }, ...options };
+      const mutationOptions:MutationOptions<Insert${fragmentNamePascalCase}WithOnConflictMutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables> = { mutation: Insert${fragmentNamePascalCase}WithOnConflictDocument, variables: { objects: [objectForInsert], onConflict }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
         if(!objectForInsert.id) throw new Error(\`if autoOptimisticResponse = true, id must be set in object '${entityShortCamelCaseName}'\`); 
-        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Insert${fragmentNamePascalCase}Mutation>({ operationType: 'insert', entityName:'${entityNamedType.name}', objects:[objectForInsert as ${entityPascalName}_Insert_Input & ObjectWithId], fieldMap }); 
+        mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Insert${fragmentNamePascalCase}WithOnConflictMutation>({ operationType: 'insert', entityName:'${entityNamedType.name}', objects:[objectForInsert as ${entityPascalName}_Insert_Input & ObjectWithId], fieldMap }); 
         if(logLevel >= 2) console.log(' --> insert${fragmentNamePascalCase}WithOnConflict - optimisticResponse:', mutationOptions.optimisticResponse);
       }
       
-      const mutation:Insert${fragmentNamePascalCase}FetchResult = await apolloClient.mutate<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables>(mutationOptions);
+      const mutation:Insert${fragmentNamePascalCase}FetchResult = await apolloClient.mutate<Insert${fragmentNamePascalCase}WithOnConflictMutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables>(mutationOptions);
         
       return { ...mutation, ${fragmentNameCamelCase}: mutation?.data?.insert_${entityNamedType.name}?.returning && mutation.data.insert_${entityNamedType.name}.returning[0] };
     }
@@ -463,6 +469,7 @@ export function injectInsertHelpers({
   contentManager.addImport(makeImportStatement(`${entityPascalName}_Insert_Input`, typescriptCodegenOutputPath));
   contentManager.addImport(makeImportStatement(`${entityPascalName}_On_Conflict`, typescriptCodegenOutputPath));
   contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}Mutation`, typescriptCodegenOutputPath));
+  contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}WithOnConflictMutation`, typescriptCodegenOutputPath));
   contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}MutationVariables`, typescriptCodegenOutputPath));
   contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}WithOnConflictMutationVariables`, typescriptCodegenOutputPath));
   contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}Document`, typescriptCodegenOutputPath));
@@ -477,7 +484,7 @@ export function injectUpdateHelpers({
   fragmentName,
   trimString,
   primaryKeyIdField,
-  typescriptCodegenOutputPath
+  typescriptCodegenOutputPath,
 }: {
   contentManager: ContentManager;
   entityNamedType: GraphQLNamedType;
@@ -542,7 +549,7 @@ export function injectDeleteHelpers({
   fragmentName,
   trimString,
   primaryKeyIdField,
-  typescriptCodegenOutputPath
+  typescriptCodegenOutputPath,
 }: {
   contentManager: ContentManager;
   entityNamedType: GraphQLNamedType;
@@ -612,7 +619,7 @@ export function injectSharedHelpersPost({
   withSubscriptions,
   withInserts,
   withUpdates,
-  withDeletes
+  withDeletes,
 }: {
   contentManager: ContentManager;
   entityNamedType: GraphQLNamedType;
@@ -692,7 +699,7 @@ export function injectGlobalHelperCodePost({
   withQueries,
   withInserts,
   withUpdates,
-  withDeletes
+  withDeletes,
 }: {
   contentManager: ContentManager;
   fragmentDefinitionNodes: FragmentDefinitionNode[];
@@ -706,7 +713,7 @@ export function injectGlobalHelperCodePost({
   withDeletes?: boolean;
 }) {
   const uniqueModelNamesFromFragments = getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString }).map(
-    entityName => `${makeShortName(entityName, trimString)}`
+    (entityName) => `${makeShortName(entityName, trimString)}`
   );
 
   contentManager.addContent(`
@@ -718,7 +725,7 @@ export function injectGlobalHelperCodePost({
           ? `Fragments: {
         ${fragmentDefinitionNodes
           .map(
-            fragmentDefinitionNode =>
+            (fragmentDefinitionNode) =>
               `${makeShortName(fragmentDefinitionNode.name.value, trimString)}: ${makeShortName(fragmentDefinitionNode.name.value, trimString)}FragmentGQLHelper`
           )
           .join(",\n        ")}
@@ -728,7 +735,7 @@ export function injectGlobalHelperCodePost({
       ${
         withDeletes
           ? `Models: {
-        ${uniqueModelNamesFromFragments.map(modelName => `${modelName}: ${modelName}ModelGQLHelper`).join(",\n        ")}
+        ${uniqueModelNamesFromFragments.map((modelName) => `${modelName}: ${modelName}ModelGQLHelper`).join(",\n        ")}
       }`
           : ""
       }

@@ -1,12 +1,12 @@
 import { FieldDefinitionNode, FragmentDefinitionNode } from "graphql";
 import { ContentManager } from ".";
 import { TypeMap } from "graphql/type/schema";
-export declare function injectGlobalReactCodePre({ contentManager, typescriptCodegenOutputPath, withUpdates }: {
+export declare function injectGlobalReactCodePre({ contentManager, typescriptCodegenOutputPath, withUpdates, }: {
     contentManager: ContentManager;
     typescriptCodegenOutputPath: string;
     withUpdates: boolean;
 }): void;
-export declare function injectSharedReactPre({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }: {
+export declare function injectSharedReactPre({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }: {
     contentManager: ContentManager;
     entityName: string;
     fragmentName: string;
@@ -14,7 +14,7 @@ export declare function injectSharedReactPre({ contentManager, entityName, fragm
     primaryKeyIdField: FieldDefinitionNode;
     typescriptCodegenOutputPath: string;
 }): void;
-export declare function injectQueryReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }: {
+export declare function injectQueryReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }: {
     contentManager: ContentManager;
     entityName: string;
     fragmentName: string;
@@ -22,7 +22,7 @@ export declare function injectQueryReact({ contentManager, entityName, fragmentN
     primaryKeyIdField?: FieldDefinitionNode | null;
     typescriptCodegenOutputPath: string;
 }): void;
-export declare function injectSubscriptionReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }: {
+export declare function injectSubscriptionReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }: {
     contentManager: ContentManager;
     entityName: string;
     fragmentName: string;
@@ -30,7 +30,7 @@ export declare function injectSubscriptionReact({ contentManager, entityName, fr
     primaryKeyIdField?: FieldDefinitionNode | null;
     typescriptCodegenOutputPath: string;
 }): void;
-export declare function injectInsertReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }: {
+export declare function injectInsertReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }: {
     contentManager: ContentManager;
     entityName: string;
     fragmentName: string;
@@ -38,7 +38,7 @@ export declare function injectInsertReact({ contentManager, entityName, fragment
     primaryKeyIdField: FieldDefinitionNode;
     typescriptCodegenOutputPath: string;
 }): void;
-export declare function injectUpdateReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }: {
+export declare function injectUpdateReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }: {
     contentManager: ContentManager;
     entityName: string;
     fragmentName: string;
@@ -46,7 +46,7 @@ export declare function injectUpdateReact({ contentManager, entityName, fragment
     primaryKeyIdField: FieldDefinitionNode;
     typescriptCodegenOutputPath: string;
 }): void;
-export declare function injectDeleteReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }: {
+export declare function injectDeleteReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }: {
     contentManager: ContentManager;
     entityName: string;
     fragmentName: string;
@@ -54,7 +54,7 @@ export declare function injectDeleteReact({ contentManager, entityName, fragment
     primaryKeyIdField: FieldDefinitionNode;
     typescriptCodegenOutputPath: string;
 }): void;
-export declare function injectSharedReactPost({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, withQueries, withSubscriptions, withInserts, withUpdates, withDeletes }: {
+export declare function injectSharedReactPost({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, withQueries, withSubscriptions, withInserts, withUpdates, withDeletes, }: {
     contentManager: ContentManager;
     entityName: string;
     fragmentName: string;
@@ -67,7 +67,7 @@ export declare function injectSharedReactPost({ contentManager, entityName, frag
     withUpdates?: boolean;
     withDeletes?: boolean;
 }): void;
-export declare function injectGlobalReactCodePost({ contentManager, fragmentDefinitionNodes, schemaTypeMap, trimString, withQueries, withSubscriptions, withInserts, withUpdates, withDeletes }: {
+export declare function injectGlobalReactCodePost({ contentManager, fragmentDefinitionNodes, schemaTypeMap, trimString, withQueries, withSubscriptions, withInserts, withUpdates, withDeletes, }: {
     contentManager: ContentManager;
     fragmentDefinitionNodes: FragmentDefinitionNode[];
     schemaTypeMap: TypeMap;

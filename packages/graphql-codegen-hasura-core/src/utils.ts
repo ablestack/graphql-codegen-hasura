@@ -9,7 +9,7 @@ export function generateOptimisticResponseForMutation<T>({
   operationType,
   entityName,
   objects,
-  fieldMap
+  fieldMap,
 }: {
   operationType: "update" | "insert" | "delete";
   entityName: string;
@@ -20,12 +20,12 @@ export function generateOptimisticResponseForMutation<T>({
     __typename: "mutation_root",
     [`${operationType}_${entityName}`]: {
       affected_rows: objects.length,
-      returning: objects.map(object => {
+      returning: objects.map((object) => {
         if (operationType === "insert") return convertObjectToGraph({ input: object, fieldMap: makeStrictFieldmap(fieldMap) });
         else return { ...object, __typename: entityName };
       }),
-      __typename: `${entityName}_mutation_response`
-    }
+      __typename: `${entityName}_mutation_response`,
+    },
   } as unknown) as T;
 
   return optimisticResponse;
@@ -80,7 +80,7 @@ export function convertApolloObjectToRefObj(object: any) {
 }
 
 export function convertApolloObjectArrayToRefObj(object: any[]) {
-  return object.map(arrayItem => convertApolloObjectToRefObj(object));
+  return object.map((arrayItem) => convertApolloObjectToRefObj(object));
 }
 
 export function ensureTypenameOnFragment(object: any, typename: string) {
@@ -89,10 +89,10 @@ export function ensureTypenameOnFragment(object: any, typename: string) {
 }
 
 export function ensureTypenameOnFragments(object: any[], typename: string) {
-  return object.map(arrayItem => ensureTypenameOnFragment(object, typename));
+  return object.map((arrayItem) => ensureTypenameOnFragment(object, typename));
 }
 
-export function makeStrictFieldmap({ typenames, ignore, clientOnly, replace }: FieldMap): StrictFieldMap {
+export function makeStrictFieldmap({ typenames, ignore, clientOnly, replace }: FieldMap = {}): StrictFieldMap {
   return { typenames: typenames || {}, ignore: ignore || {}, clientOnly: clientOnly || {}, replace: replace || {} };
 }
 
@@ -102,29 +102,32 @@ export function makeStrictFieldmap({ typenames, ignore, clientOnly, replace }: F
 // -----------------------------------------------------------------------------------------------------------------------
 
 export function stripInsertInputClientFields({ input }: { input: object }) {
-  const o: any = {};
+  if (IS_JAVASCRIPT_SCALAR_EQUIVALENT(input)) {
+    return input;
+  }
 
-  //Loop object and transform as needed
-  for (const [key, value] of Object.entries(input)) {
-    if (!IS_INSERT_INPUT_CLIENT_FIELDNAME({ fieldname: key })) {
-      // HANDLE ARRAYS
-      if (Array.isArray(value)) {
-        o[key] = value.map(arrayItem => stripInsertInputClientFields({ input: arrayItem }));
-        continue;
-      }
+  // HANDLE ARRAYS
+  if (Array.isArray(input)) {
+    return input.map((arrayItem) => stripInsertInputClientFields({ input: arrayItem }));
+  }
 
-      // HANDLE OBJECTS
-      if (IS_NON_NULL_OBJECT(value)) {
+  // HANDLE OBJECTS
+  if (IS_NON_NULL_OBJECT(input)) {
+    //Loop object and transform as needed
+
+    const o: any = {};
+    for (const [key, value] of Object.entries(input)) {
+      if (!IS_INSERT_INPUT_CLIENT_FIELDNAME({ fieldname: key })) {
         o[key] = stripInsertInputClientFields({ input: value });
         continue;
       }
-
-      // DEFAULT
-      o[key] = value;
     }
+    return o;
   }
 
-  return o;
+  // ESCAPE HATCH
+  console.warn(`!! WARN - stripInsertInputClientFields - input is of unhandled type. Returning value`, input);
+  return input;
 }
 
 export function addTypenameToObj({ object, typename }: { object: any; typename: string }) {
@@ -136,7 +139,7 @@ export function addTypenameToObj({ object, typename }: { object: any; typename: 
  *
  */
 export function addTypenameToObjArray({ object, typename }: { object: any[]; typename: string }) {
-  return object.map(arrayItem => addTypenameToObj({ object: arrayItem, typename }));
+  return object.map((arrayItem) => addTypenameToObj({ object: arrayItem, typename }));
 }
 
 function ignoreField({ key, fieldMap }: { key?: string; fieldMap: StrictFieldMap }) {
@@ -190,7 +193,7 @@ function _convertToGraph({ value, key, fieldMap }: { value: any; key?: string; f
 
   if (Array.isArray(value)) {
     if (value.length <= 0) return [];
-    return value.map(arrayItem => _convertToGraph({ value: arrayItem, key, fieldMap }));
+    return value.map((arrayItem) => _convertToGraph({ value: arrayItem, key, fieldMap }));
   }
 
   if (IS_INSERT_INPUT_OBJECT(value) && key && fieldMap && fieldMap.typenames[key]) {
@@ -221,7 +224,7 @@ export function convertToGraph({ input, typename, fieldMap }: { input: any; type
 // -----------------------------------------------------------------------------------------------------
 const FRAGMENT_ONLY_FIELDNAMES = [key_typename, key_created_at, key_updated_at];
 function fragmentOnlyField({ key }: { key: string }) {
-  return FRAGMENT_ONLY_FIELDNAMES.find(fofnItem => fofnItem === key);
+  return FRAGMENT_ONLY_FIELDNAMES.find((fofnItem) => fofnItem === key);
 }
 
 /*
@@ -257,7 +260,7 @@ function _convertToInsertInput({ value, key, fieldMap }: { value: any; key?: str
   }
 
   if (Array.isArray(value)) {
-    return { data: value.map(arrayItem => _convertToInsertInput({ value: arrayItem, fieldMap })) };
+    return { data: value.map((arrayItem) => _convertToInsertInput({ value: arrayItem, fieldMap })) };
   }
 
   if (IS_NON_NULL_OBJECT(value)) {

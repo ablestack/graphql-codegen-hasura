@@ -590,12 +590,12 @@
         "signature": "16172fabdd337c5efa670da193f5bdc05135ae501c7b22fb0ce52c0675bcc677"
       },
       "../src/tshelperinjectors.ts": {
-        "version": "e6455df9a5acbe57b49729061c8a7c650c93a1421aff2d2ac72ec2493b8803c5",
-        "signature": "a5d7c7f06e29248ef9754542f51d894b95d4d97dd1b22969f7e917f64805176c"
+        "version": "7b04c15841c832337b6429add3a9c5a3387285e89704f7e988975809edb24190",
+        "signature": "c5fc5f285c439ce1d9c21ddc604800e5f5cbc616771cc0f37843862d0a0bc29e"
       },
       "../src/reactinjectors.ts": {
-        "version": "8b6f6781d7005db37e27e71cb0c8a7aa25373ce4c02a89579cdc912d0a755da2",
-        "signature": "17bacbe75aa6f6558ff58c9584e21488d19d6ae3a677d2d543b6e7e0df58770f"
+        "version": "aa03d83994bcd29eab4c2f79e7ecf318bf9a3448edeab7521eae4d36688496af",
+        "signature": "da32bf7603b250b112090a844ceee37240491457467368aae24708a965b9affd"
       },
       "../src/index.ts": {
         "version": "482f70b8779284bf2891532bbc24e63d44e2f06e360531891e6373ca9424f1a0",
@@ -4255,7 +4255,7 @@
       "../node_modules/change-case/dist/index.d.ts",
       "../src/utils.ts",
       "../src/gqlinjectors.ts",
-      "../src/reactinjectors.ts",
+      "../src/tshelperinjectors.ts",
       "../src/index.ts",
       "../src/configinjectors.ts",
       "../src/sharedinjectors.ts",
@@ -4307,7 +4307,7 @@
       "../../../node_modules/@types/node/ts3.2/index.d.ts",
       "../../../node_modules/@types/minimatch/index.d.ts",
       "../../../node_modules/@types/glob/index.d.ts",
-      "../src/tshelperinjectors.ts"
+      "../src/reactinjectors.ts"
     ]
   },
   "version": "3.7.4"

@@ -4,7 +4,7 @@ const _1 = require(".");
 const utils_1 = require("./utils");
 // ---------------------------------
 //
-function injectGlobalReactCodePre({ contentManager, typescriptCodegenOutputPath, withUpdates }) {
+function injectGlobalReactCodePre({ contentManager, typescriptCodegenOutputPath, withUpdates, }) {
     contentManager.addImport(`import { ObjectWithId, generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, stripInsertInputClientFields } from 'graphql-codegen-hasura-core'`);
     contentManager.addImport(`import { QueryHookOptions, useQuery, LazyQueryHookOptions, useLazyQuery, MutationHookOptions, useMutation, QueryLazyOptions, MutationFunctionOptions, LazyQueryResult, MutationTuple, FetchResult, SubscriptionResult, SubscriptionHookOptions, useSubscription, ApolloError, SubscribeToMoreOptions } from '@apollo/client';`);
     contentManager.addContent(`
@@ -16,7 +16,7 @@ function injectGlobalReactCodePre({ contentManager, typescriptCodegenOutputPath,
 exports.injectGlobalReactCodePre = injectGlobalReactCodePre;
 // ---------------------------------
 //
-function injectSharedReactPre({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }) {
+function injectSharedReactPre({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }) {
     const fragmentNamePascalCase = utils_1.makePascalCase(fragmentName);
     const primaryKeyIdTypeScriptFieldType = _1.getIdTypeScriptFieldType(primaryKeyIdField);
     const fragmentNameCamelCase = utils_1.makeCamelCase(fragmentName);
@@ -38,7 +38,7 @@ function injectSharedReactPre({ contentManager, entityName, fragmentName, trimSt
 exports.injectSharedReactPre = injectSharedReactPre;
 // ---------------------------------
 //
-function injectQueryReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }) {
+function injectQueryReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }) {
     const fragmentNamePascalCase = utils_1.makePascalCase(fragmentName);
     const entityShortName = _1.makeShortName(entityName, trimString);
     const entityShortCamelCaseName = utils_1.makeCamelCase(entityShortName);
@@ -153,7 +153,7 @@ function injectQueryReact({ contentManager, entityName, fragmentName, trimString
 exports.injectQueryReact = injectQueryReact;
 // ---------------------------------
 //
-function injectSubscriptionReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }) {
+function injectSubscriptionReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }) {
     const fragmentNamePascalCase = utils_1.makePascalCase(fragmentName);
     const entityShortName = _1.makeShortName(entityName, trimString);
     const entityShortCamelCaseName = utils_1.makeCamelCase(entityShortName);
@@ -207,7 +207,7 @@ function injectSubscriptionReact({ contentManager, entityName, fragmentName, tri
 exports.injectSubscriptionReact = injectSubscriptionReact;
 // ---------------------------------
 //
-function injectInsertReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }) {
+function injectInsertReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }) {
     const fragmentNamePascalCase = utils_1.makePascalCase(fragmentName);
     const entityPascalName = utils_1.makePascalCase(entityName);
     const entityShortName = _1.makeShortName(entityName, trimString);
@@ -254,21 +254,24 @@ function injectInsertReact({ contentManager, entityName, fragmentName, trimStrin
     //
 
     // Types
-    type Insert${fragmentNamePascalCase}WithOnConflictLazyMutationFn = MutationTuple<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables>;
-    type Insert${fragmentNamePascalCase}WithOnConflictWrappedLazyMutationFn = ({ ${entityShortCamelCaseName}, onConflict, autoOptimisticResponse, options }: { ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input; onConflict: ${entityPascalName}_On_Conflict, autoOptimisticResponse?:boolean; options?: Omit<MutationFunctionOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables>, "variables">; }) => Promise<Insert${fragmentNamePascalCase}MutationResultEx>;
-    export type Insert${fragmentNamePascalCase}WithOnConflictLazyMutationReturn = [Insert${fragmentNamePascalCase}WithOnConflictWrappedLazyMutationFn, Insert${fragmentNamePascalCase}MutationResultEx];
+    type Insert${fragmentNamePascalCase}WithOnConflictMutationResult = FetchResult<Insert${fragmentNamePascalCase}WithOnConflictMutation, Record<string, any>, Record<string, any>>;
+    export type Insert${fragmentNamePascalCase}WithOnConflictMutationResultEx = Insert${fragmentNamePascalCase}WithOnConflictMutationResult & ${fragmentNamePascalCase}ByIdHookResultEx;
+
+    type Insert${fragmentNamePascalCase}WithOnConflictLazyMutationFn = MutationTuple<Insert${fragmentNamePascalCase}WithOnConflictMutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables>;
+    type Insert${fragmentNamePascalCase}WithOnConflictWrappedLazyMutationFn = ({ ${entityShortCamelCaseName}, onConflict, autoOptimisticResponse, options }: { ${entityShortCamelCaseName}: ${entityPascalName}_Insert_Input; onConflict: ${entityPascalName}_On_Conflict, autoOptimisticResponse?:boolean; options?: Omit<MutationFunctionOptions<Insert${fragmentNamePascalCase}WithOnConflictMutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables>, "variables">; }) => Promise<Insert${fragmentNamePascalCase}WithOnConflictMutationResultEx>;
+    export type Insert${fragmentNamePascalCase}WithOnConflictLazyMutationReturn = [Insert${fragmentNamePascalCase}WithOnConflictWrappedLazyMutationFn, Insert${fragmentNamePascalCase}WithOnConflictMutationResultEx];
 
     // Function
-    function useInsert${fragmentNamePascalCase}WithOnConflict( options?: Omit<MutationHookOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables>, "mutation" | "variables"> ): Insert${fragmentNamePascalCase}WithOnConflictLazyMutationReturn {
-      const lazyMutation: Insert${fragmentNamePascalCase}WithOnConflictLazyMutationFn = useMutation<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables>(Insert${fragmentNamePascalCase}WithOnConflictDocument, options);
-      const pick${fragmentNamePascalCase}: PickInsert${fragmentNamePascalCase}Fn = (mutation: Insert${fragmentNamePascalCase}Mutation | null | undefined) => { return mutation?.insert_${entityName}?.returning && mutation.insert_${entityName}.returning[0]; };
+    function useInsert${fragmentNamePascalCase}WithOnConflict( options?: Omit<MutationHookOptions<Insert${fragmentNamePascalCase}WithOnConflictMutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables>, "mutation" | "variables"> ): Insert${fragmentNamePascalCase}WithOnConflictLazyMutationReturn {
+      const lazyMutation: Insert${fragmentNamePascalCase}WithOnConflictLazyMutationFn = useMutation<Insert${fragmentNamePascalCase}WithOnConflictMutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables>(Insert${fragmentNamePascalCase}WithOnConflictDocument, options);
+      const pick${fragmentNamePascalCase}: PickInsert${fragmentNamePascalCase}Fn = (mutation: Insert${fragmentNamePascalCase}WithOnConflictMutation | null | undefined) => { return mutation?.insert_${entityName}?.returning && mutation.insert_${entityName}.returning[0]; };
 
       const wrappedLazyMutation:Insert${fragmentNamePascalCase}WithOnConflictWrappedLazyMutationFn = async ({ ${entityShortCamelCaseName}, onConflict, autoOptimisticResponse, options }) => {
         const objectForInsert = stripInsertInputClientFields({ input: ${entityShortCamelCaseName} });
-        const mutationOptions:MutationFunctionOptions<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables> = { variables: { objects: [objectForInsert], onConflict }, ...options };
+        const mutationOptions:MutationFunctionOptions<Insert${fragmentNamePascalCase}WithOnConflictMutation, Insert${fragmentNamePascalCase}WithOnConflictMutationVariables> = { variables: { objects: [objectForInsert], onConflict }, ...options };
         if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
           if(!objectForInsert.id) throw new Error(\`if autoOptimisticResponse = true, id must be set in object '${entityShortCamelCaseName}'\`);
-          mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Insert${fragmentNamePascalCase}Mutation>({ operationType: 'insert', entityName:'${entityShortCamelCaseName}', objects:[objectForInsert as ${entityPascalName}_Insert_Input & ObjectWithId] }); 
+          mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<Insert${fragmentNamePascalCase}WithOnConflictMutation>({ operationType: 'insert', entityName:'${entityShortCamelCaseName}', objects:[objectForInsert as ${entityPascalName}_Insert_Input & ObjectWithId] }); 
         }
 
         const fetchResult = await lazyMutation[0](mutationOptions);
@@ -306,6 +309,7 @@ function injectInsertReact({ contentManager, entityName, fragmentName, trimStrin
     contentManager.addImport(_1.makeImportStatement(`${entityPascalName}_Insert_Input`, typescriptCodegenOutputPath));
     contentManager.addImport(_1.makeImportStatement(`${entityPascalName}_On_Conflict`, typescriptCodegenOutputPath));
     contentManager.addImport(_1.makeImportStatement(`Insert${fragmentNamePascalCase}Mutation`, typescriptCodegenOutputPath));
+    contentManager.addImport(_1.makeImportStatement(`Insert${fragmentNamePascalCase}WithOnConflictMutation`, typescriptCodegenOutputPath));
     contentManager.addImport(_1.makeImportStatement(`Insert${fragmentNamePascalCase}MutationVariables`, typescriptCodegenOutputPath));
     contentManager.addImport(_1.makeImportStatement(`Insert${fragmentNamePascalCase}WithOnConflictMutationVariables`, typescriptCodegenOutputPath));
     contentManager.addImport(_1.makeImportStatement(`Insert${fragmentNamePascalCase}Document`, typescriptCodegenOutputPath));
@@ -314,7 +318,7 @@ function injectInsertReact({ contentManager, entityName, fragmentName, trimStrin
 exports.injectInsertReact = injectInsertReact;
 // ---------------------------------
 //
-function injectUpdateReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }) {
+function injectUpdateReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }) {
     const fragmentNamePascalCase = utils_1.makePascalCase(fragmentName);
     const entityPascalName = utils_1.makePascalCase(entityName);
     const entityShortName = _1.makeShortName(entityName, trimString);
@@ -392,7 +396,7 @@ function injectUpdateReact({ contentManager, entityName, fragmentName, trimStrin
 exports.injectUpdateReact = injectUpdateReact;
 // ---------------------------------
 //
-function injectDeleteReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath }) {
+function injectDeleteReact({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }) {
     const fragmentNamePascalCase = utils_1.makePascalCase(fragmentName);
     const entityShortName = _1.makeShortName(entityName, trimString);
     const entityShortCamelCaseName = utils_1.makeCamelCase(entityShortName);
@@ -476,7 +480,7 @@ function injectDeleteReact({ contentManager, entityName, fragmentName, trimStrin
 exports.injectDeleteReact = injectDeleteReact;
 // ---------------------------------
 //
-function injectSharedReactPost({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, withQueries, withSubscriptions, withInserts, withUpdates, withDeletes }) {
+function injectSharedReactPost({ contentManager, entityName, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, withQueries, withSubscriptions, withInserts, withUpdates, withDeletes, }) {
     const fragmentNamePascalCase = utils_1.makePascalCase(fragmentName);
     const entityModelName = _1.makeModelName(entityName, trimString);
     const queryByIdName = `Query${fragmentNamePascalCase}ById`;
@@ -531,8 +535,8 @@ function injectSharedReactPost({ contentManager, entityName, fragmentName, trimS
 exports.injectSharedReactPost = injectSharedReactPost;
 // ---------------------------------
 //
-function injectGlobalReactCodePost({ contentManager, fragmentDefinitionNodes, schemaTypeMap, trimString, withQueries, withSubscriptions, withInserts, withUpdates, withDeletes }) {
-    const uniqueModelNamesFromFragments = utils_1.getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString }).map(entityName => `${_1.makeShortName(entityName, trimString)}`);
+function injectGlobalReactCodePost({ contentManager, fragmentDefinitionNodes, schemaTypeMap, trimString, withQueries, withSubscriptions, withInserts, withUpdates, withDeletes, }) {
+    const uniqueModelNamesFromFragments = utils_1.getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString }).map((entityName) => `${_1.makeShortName(entityName, trimString)}`);
     contentManager.addContent(`
     /*
      * COMBINED HOOKS OBJECT
@@ -541,13 +545,13 @@ function injectGlobalReactCodePost({ contentManager, fragmentDefinitionNodes, sc
       ${withQueries || withInserts || withUpdates
         ? `Fragments: {
         ${fragmentDefinitionNodes
-            .map(fragmentDefinitionNode => `${_1.makeShortName(fragmentDefinitionNode.name.value, trimString)}: ${_1.makeShortName(fragmentDefinitionNode.name.value, trimString)}FragmentGQLHooks`)
+            .map((fragmentDefinitionNode) => `${_1.makeShortName(fragmentDefinitionNode.name.value, trimString)}: ${_1.makeShortName(fragmentDefinitionNode.name.value, trimString)}FragmentGQLHooks`)
             .join(",\n        ")}
       },`
         : ""}
       ${withDeletes
         ? `Models: {
-        ${uniqueModelNamesFromFragments.map(modelName => `${modelName}: ${modelName}ModelGQLHooks`).join(",\n        ")}
+        ${uniqueModelNamesFromFragments.map((modelName) => `${modelName}: ${modelName}ModelGQLHooks`).join(",\n        ")}
       }`
         : ""}
     }
