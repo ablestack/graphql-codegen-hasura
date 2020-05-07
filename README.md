@@ -2,11 +2,11 @@
 
 graphql-codegen-hasura is a collection of code generator plugins for [graphql-code-generator](https://graphql-code-generator.com/). These plugins are designed to automate coding tasks around the development of a strongly typed client for a [Hasura](https://hasura.io/) backend. The majority of the code generated is strongly-typed wrappers for [Apollo GraphQL](https://www.apollographql.com/), in addition to a number of convenience features, including:
 
-- Strongly typed wrappers for all the Hasura/ApolloGrapqh methods (works great with code suggestion/auto-completion), organized into combined "GQLHelper" and "GQLHook" objects
+- Strongly typed wrappers for all the Hasura/ApolloGraphQL methods (works great with code suggestion/auto-completion), organized into combined "GQLHelper" and "GQLHook" objects
 - Auto optimistic caching option provided for all Inserts, Updates, and Deletes
   - Automatically populates created_at and updated_at timestamp fields, if provided for insert but left null
 - Query and subscription results provide entity parameter directly on results object (instead of having to pick out of deeply nested result field)
-- Automatically calls cache.evit on entity deletion
+- Automatically calls cache.evict on entity deletion
 - Automatically adds \_\_typename fields on cache inserts
 - Will automatically convert Hasura input graphs to fragment graphs when inserting into local cache with cache* and client* methods
 
@@ -36,7 +36,7 @@ export const DogFragmentDoc = gql`
 ```
 
 The graphql-codegen-hasura plugins can then generate a 'GQLHooks' and 'GQLHelper' object which you can then use to make CRUD calls to your API.
-All the generated methods are strongly typed counterparts for methods on the AplloGraphQL client (with some augmentations).
+All the generated methods are strongly typed counterparts for methods on the ApolloGraphQL client (with some augmentations).
 
 ### GQLHelper Generated Methods
 
@@ -232,18 +232,21 @@ It is **important to note**: The TypeScript Generation leverages the files creat
 2. Add the package dependencies required by graphql-codegen-hasura:
 
 ```
-    npm install @graphql-codegen/cli @graphql-codegen/introspection @graphql-codegen/typescript @graphql-codegen/typescript-operations @graphql-codegen/typescript-react-apollo
+    npm install --save-dev @graphql-codegen/cli @graphql-codegen/introspection @graphql-codegen/typescript @graphql-codegen/typescript-operations @graphql-codegen/typescript-react-apollo
 ```
 
 3. Add the graphql-codegen-hasura packages:
 
 ```
-    npm install graphql-codegen-hasura-core graphql-codegen-hasura-gql graphql-codegen-hasura-typescript graphql-codegen-hasura-react graphql-codegen-hasura-client-config
+    npm install graphql-codegen-hasura-core;
+    npm install --save-dev graphql-codegen-hasura-gql graphql-codegen-hasura-typescript graphql-codegen-hasura-react graphql-codegen-hasura-client-config graphql-codegen-hasura-shared
 ```
 
 4. Create configuration YAML files (see below)
 
 5. Run the codegen commands in a command console
+
+> Note: node v12 or greater is required.
 
 ```
 graphql-codegen --config=graphql-codegen-gql.yaml;
