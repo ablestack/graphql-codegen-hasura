@@ -11,7 +11,7 @@ export declare function injectSharedHelpersPre({ contentManager, entityNamedType
     entityNamedType: GraphQLNamedType;
     fragmentName: string;
     trimString?: string;
-    primaryKeyIdField: FieldDefinitionNode;
+    primaryKeyIdField?: FieldDefinitionNode;
     typescriptCodegenOutputPath: string;
 }): void;
 export declare function injectCacheHelpers({ contentManager, entityNamedType, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }: {
@@ -59,7 +59,7 @@ export declare function injectDeleteHelpers({ contentManager, entityNamedType, f
     entityNamedType: GraphQLNamedType;
     fragmentName: string;
     trimString?: string;
-    primaryKeyIdField: FieldDefinitionNode;
+    primaryKeyIdField?: FieldDefinitionNode;
     typescriptCodegenOutputPath: string;
 }): void;
 export declare function injectSharedHelpersPost({ contentManager, entityNamedType, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, withClientAndCacheHelpers, withQueries, withSubscriptions, withInserts, withUpdates, withDeletes, }: {
@@ -67,7 +67,7 @@ export declare function injectSharedHelpersPost({ contentManager, entityNamedTyp
     entityNamedType: GraphQLNamedType;
     fragmentName: string;
     trimString?: string;
-    primaryKeyIdField: FieldDefinitionNode;
+    primaryKeyIdField?: FieldDefinitionNode;
     typescriptCodegenOutputPath: string;
     withClientAndCacheHelpers?: boolean;
     withQueries?: boolean;

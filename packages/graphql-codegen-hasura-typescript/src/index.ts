@@ -100,7 +100,6 @@ function injectEntitySharedTypeScriptPre(
   const entityNamedType = schemaTypeMap[fragmentTableName];
 
   const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(entityNamedType);
-  if (!relatedTablePrimaryKeyIdField) return;
 
   injectSharedHelpersPre({
     contentManager,
@@ -126,7 +125,6 @@ function injectEntitySharedTypeScriptPost(
   const entityNamedType = schemaTypeMap[fragmentTableName];
 
   const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(entityNamedType);
-  if (!relatedTablePrimaryKeyIdField) return;
 
   injectSharedHelpersPost({
     contentManager,
@@ -279,7 +277,6 @@ function injectEntityDeleteMutationTypeScript(
   const entityNamedType = schemaTypeMap[fragmentTableName];
 
   const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(entityNamedType);
-  if (!relatedTablePrimaryKeyIdField) return;
 
   injectDeleteHelpers({
     contentManager,
