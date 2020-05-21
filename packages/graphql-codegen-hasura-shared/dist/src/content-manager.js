@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ContentManager = void 0;
 class ContentManager {
     constructor() {
         this.imports = [];

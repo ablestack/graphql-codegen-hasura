@@ -4,15 +4,16 @@ graphql-codegen-hasura is a collection of code generator plugins for [graphql-co
 
 - Strongly typed wrappers for all the Hasura/ApolloGrapqh methods (works great with code suggestion/auto-completion), organized into combined "GQLHelper" and "GQLHook" objects
 - Auto optimistic caching option provided for all Inserts, Updates, and Deletes
-  - Automatically populates created_at and updated_at timestamp fields, if provided for insert but left null
+- Automatically populates created_at and updated_at timestamp fields, if provided for insert but left null
 - Query and subscription results provide entity parameter directly on results object (instead of having to pick out of deeply nested result field)
 - Automatically calls cache.evit on entity deletion
 - Automatically adds \_\_typename fields on cache inserts
-- Will automatically convert Hasura input graphs to fragment graphs when inserting into local cache with cache* and client* methods
+- Generates a range of convenience methods for querying and manipulating the Apollo cache
+- Automatically convert Hasura input graphs to fragment graphs when inserting into local cache with cache\* methods
 
 ## Status: \*BETA\*
 
-Important Note: Despite the version number, this project is at "Beta" status, with an evolving codebase. However, any breaking changes will be released with new minor or major version bumps in order to minimize disruption to any consumers.
+Important Note: Despite the version number, this project is at "Beta" status, with an evolving codebase. However, any breaking changes will be released with new minor or major version bumps in order to minimize disruption to any consumers, and detailed in [Release Notes](##Release-Notes)
 
 ## Approach
 
@@ -69,20 +70,12 @@ GQLHelper.Fragments.Dog.watchQueryById(/* params */)          // Subscribe to ob
 GQLHelper.Fragments.Dog.watchQueryObjects(/* params */)       // Subscribe to observable
 
 // Cache Read/Write
-GQLHelper.Fragments.Dog.clientReadFragmentById(/* params */)  // Read fragment from cache
-GQLHelper.Fragments.Dog.clientReadQueryById(/* params */)     // Read query from cache
-
-GQLHelper.Fragments.Dog.clientWriteFragmentById(/* params */) // Write fragment to cache (and broadcast)
-GQLHelper.Fragments.Dog.cacheWriteFragmentById(/* params */)  // Write fragment to cache (no broadcast)
-
-GQLHelper.Fragments.Dog.clientWriteQueryById(/* params */)    // Write query to cache (and broadcast)
-GQLHelper.Fragments.Dog.cacheWriteQueryById(/* params */)     // Write query to cache (no broadcast)
-
-GQLHelper.Fragments.Dog.clientWriteQueryObjects(/* params */)    // Write query to cache (and broadcast)
-GQLHelper.Fragments.Dog.cacheWriteQueryObjects(/* params */)     // Write query to cache (no broadcast)
-
-GQLHelper.Fragments.Dog.clientWriteQueryInsert(/* params */)    // Write 'InsertInput' to cache (and broadcast)
-GQLHelper.Fragments.Dog.cacheWriteQueryInsert(/* params */)     // Write 'InsertInput' to cache (no broadcast)
+GQLHelper.Fragments.Dog.cacheReadFragmentById(/* params */)   // Read fragment from cache
+GQLHelper.Fragments.Dog.cacheReadQueryById(/* params */)      // Read query from cache
+GQLHelper.Fragments.Dog.cacheWriteFragmentById(/* params */)  // Write fragment to cache
+GQLHelper.Fragments.Dog.cacheWriteQueryById(/* params */)     // Write query to cache
+GQLHelper.Fragments.Dog.cacheWriteQueryObjects(/* params */)  // Write query to cache
+GQLHelper.Fragments.Dog.cacheWriteQueryInsert(/* params */)   // Write 'InsertInput' to cache
 
 ```
 
@@ -370,3 +363,10 @@ There are many refinements and enhancements that would be beneficial, and contri
 
 - This is development is not affiliated with either the [graphql-code-generator](https://graphql-code-generator.com/) team, the [Hasura](https://hasura.io/) team, or the [Apollo GraphQL](https://www.apollographql.com/) team
 - graphql-code-generator only picking up gql from 'graphql-tag' import, and not the newer '@apollo/client' import. The 'graphql-tag' import will continue to be used until this is addressed, even for react-apollo v3
+
+## Release Notes
+
+### Notes 4.9.0
+
+- _Breaking Change_: The Client* and Cache* methods have been consolidated into Cache* only methods. This is due to a change in the ApolloClient dependency that meant the behaviour was the same for both, making the additional Client* methods redundant
+- _Breaking Change_: The Cache\* methods will now, by default, trigger client-side Query update broadcasts (see Apollo documentation for details of this). An additional 'broadcast' parameter has been added allowing broadcasts to avoided when set to false

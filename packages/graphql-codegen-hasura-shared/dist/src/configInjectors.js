@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.injectCombinedTypePolicyObject = exports.injectEntityResolverTypes = exports.injectEntityCacheRedirect = exports.injectEntityTypePolicy = exports.injectGlobalConfigCode = void 0;
 const _1 = require(".");
 const utils_1 = require("./utils");
 // ---------------------------------

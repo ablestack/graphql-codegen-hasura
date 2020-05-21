@@ -1,5 +1,5 @@
 import { generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, convertToGraph, ObjectWithId, FieldMap, getLogLevel, ensureTypenameOnFragment, ensureTypenameOnFragments, stripInsertInputClientFields } from 'graphql-codegen-hasura-core'
-import { ApolloClient, ApolloQueryResult, defaultDataIdFromObject, FetchResult, MutationOptions, ObservableQuery, QueryOptions, SubscriptionOptions, Observable, DataProxy } from '@apollo/client'
+import { ApolloClient, ApolloCache, ApolloQueryResult, defaultDataIdFromObject, FetchResult, MutationOptions, ObservableQuery, QueryOptions, SubscriptionOptions, Observable, DataProxy } from '@apollo/client'
 import { VehicleFragment } from '../';
 import { Vehicle } from '../';
 import { VehicleFragmentDoc } from '../';
@@ -87,49 +87,31 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       return defaultDataIdFromObject({ __typename: 'vehicle', id:vehicleId });
     }
 
-    function clientReadFragmentVehicleById({ apolloClient, vehicleId}: { apolloClient: ApolloClient<object>, vehicleId: string }): VehicleFragment | null | undefined {
-      return apolloClient.readFragment<VehicleFragment | null | undefined>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ __typename: 'vehicle', id:vehicleId }) });
+    function cacheReadFragmentVehicleById({ apolloCache, vehicleId}: { apolloCache: ApolloCache<object>, vehicleId: string }): VehicleFragment | null | undefined {
+      return apolloCache.readFragment<VehicleFragment | null | undefined>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ __typename: 'vehicle', id:vehicleId }) });
     }
 
-    function clientWriteFragmentVehicleById({ apolloClient, vehicleId, vehiclePartial, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehiclePartial: Partial<VehicleFragment> | Vehicle_Insert_Input | null, fieldMap?: FieldMap }): Partial<VehicleFragment> {
-      const parsedFragment = convertToGraph({ input:vehiclePartial, typename:'vehicle', fieldMap });
-      if(logLevel >= 2) console.log(' --> clientWriteFragmentVehicleById - parsedFragment:', parsedFragment);
-      apolloClient.writeFragment<Partial<VehicleFragment> | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ ...parsedFragment, id:vehicleId }), data: parsedFragment });
-      return parsedFragment;
-    }
-
-    function cacheWriteFragmentVehicleById({ apolloClient, vehicleId, vehiclePartial, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehiclePartial: Partial<VehicleFragment> | Vehicle_Insert_Input | null, fieldMap?: FieldMap }): Partial<VehicleFragment> {
+    function cacheWriteFragmentVehicleById({ apolloCache, vehicleId, vehiclePartial, fieldMap, broadcast }: { apolloCache: ApolloCache<object>, vehicleId: string, vehiclePartial: Partial<VehicleFragment> | Vehicle_Insert_Input | null, fieldMap?: FieldMap, broadcast?:boolean }): Partial<VehicleFragment> {
       const parsedFragment = convertToGraph({ input:vehiclePartial, typename:'vehicle', fieldMap });
       if(logLevel >= 2) console.log(' --> cacheWriteFragmentVehicleById - parsedFragment:', parsedFragment);
-      apolloClient.cache.writeFragment<Partial<VehicleFragment> | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ ...parsedFragment, id:vehicleId }), data: parsedFragment });
+      apolloCache.writeFragment<Partial<VehicleFragment> | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultDataIdFromObject({ ...parsedFragment, id:vehicleId }), data: parsedFragment });
       return parsedFragment;
     }
 
-    function clientReadQueryVehicleById({ apolloClient, vehicleId}: { apolloClient: ApolloClient<object>, vehicleId: string }): VehicleFragment | null | undefined {
+    function cacheReadQueryVehicleById({ apolloCache, vehicleId}: { apolloCache: ApolloCache<object>, vehicleId: string }): VehicleFragment | null | undefined {
       try {
-        return apolloClient.readQuery<VehicleFragment | null >({ query: QueryVehicleByIdDocument, variables: { vehicleId }  });
+        return apolloCache.readQuery<VehicleFragment | null >({ query: QueryVehicleByIdDocument, variables: { vehicleId }  });
       } catch (error) {
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
-        console.warn('clientReadQueryVehicleById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
+        console.warn('cacheReadQueryVehicleById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
       return undefined;
     }
 
-    function clientWriteQueryVehicleById({ apolloClient, vehicleId, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: VehicleFragment | Vehicle_Insert_Input | null, fieldMap?: FieldMap }): void {
+    function cacheWriteQueryVehicleById({ apolloCache, vehicleId, vehicle, fieldMap, broadcast }: { apolloCache: ApolloCache<object>, vehicleId: string, vehicle: VehicleFragment | Vehicle_Insert_Input | null, fieldMap?: FieldMap, broadcast?:boolean }): void {
       try {
         const vehiclePartial = convertToGraph({ input:vehicle, typename:'vehicle', fieldMap });
-        return apolloClient.writeQuery<VehicleFragment | null>({ query: QueryVehicleByIdDocument, variables: { vehicleId }, data: (vehicle ? vehiclePartial : null) });
-      } catch (error) {
-        //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
-        console.warn('clientWriteQueryVehicleById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
-      }
-      return undefined;
-    }
-
-    function cacheWriteQueryVehicleById({ apolloClient, vehicleId, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicle: VehicleFragment | Vehicle_Insert_Input | null, fieldMap?: FieldMap }): void {
-      try {
-        const vehiclePartial = convertToGraph({ input:vehicle, typename:'vehicle', fieldMap });
-        return apolloClient.cache.writeQuery<VehicleFragment | null>({ query: QueryVehicleByIdDocument, variables: { vehicleId }, data: (vehicle ? vehiclePartial : null) });
+        return apolloCache.writeQuery<VehicleFragment | null>({ query: QueryVehicleByIdDocument, variables: { vehicleId }, data: (vehicle ? vehiclePartial : null) });
       } catch (error) {
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('cacheWriteQueryVehicleById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
@@ -137,31 +119,20 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       return undefined;
     }
     
-    function clientReadQueryVehicleObjects({ apolloClient, variables }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables }): Vehicle[] | null | undefined {
+    function cacheReadQueryVehicleObjects({ apolloCache, variables }: { apolloCache: ApolloCache<object>, variables: QueryVehicleObjectsQueryVariables }): Vehicle[] | null | undefined {
       try {
-        return apolloClient.readQuery<{Vehicle:Vehicle[] | null}>({ query: QueryVehicleObjectsDocument, variables })?.Vehicle || [];
+        return apolloCache.readQuery<{Vehicle:Vehicle[] | null}>({ query: QueryVehicleObjectsDocument, variables })?.Vehicle || [];
       } catch (error) {
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
-        console.warn('clientReadQueryVehicleObjects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
+        console.warn('cacheReadQueryVehicleObjects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
       return undefined;
     }
 
-    function clientWriteQueryVehicleObjects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables, data:(Vehicle | Vehicle_Insert_Input)[], fieldMap?: FieldMap }): void {
-      try {
-        const objects = convertToGraph({ input:data, typename:'vehicle', fieldMap });
-        return apolloClient.writeQuery<{Vehicle:Vehicle[]}>({ query: QueryVehicleObjectsDocument, variables, data: { Vehicle:objects } });
-      } catch (error) {
-        //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
-        console.warn('clientWriteQueryVehicleObjects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
-      }
-      return undefined;
-    }
-
-    function cacheWriteQueryVehicleObjects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables, data:(Vehicle | Vehicle_Insert_Input)[], fieldMap?: FieldMap }): void {
+    function cacheWriteQueryVehicleObjects({ apolloCache, variables, data, fieldMap, broadcast }: { apolloCache: ApolloCache<object>, variables: QueryVehicleObjectsQueryVariables, data:(Vehicle | Vehicle_Insert_Input)[], fieldMap?: FieldMap, broadcast?:boolean }): void {
       try {   
         const objects = convertToGraph({ input:data, typename:'vehicle', fieldMap });
-        return apolloClient.cache.watch({}) .writeQuery<{Vehicle:Vehicle[]}>({ query: QueryVehicleObjectsDocument, variables, data: { Vehicle:objects } });
+        return apolloCache.writeQuery<{Vehicle:Vehicle[]}>({ query: QueryVehicleObjectsDocument, variables, data: { Vehicle:objects } });
       } catch (error) {
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('cacheWriteQueryVehicleObjects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
@@ -169,32 +140,18 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       return undefined;
     }
 
-    function clientWriteQueryVehicleInsert({ apolloClient, variables, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables, vehicle:Vehicle_Insert_Input, fieldMap?: FieldMap }): void {
-      const currentObjects = clientReadQueryVehicleObjects({ apolloClient, variables }) || [];
-      const objectsWithInserted = [ ...currentObjects, convertToGraph({ input: vehicle, typename:'vehicle', fieldMap })];
-      if(logLevel >= 2) console.log(' --> clientWriteQueryVehicleInsert - objectsWithInserted:', objectsWithInserted);
-      return clientWriteQueryVehicleObjects({ apolloClient, variables, data: objectsWithInserted });  
-    }
-
-    function cacheWriteQueryVehicleInsert({ apolloClient, variables, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables, vehicle:Vehicle_Insert_Input, fieldMap?: FieldMap }): void {
-      const currentObjects = clientReadQueryVehicleObjects({ apolloClient, variables }) || [];
+    function cacheWriteQueryVehicleInsert({ apolloCache, variables, vehicle, fieldMap, broadcast }: { apolloCache: ApolloCache<object>, variables: QueryVehicleObjectsQueryVariables, vehicle:Vehicle_Insert_Input, fieldMap?: FieldMap, broadcast?:boolean }): void {
+      const currentObjects = cacheReadQueryVehicleObjects({ apolloCache, variables }) || [];
       const objectsWithInserted = [ ...currentObjects, convertToGraph({ input: vehicle, typename:'vehicle', fieldMap })];
       if(logLevel >= 2) console.log(' --> cacheWriteQueryVehicleInsert - objectsWithInserted:', objectsWithInserted);
-      return cacheWriteQueryVehicleObjects({ apolloClient, variables, data: objectsWithInserted });
+      return cacheWriteQueryVehicleObjects({ apolloCache, variables, data: objectsWithInserted });
     }
 
-    function clientWriteQueryVehicleRemove({ apolloClient, variables, vehicleId }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables, vehicleId: string }): void {
-      const currentObjects = clientReadQueryVehicleObjects({ apolloClient, variables }) || [];
-      const objectsWithRemoved = currentObjects.filter(objectItem => objectItem.id !== vehicleId) || [];
-      if(logLevel >= 2) console.log(' --> clientWriteQueryVehicleRemove - objectsWithRemoved:', objectsWithRemoved);
-      return clientWriteQueryVehicleObjects({ apolloClient, variables, data: objectsWithRemoved });
-    }
-
-    function cacheWriteQueryVehicleRemove({ apolloClient, variables, vehicleId }: { apolloClient: ApolloClient<object>, variables: QueryVehicleObjectsQueryVariables, vehicleId: string }): void {
-      const currentObjects = clientReadQueryVehicleObjects({ apolloClient, variables }) || [];
+    function cacheWriteQueryVehicleRemove({ apolloCache, variables, vehicleId, broadcast }: { apolloCache: ApolloCache<object>, variables: QueryVehicleObjectsQueryVariables, vehicleId: string, broadcast?:boolean }): void {
+      const currentObjects = cacheReadQueryVehicleObjects({ apolloCache, variables }) || [];
       const objectsWithRemoved = currentObjects.filter(objectItem => objectItem.id !== vehicleId) || [];
       if(logLevel >= 2) console.log(' --> cacheWriteQueryVehicleRemove - objectsWithRemoved:', objectsWithRemoved);
-      return cacheWriteQueryVehicleObjects({ apolloClient, variables, data: objectsWithRemoved });
+      return cacheWriteQueryVehicleObjects({ apolloCache, variables, data: objectsWithRemoved });
     };
     
 
@@ -383,18 +340,13 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
 
     export const VehicleFragmentGQLHelper = {
       cacheGetDataId: cacheGetDataIdForVehicle,
-      clientReadFragmentById: clientReadFragmentVehicleById,
-      clientWriteFragmentById: clientWriteFragmentVehicleById,
+      cacheReadFragmentById: cacheReadFragmentVehicleById,
       cacheWriteFragmentById: cacheWriteFragmentVehicleById,
-      clientReadQueryById: clientReadQueryVehicleById,
-      clientWriteQueryById: clientWriteQueryVehicleById,
+      cacheReadQueryById: cacheReadQueryVehicleById,
       cacheWriteQueryById: cacheWriteQueryVehicleById,
-      clientReadQueryObjects: clientReadQueryVehicleObjects,
-      clientWriteQueryObjects: clientWriteQueryVehicleObjects,
+      cacheReadQueryObjects: cacheReadQueryVehicleObjects,
       cacheWriteQueryObjects: cacheWriteQueryVehicleObjects,
-      clientWriteQueryInsert: clientWriteQueryVehicleInsert,
       cacheWriteQueryInsert: cacheWriteQueryVehicleInsert,
-      clientWriteQueryRemove: clientWriteQueryVehicleRemove,
       cacheWriteQueryRemove: cacheWriteQueryVehicleRemove,
       queryById: queryVehicleById,
       queryObjects: queryVehicleObjects,
@@ -433,49 +385,31 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       return defaultDataIdFromObject({ __typename: 'vehicle', id:vehicleId });
     }
 
-    function clientReadFragmentVehicleLocationOnlyById({ apolloClient, vehicleId}: { apolloClient: ApolloClient<object>, vehicleId: string }): VehicleLocationOnlyFragment | null | undefined {
-      return apolloClient.readFragment<VehicleLocationOnlyFragment | null | undefined>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ __typename: 'vehicle', id:vehicleId }) });
+    function cacheReadFragmentVehicleLocationOnlyById({ apolloCache, vehicleId}: { apolloCache: ApolloCache<object>, vehicleId: string }): VehicleLocationOnlyFragment | null | undefined {
+      return apolloCache.readFragment<VehicleLocationOnlyFragment | null | undefined>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ __typename: 'vehicle', id:vehicleId }) });
     }
 
-    function clientWriteFragmentVehicleLocationOnlyById({ apolloClient, vehicleId, vehicleLocationOnlyPartial, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicleLocationOnlyPartial: Partial<VehicleLocationOnlyFragment> | Vehicle_Insert_Input | null, fieldMap?: FieldMap }): Partial<VehicleLocationOnlyFragment> {
-      const parsedFragment = convertToGraph({ input:vehicleLocationOnlyPartial, typename:'vehicle', fieldMap });
-      if(logLevel >= 2) console.log(' --> clientWriteFragmentVehicleLocationOnlyById - parsedFragment:', parsedFragment);
-      apolloClient.writeFragment<Partial<VehicleLocationOnlyFragment> | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ ...parsedFragment, id:vehicleId }), data: parsedFragment });
-      return parsedFragment;
-    }
-
-    function cacheWriteFragmentVehicleLocationOnlyById({ apolloClient, vehicleId, vehicleLocationOnlyPartial, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicleLocationOnlyPartial: Partial<VehicleLocationOnlyFragment> | Vehicle_Insert_Input | null, fieldMap?: FieldMap }): Partial<VehicleLocationOnlyFragment> {
+    function cacheWriteFragmentVehicleLocationOnlyById({ apolloCache, vehicleId, vehicleLocationOnlyPartial, fieldMap, broadcast }: { apolloCache: ApolloCache<object>, vehicleId: string, vehicleLocationOnlyPartial: Partial<VehicleLocationOnlyFragment> | Vehicle_Insert_Input | null, fieldMap?: FieldMap, broadcast?:boolean }): Partial<VehicleLocationOnlyFragment> {
       const parsedFragment = convertToGraph({ input:vehicleLocationOnlyPartial, typename:'vehicle', fieldMap });
       if(logLevel >= 2) console.log(' --> cacheWriteFragmentVehicleLocationOnlyById - parsedFragment:', parsedFragment);
-      apolloClient.cache.writeFragment<Partial<VehicleLocationOnlyFragment> | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ ...parsedFragment, id:vehicleId }), data: parsedFragment });
+      apolloCache.writeFragment<Partial<VehicleLocationOnlyFragment> | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultDataIdFromObject({ ...parsedFragment, id:vehicleId }), data: parsedFragment });
       return parsedFragment;
     }
 
-    function clientReadQueryVehicleLocationOnlyById({ apolloClient, vehicleId}: { apolloClient: ApolloClient<object>, vehicleId: string }): VehicleLocationOnlyFragment | null | undefined {
+    function cacheReadQueryVehicleLocationOnlyById({ apolloCache, vehicleId}: { apolloCache: ApolloCache<object>, vehicleId: string }): VehicleLocationOnlyFragment | null | undefined {
       try {
-        return apolloClient.readQuery<VehicleLocationOnlyFragment | null >({ query: QueryVehicleLocationOnlyByIdDocument, variables: { vehicleId }  });
+        return apolloCache.readQuery<VehicleLocationOnlyFragment | null >({ query: QueryVehicleLocationOnlyByIdDocument, variables: { vehicleId }  });
       } catch (error) {
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
-        console.warn('clientReadQueryVehicleLocationOnlyById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
+        console.warn('cacheReadQueryVehicleLocationOnlyById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
       return undefined;
     }
 
-    function clientWriteQueryVehicleLocationOnlyById({ apolloClient, vehicleId, vehicleLocationOnly, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicleLocationOnly: VehicleLocationOnlyFragment | Vehicle_Insert_Input | null, fieldMap?: FieldMap }): void {
+    function cacheWriteQueryVehicleLocationOnlyById({ apolloCache, vehicleId, vehicleLocationOnly, fieldMap, broadcast }: { apolloCache: ApolloCache<object>, vehicleId: string, vehicleLocationOnly: VehicleLocationOnlyFragment | Vehicle_Insert_Input | null, fieldMap?: FieldMap, broadcast?:boolean }): void {
       try {
         const vehicleLocationOnlyPartial = convertToGraph({ input:vehicleLocationOnly, typename:'vehicle', fieldMap });
-        return apolloClient.writeQuery<VehicleLocationOnlyFragment | null>({ query: QueryVehicleLocationOnlyByIdDocument, variables: { vehicleId }, data: (vehicleLocationOnly ? vehicleLocationOnlyPartial : null) });
-      } catch (error) {
-        //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
-        console.warn('clientWriteQueryVehicleLocationOnlyById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
-      }
-      return undefined;
-    }
-
-    function cacheWriteQueryVehicleLocationOnlyById({ apolloClient, vehicleId, vehicleLocationOnly, fieldMap }: { apolloClient: ApolloClient<object>, vehicleId: string, vehicleLocationOnly: VehicleLocationOnlyFragment | Vehicle_Insert_Input | null, fieldMap?: FieldMap }): void {
-      try {
-        const vehicleLocationOnlyPartial = convertToGraph({ input:vehicleLocationOnly, typename:'vehicle', fieldMap });
-        return apolloClient.cache.writeQuery<VehicleLocationOnlyFragment | null>({ query: QueryVehicleLocationOnlyByIdDocument, variables: { vehicleId }, data: (vehicleLocationOnly ? vehicleLocationOnlyPartial : null) });
+        return apolloCache.writeQuery<VehicleLocationOnlyFragment | null>({ query: QueryVehicleLocationOnlyByIdDocument, variables: { vehicleId }, data: (vehicleLocationOnly ? vehicleLocationOnlyPartial : null) });
       } catch (error) {
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('cacheWriteQueryVehicleLocationOnlyById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
@@ -483,31 +417,20 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       return undefined;
     }
     
-    function clientReadQueryVehicleLocationOnlyObjects({ apolloClient, variables }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables }): Vehicle[] | null | undefined {
+    function cacheReadQueryVehicleLocationOnlyObjects({ apolloCache, variables }: { apolloCache: ApolloCache<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables }): Vehicle[] | null | undefined {
       try {
-        return apolloClient.readQuery<{Vehicle:Vehicle[] | null}>({ query: QueryVehicleLocationOnlyObjectsDocument, variables })?.Vehicle || [];
+        return apolloCache.readQuery<{Vehicle:Vehicle[] | null}>({ query: QueryVehicleLocationOnlyObjectsDocument, variables })?.Vehicle || [];
       } catch (error) {
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
-        console.warn('clientReadQueryVehicleLocationOnlyObjects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
+        console.warn('cacheReadQueryVehicleLocationOnlyObjects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
       }
       return undefined;
     }
 
-    function clientWriteQueryVehicleLocationOnlyObjects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, data:(Vehicle | Vehicle_Insert_Input)[], fieldMap?: FieldMap }): void {
-      try {
-        const objects = convertToGraph({ input:data, typename:'vehicle', fieldMap });
-        return apolloClient.writeQuery<{Vehicle:Vehicle[]}>({ query: QueryVehicleLocationOnlyObjectsDocument, variables, data: { Vehicle:objects } });
-      } catch (error) {
-        //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
-        console.warn('clientWriteQueryVehicleLocationOnlyObjects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
-      }
-      return undefined;
-    }
-
-    function cacheWriteQueryVehicleLocationOnlyObjects({ apolloClient, variables, data, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, data:(Vehicle | Vehicle_Insert_Input)[], fieldMap?: FieldMap }): void {
+    function cacheWriteQueryVehicleLocationOnlyObjects({ apolloCache, variables, data, fieldMap, broadcast }: { apolloCache: ApolloCache<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, data:(Vehicle | Vehicle_Insert_Input)[], fieldMap?: FieldMap, broadcast?:boolean }): void {
       try {   
         const objects = convertToGraph({ input:data, typename:'vehicle', fieldMap });
-        return apolloClient.cache.writeQuery<{Vehicle:Vehicle[]}>({ query: QueryVehicleLocationOnlyObjectsDocument, variables, data: { Vehicle:objects } });
+        return apolloCache.writeQuery<{Vehicle:Vehicle[]}>({ query: QueryVehicleLocationOnlyObjectsDocument, variables, data: { Vehicle:objects } });
       } catch (error) {
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('cacheWriteQueryVehicleLocationOnlyObjects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
@@ -515,32 +438,18 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       return undefined;
     }
 
-    function clientWriteQueryVehicleLocationOnlyInsert({ apolloClient, variables, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, vehicle:Vehicle_Insert_Input, fieldMap?: FieldMap }): void {
-      const currentObjects = clientReadQueryVehicleLocationOnlyObjects({ apolloClient, variables }) || [];
-      const objectsWithInserted = [ ...currentObjects, convertToGraph({ input: vehicle, typename:'vehicle', fieldMap })];
-      if(logLevel >= 2) console.log(' --> clientWriteQueryVehicleLocationOnlyInsert - objectsWithInserted:', objectsWithInserted);
-      return clientWriteQueryVehicleLocationOnlyObjects({ apolloClient, variables, data: objectsWithInserted });  
-    }
-
-    function cacheWriteQueryVehicleLocationOnlyInsert({ apolloClient, variables, vehicle, fieldMap }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, vehicle:Vehicle_Insert_Input, fieldMap?: FieldMap }): void {
-      const currentObjects = clientReadQueryVehicleLocationOnlyObjects({ apolloClient, variables }) || [];
+    function cacheWriteQueryVehicleLocationOnlyInsert({ apolloCache, variables, vehicle, fieldMap, broadcast }: { apolloCache: ApolloCache<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, vehicle:Vehicle_Insert_Input, fieldMap?: FieldMap, broadcast?:boolean }): void {
+      const currentObjects = cacheReadQueryVehicleLocationOnlyObjects({ apolloCache, variables }) || [];
       const objectsWithInserted = [ ...currentObjects, convertToGraph({ input: vehicle, typename:'vehicle', fieldMap })];
       if(logLevel >= 2) console.log(' --> cacheWriteQueryVehicleLocationOnlyInsert - objectsWithInserted:', objectsWithInserted);
-      return cacheWriteQueryVehicleLocationOnlyObjects({ apolloClient, variables, data: objectsWithInserted });
+      return cacheWriteQueryVehicleLocationOnlyObjects({ apolloCache, variables, data: objectsWithInserted });
     }
 
-    function clientWriteQueryVehicleLocationOnlyRemove({ apolloClient, variables, vehicleId }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, vehicleId: string }): void {
-      const currentObjects = clientReadQueryVehicleLocationOnlyObjects({ apolloClient, variables }) || [];
-      const objectsWithRemoved = currentObjects.filter(objectItem => objectItem.id !== vehicleId) || [];
-      if(logLevel >= 2) console.log(' --> clientWriteQueryVehicleLocationOnlyRemove - objectsWithRemoved:', objectsWithRemoved);
-      return clientWriteQueryVehicleLocationOnlyObjects({ apolloClient, variables, data: objectsWithRemoved });
-    }
-
-    function cacheWriteQueryVehicleLocationOnlyRemove({ apolloClient, variables, vehicleId }: { apolloClient: ApolloClient<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, vehicleId: string }): void {
-      const currentObjects = clientReadQueryVehicleLocationOnlyObjects({ apolloClient, variables }) || [];
+    function cacheWriteQueryVehicleLocationOnlyRemove({ apolloCache, variables, vehicleId, broadcast }: { apolloCache: ApolloCache<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, vehicleId: string, broadcast?:boolean }): void {
+      const currentObjects = cacheReadQueryVehicleLocationOnlyObjects({ apolloCache, variables }) || [];
       const objectsWithRemoved = currentObjects.filter(objectItem => objectItem.id !== vehicleId) || [];
       if(logLevel >= 2) console.log(' --> cacheWriteQueryVehicleLocationOnlyRemove - objectsWithRemoved:', objectsWithRemoved);
-      return cacheWriteQueryVehicleLocationOnlyObjects({ apolloClient, variables, data: objectsWithRemoved });
+      return cacheWriteQueryVehicleLocationOnlyObjects({ apolloCache, variables, data: objectsWithRemoved });
     };
     
 
@@ -698,18 +607,13 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
 
     export const VehicleLocationOnlyFragmentGQLHelper = {
       cacheGetDataId: cacheGetDataIdForVehicleLocationOnly,
-      clientReadFragmentById: clientReadFragmentVehicleLocationOnlyById,
-      clientWriteFragmentById: clientWriteFragmentVehicleLocationOnlyById,
+      cacheReadFragmentById: cacheReadFragmentVehicleLocationOnlyById,
       cacheWriteFragmentById: cacheWriteFragmentVehicleLocationOnlyById,
-      clientReadQueryById: clientReadQueryVehicleLocationOnlyById,
-      clientWriteQueryById: clientWriteQueryVehicleLocationOnlyById,
+      cacheReadQueryById: cacheReadQueryVehicleLocationOnlyById,
       cacheWriteQueryById: cacheWriteQueryVehicleLocationOnlyById,
-      clientReadQueryObjects: clientReadQueryVehicleLocationOnlyObjects,
-      clientWriteQueryObjects: clientWriteQueryVehicleLocationOnlyObjects,
+      cacheReadQueryObjects: cacheReadQueryVehicleLocationOnlyObjects,
       cacheWriteQueryObjects: cacheWriteQueryVehicleLocationOnlyObjects,
-      clientWriteQueryInsert: clientWriteQueryVehicleLocationOnlyInsert,
       cacheWriteQueryInsert: cacheWriteQueryVehicleLocationOnlyInsert,
-      clientWriteQueryRemove: clientWriteQueryVehicleLocationOnlyRemove,
       cacheWriteQueryRemove: cacheWriteQueryVehicleLocationOnlyRemove,
       queryById: queryVehicleLocationOnlyById,
       queryObjects: queryVehicleLocationOnlyObjects,

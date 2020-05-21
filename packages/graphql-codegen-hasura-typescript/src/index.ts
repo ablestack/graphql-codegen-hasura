@@ -10,11 +10,11 @@ import {
   injectInsertHelpers,
   injectUpdateHelpers,
   ContentManager,
-  injectClientAndCacheHelpers,
+  injectCacheHelpers,
   injectGlobalHelperCodePre,
   injectSharedHelpersPre,
   injectSharedHelpersPost,
-  injectGlobalHelperCodePost
+  injectGlobalHelperCodePost,
 } from "graphql-codegen-hasura-shared";
 
 // -----------------------------------------------------
@@ -44,19 +44,19 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
   injectGlobalHelperCodePre({
     contentManager,
     typescriptCodegenOutputPath: config.typescriptCodegenOutputPath,
-    withUpdates: config.withUpdates
+    withUpdates: config.withUpdates,
   });
 
   // get typemap from schema
   const typeMap = schema.getTypeMap();
 
   // find fragment documents
-  const documentFragments = documents.flatMap(documentItem => {
-    return documentItem.document.definitions.filter(definition => definition.kind === "FragmentDefinition");
+  const documentFragments = documents.flatMap((documentItem) => {
+    return documentItem.document.definitions.filter((definition) => definition.kind === "FragmentDefinition");
   }) as FragmentDefinitionNode[];
 
   // iterate and generate
-  documentFragments.map(fragmentDefinition => {
+  documentFragments.map((fragmentDefinition) => {
     injectEntitySharedTypeScriptPre(fragmentDefinition, typeMap, contentManager, config);
     config.withClientAndCacheHelpers && injectClientAndCacheTypeScript(fragmentDefinition, typeMap, contentManager, config);
     config.withQueries && injectEntityQueryTypeScript(fragmentDefinition, typeMap, contentManager, config);
@@ -77,12 +77,12 @@ export const plugin: PluginFunction<CstmHasuraCrudPluginConfig> = (schema: Graph
     withSubscriptions: config.withSubscriptions,
     withInserts: config.withInserts,
     withUpdates: config.withUpdates,
-    withDeletes: config.withDeletes
+    withDeletes: config.withDeletes,
   });
 
   return {
     prepend: contentManager.generateImportArray(),
-    content: contentManager.createContentString()
+    content: contentManager.createContentString(),
   };
 };
 
@@ -108,7 +108,7 @@ function injectEntitySharedTypeScriptPre(
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath,
   });
 }
 
@@ -140,7 +140,7 @@ function injectEntitySharedTypeScriptPost(
     withSubscriptions: config.withSubscriptions,
     withUpdates: config.withUpdates,
     withInserts: config.withInserts,
-    withDeletes: config.withDeletes
+    withDeletes: config.withDeletes,
   });
 }
 
@@ -159,13 +159,13 @@ function injectClientAndCacheTypeScript(
 
   const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(entityNamedType);
 
-  injectClientAndCacheHelpers({
+  injectCacheHelpers({
     contentManager,
     entityNamedType,
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath,
   });
 }
 
@@ -185,7 +185,7 @@ function injectEntityQueryTypeScript(fragmentDefinitionNode: FragmentDefinitionN
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath,
   });
 }
 
@@ -210,7 +210,7 @@ function injectEntitySubscriptionTypeScript(
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath,
   });
 }
 
@@ -236,7 +236,7 @@ function injectEntityInsertMutationTypeScript(
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath,
   });
 }
 // --------------------------------------
@@ -261,7 +261,7 @@ function injectEntityUpdateMutationTypeScript(
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath,
   });
 }
 
@@ -287,7 +287,7 @@ function injectEntityDeleteMutationTypeScript(
     fragmentName,
     trimString: config.trimString,
     primaryKeyIdField: relatedTablePrimaryKeyIdField,
-    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath
+    typescriptCodegenOutputPath: config.typescriptCodegenOutputPath,
   });
 }
 

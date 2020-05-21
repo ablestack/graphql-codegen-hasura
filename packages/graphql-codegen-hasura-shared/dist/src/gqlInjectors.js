@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.injectDeleteGql = exports.injectUpdateGql = exports.injectInsertGql = exports.injectFetchAsSubscriptionGql = exports.injectFetchAsQueryGql = exports.injectFragmentImport = exports.injectGlobalGqlCode = void 0;
 const _1 = require(".");
 const utils_1 = require("./utils");
 // ---------------------------------

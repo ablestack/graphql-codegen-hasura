@@ -14,7 +14,7 @@ export declare function injectSharedHelpersPre({ contentManager, entityNamedType
     primaryKeyIdField: FieldDefinitionNode;
     typescriptCodegenOutputPath: string;
 }): void;
-export declare function injectClientAndCacheHelpers({ contentManager, entityNamedType, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }: {
+export declare function injectCacheHelpers({ contentManager, entityNamedType, fragmentName, trimString, primaryKeyIdField, typescriptCodegenOutputPath, }: {
     contentManager: ContentManager;
     entityNamedType: GraphQLNamedType;
     fragmentName: string;

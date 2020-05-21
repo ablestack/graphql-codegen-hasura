@@ -13,6 +13,7 @@ export type Scalars = {
   QuestionJexl: any,
   GroupJexl: any,
   FlowJexl: any,
+  timestamptz: any,
   date: any,
   JSONString: any,
   Date: any,
@@ -3485,6 +3486,19 @@ export type TextQuestionFormsArgs = {
   slugs?: Maybe<Array<Maybe<Scalars['String']>>>
 };
 
+
+export type Timestamptz_Comparison_Exp = {
+  _eq?: Maybe<Scalars['timestamptz']>,
+  _gt?: Maybe<Scalars['timestamptz']>,
+  _gte?: Maybe<Scalars['timestamptz']>,
+  _in?: Maybe<Array<Maybe<Scalars['timestamptz']>>>,
+  _is_null?: Maybe<Scalars['Boolean']>,
+  _lt?: Maybe<Scalars['timestamptz']>,
+  _lte?: Maybe<Scalars['timestamptz']>,
+  _neq?: Maybe<Scalars['timestamptz']>,
+  _nin?: Maybe<Array<Maybe<Scalars['timestamptz']>>>,
+};
+
 export enum Type {
   CompleteTaskForm = 'COMPLETE_TASK_FORM',
   CompleteWorkflowForm = 'COMPLETE_WORKFLOW_FORM',
@@ -3507,10 +3521,12 @@ export type ValidationResult = {
 
 export type Vehicle = {
    __typename?: 'vehicle',
+  created_at?: Maybe<Scalars['timestamptz']>,
   id: Scalars['String'],
   locations: Array<Vehicle_Location>,
   locations_aggregate: Vehicle_Location_Aggregate,
   name: Scalars['String'],
+  updated_at?: Maybe<Scalars['timestamptz']>,
 };
 
 
@@ -3565,9 +3581,11 @@ export type Vehicle_Bool_Exp = {
   _and?: Maybe<Array<Maybe<Vehicle_Bool_Exp>>>,
   _not?: Maybe<Vehicle_Bool_Exp>,
   _or?: Maybe<Array<Maybe<Vehicle_Bool_Exp>>>,
+  created_at?: Maybe<Timestamptz_Comparison_Exp>,
   id?: Maybe<Text_Comparison_Exp>,
   locations?: Maybe<Vehicle_Location_Bool_Exp>,
   name?: Maybe<Text_Comparison_Exp>,
+  updated_at?: Maybe<Timestamptz_Comparison_Exp>,
 };
 
 export enum Vehicle_Constraint {
@@ -3575,9 +3593,11 @@ export enum Vehicle_Constraint {
 }
 
 export type Vehicle_Insert_Input = {
+  created_at?: Maybe<Scalars['timestamptz']>,
   id?: Maybe<Scalars['String']>,
   locations?: Maybe<Vehicle_Location_Arr_Rel_Insert_Input>,
   name?: Maybe<Scalars['String']>,
+  updated_at?: Maybe<Scalars['timestamptz']>,
 };
 
 export type Vehicle_Location = {
@@ -3811,24 +3831,32 @@ export type Vehicle_Location_Variance_Order_By = {
 
 export type Vehicle_Max_Fields = {
    __typename?: 'vehicle_max_fields',
+  created_at?: Maybe<Scalars['timestamptz']>,
   id?: Maybe<Scalars['String']>,
   name?: Maybe<Scalars['String']>,
+  updated_at?: Maybe<Scalars['timestamptz']>,
 };
 
 export type Vehicle_Max_Order_By = {
+  created_at?: Maybe<Order_By>,
   id?: Maybe<Order_By>,
   name?: Maybe<Order_By>,
+  updated_at?: Maybe<Order_By>,
 };
 
 export type Vehicle_Min_Fields = {
    __typename?: 'vehicle_min_fields',
+  created_at?: Maybe<Scalars['timestamptz']>,
   id?: Maybe<Scalars['String']>,
   name?: Maybe<Scalars['String']>,
+  updated_at?: Maybe<Scalars['timestamptz']>,
 };
 
 export type Vehicle_Min_Order_By = {
+  created_at?: Maybe<Order_By>,
   id?: Maybe<Order_By>,
   name?: Maybe<Order_By>,
+  updated_at?: Maybe<Order_By>,
 };
 
 export type Vehicle_Mutation_Response = {
@@ -3848,24 +3876,32 @@ export type Vehicle_On_Conflict = {
 };
 
 export type Vehicle_Order_By = {
+  created_at?: Maybe<Order_By>,
   id?: Maybe<Order_By>,
   locations_aggregate?: Maybe<Vehicle_Location_Aggregate_Order_By>,
   name?: Maybe<Order_By>,
+  updated_at?: Maybe<Order_By>,
 };
 
 export enum Vehicle_Select_Column {
+  CreatedAt = 'created_at',
   Id = 'id',
-  Name = 'name'
+  Name = 'name',
+  UpdatedAt = 'updated_at'
 }
 
 export type Vehicle_Set_Input = {
+  created_at?: Maybe<Scalars['timestamptz']>,
   id?: Maybe<Scalars['String']>,
   name?: Maybe<Scalars['String']>,
+  updated_at?: Maybe<Scalars['timestamptz']>,
 };
 
 export enum Vehicle_Update_Column {
+  CreatedAt = 'created_at',
   Id = 'id',
-  Name = 'name'
+  Name = 'name',
+  UpdatedAt = 'updated_at'
 }
 
 export type Workflow = Node & {
