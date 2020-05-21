@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "graphql-codegen-hasura",
-  "version": "4.9.0-alpha.1",
+  "version": "4.9.0",
   "description": "A collection of codgen plugins to support Hasura/Apollo GraphQL development",
   "author": "ahrnee",
   "license": "MIT",
