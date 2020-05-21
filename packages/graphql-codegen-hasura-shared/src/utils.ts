@@ -8,7 +8,7 @@ export const TABLE_TYPE_FILTER = (t: GraphQLNamedType) => {
 };
 
 export const ID_FIELD_TEST = (f: FieldDefinitionNode) => {
-  return f.name.value === "id";
+  return f?.name?.value === "id";
 };
 
 export function SCALAR_TYPE_TEST(f: FieldDefinitionNode) {
@@ -26,7 +26,7 @@ export function convertNameParts(str: string, func: (str: string) => string, rem
 
   return str
     .split("_")
-    .map(s => func(s))
+    .map((s) => func(s))
     .join("_");
 }
 
@@ -66,7 +66,10 @@ export function getIdPostGresFieldType(field: FieldDefinitionNode) {
 
 export function getIdTypeScriptFieldType(field: FieldDefinitionNode): { typeName: string; isNative: boolean } {
   const postGresIdFieldType = getIdPostGresFieldType(field);
-  if (postGresIdFieldType.endsWith("_enum")) {
+
+  if (!postGresIdFieldType) {
+    return undefined;
+  } else if (postGresIdFieldType.endsWith("_enum")) {
     return { typeName: makePascalCase(postGresIdFieldType), isNative: false };
   } else if (postGresIdFieldType.toLowerCase() === "int") {
     return { typeName: "number", isNative: true };
@@ -77,11 +80,11 @@ export function getIdTypeScriptFieldType(field: FieldDefinitionNode): { typeName
 
 export const getPrimaryKeyIdField = (t: GraphQLNamedType) => {
   const fields = (t.astNode as ObjectTypeDefinitionNode).fields;
-  return fields && fields.find(f => ID_FIELD_TEST(f));
+  return fields && fields.find((f) => ID_FIELD_TEST(f));
 };
 
 export function customCamelize(str) {
-  return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
+  return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, index) {
     if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
     return index <= 1 ? match.toLowerCase() : match.toUpperCase();
   });
@@ -90,13 +93,13 @@ export function customCamelize(str) {
 export function getUniqueEntitiesFromFragmentDefinitions({
   fragmentDefinitionNodes,
   schemaTypeMap,
-  trimString
+  trimString,
 }: {
   fragmentDefinitionNodes: FragmentDefinitionNode[];
   schemaTypeMap: TypeMap;
   trimString?: string;
 }) {
-  const entitiesFromFragments = fragmentDefinitionNodes.map(fragmentDefinitionNode => {
+  const entitiesFromFragments = fragmentDefinitionNodes.map((fragmentDefinitionNode) => {
     const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
     const relatedTableNamedType = schemaTypeMap[fragmentTableName];
     const relatedTablePrimaryKeyIdField = getPrimaryKeyIdField(relatedTableNamedType);
@@ -107,5 +110,5 @@ export function getUniqueEntitiesFromFragmentDefinitions({
     return `${entityShortName}`;
   });
 
-  return [...new Set(entitiesFromFragments.filter(item => item != null))];
+  return [...new Set(entitiesFromFragments.filter((item) => item != null))];
 }

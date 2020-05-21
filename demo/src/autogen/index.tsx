@@ -3374,6 +3374,146 @@ export type Date_Comparison_Exp = {
   _nin?: Maybe<Array<Maybe<Scalars['date']>>>;
 };
 
+/** columns and relationships of "dog" */
+export type Dog = {
+  __typename?: 'dog';
+  breed: Scalars['String'];
+  name: Scalars['String'];
+};
+
+/** aggregated selection of "dog" */
+export type Dog_Aggregate = {
+  __typename?: 'dog_aggregate';
+  aggregate?: Maybe<Dog_Aggregate_Fields>;
+  nodes: Array<Dog>;
+};
+
+/** aggregate fields of "dog" */
+export type Dog_Aggregate_Fields = {
+  __typename?: 'dog_aggregate_fields';
+  count?: Maybe<Scalars['Int']>;
+  max?: Maybe<Dog_Max_Fields>;
+  min?: Maybe<Dog_Min_Fields>;
+};
+
+
+/** aggregate fields of "dog" */
+export type Dog_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Dog_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "dog" */
+export type Dog_Aggregate_Order_By = {
+  count?: Maybe<Order_By>;
+  max?: Maybe<Dog_Max_Order_By>;
+  min?: Maybe<Dog_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "dog" */
+export type Dog_Arr_Rel_Insert_Input = {
+  data: Array<Dog_Insert_Input>;
+  on_conflict?: Maybe<Dog_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "dog". All fields are combined with a logical 'AND'. */
+export type Dog_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Dog_Bool_Exp>>>;
+  _not?: Maybe<Dog_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Dog_Bool_Exp>>>;
+  breed?: Maybe<Text_Comparison_Exp>;
+  name?: Maybe<Text_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "dog" */
+export enum Dog_Constraint {
+  /** unique or primary key constraint */
+  DogPkey = 'Dog_pkey',
+  /** unique or primary key constraint */
+  DogNameKey = 'dog_Name_key'
+}
+
+/** input type for inserting data into table "dog" */
+export type Dog_Insert_Input = {
+  breed?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Dog_Max_Fields = {
+  __typename?: 'dog_max_fields';
+  breed?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "dog" */
+export type Dog_Max_Order_By = {
+  breed?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Dog_Min_Fields = {
+  __typename?: 'dog_min_fields';
+  breed?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "dog" */
+export type Dog_Min_Order_By = {
+  breed?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+};
+
+/** response of any mutation on the table "dog" */
+export type Dog_Mutation_Response = {
+  __typename?: 'dog_mutation_response';
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data of the affected rows by the mutation */
+  returning: Array<Dog>;
+};
+
+/** input type for inserting object relation for remote table "dog" */
+export type Dog_Obj_Rel_Insert_Input = {
+  data: Dog_Insert_Input;
+  on_conflict?: Maybe<Dog_On_Conflict>;
+};
+
+/** on conflict condition type for table "dog" */
+export type Dog_On_Conflict = {
+  constraint: Dog_Constraint;
+  update_columns: Array<Dog_Update_Column>;
+};
+
+/** ordering options when selecting data from "dog" */
+export type Dog_Order_By = {
+  breed?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+};
+
+/** select columns of table "dog" */
+export enum Dog_Select_Column {
+  /** column name */
+  Breed = 'breed',
+  /** column name */
+  Name = 'name'
+}
+
+/** input type for updating data in table "dog" */
+export type Dog_Set_Input = {
+  breed?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+/** update columns of table "dog" */
+export enum Dog_Update_Column {
+  /** column name */
+  Breed = 'breed',
+  /** column name */
+  Name = 'name'
+}
+
 /** expression to compare columns of type integer. All fields are combined with logical 'AND'. */
 export type Integer_Comparison_Exp = {
   _eq?: Maybe<Scalars['Int']>;
@@ -3399,10 +3539,14 @@ export type Mutation_Root = {
   copyOption?: Maybe<CopyOptionPayload>;
   copyQuestion?: Maybe<CopyQuestionPayload>;
   createWorkItem?: Maybe<CreateWorkItemPayload>;
+  /** delete data from the table: "dog" */
+  delete_dog?: Maybe<Dog_Mutation_Response>;
   /** delete data from the table: "vehicle" */
   delete_vehicle?: Maybe<Vehicle_Mutation_Response>;
   /** delete data from the table: "vehicle_location" */
   delete_vehicle_location?: Maybe<Vehicle_Location_Mutation_Response>;
+  /** insert data into the table: "dog" */
+  insert_dog?: Maybe<Dog_Mutation_Response>;
   /** insert data into the table: "vehicle" */
   insert_vehicle?: Maybe<Vehicle_Mutation_Response>;
   /** insert data into the table: "vehicle_location" */
@@ -3443,6 +3587,8 @@ export type Mutation_Root = {
   saveWorkflow?: Maybe<SaveWorkflowPayload>;
   skipWorkItem?: Maybe<SkipWorkItemPayload>;
   startCase?: Maybe<StartCasePayload>;
+  /** update data of the table: "dog" */
+  update_dog?: Maybe<Dog_Mutation_Response>;
   /** update data of the table: "vehicle" */
   update_vehicle?: Maybe<Vehicle_Mutation_Response>;
   /** update data of the table: "vehicle_location" */
@@ -3499,6 +3645,12 @@ export type Mutation_RootCreateWorkItemArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDelete_DogArgs = {
+  where: Dog_Bool_Exp;
+};
+
+
+/** mutation root */
 export type Mutation_RootDelete_VehicleArgs = {
   where: Vehicle_Bool_Exp;
 };
@@ -3507,6 +3659,13 @@ export type Mutation_RootDelete_VehicleArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Vehicle_LocationArgs = {
   where: Vehicle_Location_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_DogArgs = {
+  objects: Array<Dog_Insert_Input>;
+  on_conflict?: Maybe<Dog_On_Conflict>;
 };
 
 
@@ -3741,6 +3900,13 @@ export type Mutation_RootStartCaseArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_DogArgs = {
+  _set?: Maybe<Dog_Set_Input>;
+  where: Dog_Bool_Exp;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_VehicleArgs = {
   _set?: Maybe<Vehicle_Set_Input>;
   where: Vehicle_Bool_Exp;
@@ -3785,6 +3951,12 @@ export type Query_Root = {
   allWorkflows?: Maybe<WorkflowConnection>;
   dataSource?: Maybe<DataSourceDataConnection>;
   documentValidity?: Maybe<DocumentValidityConnection>;
+  /** fetch data from the table: "dog" */
+  dog: Array<Dog>;
+  /** fetch aggregated fields from the table: "dog" */
+  dog_aggregate: Dog_Aggregate;
+  /** fetch data from the table: "dog" using primary key columns */
+  dog_by_pk?: Maybe<Dog>;
   hello?: Maybe<Scalars['String']>;
   /** The ID of the object */
   node?: Maybe<Node>;
@@ -4020,6 +4192,32 @@ export type Query_RootDocumentValidityArgs = {
 
 
 /** query root */
+export type Query_RootDogArgs = {
+  distinct_on?: Maybe<Array<Dog_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Dog_Order_By>>;
+  where?: Maybe<Dog_Bool_Exp>;
+};
+
+
+/** query root */
+export type Query_RootDog_AggregateArgs = {
+  distinct_on?: Maybe<Array<Dog_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Dog_Order_By>>;
+  where?: Maybe<Dog_Bool_Exp>;
+};
+
+
+/** query root */
+export type Query_RootDog_By_PkArgs = {
+  name: Scalars['String'];
+};
+
+
+/** query root */
 export type Query_RootNodeArgs = {
   id: Scalars['ID'];
 };
@@ -4079,6 +4277,12 @@ export type Query_RootVehicle_Location_By_PkArgs = {
 /** subscription root */
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "dog" */
+  dog: Array<Dog>;
+  /** fetch aggregated fields from the table: "dog" */
+  dog_aggregate: Dog_Aggregate;
+  /** fetch data from the table: "dog" using primary key columns */
+  dog_by_pk?: Maybe<Dog>;
   /** fetch data from the table: "vehicle" */
   vehicle: Array<Vehicle>;
   /** fetch aggregated fields from the table: "vehicle" */
@@ -4091,6 +4295,32 @@ export type Subscription_Root = {
   vehicle_location_aggregate: Vehicle_Location_Aggregate;
   /** fetch data from the table: "vehicle_location" using primary key columns */
   vehicle_location_by_pk?: Maybe<Vehicle_Location>;
+};
+
+
+/** subscription root */
+export type Subscription_RootDogArgs = {
+  distinct_on?: Maybe<Array<Dog_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Dog_Order_By>>;
+  where?: Maybe<Dog_Bool_Exp>;
+};
+
+
+/** subscription root */
+export type Subscription_RootDog_AggregateArgs = {
+  distinct_on?: Maybe<Array<Dog_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Dog_Order_By>>;
+  where?: Maybe<Dog_Bool_Exp>;
+};
+
+
+/** subscription root */
+export type Subscription_RootDog_By_PkArgs = {
+  name: Scalars['String'];
 };
 
 
@@ -4935,6 +5165,40 @@ export type UpdateVehicleLocationOnlyMutation = (
   )> }
 );
 
+export type QueryDogObjectsQueryVariables = {
+  distinct_on?: Maybe<Array<Dog_Select_Column>>;
+  where?: Maybe<Dog_Bool_Exp>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Dog_Order_By>>;
+};
+
+
+export type QueryDogObjectsQuery = (
+  { __typename?: 'query_root' }
+  & { dog: Array<(
+    { __typename?: 'dog' }
+    & DogFragment
+  )> }
+);
+
+export type SubscribeToDogObjectsSubscriptionVariables = {
+  distinct_on?: Maybe<Array<Dog_Select_Column>>;
+  where?: Maybe<Dog_Bool_Exp>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Dog_Order_By>>;
+};
+
+
+export type SubscribeToDogObjectsSubscription = (
+  { __typename?: 'subscription_root' }
+  & { dog: Array<(
+    { __typename?: 'dog' }
+    & DogFragment
+  )> }
+);
+
 export type VehicleFragment = (
   { __typename?: 'vehicle' }
   & Pick<Vehicle, 'id' | 'name'>
@@ -4953,6 +5217,11 @@ export type VehicleLocationOnlyFragment = (
   )> }
 );
 
+export type DogFragment = (
+  { __typename?: 'dog' }
+  & Pick<Dog, 'name' | 'breed'>
+);
+
 export const VehicleFragmentDoc = gql`
     fragment Vehicle on vehicle {
   id
@@ -4968,6 +5237,12 @@ export const VehicleLocationOnlyFragmentDoc = gql`
   locations {
     location
   }
+}
+    `;
+export const DogFragmentDoc = gql`
+    fragment Dog on dog {
+  name
+  breed
 }
     `;
 export const QueryVehicleByIdDocument = gql`
@@ -5158,3 +5433,19 @@ export const UpdateVehicleLocationOnlyDocument = gql`
 export type UpdateVehicleLocationOnlyMutationFn = ApolloReactCommon.MutationFunction<UpdateVehicleLocationOnlyMutation, UpdateVehicleLocationOnlyMutationVariables>;
 export type UpdateVehicleLocationOnlyMutationResult = ApolloReactCommon.MutationResult<UpdateVehicleLocationOnlyMutation>;
 export type UpdateVehicleLocationOnlyMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateVehicleLocationOnlyMutation, UpdateVehicleLocationOnlyMutationVariables>;
+export const QueryDogObjectsDocument = gql`
+    query queryDogObjects($distinct_on: [dog_select_column!], $where: dog_bool_exp, $limit: Int, $offset: Int, $order_by: [dog_order_by!]) {
+  dog(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+    ...Dog
+  }
+}
+    ${DogFragmentDoc}`;
+export type QueryDogObjectsQueryResult = ApolloReactCommon.QueryResult<QueryDogObjectsQuery, QueryDogObjectsQueryVariables>;
+export const SubscribeToDogObjectsDocument = gql`
+    subscription subscribeToDogObjects($distinct_on: [dog_select_column!], $where: dog_bool_exp, $limit: Int, $offset: Int, $order_by: [dog_order_by!]) {
+  dog(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+    ...Dog
+  }
+}
+    ${DogFragmentDoc}`;
+export type SubscribeToDogObjectsSubscriptionResult = ApolloReactCommon.SubscriptionResult<SubscribeToDogObjectsSubscription>;

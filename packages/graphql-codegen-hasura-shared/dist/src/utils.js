@@ -6,7 +6,8 @@ exports.TABLE_TYPE_FILTER = (t) => {
     return t.description.includes("columns and relationships of");
 };
 exports.ID_FIELD_TEST = (f) => {
-    return f.name.value === "id";
+    var _a;
+    return ((_a = f === null || f === void 0 ? void 0 : f.name) === null || _a === void 0 ? void 0 : _a.value) === "id";
 };
 function SCALAR_TYPE_TEST(f) {
     return !f.description || !f.description.block;
@@ -22,7 +23,7 @@ function convertNameParts(str, func, removeUnderscore = false) {
     }
     return str
         .split("_")
-        .map(s => func(s))
+        .map((s) => func(s))
         .join("_");
 }
 exports.convertNameParts = convertNameParts;
@@ -62,7 +63,10 @@ function getIdPostGresFieldType(field) {
 exports.getIdPostGresFieldType = getIdPostGresFieldType;
 function getIdTypeScriptFieldType(field) {
     const postGresIdFieldType = getIdPostGresFieldType(field);
-    if (postGresIdFieldType.endsWith("_enum")) {
+    if (!postGresIdFieldType) {
+        return undefined;
+    }
+    else if (postGresIdFieldType.endsWith("_enum")) {
         return { typeName: makePascalCase(postGresIdFieldType), isNative: false };
     }
     else if (postGresIdFieldType.toLowerCase() === "int") {
@@ -75,7 +79,7 @@ function getIdTypeScriptFieldType(field) {
 exports.getIdTypeScriptFieldType = getIdTypeScriptFieldType;
 exports.getPrimaryKeyIdField = (t) => {
     const fields = t.astNode.fields;
-    return fields && fields.find(f => exports.ID_FIELD_TEST(f));
+    return fields && fields.find((f) => exports.ID_FIELD_TEST(f));
 };
 function customCamelize(str) {
     return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function (match, index) {
@@ -85,8 +89,8 @@ function customCamelize(str) {
     });
 }
 exports.customCamelize = customCamelize;
-function getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString }) {
-    const entitiesFromFragments = fragmentDefinitionNodes.map(fragmentDefinitionNode => {
+function getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString, }) {
+    const entitiesFromFragments = fragmentDefinitionNodes.map((fragmentDefinitionNode) => {
         const fragmentTableName = fragmentDefinitionNode.typeCondition.name.value;
         const relatedTableNamedType = schemaTypeMap[fragmentTableName];
         const relatedTablePrimaryKeyIdField = exports.getPrimaryKeyIdField(relatedTableNamedType);
@@ -95,7 +99,7 @@ function getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, sch
         const entityShortName = makeShortName(relatedTableNamedType.name, trimString);
         return `${entityShortName}`;
     });
-    return [...new Set(entitiesFromFragments.filter(item => item != null))];
+    return [...new Set(entitiesFromFragments.filter((item) => item != null))];
 }
 exports.getUniqueEntitiesFromFragmentDefinitions = getUniqueEntitiesFromFragmentDefinitions;
 //# sourceMappingURL=utils.js.map

@@ -59,6 +59,12 @@ import { UpdateVehicleLocationOnlyByIdDocument } from '../';
 import { UpdateVehicleLocationOnlyMutation } from '../';
 import { UpdateVehicleLocationOnlyMutationVariables } from '../';
 import { UpdateVehicleLocationOnlyDocument } from '../';
+import { QueryDogObjectsQuery } from '../';
+import { QueryDogObjectsDocument } from '../';
+import { QueryDogObjectsQueryVariables } from '../';
+import { SubscribeToDogObjectsSubscription } from '../';
+import { SubscribeToDogObjectsDocument } from '../';
+import { SubscribeToDogObjectsSubscriptionVariables } from '../';
 
     // GLOBAL TYPES
     //------------------------------------------------
@@ -738,13 +744,75 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
     }
     
 
+    /**
+     *  Query Collection Hook
+     */
+
+    // Types
+    export type QueryDogObjectsResult = LazyQueryResult<QueryDogObjectsQuery, QueryDogObjectsQueryVariables>;
+    type QueryDogObjectsSubScribeToMore = (options?: Omit<SubscribeToMoreOptions<QueryDogObjectsQuery, QueryDogObjectsQueryVariables, QueryDogObjectsQuery>, 'document' | 'variables'> | undefined) => void
+    export type QueryDogObjectsResultEx = Omit<QueryDogObjectsResult, 'subscribeToMore'> & { subscribeToMore:QueryDogObjectsSubScribeToMore } & DogObjectsHookResultEx;
+
+    // Function
+    function useQueryDogObjects(options: Omit<QueryHookOptions<QueryDogObjectsQuery, QueryDogObjectsQueryVariables>, "query">): QueryDogObjectsResultEx {
+      const _query:QueryDogObjectsResult = useQuery<QueryDogObjectsQuery, QueryDogObjectsQueryVariables>(QueryDogObjectsDocument, options);
+
+      const typedSubscribeToMore:QueryDogObjectsSubScribeToMore = (options) => { _query.subscribeToMore({document: QueryDogObjectsDocument, ...options });}
+      const { subscribeToMore, ...query } = _query;  
+
+      return { ...query, subscribeToMore:typedSubscribeToMore, objects: query?.data?.dog || [] };
+    }
+    
+  
+    /**
+     *  Lazy Query Collection Hook
+     */
+
+    // Types
+    type PickQueryDogObjectsFn = (query: QueryDogObjectsQuery | null | undefined) => DogFragment[];
+    type QueryDogObjectsLazyFn = [(options?: QueryLazyOptions<QueryDogObjectsQueryVariables> | undefined) => void, QueryDogObjectsResult]
+    type QueryDogObjectsWrappedLazyFn = (options?: QueryLazyOptions<QueryDogObjectsQueryVariables>) => void;
+    export type QueryDogObjectsLazyReturn = [QueryDogObjectsWrappedLazyFn, QueryDogObjectsResultEx];
+
+    // Function
+    function useQueryDogObjectsLazy(options?: Omit<LazyQueryHookOptions<QueryDogObjectsQuery, QueryDogObjectsQueryVariables>, "query">): QueryDogObjectsLazyReturn {
+      const lazyQuery: QueryDogObjectsLazyFn = useLazyQuery<QueryDogObjectsQuery, QueryDogObjectsQueryVariables>(QueryDogObjectsDocument, options);
+      
+      // Setting up typed version of lazyQuery
+      const pickObjects: PickQueryDogObjectsFn = (query: QueryDogObjectsQuery | null | undefined) => { return query?.dog || []; };
+      const wrappedLazyQuery: QueryDogObjectsWrappedLazyFn = (options) => { return lazyQuery[0]( options ); };
+      
+      // Switching out SubcribeToMore with typed version
+      const typedSubcribeToMore:QueryDogObjectsSubScribeToMore = (options) => { lazyQuery[1].subscribeToMore && lazyQuery[1].subscribeToMore({document: QueryDogObjectsDocument, ...options });}
+      const { subscribeToMore, ...lazyQueryResult } = lazyQuery[1];  
+      
+      return [wrappedLazyQuery, { ...lazyQueryResult, subscribeToMore:typedSubcribeToMore, objects: pickObjects(lazyQuery[1].data) }];
+    }
+  
+
+    /**
+     *  Subscription Collection Hook
+     */
+
+    // Types
+    export type SubscribeToDogObjectsResult = { variables: SubscribeToDogObjectsSubscriptionVariables; loading: boolean; data?: SubscribeToDogObjectsSubscription; error?: ApolloError | undefined; };
+    export type SubscribeToDogObjectsResultEx = SubscribeToDogObjectsResult & DogObjectsHookResultEx;
+
+    // Function
+    function useSubscribeToDogObjects(options: Omit<SubscriptionHookOptions<SubscribeToDogObjectsSubscription, SubscribeToDogObjectsSubscriptionVariables>, "query">): SubscribeToDogObjectsResultEx {
+      const subscription:SubscribeToDogObjectsResult = useSubscription<SubscribeToDogObjectsSubscription, SubscribeToDogObjectsSubscriptionVariables>(SubscribeToDogObjectsDocument, options);
+      return { ...subscription, objects: subscription?.data?.dog || [] };
+    }
+    
+
     /*
      * COMBINED HOOKS OBJECT
      */
     export const GQLHooks = {
       Fragments: {
         Vehicle: VehicleFragmentGQLHooks,
-        VehicleLocationOnly: VehicleLocationOnlyFragmentGQLHooks
+        VehicleLocationOnly: VehicleLocationOnlyFragmentGQLHooks,
+        Dog: DogFragmentGQLHooks
       },
       Models: {
         Vehicle: VehicleModelGQLHooks

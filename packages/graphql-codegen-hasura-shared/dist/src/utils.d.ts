@@ -19,7 +19,7 @@ export declare function getIdTypeScriptFieldType(field: FieldDefinitionNode): {
 };
 export declare const getPrimaryKeyIdField: (t: GraphQLNamedType) => FieldDefinitionNode;
 export declare function customCamelize(str: any): any;
-export declare function getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString }: {
+export declare function getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString, }: {
     fragmentDefinitionNodes: FragmentDefinitionNode[];
     schemaTypeMap: TypeMap;
     trimString?: string;

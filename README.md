@@ -347,17 +347,26 @@ This code was initially developed for use in a single separate commercial projec
 
 Known Issues Include:
 
+- The majority of the codegen relies on each table having an `id` field. See (Refinements Needed)[##Refinements-and-Enhancements-Needed] section below for details
 - Does not support entities with multi-field primary keys
 
 ## Refinements and Enhancements Needed
 
 There are many refinements and enhancements that would be beneficial, and contributions to that end are encouraged. Notable examples include:
 
-- Automatically generate fieldMap property for clientWriteInsertQuery method (see packages/graphql-codegen-hasura-core/src/utils.test.ts for examples of this method)
-- Improve client field handling mechanism for \*WriteQueryInsert methods
-- Add more automated tests
-- Add validation (especially for checking for package prerequisites). See [these docs](https://graphql-code-generator.com/docs/custom-codegen/validate-configuration)
-- Rewrite the plugins to use the graphql-code-generator [recommended Visitor pattern](https://graphql-code-generator.com/docs/custom-codegen/using-visitor)
+1. Remove requirement for primary key field to be named `id`\*
+2. Support tables with multiple primary keys
+3. Automatically generate fieldMap property for clientWriteInsertQuery method (see packages/graphql-codegen-hasura-core/src/utils.test.ts for examples of this method)
+4. Improve client field handling mechanism for \*WriteQueryInsert methods
+5. Add more automated tests
+6. Add validation (especially for checking for package prerequisites). See [these docs](https://graphql-code-generator.com/docs/custom-codegen/validate-configuration)
+7. Rewrite the plugins to use the graphql-code-generator [recommended Visitor pattern](https://graphql-code-generator.com/docs/custom-codegen/using-visitor)\*\*
+
+## Help Wanted
+
+\*The main issue with [Refinements Needed](##Refinements-and-Enhancements-Needed) item 1 (above) is how to determine a primary key from a GQL schema (and FieldDefinitionNodes). Currently the code relies on the name of the primary key field being `id`. If anyone knows how to identify a primary key field from the GQL schema, let me know, or submit a pull request with the fix. The relevant section of code is [here](https://github.com/ahrnee/graphql-codegen-hasura/blob/fbbb449ad5e4155dbc0b2cc7955712695d7d86a8/packages/graphql-codegen-hasura-shared/src/utils.ts#L78).
+
+\*\* Contributions to [Refinements Needed](##Refinements-and-Enhancements-Needed) item 7 (above) would be welcome. This would unlock powerful additional codegen capabilities at a field level (currently limited to table level). Familiarity with the Visitor pattern (or willingness to learn it) is a prerequisite.
 
 ## Notes
 

@@ -62,6 +62,12 @@ import { UpdateVehicleLocationOnlyByIdDocument } from '../';
 import { UpdateVehicleLocationOnlyMutation } from '../';
 import { UpdateVehicleLocationOnlyMutationVariables } from '../';
 import { UpdateVehicleLocationOnlyDocument } from '../';
+import { QueryDogObjectsQuery } from '../';
+import { QueryDogObjectsDocument } from '../';
+import { QueryDogObjectsQueryVariables } from '../';
+import { SubscribeToDogObjectsSubscription } from '../';
+import { SubscribeToDogObjectsDocument } from '../';
+import { SubscribeToDogObjectsSubscriptionVariables } from '../';
 
     // GLOBAL TYPES
     //------------------------------------------------
@@ -629,12 +635,44 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
     }
   
 
+      // Query Fetch Objects Helper
+      //
+      export type QueryDogObjectsObjectsApolloQueryResult = ApolloQueryResult<QueryDogObjectsQuery>;
+      export type QueryDogObjectsObjectsApolloQueryResultEx = QueryDogObjectsObjectsApolloQueryResult & DogObjectsHelperResultEx;
+
+      async function queryDogObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<QueryDogObjectsQueryVariables>, 'query'> }): Promise<QueryDogObjectsObjectsApolloQueryResultEx> {
+        const query: QueryDogObjectsObjectsApolloQueryResult = await apolloClient.query<QueryDogObjectsQuery>({ query: QueryDogObjectsDocument, ...options });
+        
+        return { ...query, objects: query?.data?.dog || [] }
+      }
+
+      // Query Watch Objects Helper
+      //
+      export type WatchQueryDogObjectsApolloObservableQuery = ObservableQuery<QueryDogObjectsQuery>;
+      async function watchQueryDogObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<QueryDogObjectsQueryVariables>, 'query'> }) : Promise<WatchQueryDogObjectsApolloObservableQuery> {
+        return apolloClient.watchQuery<QueryDogObjectsQuery>({ query: QueryDogObjectsDocument, ...options });
+      }
+    
+
+      // Subscription Fetch Objects Helper
+      //
+      export type SubscribeToDogObjectsSubscriptionFetchResult = FetchResult<SubscribeToDogObjectsSubscription, Record<string, any>, Record<string, any>>;
+      export type SubscribeToDogObjectsSubscriptionFetchResultEx = FetchResult<SubscribeToDogObjectsSubscription, Record<string, any>, Record<string, any>> & DogObjectsHelperResultEx;
+
+      async function subscribeToDogObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options?: Omit<SubscriptionOptions<SubscribeToDogObjectsSubscriptionVariables>, 'query'> }): Promise<Observable<SubscribeToDogObjectsSubscriptionFetchResultEx>> {
+        const subscription:Observable<SubscribeToDogObjectsSubscriptionFetchResult> = apolloClient.subscribe<SubscribeToDogObjectsSubscription>({ query: SubscribeToDogObjectsDocument, ...options });
+        
+        return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, objects: value?.data?.dog || [] }  as SubscribeToDogObjectsSubscriptionFetchResultEx }) ;
+      }
+    
+
     // COMBINED HELPER OBJECT
     //------------------------------------------------
     export const GQLHelpers = {
       Fragments: {
         Vehicle: VehicleFragmentGQLHelper,
-        VehicleLocationOnly: VehicleLocationOnlyFragmentGQLHelper
+        VehicleLocationOnly: VehicleLocationOnlyFragmentGQLHelper,
+        Dog: DogFragmentGQLHelper
       },
       Models: {
         Vehicle: VehicleModelGQLHelper
