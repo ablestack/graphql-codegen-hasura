@@ -6,8 +6,8 @@ const utils_1 = require("./utils");
 // ---------------------------------
 //
 function injectGlobalHelperCodePre({ contentManager, typescriptCodegenOutputPath, withUpdates, }) {
-    contentManager.addImport(`import { generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, convertToGraph, ObjectWithId, FieldMap, getLogLevel, ensureTypenameOnFragment, ensureTypenameOnFragments, stripInsertInputClientFields } from 'graphql-codegen-hasura-core'`);
-    contentManager.addImport(`import { ApolloClient, ApolloCache, ApolloQueryResult, defaultDataIdFromObject, FetchResult, MutationOptions, ObservableQuery, QueryOptions, SubscriptionOptions, Observable, DataProxy } from '@apollo/client'`);
+    contentManager.addImport(`import { defaultCacheIdFromObject, generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, convertToGraph, ObjectWithId, FieldMap, getLogLevel, ensureTypenameOnFragment, ensureTypenameOnFragments, stripInsertInputClientFields } from 'graphql-codegen-hasura-core'`);
+    contentManager.addImport(`import { ApolloClient, ApolloCache, ApolloQueryResult, FetchResult, MutationOptions, ObservableQuery, QueryOptions, SubscriptionOptions, Observable, DataProxy } from '@apollo/client'`);
     contentManager.addContent(`
     // GLOBAL TYPES
     //------------------------------------------------
@@ -60,17 +60,17 @@ function injectCacheHelpers({ contentManager, entityNamedType, fragmentName, tri
     // Direct Client & Cache Fragment Helpers
     //
     function cacheGetDataIdFor${fragmentNamePascalCase}( ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}): string {
-      return defaultDataIdFromObject({ __typename: '${entityNamedType.name}', id:${entityShortCamelCaseName}Id });
+      return defaultCacheIdFromObject({ __typename: '${entityNamedType.name}', id:${entityShortCamelCaseName}Id });
     }
 
     function cacheReadFragment${fragmentNamePascalCase}ById({ apolloCache, ${entityShortCamelCaseName}Id}: { apolloCache: ApolloCache<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName} }): ${fragmentTypeScriptTypeName} | null | undefined {
-      return apolloCache.readFragment<${fragmentTypeScriptTypeName} | null | undefined>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ __typename: '${entityNamedType.name}', id:${entityShortCamelCaseName}Id }) });
+      return apolloCache.readFragment<${fragmentTypeScriptTypeName} | null | undefined>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultCacheIdFromObject({ __typename: '${entityNamedType.name}', id:${entityShortCamelCaseName}Id }) });
     }
 
     function cacheWriteFragment${fragmentNamePascalCase}ById({ apolloCache, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}Partial, fieldMap, broadcast }: { apolloCache: ApolloCache<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> | ${entityPascalName}_Insert_Input | null, fieldMap?: FieldMap, broadcast?:boolean }): Partial<${fragmentTypeScriptTypeName}> {
       const parsedFragment = convertToGraph({ input:${fragmentNameCamelCase}Partial, typename:'${entityNamedType.name}', fieldMap });
       if(logLevel >= 2) console.log(' --> cacheWriteFragment${fragmentNamePascalCase}ById - parsedFragment:', parsedFragment);
-      apolloCache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultDataIdFromObject({ ...parsedFragment, id:${entityShortCamelCaseName}Id }), data: parsedFragment });
+      apolloCache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultCacheIdFromObject({ ...parsedFragment, id:${entityShortCamelCaseName}Id }), data: parsedFragment, broadcast });
       return parsedFragment;
     }
 
@@ -87,7 +87,7 @@ function injectCacheHelpers({ contentManager, entityNamedType, fragmentName, tri
     function cacheWriteQuery${fragmentNamePascalCase}ById({ apolloCache, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}, fieldMap, broadcast }: { apolloCache: ApolloCache<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}: ${fragmentNamePascalCase}Fragment | ${entityPascalName}_Insert_Input | null, fieldMap?: FieldMap, broadcast?:boolean }): void {
       try {
         const ${fragmentNameCamelCase}Partial = convertToGraph({ input:${fragmentNameCamelCase}, typename:'${entityNamedType.name}', fieldMap });
-        return apolloCache.writeQuery<${fragmentNamePascalCase}Fragment | null>({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, data: (${fragmentNameCamelCase} ? ${fragmentNameCamelCase}Partial : null) });
+        return apolloCache.writeQuery<${fragmentNamePascalCase}Fragment | null>({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, data: (${fragmentNameCamelCase} ? ${fragmentNameCamelCase}Partial : null), broadcast });
       } catch (error) {
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('cacheWriteQuery${fragmentNamePascalCase}ById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
@@ -108,7 +108,7 @@ function injectCacheHelpers({ contentManager, entityNamedType, fragmentName, tri
     function cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloCache, variables, data, fieldMap, broadcast }: { apolloCache: ApolloCache<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:(${entityPascalName} | ${entityPascalName}_Insert_Input)[], fieldMap?: FieldMap, broadcast?:boolean }): void {
       try {   
         const objects = convertToGraph({ input:data, typename:'${entityNamedType.name}', fieldMap });
-        return apolloCache.writeQuery<{${entityPascalName}:${entityPascalName}[]}>({ query: ${queryObjectsName}Document, variables, data: { ${entityPascalName}:objects } });
+        return apolloCache.writeQuery<{${entityPascalName}:${entityPascalName}[]}>({ query: ${queryObjectsName}Document, variables, data: { ${entityPascalName}:objects }, broadcast });
       } catch (error) {
         //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
         console.warn('cacheWriteQuery${fragmentNamePascalCase}Objects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
@@ -120,14 +120,14 @@ function injectCacheHelpers({ contentManager, entityNamedType, fragmentName, tri
       const currentObjects = cacheReadQuery${fragmentNamePascalCase}Objects({ apolloCache, variables }) || [];
       const objectsWithInserted = [ ...currentObjects, convertToGraph({ input: ${entityShortCamelCaseName}, typename:'${entityNamedType.name}', fieldMap })];
       if(logLevel >= 2) console.log(' --> cacheWriteQuery${fragmentNamePascalCase}Insert - objectsWithInserted:', objectsWithInserted);
-      return cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloCache, variables, data: objectsWithInserted });
+      return cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloCache, variables, data: objectsWithInserted, broadcast });
     }
 
     function cacheWriteQuery${fragmentNamePascalCase}Remove({ apolloCache, variables, ${entityShortCamelCaseName}Id, broadcast }: { apolloCache: ApolloCache<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, broadcast?:boolean }): void {
       const currentObjects = cacheReadQuery${fragmentNamePascalCase}Objects({ apolloCache, variables }) || [];
       const objectsWithRemoved = currentObjects.filter(objectItem => objectItem.id !== ${entityShortCamelCaseName}Id) || [];
       if(logLevel >= 2) console.log(' --> cacheWriteQuery${fragmentNamePascalCase}Remove - objectsWithRemoved:', objectsWithRemoved);
-      return cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloCache, variables, data: objectsWithRemoved });
+      return cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloCache, variables, data: objectsWithRemoved, broadcast });
     };
     `);
         //

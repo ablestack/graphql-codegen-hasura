@@ -23,30 +23,30 @@
     "directory": "dist/src"
   },
   "peerDependencies": {
-    "graphql-tag": "^2.10.3"
+    "graphql-tag": "^2.0.0"
   },
   "dependencies": {
-    "@apollo/client": "3.0.0-beta.50",
-    "@apollo/react-hooks": "^4.0.0-beta.1",
-    "@types/react": "16.9.35",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "@apollo/client": "^3.0.0-beta.35",
+    "@apollo/react-hooks": "^3.2.0-beta.0",
+    "@types/react": "16.9.13",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.9.6",
-    "@babel/preset-env": "^7.9.6",
-    "@babel/preset-typescript": "^7.9.0",
-    "@graphql-codegen/core": "^1.14.0",
-    "@graphql-codegen/plugin-helpers": "1.14.0",
-    "@graphql-codegen/typescript": "^1.14.0",
-    "@graphql-codegen/visitor-plugin-common": "1.14.0",
-    "@types/jest": "^25.2.3",
-    "babel-jest": "^26.0.1",
-    "graphql": "^15.0.0",
-    "jest": "^26.0.1",
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/preset-typescript": "^7.8.3",
+    "@graphql-codegen/core": "^1.12.2",
+    "@graphql-codegen/plugin-helpers": "1.12.2",
+    "@graphql-codegen/typescript": "^1.12.2",
+    "@graphql-codegen/visitor-plugin-common": "1.12.2",
+    "@types/jest": "^24.0.23",
+    "babel-jest": "^24.9.0",
+    "graphql": "^14.5.8",
+    "jest": "^24.9.0",
     "path": "^0.12.7",
-    "tslib": "2.0.0",
-    "typescript": "3.9.3"
+    "tslib": "1.10.0",
+    "typescript": "3.7.2"
   },
   "sideEffects": false,
   "main": "dist/graphql-codegen-hasura-client-config/src/index.js",
@@ -54,5 +54,5 @@
   "typescript": {
     "definition": "dist/graphql-codegen-hasura-client-config/src/index.d.ts"
   },
-  "gitHead": "3a039cd7887b37c6a273cc8a7ae78b636bb56af2"
+  "gitHead": "6019f0bd59c21a34e205b36a3d531a2577ae0242"
 }

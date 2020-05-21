@@ -368,5 +368,7 @@ There are many refinements and enhancements that would be beneficial, and contri
 
 ### Notes 4.9.0
 
-- _Breaking Change_: The Client* and Cache* methods have been consolidated into Cache* only methods. This is due to a change in the ApolloClient dependency that meant the behaviour was the same for both, making the additional Client* methods redundant
-- _Breaking Change_: The Cache\* methods will now, by default, trigger client-side Query update broadcasts (see Apollo documentation for details of this). An additional 'broadcast' parameter has been added allowing broadcasts to avoided when set to false
+- _Breaking Change_: The Client* and Cache* methods have been consolidated into cache* methods. This is due to a change in the ApolloClient dependency that meant the behavior was the same for both, making the additional Client* methods redundant
+- _Breaking Change_: The Cache\* methods now require the ApolloCache object as a parameter, instead of the ApolloClient object (Accessible via ApolloClient.cache). This allows the cache methods to participate in a transaction via cache.performTransaction. This is a useful, but not well documented method. (see [Apollo source](https://github.com/apollographql/apollo-client/blob/61a799b2cd5e1657eab4ea97485828671ce35286/src/cache/inmemory/inMemoryCache.ts#L244) for details).
+- _Breaking Change_: The Cache\* methods will now, by default, trigger client-side Query update broadcasts (see Apollo documentation for details of this).
+- An additional 'broadcast' parameter has been added to all cacheWrite\* methods, in order to support silent cache updates

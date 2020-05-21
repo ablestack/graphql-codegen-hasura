@@ -1,7 +1,10 @@
-import { defaultDataIdFromObject } from "@apollo/client";
 import { StrictFieldMap, INSERT_INPUT_CLIENT_FIELDNAME_PREFIX, FieldMap } from ".";
 import { PostGresUtils } from "./postgres.utils";
 import { key_created_at, key_updated_at, key_typename } from "./types";
+
+export function defaultCacheIdFromObject({ __typename, id }: { __typename: string; id: any }) {
+  return `${__typename}:${id.toString()}`;
+}
 
 // Optimistic response generation utility method
 //
@@ -37,7 +40,7 @@ export function generateOptimisticResponseForMutation<T>({
  */
 export function generateUpdateFunctionForMutation<T>({ operationType, entityName, entityId }: { operationType: "delete"; entityName: string; entityId: string | number }) {
   return (cache: any, result: any) => {
-    cache.evict(defaultDataIdFromObject({ __typename: entityName, id: entityId }));
+    cache.evict(defaultCacheIdFromObject({ __typename: entityName, id: entityId }));
   };
 }
 
