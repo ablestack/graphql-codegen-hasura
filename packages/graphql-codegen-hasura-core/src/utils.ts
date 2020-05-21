@@ -64,8 +64,8 @@ export function IS_INSERT_INPUT_OBJECT(object: any) {
   return object.data;
 }
 
-export function IS_INSERT_INPUT_CLIENT_FIELDNAME({ fieldname }: { fieldname: string }) {
-  return fieldname.startsWith(INSERT_INPUT_CLIENT_FIELDNAME_PREFIX);
+export function IS_INSERT_INPUT_CLIENT_FIELDNAME({ key }: { key: string }) {
+  return key.startsWith(INSERT_INPUT_CLIENT_FIELDNAME_PREFIX);
 }
 
 export function GET_INSERT_INPUT_DATA(object: any) {
@@ -102,6 +102,8 @@ export function makeStrictFieldmap({ typenames, ignore, clientOnly, replace }: F
 // -----------------------------------------------------------------------------------------------------------------------
 
 export function stripInsertInputClientFields({ input }: { input: object }) {
+  if (input === null || input === undefined) return input;
+
   if (IS_JAVASCRIPT_SCALAR_EQUIVALENT(input)) {
     return input;
   }
@@ -117,7 +119,7 @@ export function stripInsertInputClientFields({ input }: { input: object }) {
 
     const o: any = {};
     for (const [key, value] of Object.entries(input)) {
-      if (!IS_INSERT_INPUT_CLIENT_FIELDNAME({ fieldname: key })) {
+      if (!IS_INSERT_INPUT_CLIENT_FIELDNAME({ key }) && !IS_FRAGMENT_ONLY_FIELD({ key })) {
         o[key] = stripInsertInputClientFields({ input: value });
         continue;
       }
@@ -149,9 +151,9 @@ function ignoreField({ key, fieldMap }: { key?: string; fieldMap: StrictFieldMap
 /*
  *
  */
-export function convertInsertInputClientFieldnameToGraphFieldname({ fieldname }: { fieldname: string }) {
-  if (!IS_INSERT_INPUT_CLIENT_FIELDNAME({ fieldname })) return fieldname;
-  return fieldname.replace(INSERT_INPUT_CLIENT_FIELDNAME_PREFIX, "");
+export function convertInsertInputClientFieldnameToGraphFieldname({ key }: { key: string }) {
+  if (!IS_INSERT_INPUT_CLIENT_FIELDNAME({ key })) return key;
+  return key.replace(INSERT_INPUT_CLIENT_FIELDNAME_PREFIX, "");
 }
 
 /*
@@ -165,7 +167,7 @@ export function convertObjectToGraph({ input, fieldMap }: { input: object; field
     if (ignoreField({ key: key, fieldMap })) {
       continue;
     }
-    const convertedKey = convertInsertInputClientFieldnameToGraphFieldname({ fieldname: key });
+    const convertedKey = convertInsertInputClientFieldnameToGraphFieldname({ key });
     if (fieldMap.replace[key]) {
       o[convertedKey] = fieldMap.replace[key](key, value);
     } else {
@@ -223,7 +225,7 @@ export function convertToGraph({ input, typename, fieldMap }: { input: any; type
 // -- Mainly used when cloning an object graph
 // -----------------------------------------------------------------------------------------------------
 const FRAGMENT_ONLY_FIELDNAMES = [key_typename, key_created_at, key_updated_at];
-function fragmentOnlyField({ key }: { key: string }) {
+function IS_FRAGMENT_ONLY_FIELD({ key }: { key: string }) {
   return FRAGMENT_ONLY_FIELDNAMES.find((fofnItem) => fofnItem === key);
 }
 
@@ -235,7 +237,7 @@ function convertObjectToInsertInput({ object, fieldMap }: { object: object; fiel
 
   //Loop object and transform as needed
   for (const [key, value] of Object.entries(object)) {
-    if (fragmentOnlyField({ key: key }) || ignoreField({ key: key, fieldMap })) {
+    if (IS_FRAGMENT_ONLY_FIELD({ key: key }) || ignoreField({ key: key, fieldMap })) {
       continue;
     }
     if (fieldMap.replace[key]) {
@@ -253,7 +255,7 @@ function convertObjectToInsertInput({ object, fieldMap }: { object: object; fiel
 }
 
 function _convertToInsertInput({ value, key, fieldMap }: { value: any; key?: string; fieldMap?: StrictFieldMap }) {
-  if (value === null || value === undefined) return null;
+  if (value === null || value === undefined) return value;
 
   if (IS_JAVASCRIPT_SCALAR_EQUIVALENT(value)) {
     return value;
@@ -278,6 +280,6 @@ function _convertToInsertInput({ value, key, fieldMap }: { value: any; key?: str
   return null;
 }
 
-export function convertToInsertInput({ fragment, fieldMap }: { fragment: any; fieldMap?: FieldMap }) {
-  return _convertToInsertInput({ value: fragment, fieldMap: makeStrictFieldmap(fieldMap || {}) });
+export function convertToInsertInput({ input, fieldMap }: { input: any; fieldMap?: FieldMap }) {
+  return _convertToInsertInput({ value: input, fieldMap: makeStrictFieldmap(fieldMap || {}) });
 }

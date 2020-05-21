@@ -315,8 +315,8 @@ test("stripInsertInputClientFields - object should return as expected", () => {
     id: 1,
     bar: { id: 2 },
     baz: [
-      { id: 3, name: "foo baz 3", __typename: "Baz" },
-      { id: 4, name: "foo baz 4", __typename: "Baz", stringArray: ["item1", "item2"] },
+      { id: 3, name: "foo baz 3" },
+      { id: 4, name: "foo baz 4", stringArray: ["item1", "item2"] },
     ],
     stringArray: ["item1"],
   };
@@ -327,7 +327,9 @@ test("stripInsertInputClientFields - object should return as expected", () => {
   expect(result.___clientField).toBeUndefined();
   expect(result.bar.___clientField).toBeUndefined();
   expect(result.baz[0].___clientField).toBeUndefined();
+  expect(result.baz[0].__typename).toBeUndefined();
   expect(result.baz[1].___clientField).toBeUndefined();
+  expect(result.baz[1].__typename).toBeUndefined();
 });
 
 test("convertToInsertInput - deep nested realworld example", () => {
@@ -430,7 +432,7 @@ test("convertToInsertInput - deep nested realworld example", () => {
   };
 
   const insertInputRecursive = convertToInsertInput({
-    fragment: realWorldExample,
+    input: realWorldExample,
     fieldMap: {
       typenames: { nested1: "nested1", nested2: "nested2", nested3A: "nested3", nested3B: "nested3", nested4: "nested4", nested5: "nested5", relatedObject: "relatedObject" },
       replace: {
