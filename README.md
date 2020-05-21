@@ -367,9 +367,8 @@ There are many refinements and enhancements that would be beneficial, and contri
 
 ## Help Wanted
 
-\*The main issue with [Refinements Needed](##Refinements-and-Enhancements-Needed) item 1 (above) is how to determine a primary key from a GQL schema (and FieldDefinitionNodes). Currently the code relies on the name of the primary key field being `id`. If anyone knows how to identify a primary key field from the GQL schema, let me know, or submit a pull request with the fix. The relevant section of code is [here](https://github.com/ahrnee/graphql-codegen-hasura/blob/fbbb449ad5e4155dbc0b2cc7955712695d7d86a8/packages/graphql-codegen-hasura-shared/src/utils.ts#L78).
-
-\*\* Contributions to [Refinements Needed](##Refinements-and-Enhancements-Needed) item 7 (above) would be welcome. This would unlock powerful additional codegen capabilities at a field level (currently limited to table level). Familiarity with the Visitor pattern (or willingness to learn it) is a prerequisite.
+- \*The main issue with [Refinements Needed](##Refinements-and-Enhancements-Needed) item 1 (above) is how to determine a primary key from a GQL schema (and FieldDefinitionNodes). Currently the code relies on the name of the primary key field being `id`. If anyone knows how to identify a primary key field from the GQL schema, let me know, or submit a pull request with the fix. The relevant section of code is [here](https://github.com/ahrnee/graphql-codegen-hasura/blob/fbbb449ad5e4155dbc0b2cc7955712695d7d86a8/packages/graphql-codegen-hasura-shared/src/utils.ts#L78).
+- \*\* Contributions to [Refinements Needed](##Refinements-and-Enhancements-Needed) item 7 (above) would be welcome. This would unlock powerful additional codegen capabilities at a field level (currently limited to table level). Familiarity with the Visitor pattern (or willingness to learn it) is a prerequisite.
 
 ## Notes
 
