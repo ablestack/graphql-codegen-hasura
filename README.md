@@ -164,7 +164,7 @@ See packages/graphql-codegen-hasura-core/src/utils.test.ts for example usage
 
 - See [ApolloGraphQL Documentation](https://www.apollographql.com/docs/react/) for specifics on the underlying client operations
 - See [ApolloGraphQL Documentation](https://www.apollographql.com/docs/react/) for specifics on the underlying backend operations
-- See below and [demo project](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for further details
+- See below and [demo project](https://github.com/jamshally/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for further details
 
 ## Apollo Version
 
@@ -172,7 +172,7 @@ Please note, this library currently only supports version 3 of the React Apollo 
 
 ## Quick Start
 
-To quickly view the type of code that gets generated, view the [autogen code files in the demo project](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura).
+To quickly view the type of code that gets generated, view the [autogen code files in the demo project](https://github.com/jamshally/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura).
 
 To quickly try out the code-generation:
 
@@ -210,7 +210,7 @@ The easiest way to quickly get going is to view the following files in the demo 
 
 - **Gql Generation Config**: `demo/graphql-codegen-gql.yaml`
 - **TypesScript Generation Config**: `demo/graphql-codegen-typescript.yaml`
-- **Output**: See [generated code in demo](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) and [See plugin details section below](#plugin-details).
+- **Output**: See [generated code in demo](https://github.com/jamshally/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) and [See plugin details section below](#plugin-details).
 
 It is **important to note**: The TypeScript Generation leverages the files created in the GQL generation step. As such, **it is important to run the GQL generation step prior to the TypeScript generation step**.
 
@@ -294,7 +294,7 @@ See [graphql-code-generator documentation](https://graphql-code-generator.com/do
 
 Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) gql mutations and queries for every _Fragment_ defined in the targeted (code) documents.
 
-See [demo/src/autogen/hasura/gql.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
+See [demo/src/autogen/hasura/gql.ts](https://github.com/jamshally/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
 
 ### graphql-codegen-hasura-typescript plugin
 
@@ -302,7 +302,7 @@ See [demo/src/autogen/hasura/gql.ts](https://github.com/ahrnee/graphql-codegen-h
 
 Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) TypeScript helper methods for every _Fragment_ defined in the targeted (code) documents. Provides wrapped client.query & client.mutate calls, in addition to adding some convenience features.
 
-See [demo/src/autogen/hasura/ts.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
+See [demo/src/autogen/hasura/ts.ts](https://github.com/jamshally/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
 
 ### graphql-codegen-hasura-react plugin
 
@@ -310,7 +310,7 @@ See [demo/src/autogen/hasura/ts.ts](https://github.com/ahrnee/graphql-codegen-ha
 
 Generates [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) React Hooks for every _Fragment_ defined in the targeted (code) documents.
 
-See [demo/src/autogen/hasura/ts-react.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
+See [demo/src/autogen/hasura/ts-react.ts](https://github.com/jamshally/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
 
 ### graphql-codegen-hasura-client-config plugin
 
@@ -318,7 +318,7 @@ See [demo/src/autogen/hasura/ts-react.ts](https://github.com/ahrnee/graphql-code
 
 Generates TypeScript Type Policies and Resolver Types for tables related to GQL fragments found in the targeted documents (code).
 
-See [demo/src/autogen/hasura/ts-config.ts](https://github.com/ahrnee/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
+See [demo/src/autogen/hasura/ts-config.ts](https://github.com/jamshally/graphql-codegen-hasura/tree/master/demo/src/autogen/hasura) for generated output files.
 
 ## Naming Conventions
 
@@ -344,6 +344,10 @@ The demo project is simply:
 
 The consistency and predictability of the [Hasura](https://hasura.io/) GQL backend implementation, provides an opportunity to automate much of the remaining code for standard single-table mutations and queries, and multi-table helper code. These plugins are designed to provide this.
 
+## Related/Companion Libraries
+
+TBD
+
 ## Disclaimers & Known Issues
 
 This code was initially developed for use in a single separate commercial project. It is being shared in case useful to others, and as a contribution to the development community and the great GraphQL tools that already exist. The original implementation did just enough to meet the goals and needs of the initial project.
@@ -367,7 +371,7 @@ There are many refinements and enhancements that would be beneficial, and contri
 
 ## Help Wanted
 
-- \*The main issue with [Refinements Needed](##Refinements-and-Enhancements-Needed) item 1 (above) is how to determine a primary key from a GQL schema (and FieldDefinitionNodes). Currently the code relies on the name of the primary key field being `id`. If anyone knows how to identify a primary key field from the GQL schema, let me know, or submit a pull request with the fix. The relevant section of code is [here](https://github.com/ahrnee/graphql-codegen-hasura/blob/fbbb449ad5e4155dbc0b2cc7955712695d7d86a8/packages/graphql-codegen-hasura-shared/src/utils.ts#L78).
+- \*The main issue with [Refinements Needed](##Refinements-and-Enhancements-Needed) item 1 (above) is how to determine a primary key from a GQL schema (and FieldDefinitionNodes). Currently the code relies on the name of the primary key field being `id`. If anyone knows how to identify a primary key field from the GQL schema, let me know, or submit a pull request with the fix. The relevant section of code is [here](https://github.com/jamshally/graphql-codegen-hasura/blob/fbbb449ad5e4155dbc0b2cc7955712695d7d86a8/packages/graphql-codegen-hasura-shared/src/utils.ts#L78).
 - \*\* Contributions to [Refinements Needed](##Refinements-and-Enhancements-Needed) item 7 (above) would be welcome. This would unlock powerful additional codegen capabilities at a field level (currently limited to table level). Familiarity with the Visitor pattern (or willingness to learn it) is a prerequisite.
 
 ## Notes

@@ -3,11 +3,11 @@
   "name": "graphql-codegen-hasura",
   "version": "4.9.0",
   "description": "A collection of codgen plugins to support Hasura/Apollo GraphQL development",
-  "author": "ahrnee",
+  "author": "jamshally",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ahrnee/graphql-codegen-hasura"
+    "url": "git+https://github.com/jamshally/graphql-codegen-hasura"
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
