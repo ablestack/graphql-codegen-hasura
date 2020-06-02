@@ -175,7 +175,7 @@ import { SubscribeToDogObjectsSubscriptionVariables } from '../';
      */
 
     // Types
-    type SubscribeToVehicleByIdResult = { variables: SubscribeToVehicleByIdSubscriptionVariables; loading: boolean; data?: SubscribeToVehicleByIdSubscription; error?: ApolloError | undefined; };
+    type SubscribeToVehicleByIdResult = { variables?: SubscribeToVehicleByIdSubscriptionVariables; loading: boolean; data?: SubscribeToVehicleByIdSubscription; error?: ApolloError | undefined; };
     export type SubscribeToVehicleByIdResultEx = SubscribeToVehicleByIdResult & VehicleByIdHookResultEx;
 
     // Function
@@ -190,7 +190,7 @@ import { SubscribeToDogObjectsSubscriptionVariables } from '../';
      */
 
     // Types
-    export type SubscribeToVehicleObjectsResult = { variables: SubscribeToVehicleObjectsSubscriptionVariables; loading: boolean; data?: SubscribeToVehicleObjectsSubscription; error?: ApolloError | undefined; };
+    export type SubscribeToVehicleObjectsResult = { variables?: SubscribeToVehicleObjectsSubscriptionVariables; loading: boolean; data?: SubscribeToVehicleObjectsSubscription; error?: ApolloError | undefined; };
     export type SubscribeToVehicleObjectsResultEx = SubscribeToVehicleObjectsResult & VehicleObjectsHookResultEx;
 
     // Function
@@ -549,7 +549,7 @@ import { SubscribeToDogObjectsSubscriptionVariables } from '../';
      */
 
     // Types
-    type SubscribeToVehicleLocationOnlyByIdResult = { variables: SubscribeToVehicleLocationOnlyByIdSubscriptionVariables; loading: boolean; data?: SubscribeToVehicleLocationOnlyByIdSubscription; error?: ApolloError | undefined; };
+    type SubscribeToVehicleLocationOnlyByIdResult = { variables?: SubscribeToVehicleLocationOnlyByIdSubscriptionVariables; loading: boolean; data?: SubscribeToVehicleLocationOnlyByIdSubscription; error?: ApolloError | undefined; };
     export type SubscribeToVehicleLocationOnlyByIdResultEx = SubscribeToVehicleLocationOnlyByIdResult & VehicleLocationOnlyByIdHookResultEx;
 
     // Function
@@ -564,7 +564,7 @@ import { SubscribeToDogObjectsSubscriptionVariables } from '../';
      */
 
     // Types
-    export type SubscribeToVehicleLocationOnlyObjectsResult = { variables: SubscribeToVehicleLocationOnlyObjectsSubscriptionVariables; loading: boolean; data?: SubscribeToVehicleLocationOnlyObjectsSubscription; error?: ApolloError | undefined; };
+    export type SubscribeToVehicleLocationOnlyObjectsResult = { variables?: SubscribeToVehicleLocationOnlyObjectsSubscriptionVariables; loading: boolean; data?: SubscribeToVehicleLocationOnlyObjectsSubscription; error?: ApolloError | undefined; };
     export type SubscribeToVehicleLocationOnlyObjectsResultEx = SubscribeToVehicleLocationOnlyObjectsResult & VehicleLocationOnlyObjectsHookResultEx;
 
     // Function
@@ -795,7 +795,7 @@ import { SubscribeToDogObjectsSubscriptionVariables } from '../';
      */
 
     // Types
-    export type SubscribeToDogObjectsResult = { variables: SubscribeToDogObjectsSubscriptionVariables; loading: boolean; data?: SubscribeToDogObjectsSubscription; error?: ApolloError | undefined; };
+    export type SubscribeToDogObjectsResult = { variables?: SubscribeToDogObjectsSubscriptionVariables; loading: boolean; data?: SubscribeToDogObjectsSubscription; error?: ApolloError | undefined; };
     export type SubscribeToDogObjectsResultEx = SubscribeToDogObjectsResult & DogObjectsHookResultEx;
 
     // Function

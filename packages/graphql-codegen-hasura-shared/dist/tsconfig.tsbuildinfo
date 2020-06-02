@@ -757,7 +757,7 @@
         "affectsGlobalScope": false
       },
       "../src/reactinjectors.ts": {
-        "version": "aa03d83994bcd29eab4c2f79e7ecf318bf9a3448edeab7521eae4d36688496af",
+        "version": "e130ecdfd4ecedf23bb108073bab85ddf579178e7e1865dc6cecf5fed5a761fe",
         "signature": "da32bf7603b250b112090a844ceee37240491457467368aae24708a965b9affd",
         "affectsGlobalScope": false
       },
