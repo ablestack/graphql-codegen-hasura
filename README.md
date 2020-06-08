@@ -391,6 +391,12 @@ There are many refinements and enhancements that would be beneficial, and contri
 
 ## Release Notes
 
+### Notes 4.9.1
+
+- Made variable optional for useSubscription (thanks for the pull-request @zeppelinnn)
+- Updated dependencies
+- Minor logging bugfix
+
 ### Notes 4.9.0
 
 - _Breaking Change_: The Client* and Cache* methods have been consolidated into cache* methods. This is due to a change in the ApolloClient dependency that meant the behavior was the same for both, making the additional Client* methods redundant

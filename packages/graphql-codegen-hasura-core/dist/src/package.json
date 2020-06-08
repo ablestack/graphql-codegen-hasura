@@ -1,6 +1,6 @@
 {
   "name": "graphql-codegen-hasura-core",
-  "version": "4.9.0",
+  "version": "4.9.1",
   "description": "GraphQL Code Generator plugin for generating a CRUD TypeScript Config for Hasura from Documents",
   "author": "jamshally <ahrndee@gmail.com>",
   "license": "MIT",
@@ -54,5 +54,5 @@
   "typescript": {
     "definition": "dist/graphql-codegen-hasura-client-config/src/index.d.ts"
   },
-  "gitHead": "1ab3cb8b408ff52bc06858c8c042e39eb4ccc275"
+  "gitHead": "a95844dcb9e7d14a05e781824101100542f26716"
 }
