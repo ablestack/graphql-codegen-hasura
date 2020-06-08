@@ -13,7 +13,8 @@
     "bootstrap": "lerna bootstrap",
     "build": "tsc --build --verbose",
     "rebuild": "tsc --build --force --verbose",
-    "lpub": "lerna publish --forcePublish"
+    "lpub": "lerna publish --forcePublish",
+    "bootstrap": "lerna bootstrap"
   },
   "devDependencies": {
     "lerna": "^3.20.0",

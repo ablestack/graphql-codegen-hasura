@@ -40,7 +40,8 @@
     "generate": "graphql-codegen --config=graphql-codegen-gql.yaml; graphql-codegen --config=graphql-codegen-typescript.yaml",
     "build-and-generate": "lerna run build && npm run generate",
     "rebuild-and-generate": "lerna run rebuild && npm run generate",
-    "lpub": "lerna publish --forcePublish"
+    "lpub": "lerna publish --forcePublish",
+    "bootstrap": "lerna bootstrap"
   },
   "eslintConfig": {
     "extends": "react-app"

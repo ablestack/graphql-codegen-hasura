@@ -2,7 +2,6 @@
 import gql from 'graphql-tag';
 import { VehicleFragmentDoc } from '../';
 import { VehicleLocationOnlyFragmentDoc } from '../';
-import { DogFragmentDoc } from '../';
 
     // Vehicle GQL
     //------------------------------------------------ 
@@ -279,43 +278,3 @@ import { DogFragmentDoc } from '../';
       }
       ${VehicleLocationOnlyFragmentDoc}
     `;
-
-    // Dog GQL
-    //------------------------------------------------ 
-  
-
-
-    // Query: Fetch
-    //
-    const QUERY_DOG_OBJECTS = gql`
-  query queryDogObjects(
-    $distinct_on: [dog_select_column!]
-    $where: dog_bool_exp
-    $limit: Int
-    $offset: Int
-    $order_by: [dog_order_by!]
-  ) {
-    dog(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-      ...Dog
-    }
-  }
-  ${DogFragmentDoc}
-  `;
-
-
-    // Subscription: Fetch
-    //
-    const SUBSCRIBE_TO_DOG_OBJECTS = gql`
-  subscription subscribeToDogObjects(
-    $distinct_on: [dog_select_column!]
-    $where: dog_bool_exp
-    $limit: Int
-    $offset: Int
-    $order_by: [dog_order_by!]
-  ) {
-    dog(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
-      ...Dog
-    }
-  }
-  ${DogFragmentDoc}
-  `;

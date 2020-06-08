@@ -19,9 +19,9 @@ export const VehicleLocationOnlyFragmentDoc = gql`
   }
 `;
 
-export const DogFragmentDoc = gql`
-  fragment Dog on dog {
-    name
-    breed
-  }
-`;
+// export const DogFragmentDoc = gql`
+//   fragment Dog on dog {
+//     name
+//     breed
+//   }
+// `;

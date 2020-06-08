@@ -246,6 +246,16 @@ graphql-codegen --config=graphql-codegen-gql.yaml;
 graphql-codegen --config=graphql-codegen-typescript.yaml
 ```
 
+### Local Installation
+
+If you would like to run the graphql-codegen-hasura packages locally from the demo project (in src/demo), you can run the following command:
+
+```
+  npm run bootstrap
+```
+
+This will use Lerna to Link local packages together and install remaining package dependencies. See [Lerna documentation](https://github.com/lerna/lerna/tree/master/commands/bootstrap) for further details.
+
 ## Configuration
 
 See [graphql-code-generator documentation](https://graphql-code-generator.com/docs/getting-started/codegen-config) for configuration instructions. See below for the specific configuration flags that are available on these plugins

@@ -3,8 +3,6 @@ import { ApolloCache, NormalizedCacheObject, ApolloClient, StoreObject } from '@
 import { TypePolicies } from '@apollo/client/cache/inmemory/policies';
 import { Vehicle } from '../';
 import { Query_RootVehicleArgs } from '../';
-import { Dog } from '../';
-import { Query_RootDogArgs } from '../';
 
     export interface ApolloContext {
       cache: ApolloCache<NormalizedCacheObject>;
@@ -60,31 +58,4 @@ import { Query_RootDogArgs } from '../';
           },
         },
       };
-  
-
-  // dog Resolver Types
-  //------------------------------------------------
-
-  /** 
-   *  The dog Resolver types can be used as follows:
-   * 
-   *  export const DogResolvers: RootResolver<DogResolverMap> = {
-   *    dog: {
-   *      anyFieldName: (dog, args, context, info) => {
-   *        return dog.anyFieldName;
-   *      },
-   *     },
-   *  };
-  */
-
-  //------------------------------------------------
-  
-
-  export interface DogResolverFn<TContext> {
-    (dog: Partial<Dog>, args: Query_RootDogArgs, context: TContext, info: any): any;
-  }
-
-  export interface DogResolverMap<TContext = ApolloContext> {
-    [field: string]: DogResolverFn<TContext>;
-  }
   
