@@ -8,7 +8,7 @@ graphql-codegen-hasura-react-documents is a code generator plugin for [graphql-c
 
 ## Instructions
 
-See the associated [graphql-codegen-hasura GitHub repo](https://github.com/jamshally/graphql-codegen-hasura) for usage and configuration information.
+See the associated [graphql-codegen-hasura GitHub repo](https://github.com/ablestack/graphql-codegen-hasura) for usage and configuration information.
 
 ## Motivation
 
@@ -18,7 +18,7 @@ The consistency and predictability of the Hasura](https://hasura.io/) GQL backen
 
 ## Disclaimers
 
-This code was initially developed for use in a single separate commercial project. It is being shared in case useful to others, and as a contribution to the development community and the great GraphQL tools that already exist. The original implementation did just enough to meet the goals and needs of the initial project. There are many refinements and enhancements that would be beneficial - and contributions to that end are encouraged. See the associated [graphql-codegen-hasura GitHub repo](https://github.com/jamshally/graphql-codegen-hasura) for additional information.
+This code was initially developed for use in a single separate commercial project. It is being shared in case useful to others, and as a contribution to the development community and the great GraphQL tools that already exist. The original implementation did just enough to meet the goals and needs of the initial project. There are many refinements and enhancements that would be beneficial - and contributions to that end are encouraged. See the associated [graphql-codegen-hasura GitHub repo](https://github.com/ablestack/graphql-codegen-hasura) for additional information.
 
 ## Note
 

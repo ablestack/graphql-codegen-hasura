@@ -7,7 +7,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jamshally/graphql-codegen-hasura"
+    "url": "git+https://github.com/ablestack/graphql-codegen-hasura"
   },
   "scripts": {
     "bootstrap": "lerna bootstrap",
