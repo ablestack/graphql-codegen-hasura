@@ -231,7 +231,7 @@ export function injectSubscriptionReact({
      */
 
     // Types
-    type ${subscriptionByIdName}Result = { variables: ${subscriptionByIdName}SubscriptionVariables; loading: boolean; data?: ${subscriptionByIdName}Subscription; error?: ApolloError | undefined; };
+    type ${subscriptionByIdName}Result = { variables?: ${subscriptionByIdName}SubscriptionVariables; loading: boolean; data?: ${subscriptionByIdName}Subscription; error?: ApolloError | undefined; };
     export type ${subscriptionByIdName}ResultEx = ${subscriptionByIdName}Result & ${fragmentNamePascalCase}ByIdHookResultEx;
 
     // Function
@@ -248,7 +248,7 @@ export function injectSubscriptionReact({
      */
 
     // Types
-    export type ${subscriptionByObjectsName}Result = { variables: ${subscriptionByObjectsName}SubscriptionVariables; loading: boolean; data?: ${subscriptionByObjectsName}Subscription; error?: ApolloError | undefined; };
+    export type ${subscriptionByObjectsName}Result = { variables?: ${subscriptionByObjectsName}SubscriptionVariables; loading: boolean; data?: ${subscriptionByObjectsName}Subscription; error?: ApolloError | undefined; };
     export type ${subscriptionByObjectsName}ResultEx = ${subscriptionByObjectsName}Result & ${fragmentNamePascalCase}ObjectsHookResultEx;
 
     // Function
