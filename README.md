@@ -389,6 +389,24 @@ There are many refinements and enhancements that would be beneficial, and contri
 - This is development is not affiliated with either the [graphql-code-generator](https://graphql-code-generator.com/) team, the [Hasura](https://hasura.io/) team, or the [Apollo GraphQL](https://www.apollographql.com/) team
 - graphql-code-generator only picking up gql from 'graphql-tag' import, and not the newer '@apollo/client' import. The 'graphql-tag' import will continue to be used until this is addressed, even for react-apollo v3
 
+## Companion Libraries
+
+This library is part of a collection of companion tools and libraries under the [AbleStack](https://github.com/ablestack) umbrella. All of these libraries share the common goal:
+
+> Helping small teams and solo-developers build big ideas rapidly and affordably
+
+To achieve these goals, the following principles are applied:
+
+- Selectively **leverage existing open source tools and libraries**, where, high quality, open source tools and libraries where possible
+  - Curate usage examples, and guidance where available, and create where not available
+- Prioritize technology choices that** embrace open source**
+  - TypeScript over C#, and Node over .Net an example of this
+- **Avoid** technology choices that could result in **hosting vendor lock-in**
+  - ApolloGraphQL over AWS Amplify is an example of this
+- **Automate wherever possible**, from development, through testing, to deployment, monitoring, and maintenance
+  - Codegen from strongly types schemas is a good example of this.
+- Where needed, **develop high quality, open source tools and libraries** to augment and automate existing open source tooling and libraries
+
 ## Release Notes
 
 ### Notes 4.9.1
