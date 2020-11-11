@@ -10,7 +10,7 @@
     "url": "git+https://github.com/ablestack/graphql-codegen-hasura"
   },
   "scripts": {
-    "prepublishOnly": "rm -f dist/src/package.json dist/src/README.md  && cp package.json README.md dist/src/"
+    "prepublishOnly": "shx rm -f dist/src/package.json dist/src/README.md  && shx cp package.json README.md dist/src/"
   },
   "publishConfig": {
     "access": "public",
@@ -29,7 +29,8 @@
     "path": "^0.12.7",
     "react": "^16.12.0",
     "tslib": "1.10.0",
-    "typescript": "3.7.2"
+    "typescript": "3.7.2",
+    "shx": "^0.3.3"
   },
   "sideEffects": false,
   "main": "dist/graphql-codegen-hasura-gql/src/index.js",
