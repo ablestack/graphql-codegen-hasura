@@ -12,8 +12,8 @@
   "scripts": {
     "prepublishOnly": "shx rm -f dist/src/package.json dist/src/README.md  && shx cp package.json README.md dist/src/",
     "test": "jest",
-    "lpub": "yalc publish dist --force --private",
-    "lpush": "yalc push dist --force --private"
+    "llpub": "yalc publish dist/src --force --no-script",
+    "llpush": "yalc push dist/src --force --no-script"
   },
   "jest": {
     "testMatch": [

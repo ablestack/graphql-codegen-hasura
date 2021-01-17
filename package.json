@@ -14,8 +14,8 @@
     "build": "tsc --build --verbose",
     "rebuild": "tsc --build --force --verbose",
     "pub": "lerna publish --forcePublish",
-    "lpub": "lerna run lpub",
-    "lpush": "lerna run lpush"
+    "lpub": "npm run build  && lerna run prepublishOnly --stream && lerna run llpub",
+    "lpush": "npm run build  && lerna run prepublishOnly --stream && lerna run llpush"
   },
   "devDependencies": {
     "lerna": "^3.22.1",
