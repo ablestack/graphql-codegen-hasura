@@ -13,12 +13,15 @@
     "bootstrap": "lerna bootstrap",
     "build": "tsc --build --verbose",
     "rebuild": "tsc --build --force --verbose",
-    "lpub": "lerna publish --forcePublish"
+    "pub": "lerna publish --forcePublish",
+    "lpub": "lerna run lpub",
+    "lpush": "lerna run lpush"
   },
   "devDependencies": {
     "lerna": "^3.22.1",
     "shx": "^0.3.3",
     "ts-node": "^9.1.1",
-    "typescript": "^4.1.3"
+    "typescript": "^4.1.3",
+    "yalc": "^1.0.0-pre.49"
   }
 }

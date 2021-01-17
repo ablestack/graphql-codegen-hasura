@@ -10,7 +10,9 @@
     "url": "git+https://github.com/ablestack/graphql-codegen-hasura"
   },
   "scripts": {
-    "prepublishOnly": "shx rm -f dist/src/package.json dist/src/README.md  && shx cp package.json README.md dist/src/"
+    "prepublishOnly": "shx rm -f dist/src/package.json dist/src/README.md  && shx cp package.json README.md dist/src/",
+    "lpub": "yalc publish dist --force --private",
+    "lpush": "yalc push dist --force --private"
   },
   "publishConfig": {
     "access": "public",
