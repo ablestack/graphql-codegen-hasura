@@ -27,6 +27,19 @@ export type Bigint_Comparison_Exp = {
   _nin?: Maybe<Array<Maybe<Scalars['bigint']>>>;
 };
 
+/** expression to compare columns of type boolean. All fields are combined with logical 'AND'. */
+export type Boolean_Comparison_Exp = {
+  _eq?: Maybe<Scalars['Boolean']>;
+  _gt?: Maybe<Scalars['Boolean']>;
+  _gte?: Maybe<Scalars['Boolean']>;
+  _in?: Maybe<Array<Maybe<Scalars['Boolean']>>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _lt?: Maybe<Scalars['Boolean']>;
+  _lte?: Maybe<Scalars['Boolean']>;
+  _neq?: Maybe<Scalars['Boolean']>;
+  _nin?: Maybe<Array<Maybe<Scalars['Boolean']>>>;
+};
+
 /** conflict action */
 export enum Conflict_Action {
   /** ignore the insert on this row */
@@ -51,24 +64,36 @@ export type Integer_Comparison_Exp = {
 /** mutation root */
 export type Mutation_Root = {
   __typename?: 'mutation_root';
+  /** delete data from the table: "riders" */
+  delete_riders?: Maybe<Riders_Mutation_Response>;
   /** delete data from the table: "tb_cliente" */
   delete_tb_cliente?: Maybe<Tb_Cliente_Mutation_Response>;
   /** delete data from the table: "vehicle" */
   delete_vehicle?: Maybe<Vehicle_Mutation_Response>;
   /** delete data from the table: "vehicle_location" */
   delete_vehicle_location?: Maybe<Vehicle_Location_Mutation_Response>;
+  /** insert data into the table: "riders" */
+  insert_riders?: Maybe<Riders_Mutation_Response>;
   /** insert data into the table: "tb_cliente" */
   insert_tb_cliente?: Maybe<Tb_Cliente_Mutation_Response>;
   /** insert data into the table: "vehicle" */
   insert_vehicle?: Maybe<Vehicle_Mutation_Response>;
   /** insert data into the table: "vehicle_location" */
   insert_vehicle_location?: Maybe<Vehicle_Location_Mutation_Response>;
+  /** update data of the table: "riders" */
+  update_riders?: Maybe<Riders_Mutation_Response>;
   /** update data of the table: "tb_cliente" */
   update_tb_cliente?: Maybe<Tb_Cliente_Mutation_Response>;
   /** update data of the table: "vehicle" */
   update_vehicle?: Maybe<Vehicle_Mutation_Response>;
   /** update data of the table: "vehicle_location" */
   update_vehicle_location?: Maybe<Vehicle_Location_Mutation_Response>;
+};
+
+
+/** mutation root */
+export type Mutation_RootDelete_RidersArgs = {
+  where: Riders_Bool_Exp;
 };
 
 
@@ -87,6 +112,13 @@ export type Mutation_RootDelete_VehicleArgs = {
 /** mutation root */
 export type Mutation_RootDelete_Vehicle_LocationArgs = {
   where: Vehicle_Location_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsert_RidersArgs = {
+  objects: Array<Riders_Insert_Input>;
+  on_conflict?: Maybe<Riders_On_Conflict>;
 };
 
 
@@ -112,6 +144,14 @@ export type Mutation_RootInsert_Vehicle_LocationArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdate_RidersArgs = {
+  _inc?: Maybe<Riders_Inc_Input>;
+  _set?: Maybe<Riders_Set_Input>;
+  where: Riders_Bool_Exp;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdate_Tb_ClienteArgs = {
   _inc?: Maybe<Tb_Cliente_Inc_Input>;
   _set?: Maybe<Tb_Cliente_Set_Input>;
@@ -121,6 +161,7 @@ export type Mutation_RootUpdate_Tb_ClienteArgs = {
 
 /** mutation root */
 export type Mutation_RootUpdate_VehicleArgs = {
+  _inc?: Maybe<Vehicle_Inc_Input>;
   _set?: Maybe<Vehicle_Set_Input>;
   where: Vehicle_Bool_Exp;
 };
@@ -152,6 +193,12 @@ export enum Order_By {
 /** query root */
 export type Query_Root = {
   __typename?: 'query_root';
+  /** fetch data from the table: "riders" */
+  riders: Array<Riders>;
+  /** fetch aggregated fields from the table: "riders" */
+  riders_aggregate: Riders_Aggregate;
+  /** fetch data from the table: "riders" using primary key columns */
+  riders_by_pk?: Maybe<Riders>;
   /** fetch data from the table: "tb_cliente" */
   tb_cliente: Array<Tb_Cliente>;
   /** fetch aggregated fields from the table: "tb_cliente" */
@@ -170,6 +217,32 @@ export type Query_Root = {
   vehicle_location_aggregate: Vehicle_Location_Aggregate;
   /** fetch data from the table: "vehicle_location" using primary key columns */
   vehicle_location_by_pk?: Maybe<Vehicle_Location>;
+};
+
+
+/** query root */
+export type Query_RootRidersArgs = {
+  distinct_on?: Maybe<Array<Riders_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Riders_Order_By>>;
+  where?: Maybe<Riders_Bool_Exp>;
+};
+
+
+/** query root */
+export type Query_RootRiders_AggregateArgs = {
+  distinct_on?: Maybe<Array<Riders_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Riders_Order_By>>;
+  where?: Maybe<Riders_Bool_Exp>;
+};
+
+
+/** query root */
+export type Query_RootRiders_By_PkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -250,9 +323,351 @@ export type Query_RootVehicle_Location_By_PkArgs = {
   id: Scalars['Int'];
 };
 
+/** columns and relationships of "riders" */
+export type Riders = {
+  __typename?: 'riders';
+  address: Scalars['String'];
+  created_at: Scalars['timestamptz'];
+  email: Scalars['String'];
+  id: Scalars['Int'];
+  is_active: Scalars['Boolean'];
+  name: Scalars['String'];
+  phone: Scalars['String'];
+  updated_at: Scalars['timestamptz'];
+  vehicle_id?: Maybe<Scalars['String']>;
+};
+
+/** aggregated selection of "riders" */
+export type Riders_Aggregate = {
+  __typename?: 'riders_aggregate';
+  aggregate?: Maybe<Riders_Aggregate_Fields>;
+  nodes: Array<Riders>;
+};
+
+/** aggregate fields of "riders" */
+export type Riders_Aggregate_Fields = {
+  __typename?: 'riders_aggregate_fields';
+  avg?: Maybe<Riders_Avg_Fields>;
+  count?: Maybe<Scalars['Int']>;
+  max?: Maybe<Riders_Max_Fields>;
+  min?: Maybe<Riders_Min_Fields>;
+  stddev?: Maybe<Riders_Stddev_Fields>;
+  stddev_pop?: Maybe<Riders_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Riders_Stddev_Samp_Fields>;
+  sum?: Maybe<Riders_Sum_Fields>;
+  var_pop?: Maybe<Riders_Var_Pop_Fields>;
+  var_samp?: Maybe<Riders_Var_Samp_Fields>;
+  variance?: Maybe<Riders_Variance_Fields>;
+};
+
+
+/** aggregate fields of "riders" */
+export type Riders_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Riders_Select_Column>>;
+  distinct?: Maybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "riders" */
+export type Riders_Aggregate_Order_By = {
+  avg?: Maybe<Riders_Avg_Order_By>;
+  count?: Maybe<Order_By>;
+  max?: Maybe<Riders_Max_Order_By>;
+  min?: Maybe<Riders_Min_Order_By>;
+  stddev?: Maybe<Riders_Stddev_Order_By>;
+  stddev_pop?: Maybe<Riders_Stddev_Pop_Order_By>;
+  stddev_samp?: Maybe<Riders_Stddev_Samp_Order_By>;
+  sum?: Maybe<Riders_Sum_Order_By>;
+  var_pop?: Maybe<Riders_Var_Pop_Order_By>;
+  var_samp?: Maybe<Riders_Var_Samp_Order_By>;
+  variance?: Maybe<Riders_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "riders" */
+export type Riders_Arr_Rel_Insert_Input = {
+  data: Array<Riders_Insert_Input>;
+  on_conflict?: Maybe<Riders_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Riders_Avg_Fields = {
+  __typename?: 'riders_avg_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "riders" */
+export type Riders_Avg_Order_By = {
+  id?: Maybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "riders". All fields are combined with a logical 'AND'. */
+export type Riders_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Riders_Bool_Exp>>>;
+  _not?: Maybe<Riders_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Riders_Bool_Exp>>>;
+  address?: Maybe<Text_Comparison_Exp>;
+  created_at?: Maybe<Timestamptz_Comparison_Exp>;
+  email?: Maybe<Text_Comparison_Exp>;
+  id?: Maybe<Integer_Comparison_Exp>;
+  is_active?: Maybe<Boolean_Comparison_Exp>;
+  name?: Maybe<Text_Comparison_Exp>;
+  phone?: Maybe<Text_Comparison_Exp>;
+  updated_at?: Maybe<Timestamptz_Comparison_Exp>;
+  vehicle_id?: Maybe<Text_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "riders" */
+export enum Riders_Constraint {
+  /** unique or primary key constraint */
+  RidersPkey = 'riders_pkey',
+  /** unique or primary key constraint */
+  RidersVehicleIdKey = 'riders_vehicle_id_key'
+}
+
+/** input type for incrementing integer columne in table "riders" */
+export type Riders_Inc_Input = {
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "riders" */
+export type Riders_Insert_Input = {
+  address?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  email?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  is_active?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  vehicle_id?: Maybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type Riders_Max_Fields = {
+  __typename?: 'riders_max_fields';
+  address?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  email?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  vehicle_id?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "riders" */
+export type Riders_Max_Order_By = {
+  address?: Maybe<Order_By>;
+  created_at?: Maybe<Order_By>;
+  email?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+  phone?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
+  vehicle_id?: Maybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Riders_Min_Fields = {
+  __typename?: 'riders_min_fields';
+  address?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  email?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  vehicle_id?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "riders" */
+export type Riders_Min_Order_By = {
+  address?: Maybe<Order_By>;
+  created_at?: Maybe<Order_By>;
+  email?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+  phone?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
+  vehicle_id?: Maybe<Order_By>;
+};
+
+/** response of any mutation on the table "riders" */
+export type Riders_Mutation_Response = {
+  __typename?: 'riders_mutation_response';
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data of the affected rows by the mutation */
+  returning: Array<Riders>;
+};
+
+/** input type for inserting object relation for remote table "riders" */
+export type Riders_Obj_Rel_Insert_Input = {
+  data: Riders_Insert_Input;
+  on_conflict?: Maybe<Riders_On_Conflict>;
+};
+
+/** on conflict condition type for table "riders" */
+export type Riders_On_Conflict = {
+  constraint: Riders_Constraint;
+  update_columns: Array<Riders_Update_Column>;
+};
+
+/** ordering options when selecting data from "riders" */
+export type Riders_Order_By = {
+  address?: Maybe<Order_By>;
+  created_at?: Maybe<Order_By>;
+  email?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  is_active?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+  phone?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
+  vehicle_id?: Maybe<Order_By>;
+};
+
+/** select columns of table "riders" */
+export enum Riders_Select_Column {
+  /** column name */
+  Address = 'address',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Email = 'email',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  IsActive = 'is_active',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Phone = 'phone',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  VehicleId = 'vehicle_id'
+}
+
+/** input type for updating data in table "riders" */
+export type Riders_Set_Input = {
+  address?: Maybe<Scalars['String']>;
+  created_at?: Maybe<Scalars['timestamptz']>;
+  email?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  is_active?: Maybe<Scalars['Boolean']>;
+  name?: Maybe<Scalars['String']>;
+  phone?: Maybe<Scalars['String']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
+  vehicle_id?: Maybe<Scalars['String']>;
+};
+
+/** aggregate stddev on columns */
+export type Riders_Stddev_Fields = {
+  __typename?: 'riders_stddev_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "riders" */
+export type Riders_Stddev_Order_By = {
+  id?: Maybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Riders_Stddev_Pop_Fields = {
+  __typename?: 'riders_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "riders" */
+export type Riders_Stddev_Pop_Order_By = {
+  id?: Maybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Riders_Stddev_Samp_Fields = {
+  __typename?: 'riders_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "riders" */
+export type Riders_Stddev_Samp_Order_By = {
+  id?: Maybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Riders_Sum_Fields = {
+  __typename?: 'riders_sum_fields';
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "riders" */
+export type Riders_Sum_Order_By = {
+  id?: Maybe<Order_By>;
+};
+
+/** update columns of table "riders" */
+export enum Riders_Update_Column {
+  /** column name */
+  Address = 'address',
+  /** column name */
+  CreatedAt = 'created_at',
+  /** column name */
+  Email = 'email',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  IsActive = 'is_active',
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Phone = 'phone',
+  /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
+  VehicleId = 'vehicle_id'
+}
+
+/** aggregate var_pop on columns */
+export type Riders_Var_Pop_Fields = {
+  __typename?: 'riders_var_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "riders" */
+export type Riders_Var_Pop_Order_By = {
+  id?: Maybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Riders_Var_Samp_Fields = {
+  __typename?: 'riders_var_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "riders" */
+export type Riders_Var_Samp_Order_By = {
+  id?: Maybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Riders_Variance_Fields = {
+  __typename?: 'riders_variance_fields';
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "riders" */
+export type Riders_Variance_Order_By = {
+  id?: Maybe<Order_By>;
+};
+
 /** subscription root */
 export type Subscription_Root = {
   __typename?: 'subscription_root';
+  /** fetch data from the table: "riders" */
+  riders: Array<Riders>;
+  /** fetch aggregated fields from the table: "riders" */
+  riders_aggregate: Riders_Aggregate;
+  /** fetch data from the table: "riders" using primary key columns */
+  riders_by_pk?: Maybe<Riders>;
   /** fetch data from the table: "tb_cliente" */
   tb_cliente: Array<Tb_Cliente>;
   /** fetch aggregated fields from the table: "tb_cliente" */
@@ -271,6 +686,32 @@ export type Subscription_Root = {
   vehicle_location_aggregate: Vehicle_Location_Aggregate;
   /** fetch data from the table: "vehicle_location" using primary key columns */
   vehicle_location_by_pk?: Maybe<Vehicle_Location>;
+};
+
+
+/** subscription root */
+export type Subscription_RootRidersArgs = {
+  distinct_on?: Maybe<Array<Riders_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Riders_Order_By>>;
+  where?: Maybe<Riders_Bool_Exp>;
+};
+
+
+/** subscription root */
+export type Subscription_RootRiders_AggregateArgs = {
+  distinct_on?: Maybe<Array<Riders_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Riders_Order_By>>;
+  where?: Maybe<Riders_Bool_Exp>;
+};
+
+
+/** subscription root */
+export type Subscription_RootRiders_By_PkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -729,6 +1170,7 @@ export type Vehicle = {
   /** An aggregated array relationship */
   locations_aggregate: Vehicle_Location_Aggregate;
   name: Scalars['String'];
+  yrdy: Scalars['Int'];
 };
 
 
@@ -761,9 +1203,17 @@ export type Vehicle_Aggregate = {
 /** aggregate fields of "vehicle" */
 export type Vehicle_Aggregate_Fields = {
   __typename?: 'vehicle_aggregate_fields';
+  avg?: Maybe<Vehicle_Avg_Fields>;
   count?: Maybe<Scalars['Int']>;
   max?: Maybe<Vehicle_Max_Fields>;
   min?: Maybe<Vehicle_Min_Fields>;
+  stddev?: Maybe<Vehicle_Stddev_Fields>;
+  stddev_pop?: Maybe<Vehicle_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Vehicle_Stddev_Samp_Fields>;
+  sum?: Maybe<Vehicle_Sum_Fields>;
+  var_pop?: Maybe<Vehicle_Var_Pop_Fields>;
+  var_samp?: Maybe<Vehicle_Var_Samp_Fields>;
+  variance?: Maybe<Vehicle_Variance_Fields>;
 };
 
 
@@ -775,15 +1225,34 @@ export type Vehicle_Aggregate_FieldsCountArgs = {
 
 /** order by aggregate values of table "vehicle" */
 export type Vehicle_Aggregate_Order_By = {
+  avg?: Maybe<Vehicle_Avg_Order_By>;
   count?: Maybe<Order_By>;
   max?: Maybe<Vehicle_Max_Order_By>;
   min?: Maybe<Vehicle_Min_Order_By>;
+  stddev?: Maybe<Vehicle_Stddev_Order_By>;
+  stddev_pop?: Maybe<Vehicle_Stddev_Pop_Order_By>;
+  stddev_samp?: Maybe<Vehicle_Stddev_Samp_Order_By>;
+  sum?: Maybe<Vehicle_Sum_Order_By>;
+  var_pop?: Maybe<Vehicle_Var_Pop_Order_By>;
+  var_samp?: Maybe<Vehicle_Var_Samp_Order_By>;
+  variance?: Maybe<Vehicle_Variance_Order_By>;
 };
 
 /** input type for inserting array relation for remote table "vehicle" */
 export type Vehicle_Arr_Rel_Insert_Input = {
   data: Array<Vehicle_Insert_Input>;
   on_conflict?: Maybe<Vehicle_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Vehicle_Avg_Fields = {
+  __typename?: 'vehicle_avg_fields';
+  yrdy?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "vehicle" */
+export type Vehicle_Avg_Order_By = {
+  yrdy?: Maybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "vehicle". All fields are combined with a logical 'AND'. */
@@ -794,6 +1263,7 @@ export type Vehicle_Bool_Exp = {
   id?: Maybe<Text_Comparison_Exp>;
   locations?: Maybe<Vehicle_Location_Bool_Exp>;
   name?: Maybe<Text_Comparison_Exp>;
+  yrdy?: Maybe<Integer_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "vehicle" */
@@ -802,11 +1272,17 @@ export enum Vehicle_Constraint {
   VehiclePkey = 'vehicle_pkey'
 }
 
+/** input type for incrementing integer columne in table "vehicle" */
+export type Vehicle_Inc_Input = {
+  yrdy?: Maybe<Scalars['Int']>;
+};
+
 /** input type for inserting data into table "vehicle" */
 export type Vehicle_Insert_Input = {
   id?: Maybe<Scalars['String']>;
   locations?: Maybe<Vehicle_Location_Arr_Rel_Insert_Input>;
   name?: Maybe<Scalars['String']>;
+  yrdy?: Maybe<Scalars['Int']>;
 };
 
 /** columns and relationships of "vehicle_location" */
@@ -1087,12 +1563,14 @@ export type Vehicle_Max_Fields = {
   __typename?: 'vehicle_max_fields';
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  yrdy?: Maybe<Scalars['Int']>;
 };
 
 /** order by max() on columns of table "vehicle" */
 export type Vehicle_Max_Order_By = {
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
+  yrdy?: Maybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -1100,12 +1578,14 @@ export type Vehicle_Min_Fields = {
   __typename?: 'vehicle_min_fields';
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  yrdy?: Maybe<Scalars['Int']>;
 };
 
 /** order by min() on columns of table "vehicle" */
 export type Vehicle_Min_Order_By = {
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
+  yrdy?: Maybe<Order_By>;
 };
 
 /** response of any mutation on the table "vehicle" */
@@ -1134,6 +1614,7 @@ export type Vehicle_Order_By = {
   id?: Maybe<Order_By>;
   locations_aggregate?: Maybe<Vehicle_Location_Aggregate_Order_By>;
   name?: Maybe<Order_By>;
+  yrdy?: Maybe<Order_By>;
 };
 
 /** select columns of table "vehicle" */
@@ -1141,13 +1622,60 @@ export enum Vehicle_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name'
+  Name = 'name',
+  /** column name */
+  Yrdy = 'yrdy'
 }
 
 /** input type for updating data in table "vehicle" */
 export type Vehicle_Set_Input = {
   id?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  yrdy?: Maybe<Scalars['Int']>;
+};
+
+/** aggregate stddev on columns */
+export type Vehicle_Stddev_Fields = {
+  __typename?: 'vehicle_stddev_fields';
+  yrdy?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "vehicle" */
+export type Vehicle_Stddev_Order_By = {
+  yrdy?: Maybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Vehicle_Stddev_Pop_Fields = {
+  __typename?: 'vehicle_stddev_pop_fields';
+  yrdy?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "vehicle" */
+export type Vehicle_Stddev_Pop_Order_By = {
+  yrdy?: Maybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Vehicle_Stddev_Samp_Fields = {
+  __typename?: 'vehicle_stddev_samp_fields';
+  yrdy?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "vehicle" */
+export type Vehicle_Stddev_Samp_Order_By = {
+  yrdy?: Maybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Vehicle_Sum_Fields = {
+  __typename?: 'vehicle_sum_fields';
+  yrdy?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "vehicle" */
+export type Vehicle_Sum_Order_By = {
+  yrdy?: Maybe<Order_By>;
 };
 
 /** update columns of table "vehicle" */
@@ -1155,8 +1683,43 @@ export enum Vehicle_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  Name = 'name'
+  Name = 'name',
+  /** column name */
+  Yrdy = 'yrdy'
 }
+
+/** aggregate var_pop on columns */
+export type Vehicle_Var_Pop_Fields = {
+  __typename?: 'vehicle_var_pop_fields';
+  yrdy?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "vehicle" */
+export type Vehicle_Var_Pop_Order_By = {
+  yrdy?: Maybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Vehicle_Var_Samp_Fields = {
+  __typename?: 'vehicle_var_samp_fields';
+  yrdy?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "vehicle" */
+export type Vehicle_Var_Samp_Order_By = {
+  yrdy?: Maybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Vehicle_Variance_Fields = {
+  __typename?: 'vehicle_variance_fields';
+  yrdy?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "vehicle" */
+export type Vehicle_Variance_Order_By = {
+  yrdy?: Maybe<Order_By>;
+};
 
 export type QueryVehicleByIdQueryVariables = {
   vehicleId: Scalars['String'];
