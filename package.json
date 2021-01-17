@@ -16,9 +16,9 @@
     "lpub": "lerna publish --forcePublish"
   },
   "devDependencies": {
-    "lerna": "^3.20.0",
-    "ts-node": "~7.0.0",
-    "typescript": "^3.7.2",
-    "shx": "^0.3.3"
+    "lerna": "^3.22.1",
+    "shx": "^0.3.3",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
   }
 }
