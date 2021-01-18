@@ -1,6 +1,9 @@
-import gql from 'graphql-tag';
-import * as ApolloReactCommon from '@apollo/client';
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -1721,9 +1724,9 @@ export type Vehicle_Variance_Order_By = {
   yrdy?: Maybe<Order_By>;
 };
 
-export type QueryVehicleByIdQueryVariables = {
+export type QueryVehicleByIdQueryVariables = Exact<{
   vehicleId: Scalars['String'];
-};
+}>;
 
 
 export type QueryVehicleByIdQuery = (
@@ -1734,13 +1737,13 @@ export type QueryVehicleByIdQuery = (
   )> }
 );
 
-export type QueryVehicleObjectsQueryVariables = {
-  distinct_on?: Maybe<Array<Vehicle_Select_Column>>;
+export type QueryVehicleObjectsQueryVariables = Exact<{
+  distinct_on?: Maybe<Array<Vehicle_Select_Column> | Vehicle_Select_Column>;
   where?: Maybe<Vehicle_Bool_Exp>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Vehicle_Order_By>>;
-};
+  order_by?: Maybe<Array<Vehicle_Order_By> | Vehicle_Order_By>;
+}>;
 
 
 export type QueryVehicleObjectsQuery = (
@@ -1751,9 +1754,9 @@ export type QueryVehicleObjectsQuery = (
   )> }
 );
 
-export type SubscribeToVehicleByIdSubscriptionVariables = {
+export type SubscribeToVehicleByIdSubscriptionVariables = Exact<{
   vehicleId: Scalars['String'];
-};
+}>;
 
 
 export type SubscribeToVehicleByIdSubscription = (
@@ -1764,13 +1767,13 @@ export type SubscribeToVehicleByIdSubscription = (
   )> }
 );
 
-export type SubscribeToVehicleObjectsSubscriptionVariables = {
-  distinct_on?: Maybe<Array<Vehicle_Select_Column>>;
+export type SubscribeToVehicleObjectsSubscriptionVariables = Exact<{
+  distinct_on?: Maybe<Array<Vehicle_Select_Column> | Vehicle_Select_Column>;
   where?: Maybe<Vehicle_Bool_Exp>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Vehicle_Order_By>>;
-};
+  order_by?: Maybe<Array<Vehicle_Order_By> | Vehicle_Order_By>;
+}>;
 
 
 export type SubscribeToVehicleObjectsSubscription = (
@@ -1781,9 +1784,9 @@ export type SubscribeToVehicleObjectsSubscription = (
   )> }
 );
 
-export type InsertVehicleMutationVariables = {
-  objects: Array<Vehicle_Insert_Input>;
-};
+export type InsertVehicleMutationVariables = Exact<{
+  objects: Array<Vehicle_Insert_Input> | Vehicle_Insert_Input;
+}>;
 
 
 export type InsertVehicleMutation = (
@@ -1798,10 +1801,10 @@ export type InsertVehicleMutation = (
   )> }
 );
 
-export type InsertVehicleWithOnConflictMutationVariables = {
-  objects: Array<Vehicle_Insert_Input>;
+export type InsertVehicleWithOnConflictMutationVariables = Exact<{
+  objects: Array<Vehicle_Insert_Input> | Vehicle_Insert_Input;
   onConflict?: Maybe<Vehicle_On_Conflict>;
-};
+}>;
 
 
 export type InsertVehicleWithOnConflictMutation = (
@@ -1816,10 +1819,10 @@ export type InsertVehicleWithOnConflictMutation = (
   )> }
 );
 
-export type UpdateVehicleByIdMutationVariables = {
+export type UpdateVehicleByIdMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
   set?: Maybe<Vehicle_Set_Input>;
-};
+}>;
 
 
 export type UpdateVehicleByIdMutation = (
@@ -1834,10 +1837,10 @@ export type UpdateVehicleByIdMutation = (
   )> }
 );
 
-export type UpdateVehicleMutationVariables = {
+export type UpdateVehicleMutationVariables = Exact<{
   set?: Maybe<Vehicle_Set_Input>;
   where: Vehicle_Bool_Exp;
-};
+}>;
 
 
 export type UpdateVehicleMutation = (
@@ -1852,9 +1855,9 @@ export type UpdateVehicleMutation = (
   )> }
 );
 
-export type RemoveVehicleModelByIdMutationVariables = {
+export type RemoveVehicleModelByIdMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
-};
+}>;
 
 
 export type RemoveVehicleModelByIdMutation = (
@@ -1865,9 +1868,9 @@ export type RemoveVehicleModelByIdMutation = (
   )> }
 );
 
-export type RemoveVehicleModelMutationVariables = {
+export type RemoveVehicleModelMutationVariables = Exact<{
   where: Vehicle_Bool_Exp;
-};
+}>;
 
 
 export type RemoveVehicleModelMutation = (
@@ -1878,9 +1881,9 @@ export type RemoveVehicleModelMutation = (
   )> }
 );
 
-export type QueryVehicleLocationOnlyByIdQueryVariables = {
+export type QueryVehicleLocationOnlyByIdQueryVariables = Exact<{
   vehicleId: Scalars['String'];
-};
+}>;
 
 
 export type QueryVehicleLocationOnlyByIdQuery = (
@@ -1891,13 +1894,13 @@ export type QueryVehicleLocationOnlyByIdQuery = (
   )> }
 );
 
-export type QueryVehicleLocationOnlyObjectsQueryVariables = {
-  distinct_on?: Maybe<Array<Vehicle_Select_Column>>;
+export type QueryVehicleLocationOnlyObjectsQueryVariables = Exact<{
+  distinct_on?: Maybe<Array<Vehicle_Select_Column> | Vehicle_Select_Column>;
   where?: Maybe<Vehicle_Bool_Exp>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Vehicle_Order_By>>;
-};
+  order_by?: Maybe<Array<Vehicle_Order_By> | Vehicle_Order_By>;
+}>;
 
 
 export type QueryVehicleLocationOnlyObjectsQuery = (
@@ -1908,9 +1911,9 @@ export type QueryVehicleLocationOnlyObjectsQuery = (
   )> }
 );
 
-export type SubscribeToVehicleLocationOnlyByIdSubscriptionVariables = {
+export type SubscribeToVehicleLocationOnlyByIdSubscriptionVariables = Exact<{
   vehicleId: Scalars['String'];
-};
+}>;
 
 
 export type SubscribeToVehicleLocationOnlyByIdSubscription = (
@@ -1921,13 +1924,13 @@ export type SubscribeToVehicleLocationOnlyByIdSubscription = (
   )> }
 );
 
-export type SubscribeToVehicleLocationOnlyObjectsSubscriptionVariables = {
-  distinct_on?: Maybe<Array<Vehicle_Select_Column>>;
+export type SubscribeToVehicleLocationOnlyObjectsSubscriptionVariables = Exact<{
+  distinct_on?: Maybe<Array<Vehicle_Select_Column> | Vehicle_Select_Column>;
   where?: Maybe<Vehicle_Bool_Exp>;
   limit?: Maybe<Scalars['Int']>;
   offset?: Maybe<Scalars['Int']>;
-  order_by?: Maybe<Array<Vehicle_Order_By>>;
-};
+  order_by?: Maybe<Array<Vehicle_Order_By> | Vehicle_Order_By>;
+}>;
 
 
 export type SubscribeToVehicleLocationOnlyObjectsSubscription = (
@@ -1938,9 +1941,9 @@ export type SubscribeToVehicleLocationOnlyObjectsSubscription = (
   )> }
 );
 
-export type InsertVehicleLocationOnlyMutationVariables = {
-  objects: Array<Vehicle_Insert_Input>;
-};
+export type InsertVehicleLocationOnlyMutationVariables = Exact<{
+  objects: Array<Vehicle_Insert_Input> | Vehicle_Insert_Input;
+}>;
 
 
 export type InsertVehicleLocationOnlyMutation = (
@@ -1955,10 +1958,10 @@ export type InsertVehicleLocationOnlyMutation = (
   )> }
 );
 
-export type InsertVehicleLocationOnlyWithOnConflictMutationVariables = {
-  objects: Array<Vehicle_Insert_Input>;
+export type InsertVehicleLocationOnlyWithOnConflictMutationVariables = Exact<{
+  objects: Array<Vehicle_Insert_Input> | Vehicle_Insert_Input;
   onConflict?: Maybe<Vehicle_On_Conflict>;
-};
+}>;
 
 
 export type InsertVehicleLocationOnlyWithOnConflictMutation = (
@@ -1973,10 +1976,10 @@ export type InsertVehicleLocationOnlyWithOnConflictMutation = (
   )> }
 );
 
-export type UpdateVehicleLocationOnlyByIdMutationVariables = {
+export type UpdateVehicleLocationOnlyByIdMutationVariables = Exact<{
   id?: Maybe<Scalars['String']>;
   set?: Maybe<Vehicle_Set_Input>;
-};
+}>;
 
 
 export type UpdateVehicleLocationOnlyByIdMutation = (
@@ -1991,10 +1994,10 @@ export type UpdateVehicleLocationOnlyByIdMutation = (
   )> }
 );
 
-export type UpdateVehicleLocationOnlyMutationVariables = {
+export type UpdateVehicleLocationOnlyMutationVariables = Exact<{
   set?: Maybe<Vehicle_Set_Input>;
   where: Vehicle_Bool_Exp;
-};
+}>;
 
 
 export type UpdateVehicleLocationOnlyMutation = (
@@ -2051,15 +2054,21 @@ export const QueryVehicleByIdDocument = gql`
   }
 }
     ${VehicleFragmentDoc}`;
-export type QueryVehicleByIdQueryResult = ApolloReactCommon.QueryResult<QueryVehicleByIdQuery, QueryVehicleByIdQueryVariables>;
+export type QueryVehicleByIdQueryResult = Apollo.QueryResult<QueryVehicleByIdQuery, QueryVehicleByIdQueryVariables>;
 export const QueryVehicleObjectsDocument = gql`
     query queryVehicleObjects($distinct_on: [vehicle_select_column!], $where: vehicle_bool_exp, $limit: Int, $offset: Int, $order_by: [vehicle_order_by!]) {
-  vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+  vehicle(
+    distinct_on: $distinct_on
+    where: $where
+    limit: $limit
+    offset: $offset
+    order_by: $order_by
+  ) {
     ...Vehicle
   }
 }
     ${VehicleFragmentDoc}`;
-export type QueryVehicleObjectsQueryResult = ApolloReactCommon.QueryResult<QueryVehicleObjectsQuery, QueryVehicleObjectsQueryVariables>;
+export type QueryVehicleObjectsQueryResult = Apollo.QueryResult<QueryVehicleObjectsQuery, QueryVehicleObjectsQueryVariables>;
 export const SubscribeToVehicleByIdDocument = gql`
     subscription subscribeToVehicleById($vehicleId: String!) {
   vehicle_by_pk(id: $vehicleId) {
@@ -2067,15 +2076,21 @@ export const SubscribeToVehicleByIdDocument = gql`
   }
 }
     ${VehicleFragmentDoc}`;
-export type SubscribeToVehicleByIdSubscriptionResult = ApolloReactCommon.SubscriptionResult<SubscribeToVehicleByIdSubscription>;
+export type SubscribeToVehicleByIdSubscriptionResult = Apollo.SubscriptionResult<SubscribeToVehicleByIdSubscription>;
 export const SubscribeToVehicleObjectsDocument = gql`
     subscription subscribeToVehicleObjects($distinct_on: [vehicle_select_column!], $where: vehicle_bool_exp, $limit: Int, $offset: Int, $order_by: [vehicle_order_by!]) {
-  vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+  vehicle(
+    distinct_on: $distinct_on
+    where: $where
+    limit: $limit
+    offset: $offset
+    order_by: $order_by
+  ) {
     ...Vehicle
   }
 }
     ${VehicleFragmentDoc}`;
-export type SubscribeToVehicleObjectsSubscriptionResult = ApolloReactCommon.SubscriptionResult<SubscribeToVehicleObjectsSubscription>;
+export type SubscribeToVehicleObjectsSubscriptionResult = Apollo.SubscriptionResult<SubscribeToVehicleObjectsSubscription>;
 export const InsertVehicleDocument = gql`
     mutation insertVehicle($objects: [vehicle_insert_input!]!) {
   insert_vehicle(objects: $objects) {
@@ -2086,9 +2101,9 @@ export const InsertVehicleDocument = gql`
   }
 }
     ${VehicleFragmentDoc}`;
-export type InsertVehicleMutationFn = ApolloReactCommon.MutationFunction<InsertVehicleMutation, InsertVehicleMutationVariables>;
-export type InsertVehicleMutationResult = ApolloReactCommon.MutationResult<InsertVehicleMutation>;
-export type InsertVehicleMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertVehicleMutation, InsertVehicleMutationVariables>;
+export type InsertVehicleMutationFn = Apollo.MutationFunction<InsertVehicleMutation, InsertVehicleMutationVariables>;
+export type InsertVehicleMutationResult = Apollo.MutationResult<InsertVehicleMutation>;
+export type InsertVehicleMutationOptions = Apollo.BaseMutationOptions<InsertVehicleMutation, InsertVehicleMutationVariables>;
 export const InsertVehicleWithOnConflictDocument = gql`
     mutation insertVehicleWithOnConflict($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
   insert_vehicle(objects: $objects, on_conflict: $onConflict) {
@@ -2099,9 +2114,9 @@ export const InsertVehicleWithOnConflictDocument = gql`
   }
 }
     ${VehicleFragmentDoc}`;
-export type InsertVehicleWithOnConflictMutationFn = ApolloReactCommon.MutationFunction<InsertVehicleWithOnConflictMutation, InsertVehicleWithOnConflictMutationVariables>;
-export type InsertVehicleWithOnConflictMutationResult = ApolloReactCommon.MutationResult<InsertVehicleWithOnConflictMutation>;
-export type InsertVehicleWithOnConflictMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertVehicleWithOnConflictMutation, InsertVehicleWithOnConflictMutationVariables>;
+export type InsertVehicleWithOnConflictMutationFn = Apollo.MutationFunction<InsertVehicleWithOnConflictMutation, InsertVehicleWithOnConflictMutationVariables>;
+export type InsertVehicleWithOnConflictMutationResult = Apollo.MutationResult<InsertVehicleWithOnConflictMutation>;
+export type InsertVehicleWithOnConflictMutationOptions = Apollo.BaseMutationOptions<InsertVehicleWithOnConflictMutation, InsertVehicleWithOnConflictMutationVariables>;
 export const UpdateVehicleByIdDocument = gql`
     mutation updateVehicleById($id: String, $set: vehicle_set_input) {
   update_vehicle(_set: $set, where: {id: {_eq: $id}}) {
@@ -2112,9 +2127,9 @@ export const UpdateVehicleByIdDocument = gql`
   }
 }
     ${VehicleFragmentDoc}`;
-export type UpdateVehicleByIdMutationFn = ApolloReactCommon.MutationFunction<UpdateVehicleByIdMutation, UpdateVehicleByIdMutationVariables>;
-export type UpdateVehicleByIdMutationResult = ApolloReactCommon.MutationResult<UpdateVehicleByIdMutation>;
-export type UpdateVehicleByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateVehicleByIdMutation, UpdateVehicleByIdMutationVariables>;
+export type UpdateVehicleByIdMutationFn = Apollo.MutationFunction<UpdateVehicleByIdMutation, UpdateVehicleByIdMutationVariables>;
+export type UpdateVehicleByIdMutationResult = Apollo.MutationResult<UpdateVehicleByIdMutation>;
+export type UpdateVehicleByIdMutationOptions = Apollo.BaseMutationOptions<UpdateVehicleByIdMutation, UpdateVehicleByIdMutationVariables>;
 export const UpdateVehicleDocument = gql`
     mutation updateVehicle($set: vehicle_set_input, $where: vehicle_bool_exp!) {
   update_vehicle(_set: $set, where: $where) {
@@ -2125,9 +2140,9 @@ export const UpdateVehicleDocument = gql`
   }
 }
     ${VehicleFragmentDoc}`;
-export type UpdateVehicleMutationFn = ApolloReactCommon.MutationFunction<UpdateVehicleMutation, UpdateVehicleMutationVariables>;
-export type UpdateVehicleMutationResult = ApolloReactCommon.MutationResult<UpdateVehicleMutation>;
-export type UpdateVehicleMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateVehicleMutation, UpdateVehicleMutationVariables>;
+export type UpdateVehicleMutationFn = Apollo.MutationFunction<UpdateVehicleMutation, UpdateVehicleMutationVariables>;
+export type UpdateVehicleMutationResult = Apollo.MutationResult<UpdateVehicleMutation>;
+export type UpdateVehicleMutationOptions = Apollo.BaseMutationOptions<UpdateVehicleMutation, UpdateVehicleMutationVariables>;
 export const RemoveVehicleModelByIdDocument = gql`
     mutation removeVehicleModelById($id: String) {
   delete_vehicle(where: {id: {_eq: $id}}) {
@@ -2135,9 +2150,9 @@ export const RemoveVehicleModelByIdDocument = gql`
   }
 }
     `;
-export type RemoveVehicleModelByIdMutationFn = ApolloReactCommon.MutationFunction<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>;
-export type RemoveVehicleModelByIdMutationResult = ApolloReactCommon.MutationResult<RemoveVehicleModelByIdMutation>;
-export type RemoveVehicleModelByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>;
+export type RemoveVehicleModelByIdMutationFn = Apollo.MutationFunction<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>;
+export type RemoveVehicleModelByIdMutationResult = Apollo.MutationResult<RemoveVehicleModelByIdMutation>;
+export type RemoveVehicleModelByIdMutationOptions = Apollo.BaseMutationOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>;
 export const RemoveVehicleModelDocument = gql`
     mutation removeVehicleModel($where: vehicle_bool_exp!) {
   delete_vehicle(where: $where) {
@@ -2145,9 +2160,9 @@ export const RemoveVehicleModelDocument = gql`
   }
 }
     `;
-export type RemoveVehicleModelMutationFn = ApolloReactCommon.MutationFunction<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>;
-export type RemoveVehicleModelMutationResult = ApolloReactCommon.MutationResult<RemoveVehicleModelMutation>;
-export type RemoveVehicleModelMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>;
+export type RemoveVehicleModelMutationFn = Apollo.MutationFunction<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>;
+export type RemoveVehicleModelMutationResult = Apollo.MutationResult<RemoveVehicleModelMutation>;
+export type RemoveVehicleModelMutationOptions = Apollo.BaseMutationOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>;
 export const QueryVehicleLocationOnlyByIdDocument = gql`
     query queryVehicleLocationOnlyById($vehicleId: String!) {
   vehicle_by_pk(id: $vehicleId) {
@@ -2155,15 +2170,21 @@ export const QueryVehicleLocationOnlyByIdDocument = gql`
   }
 }
     ${VehicleLocationOnlyFragmentDoc}`;
-export type QueryVehicleLocationOnlyByIdQueryResult = ApolloReactCommon.QueryResult<QueryVehicleLocationOnlyByIdQuery, QueryVehicleLocationOnlyByIdQueryVariables>;
+export type QueryVehicleLocationOnlyByIdQueryResult = Apollo.QueryResult<QueryVehicleLocationOnlyByIdQuery, QueryVehicleLocationOnlyByIdQueryVariables>;
 export const QueryVehicleLocationOnlyObjectsDocument = gql`
     query queryVehicleLocationOnlyObjects($distinct_on: [vehicle_select_column!], $where: vehicle_bool_exp, $limit: Int, $offset: Int, $order_by: [vehicle_order_by!]) {
-  vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+  vehicle(
+    distinct_on: $distinct_on
+    where: $where
+    limit: $limit
+    offset: $offset
+    order_by: $order_by
+  ) {
     ...VehicleLocationOnly
   }
 }
     ${VehicleLocationOnlyFragmentDoc}`;
-export type QueryVehicleLocationOnlyObjectsQueryResult = ApolloReactCommon.QueryResult<QueryVehicleLocationOnlyObjectsQuery, QueryVehicleLocationOnlyObjectsQueryVariables>;
+export type QueryVehicleLocationOnlyObjectsQueryResult = Apollo.QueryResult<QueryVehicleLocationOnlyObjectsQuery, QueryVehicleLocationOnlyObjectsQueryVariables>;
 export const SubscribeToVehicleLocationOnlyByIdDocument = gql`
     subscription subscribeToVehicleLocationOnlyById($vehicleId: String!) {
   vehicle_by_pk(id: $vehicleId) {
@@ -2171,15 +2192,21 @@ export const SubscribeToVehicleLocationOnlyByIdDocument = gql`
   }
 }
     ${VehicleLocationOnlyFragmentDoc}`;
-export type SubscribeToVehicleLocationOnlyByIdSubscriptionResult = ApolloReactCommon.SubscriptionResult<SubscribeToVehicleLocationOnlyByIdSubscription>;
+export type SubscribeToVehicleLocationOnlyByIdSubscriptionResult = Apollo.SubscriptionResult<SubscribeToVehicleLocationOnlyByIdSubscription>;
 export const SubscribeToVehicleLocationOnlyObjectsDocument = gql`
     subscription subscribeToVehicleLocationOnlyObjects($distinct_on: [vehicle_select_column!], $where: vehicle_bool_exp, $limit: Int, $offset: Int, $order_by: [vehicle_order_by!]) {
-  vehicle(distinct_on: $distinct_on, where: $where, limit: $limit, offset: $offset, order_by: $order_by) {
+  vehicle(
+    distinct_on: $distinct_on
+    where: $where
+    limit: $limit
+    offset: $offset
+    order_by: $order_by
+  ) {
     ...VehicleLocationOnly
   }
 }
     ${VehicleLocationOnlyFragmentDoc}`;
-export type SubscribeToVehicleLocationOnlyObjectsSubscriptionResult = ApolloReactCommon.SubscriptionResult<SubscribeToVehicleLocationOnlyObjectsSubscription>;
+export type SubscribeToVehicleLocationOnlyObjectsSubscriptionResult = Apollo.SubscriptionResult<SubscribeToVehicleLocationOnlyObjectsSubscription>;
 export const InsertVehicleLocationOnlyDocument = gql`
     mutation insertVehicleLocationOnly($objects: [vehicle_insert_input!]!) {
   insert_vehicle(objects: $objects) {
@@ -2190,9 +2217,9 @@ export const InsertVehicleLocationOnlyDocument = gql`
   }
 }
     ${VehicleLocationOnlyFragmentDoc}`;
-export type InsertVehicleLocationOnlyMutationFn = ApolloReactCommon.MutationFunction<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyMutationVariables>;
-export type InsertVehicleLocationOnlyMutationResult = ApolloReactCommon.MutationResult<InsertVehicleLocationOnlyMutation>;
-export type InsertVehicleLocationOnlyMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyMutationVariables>;
+export type InsertVehicleLocationOnlyMutationFn = Apollo.MutationFunction<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyMutationVariables>;
+export type InsertVehicleLocationOnlyMutationResult = Apollo.MutationResult<InsertVehicleLocationOnlyMutation>;
+export type InsertVehicleLocationOnlyMutationOptions = Apollo.BaseMutationOptions<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyMutationVariables>;
 export const InsertVehicleLocationOnlyWithOnConflictDocument = gql`
     mutation insertVehicleLocationOnlyWithOnConflict($objects: [vehicle_insert_input!]!, $onConflict: vehicle_on_conflict) {
   insert_vehicle(objects: $objects, on_conflict: $onConflict) {
@@ -2203,9 +2230,9 @@ export const InsertVehicleLocationOnlyWithOnConflictDocument = gql`
   }
 }
     ${VehicleLocationOnlyFragmentDoc}`;
-export type InsertVehicleLocationOnlyWithOnConflictMutationFn = ApolloReactCommon.MutationFunction<InsertVehicleLocationOnlyWithOnConflictMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables>;
-export type InsertVehicleLocationOnlyWithOnConflictMutationResult = ApolloReactCommon.MutationResult<InsertVehicleLocationOnlyWithOnConflictMutation>;
-export type InsertVehicleLocationOnlyWithOnConflictMutationOptions = ApolloReactCommon.BaseMutationOptions<InsertVehicleLocationOnlyWithOnConflictMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables>;
+export type InsertVehicleLocationOnlyWithOnConflictMutationFn = Apollo.MutationFunction<InsertVehicleLocationOnlyWithOnConflictMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables>;
+export type InsertVehicleLocationOnlyWithOnConflictMutationResult = Apollo.MutationResult<InsertVehicleLocationOnlyWithOnConflictMutation>;
+export type InsertVehicleLocationOnlyWithOnConflictMutationOptions = Apollo.BaseMutationOptions<InsertVehicleLocationOnlyWithOnConflictMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables>;
 export const UpdateVehicleLocationOnlyByIdDocument = gql`
     mutation updateVehicleLocationOnlyById($id: String, $set: vehicle_set_input) {
   update_vehicle(_set: $set, where: {id: {_eq: $id}}) {
@@ -2216,9 +2243,9 @@ export const UpdateVehicleLocationOnlyByIdDocument = gql`
   }
 }
     ${VehicleLocationOnlyFragmentDoc}`;
-export type UpdateVehicleLocationOnlyByIdMutationFn = ApolloReactCommon.MutationFunction<UpdateVehicleLocationOnlyByIdMutation, UpdateVehicleLocationOnlyByIdMutationVariables>;
-export type UpdateVehicleLocationOnlyByIdMutationResult = ApolloReactCommon.MutationResult<UpdateVehicleLocationOnlyByIdMutation>;
-export type UpdateVehicleLocationOnlyByIdMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateVehicleLocationOnlyByIdMutation, UpdateVehicleLocationOnlyByIdMutationVariables>;
+export type UpdateVehicleLocationOnlyByIdMutationFn = Apollo.MutationFunction<UpdateVehicleLocationOnlyByIdMutation, UpdateVehicleLocationOnlyByIdMutationVariables>;
+export type UpdateVehicleLocationOnlyByIdMutationResult = Apollo.MutationResult<UpdateVehicleLocationOnlyByIdMutation>;
+export type UpdateVehicleLocationOnlyByIdMutationOptions = Apollo.BaseMutationOptions<UpdateVehicleLocationOnlyByIdMutation, UpdateVehicleLocationOnlyByIdMutationVariables>;
 export const UpdateVehicleLocationOnlyDocument = gql`
     mutation updateVehicleLocationOnly($set: vehicle_set_input, $where: vehicle_bool_exp!) {
   update_vehicle(_set: $set, where: $where) {
@@ -2229,6 +2256,6 @@ export const UpdateVehicleLocationOnlyDocument = gql`
   }
 }
     ${VehicleLocationOnlyFragmentDoc}`;
-export type UpdateVehicleLocationOnlyMutationFn = ApolloReactCommon.MutationFunction<UpdateVehicleLocationOnlyMutation, UpdateVehicleLocationOnlyMutationVariables>;
-export type UpdateVehicleLocationOnlyMutationResult = ApolloReactCommon.MutationResult<UpdateVehicleLocationOnlyMutation>;
-export type UpdateVehicleLocationOnlyMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateVehicleLocationOnlyMutation, UpdateVehicleLocationOnlyMutationVariables>;
+export type UpdateVehicleLocationOnlyMutationFn = Apollo.MutationFunction<UpdateVehicleLocationOnlyMutation, UpdateVehicleLocationOnlyMutationVariables>;
+export type UpdateVehicleLocationOnlyMutationResult = Apollo.MutationResult<UpdateVehicleLocationOnlyMutation>;
+export type UpdateVehicleLocationOnlyMutationOptions = Apollo.BaseMutationOptions<UpdateVehicleLocationOnlyMutation, UpdateVehicleLocationOnlyMutationVariables>;

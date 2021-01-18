@@ -1,6 +1,22 @@
-import { FieldDefinitionNode, FragmentDefinitionNode, GraphQLNamedType } from "graphql";
-import { ContentManager, getIdTypeScriptFieldType, makeImportStatement, makeModelName, makeShortName } from ".";
-import { makeCamelCase, makeFragmentTypeScriptTypeName, makePascalCase, makeFragmentDocName, getUniqueEntitiesFromFragmentDefinitions } from "./utils";
+import {
+  FieldDefinitionNode,
+  FragmentDefinitionNode,
+  GraphQLNamedType,
+} from "graphql";
+import {
+  ContentManager,
+  getIdTypeScriptFieldType,
+  makeImportStatement,
+  makeModelName,
+  makeShortName,
+} from ".";
+import {
+  makeCamelCase,
+  makeFragmentTypeScriptTypeName,
+  makePascalCase,
+  makeFragmentDocName,
+  getUniqueEntitiesFromFragmentDefinitions,
+} from "./utils";
 import { TypeMap } from "graphql/type/schema";
 
 // ---------------------------------
@@ -18,7 +34,7 @@ export function injectGlobalHelperCodePre({
     `import { defaultCacheIdFromObject, generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, convertToGraph, ObjectWithId, FieldMap, getLogLevel, ensureTypenameOnFragment, ensureTypenameOnFragments, stripInsertInputClientFields } from 'graphql-codegen-hasura-core'`
   );
   contentManager.addImport(
-    `import { ApolloClient, ApolloCache, ApolloQueryResult, FetchResult, MutationOptions, ObservableQuery, QueryOptions, SubscriptionOptions, Observable, DataProxy } from '@apollo/client'`
+    `import { ApolloClient, ApolloCache, ApolloQueryResult, DataProxy, FetchResult, MutationOptions, Observable, ObservableQuery, QueryOptions, Reference, SubscriptionOptions } from '@apollo/client'`
   );
 
   contentManager.addContent(`
@@ -51,9 +67,13 @@ export function injectSharedHelpersPre({
   typescriptCodegenOutputPath: string;
 }) {
   const fragmentNamePascalCase = makePascalCase(fragmentName);
-  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
+  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(
+    primaryKeyIdField
+  );
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
-  const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(fragmentName);
+  const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(
+    fragmentName
+  );
 
   contentManager.addContent(`
     // ${entityNamedType.name} HELPERS
@@ -64,12 +84,20 @@ export function injectSharedHelpersPre({
     
   `);
 
-  if (primaryKeyIdTypeScriptFieldType && !primaryKeyIdTypeScriptFieldType.isNative) {
-    const typeImport = makeImportStatement(`${primaryKeyIdTypeScriptFieldType.typeName}`, typescriptCodegenOutputPath);
+  if (
+    primaryKeyIdTypeScriptFieldType &&
+    !primaryKeyIdTypeScriptFieldType.isNative
+  ) {
+    const typeImport = makeImportStatement(
+      `${primaryKeyIdTypeScriptFieldType.typeName}`,
+      typescriptCodegenOutputPath
+    );
     contentManager.addImport(typeImport);
   }
 
-  contentManager.addImport(makeImportStatement(fragmentTypeScriptTypeName, typescriptCodegenOutputPath));
+  contentManager.addImport(
+    makeImportStatement(fragmentTypeScriptTypeName, typescriptCodegenOutputPath)
+  );
 }
 
 // ---------------------------------
@@ -93,9 +121,13 @@ export function injectCacheHelpers({
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const fragmentNamePascalCase = makePascalCase(fragmentName);
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
-  const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(fragmentName);
+  const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(
+    fragmentName
+  );
   const fragmentDocName = makeFragmentDocName(fragmentName);
-  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
+  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(
+    primaryKeyIdField
+  );
   const entityPascalName = makePascalCase(entityNamedType.name);
   const queryByIdName = `Query${fragmentNamePascalCase}ById`;
   const queryObjectsName = `Query${fragmentNamePascalCase}Objects`;
@@ -108,8 +140,8 @@ export function injectCacheHelpers({
       return defaultCacheIdFromObject({ __typename: '${entityNamedType.name}', id:${entityShortCamelCaseName}Id });
     }
 
-    function cacheReadFragment${fragmentNamePascalCase}ById({ apolloCache, ${entityShortCamelCaseName}Id}: { apolloCache: ApolloCache<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName} }): ${fragmentTypeScriptTypeName} | null | undefined {
-      return apolloCache.readFragment<${fragmentTypeScriptTypeName} | null | undefined>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultCacheIdFromObject({ __typename: '${entityNamedType.name}', id:${entityShortCamelCaseName}Id }) });
+    function cacheReadFragment${fragmentNamePascalCase}ById({ apolloCache, ${entityShortCamelCaseName}Id}: { apolloCache: ApolloCache<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName} }): ${fragmentTypeScriptTypeName} | null {
+      return apolloCache.readFragment<${fragmentTypeScriptTypeName} | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', id: defaultCacheIdFromObject({ __typename: '${entityNamedType.name}', id:${entityShortCamelCaseName}Id }) });
     }
 
     function cacheWriteFragment${fragmentNamePascalCase}ById({ apolloCache, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}Partial, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> | ${entityPascalName}_Insert_Input | null, fieldMap?: FieldMap, apolloBroadcast?:boolean }): Partial<${fragmentTypeScriptTypeName}> {
@@ -119,56 +151,32 @@ export function injectCacheHelpers({
       return parsedFragment;
     }
 
-    function cacheReadQuery${fragmentNamePascalCase}ById({ apolloCache, ${entityShortCamelCaseName}Id}: { apolloCache: ApolloCache<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName} }): ${fragmentNamePascalCase}Fragment | null | undefined {
-      try {
-        return apolloCache.readQuery<${fragmentNamePascalCase}Fragment | null >({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }  });
-      } catch (error) {
-        //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
-        console.warn('cacheReadQuery${fragmentNamePascalCase}ById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
-      }
-      return undefined;
+    function cacheReadQuery${fragmentNamePascalCase}ById({ apolloCache, ${entityShortCamelCaseName}Id}: { apolloCache: ApolloCache<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName} }): ${fragmentNamePascalCase}Fragment | null {
+      return apolloCache.readQuery<${fragmentNamePascalCase}Fragment | null >({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }  });
     }
 
-    function cacheWriteQuery${fragmentNamePascalCase}ById({ apolloCache, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}: ${fragmentNamePascalCase}Fragment | ${entityPascalName}_Insert_Input | null, fieldMap?: FieldMap, apolloBroadcast?:boolean }): void {
-      try {
+    function cacheWriteQuery${fragmentNamePascalCase}ById({ apolloCache, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}: ${fragmentNamePascalCase}Fragment | ${entityPascalName}_Insert_Input | null, fieldMap?: FieldMap, apolloBroadcast?:boolean }): Reference | undefined {
         const ${fragmentNameCamelCase}Partial = convertToGraph({ input:${fragmentNameCamelCase}, typename:'${entityNamedType.name}', fieldMap });
         return apolloCache.writeQuery<${fragmentNamePascalCase}Fragment | null>({ query: ${queryByIdName}Document, variables: { ${entityShortCamelCaseName}Id }, data: (${fragmentNameCamelCase} ? ${fragmentNameCamelCase}Partial : null), broadcast:apolloBroadcast });
-      } catch (error) {
-        //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
-        console.warn('cacheWriteQuery${fragmentNamePascalCase}ById threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
-      }
-      return undefined;
     }
     
-    function cacheReadQuery${fragmentNamePascalCase}Objects({ apolloCache, variables }: { apolloCache: ApolloCache<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables }): ${entityPascalName}[] | null | undefined {
-      try {
-        return apolloCache.readQuery<{${entityPascalName}:${entityPascalName}[] | null}>({ query: ${queryObjectsName}Document, variables })?.${entityPascalName} || [];
-      } catch (error) {
-        //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
-        console.warn('cacheReadQuery${fragmentNamePascalCase}Objects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
-      }
-      return undefined;
+    function cacheReadQuery${fragmentNamePascalCase}Objects({ apolloCache, variables }: { apolloCache: ApolloCache<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables }): ${entityPascalName}[] | null {
+      return apolloCache.readQuery<{${entityPascalName}:${entityPascalName}[] | null}>({ query: ${queryObjectsName}Document, variables })?.${entityPascalName} || [];
     }
 
-    function cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloCache, variables, data, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:(${entityPascalName} | ${entityPascalName}_Insert_Input)[], fieldMap?: FieldMap, apolloBroadcast?:boolean }): void {
-      try {   
+    function cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloCache, variables, data, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, data:(${entityPascalName} | ${entityPascalName}_Insert_Input)[], fieldMap?: FieldMap, apolloBroadcast?:boolean }): Reference | undefined {  
         const objects = convertToGraph({ input:data, typename:'${entityNamedType.name}', fieldMap });
         return apolloCache.writeQuery<{${entityPascalName}:${entityPascalName}[]}>({ query: ${queryObjectsName}Document, variables, data: { ${entityPascalName}:objects }, broadcast:apolloBroadcast });
-      } catch (error) {
-        //DEVNOTE: Remove after this apollographql issue has been addressed: https://github.com/apollographql/apollo-client/issues/6094
-        console.warn('cacheWriteQuery${fragmentNamePascalCase}Objects threw error. Could be related to this apolloGraphQl Issue. If so, can ignore: https://github.com/apollographql/apollo-client/issues/6094');
-      }
-      return undefined;
     }
 
-    function cacheWriteQuery${fragmentNamePascalCase}Insert({ apolloCache, variables, ${entityShortCamelCaseName}, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, ${entityShortCamelCaseName}:${entityPascalName}_Insert_Input, fieldMap?: FieldMap, apolloBroadcast?:boolean }): void {
+    function cacheWriteQuery${fragmentNamePascalCase}Insert({ apolloCache, variables, ${entityShortCamelCaseName}, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, ${entityShortCamelCaseName}:${entityPascalName}_Insert_Input, fieldMap?: FieldMap, apolloBroadcast?:boolean }): Reference | undefined {
       const currentObjects = cacheReadQuery${fragmentNamePascalCase}Objects({ apolloCache, variables }) || [];
       const objectsWithInserted = [ ...currentObjects, convertToGraph({ input: ${entityShortCamelCaseName}, typename:'${entityNamedType.name}', fieldMap })];
       if(logLevel >= 2) console.log(' --> cacheWriteQuery${fragmentNamePascalCase}Insert - objectsWithInserted:', objectsWithInserted);
       return cacheWriteQuery${fragmentNamePascalCase}Objects({ apolloCache, variables, data: objectsWithInserted, apolloBroadcast });
     }
 
-    function cacheWriteQuery${fragmentNamePascalCase}Remove({ apolloCache, variables, ${entityShortCamelCaseName}Id, apolloBroadcast }: { apolloCache: ApolloCache<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, apolloBroadcast?:boolean }): void {
+    function cacheWriteQuery${fragmentNamePascalCase}Remove({ apolloCache, variables, ${entityShortCamelCaseName}Id, apolloBroadcast }: { apolloCache: ApolloCache<object>, variables: Query${fragmentNamePascalCase}ObjectsQueryVariables, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, apolloBroadcast?:boolean }): Reference | undefined {
       const currentObjects = cacheReadQuery${fragmentNamePascalCase}Objects({ apolloCache, variables }) || [];
       const objectsWithRemoved = currentObjects.filter(objectItem => objectItem.id !== ${entityShortCamelCaseName}Id) || [];
       if(logLevel >= 2) console.log(' --> cacheWriteQuery${fragmentNamePascalCase}Remove - objectsWithRemoved:', objectsWithRemoved);
@@ -179,16 +187,43 @@ export function injectCacheHelpers({
     //
     // In Progress
 
-    // function cacheWriteFragment${fragmentNamePascalCase}Objects({ apolloCache, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}Partial }: { apolloCache: ApolloCache<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> | null }): void {
+    // function cacheWriteFragment${fragmentNamePascalCase}Objects({ apolloCache, ${entityShortCamelCaseName}Id, ${fragmentNameCamelCase}Partial }: { apolloCache: ApolloCache<object>, ${entityShortCamelCaseName}Id: ${primaryKeyIdTypeScriptFieldType.typeName}, ${fragmentNameCamelCase}Partial: Partial<${fragmentTypeScriptTypeName}> | null }): Reference | undefined {
     //   return apolloCache.writeFragment<Partial<${fragmentTypeScriptTypeName}> | null>({ fragment: ${fragmentDocName}, fragmentName:'${fragmentName}', data: { ...${fragmentNameCamelCase}Partial, __typename: '${entityNamedType.name}' } });
     // }
 
-    contentManager.addImport(makeImportStatement(entityPascalName, typescriptCodegenOutputPath));
-    contentManager.addImport(makeImportStatement(fragmentDocName, typescriptCodegenOutputPath));
-    contentManager.addImport(makeImportStatement(`${queryObjectsName}QueryVariables`, typescriptCodegenOutputPath));
-    if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${queryByIdName}Query`, typescriptCodegenOutputPath));
-    if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${queryByIdName}Document`, typescriptCodegenOutputPath));
-    if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${queryByIdName}QueryVariables`, typescriptCodegenOutputPath));
+    contentManager.addImport(
+      makeImportStatement(entityPascalName, typescriptCodegenOutputPath)
+    );
+    contentManager.addImport(
+      makeImportStatement(fragmentDocName, typescriptCodegenOutputPath)
+    );
+    contentManager.addImport(
+      makeImportStatement(
+        `${queryObjectsName}QueryVariables`,
+        typescriptCodegenOutputPath
+      )
+    );
+    if (primaryKeyIdField)
+      contentManager.addImport(
+        makeImportStatement(
+          `${queryByIdName}Query`,
+          typescriptCodegenOutputPath
+        )
+      );
+    if (primaryKeyIdField)
+      contentManager.addImport(
+        makeImportStatement(
+          `${queryByIdName}Document`,
+          typescriptCodegenOutputPath
+        )
+      );
+    if (primaryKeyIdField)
+      contentManager.addImport(
+        makeImportStatement(
+          `${queryByIdName}QueryVariables`,
+          typescriptCodegenOutputPath
+        )
+      );
   }
 }
 
@@ -216,10 +251,14 @@ export function injectQueryHelpers({
   const entityShortName = makeShortName(entityNamedType.name, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
-  const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(fragmentName);
+  const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(
+    fragmentName
+  );
   const queryByIdNameCamelCase = makeCamelCase(queryByIdName);
   const queryObjectsNameCamelCase = makeCamelCase(queryObjectsName);
-  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
+  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(
+    primaryKeyIdField
+  );
 
   if (primaryKeyIdField) {
     contentManager.addContent(`
@@ -263,12 +302,39 @@ export function injectQueryHelpers({
       }
     `);
 
-  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${queryByIdName}Query`, typescriptCodegenOutputPath));
-  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${queryByIdName}Document`, typescriptCodegenOutputPath));
-  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${queryByIdName}QueryVariables`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`${queryObjectsName}Query`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`${queryObjectsName}Document`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`${queryObjectsName}QueryVariables`, typescriptCodegenOutputPath));
+  if (primaryKeyIdField)
+    contentManager.addImport(
+      makeImportStatement(`${queryByIdName}Query`, typescriptCodegenOutputPath)
+    );
+  if (primaryKeyIdField)
+    contentManager.addImport(
+      makeImportStatement(
+        `${queryByIdName}Document`,
+        typescriptCodegenOutputPath
+      )
+    );
+  if (primaryKeyIdField)
+    contentManager.addImport(
+      makeImportStatement(
+        `${queryByIdName}QueryVariables`,
+        typescriptCodegenOutputPath
+      )
+    );
+  contentManager.addImport(
+    makeImportStatement(`${queryObjectsName}Query`, typescriptCodegenOutputPath)
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `${queryObjectsName}Document`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `${queryObjectsName}QueryVariables`,
+      typescriptCodegenOutputPath
+    )
+  );
 }
 
 // ---------------------------------
@@ -295,10 +361,14 @@ export function injectSubscriptionHelpers({
   const entityShortName = makeShortName(entityNamedType.name, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
-  const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(fragmentName);
+  const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(
+    fragmentName
+  );
   const subscribeByIdNameCamelCase = makeCamelCase(subscribeByIdName);
   const subscribeObjectsNameCamelCase = makeCamelCase(subscribeObjectsName);
-  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
+  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(
+    primaryKeyIdField
+  );
 
   if (primaryKeyIdField) {
     contentManager.addContent(`
@@ -328,12 +398,45 @@ export function injectSubscriptionHelpers({
       }
     `);
 
-  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${subscribeByIdName}Subscription`, typescriptCodegenOutputPath));
-  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${subscribeByIdName}Document`, typescriptCodegenOutputPath));
-  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${subscribeByIdName}SubscriptionVariables`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`${subscribeObjectsName}Subscription`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`${subscribeObjectsName}Document`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`${subscribeObjectsName}SubscriptionVariables`, typescriptCodegenOutputPath));
+  if (primaryKeyIdField)
+    contentManager.addImport(
+      makeImportStatement(
+        `${subscribeByIdName}Subscription`,
+        typescriptCodegenOutputPath
+      )
+    );
+  if (primaryKeyIdField)
+    contentManager.addImport(
+      makeImportStatement(
+        `${subscribeByIdName}Document`,
+        typescriptCodegenOutputPath
+      )
+    );
+  if (primaryKeyIdField)
+    contentManager.addImport(
+      makeImportStatement(
+        `${subscribeByIdName}SubscriptionVariables`,
+        typescriptCodegenOutputPath
+      )
+    );
+  contentManager.addImport(
+    makeImportStatement(
+      `${subscribeObjectsName}Subscription`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `${subscribeObjectsName}Document`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `${subscribeObjectsName}SubscriptionVariables`,
+      typescriptCodegenOutputPath
+    )
+  );
 }
 
 // ---------------------------------
@@ -358,7 +461,9 @@ export function injectInsertHelpers({
   const entityShortName = makeShortName(entityNamedType.name, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
-  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
+  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(
+    primaryKeyIdField
+  );
 
   contentManager.addContent(`
     // Insert Helper
@@ -419,14 +524,54 @@ export function injectInsertHelpers({
     }
   `);
 
-  contentManager.addImport(makeImportStatement(`${entityPascalName}_Insert_Input`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`${entityPascalName}_On_Conflict`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}Mutation`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}WithOnConflictMutation`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}MutationVariables`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}WithOnConflictMutationVariables`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}Document`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}WithOnConflictDocument`, typescriptCodegenOutputPath));
+  contentManager.addImport(
+    makeImportStatement(
+      `${entityPascalName}_Insert_Input`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `${entityPascalName}_On_Conflict`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Insert${fragmentNamePascalCase}Mutation`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Insert${fragmentNamePascalCase}WithOnConflictMutation`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Insert${fragmentNamePascalCase}MutationVariables`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Insert${fragmentNamePascalCase}WithOnConflictMutationVariables`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Insert${fragmentNamePascalCase}Document`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Insert${fragmentNamePascalCase}WithOnConflictDocument`,
+      typescriptCodegenOutputPath
+    )
+  );
 }
 
 // ---------------------------------
@@ -450,7 +595,9 @@ export function injectUpdateHelpers({
   const entityPascalName = makePascalCase(entityNamedType.name);
   const entityShortName = makeShortName(entityNamedType.name, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
-  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
+  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(
+    primaryKeyIdField
+  );
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
 
   contentManager.addContent(`
@@ -485,13 +632,48 @@ export function injectUpdateHelpers({
     }
   `);
 
-  contentManager.addImport(makeImportStatement(`${entityPascalName}_Set_Input`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Update${fragmentNamePascalCase}ByIdMutation`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Update${fragmentNamePascalCase}ByIdMutationVariables`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Update${fragmentNamePascalCase}ByIdDocument`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Update${fragmentNamePascalCase}Mutation`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Update${fragmentNamePascalCase}MutationVariables`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Update${fragmentNamePascalCase}Document`, typescriptCodegenOutputPath));
+  contentManager.addImport(
+    makeImportStatement(
+      `${entityPascalName}_Set_Input`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Update${fragmentNamePascalCase}ByIdMutation`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Update${fragmentNamePascalCase}ByIdMutationVariables`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Update${fragmentNamePascalCase}ByIdDocument`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Update${fragmentNamePascalCase}Mutation`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Update${fragmentNamePascalCase}MutationVariables`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Update${fragmentNamePascalCase}Document`,
+      typescriptCodegenOutputPath
+    )
+  );
 }
 
 // ---------------------------------
@@ -514,7 +696,9 @@ export function injectDeleteHelpers({
   const entityShortName = makeShortName(entityNamedType.name, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const entityModelName = makeModelName(entityNamedType.name, trimString);
-  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
+  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(
+    primaryKeyIdField
+  );
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
 
   if (primaryKeyIdField) {
@@ -552,12 +736,42 @@ export function injectDeleteHelpers({
       }
   `);
 
-  contentManager.addImport(makeImportStatement(`Remove${entityModelName}Mutation`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Remove${entityModelName}MutationVariables`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Remove${entityModelName}Document`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Remove${entityModelName}ByIdMutation`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Remove${entityModelName}ByIdMutationVariables`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Remove${entityModelName}ByIdDocument`, typescriptCodegenOutputPath));
+  contentManager.addImport(
+    makeImportStatement(
+      `Remove${entityModelName}Mutation`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Remove${entityModelName}MutationVariables`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Remove${entityModelName}Document`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Remove${entityModelName}ByIdMutation`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Remove${entityModelName}ByIdMutationVariables`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Remove${entityModelName}ByIdDocument`,
+      typescriptCodegenOutputPath
+    )
+  );
 }
 
 // ---------------------------------
@@ -592,32 +806,58 @@ export function injectSharedHelpersPost({
   const fragmentNamePascalCase = makePascalCase(fragmentName);
   const entityModelName = makeModelName(entityNamedType.name, trimString);
 
-  if (withClientAndCacheHelpers || withQueries || withInserts || withUpdates || withSubscriptions) {
+  if (
+    withClientAndCacheHelpers ||
+    withQueries ||
+    withInserts ||
+    withUpdates ||
+    withSubscriptions
+  ) {
     let fragmentHelperObject = `
     // ${fragmentNamePascalCase} Fragment Helper Object
     //------------------------------------------------
 
     export const ${fragmentNamePascalCase}FragmentGQLHelper = {\n`;
-    if (withClientAndCacheHelpers && primaryKeyIdField) fragmentHelperObject += `      cacheGetDataId: cacheGetDataIdFor${fragmentNamePascalCase},\n`;
-    if (withClientAndCacheHelpers && primaryKeyIdField) fragmentHelperObject += `      cacheReadFragmentById: cacheReadFragment${fragmentNamePascalCase}ById,\n`;
-    if (withClientAndCacheHelpers && primaryKeyIdField) fragmentHelperObject += `      cacheWriteFragmentById: cacheWriteFragment${fragmentNamePascalCase}ById,\n`;
-    if (withClientAndCacheHelpers && primaryKeyIdField) fragmentHelperObject += `      cacheReadQueryById: cacheReadQuery${fragmentNamePascalCase}ById,\n`;
-    if (withClientAndCacheHelpers && primaryKeyIdField) fragmentHelperObject += `      cacheWriteQueryById: cacheWriteQuery${fragmentNamePascalCase}ById,\n`;
-    if (withClientAndCacheHelpers && primaryKeyIdField) fragmentHelperObject += `      cacheReadQueryObjects: cacheReadQuery${fragmentNamePascalCase}Objects,\n`;
-    if (withClientAndCacheHelpers && primaryKeyIdField) fragmentHelperObject += `      cacheWriteQueryObjects: cacheWriteQuery${fragmentNamePascalCase}Objects,\n`;
-    if (withClientAndCacheHelpers && primaryKeyIdField) fragmentHelperObject += `      cacheWriteQueryInsert: cacheWriteQuery${fragmentNamePascalCase}Insert,\n`;
-    if (withClientAndCacheHelpers && primaryKeyIdField) fragmentHelperObject += `      cacheWriteQueryRemove: cacheWriteQuery${fragmentNamePascalCase}Remove,\n`;
-    if (withQueries && primaryKeyIdField) fragmentHelperObject += `      queryById: query${fragmentNamePascalCase}ById,\n`;
-    if (withQueries) fragmentHelperObject += `      queryObjects: query${fragmentNamePascalCase}Objects,\n`;
-    if (withQueries && primaryKeyIdField) fragmentHelperObject += `      watchQueryById: watchQuery${fragmentNamePascalCase}ById,\n`;
-    if (withQueries) fragmentHelperObject += `      watchQueryObjects: watchQuery${fragmentNamePascalCase}Objects,\n`;
-    if (withSubscriptions && primaryKeyIdField) fragmentHelperObject += `      subscribeToById: subscribeTo${fragmentNamePascalCase}ById,\n`;
-    if (withSubscriptions) fragmentHelperObject += `      subscribeToObjects: subscribeTo${fragmentNamePascalCase}Objects,\n`;
-    if (withInserts && primaryKeyIdField) fragmentHelperObject += `      insert: insert${fragmentNamePascalCase},\n`;
-    if (withInserts && primaryKeyIdField) fragmentHelperObject += `      insertWithOnConflict: insert${fragmentNamePascalCase}WithOnConflict,\n`;
-    if (withInserts && primaryKeyIdField) fragmentHelperObject += `      insertObjects: insert${fragmentNamePascalCase}Objects,\n`;
-    if (withUpdates && primaryKeyIdField) fragmentHelperObject += `      updateById: update${fragmentNamePascalCase}ById,\n`;
-    if (withUpdates && primaryKeyIdField) fragmentHelperObject += `      updateObjects: update${fragmentNamePascalCase}Objects\n`;
+    if (withClientAndCacheHelpers && primaryKeyIdField)
+      fragmentHelperObject += `      cacheGetDataId: cacheGetDataIdFor${fragmentNamePascalCase},\n`;
+    if (withClientAndCacheHelpers && primaryKeyIdField)
+      fragmentHelperObject += `      cacheReadFragmentById: cacheReadFragment${fragmentNamePascalCase}ById,\n`;
+    if (withClientAndCacheHelpers && primaryKeyIdField)
+      fragmentHelperObject += `      cacheWriteFragmentById: cacheWriteFragment${fragmentNamePascalCase}ById,\n`;
+    if (withClientAndCacheHelpers && primaryKeyIdField)
+      fragmentHelperObject += `      cacheReadQueryById: cacheReadQuery${fragmentNamePascalCase}ById,\n`;
+    if (withClientAndCacheHelpers && primaryKeyIdField)
+      fragmentHelperObject += `      cacheWriteQueryById: cacheWriteQuery${fragmentNamePascalCase}ById,\n`;
+    if (withClientAndCacheHelpers && primaryKeyIdField)
+      fragmentHelperObject += `      cacheReadQueryObjects: cacheReadQuery${fragmentNamePascalCase}Objects,\n`;
+    if (withClientAndCacheHelpers && primaryKeyIdField)
+      fragmentHelperObject += `      cacheWriteQueryObjects: cacheWriteQuery${fragmentNamePascalCase}Objects,\n`;
+    if (withClientAndCacheHelpers && primaryKeyIdField)
+      fragmentHelperObject += `      cacheWriteQueryInsert: cacheWriteQuery${fragmentNamePascalCase}Insert,\n`;
+    if (withClientAndCacheHelpers && primaryKeyIdField)
+      fragmentHelperObject += `      cacheWriteQueryRemove: cacheWriteQuery${fragmentNamePascalCase}Remove,\n`;
+    if (withQueries && primaryKeyIdField)
+      fragmentHelperObject += `      queryById: query${fragmentNamePascalCase}ById,\n`;
+    if (withQueries)
+      fragmentHelperObject += `      queryObjects: query${fragmentNamePascalCase}Objects,\n`;
+    if (withQueries && primaryKeyIdField)
+      fragmentHelperObject += `      watchQueryById: watchQuery${fragmentNamePascalCase}ById,\n`;
+    if (withQueries)
+      fragmentHelperObject += `      watchQueryObjects: watchQuery${fragmentNamePascalCase}Objects,\n`;
+    if (withSubscriptions && primaryKeyIdField)
+      fragmentHelperObject += `      subscribeToById: subscribeTo${fragmentNamePascalCase}ById,\n`;
+    if (withSubscriptions)
+      fragmentHelperObject += `      subscribeToObjects: subscribeTo${fragmentNamePascalCase}Objects,\n`;
+    if (withInserts && primaryKeyIdField)
+      fragmentHelperObject += `      insert: insert${fragmentNamePascalCase},\n`;
+    if (withInserts && primaryKeyIdField)
+      fragmentHelperObject += `      insertWithOnConflict: insert${fragmentNamePascalCase}WithOnConflict,\n`;
+    if (withInserts && primaryKeyIdField)
+      fragmentHelperObject += `      insertObjects: insert${fragmentNamePascalCase}Objects,\n`;
+    if (withUpdates && primaryKeyIdField)
+      fragmentHelperObject += `      updateById: update${fragmentNamePascalCase}ById,\n`;
+    if (withUpdates && primaryKeyIdField)
+      fragmentHelperObject += `      updateObjects: update${fragmentNamePascalCase}Objects\n`;
 
     fragmentHelperObject += `    }
   `;
@@ -631,7 +871,8 @@ export function injectSharedHelpersPost({
 
     export const ${entityModelName}GQLHelper = {\n`;
 
-    if (primaryKeyIdField) entityHelperObject += `      removeById: remove${entityModelName}ById,\n`;
+    if (primaryKeyIdField)
+      entityHelperObject += `      removeById: remove${entityModelName}ById,\n`;
     entityHelperObject += `      removeObjects: remove${entityModelName}Objects\n`;
 
     entityHelperObject += `    }
@@ -664,9 +905,9 @@ export function injectGlobalHelperCodePost({
   withUpdates?: boolean;
   withDeletes?: boolean;
 }) {
-  const uniqueModelNamesFromFragments = getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString }).map(
-    (entityName) => `${makeShortName(entityName, trimString)}`
-  );
+  const uniqueModelNamesFromFragments = getUniqueEntitiesFromFragmentDefinitions(
+    { fragmentDefinitionNodes, schemaTypeMap, trimString }
+  ).map((entityName) => `${makeShortName(entityName, trimString)}`);
 
   contentManager.addContent(`
     // COMBINED HELPER OBJECT
@@ -678,7 +919,13 @@ export function injectGlobalHelperCodePost({
         ${fragmentDefinitionNodes
           .map(
             (fragmentDefinitionNode) =>
-              `${makeShortName(fragmentDefinitionNode.name.value, trimString)}: ${makeShortName(fragmentDefinitionNode.name.value, trimString)}FragmentGQLHelper`
+              `${makeShortName(
+                fragmentDefinitionNode.name.value,
+                trimString
+              )}: ${makeShortName(
+                fragmentDefinitionNode.name.value,
+                trimString
+              )}FragmentGQLHelper`
           )
           .join(",\n        ")}
       },`
@@ -687,7 +934,9 @@ export function injectGlobalHelperCodePost({
       ${
         withDeletes
           ? `Models: {
-        ${uniqueModelNamesFromFragments.map((modelName) => `${modelName}: ${modelName}ModelGQLHelper`).join(",\n        ")}
+        ${uniqueModelNamesFromFragments
+          .map((modelName) => `${modelName}: ${modelName}ModelGQLHelper`)
+          .join(",\n        ")}
       }`
           : ""
       }
