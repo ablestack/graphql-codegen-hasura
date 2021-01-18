@@ -17,8 +17,9 @@
       "replaced": "^4.9.1"
     },
     "graphql-codegen-hasura-shared": {
-      "signature": "606c7fa26363339d4651b1d9463f1c4e",
-      "file": true
+      "signature": "c5be3ae101288e8c38846e62c00e9b5d",
+      "file": true,
+      "replaced": "^4.9.1"
     },
     "graphql-codegen-hasura-typescript": {
       "signature": "d0d4eb3e50485edfa63795d429082402",
