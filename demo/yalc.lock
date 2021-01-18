@@ -1,0 +1,29 @@
+{
+  "version": "v1",
+  "packages": {
+    "graphql-codegen-hasura-client-config": {
+      "signature": "ab26b9b13a31507a6ee5c1c73e96a059",
+      "file": true,
+      "replaced": "^4.9.1"
+    },
+    "graphql-codegen-hasura-gql": {
+      "signature": "4e2b78e1cf52fd3e5fb232d81bfe6e4e",
+      "file": true,
+      "replaced": "^4.9.1"
+    },
+    "graphql-codegen-hasura-react": {
+      "signature": "ded88cbf7f2516a33649e4450eeb9170",
+      "file": true,
+      "replaced": "^4.9.1"
+    },
+    "graphql-codegen-hasura-shared": {
+      "signature": "606c7fa26363339d4651b1d9463f1c4e",
+      "file": true
+    },
+    "graphql-codegen-hasura-typescript": {
+      "signature": "d0d4eb3e50485edfa63795d429082402",
+      "file": true,
+      "replaced": "^4.9.1"
+    }
+  }
+}
