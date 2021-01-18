@@ -27,7 +27,7 @@
     "graphql": "^15.4.0",
     "graphql-codegen-hasura-client-config": "file:.yalc/graphql-codegen-hasura-client-config",
     "graphql-codegen-hasura-gql": "file:.yalc/graphql-codegen-hasura-gql",
-    "graphql-codegen-hasura-react": "^4.9.1",
+    "graphql-codegen-hasura-react": "file:.yalc/graphql-codegen-hasura-react",
     "graphql-codegen-hasura-shared": "file:.yalc/graphql-codegen-hasura-shared",
     "graphql-codegen-hasura-typescript": "file:.yalc/graphql-codegen-hasura-typescript",
     "jest": "^26.6.3",

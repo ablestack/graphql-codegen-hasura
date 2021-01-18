@@ -1,6 +1,17 @@
 import { FieldDefinitionNode, FragmentDefinitionNode } from "graphql";
-import { getIdTypeScriptFieldType, makeImportStatement, makeModelName, makeShortName, ContentManager } from ".";
-import { makeCamelCase, makePascalCase, makeFragmentTypeScriptTypeName, getUniqueEntitiesFromFragmentDefinitions } from "./utils";
+import {
+  getIdTypeScriptFieldType,
+  makeImportStatement,
+  makeModelName,
+  makeShortName,
+  ContentManager,
+} from ".";
+import {
+  makeCamelCase,
+  makePascalCase,
+  makeFragmentTypeScriptTypeName,
+  getUniqueEntitiesFromFragmentDefinitions,
+} from "./utils";
 import { TypeMap } from "graphql/type/schema";
 
 // ---------------------------------
@@ -46,9 +57,13 @@ export function injectSharedReactPre({
   typescriptCodegenOutputPath: string;
 }) {
   const fragmentNamePascalCase = makePascalCase(fragmentName);
-  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
+  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(
+    primaryKeyIdField
+  );
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
-  const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(fragmentName);
+  const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(
+    fragmentName
+  );
 
   contentManager.addContent(`
     // ${entityName} REACT
@@ -60,11 +75,16 @@ export function injectSharedReactPre({
   `);
 
   if (!primaryKeyIdTypeScriptFieldType.isNative) {
-    const typeImport = makeImportStatement(`${primaryKeyIdTypeScriptFieldType.typeName}`, typescriptCodegenOutputPath);
+    const typeImport = makeImportStatement(
+      `${primaryKeyIdTypeScriptFieldType.typeName}`,
+      typescriptCodegenOutputPath
+    );
     contentManager.addImport(typeImport);
   }
 
-  contentManager.addImport(makeImportStatement(fragmentTypeScriptTypeName, typescriptCodegenOutputPath));
+  contentManager.addImport(
+    makeImportStatement(fragmentTypeScriptTypeName, typescriptCodegenOutputPath)
+  );
 }
 
 // ---------------------------------
@@ -88,10 +108,14 @@ export function injectQueryReact({
   const entityShortName = makeShortName(entityName, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
-  const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(fragmentName);
+  const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(
+    fragmentName
+  );
   const queryByIdName = `Query${fragmentNamePascalCase}ById`;
   const queryObjectsName = `Query${fragmentNamePascalCase}Objects`;
-  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
+  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(
+    primaryKeyIdField
+  );
 
   if (primaryKeyIdField) {
     contentManager.addContent(`
@@ -190,12 +214,39 @@ export function injectQueryReact({
     }
   `);
 
-  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${queryByIdName}Query`, typescriptCodegenOutputPath));
-  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${queryByIdName}QueryVariables`, typescriptCodegenOutputPath));
-  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${queryByIdName}Document`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`${queryObjectsName}Query`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`${queryObjectsName}Document`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`${queryObjectsName}QueryVariables`, typescriptCodegenOutputPath));
+  if (primaryKeyIdField)
+    contentManager.addImport(
+      makeImportStatement(`${queryByIdName}Query`, typescriptCodegenOutputPath)
+    );
+  if (primaryKeyIdField)
+    contentManager.addImport(
+      makeImportStatement(
+        `${queryByIdName}QueryVariables`,
+        typescriptCodegenOutputPath
+      )
+    );
+  if (primaryKeyIdField)
+    contentManager.addImport(
+      makeImportStatement(
+        `${queryByIdName}Document`,
+        typescriptCodegenOutputPath
+      )
+    );
+  contentManager.addImport(
+    makeImportStatement(`${queryObjectsName}Query`, typescriptCodegenOutputPath)
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `${queryObjectsName}Document`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `${queryObjectsName}QueryVariables`,
+      typescriptCodegenOutputPath
+    )
+  );
 }
 
 // ---------------------------------
@@ -219,10 +270,14 @@ export function injectSubscriptionReact({
   const entityShortName = makeShortName(entityName, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
-  const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(fragmentName);
+  const fragmentTypeScriptTypeName = makeFragmentTypeScriptTypeName(
+    fragmentName
+  );
   const subscriptionByIdName = `SubscribeTo${fragmentNamePascalCase}ById`;
   const subscriptionByObjectsName = `SubscribeTo${fragmentNamePascalCase}Objects`;
-  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
+  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(
+    primaryKeyIdField
+  );
 
   if (primaryKeyIdField) {
     contentManager.addContent(`     
@@ -258,12 +313,45 @@ export function injectSubscriptionReact({
     }
     `);
 
-  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${subscriptionByIdName}Subscription`, typescriptCodegenOutputPath));
-  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${subscriptionByIdName}SubscriptionVariables`, typescriptCodegenOutputPath));
-  if (primaryKeyIdField) contentManager.addImport(makeImportStatement(`${subscriptionByIdName}Document`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`${subscriptionByObjectsName}Subscription`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`${subscriptionByObjectsName}Document`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`${subscriptionByObjectsName}SubscriptionVariables`, typescriptCodegenOutputPath));
+  if (primaryKeyIdField)
+    contentManager.addImport(
+      makeImportStatement(
+        `${subscriptionByIdName}Subscription`,
+        typescriptCodegenOutputPath
+      )
+    );
+  if (primaryKeyIdField)
+    contentManager.addImport(
+      makeImportStatement(
+        `${subscriptionByIdName}SubscriptionVariables`,
+        typescriptCodegenOutputPath
+      )
+    );
+  if (primaryKeyIdField)
+    contentManager.addImport(
+      makeImportStatement(
+        `${subscriptionByIdName}Document`,
+        typescriptCodegenOutputPath
+      )
+    );
+  contentManager.addImport(
+    makeImportStatement(
+      `${subscriptionByObjectsName}Subscription`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `${subscriptionByObjectsName}Document`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `${subscriptionByObjectsName}SubscriptionVariables`,
+      typescriptCodegenOutputPath
+    )
+  );
 }
 
 // ---------------------------------
@@ -288,7 +376,9 @@ export function injectInsertReact({
   const entityShortName = makeShortName(entityName, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
-  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
+  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(
+    primaryKeyIdField
+  );
 
   contentManager.addContent(`
     /**
@@ -375,8 +465,11 @@ export function injectInsertReact({
       const lazyMutation: Insert${fragmentNamePascalCase}ObjectsLazyMutationFn = useMutation<Insert${fragmentNamePascalCase}Mutation, Insert${fragmentNamePascalCase}MutationVariables>(Insert${fragmentNamePascalCase}Document, options);
       const pickObjects: PickInsert${fragmentNamePascalCase}ObjectsFn = (mutation: Insert${fragmentNamePascalCase}Mutation | null | undefined) => { return mutation?.insert_${entityName}?.returning || []; };
 
-      const wrappedLazyMutation: Insert${fragmentNamePascalCase}ObjectsWrappedLazyMutationFn = async ( options ) => {
-        if(options && options.variables && options.variables.objects) options.variables.objects = options.variables.objects.map(objectItem => stripInsertInputClientFields({input: objectItem}));
+      const wrappedLazyMutation: Insert${fragmentNamePascalCase}ObjectsWrappedLazyMutationFn = async ( options ) => {        
+        if(options && options.variables && options.variables.objects){
+          const o = Array.isArray(options.variables.objects) ? options.variables.objects : [options.variables.objects];  
+          o.map(objectItem => stripInsertInputClientFields({input: objectItem}));
+        } 
         const fetchResult: Insert${fragmentNamePascalCase}ObjectsMutationResult = await lazyMutation[0](options);
         return { ...fetchResult, objects: pickObjects(fetchResult.data) };
       };
@@ -385,14 +478,54 @@ export function injectInsertReact({
     }
   `);
 
-  contentManager.addImport(makeImportStatement(`${entityPascalName}_Insert_Input`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`${entityPascalName}_On_Conflict`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}Mutation`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}WithOnConflictMutation`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}MutationVariables`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}WithOnConflictMutationVariables`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}Document`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Insert${fragmentNamePascalCase}WithOnConflictDocument`, typescriptCodegenOutputPath));
+  contentManager.addImport(
+    makeImportStatement(
+      `${entityPascalName}_Insert_Input`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `${entityPascalName}_On_Conflict`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Insert${fragmentNamePascalCase}Mutation`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Insert${fragmentNamePascalCase}WithOnConflictMutation`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Insert${fragmentNamePascalCase}MutationVariables`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Insert${fragmentNamePascalCase}WithOnConflictMutationVariables`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Insert${fragmentNamePascalCase}Document`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Insert${fragmentNamePascalCase}WithOnConflictDocument`,
+      typescriptCodegenOutputPath
+    )
+  );
 }
 
 // ---------------------------------
@@ -416,7 +549,9 @@ export function injectUpdateReact({
   const entityPascalName = makePascalCase(entityName);
   const entityShortName = makeShortName(entityName, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
-  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
+  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(
+    primaryKeyIdField
+  );
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
 
   contentManager.addContent(`
@@ -481,13 +616,48 @@ export function injectUpdateReact({
     }
   `);
 
-  contentManager.addImport(makeImportStatement(`${entityPascalName}_Set_Input`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Update${fragmentNamePascalCase}ByIdMutation`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Update${fragmentNamePascalCase}ByIdMutationVariables`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Update${fragmentNamePascalCase}ByIdDocument`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Update${fragmentNamePascalCase}Mutation`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Update${fragmentNamePascalCase}MutationVariables`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Update${fragmentNamePascalCase}Document`, typescriptCodegenOutputPath));
+  contentManager.addImport(
+    makeImportStatement(
+      `${entityPascalName}_Set_Input`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Update${fragmentNamePascalCase}ByIdMutation`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Update${fragmentNamePascalCase}ByIdMutationVariables`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Update${fragmentNamePascalCase}ByIdDocument`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Update${fragmentNamePascalCase}Mutation`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Update${fragmentNamePascalCase}MutationVariables`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Update${fragmentNamePascalCase}Document`,
+      typescriptCodegenOutputPath
+    )
+  );
 }
 
 // ---------------------------------
@@ -511,7 +681,9 @@ export function injectDeleteReact({
   const entityShortName = makeShortName(entityName, trimString);
   const entityShortCamelCaseName = makeCamelCase(entityShortName);
   const entityModelName = makeModelName(entityName, trimString);
-  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(primaryKeyIdField);
+  const primaryKeyIdTypeScriptFieldType = getIdTypeScriptFieldType(
+    primaryKeyIdField
+  );
   const fragmentNameCamelCase = makeCamelCase(fragmentName);
   const entityPascalName = makePascalCase(entityName);
 
@@ -583,12 +755,42 @@ export function injectDeleteReact({
     }
   `);
 
-  contentManager.addImport(makeImportStatement(`Remove${entityModelName}Mutation`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Remove${entityModelName}MutationVariables`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Remove${entityModelName}Document`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Remove${entityModelName}ByIdMutation`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Remove${entityModelName}ByIdMutationVariables`, typescriptCodegenOutputPath));
-  contentManager.addImport(makeImportStatement(`Remove${entityModelName}ByIdDocument`, typescriptCodegenOutputPath));
+  contentManager.addImport(
+    makeImportStatement(
+      `Remove${entityModelName}Mutation`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Remove${entityModelName}MutationVariables`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Remove${entityModelName}Document`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Remove${entityModelName}ByIdMutation`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Remove${entityModelName}ByIdMutationVariables`,
+      typescriptCodegenOutputPath
+    )
+  );
+  contentManager.addImport(
+    makeImportStatement(
+      `Remove${entityModelName}ByIdDocument`,
+      typescriptCodegenOutputPath
+    )
+  );
 }
 
 // ---------------------------------
@@ -632,17 +834,28 @@ export function injectSharedReactPost({
 
     export const ${fragmentNamePascalCase}FragmentGQLHooks = {\n`;
 
-    if (withQueries) fragmentHooksObject += `      useQueryById: use${queryByIdName},\n`;
-    if (withQueries) fragmentHooksObject += `      useQueryByIdLazy: use${queryByIdName}Lazy,\n`;
-    if (withQueries) fragmentHooksObject += `      useQueryObjects: use${queryObjectsName},\n`;
-    if (withQueries) fragmentHooksObject += `      useQueryObjectsLazy: use${queryObjectsName}Lazy,\n`;
-    if (withSubscriptions) fragmentHooksObject += `      useSubscribeToById: use${subscribeByIdName},\n`;
-    if (withSubscriptions) fragmentHooksObject += `      useSubscribeToObjects: use${subscribeByObjectsName},\n`;
-    if (withInserts) fragmentHooksObject += `      useInsert: useInsert${fragmentNamePascalCase},\n`;
-    if (withInserts) fragmentHooksObject += `      useInsertWithOnConflict: useInsert${fragmentNamePascalCase}WithOnConflict,\n`;
-    if (withInserts) fragmentHooksObject += `      useInsertObjects: useInsert${fragmentNamePascalCase}Objects,\n`;
-    if (withUpdates) fragmentHooksObject += `      useUpdateById: useUpdate${fragmentNamePascalCase}ById,\n`;
-    if (withUpdates) fragmentHooksObject += `      useUpdateObjects: useUpdate${fragmentNamePascalCase}Objects,\n`;
+    if (withQueries)
+      fragmentHooksObject += `      useQueryById: use${queryByIdName},\n`;
+    if (withQueries)
+      fragmentHooksObject += `      useQueryByIdLazy: use${queryByIdName}Lazy,\n`;
+    if (withQueries)
+      fragmentHooksObject += `      useQueryObjects: use${queryObjectsName},\n`;
+    if (withQueries)
+      fragmentHooksObject += `      useQueryObjectsLazy: use${queryObjectsName}Lazy,\n`;
+    if (withSubscriptions)
+      fragmentHooksObject += `      useSubscribeToById: use${subscribeByIdName},\n`;
+    if (withSubscriptions)
+      fragmentHooksObject += `      useSubscribeToObjects: use${subscribeByObjectsName},\n`;
+    if (withInserts)
+      fragmentHooksObject += `      useInsert: useInsert${fragmentNamePascalCase},\n`;
+    if (withInserts)
+      fragmentHooksObject += `      useInsertWithOnConflict: useInsert${fragmentNamePascalCase}WithOnConflict,\n`;
+    if (withInserts)
+      fragmentHooksObject += `      useInsertObjects: useInsert${fragmentNamePascalCase}Objects,\n`;
+    if (withUpdates)
+      fragmentHooksObject += `      useUpdateById: useUpdate${fragmentNamePascalCase}ById,\n`;
+    if (withUpdates)
+      fragmentHooksObject += `      useUpdateObjects: useUpdate${fragmentNamePascalCase}Objects,\n`;
 
     fragmentHooksObject += `    }
     `;
@@ -687,9 +900,9 @@ export function injectGlobalReactCodePost({
   withUpdates?: boolean;
   withDeletes?: boolean;
 }) {
-  const uniqueModelNamesFromFragments = getUniqueEntitiesFromFragmentDefinitions({ fragmentDefinitionNodes, schemaTypeMap, trimString }).map(
-    (entityName) => `${makeShortName(entityName, trimString)}`
-  );
+  const uniqueModelNamesFromFragments = getUniqueEntitiesFromFragmentDefinitions(
+    { fragmentDefinitionNodes, schemaTypeMap, trimString }
+  ).map((entityName) => `${makeShortName(entityName, trimString)}`);
 
   contentManager.addContent(`
     /*
@@ -702,7 +915,13 @@ export function injectGlobalReactCodePost({
         ${fragmentDefinitionNodes
           .map(
             (fragmentDefinitionNode) =>
-              `${makeShortName(fragmentDefinitionNode.name.value, trimString)}: ${makeShortName(fragmentDefinitionNode.name.value, trimString)}FragmentGQLHooks`
+              `${makeShortName(
+                fragmentDefinitionNode.name.value,
+                trimString
+              )}: ${makeShortName(
+                fragmentDefinitionNode.name.value,
+                trimString
+              )}FragmentGQLHooks`
           )
           .join(",\n        ")}
       },`
@@ -711,7 +930,9 @@ export function injectGlobalReactCodePost({
       ${
         withDeletes
           ? `Models: {
-        ${uniqueModelNamesFromFragments.map((modelName) => `${modelName}: ${modelName}ModelGQLHooks`).join(",\n        ")}
+        ${uniqueModelNamesFromFragments
+          .map((modelName) => `${modelName}: ${modelName}ModelGQLHooks`)
+          .join(",\n        ")}
       }`
           : ""
       }
