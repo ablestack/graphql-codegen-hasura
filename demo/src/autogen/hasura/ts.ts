@@ -87,43 +87,43 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       return defaultCacheIdFromObject({ __typename: 'vehicle', id:vehicleId });
     }
 
-    function cacheReadFragmentVehicleById({ apolloCache, vehicleId}: { apolloCache: ApolloCache<Record<string, unknown>>, vehicleId: string }): VehicleFragment | null {
+    function cacheReadFragmentVehicleById({ apolloCache, vehicleId}: { apolloCache: ApolloCache<object>, vehicleId: string }): VehicleFragment | null {
       return apolloCache.readFragment<VehicleFragment | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultCacheIdFromObject({ __typename: 'vehicle', id:vehicleId }) });
     }
 
-    function cacheWriteFragmentVehicleById({ apolloCache, vehicleId, vehiclePartial, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<Record<string, unknown>>, vehicleId: string, vehiclePartial: Partial<VehicleFragment> | Vehicle_Insert_Input | null, fieldMap?: FieldMap, apolloBroadcast?:boolean }): Partial<VehicleFragment> {
+    function cacheWriteFragmentVehicleById({ apolloCache, vehicleId, vehiclePartial, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<object>, vehicleId: string, vehiclePartial: Partial<VehicleFragment> | Vehicle_Insert_Input | null, fieldMap?: FieldMap, apolloBroadcast?:boolean }): Partial<VehicleFragment> {
       const parsedFragment = convertToGraph({ input:vehiclePartial, typename:'vehicle', fieldMap });
       if(logLevel >= 2) console.log(' --> cacheWriteFragmentVehicleById - parsedFragment:', parsedFragment);
       apolloCache.writeFragment<Partial<VehicleFragment> | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultCacheIdFromObject({ ...parsedFragment, id:vehicleId }), data: parsedFragment, broadcast:apolloBroadcast });
       return parsedFragment;
     }
 
-    function cacheReadQueryVehicleById({ apolloCache, vehicleId}: { apolloCache: ApolloCache<Record<string, unknown>>, vehicleId: string }): VehicleFragment | null {
+    function cacheReadQueryVehicleById({ apolloCache, vehicleId}: { apolloCache: ApolloCache<object>, vehicleId: string }): VehicleFragment | null {
       return apolloCache.readQuery<VehicleFragment | null >({ query: QueryVehicleByIdDocument, variables: { vehicleId }  });
     }
 
-    function cacheWriteQueryVehicleById({ apolloCache, vehicleId, vehicle, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<Record<string, unknown>>, vehicleId: string, vehicle: VehicleFragment | Vehicle_Insert_Input | null, fieldMap?: FieldMap, apolloBroadcast?:boolean }): Reference | undefined {
+    function cacheWriteQueryVehicleById({ apolloCache, vehicleId, vehicle, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<object>, vehicleId: string, vehicle: VehicleFragment | Vehicle_Insert_Input | null, fieldMap?: FieldMap, apolloBroadcast?:boolean }): Reference | undefined {
         const vehiclePartial = convertToGraph({ input:vehicle, typename:'vehicle', fieldMap });
         return apolloCache.writeQuery<VehicleFragment | null>({ query: QueryVehicleByIdDocument, variables: { vehicleId }, data: (vehicle ? vehiclePartial : null), broadcast:apolloBroadcast });
     }
     
-    function cacheReadQueryVehicleObjects({ apolloCache, variables }: { apolloCache: ApolloCache<Record<string, unknown>>, variables: QueryVehicleObjectsQueryVariables }): Vehicle[] | null {
+    function cacheReadQueryVehicleObjects({ apolloCache, variables }: { apolloCache: ApolloCache<object>, variables: QueryVehicleObjectsQueryVariables }): Vehicle[] | null {
       return apolloCache.readQuery<{Vehicle:Vehicle[] | null}>({ query: QueryVehicleObjectsDocument, variables })?.Vehicle || [];
     }
 
-    function cacheWriteQueryVehicleObjects({ apolloCache, variables, data, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<Record<string, unknown>>, variables: QueryVehicleObjectsQueryVariables, data:(Vehicle | Vehicle_Insert_Input)[], fieldMap?: FieldMap, apolloBroadcast?:boolean }): Reference | undefined {  
+    function cacheWriteQueryVehicleObjects({ apolloCache, variables, data, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<object>, variables: QueryVehicleObjectsQueryVariables, data:(Vehicle | Vehicle_Insert_Input)[], fieldMap?: FieldMap, apolloBroadcast?:boolean }): Reference | undefined {  
         const objects = convertToGraph({ input:data, typename:'vehicle', fieldMap });
         return apolloCache.writeQuery<{Vehicle:Vehicle[]}>({ query: QueryVehicleObjectsDocument, variables, data: { Vehicle:objects }, broadcast:apolloBroadcast });
     }
 
-    function cacheWriteQueryVehicleInsert({ apolloCache, variables, vehicle, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<Record<string, unknown>>, variables: QueryVehicleObjectsQueryVariables, vehicle:Vehicle_Insert_Input, fieldMap?: FieldMap, apolloBroadcast?:boolean }): Reference | undefined {
+    function cacheWriteQueryVehicleInsert({ apolloCache, variables, vehicle, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<object>, variables: QueryVehicleObjectsQueryVariables, vehicle:Vehicle_Insert_Input, fieldMap?: FieldMap, apolloBroadcast?:boolean }): Reference | undefined {
       const currentObjects = cacheReadQueryVehicleObjects({ apolloCache, variables }) || [];
       const objectsWithInserted = [ ...currentObjects, convertToGraph({ input: vehicle, typename:'vehicle', fieldMap })];
       if(logLevel >= 2) console.log(' --> cacheWriteQueryVehicleInsert - objectsWithInserted:', objectsWithInserted);
       return cacheWriteQueryVehicleObjects({ apolloCache, variables, data: objectsWithInserted, apolloBroadcast });
     }
 
-    function cacheWriteQueryVehicleRemove({ apolloCache, variables, vehicleId, apolloBroadcast }: { apolloCache: ApolloCache<Record<string, unknown>>, variables: QueryVehicleObjectsQueryVariables, vehicleId: string, apolloBroadcast?:boolean }): Reference | undefined {
+    function cacheWriteQueryVehicleRemove({ apolloCache, variables, vehicleId, apolloBroadcast }: { apolloCache: ApolloCache<object>, variables: QueryVehicleObjectsQueryVariables, vehicleId: string, apolloBroadcast?:boolean }): Reference | undefined {
       const currentObjects = cacheReadQueryVehicleObjects({ apolloCache, variables }) || [];
       const objectsWithRemoved = currentObjects.filter(objectItem => objectItem.id !== vehicleId) || [];
       if(logLevel >= 2) console.log(' --> cacheWriteQueryVehicleRemove - objectsWithRemoved:', objectsWithRemoved);
@@ -136,7 +136,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       export type QueryVehicleByIdApolloQueryResult = ApolloQueryResult<QueryVehicleByIdQuery>;
       export type QueryVehicleByIdApolloQueryHelperResultEx = QueryVehicleByIdApolloQueryResult & VehicleByIdHelperResultEx;
 
-      async function queryVehicleById({ apolloClient, vehicleId, options }: { apolloClient: ApolloClient<Record<string, unknown>>, vehicleId: string, options?: Omit<QueryOptions<QueryVehicleByIdQueryVariables>, 'query' | 'variables'> }): Promise<QueryVehicleByIdApolloQueryHelperResultEx> {
+      async function queryVehicleById({ apolloClient, vehicleId, options }: { apolloClient: ApolloClient<object>, vehicleId: string, options?: Omit<QueryOptions<QueryVehicleByIdQueryVariables>, 'query' | 'variables'> }): Promise<QueryVehicleByIdApolloQueryHelperResultEx> {
         const query: QueryVehicleByIdApolloQueryResult = await apolloClient.query<QueryVehicleByIdQuery>({ query: QueryVehicleByIdDocument, variables: { vehicleId }, ...options });
         
         return { ...query, vehicle: query?.data?.vehicle_by_pk }
@@ -145,7 +145,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       // Query Watch ById Helper
       //
       export type WatchQueryVehicleByIdApolloObservableQuery = ObservableQuery<QueryVehicleByIdQuery>;
-      async function watchQueryVehicleById({ apolloClient, options }: { apolloClient: ApolloClient<Record<string, unknown>>, options: Omit<QueryOptions<QueryVehicleByIdQueryVariables>, 'query'> }) : Promise<WatchQueryVehicleByIdApolloObservableQuery> {
+      async function watchQueryVehicleById({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<QueryVehicleByIdQueryVariables>, 'query'> }) : Promise<WatchQueryVehicleByIdApolloObservableQuery> {
         return apolloClient.watchQuery<QueryVehicleByIdQuery>({ query: QueryVehicleByIdDocument, ...options });
       }
     
@@ -155,7 +155,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       export type QueryVehicleObjectsObjectsApolloQueryResult = ApolloQueryResult<QueryVehicleObjectsQuery>;
       export type QueryVehicleObjectsObjectsApolloQueryResultEx = QueryVehicleObjectsObjectsApolloQueryResult & VehicleObjectsHelperResultEx;
 
-      async function queryVehicleObjects({ apolloClient, options }: { apolloClient: ApolloClient<Record<string, unknown>>, options: Omit<QueryOptions<QueryVehicleObjectsQueryVariables>, 'query'> }): Promise<QueryVehicleObjectsObjectsApolloQueryResultEx> {
+      async function queryVehicleObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<QueryVehicleObjectsQueryVariables>, 'query'> }): Promise<QueryVehicleObjectsObjectsApolloQueryResultEx> {
         const query: QueryVehicleObjectsObjectsApolloQueryResult = await apolloClient.query<QueryVehicleObjectsQuery>({ query: QueryVehicleObjectsDocument, ...options });
         
         return { ...query, objects: query?.data?.vehicle || [] }
@@ -164,7 +164,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       // Query Watch Objects Helper
       //
       export type WatchQueryVehicleObjectsApolloObservableQuery = ObservableQuery<QueryVehicleObjectsQuery>;
-      async function watchQueryVehicleObjects({ apolloClient, options }: { apolloClient: ApolloClient<Record<string, unknown>>, options: Omit<QueryOptions<QueryVehicleObjectsQueryVariables>, 'query'> }) : Promise<WatchQueryVehicleObjectsApolloObservableQuery> {
+      async function watchQueryVehicleObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<QueryVehicleObjectsQueryVariables>, 'query'> }) : Promise<WatchQueryVehicleObjectsApolloObservableQuery> {
         return apolloClient.watchQuery<QueryVehicleObjectsQuery>({ query: QueryVehicleObjectsDocument, ...options });
       }
     
@@ -174,7 +174,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
     export type SubscribeToVehicleByIdSubscriptionFetchResult = FetchResult<SubscribeToVehicleByIdSubscription, Record<string, any>, Record<string, any>>;
     export type SubscribeToVehicleByIdSubscriptionFetchResultEx = FetchResult<SubscribeToVehicleByIdSubscription, Record<string, any>, Record<string, any>> & VehicleByIdHelperResultEx;
     
-    async function subscribeToVehicleById({ apolloClient, vehicleId, options }: { apolloClient: ApolloClient<Record<string, unknown>>, vehicleId:string, options?: Omit<SubscriptionOptions<SubscribeToVehicleByIdSubscriptionVariables>, 'query' | 'variables'> }): Promise<Observable<SubscribeToVehicleByIdSubscriptionFetchResultEx>> {
+    async function subscribeToVehicleById({ apolloClient, vehicleId, options }: { apolloClient: ApolloClient<object>, vehicleId:string, options?: Omit<SubscriptionOptions<SubscribeToVehicleByIdSubscriptionVariables>, 'query' | 'variables'> }): Promise<Observable<SubscribeToVehicleByIdSubscriptionFetchResultEx>> {
       const subscription:Observable<SubscribeToVehicleByIdSubscriptionFetchResult> = apolloClient.subscribe<SubscribeToVehicleByIdSubscription>({ query: SubscribeToVehicleByIdDocument, variables: { vehicleId }, ...options });
       
       return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, vehicle:value?.data?.vehicle_by_pk || [] }  as SubscribeToVehicleByIdSubscriptionFetchResultEx }) ;
@@ -186,7 +186,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       export type SubscribeToVehicleObjectsSubscriptionFetchResult = FetchResult<SubscribeToVehicleObjectsSubscription, Record<string, any>, Record<string, any>>;
       export type SubscribeToVehicleObjectsSubscriptionFetchResultEx = FetchResult<SubscribeToVehicleObjectsSubscription, Record<string, any>, Record<string, any>> & VehicleObjectsHelperResultEx;
 
-      async function subscribeToVehicleObjects({ apolloClient, options }: { apolloClient: ApolloClient<Record<string, unknown>>, options?: Omit<SubscriptionOptions<SubscribeToVehicleObjectsSubscriptionVariables>, 'query'> }): Promise<Observable<SubscribeToVehicleObjectsSubscriptionFetchResultEx>> {
+      async function subscribeToVehicleObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options?: Omit<SubscriptionOptions<SubscribeToVehicleObjectsSubscriptionVariables>, 'query'> }): Promise<Observable<SubscribeToVehicleObjectsSubscriptionFetchResultEx>> {
         const subscription:Observable<SubscribeToVehicleObjectsSubscriptionFetchResult> = apolloClient.subscribe<SubscribeToVehicleObjectsSubscription>({ query: SubscribeToVehicleObjectsDocument, ...options });
         
         return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, objects: value?.data?.vehicle || [] }  as SubscribeToVehicleObjectsSubscriptionFetchResultEx }) ;
@@ -198,7 +198,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
     type InsertVehicleFetchResult = FetchResult<InsertVehicleMutation, Record<string, any>, Record<string, any>>;
     export type InsertVehicleFetchHelperResultEx = InsertVehicleFetchResult & VehicleByIdHelperResultEx;
 
-    async function insertVehicle({ apolloClient, vehicle, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<Record<string, unknown>>, vehicle: Vehicle_Insert_Input, autoOptimisticResponse?:boolean, fieldMap?: FieldMap, options?: Omit<MutationOptions<InsertVehicleMutation, InsertVehicleMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleFetchHelperResultEx> {
+    async function insertVehicle({ apolloClient, vehicle, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, autoOptimisticResponse?:boolean, fieldMap?: FieldMap, options?: Omit<MutationOptions<InsertVehicleMutation, InsertVehicleMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleFetchHelperResultEx> {
       const objectForInsert = stripInsertInputClientFields({ input: vehicle });
       const mutationOptions:MutationOptions<InsertVehicleMutation, InsertVehicleMutationVariables> = { mutation: InsertVehicleDocument, variables: { objects: [objectForInsert] }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
@@ -212,7 +212,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       return { ...mutation, vehicle: mutation?.data?.insert_vehicle?.returning && mutation.data.insert_vehicle.returning[0] };
     }
 
-    async function insertVehicleWithOnConflict({ apolloClient, vehicle, onConflict, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<Record<string, unknown>>, vehicle: Vehicle_Insert_Input, onConflict: Vehicle_On_Conflict, autoOptimisticResponse?:boolean, fieldMap?: FieldMap, options?: Omit<MutationOptions<InsertVehicleWithOnConflictMutation, InsertVehicleWithOnConflictMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleFetchHelperResultEx> {
+    async function insertVehicleWithOnConflict({ apolloClient, vehicle, onConflict, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, onConflict: Vehicle_On_Conflict, autoOptimisticResponse?:boolean, fieldMap?: FieldMap, options?: Omit<MutationOptions<InsertVehicleWithOnConflictMutation, InsertVehicleWithOnConflictMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleFetchHelperResultEx> {
       const objectForInsert = stripInsertInputClientFields({ input: vehicle });
       const mutationOptions:MutationOptions<InsertVehicleWithOnConflictMutation, InsertVehicleWithOnConflictMutationVariables> = { mutation: InsertVehicleWithOnConflictDocument, variables: { objects: [objectForInsert], onConflict }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
@@ -235,7 +235,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
     type InsertVehicleObjectsFetchResult = FetchResult<InsertVehicleMutation, Record<string, any>, Record<string, any>>;
     export type InsertVehicleObjectsHelperResultEx = InsertVehicleObjectsFetchResult & VehicleObjectsHelperResultEx;
 
-    async function insertVehicleObjects({ apolloClient, objects, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<Record<string, unknown>>, objects: Vehicle_Insert_Input[], autoOptimisticResponse?:boolean, fieldMap?: FieldMap, options?: Omit<MutationOptions<InsertVehicleMutation, InsertVehicleMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleObjectsHelperResultEx> {
+    async function insertVehicleObjects({ apolloClient, objects, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<object>, objects: Vehicle_Insert_Input[], autoOptimisticResponse?:boolean, fieldMap?: FieldMap, options?: Omit<MutationOptions<InsertVehicleMutation, InsertVehicleMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleObjectsHelperResultEx> {
       const objectsForInsert = objects.map(objectItem => stripInsertInputClientFields({ input: objectItem }));
       const mutationOptions:MutationOptions<InsertVehicleMutation, InsertVehicleMutationVariables> = { mutation: InsertVehicleDocument, variables: { objects: objectsForInsert }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
@@ -255,7 +255,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
     type UpdateVehicleByIdQueryResult = FetchResult<UpdateVehicleByIdMutation, Record<string, any>, Record<string, any>>;
     export type UpdateVehicleByIdHelperResultEx = UpdateVehicleByIdQueryResult & VehicleByIdHelperResultEx;
 
-    async function updateVehicleById({ apolloClient, vehicleId, set, autoOptimisticResponse, options }: { apolloClient: ApolloClient<Record<string, unknown>>, vehicleId: string, set: Vehicle_Set_Input, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<UpdateVehicleByIdMutation, UpdateVehicleByIdMutationVariables>, 'mutation'> }): Promise<UpdateVehicleByIdHelperResultEx> {
+    async function updateVehicleById({ apolloClient, vehicleId, set, autoOptimisticResponse, options }: { apolloClient: ApolloClient<object>, vehicleId: string, set: Vehicle_Set_Input, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<UpdateVehicleByIdMutation, UpdateVehicleByIdMutationVariables>, 'mutation'> }): Promise<UpdateVehicleByIdHelperResultEx> {
       const mutationOptions:MutationOptions<UpdateVehicleByIdMutation, UpdateVehicleByIdMutationVariables> = { mutation: UpdateVehicleByIdDocument, variables: { id:vehicleId, set }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
         mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<UpdateVehicleByIdMutation>({ operationType: 'update', entityName:'vehicle', objects:[{ id:vehicleId, ...set }] }); 
@@ -273,7 +273,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
     type UpdateVehicleObjectsFetchResult = FetchResult<UpdateVehicleMutation, Record<string, any>, Record<string, any>>;
     export type UpdateVehicleObjectsHelperResultEx = UpdateVehicleObjectsFetchResult & VehicleObjectsHelperResultEx;
 
-    async function updateVehicleObjects({ apolloClient, options }: { apolloClient: ApolloClient<Record<string, unknown>>, options: Omit<MutationOptions<UpdateVehicleMutation, UpdateVehicleMutationVariables>, 'mutation'> }): Promise<UpdateVehicleObjectsHelperResultEx> {  
+    async function updateVehicleObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<UpdateVehicleMutation, UpdateVehicleMutationVariables>, 'mutation'> }): Promise<UpdateVehicleObjectsHelperResultEx> {  
       const mutation:UpdateVehicleObjectsFetchResult = await apolloClient.mutate<UpdateVehicleMutation, UpdateVehicleMutationVariables>({ mutation: UpdateVehicleDocument, ...options } );
         
       return { ...mutation, objects:mutation?.data?.update_vehicle?.returning || [] };
@@ -287,7 +287,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
     type RemoveVehicleModelByIdQueryResult = FetchResult<RemoveVehicleModelByIdMutation, Record<string, any>, Record<string, any>>;
     export type RemoveVehicleModelByIdQueryHelperResultEx = RemoveVehicleModelByIdQueryResult & RemoveEntitiesQueryHelperResultEx;
   
-    async function removeVehicleModelById({ apolloClient, vehicleId, autoOptimisticResponse, options } :{ apolloClient: ApolloClient<Record<string, unknown>>, vehicleId: string, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, 'mutation'> }): Promise<RemoveVehicleModelByIdQueryHelperResultEx> {
+    async function removeVehicleModelById({ apolloClient, vehicleId, autoOptimisticResponse, options } :{ apolloClient: ApolloClient<object>, vehicleId: string, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables>, 'mutation'> }): Promise<RemoveVehicleModelByIdQueryHelperResultEx> {
       const mutationOptions:MutationOptions<RemoveVehicleModelByIdMutation, RemoveVehicleModelByIdMutationVariables> = { mutation: RemoveVehicleModelByIdDocument, variables: { id:vehicleId, }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
         mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<RemoveVehicleModelByIdMutation>({ operationType: 'delete', entityName:'vehicle', objects:[{ id:vehicleId }] }); 
@@ -304,7 +304,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
     type RemoveVehicleModelObjectsQueryResult = FetchResult<RemoveVehicleModelMutation, Record<string, any>, Record<string, any>>;
     export type RemoveVehicleModelObjectsQueryHelperResultEx = RemoveVehicleModelObjectsQueryResult & RemoveEntitiesQueryHelperResultEx;  
   
-    async function removeVehicleModelObjects({ apolloClient, options }:{ apolloClient: ApolloClient<Record<string, unknown>>, options: Omit<MutationOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>, 'mutation'> }): Promise<RemoveVehicleModelObjectsQueryHelperResultEx> {  
+    async function removeVehicleModelObjects({ apolloClient, options }:{ apolloClient: ApolloClient<object>, options: Omit<MutationOptions<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>, 'mutation'> }): Promise<RemoveVehicleModelObjectsQueryHelperResultEx> {  
         const mutation:RemoveVehicleModelObjectsQueryResult = await apolloClient.mutate<RemoveVehicleModelMutation, RemoveVehicleModelMutationVariables>({ mutation: RemoveVehicleModelDocument, ...options } );
           
         return { ...mutation, affected_rows: mutation?.data?.delete_vehicle?.affected_rows || 0 };
@@ -361,43 +361,43 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       return defaultCacheIdFromObject({ __typename: 'vehicle', id:vehicleId });
     }
 
-    function cacheReadFragmentVehicleLocationOnlyById({ apolloCache, vehicleId}: { apolloCache: ApolloCache<Record<string, unknown>>, vehicleId: string }): VehicleLocationOnlyFragment | null {
+    function cacheReadFragmentVehicleLocationOnlyById({ apolloCache, vehicleId}: { apolloCache: ApolloCache<object>, vehicleId: string }): VehicleLocationOnlyFragment | null {
       return apolloCache.readFragment<VehicleLocationOnlyFragment | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultCacheIdFromObject({ __typename: 'vehicle', id:vehicleId }) });
     }
 
-    function cacheWriteFragmentVehicleLocationOnlyById({ apolloCache, vehicleId, vehicleLocationOnlyPartial, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<Record<string, unknown>>, vehicleId: string, vehicleLocationOnlyPartial: Partial<VehicleLocationOnlyFragment> | Vehicle_Insert_Input | null, fieldMap?: FieldMap, apolloBroadcast?:boolean }): Partial<VehicleLocationOnlyFragment> {
+    function cacheWriteFragmentVehicleLocationOnlyById({ apolloCache, vehicleId, vehicleLocationOnlyPartial, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<object>, vehicleId: string, vehicleLocationOnlyPartial: Partial<VehicleLocationOnlyFragment> | Vehicle_Insert_Input | null, fieldMap?: FieldMap, apolloBroadcast?:boolean }): Partial<VehicleLocationOnlyFragment> {
       const parsedFragment = convertToGraph({ input:vehicleLocationOnlyPartial, typename:'vehicle', fieldMap });
       if(logLevel >= 2) console.log(' --> cacheWriteFragmentVehicleLocationOnlyById - parsedFragment:', parsedFragment);
       apolloCache.writeFragment<Partial<VehicleLocationOnlyFragment> | null>({ fragment: VehicleLocationOnlyFragmentDoc, fragmentName:'VehicleLocationOnly', id: defaultCacheIdFromObject({ ...parsedFragment, id:vehicleId }), data: parsedFragment, broadcast:apolloBroadcast });
       return parsedFragment;
     }
 
-    function cacheReadQueryVehicleLocationOnlyById({ apolloCache, vehicleId}: { apolloCache: ApolloCache<Record<string, unknown>>, vehicleId: string }): VehicleLocationOnlyFragment | null {
+    function cacheReadQueryVehicleLocationOnlyById({ apolloCache, vehicleId}: { apolloCache: ApolloCache<object>, vehicleId: string }): VehicleLocationOnlyFragment | null {
       return apolloCache.readQuery<VehicleLocationOnlyFragment | null >({ query: QueryVehicleLocationOnlyByIdDocument, variables: { vehicleId }  });
     }
 
-    function cacheWriteQueryVehicleLocationOnlyById({ apolloCache, vehicleId, vehicleLocationOnly, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<Record<string, unknown>>, vehicleId: string, vehicleLocationOnly: VehicleLocationOnlyFragment | Vehicle_Insert_Input | null, fieldMap?: FieldMap, apolloBroadcast?:boolean }): Reference | undefined {
+    function cacheWriteQueryVehicleLocationOnlyById({ apolloCache, vehicleId, vehicleLocationOnly, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<object>, vehicleId: string, vehicleLocationOnly: VehicleLocationOnlyFragment | Vehicle_Insert_Input | null, fieldMap?: FieldMap, apolloBroadcast?:boolean }): Reference | undefined {
         const vehicleLocationOnlyPartial = convertToGraph({ input:vehicleLocationOnly, typename:'vehicle', fieldMap });
         return apolloCache.writeQuery<VehicleLocationOnlyFragment | null>({ query: QueryVehicleLocationOnlyByIdDocument, variables: { vehicleId }, data: (vehicleLocationOnly ? vehicleLocationOnlyPartial : null), broadcast:apolloBroadcast });
     }
     
-    function cacheReadQueryVehicleLocationOnlyObjects({ apolloCache, variables }: { apolloCache: ApolloCache<Record<string, unknown>>, variables: QueryVehicleLocationOnlyObjectsQueryVariables }): Vehicle[] | null {
+    function cacheReadQueryVehicleLocationOnlyObjects({ apolloCache, variables }: { apolloCache: ApolloCache<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables }): Vehicle[] | null {
       return apolloCache.readQuery<{Vehicle:Vehicle[] | null}>({ query: QueryVehicleLocationOnlyObjectsDocument, variables })?.Vehicle || [];
     }
 
-    function cacheWriteQueryVehicleLocationOnlyObjects({ apolloCache, variables, data, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<Record<string, unknown>>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, data:(Vehicle | Vehicle_Insert_Input)[], fieldMap?: FieldMap, apolloBroadcast?:boolean }): Reference | undefined {  
+    function cacheWriteQueryVehicleLocationOnlyObjects({ apolloCache, variables, data, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, data:(Vehicle | Vehicle_Insert_Input)[], fieldMap?: FieldMap, apolloBroadcast?:boolean }): Reference | undefined {  
         const objects = convertToGraph({ input:data, typename:'vehicle', fieldMap });
         return apolloCache.writeQuery<{Vehicle:Vehicle[]}>({ query: QueryVehicleLocationOnlyObjectsDocument, variables, data: { Vehicle:objects }, broadcast:apolloBroadcast });
     }
 
-    function cacheWriteQueryVehicleLocationOnlyInsert({ apolloCache, variables, vehicle, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<Record<string, unknown>>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, vehicle:Vehicle_Insert_Input, fieldMap?: FieldMap, apolloBroadcast?:boolean }): Reference | undefined {
+    function cacheWriteQueryVehicleLocationOnlyInsert({ apolloCache, variables, vehicle, fieldMap, apolloBroadcast }: { apolloCache: ApolloCache<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, vehicle:Vehicle_Insert_Input, fieldMap?: FieldMap, apolloBroadcast?:boolean }): Reference | undefined {
       const currentObjects = cacheReadQueryVehicleLocationOnlyObjects({ apolloCache, variables }) || [];
       const objectsWithInserted = [ ...currentObjects, convertToGraph({ input: vehicle, typename:'vehicle', fieldMap })];
       if(logLevel >= 2) console.log(' --> cacheWriteQueryVehicleLocationOnlyInsert - objectsWithInserted:', objectsWithInserted);
       return cacheWriteQueryVehicleLocationOnlyObjects({ apolloCache, variables, data: objectsWithInserted, apolloBroadcast });
     }
 
-    function cacheWriteQueryVehicleLocationOnlyRemove({ apolloCache, variables, vehicleId, apolloBroadcast }: { apolloCache: ApolloCache<Record<string, unknown>>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, vehicleId: string, apolloBroadcast?:boolean }): Reference | undefined {
+    function cacheWriteQueryVehicleLocationOnlyRemove({ apolloCache, variables, vehicleId, apolloBroadcast }: { apolloCache: ApolloCache<object>, variables: QueryVehicleLocationOnlyObjectsQueryVariables, vehicleId: string, apolloBroadcast?:boolean }): Reference | undefined {
       const currentObjects = cacheReadQueryVehicleLocationOnlyObjects({ apolloCache, variables }) || [];
       const objectsWithRemoved = currentObjects.filter(objectItem => objectItem.id !== vehicleId) || [];
       if(logLevel >= 2) console.log(' --> cacheWriteQueryVehicleLocationOnlyRemove - objectsWithRemoved:', objectsWithRemoved);
@@ -410,7 +410,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       export type QueryVehicleLocationOnlyByIdApolloQueryResult = ApolloQueryResult<QueryVehicleLocationOnlyByIdQuery>;
       export type QueryVehicleLocationOnlyByIdApolloQueryHelperResultEx = QueryVehicleLocationOnlyByIdApolloQueryResult & VehicleLocationOnlyByIdHelperResultEx;
 
-      async function queryVehicleLocationOnlyById({ apolloClient, vehicleId, options }: { apolloClient: ApolloClient<Record<string, unknown>>, vehicleId: string, options?: Omit<QueryOptions<QueryVehicleLocationOnlyByIdQueryVariables>, 'query' | 'variables'> }): Promise<QueryVehicleLocationOnlyByIdApolloQueryHelperResultEx> {
+      async function queryVehicleLocationOnlyById({ apolloClient, vehicleId, options }: { apolloClient: ApolloClient<object>, vehicleId: string, options?: Omit<QueryOptions<QueryVehicleLocationOnlyByIdQueryVariables>, 'query' | 'variables'> }): Promise<QueryVehicleLocationOnlyByIdApolloQueryHelperResultEx> {
         const query: QueryVehicleLocationOnlyByIdApolloQueryResult = await apolloClient.query<QueryVehicleLocationOnlyByIdQuery>({ query: QueryVehicleLocationOnlyByIdDocument, variables: { vehicleId }, ...options });
         
         return { ...query, vehicleLocationOnly: query?.data?.vehicle_by_pk }
@@ -419,7 +419,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       // Query Watch ById Helper
       //
       export type WatchQueryVehicleLocationOnlyByIdApolloObservableQuery = ObservableQuery<QueryVehicleLocationOnlyByIdQuery>;
-      async function watchQueryVehicleLocationOnlyById({ apolloClient, options }: { apolloClient: ApolloClient<Record<string, unknown>>, options: Omit<QueryOptions<QueryVehicleLocationOnlyByIdQueryVariables>, 'query'> }) : Promise<WatchQueryVehicleLocationOnlyByIdApolloObservableQuery> {
+      async function watchQueryVehicleLocationOnlyById({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<QueryVehicleLocationOnlyByIdQueryVariables>, 'query'> }) : Promise<WatchQueryVehicleLocationOnlyByIdApolloObservableQuery> {
         return apolloClient.watchQuery<QueryVehicleLocationOnlyByIdQuery>({ query: QueryVehicleLocationOnlyByIdDocument, ...options });
       }
     
@@ -429,7 +429,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       export type QueryVehicleLocationOnlyObjectsObjectsApolloQueryResult = ApolloQueryResult<QueryVehicleLocationOnlyObjectsQuery>;
       export type QueryVehicleLocationOnlyObjectsObjectsApolloQueryResultEx = QueryVehicleLocationOnlyObjectsObjectsApolloQueryResult & VehicleLocationOnlyObjectsHelperResultEx;
 
-      async function queryVehicleLocationOnlyObjects({ apolloClient, options }: { apolloClient: ApolloClient<Record<string, unknown>>, options: Omit<QueryOptions<QueryVehicleLocationOnlyObjectsQueryVariables>, 'query'> }): Promise<QueryVehicleLocationOnlyObjectsObjectsApolloQueryResultEx> {
+      async function queryVehicleLocationOnlyObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<QueryVehicleLocationOnlyObjectsQueryVariables>, 'query'> }): Promise<QueryVehicleLocationOnlyObjectsObjectsApolloQueryResultEx> {
         const query: QueryVehicleLocationOnlyObjectsObjectsApolloQueryResult = await apolloClient.query<QueryVehicleLocationOnlyObjectsQuery>({ query: QueryVehicleLocationOnlyObjectsDocument, ...options });
         
         return { ...query, objects: query?.data?.vehicle || [] }
@@ -438,7 +438,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       // Query Watch Objects Helper
       //
       export type WatchQueryVehicleLocationOnlyObjectsApolloObservableQuery = ObservableQuery<QueryVehicleLocationOnlyObjectsQuery>;
-      async function watchQueryVehicleLocationOnlyObjects({ apolloClient, options }: { apolloClient: ApolloClient<Record<string, unknown>>, options: Omit<QueryOptions<QueryVehicleLocationOnlyObjectsQueryVariables>, 'query'> }) : Promise<WatchQueryVehicleLocationOnlyObjectsApolloObservableQuery> {
+      async function watchQueryVehicleLocationOnlyObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<QueryOptions<QueryVehicleLocationOnlyObjectsQueryVariables>, 'query'> }) : Promise<WatchQueryVehicleLocationOnlyObjectsApolloObservableQuery> {
         return apolloClient.watchQuery<QueryVehicleLocationOnlyObjectsQuery>({ query: QueryVehicleLocationOnlyObjectsDocument, ...options });
       }
     
@@ -448,7 +448,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
     export type SubscribeToVehicleLocationOnlyByIdSubscriptionFetchResult = FetchResult<SubscribeToVehicleLocationOnlyByIdSubscription, Record<string, any>, Record<string, any>>;
     export type SubscribeToVehicleLocationOnlyByIdSubscriptionFetchResultEx = FetchResult<SubscribeToVehicleLocationOnlyByIdSubscription, Record<string, any>, Record<string, any>> & VehicleLocationOnlyByIdHelperResultEx;
     
-    async function subscribeToVehicleLocationOnlyById({ apolloClient, vehicleId, options }: { apolloClient: ApolloClient<Record<string, unknown>>, vehicleId:string, options?: Omit<SubscriptionOptions<SubscribeToVehicleLocationOnlyByIdSubscriptionVariables>, 'query' | 'variables'> }): Promise<Observable<SubscribeToVehicleLocationOnlyByIdSubscriptionFetchResultEx>> {
+    async function subscribeToVehicleLocationOnlyById({ apolloClient, vehicleId, options }: { apolloClient: ApolloClient<object>, vehicleId:string, options?: Omit<SubscriptionOptions<SubscribeToVehicleLocationOnlyByIdSubscriptionVariables>, 'query' | 'variables'> }): Promise<Observable<SubscribeToVehicleLocationOnlyByIdSubscriptionFetchResultEx>> {
       const subscription:Observable<SubscribeToVehicleLocationOnlyByIdSubscriptionFetchResult> = apolloClient.subscribe<SubscribeToVehicleLocationOnlyByIdSubscription>({ query: SubscribeToVehicleLocationOnlyByIdDocument, variables: { vehicleId }, ...options });
       
       return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, vehicleLocationOnly:value?.data?.vehicle_by_pk || [] }  as SubscribeToVehicleLocationOnlyByIdSubscriptionFetchResultEx }) ;
@@ -460,7 +460,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       export type SubscribeToVehicleLocationOnlyObjectsSubscriptionFetchResult = FetchResult<SubscribeToVehicleLocationOnlyObjectsSubscription, Record<string, any>, Record<string, any>>;
       export type SubscribeToVehicleLocationOnlyObjectsSubscriptionFetchResultEx = FetchResult<SubscribeToVehicleLocationOnlyObjectsSubscription, Record<string, any>, Record<string, any>> & VehicleLocationOnlyObjectsHelperResultEx;
 
-      async function subscribeToVehicleLocationOnlyObjects({ apolloClient, options }: { apolloClient: ApolloClient<Record<string, unknown>>, options?: Omit<SubscriptionOptions<SubscribeToVehicleLocationOnlyObjectsSubscriptionVariables>, 'query'> }): Promise<Observable<SubscribeToVehicleLocationOnlyObjectsSubscriptionFetchResultEx>> {
+      async function subscribeToVehicleLocationOnlyObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options?: Omit<SubscriptionOptions<SubscribeToVehicleLocationOnlyObjectsSubscriptionVariables>, 'query'> }): Promise<Observable<SubscribeToVehicleLocationOnlyObjectsSubscriptionFetchResultEx>> {
         const subscription:Observable<SubscribeToVehicleLocationOnlyObjectsSubscriptionFetchResult> = apolloClient.subscribe<SubscribeToVehicleLocationOnlyObjectsSubscription>({ query: SubscribeToVehicleLocationOnlyObjectsDocument, ...options });
         
         return subscription.map(value => {return { context:value.context, errors:value.errors, data:value.data, extensions:value.extensions, objects: value?.data?.vehicle || [] }  as SubscribeToVehicleLocationOnlyObjectsSubscriptionFetchResultEx }) ;
@@ -472,7 +472,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
     type InsertVehicleLocationOnlyFetchResult = FetchResult<InsertVehicleLocationOnlyMutation, Record<string, any>, Record<string, any>>;
     export type InsertVehicleLocationOnlyFetchHelperResultEx = InsertVehicleLocationOnlyFetchResult & VehicleLocationOnlyByIdHelperResultEx;
 
-    async function insertVehicleLocationOnly({ apolloClient, vehicle, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<Record<string, unknown>>, vehicle: Vehicle_Insert_Input, autoOptimisticResponse?:boolean, fieldMap?: FieldMap, options?: Omit<MutationOptions<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleLocationOnlyFetchHelperResultEx> {
+    async function insertVehicleLocationOnly({ apolloClient, vehicle, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, autoOptimisticResponse?:boolean, fieldMap?: FieldMap, options?: Omit<MutationOptions<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleLocationOnlyFetchHelperResultEx> {
       const objectForInsert = stripInsertInputClientFields({ input: vehicle });
       const mutationOptions:MutationOptions<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyMutationVariables> = { mutation: InsertVehicleLocationOnlyDocument, variables: { objects: [objectForInsert] }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
@@ -486,7 +486,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       return { ...mutation, vehicleLocationOnly: mutation?.data?.insert_vehicle?.returning && mutation.data.insert_vehicle.returning[0] };
     }
 
-    async function insertVehicleLocationOnlyWithOnConflict({ apolloClient, vehicle, onConflict, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<Record<string, unknown>>, vehicle: Vehicle_Insert_Input, onConflict: Vehicle_On_Conflict, autoOptimisticResponse?:boolean, fieldMap?: FieldMap, options?: Omit<MutationOptions<InsertVehicleLocationOnlyWithOnConflictMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleLocationOnlyFetchHelperResultEx> {
+    async function insertVehicleLocationOnlyWithOnConflict({ apolloClient, vehicle, onConflict, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<object>, vehicle: Vehicle_Insert_Input, onConflict: Vehicle_On_Conflict, autoOptimisticResponse?:boolean, fieldMap?: FieldMap, options?: Omit<MutationOptions<InsertVehicleLocationOnlyWithOnConflictMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleLocationOnlyFetchHelperResultEx> {
       const objectForInsert = stripInsertInputClientFields({ input: vehicle });
       const mutationOptions:MutationOptions<InsertVehicleLocationOnlyWithOnConflictMutation, InsertVehicleLocationOnlyWithOnConflictMutationVariables> = { mutation: InsertVehicleLocationOnlyWithOnConflictDocument, variables: { objects: [objectForInsert], onConflict }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
@@ -509,7 +509,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
     type InsertVehicleLocationOnlyObjectsFetchResult = FetchResult<InsertVehicleLocationOnlyMutation, Record<string, any>, Record<string, any>>;
     export type InsertVehicleLocationOnlyObjectsHelperResultEx = InsertVehicleLocationOnlyObjectsFetchResult & VehicleLocationOnlyObjectsHelperResultEx;
 
-    async function insertVehicleLocationOnlyObjects({ apolloClient, objects, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<Record<string, unknown>>, objects: Vehicle_Insert_Input[], autoOptimisticResponse?:boolean, fieldMap?: FieldMap, options?: Omit<MutationOptions<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleLocationOnlyObjectsHelperResultEx> {
+    async function insertVehicleLocationOnlyObjects({ apolloClient, objects, autoOptimisticResponse, fieldMap, options } :{ apolloClient: ApolloClient<object>, objects: Vehicle_Insert_Input[], autoOptimisticResponse?:boolean, fieldMap?: FieldMap, options?: Omit<MutationOptions<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyMutationVariables>, 'mutation' | 'variables'> }): Promise<InsertVehicleLocationOnlyObjectsHelperResultEx> {
       const objectsForInsert = objects.map(objectItem => stripInsertInputClientFields({ input: objectItem }));
       const mutationOptions:MutationOptions<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyMutationVariables> = { mutation: InsertVehicleLocationOnlyDocument, variables: { objects: objectsForInsert }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
@@ -529,7 +529,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
     type UpdateVehicleLocationOnlyByIdQueryResult = FetchResult<UpdateVehicleLocationOnlyByIdMutation, Record<string, any>, Record<string, any>>;
     export type UpdateVehicleLocationOnlyByIdHelperResultEx = UpdateVehicleLocationOnlyByIdQueryResult & VehicleLocationOnlyByIdHelperResultEx;
 
-    async function updateVehicleLocationOnlyById({ apolloClient, vehicleId, set, autoOptimisticResponse, options }: { apolloClient: ApolloClient<Record<string, unknown>>, vehicleId: string, set: Vehicle_Set_Input, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<UpdateVehicleLocationOnlyByIdMutation, UpdateVehicleLocationOnlyByIdMutationVariables>, 'mutation'> }): Promise<UpdateVehicleLocationOnlyByIdHelperResultEx> {
+    async function updateVehicleLocationOnlyById({ apolloClient, vehicleId, set, autoOptimisticResponse, options }: { apolloClient: ApolloClient<object>, vehicleId: string, set: Vehicle_Set_Input, autoOptimisticResponse?:boolean, options?: Omit<MutationOptions<UpdateVehicleLocationOnlyByIdMutation, UpdateVehicleLocationOnlyByIdMutationVariables>, 'mutation'> }): Promise<UpdateVehicleLocationOnlyByIdHelperResultEx> {
       const mutationOptions:MutationOptions<UpdateVehicleLocationOnlyByIdMutation, UpdateVehicleLocationOnlyByIdMutationVariables> = { mutation: UpdateVehicleLocationOnlyByIdDocument, variables: { id:vehicleId, set }, ...options };
       if(autoOptimisticResponse && (!options || !options.optimisticResponse)){ 
         mutationOptions.optimisticResponse = generateOptimisticResponseForMutation<UpdateVehicleLocationOnlyByIdMutation>({ operationType: 'update', entityName:'vehicle', objects:[{ id:vehicleId, ...set }] }); 
@@ -547,7 +547,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
     type UpdateVehicleLocationOnlyObjectsFetchResult = FetchResult<UpdateVehicleLocationOnlyMutation, Record<string, any>, Record<string, any>>;
     export type UpdateVehicleLocationOnlyObjectsHelperResultEx = UpdateVehicleLocationOnlyObjectsFetchResult & VehicleLocationOnlyObjectsHelperResultEx;
 
-    async function updateVehicleLocationOnlyObjects({ apolloClient, options }: { apolloClient: ApolloClient<Record<string, unknown>>, options: Omit<MutationOptions<UpdateVehicleLocationOnlyMutation, UpdateVehicleLocationOnlyMutationVariables>, 'mutation'> }): Promise<UpdateVehicleLocationOnlyObjectsHelperResultEx> {  
+    async function updateVehicleLocationOnlyObjects({ apolloClient, options }: { apolloClient: ApolloClient<object>, options: Omit<MutationOptions<UpdateVehicleLocationOnlyMutation, UpdateVehicleLocationOnlyMutationVariables>, 'mutation'> }): Promise<UpdateVehicleLocationOnlyObjectsHelperResultEx> {  
       const mutation:UpdateVehicleLocationOnlyObjectsFetchResult = await apolloClient.mutate<UpdateVehicleLocationOnlyMutation, UpdateVehicleLocationOnlyMutationVariables>({ mutation: UpdateVehicleLocationOnlyDocument, ...options } );
         
       return { ...mutation, objects:mutation?.data?.update_vehicle?.returning || [] };
