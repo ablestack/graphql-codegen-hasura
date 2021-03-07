@@ -276,8 +276,11 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       const lazyMutation: InsertVehicleObjectsLazyMutationFn = useMutation<InsertVehicleMutation, InsertVehicleMutationVariables>(InsertVehicleDocument, options);
       const pickObjects: PickInsertVehicleObjectsFn = (mutation: InsertVehicleMutation | null | undefined) => { return mutation?.insert_vehicle?.returning || []; };
 
-      const wrappedLazyMutation: InsertVehicleObjectsWrappedLazyMutationFn = async ( options ) => {
-        if(options && options.variables && options.variables.objects) options.variables.objects = options.variables.objects.map(objectItem => stripInsertInputClientFields({input: objectItem}));
+      const wrappedLazyMutation: InsertVehicleObjectsWrappedLazyMutationFn = async ( options ) => {        
+        if(options && options.variables && options.variables.objects){
+          const o = Array.isArray(options.variables.objects) ? options.variables.objects : [options.variables.objects];  
+          o.map(objectItem => stripInsertInputClientFields({input: objectItem}));
+        } 
         const fetchResult: InsertVehicleObjectsMutationResult = await lazyMutation[0](options);
         return { ...fetchResult, objects: pickObjects(fetchResult.data) };
       };
@@ -650,8 +653,11 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       const lazyMutation: InsertVehicleLocationOnlyObjectsLazyMutationFn = useMutation<InsertVehicleLocationOnlyMutation, InsertVehicleLocationOnlyMutationVariables>(InsertVehicleLocationOnlyDocument, options);
       const pickObjects: PickInsertVehicleLocationOnlyObjectsFn = (mutation: InsertVehicleLocationOnlyMutation | null | undefined) => { return mutation?.insert_vehicle?.returning || []; };
 
-      const wrappedLazyMutation: InsertVehicleLocationOnlyObjectsWrappedLazyMutationFn = async ( options ) => {
-        if(options && options.variables && options.variables.objects) options.variables.objects = options.variables.objects.map(objectItem => stripInsertInputClientFields({input: objectItem}));
+      const wrappedLazyMutation: InsertVehicleLocationOnlyObjectsWrappedLazyMutationFn = async ( options ) => {        
+        if(options && options.variables && options.variables.objects){
+          const o = Array.isArray(options.variables.objects) ? options.variables.objects : [options.variables.objects];  
+          o.map(objectItem => stripInsertInputClientFields({input: objectItem}));
+        } 
         const fetchResult: InsertVehicleLocationOnlyObjectsMutationResult = await lazyMutation[0](options);
         return { ...fetchResult, objects: pickObjects(fetchResult.data) };
       };
