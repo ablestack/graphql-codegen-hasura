@@ -1,5 +1,5 @@
 import { defaultCacheIdFromObject, generateOptimisticResponseForMutation, generateUpdateFunctionForMutation, convertToGraph, ObjectWithId, FieldMap, getLogLevel, ensureTypenameOnFragment, ensureTypenameOnFragments, stripInsertInputClientFields } from 'graphql-codegen-hasura-core'
-import { ApolloClient, ApolloCache, ApolloQueryResult, DataProxy, FetchResult, MutationOptions, Observable, ObservableQuery, QueryOptions, Reference, SubscriptionOptions, NormalizedCacheObject } from '@apollo/client'
+import { ApolloClient, ApolloCache, ApolloQueryResult, DataProxy, FetchResult, MutationOptions, Observable, ObservableQuery, QueryOptions, Reference, SubscriptionOptions } from '@apollo/client'
 import { VehicleFragment } from '../';
 import { Vehicle } from '../';
 import { VehicleFragmentDoc } from '../';
@@ -87,7 +87,7 @@ import { UpdateVehicleLocationOnlyDocument } from '../';
       return defaultCacheIdFromObject({ __typename: 'vehicle', id:vehicleId });
     }
 
-    function cacheReadFragmentVehicleById({ apolloCache, vehicleId}: { apolloCache: ApolloCache<NormalizedCacheObject>, vehicleId: string }): VehicleFragment | null {
+    function cacheReadFragmentVehicleById({ apolloCache, vehicleId}: { apolloCache: ApolloCache<object>, vehicleId: string }): VehicleFragment | null {
       return apolloCache.readFragment<VehicleFragment | null>({ fragment: VehicleFragmentDoc, fragmentName:'Vehicle', id: defaultCacheIdFromObject({ __typename: 'vehicle', id:vehicleId }) });
     }
 

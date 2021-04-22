@@ -37,7 +37,8 @@
     "start": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "generate": "graphql-codegen --config=graphql-codegen-gql.yaml; graphql-codegen --config=graphql-codegen-typescript.yaml",
+    "generate": "graphql-codegen --config=graphql-codegen-typescript.yaml",
+    "generate-full": "graphql-codegen --config=graphql-codegen-gql.yaml && graphql-codegen --config=graphql-codegen-typescript.yaml",
     "build-and-generate": "lerna run build && npm run generate",
     "rebuild-and-generate": "lerna run rebuild && npm run generate",
     "bootstrap": "lerna bootstrap"
